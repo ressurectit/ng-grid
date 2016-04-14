@@ -1,0 +1,1 @@
+export {PagingComponent} from './paging/paging.component';

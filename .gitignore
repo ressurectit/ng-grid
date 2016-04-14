@@ -1,0 +1,8 @@
+/node_modules
+/bundle
+/typings
+/components
+*.d.ts
+*.js
+*.map
+*.log
