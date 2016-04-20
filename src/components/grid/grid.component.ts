@@ -67,7 +67,7 @@ class ColumnTemplateRenderer implements OnInit
             </thead>
 
             <tbody>
-                <tr *ngFor="#row of data">
+                <tr *ngFor="#row of data" [class]="rowCssClassCallback(row)">
                     <td *ngFor="#column of columns" [ngClass]="{hidden: !column.visible}">
                         <div *ngIf="column.template">
                             <column-template-renderer [column]="column" [rowData]="row"></column-template-renderer>
@@ -247,6 +247,12 @@ export class GridComponent implements OnInit, AfterContentInit
      */
     @Input() 
     public totalCount: number = null;
+    
+    /**
+     * Callback function that is called for each row with data of row and allows you to return string css classes, enables adding special css classes to row
+     */
+    @Input()
+    public rowCssClassCallback: (rowData: any) => string = () => "";
  
     /**
      * Set options that are used for configuring grid
