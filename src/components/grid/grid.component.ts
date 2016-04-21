@@ -2,7 +2,7 @@ import {Component, Input, Attribute, OnInit, AfterContentInit, ContentChildren, 
 import {ColumnComponent} from './column.component';
 import {PagingComponent} from '../paging/paging.component';
 import {GridOptions} from './gridOptions';
-import {isBlank, isPresent} from 'angular2/src/facade/lang';
+import {isBlank, isPresent, isString} from 'angular2/src/facade/lang';
 import {OrderByDirection} from 'ng2-common/types';
 import utils from 'ng2-common/utils';
 
@@ -60,8 +60,12 @@ class ColumnTemplateRenderer implements OnInit
         <table class="table table-condensed table-striped table-hover">
             <thead>
                 <tr>
-                    <th *ngFor="#column of columns" [ngClass]="{hidden: !column.visible}" [ngStyle]="{width: column.width}">
-                        {{column.titleVisible ? column.title : ""}}
+                    <th *ngFor="#column of columns" 
+                        [ngClass]="{hidden: !column.visible, 'column-orderable': column.ordering}" 
+                        [ngStyle]="{width: column.width}"
+                        (click)="performsOrdering(column)">
+                        <span>{{column.titleVisible ? column.title : ""}}</span>
+                        <span *ngIf="column.ordering" class="fa {{column.orderingCssClass}}"></span>
                     </th>
                 </tr>
             </thead>
@@ -114,6 +118,12 @@ class ColumnTemplateRenderer implements OnInit
     </div>`,
     styles: 
     [`
+        .column-orderable:hover
+        {
+            background-color: #f4f4f4;
+            cursor: pointer;
+        }
+        
         .column-selection
         {
             background-color: #fff;
@@ -204,10 +214,7 @@ export class GridComponent implements OnInit, AfterContentInit
     {
         this._page = page;
         
-        this._options.dataCallback(page, 
-                                   this.itemsPerPage, 
-                                   this.orderBy, 
-                                   this.orderByDirection);
+        this.refresh();
     }
     public get page(): number
     {
@@ -367,11 +374,93 @@ export class GridComponent implements OnInit, AfterContentInit
     public refreshToDefault()
     {
         this._page = this._options.initialPage;
+        this.orderBy = null;
+        this.orderByDirection = null;
         
+        this.refresh();
+    }
+    
+    /**
+     * Refresh grid data
+     */
+    public refresh()
+    {
         this._options.dataCallback(this.page, 
                                    this.itemsPerPage, 
                                    this.orderBy, 
                                    this.orderByDirection);
+    }
+    
+    /**
+     * Performs ordering on provided column
+     * @param  {ColumnComponent|string} orderingColumn Name of column or column itself that is used for ordering
+     */
+    public performsOrdering(orderingColumn: ColumnComponent|string)
+    {
+        if(isBlank(orderingColumn))
+        {
+            throw new Error("Unable perform ordering if no column was specified");
+        }
+        
+        let column: ColumnComponent = <ColumnComponent>orderingColumn;
+        
+        if(isString(orderingColumn))
+        {
+            let tmp = this.columns.filter(itm => itm.name == orderingColumn);
+            
+            if(tmp.length < 1)
+            {
+                throw new Error("There is no column with specified name");
+            }
+            
+            column = tmp[0];
+        }
+        
+        if(!column.ordering)
+        {
+            return;
+        }
+        
+        this.columns.forEach(col =>
+        {
+            if(col.name != column.name)
+            {
+                col.orderingCssClass = "fa-sort";
+            }
+            else
+            {
+                switch(col.orderingCssClass)
+                {
+                    case "fa-sort":
+                    default:
+                    {
+                        this.orderBy = col.name;
+                        this.orderByDirection = OrderByDirection.Ascendant;
+                        col.orderingCssClass = "fa-sort-up";
+                        
+                        break;
+                    }
+                    case "fa-sort-up":
+                    {
+                        this.orderBy = col.name;
+                        this.orderByDirection = OrderByDirection.Descendant;
+                        col.orderingCssClass = "fa-sort-down";
+                        
+                        break;
+                    }
+                    case "fa-sort-down":
+                    {
+                        this.orderBy = null;
+                        this.orderByDirection = null;
+                        col.orderingCssClass = "fa-sort";
+                        
+                        break;
+                    }
+                }
+            }
+        });
+        
+        this.refresh();
     }
 }
 

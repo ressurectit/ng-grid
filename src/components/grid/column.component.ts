@@ -57,6 +57,11 @@ export class ColumnComponent
     @ContentChild(TemplateRef) 
     public template: TemplateRef;
     
+    /**
+     * Css class that is used for displaying current ordering
+     */
+    public orderingCssClass: string = "fa-sort";
+    
     //######################### constructor #########################
     constructor()
     {
