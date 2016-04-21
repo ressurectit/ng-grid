@@ -61,7 +61,7 @@ class ColumnTemplateRenderer implements OnInit
             <thead>
                 <tr>
                     <th *ngFor="#column of columns" [ngClass]="{hidden: !column.visible}" [ngStyle]="{width: column.width}">
-                        {{column.title}}
+                        {{column.titleVisible ? column.title : ""}}
                     </th>
                 </tr>
             </thead>

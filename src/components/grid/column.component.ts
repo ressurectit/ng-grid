@@ -26,10 +26,16 @@ export class ColumnComponent
     public title: string;
     
     /**
+     * Indication whether should be title visible in header of table
+     */
+    @Input()
+    public titleVisible: boolean = true;
+    
+    /**
      * Indication that this column can be used for ordering
      */
     @Input()
-    public orderable: boolean = false;
+    public ordering: boolean = false;
     
     /**
      * Indication that this column is visible in grid
