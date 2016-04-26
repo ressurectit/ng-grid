@@ -1,4 +1,4 @@
-import {Component, Input, Attribute, OnInit, AfterContentInit, ContentChildren, QueryList, ViewContainerRef} from 'angular2/core';
+import {Component, Input, OnInit, AfterContentInit, ContentChildren, QueryList, ViewContainerRef} from 'angular2/core';
 import {ColumnComponent} from './column.component';
 import {PagingComponent} from '../paging/paging.component';
 import {GridOptions} from './gridOptions';
@@ -203,11 +203,6 @@ export class GridComponent implements OnInit, AfterContentInit
     //######################### public properties #########################
     
     /**
-     * Id of grid, must be unique
-     */
-    public id: string;
-    
-    /**
      * Gets or sets current page number of grid
      */
     public set page(page: number)
@@ -242,6 +237,12 @@ export class GridComponent implements OnInit, AfterContentInit
     private columns: ColumnComponent[];
 
     //######################### public properties - inputs #########################
+
+    /**
+     * Id of grid, must be unique
+     */
+    @Input()
+    public id: string;
 
     /**
      * Data that are rendered in grid
@@ -296,10 +297,8 @@ export class GridComponent implements OnInit, AfterContentInit
     }
     
     //######################### constructor #########################
-    constructor(@Attribute("id") id) 
+    constructor() 
     {
-        this.id = isBlank(id) ? utils.common.generateId(16) : id;
-        
         this._defaultOptions = {
             pagingEnabled: true,
             columnsSelection: false,
@@ -325,6 +324,7 @@ export class GridComponent implements OnInit, AfterContentInit
      */
     public ngOnInit()
     {
+        this.id = isBlank(this.id) ? utils.common.generateId(16) : this.id;
         this._page = this._options.initialPage;
         this.itemsPerPage = this._options.initialItemsPerPage;
     }
