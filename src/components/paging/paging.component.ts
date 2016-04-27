@@ -160,6 +160,18 @@ export class PagingComponent implements OnInit
      */
     private _generatePages()
     {
+        var pageCount = this._paginator.GetPageCount();
+                    
+        if(!isNaN(pageCount) && pageCount < this._page)
+        {
+            this.setPage(
+            {
+                page: pageCount,
+                isActive: false,
+                isDisabled: false
+            });
+        }
+        
         this.pages = [];
         
         this.pages.push(
