@@ -60,7 +60,7 @@ class ColumnTemplateRenderer implements OnInit
         <table class="table table-condensed table-striped table-hover">
             <thead>
                 <tr>
-                    <th *ngFor="#column of columns" 
+                    <th *ngFor="let column of columns" 
                         [ngClass]="{hidden: !column.visible, 'column-orderable': column.ordering}" 
                         [ngStyle]="{width: column.width}"
                         (click)="performsOrdering(column)">
@@ -71,8 +71,8 @@ class ColumnTemplateRenderer implements OnInit
             </thead>
 
             <tbody>
-                <tr *ngFor="#row of data" [class]="rowCssClassCallback(row)">
-                    <td *ngFor="#column of columns" [ngClass]="{hidden: !column.visible}">
+                <tr *ngFor="let row of data" [class]="rowCssClassCallback(row)">
+                    <td *ngFor="let column of columns" [ngClass]="{hidden: !column.visible}">
                         <div *ngIf="column.template">
                             <column-template-renderer [column]="column" [rowData]="row"></column-template-renderer>
                         </div>
@@ -103,7 +103,7 @@ class ColumnTemplateRenderer implements OnInit
                     </a>
                 </div>
                 
-                <div *ngFor="#column of columns; #index=index">
+                <div *ngFor="let column of columns; let index=index">
                     <dl>
                         <dt>
                             <input [id]="'column' + id + column.name" type="checkbox" [checked]="column.visible" (click)="toggleColumn(index)">

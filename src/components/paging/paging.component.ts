@@ -11,7 +11,7 @@ import {isBlank} from 'angular2/src/facade/lang';
     template:
    `<div>
         <ul class="pagination pagination-sm margin-sm-vertical">
-            <li *ngFor="#page of pages" [ngClass]="{disabled: page.isDisabled, active: page.isActive, 'pointer-cursor': !page.IsDisabled && !page.isActive}">
+            <li *ngFor="let page of pages" [ngClass]="{disabled: page.isDisabled, active: page.isActive, 'pointer-cursor': !page.IsDisabled && !page.isActive}">
                 <a (click)="setPage(page)">
                     <span [innerHtml]="page.title"></span>
                 </a>
