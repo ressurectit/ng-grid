@@ -1,6 +1,22 @@
 import {Component, Input, Output, EventEmitter, OnInit} from 'angular2/core';
 import {Paginator} from 'ng2-common/types';
-import {isBlank} from 'angular2/src/facade/lang';
+import {isBlank, isArray} from 'angular2/src/facade/lang';
+
+/**
+ * Items per page single item
+ */
+export class ItemsPerPageItem
+{
+    /**
+     * Indication that item is active
+     */
+    public isActive: boolean;
+    
+    /**
+     * Value of item
+     */ 
+    public value: number;
+}
 
 /**
  * Component used for rendering paging
@@ -14,6 +30,14 @@ import {isBlank} from 'angular2/src/facade/lang';
             <li *ngFor="let page of pages" [ngClass]="{disabled: page.isDisabled, active: page.isActive, 'pointer-cursor': !page.IsDisabled && !page.isActive}">
                 <a (click)="setPage(page)">
                     <span [innerHtml]="page.title"></span>
+                </a>
+            </li>
+        </ul>
+        
+        <ul class="pagination pagination-sm margin-sm-vertical pull-right" *ngIf="!!itemsPerPageItems && itemsPerPageItems.length > 0">
+            <li *ngFor="let itemsPerPage of itemsPerPageItems" [ngClass]="{active: itemsPerPage.isActive, 'pointer-cursor': !itemsPerPage.isActive}">
+                <a (click)="setItemsPerPage(itemsPerPage)">
+                    <span [innerHtml]="itemsPerPage.value"></span>
                 </a>
             </li>
         </ul>
@@ -32,7 +56,7 @@ export class PagingComponent implements OnInit
      * Index of currently selected page
      */
     private _page: number;
-
+    
     /**
      * Number of items currently used for paging
      */
@@ -49,14 +73,41 @@ export class PagingComponent implements OnInit
      * Array of pages that are rendered
      */
     public pages: {isActive: boolean; isDisabled: boolean; title: string; page: number}[] = [];
+    
+    /**
+     * Array of items per page that are rendered
+     */
+    public itemsPerPageItems: ItemsPerPageItem[] = [];
 
     //######################### public properties - inputs #########################
 
     /**
-     * Indication whether items per page can be changed
+     * Gets or sets array of available values for itemsPerPage
      */
     @Input()
-    public itemsPerPageChangeable: boolean = false;
+    public set itemsPerPageValues(val: number[])
+    {
+        if(!val || !isArray(val))
+        {
+            this.itemsPerPageItems = [];
+            
+            return;
+        }
+        
+        this.itemsPerPageItems = val.map(itm => 
+        {
+            return {
+                value: itm, 
+                isActive: false
+            };
+        });
+        
+        this._generateItemsPerPage();
+    }
+    public get itemsPerPageValues(): number[]
+    {
+        return this.itemsPerPageItems.map(itm => itm.value);
+    }
     
     /**
      * Page dispersion parameter for rendered pages
@@ -88,6 +139,7 @@ export class PagingComponent implements OnInit
         this._itemsPerPage = itemsPerPage;
         this._paginator.SetItemsPerPage(itemsPerPage);
         this._generatePages();
+        this._generateItemsPerPage();
     }
     public get itemsPerPage(): number
     {
@@ -121,7 +173,7 @@ export class PagingComponent implements OnInit
      * Occurs when number of items per page currently selected has been changed
      */
     @Output()
-    public itemsPerPageChange: EventEmitter<number> = new EventEmitter();
+    public itemsPerPageChange: EventEmitter<number> = new EventEmitter<number>();
 
     //######################### public methods - implementation of OnInit #########################
 
@@ -151,6 +203,21 @@ export class PagingComponent implements OnInit
         
         this.page = page.page;
         this.pageChange.emit(this.page);
+    }
+    
+    /**
+     * Sets items per page for current paging
+     * @param  {ItemsPerPageItem} itemsPerPage Number of items per page
+     */
+    public setItemsPerPage(itemsPerPage: ItemsPerPageItem)
+    {
+        if(itemsPerPage.isActive)
+        {
+            return;
+        }
+        
+        this.itemsPerPage = itemsPerPage.value;
+        this.itemsPerPageChange.emit(this.itemsPerPage);
     }
 
     //######################### private methods #########################
@@ -200,5 +267,13 @@ export class PagingComponent implements OnInit
             title: "&raquo;",
             page: this._paginator.GetLastPage()
         });
+    }
+    
+    /**
+     * Generates rendered items per page
+     */
+    private _generateItemsPerPage()
+    {
+        this.itemsPerPageItems.forEach(itm => itm.isActive = itm.value == this.itemsPerPage);
     }
 }

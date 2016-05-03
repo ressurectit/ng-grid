@@ -88,7 +88,8 @@ class ColumnTemplateRenderer implements OnInit
         <paging *ngIf="_options.pagingEnabled" 
                 [(page)]="page"
                 [(itemsPerPage)]="itemsPerPage"
-                [totalCount]="totalCount">
+                [totalCount]="totalCount"
+                [itemsPerPageValues]="_options.itemsPerPageValues">
         </paging>
         
         <div *ngIf="_options.columnsSelection" class="column-selector">
@@ -304,6 +305,7 @@ export class GridComponent implements OnInit, AfterContentInit
             columnsSelection: false,
             cssClass: "",
             columnSelectionCssClass: "column-selection",
+            itemsPerPageValues: [],
             initialItemsPerPage: 10,
             initialPage: 1,
             dataCallback: (page: number, itemsPerPage: number, orderBy: string, orderByDirection: OrderByDirection) =>

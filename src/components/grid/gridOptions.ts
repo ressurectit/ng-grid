@@ -36,6 +36,11 @@ export interface GridOptions
     initialItemsPerPage?: number;
     
     /**
+     * Available values for items per page, if not set you wont be able to change number items per page
+     */
+    itemsPerPageValues?: number[];
+    
+    /**
      * Callback that is used for changing displayed data
      */
     dataCallback?: (page: number, itemsPerPage: number, orderBy: string, orderByDirection: OrderByDirection) => void;
