@@ -159,6 +159,7 @@ class ColumnTemplateRenderer implements OnInit
             top: 0;
             transition: all 200ms;
             pointer-events: none;
+            z-index: 10;
         }
         
         .column-selector > div
