@@ -196,6 +196,11 @@ export class GridComponent implements OnInit, AfterContentInit
     private _page: number = null;
     
     /**
+     * Current number of items per page
+     */
+    private _itemsPerPage: number = null;
+    
+    /**
      * Array of column definitions for columns, content getter
      */
     @ContentChildren(ColumnComponent) 
@@ -218,9 +223,18 @@ export class GridComponent implements OnInit, AfterContentInit
     }
     
     /**
-     * Current number of items per page
+     * Gets or sets current number of items per page
      */
-    public itemsPerPage: number = null;
+    public set itemsPerPage(itemsPerPage: number)
+    {
+        this._itemsPerPage = itemsPerPage;
+        
+        this.refresh();
+    }
+    public get itemsPerPage(): number
+    {
+        return this._itemsPerPage;
+    }
     
     /**
      * Current name of column that is used for ordering
