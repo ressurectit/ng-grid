@@ -1,10 +1,10 @@
-import {Component, Input, OnInit, AfterContentInit, ContentChildren, QueryList, ViewContainerRef} from 'angular2/core';
+import {Component, Input, OnInit, AfterContentInit, ContentChildren, QueryList, ViewContainerRef} from '@angular/core';
 import {ColumnComponent} from './column.component';
 import {PagingComponent} from '../paging/paging.component';
 import {GridOptions} from './gridOptions';
-import {isBlank, isPresent, isString} from 'angular2/src/facade/lang';
-import {OrderByDirection} from 'ng2-common/types';
-import utils from 'ng2-common/utils';
+import {isBlank, isPresent, isString} from '@angular/core/src/facade/lang';
+import {OrderByDirection, Utils} from '@ng2/common';
+import {ColumnTemplateContext} from './columnTemplate.context';
 
 /**
  * Renderer that is used for rendering column template
@@ -42,9 +42,11 @@ class ColumnTemplateRenderer implements OnInit
      */
     public ngOnInit()
     {
-        let view = this._viewContainer.createEmbeddedView(this.column.template);
-        view.setLocal('\$implicit', this.rowData);
-        view.setLocal('column', this.column);
+        let view = this._viewContainer.createEmbeddedView<ColumnTemplateContext>(this.column.template, 
+                                                                                 {
+                                                                                     $implicit: this.rowData,
+                                                                                     column: this.column
+                                                                                 });
     }
 }
 
@@ -341,7 +343,7 @@ export class GridComponent implements OnInit, AfterContentInit
      */
     public ngOnInit()
     {
-        this.id = isBlank(this.id) ? utils.common.generateId(16) : this.id;
+        this.id = isBlank(this.id) ? Utils.common.generateId(16) : this.id;
         this._page = this._options.initialPage;
         this.itemsPerPage = this._options.initialItemsPerPage;
     }
@@ -354,7 +356,7 @@ export class GridComponent implements OnInit, AfterContentInit
     public ngAfterContentInit()
     {
         let columns = this._columns.toArray();
-        let columnsSettings = <boolean[]>utils.cookies.getCookie(this.colSettingsCookieId);
+        let columnsSettings = <boolean[]>Utils.cookies.getCookie(this.colSettingsCookieId);
         
         if(isPresent(columnsSettings))
         {
@@ -382,7 +384,7 @@ export class GridComponent implements OnInit, AfterContentInit
     {
         this.columns[index].visible = !this.columns[index].visible;
         
-        utils.cookies.setCookie(this.colSettingsCookieId, this.columns.map(itm => itm.visible), 1000);
+        Utils.cookies.setCookie(this.colSettingsCookieId, this.columns.map(itm => itm.visible), 1000);
     }
     
     /**

@@ -8,4 +8,4 @@ typings.json
 *.map
 *.log
 !*.d.ts
-/bundle/ng2-grid.dev.d.ts
+index.dev.d.ts

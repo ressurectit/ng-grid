@@ -1,5 +1,4 @@
-import {Component, Input, ContentChild, TemplateRef} from 'angular2/core';
-import utils from 'ng2-common/utils';
+import {Component, Input, ContentChild, TemplateRef} from '@angular/core';
 
 /**
  * Definition of column metadata
@@ -55,7 +54,7 @@ export class ColumnComponent
      * Template that is used for rendering of cell
      */
     @ContentChild(TemplateRef) 
-    public template: TemplateRef;
+    public template: TemplateRef<any>;
     
     /**
      * Css class that is used for displaying current ordering
