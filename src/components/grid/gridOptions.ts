@@ -41,6 +41,11 @@ export interface GridOptions
     itemsPerPageValues?: number[];
     
     /**
+     * Number of miliseconds that are used for debounce call of dataCallback, or false
+     */
+    debounceDataCallback?: number;
+    
+    /**
      * Callback that is used for changing displayed data
      */
     dataCallback?: (page: number, itemsPerPage: number, orderBy: string, orderByDirection: OrderByDirection) => void;

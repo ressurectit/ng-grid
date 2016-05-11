@@ -1,10 +1,13 @@
-import {Component, Input, OnInit, AfterContentInit, ContentChildren, QueryList, ViewContainerRef} from '@angular/core';
+import {Component, Input, OnInit, OnDestroy, AfterContentInit, ContentChildren, QueryList, ViewContainerRef} from '@angular/core';
 import {ColumnComponent} from './column.component';
 import {PagingComponent} from '../paging/paging.component';
 import {GridOptions} from './gridOptions';
 import {isBlank, isPresent, isString} from '@angular/core/src/facade/lang';
 import {OrderByDirection, Utils} from '@ng2/common';
 import {ColumnTemplateContext} from './columnTemplate.context';
+import {Subject} from 'rxjs/Subject';
+import {Subscription} from 'rxjs/Subscription';
+import 'rxjs/add/operator/debounceTime';
 
 /**
  * Renderer that is used for rendering column template
@@ -179,7 +182,7 @@ class ColumnTemplateRenderer implements OnInit
         }
     `]
 })
-export class GridComponent implements OnInit, AfterContentInit
+export class GridComponent implements OnInit, OnDestroy, AfterContentInit
 {
     //######################### private fields #########################
     
@@ -202,6 +205,16 @@ export class GridComponent implements OnInit, AfterContentInit
      * Current number of items per page
      */
     private _itemsPerPage: number = null;
+    
+    /**
+     * Subscription for debounce dataCallback
+     */
+    private _debounceSubscription: Subscription = null;
+    
+    /**
+     * Subject for debounce dataCallback
+     */
+    private _debounceSubject: Subject<boolean> = new Subject<boolean>();
     
     /**
      * Array of column definitions for columns, content getter
@@ -325,6 +338,7 @@ export class GridComponent implements OnInit, AfterContentInit
             itemsPerPageValues: [],
             initialItemsPerPage: 10,
             initialPage: 1,
+            debounceDataCallback: 40,
             dataCallback: (page: number, itemsPerPage: number, orderBy: string, orderByDirection: OrderByDirection) =>
             {
                 //TODO - client implementation
@@ -343,9 +357,30 @@ export class GridComponent implements OnInit, AfterContentInit
      */
     public ngOnInit()
     {
+        this._debounceSubscription = this._debounceSubject
+            .debounceTime(this._options.debounceDataCallback)
+            .subscribe(() =>
+            {
+                this._options.dataCallback(this.page, 
+                                           this.itemsPerPage, 
+                                           this.orderBy, 
+                                           this.orderByDirection);
+            });
+        
         this.id = isBlank(this.id) ? Utils.common.generateId(16) : this.id;
         this._page = this._options.initialPage;
         this.itemsPerPage = this._options.initialItemsPerPage;
+    }
+    
+    //######################### public methods - implementation of OnDestroy #########################
+    
+    /**
+     * Called when component is destroyed
+     */
+    public ngOnDestroy()
+    {
+        this._debounceSubscription.unsubscribe();
+        this._debounceSubscription = null;
     }
     
     //######################### public methods - implementation of AfterContentInit #########################
@@ -404,10 +439,7 @@ export class GridComponent implements OnInit, AfterContentInit
      */
     public refresh()
     {
-        this._options.dataCallback(this.page, 
-                                   this.itemsPerPage, 
-                                   this.orderBy, 
-                                   this.orderByDirection);
+        this._debounceSubject.next(true);
     }
     
     /**
