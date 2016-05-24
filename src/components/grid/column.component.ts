@@ -48,6 +48,18 @@ export class ColumnComponent
     @Input()
     public width: string = null;
     
+    /**
+     * Css class that is applied to column header
+     */
+    @Input()
+    public headerClass: string = null;
+    
+    /**
+     * Css class that is applied to each column cell 
+     */
+    @Input()
+    public cellClass: string = null;
+    
     //######################### public properties #########################
     
     /**

@@ -66,18 +66,18 @@ class ColumnTemplateRenderer implements OnInit
             <thead>
                 <tr>
                     <th *ngFor="let column of columns" 
+                        class="{{column.headerClass}}"
                         [ngClass]="{hidden: !column.visible, 'column-orderable': column.ordering}" 
                         [ngStyle]="{width: column.width}"
                         (click)="performsOrdering(column)">
-                        <span>{{column.titleVisible ? column.title : ""}}</span>
-                        <span *ngIf="column.ordering" class="fa {{column.orderingCssClass}}"></span>
+                        <span>{{column.titleVisible ? column.title : ""}}</span>&nbsp;<span *ngIf="column.ordering" class="fa {{column.orderingCssClass}}"></span>
                     </th>
                 </tr>
             </thead>
 
             <tbody>
                 <tr *ngFor="let row of data" [class]="rowCssClassCallback(row)">
-                    <td *ngFor="let column of columns" [ngClass]="{hidden: !column.visible}">
+                    <td *ngFor="let column of columns" [ngClass]="{hidden: !column.visible}" class="{{column.cellClass}}">
                         <div *ngIf="column.template">
                             <column-template-renderer [column]="column" [rowData]="row"></column-template-renderer>
                         </div>
