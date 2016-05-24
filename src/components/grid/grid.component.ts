@@ -61,7 +61,7 @@ class ColumnTemplateRenderer implements OnInit
     selector: 'ng2-grid',
     directives: [ColumnTemplateRenderer, PagingComponent],
     template:
-   `<div style="position: relative;" class="table-div {{_options.cssClass}}">
+   `<div style="position: relative; overflow-x: auto;" class="table-div {{_options.cssClass}}">
         <table class="table table-condensed table-striped table-hover">
             <thead>
                 <tr>
@@ -70,7 +70,10 @@ class ColumnTemplateRenderer implements OnInit
                         [ngClass]="{hidden: !column.visible, 'column-orderable': column.ordering}" 
                         [ngStyle]="{width: column.width}"
                         (click)="performsOrdering(column)">
-                        <span>{{column.titleVisible ? column.title : ""}}</span>&nbsp;<span *ngIf="column.ordering" class="fa {{column.orderingCssClass}}"></span>
+                        <span style="white-space: nowrap;">
+                            <span style="white-space: normal;">{{column.titleVisible ? column.title : ""}}</span>
+                            <span *ngIf="column.ordering" class="fa {{column.orderingCssClass}}"></span>
+                        </span>
                     </th>
                 </tr>
             </thead>
