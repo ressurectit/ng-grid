@@ -37,7 +37,7 @@ export class ItemsPerPageItem
         <ul class="pagination pagination-sm margin-sm-vertical pull-right" *ngIf="!!itemsPerPageItems && itemsPerPageItems.length > 0">
             <li *ngFor="let itemsPerPage of itemsPerPageItems" [ngClass]="{active: itemsPerPage.isActive, 'pointer-cursor': !itemsPerPage.isActive}">
                 <a (click)="setItemsPerPage(itemsPerPage)">
-                    <span [innerHtml]="itemsPerPage.value"></span>
+                    <span [innerHtml]="_renderItemsPerPageText(itemsPerPage.value)"></span>
                 </a>
             </li>
         </ul>
@@ -87,6 +87,8 @@ export class PagingComponent implements OnInit
     @Input()
     public set itemsPerPageValues(val: number[])
     {
+        //TODO - localize text for NaN
+        
         if(!val || !isArray(val))
         {
             this.itemsPerPageItems = [];
@@ -223,11 +225,35 @@ export class PagingComponent implements OnInit
     //######################### private methods #########################
 
     /**
+     * Converts number to text that is going to be rendered for ItemsPerPage
+     * @param  {number} value
+     */
+    private _renderItemsPerPageText(value: number): string
+    {
+        return isNaN(value) ? "&infin;" : value.toString();
+    }
+
+    /**
      * Generates rendered pages
      */
     private _generatePages()
     {
         var pageCount = this._paginator.GetPageCount();
+        
+        //Applied when displaying all items
+        if(isNaN(pageCount))
+        {
+            if(this._page != 1)
+            {
+                this._page = 1;
+                this._paginator.SetPage(1);
+                this.pageChange.emit(1);
+            }
+            
+            this.pages = [];
+            
+            return;
+        }
                     
         if(!isNaN(pageCount) && pageCount < this._page)
         {
