@@ -60,6 +60,12 @@ export class ColumnComponent
     @Input()
     public cellClass: string = null;
     
+    /**
+     * Name of column group that is this column assigned to
+     */
+    @Input()
+    public columnGroupName: string = null;
+    
     //######################### public properties #########################
     
     /**

@@ -1,5 +1,6 @@
 import {Component, Input, OnInit, OnDestroy, AfterContentInit, ContentChildren, QueryList, ViewContainerRef} from '@angular/core';
 import {ColumnComponent} from './column.component';
+import {ColumnGroupComponent} from './columnGroup.component';
 import {PagingComponent} from '../paging/paging.component';
 import {GridOptions} from './gridOptions';
 import {isBlank, isPresent, isString} from '@angular/core/src/facade/lang';
@@ -64,6 +65,14 @@ class ColumnTemplateRenderer implements OnInit
    `<div style="position: relative; overflow-x: auto;" class="table-div {{_options.cssClass}}">
         <table class="table table-condensed table-striped table-hover">
             <thead>
+                <tr *ngIf="_columnGroups.length > 0">
+                    <template ngFor let-group [ngForOf]="_columnGroups">
+                        <th *ngIf="group.colSpan > 0" [attr.colspan]="group.colSpan" [class]="group.cssClass">
+                            {{group.title}}
+                        </th>
+                    </template>
+                </tr>
+            
                 <tr>
                     <th *ngFor="let column of columns" 
                         class="{{column.headerClass}}"
@@ -224,6 +233,17 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
      */
     @ContentChildren(ColumnComponent) 
     private _columns: QueryList<ColumnComponent>;
+    
+    /**
+     * Array of column group definitions for grid, content getter
+     */
+    @ContentChildren(ColumnGroupComponent)
+    private _columnGroupsDefinitions: QueryList<ColumnGroupComponent>;
+    
+    /**
+     * Column groups that are rendered
+     */
+    private _columnGroups: ColumnGroupComponent[] = [];
     
     //######################### public properties #########################
     
@@ -410,6 +430,14 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
         }
         
         this.columns = columns;
+        
+        if(this._columnGroupsDefinitions.length > 0)
+        {
+            let groups = this._columnGroupsDefinitions.toArray();
+            
+            this._columnGroups = groups;
+            this._calculateGroupColSpan();
+        }
     }
     
     //######################### public methods #########################
@@ -421,6 +449,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
     public toggleColumn(index: number)
     {
         this.columns[index].visible = !this.columns[index].visible;
+        this._calculateGroupColSpan();
         
         Utils.cookies.setCookie(this.colSettingsCookieId, this.columns.map(itm => itm.visible), 1000);
     }
@@ -516,9 +545,46 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
         
         this.refresh();
     }
+    
+    //######################### private methdos #########################
+    
+    /**
+     * Calculates col spans for displayed column groups
+     */
+    private _calculateGroupColSpan()
+    {
+        if(this._columnGroups.length < 1)
+        {
+            return;
+        }
+        
+        let colSpanCounter = {};
+        
+        this.columns.forEach(col =>
+        {
+            if(!col.visible)
+            {
+                return;
+            }
+            
+            if(isBlank(colSpanCounter[col.columnGroupName]))
+            {
+                colSpanCounter[col.columnGroupName] = 0;
+            }
+            else
+            {
+                colSpanCounter[col.columnGroupName] += 1;
+            }
+        });
+        
+        this._columnGroups.forEach(group =>
+        {
+            group.colSpan = colSpanCounter[group.name];
+        });
+    }
 }
 
 /**
  * Grid directives
  */
-export const GRID_DIRECTIVES = [GridComponent, ColumnComponent];
+export const GRID_DIRECTIVES = [GridComponent, ColumnComponent, ColumnGroupComponent];

@@ -16,9 +16,14 @@ export interface GridOptions
     columnsSelection?: boolean;
     
     /**
-     * Css class that is applied to to root div of grid
+     * Css class that is applied to root div of grid
      */
     cssClass?: string;
+    
+    /**
+     * Css class that is applied to each column group row
+     */
+    columnGroupCssClass?: string;
     
     /**
      * Name of css class that is applied to column selection div
