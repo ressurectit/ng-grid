@@ -569,7 +569,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
             
             if(isBlank(colSpanCounter[col.columnGroupName]))
             {
-                colSpanCounter[col.columnGroupName] = 0;
+                colSpanCounter[col.columnGroupName] = 1;
             }
             else
             {
