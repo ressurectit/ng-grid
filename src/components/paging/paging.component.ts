@@ -169,7 +169,7 @@ export class PagingComponent implements OnInit
      * Occurs when index of currently selected page has been changed
      */
     @Output()
-    public pageChange: EventEmitter<number> = new EventEmitter();
+    public pageChange: EventEmitter<number> = new EventEmitter<number>();
 
     /**
      * Occurs when number of items per page currently selected has been changed
