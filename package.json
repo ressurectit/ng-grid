@@ -1,6 +1,6 @@
 {
     "name": "@ng2/grid",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "description": "Angular 2 module displaying grid",
     "scripts":
     {
@@ -14,7 +14,7 @@
         "tsc:debug": "tsc --sourceMap",
         "prepublish": "npm run bundle:package",
         "postpublish": "npm run clean",
-        "republish": "npm unpublish --force && npm publish",
+        "republish": "npm publish -f",
         "bundle": "tsc --outFile ./index.dev.js",
         "bundle:update": "nab ./index.dev.js && uglifyjs -o ./index.min.js -- ./index.dev.js",
         "bundle:package": "npm run clean && npm run build && npm run bundle && npm run bundle:update",
@@ -39,7 +39,7 @@
         "zone.js": "0.6.12",
         "rxjs": "5.0.0-beta.6",
         "bootstrap": "~3.3.6",
-        "@ng2/common": "1.1.0"
+        "@ng2/common": "1.1.1"
     },
     "devDependencies":
     {

@@ -1,4 +1,5 @@
 import {Component, Input, OnInit, OnDestroy, AfterContentInit, ContentChildren, QueryList, ViewContainerRef} from '@angular/core';
+import {AsyncPipe} from '@angular/common';
 import {ColumnComponent} from './column.component';
 import {ColumnGroupComponent} from './columnGroup.component';
 import {PagingComponent} from '../paging/paging.component';
@@ -61,6 +62,7 @@ class ColumnTemplateRenderer implements OnInit
 {
     selector: 'ng2-grid',
     directives: [ColumnTemplateRenderer, PagingComponent],
+    pipes: [AsyncPipe],
     template:
    `<div style="position: relative; overflow-x: auto;" class="table-div {{_options.cssClass}}">
         <table class="table table-condensed table-striped table-hover">
@@ -103,7 +105,8 @@ class ColumnTemplateRenderer implements OnInit
         </table>
         
         <paging *ngIf="_options.pagingEnabled" 
-                [(page)]="page"
+                [page]="_pageAsync | async"
+                (pageChange)="page = $event"
                 [(itemsPerPage)]="itemsPerPage"
                 [totalCount]="totalCount"
                 [itemsPerPageValues]="_options.itemsPerPageValues">
@@ -212,6 +215,11 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
      * Current page number of grid
      */
     private _page: number = null;
+
+    /**
+     * Async page used for changing paging
+     */
+    private _pageAsync: Subject<number> = new Subject<number>();
     
     /**
      * Current number of items per page
@@ -244,6 +252,21 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
      * Column groups that are rendered
      */
     private _columnGroups: ColumnGroupComponent[] = [];
+
+    //######################### private properties #########################
+
+    /**
+     * Internal page used for handling page value
+     */
+    private set internalPage(page: number)
+    {
+        this._page = page;
+        this._pageAsync.next(page);
+    }
+    private get internalPage(): number
+    {
+        return this._page;
+    }
     
     //######################### public properties #########################
     
@@ -252,13 +275,13 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
      */
     public set page(page: number)
     {
-        this._page = page;
+        this.internalPage = page;
         
         this.refresh();
     }
     public get page(): number
     {
-        return this._page;
+        return this.internalPage;
     }
     
     /**
@@ -391,7 +414,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
             });
         
         this.id = isBlank(this.id) ? Utils.common.generateId(16) : this.id;
-        this._page = this._options.initialPage;
+        this.internalPage = this._options.initialPage;
         this.itemsPerPage = this._options.initialItemsPerPage;
     }
     
@@ -459,7 +482,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
      */
     public refreshToDefault()
     {
-        this._page = this._options.initialPage;
+        this.internalPage = this._options.initialPage;
         this.orderBy = null;
         this.orderByDirection = null;
         
