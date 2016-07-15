@@ -79,13 +79,13 @@ export class PagingComponent implements OnInit
      */
     public itemsPerPageItems: ItemsPerPageItem[] = [];
 
-    //######################### public properties - inputs #########################
+    //######################### private properties - inputs #########################
 
     /**
      * Gets or sets array of available values for itemsPerPage
      */
     @Input()
-    public set itemsPerPageValues(val: number[])
+    private set itemsPerPageValues(val: number[])
     {
         //TODO - localize text for NaN
         
@@ -106,7 +106,7 @@ export class PagingComponent implements OnInit
         
         this._generateItemsPerPage();
     }
-    public get itemsPerPageValues(): number[]
+    private get itemsPerPageValues(): number[]
     {
         return this.itemsPerPageItems.map(itm => itm.value);
     }
@@ -115,7 +115,9 @@ export class PagingComponent implements OnInit
      * Page dispersion parameter for rendered pages
      */
     @Input()
-    public pagesDispersion: number = 4;
+    private pagesDispersion: number = 4;
+
+    //######################### public properties - inputs #########################
 
     /**
      * Gets or sets index of currently selected page
@@ -190,13 +192,13 @@ export class PagingComponent implements OnInit
         }
     }
 
-    //######################### public methods #########################
+    //######################### private methods - template methods #########################
     
     /**
      * Sets page for current paging
      * @param  {number} page Page index to be set
      */
-    public setPage(page: {isActive: boolean; isDisabled: boolean; page: number})
+    private setPage(page: {isActive: boolean; isDisabled: boolean; page: number})
     {
         if(page.isActive || page.isDisabled)
         {
@@ -211,7 +213,7 @@ export class PagingComponent implements OnInit
      * Sets items per page for current paging
      * @param  {ItemsPerPageItem} itemsPerPage Number of items per page
      */
-    public setItemsPerPage(itemsPerPage: ItemsPerPageItem)
+    private setItemsPerPage(itemsPerPage: ItemsPerPageItem)
     {
         if(itemsPerPage.isActive)
         {

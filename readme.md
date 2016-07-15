@@ -14,13 +14,13 @@ Module contains component for *Grid* and *Paging*.
 
 To install latest version of this module you just run:
 
-```nocode
+``` nocode
 npm install "@ng2/grid" --save
 ```
 
 In your `index.html` add following line after loading *angular2* javascript in your `<head>`:
 
-```html
+``` html
 <script src="node_modules/@ng2/grid/index.min.js"></script>
 ```
 
@@ -49,7 +49,7 @@ Available types:
 #### Typescript
 
 *basicGrid.component.ts*
-```typescript
+``` typescript
 import {Component} from '@angular/core';
 import {GRID_DIRECTIVES, GridOptions} from '@ng2/grid';
 
@@ -129,7 +129,7 @@ export class BasicGridComponent
 #### Template
 
 *basicGrid.component.html*
-```html
+``` html
 <div>
     <ng2-grid id="gridUniqueIdPerApp" [data]="data" [options]="gridOptions" [totalCount]="totalCount">
         <ng2-column name="name" title="First name"></ng2-column>
@@ -145,7 +145,7 @@ export class BasicGridComponent
 #### Typescript
 
 *advancedGrid.component.ts*
-```typescript
+``` typescript
 import {Component, ViewChild} from '@angular/core';
 import {GRID_DIRECTIVES, GridComponent, GridOptions} from '@ng2/grid';
 
@@ -241,7 +241,7 @@ export class AdvancedGridComponent
 #### Template
 
 *advancedGrid.component.html*
-```html
+``` html
 <div>
     <ng2-grid id="gridUniqueIdPerApp" [data]="data" [options]="gridOptions" [totalCount]="totalCount">
         <ng2-column name="name" title="First name" [ordering]="true"></ng2-column>
@@ -263,6 +263,8 @@ export class AdvancedGridComponent
 
 ### `GridOptions` - Options for grid configuration
 
+#### *Properties*
+
 - `pagingEnabled?: boolean` - Indication whether is paging enabled
 - `columnsSelection?: boolean` - Indication whether is column selection allowed
 - `cssClass?: string` - Css class that is applied to root div of grid
@@ -273,4 +275,32 @@ export class AdvancedGridComponent
 - `itemsPerPageValues?: number[]` - Available values for items per page, if not set you wont be able to change number items per page
 - `debounceDataCallback?: number` - Number of miliseconds that are used for debounce call of dataCallback, or false
 - `dataCallback?: (page: number, itemsPerPage: number, orderBy: string, orderByDirection: OrderByDirection) => void` - Callback that is used for changing displayed data
+
+---
+### `PagingComponent` - Component used for rendering paging
+
+#### *Component*
+ - `selector: "paging"`
+ - `inputs`
+    - `itemsPerPageValues: number[]` - Gets or sets array of available values for itemsPerPage
+    - `pagesDispersion: number` - Page dispersion parameter for rendered pages
+    - `page: number` - Gets or sets index of currently selected page
+    - `itemsPerPage: number` - Gets or sets number of items currently used for paging
+    - `totalCount: number` - Gets or sets number of all items that are paged with current filter criteria
+ - `outputs`
+    - `pageChange: EventEmitter<number>` - Occurs when index of currently selected page has been changed
+    - `itemsPerPageChange: EventEmitter<number>` - Occurs when number of items per page currently selected has been changed
+
+#### *Properties*
+ - `@Input() page: number` - Gets or sets index of currently selected page
+ - `@Input() itemsPerPage: number` - Gets or sets number of items currently used for paging
+ - `@Input() totalCount: number` - Gets or sets number of all items that are paged with current filter criteria
+ - `@Output() pageChange: EventEmitter<number>` - Occurs when index of currently selected page has been changed
+ - `@Output() itemsPerPageChange: EventEmitter<number>` - Occurs when number of items per page currently selected has been changed
     
+---
+### `ColumnComponent` - Definition of column metadata
+
+#### *Component*
+ - `selector: "ng2-grid > ng2-column"`
+ - `inputs`
