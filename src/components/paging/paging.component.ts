@@ -34,13 +34,17 @@ export class ItemsPerPageItem
             </li>
         </ul>
         
-        <ul class="pagination pagination-sm margin-sm-vertical pull-right" *ngIf="!!itemsPerPageItems && itemsPerPageItems.length > 0">
-            <li *ngFor="let itemsPerPage of itemsPerPageItems" [ngClass]="{active: itemsPerPage.isActive, 'pointer-cursor': !itemsPerPage.isActive}">
-                <a (click)="setItemsPerPage(itemsPerPage)">
-                    <span [innerHtml]="_renderItemsPerPageText(itemsPerPage.value)"></span>
-                </a>
-            </li>
-        </ul>
+        <div class="pull-right" *ngIf="!!itemsPerPageItems && itemsPerPageItems.length > 0">
+            <span style="float: left; margin-right: 8px; line-height: 42px;">{{displayedItemsCount}}/{{_totalCount}}</span>
+
+            <ul class="pagination pagination-sm margin-sm-vertical">
+                <li *ngFor="let itemsPerPage of itemsPerPageItems" [ngClass]="{active: itemsPerPage.isActive, 'pointer-cursor': !itemsPerPage.isActive}">
+                    <a (click)="setItemsPerPage(itemsPerPage)">
+                        <span [innerHtml]="_renderItemsPerPageText(itemsPerPage.value)"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>`
 })
 export class PagingComponent implements OnInit
@@ -118,6 +122,12 @@ export class PagingComponent implements OnInit
     private pagesDispersion: number = 4;
 
     //######################### public properties - inputs #########################
+
+    /**
+     * Number of displayed items 
+     */
+    @Input()
+    public displayedItemsCount: number = 0;
 
     /**
      * Gets or sets index of currently selected page

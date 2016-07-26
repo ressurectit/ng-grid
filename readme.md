@@ -283,20 +283,22 @@ export class AdvancedGridComponent
  - `selector: "paging"`
  - `inputs`
     - `itemsPerPageValues: number[]` - Gets or sets array of available values for itemsPerPage
-    - `pagesDispersion: number` - Page dispersion parameter for rendered pages
+    - `pagesDispersion: number` - Page dispersion parameter for rendered pages DEFAULT: 4
     - `page: number` - Gets or sets index of currently selected page
     - `itemsPerPage: number` - Gets or sets number of items currently used for paging
     - `totalCount: number` - Gets or sets number of all items that are paged with current filter criteria
+    - `displayedItemsCount: number` - Number of displayed items DEFAULT: 0
  - `outputs`
     - `pageChange: EventEmitter<number>` - Occurs when index of currently selected page has been changed
     - `itemsPerPageChange: EventEmitter<number>` - Occurs when number of items per page currently selected has been changed
 
 #### *Properties*
- - `@Input() page: number` - Gets or sets index of currently selected page
- - `@Input() itemsPerPage: number` - Gets or sets number of items currently used for paging
- - `@Input() totalCount: number` - Gets or sets number of all items that are paged with current filter criteria
- - `@Output() pageChange: EventEmitter<number>` - Occurs when index of currently selected page has been changed
- - `@Output() itemsPerPageChange: EventEmitter<number>` - Occurs when number of items per page currently selected has been changed
+ - `page: number` - Gets or sets index of currently selected page
+ - `itemsPerPage: number` - Gets or sets number of items currently used for paging
+ - `totalCount: number` - Gets or sets number of all items that are paged with current filter criteria
+ - `pageChange: EventEmitter<number>` - Occurs when index of currently selected page has been changed
+ - `itemsPerPageChange: EventEmitter<number>` - Occurs when number of items per page currently selected has been changed
+ - `displayedItemsCount: number` - Number of displayed items DEFAULT: 0
     
 ---
 ### `ColumnComponent` - Definition of column metadata

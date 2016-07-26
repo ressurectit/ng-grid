@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 1.2.1
+ - support for storing items per page in cookies
+ - paging now allows displaying displayedItems/totalCount
+ - callback that interfere in obtaining displayedItems
+
 ## Version 1.2.0
 
 - angular version 2.0.0-rc.4

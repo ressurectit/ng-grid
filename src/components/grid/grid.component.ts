@@ -4,9 +4,10 @@ import {ColumnComponent} from './column.component';
 import {ColumnGroupComponent} from './columnGroup.component';
 import {PagingComponent} from '../paging/paging.component';
 import {GridOptions} from './gridOptions';
-import {isBlank, isPresent, isString} from '@angular/core/src/facade/lang';
+import {isBlank, isPresent, isString, isFunction} from '@angular/core/src/facade/lang';
 import {OrderByDirection, Utils} from '@ng2/common';
 import {ColumnTemplateContext} from './columnTemplate.context';
+import {GridCookieConfig} from './gridCookie.config';
 import {Subject} from 'rxjs/Subject';
 import {Subscription} from 'rxjs/Subscription';
 import 'rxjs/add/operator/debounceTime';
@@ -26,13 +27,13 @@ class ColumnTemplateRenderer implements OnInit
     /**
      * Column definition for currenttly rendered column
      */
-    @Input() 
+    @Input()
     public column: ColumnComponent;
 
     /**
      * Data to be used for rendering
      */
-    @Input() 
+    @Input()
     public rowData: any;
 
     //######################### constructor #########################
@@ -47,7 +48,7 @@ class ColumnTemplateRenderer implements OnInit
      */
     public ngOnInit()
     {
-        let view = this._viewContainer.createEmbeddedView<ColumnTemplateContext>(this.column.template, 
+        let view = this._viewContainer.createEmbeddedView<ColumnTemplateContext>(this.column.template,
                                                                                  {
                                                                                      $implicit: this.rowData,
                                                                                      column: this.column
@@ -74,11 +75,11 @@ class ColumnTemplateRenderer implements OnInit
                         </th>
                     </template>
                 </tr>
-            
+
                 <tr>
-                    <th *ngFor="let column of columns" 
+                    <th *ngFor="let column of columns"
                         class="{{column.headerClass}}"
-                        [ngClass]="{hidden: !column.visible, 'column-orderable': column.ordering}" 
+                        [ngClass]="{hidden: !column.visible, 'column-orderable': column.ordering}"
                         [ngStyle]="{width: column.width}"
                         (click)="performsOrdering(column)">
                         <span style="white-space: nowrap;">
@@ -95,7 +96,7 @@ class ColumnTemplateRenderer implements OnInit
                         <div *ngIf="column.template">
                             <column-template-renderer [column]="column" [rowData]="row"></column-template-renderer>
                         </div>
-                        
+
                         <div *ngIf="!column.template">
                             {{row[column.name]}}
                         </div>
@@ -103,27 +104,28 @@ class ColumnTemplateRenderer implements OnInit
                 </tr>
             </tbody>
         </table>
-        
-        <paging *ngIf="_options.pagingEnabled" 
+
+        <paging *ngIf="_options.pagingEnabled"
                 [page]="_pageAsync | async"
                 (pageChange)="page = $event"
                 [(itemsPerPage)]="itemsPerPage"
                 [totalCount]="totalCount"
+                [displayedItemsCount]="_displayedItemsCount"
                 [itemsPerPageValues]="_options.itemsPerPageValues">
         </paging>
-        
+
         <div *ngIf="_options.columnsSelection" class="column-selector">
             <a style="cursor: pointer;" data-toggle="collapse" [attr.data-target]="'#columnSelection' + id">
                 <span class="glyphicon glyphicon-list"></span>
             </a>
-            
+
             <div class="{{_options.columnSelectionCssClass}} collapse" [id]="'columnSelection' + id">
                 <div class="clearfix">
                     <a class="pull-right" style="cursor: pointer;" data-toggle="collapse" [attr.data-target]="'#columnSelection' + id">
                         <span class="glyphicon glyphicon-remove"></span>
                     </a>
                 </div>
-                
+
                 <div *ngFor="let column of columns; let index=index">
                     <dl>
                         <dt>
@@ -137,14 +139,14 @@ class ColumnTemplateRenderer implements OnInit
             </div>
         </div>
     </div>`,
-    styles: 
+    styles:
     [`
         .column-orderable:hover
         {
             background-color: #f4f4f4;
             cursor: pointer;
         }
-        
+
         .column-selection
         {
             background-color: #fff;
@@ -153,23 +155,23 @@ class ColumnTemplateRenderer implements OnInit
             box-shadow: 0 0 3px #d3d3f3;
             padding: 8px;
         }
-        
+
         .column-selector dl
         {
             margin: 0;
         }
-        
+
         .column-selector dt
         {
             float: left;
         }
-        
+
         .column-selector dd
         {
             margin-left: 15px;
             white-space: nowrap;
         }
-    
+
         .column-selector
         {
             visibility: hidden;
@@ -181,14 +183,14 @@ class ColumnTemplateRenderer implements OnInit
             pointer-events: none;
             z-index: 10;
         }
-        
+
         .column-selector > div
         {
             position: absolute;
             right: 0;
             top: 0;
         }
-        
+
         .table-div:hover > .column-selector
         {
             opacity: 1;
@@ -200,17 +202,17 @@ class ColumnTemplateRenderer implements OnInit
 export class GridComponent implements OnInit, OnDestroy, AfterContentInit
 {
     //######################### private fields #########################
-    
+
     /**
      * Options that are used for configuring grid
      */
     private _options: GridOptions;
-    
+
     /**
      * Default options that are used for configuraging grid
      */
     private _defaultOptions: GridOptions;
-    
+
     /**
      * Current page number of grid
      */
@@ -220,40 +222,62 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
      * Async page used for changing paging
      */
     private _pageAsync: Subject<number> = new Subject<number>();
-    
+
     /**
      * Current number of items per page
      */
     private _itemsPerPage: number = null;
-    
+
     /**
      * Subscription for debounce dataCallback
      */
     private _debounceSubscription: Subscription = null;
-    
+
     /**
      * Subject for debounce dataCallback
      */
     private _debounceSubject: Subject<boolean> = new Subject<boolean>();
-    
+
+    /**
+     * Data that are rendered in grid
+     */
+    private _data: any[] = [];
+
     /**
      * Array of column definitions for columns, content getter
      */
-    @ContentChildren(ColumnComponent) 
+    @ContentChildren(ColumnComponent)
     private _columns: QueryList<ColumnComponent>;
-    
+
     /**
      * Array of column group definitions for grid, content getter
      */
     @ContentChildren(ColumnGroupComponent)
     private _columnGroupsDefinitions: QueryList<ColumnGroupComponent>;
-    
+
     /**
      * Column groups that are rendered
      */
     private _columnGroups: ColumnGroupComponent[] = [];
 
+    /**
+     * Gets number of displayed items
+     */
+    private _displayedItemsCount: number = 0;
+
     //######################### private properties #########################
+
+    /**
+     * Gets or sets settings for current grid
+     */
+    private get gridSettings(): GridCookieConfig
+    {
+        return (<GridCookieConfig>Utils.cookies.getCookie(this.settingsCookieId)) || {};
+    };
+    private set gridSettings(settings: GridCookieConfig)
+    {
+        Utils.cookies.setCookie(this.settingsCookieId, settings, 1000);
+    }
 
     /**
      * Internal page used for handling page value
@@ -267,47 +291,51 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
     {
         return this._page;
     }
-    
+
     //######################### public properties #########################
-    
+
     /**
      * Gets or sets current page number of grid
      */
     public set page(page: number)
     {
         this.internalPage = page;
-        
+
         this.refresh();
     }
     public get page(): number
     {
         return this.internalPage;
     }
-    
+
     /**
      * Gets or sets current number of items per page
      */
     public set itemsPerPage(itemsPerPage: number)
     {
         this._itemsPerPage = itemsPerPage;
-        
+
+        let settings: GridCookieConfig = this.gridSettings;
+        settings.selectItemsPerPage = itemsPerPage;
+        this.gridSettings = settings;
+
         this.refresh();
     }
     public get itemsPerPage(): number
     {
         return this._itemsPerPage;
     }
-    
+
     /**
      * Current name of column that is used for ordering
      */
     public orderBy: string = null;
-    
+
     /**
      * Current direction of ordering for selected column
      */
     public orderByDirection: OrderByDirection = null;
-    
+
     /**
      * Array of column definitions for columns
      */
@@ -322,38 +350,57 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
     public id: string;
 
     /**
-     * Data that are rendered in grid
+     * Gets or sets data that are rendered in grid
      */
-    @Input() 
-    public data: any[] = [];
-    
+    @Input()
+    public set data(data: any[])
+    {
+        this._data = data;
+        this._displayedItemsCount = data.length || 0;
+
+        if(this.displayedItemsCallback && isFunction(this.displayedItemsCallback))
+        {
+            this._displayedItemsCount = this.displayedItemsCallback(this._displayedItemsCount);
+        }
+    }
+    public get data(): any[]
+    {
+        return this._data;
+    }
+
+    /**
+     * Callback that is called when there is need to modify number of displayed items
+     */
+    @Input()
+    public displayedItemsCallback: (count: number) => number;
+
     /**
      * Number of all items for current filter
      */
-    @Input() 
+    @Input()
     public totalCount: number = null;
-    
+
     /**
      * Callback function that is called for each row with data of row and allows you to return string css classes, enables adding special css classes to row
      */
     @Input()
     public rowCssClassCallback: (rowData: any) => string = () => "";
- 
+
     /**
      * Set options that are used for configuring grid
      */
-    @Input() 
+    @Input()
     public set options(options: GridOptions)
     {
         //TODO - add change detection for grid options
-        
+
         this._options = options;
-        
+
         if(isBlank(this._options))
         {
             this._options = this._defaultOptions;
         }
-        
+
         Object.keys(this._defaultOptions).forEach(key =>
         {
             if(isBlank(this._options[key]))
@@ -362,19 +409,19 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
             }
         });
     }
-    
+
     //######################### private properties #########################
-    
+
     /**
-     * Gets column visibility settings cookie id 
+     * Gets column visibility settings cookie id
      */
-    private get colSettingsCookieId(): string
+    private get settingsCookieId(): string
     {
-        return `grid-colsettings-${this.id}`;
+        return `grid-settings-${this.id}`;
     }
-    
+
     //######################### constructor #########################
-    constructor() 
+    constructor()
     {
         this._defaultOptions = {
             pagingEnabled: true,
@@ -388,16 +435,16 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
             dataCallback: (page: number, itemsPerPage: number, orderBy: string, orderByDirection: OrderByDirection) =>
             {
                 //TODO - client implementation
-                
+
                 this.totalCount = this.data.length;
             }
         };
-        
+
         this._options = this._defaultOptions;
     }
-    
+
     //######################### public methods - implementation of OnInit #########################
-    
+
     /**
      * Initialize component
      */
@@ -407,19 +454,29 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
             .debounceTime(this._options.debounceDataCallback)
             .subscribe(() =>
             {
-                this._options.dataCallback(this.page, 
-                                           this.itemsPerPage, 
-                                           this.orderBy, 
+                this._options.dataCallback(this.page,
+                                           this.itemsPerPage,
+                                           this.orderBy,
                                            this.orderByDirection);
             });
-        
+
         this.id = isBlank(this.id) ? Utils.common.generateId(16) : this.id;
         this.internalPage = this._options.initialPage;
-        this.itemsPerPage = this._options.initialItemsPerPage;
+
+        let settings = this.gridSettings;
+
+        if(isPresent(settings.selectItemsPerPage))
+        {
+            this.itemsPerPage = settings.selectItemsPerPage;
+        }
+        else
+        {
+            this.itemsPerPage = this._options.initialItemsPerPage;
+        }
     }
-    
+
     //######################### public methods - implementation of OnDestroy #########################
-    
+
     /**
      * Called when component is destroyed
      */
@@ -428,43 +485,43 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
         this._debounceSubscription.unsubscribe();
         this._debounceSubscription = null;
     }
-    
+
     //######################### public methods - implementation of AfterContentInit #########################
-    
+
     /**
      * Called when content was initialized
      */
     public ngAfterContentInit()
     {
         let columns = this._columns.toArray();
-        let columnsSettings = <boolean[]>Utils.cookies.getCookie(this.colSettingsCookieId);
-        
-        if(isPresent(columnsSettings))
+        let settings: GridCookieConfig = this.gridSettings;
+
+        if(isPresent(settings.selectedColumns))
         {
-            for(let x = 0; x < columnsSettings.length; x++)
+            for(let x = 0; x < settings.selectedColumns.length; x++)
             {
                 if(columns.length == x)
                 {
                     break;
                 }
-                
-                columns[x].visible = columnsSettings[x];
+
+                columns[x].visible = settings.selectedColumns[x];
             }
         }
-        
+
         this.columns = columns;
-        
+
         if(this._columnGroupsDefinitions.length > 0)
         {
             let groups = this._columnGroupsDefinitions.toArray();
-            
+
             this._columnGroups = groups;
             this._calculateGroupColSpan();
         }
     }
-    
+
     //######################### public methods #########################
-    
+
     /**
      * Toggles visibility of column
      * @param  {number} index Index of toggled column
@@ -473,10 +530,12 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
     {
         this.columns[index].visible = !this.columns[index].visible;
         this._calculateGroupColSpan();
-        
-        Utils.cookies.setCookie(this.colSettingsCookieId, this.columns.map(itm => itm.visible), 1000);
+
+        let settings: GridCookieConfig = this.gridSettings;
+        settings.selectedColumns = this.columns.map(itm => itm.visible);
+        this.gridSettings = settings;
     }
-    
+
     /**
      * Refresh grid data with initial paging and ordering
      */
@@ -485,10 +544,10 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
         this.internalPage = this._options.initialPage;
         this.orderBy = null;
         this.orderByDirection = null;
-        
+
         this.refresh();
     }
-    
+
     /**
      * Refresh grid data
      */
@@ -496,7 +555,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
     {
         this._debounceSubject.next(true);
     }
-    
+
     /**
      * Performs ordering on provided column
      * @param  {ColumnComponent|string} orderingColumn Name of column or column itself that is used for ordering
@@ -507,26 +566,26 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
         {
             throw new Error("Unable perform ordering if no column was specified");
         }
-        
+
         let column: ColumnComponent = <ColumnComponent>orderingColumn;
-        
+
         if(isString(orderingColumn))
         {
             let tmp = this.columns.filter(itm => itm.name == orderingColumn);
-            
+
             if(tmp.length < 1)
             {
                 throw new Error("There is no column with specified name");
             }
-            
+
             column = tmp[0];
         }
-        
+
         if(!column.ordering)
         {
             return;
         }
-        
+
         this.columns.forEach(col =>
         {
             if(col.name != column.name)
@@ -543,7 +602,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
                         this.orderBy = col.name;
                         this.orderByDirection = OrderByDirection.Ascendant;
                         col.orderingCssClass = "fa-sort-up";
-                        
+
                         break;
                     }
                     case "fa-sort-up":
@@ -551,7 +610,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
                         this.orderBy = col.name;
                         this.orderByDirection = OrderByDirection.Descendant;
                         col.orderingCssClass = "fa-sort-down";
-                        
+
                         break;
                     }
                     case "fa-sort-down":
@@ -559,18 +618,18 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
                         this.orderBy = null;
                         this.orderByDirection = null;
                         col.orderingCssClass = "fa-sort";
-                        
+
                         break;
                     }
                 }
             }
         });
-        
+
         this.refresh();
     }
-    
+
     //######################### private methdos #########################
-    
+
     /**
      * Calculates col spans for displayed column groups
      */
@@ -580,16 +639,16 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
         {
             return;
         }
-        
+
         let colSpanCounter = {};
-        
+
         this.columns.forEach(col =>
         {
             if(!col.visible)
             {
                 return;
             }
-            
+
             if(isBlank(colSpanCounter[col.columnGroupName]))
             {
                 colSpanCounter[col.columnGroupName] = 1;
@@ -599,7 +658,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
                 colSpanCounter[col.columnGroupName] += 1;
             }
         });
-        
+
         this._columnGroups.forEach(group =>
         {
             group.colSpan = colSpanCounter[group.name];
