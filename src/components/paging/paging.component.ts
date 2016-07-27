@@ -35,7 +35,7 @@ export class ItemsPerPageItem
         </ul>
         
         <div class="pull-right" *ngIf="!!itemsPerPageItems && itemsPerPageItems.length > 0">
-            <span style="float: left; margin-right: 8px; line-height: 42px;">{{displayedItemsCount}}/{{_totalCount}}</span>
+            <span style="float: left; margin-right: 8px; line-height: 42px;">{{_displayedItemsCount}}/{{_totalCount}}</span>
 
             <ul class="pagination pagination-sm margin-sm-vertical">
                 <li *ngFor="let itemsPerPage of itemsPerPageItems" [ngClass]="{active: itemsPerPage.isActive, 'pointer-cursor': !itemsPerPage.isActive}">
@@ -71,6 +71,11 @@ export class PagingComponent implements OnInit
      */
     private _totalCount: number;
 
+    /**
+     * Number of displayed items (not visible, previous pages counted in)
+     */
+    private _displayedItemsCount: number = 0;
+
     //######################### public properties #########################
 
     /**
@@ -91,8 +96,6 @@ export class PagingComponent implements OnInit
     @Input()
     private set itemsPerPageValues(val: number[])
     {
-        //TODO - localize text for NaN
-        
         if(!val || !isArray(val))
         {
             this.itemsPerPageItems = [];
@@ -124,20 +127,15 @@ export class PagingComponent implements OnInit
     //######################### public properties - inputs #########################
 
     /**
-     * Number of displayed items 
-     */
-    @Input()
-    public displayedItemsCount: number = 0;
-
-    /**
      * Gets or sets index of currently selected page
      */
     @Input()
     public set page(page: number)
     {
         this._page = page;
-        this._paginator.SetPage(page);
+        this._paginator.setPage(page);
         this._generatePages();
+        this._displayedItemsCount = this._paginator.getOffset() + this._paginator.getLength();
     }
     public get page(): number
     {
@@ -151,9 +149,10 @@ export class PagingComponent implements OnInit
     public set itemsPerPage(itemsPerPage: number)
     {
         this._itemsPerPage = itemsPerPage;
-        this._paginator.SetItemsPerPage(itemsPerPage);
+        this._paginator.setItemsPerPage(itemsPerPage);
         this._generatePages();
         this._generateItemsPerPage();
+        this._displayedItemsCount = this._paginator.getOffset() + this._paginator.getLength();
     }
     public get itemsPerPage(): number
     {
@@ -167,8 +166,9 @@ export class PagingComponent implements OnInit
     public set totalCount(totalCount: number)
     {
         this._totalCount = totalCount;
-        this._paginator.SetItemCount(totalCount);
+        this._paginator.setItemCount(totalCount);
         this._generatePages();
+        this._displayedItemsCount = this._paginator.getOffset() + this._paginator.getLength();
     }
     public get totalCount(): number
     {
@@ -250,7 +250,7 @@ export class PagingComponent implements OnInit
      */
     private _generatePages()
     {
-        var pageCount = this._paginator.GetPageCount();
+        var pageCount = this._paginator.getPageCount();
         
         //Applied when displaying all items
         if(isNaN(pageCount))
@@ -258,7 +258,7 @@ export class PagingComponent implements OnInit
             if(this._page != 1)
             {
                 this._page = 1;
-                this._paginator.SetPage(1);
+                this._paginator.setPage(1);
                 this.pageChange.emit(1);
             }
             
@@ -282,16 +282,16 @@ export class PagingComponent implements OnInit
         this.pages.push(
         {
             isActive: false,
-            isDisabled: this._paginator.IsFirst(),
+            isDisabled: this._paginator.isFirst(),
             title: "&laquo;",
             page: this._paginator.GetFirstPage()
         });
         
-        this._paginator.GetPagesWithTrimDispersion(this.pagesDispersion).forEach(page =>
+        this._paginator.getPagesWithTrimDispersion(this.pagesDispersion).forEach(page =>
         {
             this.pages.push(
             {
-                isActive: this._paginator.GetPage() == page,
+                isActive: this._paginator.getPage() == page,
                 isDisabled: false,
                 title: page.toString(),
                 page: page
@@ -301,9 +301,9 @@ export class PagingComponent implements OnInit
         this.pages.push(
         {
             isActive: false,
-            isDisabled: this._paginator.IsLast(),
+            isDisabled: this._paginator.isLast(),
             title: "&raquo;",
-            page: this._paginator.GetLastPage()
+            page: this._paginator.getLastPage()
         });
     }
     

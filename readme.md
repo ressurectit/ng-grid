@@ -287,7 +287,6 @@ export class AdvancedGridComponent
     - `page: number` - Gets or sets index of currently selected page
     - `itemsPerPage: number` - Gets or sets number of items currently used for paging
     - `totalCount: number` - Gets or sets number of all items that are paged with current filter criteria
-    - `displayedItemsCount: number` - Number of displayed items DEFAULT: 0
  - `outputs`
     - `pageChange: EventEmitter<number>` - Occurs when index of currently selected page has been changed
     - `itemsPerPageChange: EventEmitter<number>` - Occurs when number of items per page currently selected has been changed
@@ -298,7 +297,6 @@ export class AdvancedGridComponent
  - `totalCount: number` - Gets or sets number of all items that are paged with current filter criteria
  - `pageChange: EventEmitter<number>` - Occurs when index of currently selected page has been changed
  - `itemsPerPageChange: EventEmitter<number>` - Occurs when number of items per page currently selected has been changed
- - `displayedItemsCount: number` - Number of displayed items DEFAULT: 0
     
 ---
 ### `ColumnComponent` - Definition of column metadata

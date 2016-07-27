@@ -1,9 +1,11 @@
 # Changelog
 
+## Version 1.2.2
+ - support for item row number in custom template
+
 ## Version 1.2.1
  - support for storing items per page in cookies
  - paging now allows displaying displayedItems/totalCount
- - callback that interfere in obtaining displayedItems
 
 ## Version 1.2.0
 

@@ -5,7 +5,7 @@ import {ColumnGroupComponent} from './columnGroup.component';
 import {PagingComponent} from '../paging/paging.component';
 import {GridOptions} from './gridOptions';
 import {isBlank, isPresent, isString, isFunction} from '@angular/core/src/facade/lang';
-import {OrderByDirection, Utils} from '@ng2/common';
+import {OrderByDirection, Utils, Paginator} from '@ng2/common';
 import {ColumnTemplateContext} from './columnTemplate.context';
 import {GridCookieConfig} from './gridCookie.config';
 import {Subject} from 'rxjs/Subject';
@@ -22,6 +22,18 @@ import 'rxjs/add/operator/debounceTime';
 })
 class ColumnTemplateRenderer implements OnInit
 {
+    //######################### private fields #########################
+
+    /**
+     * Context fur current template
+     */
+    private _context: ColumnTemplateContext;
+
+    /**
+     * Row indexes of displayed items
+     */
+    private _rowIndexes: number[];
+
     //######################### public properties - inputs #########################
 
     /**
@@ -36,6 +48,30 @@ class ColumnTemplateRenderer implements OnInit
     @Input()
     public rowData: any;
 
+    /**
+     * Index of currently rendered item
+     */
+    @Input()
+    public currentIndex: number;
+
+    /**
+     * Row indexes of displayed items
+     */
+    @Input()
+    public set rowIndexes(indexes: number[])
+    {
+        this._rowIndexes = indexes;
+
+        if(this._context)
+        {
+            this._context.rowIndexes = indexes;
+        }
+    }
+    public get rowIndexes(): number[]
+    {
+        return this._rowIndexes;
+    }
+
     //######################### constructor #########################
     constructor(private _viewContainer: ViewContainerRef)
     {
@@ -48,13 +84,12 @@ class ColumnTemplateRenderer implements OnInit
      */
     public ngOnInit()
     {
-        let view = this._viewContainer.createEmbeddedView<ColumnTemplateContext>(this.column.template,
-                                                                                 {
-                                                                                     $implicit: this.rowData,
-                                                                                     column: this.column
-                                                                                 });
+        this._context = new ColumnTemplateContext(this.rowData, this.column, this.currentIndex, this.rowIndexes);
+        let view = this._viewContainer.createEmbeddedView<ColumnTemplateContext>(this.column.template, this._context);
     }
 }
+
+//TODO - try to remove <div> from <td>
 
 /**
  * Grid component used for displaying data
@@ -91,10 +126,10 @@ class ColumnTemplateRenderer implements OnInit
             </thead>
 
             <tbody>
-                <tr *ngFor="let row of data" [class]="rowCssClassCallback(row)">
+                <tr *ngFor="let row of data; let rowIndex = index" [class]="rowCssClassCallback(row)">
                     <td *ngFor="let column of columns" [ngClass]="{hidden: !column.visible}" class="{{column.cellClass}}">
                         <div *ngIf="column.template">
-                            <column-template-renderer [column]="column" [rowData]="row"></column-template-renderer>
+                            <column-template-renderer [column]="column" [rowData]="row" [currentIndex]="rowIndex" [rowIndexes]="_rowIndexes"></column-template-renderer>
                         </div>
 
                         <div *ngIf="!column.template">
@@ -110,7 +145,6 @@ class ColumnTemplateRenderer implements OnInit
                 (pageChange)="page = $event"
                 [(itemsPerPage)]="itemsPerPage"
                 [totalCount]="totalCount"
-                [displayedItemsCount]="_displayedItemsCount"
                 [itemsPerPageValues]="_options.itemsPerPageValues">
         </paging>
 
@@ -229,6 +263,11 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
     private _itemsPerPage: number = null;
 
     /**
+     * Number of all items for current filter
+     */
+    public _totalCount: number;
+
+    /**
      * Subscription for debounce dataCallback
      */
     private _debounceSubscription: Subscription = null;
@@ -239,9 +278,9 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
     private _debounceSubject: Subject<boolean> = new Subject<boolean>();
 
     /**
-     * Data that are rendered in grid
+     * Row indexes that are displayed
      */
-    private _data: any[] = [];
+    private _rowIndexes: number[] = [];
 
     /**
      * Array of column definitions for columns, content getter
@@ -259,11 +298,6 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
      * Column groups that are rendered
      */
     private _columnGroups: ColumnGroupComponent[] = [];
-
-    /**
-     * Gets number of displayed items
-     */
-    private _displayedItemsCount: number = 0;
 
     //######################### private properties #########################
 
@@ -300,6 +334,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
     public set page(page: number)
     {
         this.internalPage = page;
+        this._setRowIndexes();
 
         this.refresh();
     }
@@ -318,6 +353,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
         let settings: GridCookieConfig = this.gridSettings;
         settings.selectItemsPerPage = itemsPerPage;
         this.gridSettings = settings;
+        this._setRowIndexes();
 
         this.refresh();
     }
@@ -353,32 +389,21 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
      * Gets or sets data that are rendered in grid
      */
     @Input()
-    public set data(data: any[])
-    {
-        this._data = data;
-        this._displayedItemsCount = data.length || 0;
-
-        if(this.displayedItemsCallback && isFunction(this.displayedItemsCallback))
-        {
-            this._displayedItemsCount = this.displayedItemsCallback(this._displayedItemsCount);
-        }
-    }
-    public get data(): any[]
-    {
-        return this._data;
-    }
-
-    /**
-     * Callback that is called when there is need to modify number of displayed items
-     */
-    @Input()
-    public displayedItemsCallback: (count: number) => number;
+    public data: any[];
 
     /**
      * Number of all items for current filter
      */
     @Input()
-    public totalCount: number = null;
+    public set totalCount(totalCount: number)
+    {
+        this._totalCount = totalCount;
+        this._setRowIndexes();
+    }
+    public get totalCount(): number
+    {
+        return this._totalCount;
+    }
 
     /**
      * Callback function that is called for each row with data of row and allows you to return string css classes, enables adding special css classes to row
@@ -629,6 +654,20 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
     }
 
     //######################### private methdos #########################
+
+    /**
+     * Sets row indexes
+     */
+    private _setRowIndexes()
+    {
+        let paginator = new Paginator();
+
+        paginator.setPage(this.page)
+            .setItemsPerPage(this.itemsPerPage)
+            .setItemCount(this.totalCount);
+
+        this._rowIndexes = paginator.getIndexesPerPage();
+    }
 
     /**
      * Calculates col spans for displayed column groups

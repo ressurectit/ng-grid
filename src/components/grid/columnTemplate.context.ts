@@ -5,6 +5,17 @@ import {ColumnComponent} from './column.component';
  */
 export class ColumnTemplateContext
 {
+    //######################### public properties #########################
+
+    /**
+     * Gets row index of displayed item
+     * @returns number
+     */
+    public get rowIndex(): number
+    {
+        return this.rowIndexes[this.index];
+    }
+
     //######################### constructor #########################
     
     /**
@@ -12,7 +23,10 @@ export class ColumnTemplateContext
      * @param  {any} $implicit Data of current row
      * @param  {ColumnComponent} column Object of column itself
      */
-    constructor(public $implicit: any, public column: ColumnComponent)
+    constructor(public $implicit: any, 
+                public column: ColumnComponent, 
+                public index: number, 
+                public rowIndexes: number[])
     {
     }
 }
