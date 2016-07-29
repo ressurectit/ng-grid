@@ -22,6 +22,8 @@ export class ColumnTemplateContext
      * Creates instance of ColumnTemplateContext
      * @param  {any} $implicit Data of current row
      * @param  {ColumnComponent} column Object of column itself
+     * @param  {number} index Index of rendered row in current page
+     * @param  {number[]} rowIndexes Indexes of rows for whole data mapped for current page
      */
     constructor(public $implicit: any, 
                 public column: ColumnComponent, 

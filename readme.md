@@ -282,7 +282,7 @@ export class AdvancedGridComponent
 #### *Component*
  - `selector: "paging"`
  - `inputs`
-    - `itemsPerPageValues: number[]` - Gets or sets array of available values for itemsPerPage
+    - `itemsPerPageValues: number[]` - Gets or sets array of available values for itemsPerPage DEFAULT: []
     - `pagesDispersion: number` - Page dispersion parameter for rendered pages DEFAULT: 4
     - `page: number` - Gets or sets index of currently selected page
     - `itemsPerPage: number` - Gets or sets number of items currently used for paging
@@ -292,6 +292,8 @@ export class AdvancedGridComponent
     - `itemsPerPageChange: EventEmitter<number>` - Occurs when number of items per page currently selected has been changed
 
 #### *Properties*
+ - `itemsPerPageValues: number[]` - Gets or sets array of available values for itemsPerPage DEFAULT: []
+ - `pagesDispersion: number` - Page dispersion parameter for rendered pages DEFAULT: 4
  - `page: number` - Gets or sets index of currently selected page
  - `itemsPerPage: number` - Gets or sets number of items currently used for paging
  - `totalCount: number` - Gets or sets number of all items that are paged with current filter criteria
@@ -304,3 +306,44 @@ export class AdvancedGridComponent
 #### *Component*
  - `selector: "ng2-grid > ng2-column"`
  - `inputs`
+    - `name: string` - Name of property which is assigned to this column
+    - `title: string` - Title of column that is displayed in grid header
+    - `titleVisible: boolean` - Indication whether should be title visible in header of table DEFAULT: true
+    - `ordering: boolean` - Indication that this column can be used for ordering DEFAULT: false
+    - `visible: boolean` - Indication that this column is visible in grid DEFAULT: true
+    - `width: string` - Width as style string, value is exactly same (require units) DEFAULT: null
+    - `headerClass: string` - Css class that is applied to column header DEFAULT: null
+    - `cellClass: string` - Css class that is applied to each column cell DEFAULT: null
+    - `columnGroupName: string` - Name of column group that is this column assigned to DEFAULT: null
+ - `contentChild`
+    - `TemplateRef` - Template that is used for rendering of cell
+        - **template variables** 
+            - `$implicit: any` - Data of current row
+            - `column: ColumnComponent` -  Object of column itself
+            - `index: number` - Index of rendered row in current page
+            - `rowIndex: number` - Row index of displayed item
+
+---
+### `ColumnGroupComponent` - Definition of column group metadata
+
+#### *Component*
+ - `selector: "ng2-grid > ng2-columnGroup, ng2-columnGroup > ng2-columnGroup"`
+ - `inputs`
+    - `name: string` - Name of column group
+    - `title: string` - Title of column group that is displayed
+    - `cssClass: string` - Css class that is applied to column group
+
+---
+### `GridComponent` - Grid component used for displaying data
+
+#### *Component*
+ - `selector: "ng2-grid"`
+ - `inputs`
+    - `id: string` - Id of grid, must be unique
+    - `data: any[]` - Gets or sets data that are rendered in grid
+    - `totalCount: number` - Number of all items for current filter
+    - `rowCssClassCallback: (rowData: any) => string` - Callback function that is called for each row with data of row and allows you to return string css classes, enables adding special css classes to row
+    - `options: GridOptions` - Set options that are used for configuring grid
+ - `contentChildren`
+    - `ColumnComponent` - Array of column definitions for columns, content getter
+    - `ColumnGroupComponent` - Array of column group definitions for grid, content getter
