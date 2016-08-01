@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 1.2.4
+ - items count correct displaying
+ - all items now has active class when clicked 
+
 ## Version 1.2.3
  - items count not displayed if all items displayed
 

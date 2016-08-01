@@ -12,6 +12,9 @@ import {Subject} from 'rxjs/Subject';
 import {Subscription} from 'rxjs/Subscription';
 import 'rxjs/add/operator/debounceTime';
 
+//TODO - test change detection on Push
+//TODO - add localData
+
 /**
  * Renderer that is used for rendering column template
  */

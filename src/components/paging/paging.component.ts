@@ -1,6 +1,6 @@
 import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
 import {Paginator} from '@ng2/common';
-import {isBlank, isArray} from '@angular/core/src/facade/lang';
+import {isBlank, isArray, isPresent} from '@angular/core/src/facade/lang';
 
 /**
  * Items per page single item
@@ -35,7 +35,7 @@ class ItemsPerPageItem
         </ul>
         
         <div class="pull-right" *ngIf="!!_itemsPerPageItems && _itemsPerPageItems.length > 0">
-            <span *ngIf="!_isNaN(_displayedItemsCount)" style="float: left; margin-right: 8px; line-height: 42px;">{{_displayedItemsCount}}/{{_totalCount}}</span>
+            <span style="float: left; margin-right: 8px; line-height: 42px;">{{_displayedItemsCount}}</span>
 
             <ul class="pagination pagination-sm margin-sm-vertical">
                 <li *ngFor="let itemsPerPage of _itemsPerPageItems" [ngClass]="{active: itemsPerPage.isActive, 'pointer-cursor': !itemsPerPage.isActive}">
@@ -72,9 +72,9 @@ export class PagingComponent implements OnInit
     private _totalCount: number;
 
     /**
-     * Number of displayed items (not visible, previous pages counted in)
+     * Text displaying items count
      */
-    private _displayedItemsCount: number = 0;
+    private _displayedItemsCount: string = "";
 
     /**
      * Array of pages that are rendered
@@ -85,11 +85,6 @@ export class PagingComponent implements OnInit
      * Array of items per page that are rendered
      */
     private _itemsPerPageItems: ItemsPerPageItem[] = [];
-
-    /**
-     * Function used for checking if is NaN
-     */
-    private _isNaN = isNaN;
 
     //######################### public properties - inputs #########################
 
@@ -136,7 +131,7 @@ export class PagingComponent implements OnInit
         this._page = page;
         this._paginator.setPage(page);
         this._generatePages();
-        this._displayedItemsCount = this._paginator.getOffset() + this._paginator.getLength();
+        this._setDisplayedItemsCount();
     }
     public get page(): number
     {
@@ -153,7 +148,7 @@ export class PagingComponent implements OnInit
         this._paginator.setItemsPerPage(itemsPerPage);
         this._generatePages();
         this._generateItemsPerPage();
-        this._displayedItemsCount = this._paginator.getOffset() + this._paginator.getLength();
+        this._setDisplayedItemsCount();
     }
     public get itemsPerPage(): number
     {
@@ -169,7 +164,7 @@ export class PagingComponent implements OnInit
         this._totalCount = totalCount;
         this._paginator.setItemCount(totalCount);
         this._generatePages();
-        this._displayedItemsCount = this._paginator.getOffset() + this._paginator.getLength();
+        this._setDisplayedItemsCount();
     }
     public get totalCount(): number
     {
@@ -313,6 +308,25 @@ export class PagingComponent implements OnInit
      */
     private _generateItemsPerPage()
     {
-        this._itemsPerPageItems.forEach(itm => itm.isActive = itm.value == this.itemsPerPage);
+        this._itemsPerPageItems.forEach(itm => itm.isActive = itm.value == this.itemsPerPage || (isNaN(itm.value) && isNaN(this.itemsPerPage)));
+    }
+
+    /**
+     * Sets displayed items count
+     */
+    private _setDisplayedItemsCount()
+    {
+        let displayedItems = this._paginator.getOffset() + this._paginator.getLength();
+
+        this._displayedItemsCount = "";
+
+        if(isNaN(displayedItems) && isPresent(this._totalCount))
+        {
+            this._displayedItemsCount = this._totalCount.toString();
+        }
+        else if(!isNaN(displayedItems) && isPresent(this._totalCount))
+        {
+            this._displayedItemsCount = `${displayedItems}/${this._totalCount}`;
+        }
     }
 }
