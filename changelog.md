@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 1.2.3
+ - items count not displayed if all items displayed
+
 ## Version 1.2.2
  - support for item row number in custom template
 

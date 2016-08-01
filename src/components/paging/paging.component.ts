@@ -35,7 +35,7 @@ class ItemsPerPageItem
         </ul>
         
         <div class="pull-right" *ngIf="!!_itemsPerPageItems && _itemsPerPageItems.length > 0">
-            <span style="float: left; margin-right: 8px; line-height: 42px;">{{_displayedItemsCount}}/{{_totalCount}}</span>
+            <span *ngIf="!_isNaN(_displayedItemsCount)" style="float: left; margin-right: 8px; line-height: 42px;">{{_displayedItemsCount}}/{{_totalCount}}</span>
 
             <ul class="pagination pagination-sm margin-sm-vertical">
                 <li *ngFor="let itemsPerPage of _itemsPerPageItems" [ngClass]="{active: itemsPerPage.isActive, 'pointer-cursor': !itemsPerPage.isActive}">
@@ -85,6 +85,11 @@ export class PagingComponent implements OnInit
      * Array of items per page that are rendered
      */
     private _itemsPerPageItems: ItemsPerPageItem[] = [];
+
+    /**
+     * Function used for checking if is NaN
+     */
+    private _isNaN = isNaN;
 
     //######################### public properties - inputs #########################
 

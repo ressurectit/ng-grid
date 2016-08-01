@@ -326,6 +326,11 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
         return this._page;
     }
 
+    /**
+     * Array of column definitions for columns
+     */
+    private columns: ColumnComponent[];
+
     //######################### public properties #########################
 
     /**
@@ -371,11 +376,6 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
      * Current direction of ordering for selected column
      */
     public orderByDirection: OrderByDirection = null;
-
-    /**
-     * Array of column definitions for columns
-     */
-    private columns: ColumnComponent[];
 
     //######################### public properties - inputs #########################
 
