@@ -1,6 +1,7 @@
 /node_modules
 /typings
 /components
+/modules
 *.d.ts
 *.js
 *.map
