@@ -1,97 +1,17 @@
-import {Component, Input, OnInit, OnDestroy, AfterContentInit, ContentChildren, QueryList, ViewContainerRef} from '@angular/core';
-import {AsyncPipe} from '@angular/common';
+import {Component, Input, OnInit, OnDestroy, AfterContentInit, ContentChildren, QueryList} from '@angular/core';
 import {ColumnComponent} from './column.component';
 import {ColumnGroupComponent} from './columnGroup.component';
-import {PagingComponent} from '../paging/paging.component';
 import {GridOptions} from './gridOptions';
-import {isBlank, isPresent, isString, isFunction} from '@angular/core/src/facade/lang';
+import {isBlank, isPresent, isString} from '@angular/core/src/facade/lang';
 import {OrderByDirection, Utils, Paginator} from '@ng2/common';
-import {ColumnTemplateContext} from './columnTemplate.context';
 import {GridCookieConfig} from './gridCookie.config';
 import {Subject} from 'rxjs/Subject';
 import {Subscription} from 'rxjs/Subscription';
 import 'rxjs/add/operator/debounceTime';
 
+//TODO - add way to change paging component
 //TODO - test change detection on Push
 //TODO - add localData
-
-/**
- * Renderer that is used for rendering column template
- */
-@Component(
-{
-    selector: "ng2-grid > column-template-renderer",
-    template: ''
-})
-class ColumnTemplateRenderer implements OnInit
-{
-    //######################### private fields #########################
-
-    /**
-     * Context fur current template
-     */
-    private _context: ColumnTemplateContext;
-
-    /**
-     * Row indexes of displayed items
-     */
-    private _rowIndexes: number[];
-
-    //######################### public properties - inputs #########################
-
-    /**
-     * Column definition for currenttly rendered column
-     */
-    @Input()
-    public column: ColumnComponent;
-
-    /**
-     * Data to be used for rendering
-     */
-    @Input()
-    public rowData: any;
-
-    /**
-     * Index of currently rendered item
-     */
-    @Input()
-    public currentIndex: number;
-
-    /**
-     * Row indexes of displayed items
-     */
-    @Input()
-    public set rowIndexes(indexes: number[])
-    {
-        this._rowIndexes = indexes;
-
-        if(this._context)
-        {
-            this._context.rowIndexes = indexes;
-        }
-    }
-    public get rowIndexes(): number[]
-    {
-        return this._rowIndexes;
-    }
-
-    //######################### constructor #########################
-    constructor(private _viewContainer: ViewContainerRef)
-    {
-    }
-
-    //######################### public methods - implementation of OnInit #########################
-
-    /**
-     * Initialize component
-     */
-    public ngOnInit()
-    {
-        this._context = new ColumnTemplateContext(this.rowData, this.column, this.currentIndex, this.rowIndexes);
-        let view = this._viewContainer.createEmbeddedView<ColumnTemplateContext>(this.column.template, this._context);
-    }
-}
-
 //TODO - try to remove <div> from <td>
 
 /**
@@ -100,8 +20,6 @@ class ColumnTemplateRenderer implements OnInit
 @Component(
 {
     selector: 'ng2-grid',
-    directives: [ColumnTemplateRenderer, PagingComponent],
-    pipes: [AsyncPipe],
     template:
    `<div style="position: relative; overflow-x: auto;" class="table-div {{_options.cssClass}}">
         <table class="table table-condensed table-striped table-hover">

@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 1.4.0
+ - angular version 2.0.0-rc.6
+
+## Version 1.3.1
+ - added `GridModule`
+
+## Version 1.3.0
+ - angular version 2.0.0-rc.5
+
 ## Version 1.2.4
  - items count correct displaying
  - all items now has active class when clicked 
