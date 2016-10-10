@@ -14,29 +14,55 @@ Module contains component for *Grid* and *Paging*.
 
 To install latest version of this module you just run:
 
-``` nocode
+```nocode
 npm install "@ng2/grid" --save
 ```
 
-In your `index.html` add following line after loading *angular2* javascript in your `<head>`:
+### SystemJs Usage
 
-``` html
-<script src="node_modules/@ng2/grid/index.min.js"></script>
+In your **SystemJs** configuration script add following lines to `packages` configuration section:
+
+```javascript
+packages:
+{
+    '@ng2/grid': 
+    {
+        main: "dist/index.dev.min.js",
+        defaultExtension: 'js'
+    }
+}
 ```
 
-You have to use `SystemJs` for module loading to enable this module to work.
-Then just use this module in your typescript files by importing requested types from modules.
+### Webpack Usage
+
+In your application create file called *dependencies.ts* and add following line:
+```typescript
+import '@ng2/grid';
+```
+
+Then add this file as `entry` point in your *webpack.config.js*:
+```javascript
+"vendor-import": path.join(__dirname, "pathToVendorTsDirectory/vendor.ts")
+```
+
+Then reference this file in your *index.html* at the end of body before application start javascript:
+```html
+<script src="webpackOutputDirectory/vendor-import.js"></script>
+```
 
 ## Types
 
 Available types:
+
+### Modules
+
+ - `GridModule`
 
 ### Components
 
 - `PagingComponent`
 - `ColumnComponent`
 - `GridComponent`
-- `GRID_DIRECTIVES` - contains (`PagingComponent`, `ColumnComponent`, `GridComponent`) components
 
 ### Interfaces
 
@@ -44,23 +70,45 @@ Available types:
 
 ## Usage
 
+### Import Module
+
+This enables usage of all 'Grid' components.
+
+```typescript
+import {NgModule} from '@angular/core';
+import {GridModule} from '@ng2/grid';
+import {BasicGridComponent} from './basicGrid.component';
+import {AdvancedGridComponent} from './advancedGrid.component';
+
+/**
+ * Definition of your module
+ */
+@NgModule(
+{
+    imports: [GridModule],
+    declarations: [BasicGridComponent, AdvancedGridComponent]
+})
+export class YourModule
+{
+}
+```
+
 ### Grid basic usage
 
 #### Typescript
 
 *basicGrid.component.ts*
-``` typescript
+```typescript
 import {Component} from '@angular/core';
-import {GRID_DIRECTIVES, GridOptions} from '@ng2/grid';
+import {GridOptions} from '@ng2/grid';
 
 /**
  * Basic grid sample component
  */
 @Component(
 {
-    moduleId: __moduleName,
-    templateUrl: 'basicGrid.component.html',
-    directives: [GRID_DIRECTIVES]
+    moduleId: module.id,
+    templateUrl: 'basicGrid.component.html'
 })
 export class BasicGridComponent
 {
@@ -147,16 +195,15 @@ export class BasicGridComponent
 *advancedGrid.component.ts*
 ``` typescript
 import {Component, ViewChild} from '@angular/core';
-import {GRID_DIRECTIVES, GridComponent, GridOptions} from '@ng2/grid';
+import {GridComponent, GridOptions} from '@ng2/grid';
 
 /**
  * Basic grid sample component
  */
 @Component(
 {
-    moduleId: __moduleName,
-    templateUrl: 'advancedGrid.component.html',
-    directives: [GRID_DIRECTIVES]
+    moduleId: module.id,
+    templateUrl: 'advancedGrid.component.html'
 })
 export class AdvancedGridComponent
 {

@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2.0.0
+ - angular version 2.0.1
+ - UMD module
+ - webpack usage
+ - typescript 2 usage
+
+## Version 1.5.0
+ - angular version 2.0.0
+
 ## Version 1.4.0
  - angular version 2.0.0-rc.6
 
