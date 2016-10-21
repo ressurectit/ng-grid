@@ -23,6 +23,12 @@ export class ColumnComponent
      */
     @Input() 
     public title: string;
+
+    /**
+     * Text that is displayed in tooltip over grid header
+     */
+    @Input()
+    public headerTooltip: string;
     
     /**
      * Indication whether should be title visible in header of table

@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.0.1
+ - row selection
+ - possibility to use grid without id
+ - header tooltip
+ - fix column selection
+
 ## Version 2.0.0
  - angular version 2.0.1
  - UMD module

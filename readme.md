@@ -322,7 +322,7 @@ export class AdvancedGridComponent
 - `itemsPerPageValues?: number[]` - Available values for items per page, if not set you wont be able to change number items per page
 - `debounceDataCallback?: number` - Number of miliseconds that are used for debounce call of dataCallback, or false
 - `dataCallback?: (page: number, itemsPerPage: number, orderBy: string, orderByDirection: OrderByDirection) => void` - Callback that is used for changing displayed data
-
+- `rowSelectionEnabled?: boolean` - Indication whether row selection is enabled
 ---
 ### `PagingComponent` - Component used for rendering paging
 
@@ -362,6 +362,7 @@ export class AdvancedGridComponent
     - `headerClass: string` - Css class that is applied to column header DEFAULT: null
     - `cellClass: string` - Css class that is applied to each column cell DEFAULT: null
     - `columnGroupName: string` - Name of column group that is this column assigned to DEFAULT: null
+    - `headerTooltip: string` - Text that is displayed in tooltip over grid header
  - `contentChild`
     - `TemplateRef` - Template that is used for rendering of cell
         - **template variables** 
@@ -391,6 +392,10 @@ export class AdvancedGridComponent
     - `totalCount: number` - Number of all items for current filter
     - `rowCssClassCallback: (rowData: any) => string` - Callback function that is called for each row with data of row and allows you to return string css classes, enables adding special css classes to row
     - `options: GridOptions` - Set options that are used for configuring grid
+    - `selection: any` - Selected rows
+    - `rowSelectionClass: string` - CSS class for selected rows
+ - `outputs`
+    - `selectionChange: EventEmitter<any>` - Occurs when row selection was changed
  - `contentChildren`
     - `ColumnComponent` - Array of column definitions for columns, content getter
     - `ColumnGroupComponent` - Array of column group definitions for grid, content getter
@@ -403,6 +408,9 @@ export class AdvancedGridComponent
  - `options: GridOptions` - Set options that are used for configuring grid
  - `page: number` - Gets or sets current page number of grid
  - `itemsPerPage: number` - Gets or sets current number of items per page
+ - `selection: any` - Selected rows
+ - `rowSelectionClass: string` - CSS class for selected rows
+ - `selectionChange: EventEmitter<any>` - Occurs when row selection was changed
 
  #### *Methods*
  - `toggleColumn(index: number)` - Toggles visibility of column
@@ -411,3 +419,8 @@ export class AdvancedGridComponent
  - `refresh()` - Refresh grid data
  - `performsOrdering(orderingColumn: ColumnComponent|string)` - Performs ordering on provided column
     - `orderingColumn: ColumnComponent|string` - Name of column or column itself that is used for ordering
+ - `toggleRowSelection(row: any, event: MouseEvent)` - Toggles selection on row
+    - `row: any` - selected row
+    - `event: MouseEvent` - mouse click event
+ - `isRowSelected(row: any) : boolean` - Check if row is selected
+    - `row: any` - instance of row

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, OnDestroy, AfterContentInit, ContentChildren, QueryList} from '@angular/core';
+import {Component, Input, OnInit, OnDestroy, AfterContentInit, ContentChildren, QueryList, Output, EventEmitter} from '@angular/core';
 import {ColumnComponent} from './column.component';
 import {ColumnGroupComponent} from './columnGroup.component';
 import {GridOptions} from './gridOptions';
@@ -39,7 +39,7 @@ import 'rxjs/add/operator/debounceTime';
                         [ngStyle]="{width: column.width}"
                         (click)="performsOrdering(column)">
                         <span style="white-space: nowrap;">
-                            <span style="white-space: normal;">{{column.titleVisible ? column.title : ""}}</span>
+                            <span style="white-space: normal;" [title]="column.headerTooltip || ''">{{column.titleVisible ? column.title : ""}}</span>
                             <span *ngIf="column.ordering" class="fa {{column.orderingCssClass}}"></span>
                         </span>
                     </th>
@@ -47,7 +47,7 @@ import 'rxjs/add/operator/debounceTime';
             </thead>
 
             <tbody>
-                <tr *ngFor="let row of data; let rowIndex = index" [class]="rowCssClassCallback(row)">
+                <tr *ngFor="let row of data; let rowIndex = index" [ngClass]="isRowSelected(row) ? rowSelectionClass : ''" [class]="rowCssClassCallback(row)" (click)="toggleRowSelection(row)">
                     <td *ngFor="let column of columns" [ngClass]="{hidden: !column.visible}" class="{{column.cellClass}}">
                         <div *ngIf="column.template">
                             <column-template-renderer [column]="column" [rowData]="row" [currentIndex]="rowIndex" [rowIndexes]="_rowIndexes"></column-template-renderer>
@@ -70,13 +70,13 @@ import 'rxjs/add/operator/debounceTime';
         </paging>
 
         <div *ngIf="_options.columnsSelection" class="column-selector">
-            <a style="cursor: pointer;" data-toggle="collapse" [attr.data-target]="'#columnSelection' + id">
+            <a style="cursor: pointer;" data-toggle="collapse" [attr.data-target]="'#columnSelection' + _internalId">
                 <span class="glyphicon glyphicon-list"></span>
             </a>
 
-            <div class="{{_options.columnSelectionCssClass}} collapse" [id]="'columnSelection' + id">
+            <div class="{{_options.columnSelectionCssClass}} collapse" [id]="'columnSelection' + _internalId">
                 <div class="clearfix">
-                    <a class="pull-right" style="cursor: pointer;" data-toggle="collapse" [attr.data-target]="'#columnSelection' + id">
+                    <a class="pull-right" style="cursor: pointer;" data-toggle="collapse" [attr.data-target]="'#columnSelection' + _internalId">
                         <span class="glyphicon glyphicon-remove"></span>
                     </a>
                 </div>
@@ -84,10 +84,10 @@ import 'rxjs/add/operator/debounceTime';
                 <div *ngFor="let column of columns; let index=index">
                     <dl>
                         <dt>
-                            <input [id]="'column' + id + column.name" type="checkbox" [checked]="column.visible" (click)="toggleColumn(index)">
+                            <input [id]="'column' + _internalId + column.name" type="checkbox" [checked]="column.visible" (click)="toggleColumn(index)">
                         </dt>
                         <dd>
-                            <label [attr.for]="'column' + id + column.name">{{column.title}}</label>
+                            <label [attr.for]="'column' + _internalId + column.name">{{column.title}}</label>
                         </dd>
                     </dl>
                 </div>
@@ -152,6 +152,11 @@ import 'rxjs/add/operator/debounceTime';
             visibility: visible;
             pointer-events: auto;
         }
+        
+        .row-selected
+        {
+            background-color: #efefef;
+        }
     `]
 })
 export class GridComponent implements OnInit, OnDestroy, AfterContentInit
@@ -204,6 +209,11 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
     private _rowIndexes: number[] = [];
 
     /**
+     * Id that represents grid component
+     */
+    private _internalId: string;
+
+    /**
      * Array of column definitions for columns, content getter
      */
     @ContentChildren(ColumnComponent)
@@ -227,11 +237,19 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
      */
     private get gridSettings(): GridCookieConfig
     {
+        if (!this.id)
+        {
+            return {};
+        }
+
         return (<GridCookieConfig>Utils.cookies.getCookie(this.settingsCookieId)) || {};
     };
     private set gridSettings(settings: GridCookieConfig)
     {
-        Utils.cookies.setCookie(this.settingsCookieId, settings, 1000);
+        if (this.id) 
+        {
+            Utils.cookies.setCookie(this.settingsCookieId, settings, 1000);
+        }
     }
 
     /**
@@ -356,6 +374,26 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
         });
     }
 
+    /**
+     * Selected rows
+     */
+    @Input()
+    public selection: any;
+
+    /**
+     * CSS class for selected rows
+     */
+    @Input()
+    public rowSelectionClass: string = "row-selected";
+
+    //######################### public properties - outputs #########################
+
+    /**
+     * Occurs when row selection was changed
+     */
+    @Output()
+    public selectionChange: EventEmitter<any> = new EventEmitter<any>();
+
     //######################### private properties #########################
 
     /**
@@ -400,13 +438,15 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
             .debounceTime(this._options.debounceDataCallback)
             .subscribe(() =>
             {
+                this.selection = [];
+                this.selectionChange.emit(this.selection);
                 this._options.dataCallback(this.page,
                                            this.itemsPerPage,
                                            this.orderBy,
                                            this.orderByDirection);
             });
 
-        this.id = isBlank(this.id) ? Utils.common.generateId(16) : this.id;
+        this._internalId = Utils.common.generateId(16);
         this.internalPage = this._options.initialPage;
 
         let settings = this.gridSettings;
@@ -574,6 +614,44 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
         this.refresh();
     }
 
+    /**
+     * Toggles selection on row
+     * @param  {any} row selected row
+     * @param  {MouseEvent} event mouse click event
+     */
+    public toggleRowSelection(row: any, event: MouseEvent)
+    {
+        if (event && event.stopPropagation) 
+        {
+            event.stopPropagation();
+        }
+
+        if (this._options.rowSelectionEnabled) 
+        {
+            let selectionIndex = this._getRowSelectionIndex(row);
+
+            if (selectionIndex != -1) 
+            {
+                this.selection.splice( selectionIndex, 1);
+            } 
+            else 
+            {
+                this.selection = this.selection || [];
+                this.selection.push(row);
+            }
+        }
+    }
+
+    /**
+     * Check if row is selected
+     * @param  {any} row instance of row
+     * @returns boolean true if row is selected otherwise false
+     */
+    public isRowSelected(row: any) : boolean
+    {
+        return this._getRowSelectionIndex(row) != -1;
+    }
+
     //######################### private methdos #########################
 
     /**
@@ -623,6 +701,30 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
         {
             group.colSpan = colSpanCounter[group.name];
         });
+    }
+
+    /**
+     * Returns selection index of row
+     * @param  {any} row instance of row
+     * @returns number -1 if row is not selected otherwise index of row
+     */
+    private _getRowSelectionIndex(row: any) : number 
+    {
+        let index : number = -1;
+
+        if (this.selection) 
+        {
+            for (let i = 0; i < this.selection.length; i++) 
+            {
+                if (this.selection[i] == row) 
+                {
+                    index = i;
+                    break;
+                }
+            }
+        }
+        
+        return index;
     }
 }
 

@@ -49,6 +49,11 @@ export interface GridOptions
      * Number of miliseconds that are used for debounce call of dataCallback, or false
      */
     debounceDataCallback?: number;
+
+    /**
+     * Indication whether row selection is enabled
+     */
+    rowSelectionEnabled?: boolean;
     
     /**
      * Callback that is used for changing displayed data
