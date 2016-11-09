@@ -39,7 +39,14 @@ import 'rxjs/add/operator/debounceTime';
                         [ngStyle]="{width: column.width}"
                         (click)="performsOrdering(column)">
                         <span style="white-space: nowrap;">
-                            <span style="white-space: normal;" [title]="column.headerTooltip || ''">{{column.titleVisible ? column.title : ""}}</span>
+                            <span style="white-space: normal;" [title]="column.headerTooltip || ''">
+                                <template [ngIf]="column.headerTemplate">
+                                    <column-template-renderer [template]="column.headerTemplate" [column]="column"></column-template-renderer>
+                                </template>
+                                <template [ngIf]="!column.headerTemplate">
+                                    {{column.titleVisible ? column.title : ""}}
+                                </template>
+                            </span>
                             <span *ngIf="column.ordering" class="fa {{column.orderingCssClass}}"></span>
                         </span>
                     </th>
@@ -82,7 +89,7 @@ import 'rxjs/add/operator/debounceTime';
                 </div>
 
                 <div *ngFor="let column of columns; let index=index">
-                    <dl>
+                    <dl *ngIf="column.selectionVisible">
                         <dt>
                             <input [id]="'column' + _internalId + column.name" type="checkbox" [checked]="column.visible" (click)="toggleColumn(index)">
                         </dt>

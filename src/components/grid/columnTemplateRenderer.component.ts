@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewContainerRef} from '@angular/core';
+import {Component, Input, OnInit, ViewContainerRef, TemplateRef} from '@angular/core';
 import {ColumnTemplateContext} from './columnTemplate.context';
 import {ColumnComponent} from './column.component';
 
@@ -45,6 +45,12 @@ export class ColumnTemplateRendererComponent implements OnInit
     public currentIndex: number;
 
     /**
+     * Template that is used to render content
+     */
+    @Input()
+    public template: TemplateRef<ColumnTemplateContext>;
+
+    /**
      * Row indexes of displayed items
      */
     @Input()
@@ -75,6 +81,6 @@ export class ColumnTemplateRendererComponent implements OnInit
     public ngOnInit()
     {
         this._context = new ColumnTemplateContext(this.rowData, this.column, this.currentIndex, this.rowIndexes);
-        let view = this._viewContainer.createEmbeddedView<ColumnTemplateContext>(this.column.template, this._context);
+        let view = this._viewContainer.createEmbeddedView<ColumnTemplateContext>(this.template ? this.template : this.column.template, this._context);
     }
 }

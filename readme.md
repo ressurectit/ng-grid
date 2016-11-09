@@ -363,13 +363,20 @@ export class AdvancedGridComponent
     - `cellClass: string` - Css class that is applied to each column cell DEFAULT: null
     - `columnGroupName: string` - Name of column group that is this column assigned to DEFAULT: null
     - `headerTooltip: string` - Text that is displayed in tooltip over grid header
+    - `selectionVisible: boolean` - Indication that this column can be used for selection DEFAULT: true
  - `contentChild`
-    - `TemplateRef` - Template that is used for rendering of cell
+    - `TemplateRef` - Template that is used for rendering of cell, must be first if not used bodyTemplate
         - **template variables** 
             - `$implicit: any` - Data of current row
             - `column: ColumnComponent` -  Object of column itself
             - `index: number` - Index of rendered row in current page
             - `rowIndex: number` - Row index of displayed item
+    - `headerTemplate` - Template that is used for rendering of cell header
+        - **template variables** 
+            - `column: ColumnComponent` -  Object of column itself
+    - `bodyTemplate` - Template that is used for rendering of cell body
+        - **template variables** 
+            - `column: ColumnComponent` -  Object of column itself
 
 ---
 ### `ColumnGroupComponent` - Definition of column group metadata

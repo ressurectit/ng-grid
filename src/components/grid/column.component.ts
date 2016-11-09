@@ -1,4 +1,5 @@
-import {Component, Input, ContentChild, TemplateRef} from '@angular/core';
+import {Component, Input, ContentChild, TemplateRef, AfterContentInit} from '@angular/core';
+import {ColumnTemplateContext} from './columnTemplate.context';
 
 /**
  * Definition of column metadata
@@ -8,7 +9,7 @@ import {Component, Input, ContentChild, TemplateRef} from '@angular/core';
     selector: "ng2-grid > ng2-column",
     template: ''
 })
-export class ColumnComponent
+export class ColumnComponent implements AfterContentInit
 {
     //######################### public properties - inputs #########################
     
@@ -71,6 +72,12 @@ export class ColumnComponent
      */
     @Input()
     public columnGroupName: string = null;
+
+    /**
+     * Indication that this column can be used for selection
+     */
+    @Input()
+    public selectionVisible: boolean = true;
     
     //######################### public properties #########################
     
@@ -78,8 +85,20 @@ export class ColumnComponent
      * Template that is used for rendering of cell
      */
     @ContentChild(TemplateRef) 
-    public template: TemplateRef<any>;
-    
+    public template: TemplateRef<ColumnTemplateContext>;
+
+    /**
+     * Template that is used for rendering of cell header
+     */
+    @ContentChild('headerTemplate')
+    public headerTemplate: TemplateRef<ColumnTemplateContext>;
+
+    /**
+     * Template that is used for rendering of cell body
+     */
+    @ContentChild('bodyTemplate')
+    public bodyTemplate: TemplateRef<ColumnTemplateContext>;
+
     /**
      * Css class that is used for displaying current ordering
      */
@@ -88,5 +107,18 @@ export class ColumnComponent
     //######################### constructor #########################
     constructor()
     {
+    }
+
+    //######################### public methods - implementation of AfterContentInit #########################
+    
+    /**
+     * Called when content was initialized
+     */
+    public ngAfterContentInit()
+    {
+        if (this.bodyTemplate)
+        {
+            this.template = this.bodyTemplate;
+        }
     }
 }

@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 2.0.2
+ - template column header
+ - possibility to disable column visibility selection
+
 ## Version 2.0.1
  - row selection
  - possibility to use grid without id
