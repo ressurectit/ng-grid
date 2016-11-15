@@ -2,8 +2,8 @@ import {Component, Input, OnInit, OnDestroy, AfterContentInit, ContentChildren, 
 import {ColumnComponent} from './column.component';
 import {ColumnGroupComponent} from './columnGroup.component';
 import {GridOptions} from './gridOptions';
-import {isBlank, isPresent, isString} from '@angular/core/src/facade/lang';
-import {OrderByDirection, Utils, Paginator} from '@ng2/common';
+import {isBlank, isPresent} from '@angular/core/src/facade/lang';
+import {OrderByDirection, Utils, Paginator, isString} from '@ng2/common';
 import {GridCookieConfig} from './gridCookie.config';
 import {Subject} from 'rxjs/Subject';
 import {Subscription} from 'rxjs/Subscription';

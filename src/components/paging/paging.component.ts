@@ -1,6 +1,6 @@
 import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
-import {Paginator} from '@ng2/common';
-import {isBlank, isArray, isPresent} from '@angular/core/src/facade/lang';
+import {Paginator, isArray} from '@ng2/common';
+import {isBlank, isPresent} from '@angular/core/src/facade/lang';
 
 /**
  * Items per page single item

@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 2.1.0
+ - angular version 2.2.0
+
 ## Version 2.0.2
  - template column header
  - possibility to disable column visibility selection
