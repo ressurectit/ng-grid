@@ -77,7 +77,7 @@ import 'rxjs/add/operator/debounceTime';
         </paging>
 
         <div *ngIf="_options.columnsSelection" class="column-selector">
-            <a style="cursor: pointer;" data-toggle="collapse" [attr.data-target]="'#columnSelection' + _internalId">
+            <a [title]="_options.columnSelectionTitle || ''" style="cursor: pointer;" data-toggle="collapse" [attr.data-target]="'#columnSelection' + _internalId">
                 <span class="glyphicon glyphicon-list"></span>
             </a>
 
@@ -419,6 +419,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
             columnsSelection: false,
             cssClass: "",
             columnSelectionCssClass: "column-selection",
+            columnSelectionTitle: "",
             itemsPerPageValues: [],
             initialItemsPerPage: 10,
             initialPage: 1,

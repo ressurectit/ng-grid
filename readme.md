@@ -317,6 +317,7 @@ export class AdvancedGridComponent
 - `cssClass?: string` - Css class that is applied to root div of grid
 - `columnGroupCssClass?: string` - Css class that is applied to each column group row
 - `columnSelectionCssClass?: string` - Name of css class that is applied to column selection div
+- `columnSelectionTitle?: string` - Title that is shown while hovering over column selection icon
 - `initialPage?: number` - Initial page index that will be rendered
 - `initialItemsPerPage?: number` - Initial number of items per page that will be rendered
 - `itemsPerPageValues?: number[]` - Available values for items per page, if not set you wont be able to change number items per page

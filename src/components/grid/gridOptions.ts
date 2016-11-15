@@ -29,6 +29,11 @@ export interface GridOptions
      * Name of css class that is applied to column selection div
      */
     columnSelectionCssClass?: string;
+
+    /**
+     * Title that is shown while hovering over column selection icon
+     */
+    columnSelectionTitle?: string;
     
     /**
      * Initial page index that will be rendered
