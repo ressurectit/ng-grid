@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 2.1.1
+ - merge with version 2.0.3
+
 ## Version 2.1.0
  - angular version 2.2.0
 

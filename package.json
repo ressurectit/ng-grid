@@ -1,6 +1,6 @@
 {
     "name": "@ng2/grid",
-    "version": "2.1.0",
+    "version": "2.1.1",
     "description": "Angular 2 module displaying grid",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
