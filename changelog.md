@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 2.1.2
+- fixed problem with template rendering for column, different template after event
+
 ## Version 2.1.1
  - merge with version 2.0.3
 

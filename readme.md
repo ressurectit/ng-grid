@@ -101,6 +101,7 @@ export class YourModule
 ```typescript
 import {Component} from '@angular/core';
 import {GridOptions} from '@ng2/grid';
+import {OrderByDirection} from '@ng2/common';
 
 /**
  * Basic grid sample component
@@ -196,6 +197,7 @@ export class BasicGridComponent
 ``` typescript
 import {Component, ViewChild} from '@angular/core';
 import {GridComponent, GridOptions} from '@ng2/grid';
+import {OrderByDirection} from '@ng2/common';
 
 /**
  * Basic grid sample component
@@ -372,10 +374,10 @@ export class AdvancedGridComponent
             - `column: ColumnComponent` -  Object of column itself
             - `index: number` - Index of rendered row in current page
             - `rowIndex: number` - Row index of displayed item
-    - `headerTemplate` - Template that is used for rendering of cell header
+    - `'headerTemplate'` - Template that is used for rendering of cell header
         - **template variables** 
             - `column: ColumnComponent` -  Object of column itself
-    - `bodyTemplate` - Template that is used for rendering of cell body
+    - `'bodyTemplate'` - Template that is used for rendering of cell body
         - **template variables** 
             - `column: ColumnComponent` -  Object of column itself
 

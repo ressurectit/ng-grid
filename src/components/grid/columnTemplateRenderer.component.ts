@@ -81,6 +81,6 @@ export class ColumnTemplateRendererComponent implements OnInit
     public ngOnInit()
     {
         this._context = new ColumnTemplateContext(this.rowData, this.column, this.currentIndex, this.rowIndexes);
-        let view = this._viewContainer.createEmbeddedView<ColumnTemplateContext>(this.template ? this.template : this.column.template, this._context);
+        let view = this._viewContainer.createEmbeddedView<ColumnTemplateContext>(this.template ? this.template : this.column.bodyTemplateInstance, this._context);
     }
 }

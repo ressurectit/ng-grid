@@ -103,6 +103,11 @@ export class ColumnComponent implements AfterContentInit
      * Css class that is used for displaying current ordering
      */
     public orderingCssClass: string = "fa-sort";
+
+    /**
+     * Instance of template used for rendering body
+     */
+    public bodyTemplateInstance: TemplateRef<ColumnTemplateContext>;
     
     //######################### constructor #########################
     constructor()
@@ -116,9 +121,11 @@ export class ColumnComponent implements AfterContentInit
      */
     public ngAfterContentInit()
     {
+        this.bodyTemplateInstance = this.template;
+
         if (this.bodyTemplate)
         {
-            this.template = this.bodyTemplate;
+            this.bodyTemplateInstance = this.bodyTemplate;
         }
     }
 }
