@@ -59,6 +59,16 @@ export interface GridOptions
      * Indication whether row selection is enabled
      */
     rowSelectionEnabled?: boolean;
+
+    /**
+     * Minimal number of visible columns for grid
+     */
+    minVisibleColumns?: number;
+
+    /**
+     * Maximal number of visible columns for grid
+     */
+    maxVisibleColumns?: number;
     
     /**
      * Callback that is used for changing displayed data

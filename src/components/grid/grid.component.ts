@@ -314,6 +314,25 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
     }
 
     /**
+     * Gets visible columns
+     */
+    public get visibleColumns(): ColumnComponent[]
+    {
+        let visibleColumns: ColumnComponent[] = [];
+        if (this.columns && this.columns.length > 0) 
+        {
+            for(let i = 0; i < this.columns.length; i++)
+            {
+                if (this.columns[i].visible) 
+                {
+                    visibleColumns.push(<ColumnComponent> Utils.common.extend({}, this.columns[i]));
+                }
+            }
+        } 
+        return visibleColumns;
+    }
+
+    /**
      * Current name of column that is used for ordering
      */
     public orderBy: string = null;
@@ -400,6 +419,12 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
      */
     @Output()
     public selectionChange: EventEmitter<any> = new EventEmitter<any>();
+
+    /**
+     * Occurs when column selection was changed
+     */
+    @Output()
+    public columnSelectionChange: EventEmitter<ColumnComponent> = new EventEmitter<ColumnComponent>();
 
     //######################### private properties #########################
 
@@ -522,12 +547,23 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
      */
     public toggleColumn(index: number)
     {
-        this.columns[index].visible = !this.columns[index].visible;
-        this._calculateGroupColSpan();
+        let visible: boolean = this.columns[index].visible;
 
-        let settings: GridCookieConfig = this.gridSettings;
-        settings.selectedColumns = this.columns.map(itm => itm.visible);
-        this.gridSettings = settings;
+        if ((visible && (!this._options.minVisibleColumns || this.visibleColumns.length > this._options.minVisibleColumns)) || 
+            (!visible && (!this._options.maxVisibleColumns || this.visibleColumns.length < this._options.maxVisibleColumns)))
+        {
+            this.columns[index].visible = !this.columns[index].visible;
+            this.columnSelectionChange.emit(this.columns[index]);
+            this._calculateGroupColSpan();
+
+            let settings: GridCookieConfig = this.gridSettings;
+            settings.selectedColumns = this.columns.map(itm => itm.visible);
+            this.gridSettings = settings;
+        }
+        else
+        {
+            this.columnSelectionChange.emit(null);
+        }
     }
 
     /**

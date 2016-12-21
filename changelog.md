@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.2.1
+- added support for minimal and maximal visible columns
+
+## Version 2.2.0
+- angular version 2.3.0
+
 ## Version 2.1.2
 - fixed problem with template rendering for column, different template after event
 

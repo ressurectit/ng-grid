@@ -324,6 +324,8 @@ export class AdvancedGridComponent
 - `initialItemsPerPage?: number` - Initial number of items per page that will be rendered
 - `itemsPerPageValues?: number[]` - Available values for items per page, if not set you wont be able to change number items per page
 - `debounceDataCallback?: number` - Number of miliseconds that are used for debounce call of dataCallback, or false
+- `minVisibleColumns?: number` - Minimal number of visible columns for grid
+- `maxVisibleColumns?: number` - Maximal number of visible columns for grid
 - `dataCallback?: (page: number, itemsPerPage: number, orderBy: string, orderByDirection: OrderByDirection) => void` - Callback that is used for changing displayed data
 - `rowSelectionEnabled?: boolean` - Indication whether row selection is enabled
 ---
@@ -406,6 +408,7 @@ export class AdvancedGridComponent
     - `rowSelectionClass: string` - CSS class for selected rows
  - `outputs`
     - `selectionChange: EventEmitter<any>` - Occurs when row selection was changed
+    - `columnSelectionChange: EventEmitter<any>` - Occurs when column selection was changed
  - `contentChildren`
     - `ColumnComponent` - Array of column definitions for columns, content getter
     - `ColumnGroupComponent` - Array of column group definitions for grid, content getter
