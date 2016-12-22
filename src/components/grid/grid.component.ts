@@ -69,7 +69,7 @@ import 'rxjs/add/operator/debounceTime';
         </table>
 
         <paging *ngIf="_options.pagingEnabled"
-                [page]="_pageAsync | async"
+                [page]="page"
                 (pageChange)="page = $event"
                 [(itemsPerPage)]="itemsPerPage"
                 [totalCount]="totalCount"

@@ -52,6 +52,11 @@ export class PagingComponent implements OnInit
     //######################### private fields #########################
 
     /**
+     * Indication whether is component initialized
+     */
+    private _initialized:Boolean = false;
+
+    /**
      * Paginator used for getting page numbers
      */
     private _paginator: Paginator = new Paginator();
@@ -196,6 +201,8 @@ export class PagingComponent implements OnInit
         {
             throw new Error("You must set 'page', 'itemsPerPage' and 'totalCount' if you want to use 'PagingComponent'");
         }
+
+        this._initialized = true;
     }
 
     //######################### private methods - template methods #########################
@@ -246,6 +253,11 @@ export class PagingComponent implements OnInit
      */
     private _generatePages()
     {
+        if(!this._initialized)
+        {
+            return;
+        }
+
         var pageCount = this._paginator.getPageCount();
         
         //Applied when displaying all items
