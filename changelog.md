@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 2.2.3
+- updated support for minimal and maximal visible columns
+
 ## Version 2.2.1
 - added support for minimal and maximal visible columns
 

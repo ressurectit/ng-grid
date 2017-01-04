@@ -91,7 +91,7 @@ import 'rxjs/add/operator/debounceTime';
                 <div *ngFor="let column of columns; let index=index">
                     <dl *ngIf="column.selectionVisible">
                         <dt>
-                            <input [id]="'column' + _internalId + column.name" type="checkbox" [checked]="column.visible" (click)="toggleColumn(index)">
+                            <input [id]="'column' + _internalId + column.name" type="checkbox" [disabled]="!_isColumnSelectionAllowed(column)" [checked]="column.visible" (click)="toggleColumn(index)">
                         </dt>
                         <dd>
                             <label [attr.for]="'column' + _internalId + column.name">{{column.title}}</label>
@@ -547,23 +547,13 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
      */
     public toggleColumn(index: number)
     {
-        let visible: boolean = this.columns[index].visible;
+        this.columns[index].visible = !this.columns[index].visible;
+        this.columnSelectionChange.emit(this.columns[index]);
+        this._calculateGroupColSpan();
 
-        if ((visible && (!this._options.minVisibleColumns || this.visibleColumns.length > this._options.minVisibleColumns)) || 
-            (!visible && (!this._options.maxVisibleColumns || this.visibleColumns.length < this._options.maxVisibleColumns)))
-        {
-            this.columns[index].visible = !this.columns[index].visible;
-            this.columnSelectionChange.emit(this.columns[index]);
-            this._calculateGroupColSpan();
-
-            let settings: GridCookieConfig = this.gridSettings;
-            settings.selectedColumns = this.columns.map(itm => itm.visible);
-            this.gridSettings = settings;
-        }
-        else
-        {
-            this.columnSelectionChange.emit(null);
-        }
+        let settings: GridCookieConfig = this.gridSettings;
+        settings.selectedColumns = this.columns.map(itm => itm.visible);
+        this.gridSettings = settings;
     }
 
     /**
@@ -769,6 +759,26 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
         }
         
         return index;
+    }
+
+    /**
+     * Check if column selection is allowed on particular column 
+     * @param {ColumnComponent} column instance of column
+     * @returns true if column selection is allowed on particular column otherwise false
+     */
+    private _isColumnSelectionAllowed(column: ColumnComponent) : boolean {
+        if (!column)
+        {
+            return false;
+        }
+
+        if ((column.visible && (!this._options.minVisibleColumns || this.visibleColumns.length > this._options.minVisibleColumns)) || 
+            (!column.visible && (!this._options.maxVisibleColumns || this.visibleColumns.length < this._options.maxVisibleColumns))) 
+        {
+            return true;
+        }
+
+        return false;
     }
 }
 
