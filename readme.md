@@ -406,12 +406,15 @@ export class AdvancedGridComponent
     - `options: GridOptions` - Set options that are used for configuring grid
     - `selection: any` - Selected rows
     - `rowSelectionClass: string` - CSS class for selected rows
+    - `noDataMessage: string` - Message for no data found alert default template
  - `outputs`
     - `selectionChange: EventEmitter<any>` - Occurs when row selection was changed
     - `columnSelectionChange: EventEmitter<any>` - Occurs when column selection was changed
  - `contentChildren`
     - `ColumnComponent` - Array of column definitions for columns, content getter
     - `ColumnGroupComponent` - Array of column group definitions for grid, content getter
+ - `contentChild`
+    - `TemplateRef#noDataFoundTemplate` - Custom template for no data found message
  
  #### *Properties*
  - `id: string` - Id of grid, must be unique

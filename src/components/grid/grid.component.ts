@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, OnDestroy, AfterContentInit, ContentChildren, QueryList, Output, EventEmitter} from '@angular/core';
+import {Component, ViewChild, Input, OnInit, OnDestroy, AfterContentInit, AfterViewInit, ContentChildren, QueryList, Output, EventEmitter, ContentChild, TemplateRef, ViewContainerRef} from '@angular/core';
 import {ColumnComponent} from './column.component';
 import {ColumnGroupComponent} from './columnGroup.component';
 import {GridOptions} from './gridOptions';
@@ -67,6 +67,12 @@ import 'rxjs/add/operator/debounceTime';
                 </tr>
             </tbody>
         </table>
+
+        <div #noDataFoundContainer></div>
+        
+        <template #noDataFoundTemplate>
+            <div *ngIf="noDataMessage" class="alert alert-tight text-center">{{noDataMessage}}</div>
+        </template>        
 
         <paging *ngIf="_options.pagingEnabled"
                 [page]="page"
@@ -166,7 +172,7 @@ import 'rxjs/add/operator/debounceTime';
         }
     `]
 })
-export class GridComponent implements OnInit, OnDestroy, AfterContentInit
+export class GridComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit
 {
     //######################### private fields #########################
 
@@ -233,9 +239,37 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
     private _columnGroupsDefinitions: QueryList<ColumnGroupComponent>;
 
     /**
+     * Custom template for no data found message
+     */
+    @ContentChild("noDataFoundTemplate")
+    private _noDataFoundCustom: TemplateRef<any>;
+
+    /**
+     * Default template for no data found message
+     */
+    @ViewChild("noDataFoundTemplate")
+    private _noDataFoundDefault: TemplateRef<any>;
+
+    /**
+     * Container for no data found message
+     */
+    @ViewChild("noDataFoundContainer", { read: ViewContainerRef })
+    private _noDataFoundContainer: ViewContainerRef;
+
+    /**
+     * Final template used for no data found message
+     */
+    private _noDataFoundTemplate: TemplateRef<any>;
+
+    /**
      * Column groups that are rendered
      */
     private _columnGroups: ColumnGroupComponent[] = [];
+
+    /**
+     * Backing field for data that are rendered in grid
+     */
+    private _data: any[];
 
     //######################### private properties #########################
 
@@ -354,7 +388,16 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
      * Gets or sets data that are rendered in grid
      */
     @Input()
-    public data: any[];
+    public set data(data: any[])
+    {
+        this._data = data;
+
+        this._toggleNoDataTemplate();
+    }
+    public get data(): any[]
+    {
+        return this._data;
+    }
 
     /**
      * Number of all items for current filter
@@ -411,6 +454,12 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
      */
     @Input()
     public rowSelectionClass: string = "row-selected";
+
+    /**
+     * Message for no data found alert default template
+     */
+    @Input()
+    public noDataMessage: string;
 
     //######################### public properties - outputs #########################
 
@@ -537,6 +586,23 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
             this._columnGroups = groups;
             this._calculateGroupColSpan();
         }
+    }
+
+    //######################### public methods - implementation of AfterViewInit #########################
+
+    /**
+     * Called when view was initialized
+     */
+    public ngAfterViewInit()
+    {
+        this._noDataFoundTemplate = this._noDataFoundDefault;
+
+        if (this._noDataFoundCustom)
+        {
+            this._noDataFoundTemplate = this._noDataFoundCustom;
+        }
+
+        this._toggleNoDataTemplate();
     }
 
     //######################### public methods #########################
@@ -766,7 +832,8 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
      * @param {ColumnComponent} column instance of column
      * @returns true if column selection is allowed on particular column otherwise false
      */
-    private _isColumnSelectionAllowed(column: ColumnComponent) : boolean {
+    private _isColumnSelectionAllowed(column: ColumnComponent) : boolean 
+    {
         if (!column)
         {
             return false;
@@ -779,6 +846,28 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit
         }
 
         return false;
+    }
+
+    /**
+     * Shows or hide no data found message based on retrieved data
+     */
+    private _toggleNoDataTemplate()
+    {
+        if (!this._noDataFoundContainer)
+        {
+            return;
+        }
+        
+        let noData: boolean = isBlank(this._data) || this._data.length == 0;
+
+        if (noData)
+        {
+            this._noDataFoundContainer.createEmbeddedView(this._noDataFoundTemplate);
+        }
+        else
+        {
+            this._noDataFoundContainer.clear();
+        }
     }
 }
 
