@@ -2,6 +2,7 @@
 
 ## Version 2.2.4
 - added support to set 'no data found message' (either with default or with custom template)
+- fixed grid paging binding bug (page changed after it was checked)
 
 ## Version 2.2.3
 - updated support for minimal and maximal visible columns

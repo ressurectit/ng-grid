@@ -376,12 +376,12 @@ export class AdvancedGridComponent
             - `column: ColumnComponent` -  Object of column itself
             - `index: number` - Index of rendered row in current page
             - `rowIndex: number` - Row index of displayed item
-    - `'headerTemplate'` - Template that is used for rendering of cell header
-        - **template variables** 
-            - `column: ColumnComponent` -  Object of column itself
-    - `'bodyTemplate'` - Template that is used for rendering of cell body
-        - **template variables** 
-            - `column: ColumnComponent` -  Object of column itself
+        - `'headerTemplate'` - Template that is used for rendering of cell header
+            - **template variables** 
+                - `column: ColumnComponent` -  Object of column itself
+        - `'bodyTemplate'` - Template that is used for rendering of cell body
+            - **template variables** 
+                - `column: ColumnComponent` -  Object of column itself
 
 ---
 ### `ColumnGroupComponent` - Definition of column group metadata
@@ -414,7 +414,8 @@ export class AdvancedGridComponent
     - `ColumnComponent` - Array of column definitions for columns, content getter
     - `ColumnGroupComponent` - Array of column group definitions for grid, content getter
  - `contentChild`
-    - `TemplateRef#noDataFoundTemplate` - Custom template for no data found message
+    - `TemplateRef`
+        - `'noDataFoundTemplate'` - Custom template for no data found message
  
  #### *Properties*
  - `id: string` - Id of grid, must be unique

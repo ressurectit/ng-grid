@@ -258,7 +258,7 @@ export class PagingComponent implements OnInit
             return;
         }
 
-        var pageCount = this._paginator.getPageCount();
+        var pageCount = this._paginator.getPageCount() || 1;
         
         //Applied when displaying all items
         if(isNaN(pageCount))

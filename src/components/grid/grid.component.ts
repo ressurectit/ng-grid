@@ -406,7 +406,14 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
     public set totalCount(totalCount: number)
     {
         this._totalCount = totalCount;
-        this._setRowIndexes();
+        
+        let paginator: Paginator = this._setRowIndexes();
+        let pageCount = paginator.getPageCount() || 1;
+        
+        if (pageCount < this.page)
+        {
+            this.page = pageCount;
+        }
     }
     public get totalCount(): number
     {
@@ -756,8 +763,9 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
 
     /**
      * Sets row indexes
+     * @returns Paginator paginator created to enable row numbering
      */
-    private _setRowIndexes()
+    private _setRowIndexes(): Paginator
     {
         let paginator = new Paginator();
 
@@ -766,6 +774,8 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
             .setItemCount(this.totalCount);
 
         this._rowIndexes = paginator.getIndexesPerPage();
+
+        return paginator;
     }
 
     /**
@@ -853,21 +863,19 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
      */
     private _toggleNoDataTemplate()
     {
-        if (!this._noDataFoundContainer)
+        if (!this._noDataFoundContainer || !this._noDataFoundTemplate)
         {
             return;
         }
         
+        this._noDataFoundContainer.clear();
+
         let noData: boolean = isBlank(this._data) || this._data.length == 0;
 
         if (noData)
         {
             this._noDataFoundContainer.createEmbeddedView(this._noDataFoundTemplate);
-        }
-        else
-        {
-            this._noDataFoundContainer.clear();
-        }
+        }        
     }
 }
 
