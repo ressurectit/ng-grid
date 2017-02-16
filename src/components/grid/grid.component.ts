@@ -2,8 +2,7 @@ import {Component, ViewChild, Input, OnInit, OnDestroy, AfterContentInit, AfterV
 import {ColumnComponent} from './column.component';
 import {ColumnGroupComponent} from './columnGroup.component';
 import {GridOptions} from './gridOptions';
-import {isBlank, isPresent} from '@angular/core/src/facade/lang';
-import {OrderByDirection, Utils, Paginator, isString} from '@ng2/common';
+import {OrderByDirection, Utils, Paginator, isString, isBlank, isPresent} from '@anglr/common';
 import {GridCookieConfig} from './gridCookie.config';
 import {Subject} from 'rxjs/Subject';
 import {Subscription} from 'rxjs/Subscription';
@@ -19,7 +18,7 @@ import 'rxjs/add/operator/debounceTime';
  */
 @Component(
 {
-    selector: 'ng2-grid',
+    selector: 'ng-grid',
     template:
    `<div style="position: relative; overflow-x: auto;" class="table-div {{_options.cssClass}}">
         <table class="table table-condensed table-striped table-hover">

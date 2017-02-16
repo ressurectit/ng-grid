@@ -7,7 +7,7 @@ import {ColumnComponent} from './column.component';
  */
 @Component(
 {
-    selector: "ng2-grid > column-template-renderer",
+    selector: "ng-grid > column-template-renderer",
     template: ''
 })
 export class ColumnTemplateRendererComponent implements OnInit

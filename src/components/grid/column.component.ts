@@ -6,7 +6,7 @@ import {ColumnTemplateContext} from './columnTemplate.context';
  */
 @Component(
 {
-    selector: "ng2-grid > ng2-column",
+    selector: "ng-grid > ng-column",
     template: ''
 })
 export class ColumnComponent implements AfterContentInit

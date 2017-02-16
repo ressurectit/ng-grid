@@ -1,6 +1,6 @@
-# Angular 2 Grid
+# Angular Grid
 
-Implementation of angular 2 grid for displaying data.
+Implementation of angular grid for displaying data.
 
 Module contains component for *Grid* and *Paging*.
 
@@ -15,7 +15,7 @@ Module contains component for *Grid* and *Paging*.
 To install latest version of this module you just run:
 
 ```nocode
-npm install "@ng2/grid" --save
+npm install "@anglr/grid" --save
 ```
 
 ### SystemJs Usage
@@ -25,7 +25,7 @@ In your **SystemJs** configuration script add following lines to `packages` conf
 ```javascript
 packages:
 {
-    '@ng2/grid': 
+    '@anglr/grid': 
     {
         main: "dist/index.dev.min.js",
         defaultExtension: 'js'
@@ -37,7 +37,7 @@ packages:
 
 In your application create file called *dependencies.ts* and add following line:
 ```typescript
-import '@ng2/grid';
+import '@anglr/grid';
 ```
 
 Then add this file as `entry` point in your *webpack.config.js*:
@@ -76,7 +76,7 @@ This enables usage of all 'Grid' components.
 
 ```typescript
 import {NgModule} from '@angular/core';
-import {GridModule} from '@ng2/grid';
+import {GridModule} from '@anglr/grid';
 import {BasicGridComponent} from './basicGrid.component';
 import {AdvancedGridComponent} from './advancedGrid.component';
 
@@ -100,8 +100,8 @@ export class YourModule
 *basicGrid.component.ts*
 ```typescript
 import {Component} from '@angular/core';
-import {GridOptions} from '@ng2/grid';
-import {OrderByDirection} from '@ng2/common';
+import {GridOptions} from '@anglr/grid';
+import {OrderByDirection} from '@anglr/common';
 
 /**
  * Basic grid sample component
@@ -180,12 +180,12 @@ export class BasicGridComponent
 *basicGrid.component.html*
 ``` html
 <div>
-    <ng2-grid id="gridUniqueIdPerApp" [data]="data" [options]="gridOptions" [totalCount]="totalCount">
-        <ng2-column name="name" title="First name"></ng2-column>
-        <ng2-column name="surname" title="Surname"></ng2-column>
-        <ng2-column name="email" title="E-Mail"></ng2-column>
-        <ng2-column name="address" title="Address"></ng2-column>
-    </ng2-grid>
+    <ng-grid id="gridUniqueIdPerApp" [data]="data" [options]="gridOptions" [totalCount]="totalCount">
+        <ng-column name="name" title="First name"></ng-column>
+        <ng-column name="surname" title="Surname"></ng-column>
+        <ng-column name="email" title="E-Mail"></ng-column>
+        <ng-column name="address" title="Address"></ng-column>
+    </ng-grid>
 </div>
 ```
 
@@ -196,8 +196,8 @@ export class BasicGridComponent
 *advancedGrid.component.ts*
 ``` typescript
 import {Component, ViewChild} from '@angular/core';
-import {GridComponent, GridOptions} from '@ng2/grid';
-import {OrderByDirection} from '@ng2/common';
+import {GridComponent, GridOptions} from '@anglr/grid';
+import {OrderByDirection} from '@anglr/common';
 
 /**
  * Basic grid sample component
@@ -292,17 +292,17 @@ export class AdvancedGridComponent
 *advancedGrid.component.html*
 ``` html
 <div>
-    <ng2-grid id="gridUniqueIdPerApp" [data]="data" [options]="gridOptions" [totalCount]="totalCount">
-        <ng2-column name="name" title="First name" [ordering]="true"></ng2-column>
-        <ng2-column name="surname" title="Surname" [titleVisible]="false"></ng2-column>
-        <ng2-column name="email" title="E-Mail" headerClass="text-right" cellClass="text-right content-nowrap"></ng2-column>
+    <ng-grid id="gridUniqueIdPerApp" [data]="data" [options]="gridOptions" [totalCount]="totalCount">
+        <ng-column name="name" title="First name" [ordering]="true"></ng-column>
+        <ng-column name="surname" title="Surname" [titleVisible]="false"></ng-column>
+        <ng-column name="email" title="E-Mail" headerClass="text-right" cellClass="text-right content-nowrap"></ng-column>
 
-        <ng2-column name="address" title="Address">
+        <ng-column name="address" title="Address">
             <template let-col>
                 {{col.email}} - {{col.address}}
             </template>
-        </ng2-column>
-    </ng2-grid>
+        </ng-column>
+    </ng-grid>
 
     <a href="#" (click)="_refresh()">refresh</a>
 </div>
@@ -356,7 +356,7 @@ export class AdvancedGridComponent
 ### `ColumnComponent` - Definition of column metadata
 
 #### *Component*
- - `selector: "ng2-grid > ng2-column"`
+ - `selector: "ng-grid > ng-column"`
  - `inputs`
     - `name: string` - Name of property which is assigned to this column
     - `title: string` - Title of column that is displayed in grid header
@@ -387,7 +387,7 @@ export class AdvancedGridComponent
 ### `ColumnGroupComponent` - Definition of column group metadata
 
 #### *Component*
- - `selector: "ng2-grid > ng2-columnGroup, ng2-columnGroup > ng2-columnGroup"`
+ - `selector: "ng-grid > ng-columnGroup, ng-columnGroup > ng-columnGroup"`
  - `inputs`
     - `name: string` - Name of column group
     - `title: string` - Title of column group that is displayed
@@ -397,7 +397,7 @@ export class AdvancedGridComponent
 ### `GridComponent` - Grid component used for displaying data
 
 #### *Component*
- - `selector: "ng2-grid"`
+ - `selector: "ng-grid"`
  - `inputs`
     - `id: string` - Id of grid, must be unique
     - `data: any[]` - Gets or sets data that are rendered in grid

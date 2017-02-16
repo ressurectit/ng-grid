@@ -5,7 +5,7 @@ import {Component, Input} from '@angular/core';
  */
 @Component(
 {
-    selector: "ng2-grid > ng2-columnGroup, ng2-columnGroup > ng2-columnGroup",
+    selector: "ng-grid > ng-columnGroup, ng-columnGroup > ng-columnGroup",
     template: ''
 })
 export class ColumnGroupComponent

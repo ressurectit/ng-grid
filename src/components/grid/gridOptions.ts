@@ -1,4 +1,4 @@
-import {OrderByDirection} from '@ng2/common';
+import {OrderByDirection} from '@anglr/common';
 
 /**
  * Options for grid configuration 

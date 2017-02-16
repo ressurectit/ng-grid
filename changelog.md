@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 3.0.0-beta.0
+
+- angular 4.0.0-beta.7
+- renamed selectors ng2-grid, ng2-column to ng-grid and ng-column
+
 ## Version 2.2.4
 - added support to set 'no data found message' (either with default or with custom template)
 - fixed grid paging binding bug (page changed after it was checked)
