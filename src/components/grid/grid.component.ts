@@ -176,11 +176,6 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
     //######################### private fields #########################
 
     /**
-     * Options that are used for configuring grid
-     */
-    private _options: GridOptions;
-
-    /**
      * Default options that are used for configuraging grid
      */
     private _defaultOptions: GridOptions;
@@ -226,44 +221,9 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
     private _internalId: string;
 
     /**
-     * Array of column definitions for columns, content getter
-     */
-    @ContentChildren(ColumnComponent)
-    private _columns: QueryList<ColumnComponent>;
-
-    /**
-     * Array of column group definitions for grid, content getter
-     */
-    @ContentChildren(ColumnGroupComponent)
-    private _columnGroupsDefinitions: QueryList<ColumnGroupComponent>;
-
-    /**
-     * Custom template for no data found message
-     */
-    @ContentChild("noDataFoundTemplate")
-    private _noDataFoundCustom: TemplateRef<any>;
-
-    /**
-     * Default template for no data found message
-     */
-    @ViewChild("noDataFoundTemplate")
-    private _noDataFoundDefault: TemplateRef<any>;
-
-    /**
-     * Container for no data found message
-     */
-    @ViewChild("noDataFoundContainer", { read: ViewContainerRef })
-    private _noDataFoundContainer: ViewContainerRef;
-
-    /**
      * Final template used for no data found message
      */
     private _noDataFoundTemplate: TemplateRef<any>;
-
-    /**
-     * Column groups that are rendered
-     */
-    private _columnGroups: ColumnGroupComponent[] = [];
 
     /**
      * Backing field for data that are rendered in grid
@@ -305,12 +265,52 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
         return this._page;
     }
 
+    //######################### public properties #########################
+
+    /**
+     * Column groups that are rendered
+     */
+    public _columnGroups: ColumnGroupComponent[] = [];
+
     /**
      * Array of column definitions for columns
      */
-    private columns: ColumnComponent[];
+    public columns: ColumnComponent[];
 
-    //######################### public properties #########################
+    /**
+     * Options that are used for configuring grid
+     */
+    public _options: GridOptions;
+
+    /**
+     * Array of column definitions for columns, content getter
+     */
+    @ContentChildren(ColumnComponent)
+    public _columns: QueryList<ColumnComponent>;
+
+    /**
+     * Array of column group definitions for grid, content getter
+     */
+    @ContentChildren(ColumnGroupComponent)
+    public _columnGroupsDefinitions: QueryList<ColumnGroupComponent>;
+
+    /**
+     * Custom template for no data found message
+     */
+    @ContentChild("noDataFoundTemplate")
+    public _noDataFoundCustom: TemplateRef<any>;
+
+    /**
+     * Default template for no data found message
+     */
+    @ViewChild("noDataFoundTemplate")
+    public _noDataFoundDefault: TemplateRef<any>;
+
+    /**
+     * Container for no data found message
+     */
+    @ViewChild("noDataFoundContainer", { read: ViewContainerRef })
+    public _noDataFoundContainer: ViewContainerRef;
 
     /**
      * Gets or sets current page number of grid
