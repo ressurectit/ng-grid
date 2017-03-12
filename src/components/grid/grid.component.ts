@@ -24,11 +24,11 @@ import 'rxjs/add/operator/debounceTime';
         <table class="table table-condensed table-striped table-hover">
             <thead>
                 <tr *ngIf="_columnGroups.length > 0">
-                    <template ngFor let-group [ngForOf]="_columnGroups">
+                    <ng-template ngFor let-group [ngForOf]="_columnGroups">
                         <th *ngIf="group.colSpan > 0" [attr.colspan]="group.colSpan" [class]="group.cssClass">
                             {{group.title}}
                         </th>
-                    </template>
+                    </ng-template>
                 </tr>
 
                 <tr>
@@ -39,12 +39,12 @@ import 'rxjs/add/operator/debounceTime';
                         (click)="performsOrdering(column)">
                         <span style="white-space: nowrap;">
                             <span style="white-space: normal;" [title]="column.headerTooltip || ''">
-                                <template [ngIf]="column.headerTemplate">
+                                <ng-template [ngIf]="column.headerTemplate">
                                     <column-template-renderer [template]="column.headerTemplate" [column]="column"></column-template-renderer>
-                                </template>
-                                <template [ngIf]="!column.headerTemplate">
+                                </ng-template>
+                                <ng-template [ngIf]="!column.headerTemplate">
                                     {{column.titleVisible ? column.title : ""}}
-                                </template>
+                                </ng-template>
                             </span>
                             <span *ngIf="column.ordering" class="fa {{column.orderingCssClass}}"></span>
                         </span>
@@ -69,9 +69,9 @@ import 'rxjs/add/operator/debounceTime';
 
         <div #noDataFoundContainer></div>
         
-        <template #noDataFoundTemplate>
+        <ng-template #noDataFoundTemplate>
             <div *ngIf="noDataMessage" class="alert alert-tight text-center">{{noDataMessage}}</div>
-        </template>        
+        </ng-template>        
 
         <paging *ngIf="_options.pagingEnabled"
                 [page]="page"

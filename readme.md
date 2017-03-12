@@ -298,9 +298,9 @@ export class AdvancedGridComponent
         <ng-column name="email" title="E-Mail" headerClass="text-right" cellClass="text-right content-nowrap"></ng-column>
 
         <ng-column name="address" title="Address">
-            <template let-col>
+            <ng-template let-col>
                 {{col.email}} - {{col.address}}
-            </template>
+            </ng-template>
         </ng-column>
     </ng-grid>
 
