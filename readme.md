@@ -313,7 +313,6 @@ export class AdvancedGridComponent
 ### `GridOptions` - Options for grid configuration
 
 #### *Properties*
-
 - `pagingEnabled?: boolean` - Indication whether is paging enabled
 - `columnsSelection?: boolean` - Indication whether is column selection allowed
 - `cssClass?: string` - Css class that is applied to root div of grid
@@ -333,6 +332,8 @@ export class AdvancedGridComponent
 
 #### *Component*
  - `selector: "paging"`
+
+#### *Properties*
  - `inputs`
     - `itemsPerPageValues: number[]` - Gets or sets array of available values for itemsPerPage DEFAULT: []
     - `pagesDispersion: number` - Page dispersion parameter for rendered pages DEFAULT: 4
@@ -342,21 +343,14 @@ export class AdvancedGridComponent
  - `outputs`
     - `pageChange: EventEmitter<number>` - Occurs when index of currently selected page has been changed
     - `itemsPerPageChange: EventEmitter<number>` - Occurs when number of items per page currently selected has been changed
-
-#### *Properties*
- - `itemsPerPageValues: number[]` - Gets or sets array of available values for itemsPerPage DEFAULT: []
- - `pagesDispersion: number` - Page dispersion parameter for rendered pages DEFAULT: 4
- - `page: number` - Gets or sets index of currently selected page
- - `itemsPerPage: number` - Gets or sets number of items currently used for paging
- - `totalCount: number` - Gets or sets number of all items that are paged with current filter criteria
- - `pageChange: EventEmitter<number>` - Occurs when index of currently selected page has been changed
- - `itemsPerPageChange: EventEmitter<number>` - Occurs when number of items per page currently selected has been changed
     
 ---
 ### `ColumnComponent` - Definition of column metadata
 
 #### *Component*
  - `selector: "ng-grid > ng-column"`
+
+#### *Properties*
  - `inputs`
     - `name: string` - Name of property which is assigned to this column
     - `title: string` - Title of column that is displayed in grid header
@@ -388,6 +382,8 @@ export class AdvancedGridComponent
 
 #### *Component*
  - `selector: "ng-grid > ng-columnGroup, ng-columnGroup > ng-columnGroup"`
+
+#### *Properties*
  - `inputs`
     - `name: string` - Name of column group
     - `title: string` - Title of column group that is displayed
@@ -398,6 +394,10 @@ export class AdvancedGridComponent
 
 #### *Component*
  - `selector: "ng-grid"`
+
+#### *Properties*
+ - `page: number` - Gets or sets current page number of grid
+ - `itemsPerPage: number` - Gets or sets current number of items per page
  - `inputs`
     - `id: string` - Id of grid, must be unique
     - `data: any[]` - Gets or sets data that are rendered in grid
@@ -417,18 +417,6 @@ export class AdvancedGridComponent
     - `TemplateRef`
         - `'noDataFoundTemplate'` - Custom template for no data found message
  
- #### *Properties*
- - `id: string` - Id of grid, must be unique
- - `data: any[]` - Gets or sets data that are rendered in grid
- - `totalCount: number` - Number of all items for current filter
- - `rowCssClassCallback: (rowData: any) => string` - Callback function that is called for each row with data of row and allows you to return string css classes, enables adding special css classes to row
- - `options: GridOptions` - Set options that are used for configuring grid
- - `page: number` - Gets or sets current page number of grid
- - `itemsPerPage: number` - Gets or sets current number of items per page
- - `selection: any` - Selected rows
- - `rowSelectionClass: string` - CSS class for selected rows
- - `selectionChange: EventEmitter<any>` - Occurs when row selection was changed
-
  #### *Methods*
  - `toggleColumn(index: number)` - Toggles visibility of column
     - `index: number` - Index of toggled column

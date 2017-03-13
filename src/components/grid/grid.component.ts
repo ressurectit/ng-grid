@@ -196,11 +196,6 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
     private _itemsPerPage: number = null;
 
     /**
-     * Number of all items for current filter
-     */
-    public _totalCount: number;
-
-    /**
      * Subscription for debounce dataCallback
      */
     private _debounceSubscription: Subscription = null;
@@ -266,6 +261,11 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
     }
 
     //######################### public properties #########################
+
+    /**
+     * Number of all items for current filter
+     */
+    public _totalCount: number;
 
     /**
      * Column groups that are rendered

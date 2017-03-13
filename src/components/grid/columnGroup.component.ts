@@ -34,6 +34,7 @@ export class ColumnGroupComponent
     
     /**
      * Colspan indicating how many columns should be grouped
+     * @internal
      */
     public colSpan: number = 0;
     

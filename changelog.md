@@ -1,5 +1,18 @@
 # Changelog
 
+## Version 3.0.0-beta.3
+
+- tree shaking enabled (es2015 module)
+- angular 4.0.0-rc.2
+
+## Version 3.0.0-beta.2
+
+- all members accessed from templates are now public
+
+## Version 3.0.0-beta.1
+
+- making module angular AOT compliant
+
 ## Version 3.0.0-beta.0
 
 - angular 4.0.0-beta.7

@@ -101,11 +101,13 @@ export class ColumnComponent implements AfterContentInit
 
     /**
      * Css class that is used for displaying current ordering
+     * @internal
      */
     public orderingCssClass: string = "fa-sort";
 
     /**
      * Instance of template used for rendering body
+     * @internal
      */
     public bodyTemplateInstance: TemplateRef<ColumnTemplateContext>;
     

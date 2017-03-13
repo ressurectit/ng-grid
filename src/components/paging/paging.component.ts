@@ -79,16 +79,19 @@ export class PagingComponent implements OnInit
 
     /**
      * Text displaying items count
+     * @internal
      */
     public displayedItemsCount: string = "";
 
     /**
      * Array of pages that are rendered
+     * @internal
      */
     public pages: {isActive: boolean; isDisabled: boolean; title: string; page: number}[] = [];
 
     /**
      * Array of items per page that are rendered
+     * @internal
      */
     public itemsPerPageItems: ItemsPerPageItem[] = [];
 
