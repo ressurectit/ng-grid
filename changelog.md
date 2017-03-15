@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 2.2.6
+- fix support to set 'no data found message'
+
 ## Version 2.2.5
 - fix support to set 'no data found message' (hack)
 

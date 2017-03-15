@@ -1,4 +1,4 @@
-import {Component, ViewChild, Input, OnInit, OnDestroy, AfterContentInit, AfterViewInit, ContentChildren, QueryList, Output, EventEmitter, ContentChild, TemplateRef, ViewContainerRef} from '@angular/core';
+import {Component, ViewChild, Input, OnInit, OnDestroy, AfterContentInit, AfterViewInit, ContentChildren, QueryList, Output, EventEmitter, ContentChild, TemplateRef, ViewContainerRef, ChangeDetectorRef} from '@angular/core';
 import {ColumnComponent} from './column.component';
 import {ColumnGroupComponent} from './columnGroup.component';
 import {GridOptions} from './gridOptions';
@@ -493,7 +493,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
     }
 
     //######################### constructor #########################
-    constructor()
+    constructor(private _changeDetectorRef: ChangeDetectorRef)
     {
         this._defaultOptions = {
             pagingEnabled: true,
@@ -609,7 +609,8 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
             this._noDataFoundTemplate = this._noDataFoundCustom;
         }
 
-        setTimeout(() => this._toggleNoDataTemplate());
+        this._toggleNoDataTemplate();
+        this._changeDetectorRef.detectChanges();
 
     }
 
