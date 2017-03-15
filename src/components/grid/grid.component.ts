@@ -609,7 +609,8 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
             this._noDataFoundTemplate = this._noDataFoundCustom;
         }
 
-        this._toggleNoDataTemplate();
+        setTimeout(() => this._toggleNoDataTemplate());
+
     }
 
     //######################### public methods #########################
