@@ -1,22 +1,24 @@
 # Changelog
 
 ## Version 3.0.0-beta.3
-
 - tree shaking enabled (es2015 module)
 - angular 4.0.0-rc.2
 
 ## Version 3.0.0-beta.2
-
 - all members accessed from templates are now public
 
 ## Version 3.0.0-beta.1
-
 - making module angular AOT compliant
 
 ## Version 3.0.0-beta.0
-
 - angular 4.0.0-beta.7
 - renamed selectors ng2-grid, ng2-column to ng-grid and ng-column
+
+## Version 2.2.6
+- fix support to set 'no data found message'
+
+## Version 2.2.5
+- fix support to set 'no data found message' (hack)
 
 ## Version 2.2.4
 - added support to set 'no data found message' (either with default or with custom template)
