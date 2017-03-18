@@ -2,11 +2,10 @@ import {Component, ViewChild, Input, OnInit, OnDestroy, AfterContentInit, AfterV
 import {ColumnComponent} from './column.component';
 import {ColumnGroupComponent} from './columnGroup.component';
 import {GridOptions} from './gridOptions';
-import {OrderByDirection, Utils, Paginator, isString, isBlank, isPresent} from '@anglr/common';
+import {OrderByDirection, Utils, Paginator, isString, isBlank, isPresent, CookieService} from '@anglr/common';
 import {GridCookieConfig} from './gridCookie.config';
 import {Subject} from 'rxjs/Subject';
 import {Subscription} from 'rxjs/Subscription';
-import 'rxjs/add/operator/debounceTime';
 
 //TODO - add way to change paging component
 //TODO - test change detection on Push
@@ -237,13 +236,13 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
             return {};
         }
 
-        return (<GridCookieConfig>Utils.cookies.getCookie(this.settingsCookieId)) || {};
+        return (<GridCookieConfig>this._cookieService.getCookie(this.settingsCookieId)) || {};
     };
     private set gridSettings(settings: GridCookieConfig)
     {
         if (this.id) 
         {
-            Utils.cookies.setCookie(this.settingsCookieId, settings, 1000);
+            this._cookieService.setCookie(this.settingsCookieId, settings, 1000);
         }
     }
 
@@ -492,7 +491,8 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
     }
 
     //######################### constructor #########################
-    constructor(private _changeDetectorRef: ChangeDetectorRef)
+    constructor(private _changeDetectorRef: ChangeDetectorRef,
+                private _cookieService: CookieService)
     {
         this._defaultOptions = {
             pagingEnabled: true,
