@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 3.0.0-beta.5
+- angular 4.0.0-rc.5
+- cookieService that can be used with SSR
+
+## Version 3.0.0-beta.4
+- changes from 2.2.6
+
 ## Version 3.0.0-beta.3
 - tree shaking enabled (es2015 module)
 - angular 4.0.0-rc.2
