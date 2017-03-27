@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 3.0.0
+- angular 4.0.0
+- stabilized version for AOT and SSR
+
 ## Version 3.0.0-beta.5
 - angular 4.0.0-rc.5
 - cookieService that can be used with SSR
