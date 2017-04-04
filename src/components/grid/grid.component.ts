@@ -1,4 +1,4 @@
-import {Component, ViewChild, Input, OnInit, OnDestroy, AfterContentInit, AfterViewInit, ContentChildren, QueryList, Output, EventEmitter, ContentChild, TemplateRef, ViewContainerRef, ChangeDetectorRef} from '@angular/core';
+import {Component, ViewChild, Input, OnInit, OnDestroy, AfterContentInit, AfterViewInit, ContentChildren, QueryList, Output, EventEmitter, ContentChild, TemplateRef, ViewContainerRef, ChangeDetectorRef, ChangeDetectionStrategy} from '@angular/core';
 import {ColumnComponent} from './column.component';
 import {ColumnGroupComponent} from './columnGroup.component';
 import {GridOptions} from './gridOptions';
@@ -168,7 +168,8 @@ import {Subscription} from 'rxjs/Subscription';
         {
             background-color: #efefef;
         }
-    `]
+    `],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GridComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit
 {
@@ -648,6 +649,14 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
     public refresh()
     {
         this._debounceSubject.next(true);
+    }
+
+    /**
+     * Invalidates visuals, runs change detection explicitly
+     */
+    public invalidateVisuals(): void
+    {
+        this._changeDetectorRef.detectChanges();
     }
 
     /**

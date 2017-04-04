@@ -4,11 +4,22 @@ Implementation of angular grid for displaying data.
 
 Module contains component for *Grid* and *Paging*.
 
+* [Description](#description)
 * [Installation](#installation)
 * [Types](#types)
 * [Usage](#usage)
 * [API](#api)
 * [Change Log](./changelog.md)
+
+## Description
+
+* Module supports Angular Server Side Rendering
+* Module supports Angular Ahead of Time Compilation
+* Grid is set to `OnPush` change detection
+* Grid supports paging
+* Grid supports ordering for single column
+* Grid supports column templating
+* Grid supports column selection
 
 ## Installation
 
@@ -27,7 +38,7 @@ packages:
 {
     '@anglr/grid': 
     {
-        main: "dist/index.dev.min.js",
+        main: "dist/index.min.js",
         defaultExtension: 'js'
     }
 }
@@ -35,20 +46,7 @@ packages:
 
 ### Webpack Usage
 
-In your application create file called *dependencies.ts* and add following line:
-```typescript
-import '@anglr/grid';
-```
-
-Then add this file as `entry` point in your *webpack.config.js*:
-```javascript
-"vendor-import": path.join(__dirname, "pathToVendorTsDirectory/vendor.ts")
-```
-
-Then reference this file in your *index.html* at the end of body before application start javascript:
-```html
-<script src="webpackOutputDirectory/vendor-import.js"></script>
-```
+This depends on your preferences, but you can use it as any other angular module, just use it in code and webpack will automatically add it to result `.js` file.
 
 ## Types
 
@@ -108,7 +106,6 @@ import {OrderByDirection} from '@anglr/common';
  */
 @Component(
 {
-    moduleId: module.id,
     templateUrl: 'basicGrid.component.html'
 })
 export class BasicGridComponent
@@ -204,7 +201,6 @@ import {OrderByDirection} from '@anglr/common';
  */
 @Component(
 {
-    moduleId: module.id,
     templateUrl: 'advancedGrid.component.html'
 })
 export class AdvancedGridComponent
@@ -295,7 +291,8 @@ export class AdvancedGridComponent
     <ng-grid id="gridUniqueIdPerApp" [data]="data" [options]="gridOptions" [totalCount]="totalCount">
         <ng-column name="name" title="First name" [ordering]="true"></ng-column>
         <ng-column name="surname" title="Surname" [titleVisible]="false"></ng-column>
-        <ng-column name="email" title="E-Mail" headerClass="text-right" cellClass="text-right content-nowrap"></ng-column>
+        <ng-column name="email" title="E-Mail" headerClass="text-right" cellClass="text-right content-nowrap">
+        </ng-column>
 
         <ng-column name="address" title="Address">
             <ng-template let-col>
@@ -429,3 +426,4 @@ export class AdvancedGridComponent
     - `event: MouseEvent` - mouse click event
  - `isRowSelected(row: any) : boolean` - Check if row is selected
     - `row: any` - instance of row
+ - `invalidateVisuals(): void` - Invalidates visuals, runs change detection explicitly

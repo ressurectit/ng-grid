@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 3.0.1
+- grid change detection is set to OnPush
+- added method for explicit change detection run `invalidateVisuals()`
+
 ## Version 3.0.0
 - angular 4.0.0
 - stabilized version for AOT and SSR
