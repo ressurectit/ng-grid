@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 3.0.2
+- grid added option for disabling automatic data loading on init
+
 ## Version 3.0.1
 - grid change detection is set to OnPush
 - added method for explicit change detection run `invalidateVisuals()`

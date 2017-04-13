@@ -505,6 +505,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
             initialItemsPerPage: 10,
             initialPage: 1,
             debounceDataCallback: 40,
+            autoLoadData: true,
             dataCallback: (page: number, itemsPerPage: number, orderBy: string, orderByDirection: OrderByDirection) =>
             {
                 //TODO - client implementation
@@ -539,14 +540,25 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
         this.internalPage = this._options.initialPage;
 
         let settings = this.gridSettings;
+        let itemsPerPage;
 
         if(isPresent(settings.selectItemsPerPage))
         {
-            this.itemsPerPage = settings.selectItemsPerPage;
+            itemsPerPage = settings.selectItemsPerPage;
         }
         else
         {
-            this.itemsPerPage = this._options.initialItemsPerPage;
+            itemsPerPage = this._options.initialItemsPerPage;
+        }
+
+        if(this._options.autoLoadData)
+        {
+            this.itemsPerPage = itemsPerPage;
+        }
+        else
+        {
+            this._itemsPerPage = itemsPerPage;
+            this._setRowIndexes();
         }
     }
 

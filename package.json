@@ -1,6 +1,6 @@
 {
     "name": "@anglr/grid",
-    "version": "3.0.1",
+    "version": "3.0.2",
     "description": "Angular module displaying grid",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
@@ -44,8 +44,9 @@
     {
         "@angular/compiler-cli": "^4.0.0",
         "@angular/compiler": "^4.0.0",
+        "@angular/language-service":  "^4.0.0",
         "rimraf": "~2.6.1",
-        "typescript": "2.2.1",
+        "typescript": "2.3.0",
         "webpack": "2.3.2",
         "npm-publish-package": "~1.2.0"
     }

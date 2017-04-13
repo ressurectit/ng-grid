@@ -69,6 +69,11 @@ export interface GridOptions
      * Maximal number of visible columns for grid
      */
     maxVisibleColumns?: number;
+
+    /**
+     * Indication that grid should try to load data at the end of init phase
+     */
+    autoLoadData?: boolean;
     
     /**
      * Callback that is used for changing displayed data

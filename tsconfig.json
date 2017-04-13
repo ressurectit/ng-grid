@@ -13,6 +13,12 @@
         "lib": 
         [
             "es6", "dom"
+        ],
+        "plugins": 
+        [
+            {
+                "name": "@angular/language-service"
+            }
         ]
     },
     "exclude": 

@@ -324,6 +324,7 @@ export class AdvancedGridComponent
 - `maxVisibleColumns?: number` - Maximal number of visible columns for grid
 - `dataCallback?: (page: number, itemsPerPage: number, orderBy: string, orderByDirection: OrderByDirection) => void` - Callback that is used for changing displayed data
 - `rowSelectionEnabled?: boolean` - Indication whether row selection is enabled
+- `autoLoadData?: boolean` - Indication that grid should try to load data at the end of init phase DEFAULT: true
 ---
 ### `PagingComponent` - Component used for rendering paging
 
