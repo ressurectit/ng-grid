@@ -1,5 +1,6 @@
-import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
-import {Paginator, isArray, isBlank, isPresent} from '@anglr/common';
+import {Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy} from '@angular/core';
+import {Paginator, isArray, isBlank, isPresent, isJsObject, isNumber} from '@anglr/common';
+import {PagingAbstractComponent} from "./pagingAbstract.component";
 
 /**
  * Items per page single item
@@ -10,10 +11,10 @@ export class ItemsPerPageItem
      * Indication that item is active
      */
     public isActive: boolean;
-    
+
     /**
      * Value of item
-     */ 
+     */
     public value: number;
 }
 
@@ -32,7 +33,7 @@ export class ItemsPerPageItem
                 </a>
             </li>
         </ul>
-        
+
         <div class="pull-right" *ngIf="!!itemsPerPageItems && itemsPerPageItems.length > 0">
             <span style="float: left; margin-right: 8px; line-height: 42px;">{{displayedItemsCount}}</span>
 
@@ -44,16 +45,17 @@ export class ItemsPerPageItem
                 </li>
             </ul>
         </div>
-    </div>`
+    </div>`,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PagingComponent implements OnInit
+export class PagingComponent extends PagingAbstractComponent implements OnInit
 {
     //######################### private fields #########################
 
     /**
      * Indication whether is component initialized
      */
-    private _initialized:Boolean = false;
+    private _initialized: Boolean = false;
 
     /**
      * Paginator used for getting page numbers
@@ -61,10 +63,17 @@ export class PagingComponent implements OnInit
     private _paginator: Paginator = new Paginator();
 
     /**
+     * Options specific to paging implementation
+     * - pagesDispersion - Page dispersion parameter for rendered pages
+     * - itemsPerPageValues - Gets or sets array of available values for itemsPerPage
+     */
+    private _pagingOptions: {pagesDispersion?: number, itemsPerPageValues: number[]} = {itemsPerPageValues: null, pagesDispersion: 4};
+
+    /**
      * Index of currently selected page
      */
     private _page: number;
-    
+
     /**
      * Number of items currently used for paging
      */
@@ -75,7 +84,7 @@ export class PagingComponent implements OnInit
      */
     private _totalCount: number;
 
-    //######################### public properties #########################
+    //######################### public properties - bindings #########################
 
     /**
      * Text displaying items count
@@ -98,38 +107,44 @@ export class PagingComponent implements OnInit
     //######################### public properties - inputs #########################
 
     /**
-     * Gets or sets array of available values for itemsPerPage
+     * Gets or sets options specific to paging implementation
      */
     @Input()
-    public set itemsPerPageValues(val: number[])
+    public set pagingOptions(options: any)
     {
-        if(!val || !isArray(val))
+        if(!isJsObject(options))
         {
-            this.itemsPerPageItems = [];
-            
             return;
         }
-        
-        this.itemsPerPageItems = val.map(itm => 
+
+        if(isPresent(options.pagesDispersion) && isNumber(options.pagesDispersion))
+        {
+            this._pagingOptions.pagesDispersion = options.pagesDispersion;
+        }
+
+        if(isBlank(options.itemsPerPageValues) || !isArray(options.itemsPerPageValues))
+        {
+            this.itemsPerPageItems = [];
+            this._pagingOptions.itemsPerPageValues = [];
+
+            return;
+        }
+
+        this._pagingOptions.itemsPerPageValues = options.itemsPerPageValues;
+        this.itemsPerPageItems = options.itemsPerPageValues.map(itm =>
         {
             return {
-                value: itm, 
+                value: itm,
                 isActive: false
             };
         });
-        
+
         this._generateItemsPerPage();
     }
-    public get itemsPerPageValues(): number[]
+    public get pagingOptions(): any
     {
-        return this.itemsPerPageItems.map(itm => itm.value);
+        return this._pagingOptions;
     }
-    
-    /**
-     * Page dispersion parameter for rendered pages
-     */
-    @Input()
-    public pagesDispersion: number = 4;
 
     /**
      * Gets or sets index of currently selected page
@@ -201,16 +216,11 @@ export class PagingComponent implements OnInit
      */
     public ngOnInit()
     {
-        if(isBlank(this.page) || isBlank(this.itemsPerPage) || isBlank(this.totalCount))
-        {
-            throw new Error("You must set 'page', 'itemsPerPage' and 'totalCount' if you want to use 'PagingComponent'");
-        }
-
         this._initialized = true;
     }
 
     //######################### private methods - template methods #########################
-    
+
     /**
      * Sets page for current paging
      * @param  {number} page Page index to be set
@@ -221,11 +231,11 @@ export class PagingComponent implements OnInit
         {
             return;
         }
-        
+
         this.page = page.page;
         this.pageChange.emit(this.page);
     }
-    
+
     /**
      * Sets items per page for current paging
      * @param  {ItemsPerPageItem} itemsPerPage Number of items per page
@@ -236,7 +246,7 @@ export class PagingComponent implements OnInit
         {
             return;
         }
-        
+
         this.itemsPerPage = itemsPerPage.value;
         this.itemsPerPageChange.emit(this.itemsPerPage);
     }
@@ -263,7 +273,7 @@ export class PagingComponent implements OnInit
         }
 
         var pageCount = this._paginator.getPageCount() || 1;
-        
+
         //Applied when displaying all items
         if(isNaN(pageCount))
         {
@@ -273,12 +283,12 @@ export class PagingComponent implements OnInit
                 this._paginator.setPage(1);
                 this.pageChange.emit(1);
             }
-            
+
             this.pages = [];
-            
+
             return;
         }
-                    
+
         if(!isNaN(pageCount) && pageCount < this._page)
         {
             this.setPage(
@@ -288,9 +298,9 @@ export class PagingComponent implements OnInit
                 isDisabled: false
             });
         }
-        
+
         this.pages = [];
-        
+
         this.pages.push(
         {
             isActive: false,
@@ -298,8 +308,8 @@ export class PagingComponent implements OnInit
             title: "&laquo;",
             page: this._paginator.GetFirstPage()
         });
-        
-        this._paginator.getPagesWithTrimDispersion(this.pagesDispersion).forEach(page =>
+
+        this._paginator.getPagesWithTrimDispersion(this._pagingOptions.pagesDispersion).forEach(page =>
         {
             this.pages.push(
             {
@@ -309,7 +319,7 @@ export class PagingComponent implements OnInit
                 page: page
             });
         });
-        
+
         this.pages.push(
         {
             isActive: false,
@@ -318,7 +328,7 @@ export class PagingComponent implements OnInit
             page: this._paginator.getLastPage()
         });
     }
-    
+
     /**
      * Generates rendered items per page
      */
