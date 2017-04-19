@@ -1,1 +1,0 @@
-export {PagingComponent, ItemsPerPageItem} from './paging/paging.component';

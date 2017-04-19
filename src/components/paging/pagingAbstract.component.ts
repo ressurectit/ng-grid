@@ -1,4 +1,4 @@
-import {EventEmitter} from "@angular/core";
+import {EventEmitter, ChangeDetectorRef} from "@angular/core";
 
 /**
  * Abstract class that represents any paging component
@@ -42,4 +42,19 @@ export abstract class PagingAbstractComponent
      * Occurs when number of items per page currently selected has been changed
      */
     public abstract itemsPerPageChange: EventEmitter<number>;
+
+    //######################### constructor #########################
+    constructor(protected _changeDetector: ChangeDetectorRef)
+    {
+    }
+
+    //######################### public methods #########################
+
+    /**
+     * Explicitly runs invalidation of content (change detection)
+     */
+    public invalidateVisuals(): void
+    {
+        this._changeDetector.detectChanges();
+    }
 }

@@ -1,7 +1,8 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {PagingComponent} from '../components/paging';
-import {GRID_DIRECTIVES, ColumnTemplateRendererComponent, GridComponent} from '../components/grid';
+import {BasicPagingComponent} from '../components/paging/basicPaging.component';
+import {GRID_DIRECTIVES, GridComponent} from '../components/grid/grid.component';
+import {ColumnTemplateRendererComponent} from '../components/grid/columnTemplateRenderer.component';
 
 /**
  * Grid module 
@@ -9,9 +10,9 @@ import {GRID_DIRECTIVES, ColumnTemplateRendererComponent, GridComponent} from '.
 @NgModule(
 {
     imports: [CommonModule],
-    declarations: [GRID_DIRECTIVES, PagingComponent, ColumnTemplateRendererComponent],
-    entryComponents: [GridComponent, PagingComponent],
-    exports: [GRID_DIRECTIVES, PagingComponent]
+    declarations: [GRID_DIRECTIVES, BasicPagingComponent, ColumnTemplateRendererComponent],
+    entryComponents: [GridComponent, BasicPagingComponent],
+    exports: [GRID_DIRECTIVES, BasicPagingComponent]
 })
 export class GridModule
 {

@@ -19,11 +19,11 @@ export class ItemsPerPageItem
 }
 
 /**
- * Component used for rendering paging
+ * Component used for rendering basic simple paging
  */
 @Component(
 {
-    selector: "paging",
+    selector: "basic-paging",
     template:
    `<div>
         <ul class="pagination pagination-sm margin-sm-vertical">
@@ -48,7 +48,7 @@ export class ItemsPerPageItem
     </div>`,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PagingComponent extends PagingAbstractComponent implements OnInit
+export class BasicPagingComponent extends PagingAbstractComponent implements OnInit
 {
     //######################### private fields #########################
 

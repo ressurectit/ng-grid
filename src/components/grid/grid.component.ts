@@ -71,13 +71,13 @@ import {Subscription} from 'rxjs/Subscription';
             <div *ngIf="noDataMessage" class="alert alert-tight text-center">{{noDataMessage}}</div>
         </ng-template>        
 
-        <paging *ngIf="_options.pagingEnabled"
+        <basic-paging *ngIf="_options.pagingEnabled"
                 [page]="page"
                 (pageChange)="page = $event"
                 [(itemsPerPage)]="itemsPerPage"
                 [totalCount]="totalCount"
-                [pagingOptions]="_options.pagingOptions.itemsPerPageValues">
-        </paging>
+                [pagingOptions]="_options.pagingOptions">
+        </basic-paging>
 
         <div *ngIf="_options.columnsSelection" class="column-selector">
             <a [title]="_options.columnSelectionTitle || ''" style="cursor: pointer;" data-toggle="collapse" [attr.data-target]="'#columnSelection' + internalId">
