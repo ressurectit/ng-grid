@@ -1,8 +1,9 @@
-import {EventEmitter, ChangeDetectorRef} from "@angular/core";
+import {EventEmitter, ChangeDetectorRef, Injectable} from "@angular/core";
 
 /**
  * Abstract class that represents any paging component
  */
+@Injectable()
 export abstract class PagingAbstractComponent
 {
     //######################### public properties #########################
