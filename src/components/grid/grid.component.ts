@@ -8,7 +8,6 @@ import {Subject} from 'rxjs/Subject';
 import {Subscription} from 'rxjs/Subscription';
 
 //TODO - add way to change paging component
-//TODO - test change detection on Push
 //TODO - add localData
 //TODO - try to remove <div> from <td>
 
@@ -55,7 +54,7 @@ import {Subscription} from 'rxjs/Subscription';
                 <tr *ngFor="let row of data; let rowIndex = index" [ngClass]="isRowSelected(row) ? rowSelectionClass : ''" [class]="rowCssClassCallback(row)" (click)="toggleRowSelection(row)">
                     <td *ngFor="let column of columns" [ngClass]="{hidden: !column.visible}" class="{{column.cellClass}}">
                         <div *ngIf="column.template">
-                            <column-template-renderer [column]="column" [rowData]="row" [currentIndex]="rowIndex" [rowIndexes]="_rowIndexes"></column-template-renderer>
+                            <column-template-renderer [column]="column" [rowData]="row" [currentIndex]="rowIndex" [rowIndexes]="rowIndexes"></column-template-renderer>
                         </div>
 
                         <div *ngIf="!column.template">
@@ -77,17 +76,17 @@ import {Subscription} from 'rxjs/Subscription';
                 (pageChange)="page = $event"
                 [(itemsPerPage)]="itemsPerPage"
                 [totalCount]="totalCount"
-                [itemsPerPageValues]="_options.itemsPerPageValues">
+                [pagingOptions]="_options.pagingOptions.itemsPerPageValues">
         </paging>
 
         <div *ngIf="_options.columnsSelection" class="column-selector">
-            <a [title]="_options.columnSelectionTitle || ''" style="cursor: pointer;" data-toggle="collapse" [attr.data-target]="'#columnSelection' + _internalId">
+            <a [title]="_options.columnSelectionTitle || ''" style="cursor: pointer;" data-toggle="collapse" [attr.data-target]="'#columnSelection' + internalId">
                 <span class="glyphicon glyphicon-list"></span>
             </a>
 
-            <div class="{{_options.columnSelectionCssClass}} collapse" [id]="'columnSelection' + _internalId">
+            <div class="{{_options.columnSelectionCssClass}} collapse" [id]="'columnSelection' + internalId">
                 <div class="clearfix">
-                    <a class="pull-right" style="cursor: pointer;" data-toggle="collapse" [attr.data-target]="'#columnSelection' + _internalId">
+                    <a class="pull-right" style="cursor: pointer;" data-toggle="collapse" [attr.data-target]="'#columnSelection' + internalId">
                         <span class="glyphicon glyphicon-remove"></span>
                     </a>
                 </div>
@@ -95,10 +94,10 @@ import {Subscription} from 'rxjs/Subscription';
                 <div *ngFor="let column of columns; let index=index">
                     <dl *ngIf="column.selectionVisible">
                         <dt>
-                            <input [id]="'column' + _internalId + column.name" type="checkbox" [disabled]="!_isColumnSelectionAllowed(column)" [checked]="column.visible" (click)="toggleColumn(index)">
+                            <input [id]="'column' + internalId + column.name" type="checkbox" [disabled]="!_isColumnSelectionAllowed(column)" [checked]="column.visible" (click)="toggleColumn(index)">
                         </dt>
                         <dd>
-                            <label [attr.for]="'column' + _internalId + column.name">{{column.title}}</label>
+                            <label [attr.for]="'column' + internalId + column.name">{{column.title}}</label>
                         </dd>
                     </dl>
                 </div>
@@ -206,16 +205,6 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
     private _debounceSubject: Subject<boolean> = new Subject<boolean>();
 
     /**
-     * Row indexes that are displayed
-     */
-    private _rowIndexes: number[] = [];
-
-    /**
-     * Id that represents grid component
-     */
-    private _internalId: string;
-
-    /**
      * Final template used for no data found message
      */
     private _noDataFoundTemplate: TemplateRef<any>;
@@ -260,27 +249,45 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
         return this._page;
     }
 
-    //######################### public properties #########################
+    //######################### public properties - bindings #########################
+
+    /**
+     * Id that represents grid component
+     * @internal
+     */
+    public internalId: string;
+
+    /**
+     * Row indexes that are displayed
+     * @internal
+     */
+    public rowIndexes: number[] = [];
 
     /**
      * Number of all items for current filter
+     * @internal
      */
     public _totalCount: number;
 
     /**
      * Column groups that are rendered
+     * @internal
      */
     public _columnGroups: ColumnGroupComponent[] = [];
 
     /**
      * Array of column definitions for columns
+     * @internal
      */
     public columns: ColumnComponent[];
 
     /**
      * Options that are used for configuring grid
+     * @internal
      */
     public _options: GridOptions;
+
+    //######################### public properties - children #########################
 
     /**
      * Array of column definitions for columns, content getter
@@ -312,6 +319,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
     @ViewChild("noDataFoundContainer", { read: ViewContainerRef })
     public _noDataFoundContainer: ViewContainerRef;
 
+    //######################### public properties #########################
     /**
      * Gets or sets current page number of grid
      */
@@ -501,7 +509,10 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
             cssClass: "",
             columnSelectionCssClass: "column-selection",
             columnSelectionTitle: "",
-            itemsPerPageValues: [],
+            pagingOptions:
+            {
+                itemsPerPageValues: []
+            },
             initialItemsPerPage: 10,
             initialPage: 1,
             debounceDataCallback: 40,
@@ -536,7 +547,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
                                            this.orderByDirection);
             });
 
-        this._internalId = Utils.common.generateId(16);
+        this.internalId = Utils.common.generateId(16);
         this.internalPage = this._options.initialPage;
 
         let settings = this.gridSettings;
@@ -795,7 +806,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
             .setItemsPerPage(this.itemsPerPage)
             .setItemCount(this.totalCount);
 
-        this._rowIndexes = paginator.getIndexesPerPage();
+        this.rowIndexes = paginator.getIndexesPerPage();
 
         return paginator;
     }

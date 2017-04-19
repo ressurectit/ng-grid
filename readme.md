@@ -318,7 +318,7 @@ export class AdvancedGridComponent
 - `columnSelectionTitle?: string` - Title that is shown while hovering over column selection icon
 - `initialPage?: number` - Initial page index that will be rendered
 - `initialItemsPerPage?: number` - Initial number of items per page that will be rendered
-- `itemsPerPageValues?: number[]` - Available values for items per page, if not set you wont be able to change number items per page
+- `pagingOptions?: number[]` - Options passed to paging component, specific to selected paging
 - `debounceDataCallback?: number` - Number of miliseconds that are used for debounce call of dataCallback, or false
 - `minVisibleColumns?: number` - Minimal number of visible columns for grid
 - `maxVisibleColumns?: number` - Maximal number of visible columns for grid

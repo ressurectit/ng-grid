@@ -46,9 +46,9 @@ export interface GridOptions
     initialItemsPerPage?: number;
     
     /**
-     * Available values for items per page, if not set you wont be able to change number items per page
+     * Options passed to paging component, specific to selected paging
      */
-    itemsPerPageValues?: number[];
+    pagingOptions?: any;
     
     /**
      * Number of miliseconds that are used for debounce call of dataCallback, or false
