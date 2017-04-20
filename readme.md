@@ -20,6 +20,8 @@ Module contains component for *Grid* and *Paging*.
 * Grid supports ordering for single column
 * Grid supports column templating
 * Grid supports column selection
+* Grid supports dynamic paging change if paging *Component* extends `PagingAbstractComponent`
+* BasicPaging is set to `OnPush` change detection
 
 ## Installation
 
@@ -135,7 +137,7 @@ export class BasicGridComponent
             initialItemsPerPage: 10,
             initialPage: 1,
             dataCallback: this._getData.bind(this),
-            itemsPerPageValues: [10, 20]
+            pagingOptions: {itemsPerPageValues: [10, 20]}
         };
     }
 
@@ -238,7 +240,7 @@ export class AdvancedGridComponent
             initialItemsPerPage: 10,
             initialPage: 1,
             dataCallback: this._getData.bind(this),
-            itemsPerPageValues: [10, 20]
+            pagingOptions: {itemsPerPageValues: [10, 20]}
         };
     }
 
@@ -326,16 +328,38 @@ export class AdvancedGridComponent
 - `dataCallback?: (page: number, itemsPerPage: number, orderBy: string, orderByDirection: OrderByDirection) => void` - Callback that is used for changing displayed data
 - `rowSelectionEnabled?: boolean` - Indication whether row selection is enabled
 - `autoLoadData?: boolean` - Indication that grid should try to load data at the end of init phase DEFAULT: true
----
-### `PagingComponent` - Component used for rendering paging
 
-#### *Component*
- - `selector: "paging"`
+---
+### `PagingAbstractComponent` - Abstract class that represents any paging component
+
+#### *Decorators*
+ - `Injectable()`
+
+#### *Properties*
+ - `pagingOptions: any` - Gets or sets options specific to paging implementation
+ - `page: number` - Gets or sets index of currently selected page
+ - `itemsPerPage: number` - Gets or sets number of items currently used for paging
+ - `totalCount: number` - Gets or sets number of all items that are paged with current filter criteria
+ - `pageChange: EventEmitter<number>` - Occurs when index of currently selected page has been changed
+ - `itemsPerPageChange: EventEmitter<number>` - Occurs when number of items per page currently selected has been changed
+
+#### *Methods*
+ - `invalidateVisuals(): void` - Explicitly runs invalidation of content (change detection)
+
+---
+### `BasicPagingComponent` - Component used for rendering basic simple paging
+
+#### *Extends*
+- `PagingAbstractComponent`
+
+#### *Decorators*
+ - `Component()`
+    - `selector: "basic-paging"`
+    - `changeDetection: ChangeDetectionStrategy.OnPush`
 
 #### *Properties*
  - `inputs`
-    - `itemsPerPageValues: number[]` - Gets or sets array of available values for itemsPerPage DEFAULT: []
-    - `pagesDispersion: number` - Page dispersion parameter for rendered pages DEFAULT: 4
+    - `pagingOptions: {pagesDispersion?: number, itemsPerPageValues: number[]}` - Gets or sets options specific to paging implementation DEFAULT: {itemsPerPageValues: null, pagesDispersion: 4}
     - `page: number` - Gets or sets index of currently selected page
     - `itemsPerPage: number` - Gets or sets number of items currently used for paging
     - `totalCount: number` - Gets or sets number of all items that are paged with current filter criteria
@@ -346,8 +370,9 @@ export class AdvancedGridComponent
 ---
 ### `ColumnComponent` - Definition of column metadata
 
-#### *Component*
- - `selector: "ng-grid > ng-column"`
+#### *Decorators*
+ - `Component()`
+    - `selector: "ng-grid > ng-column"`
 
 #### *Properties*
  - `inputs`
@@ -379,8 +404,9 @@ export class AdvancedGridComponent
 ---
 ### `ColumnGroupComponent` - Definition of column group metadata
 
-#### *Component*
- - `selector: "ng-grid > ng-columnGroup, ng-columnGroup > ng-columnGroup"`
+#### *Decorators*
+ - `Component()`
+    - `selector: "ng-grid > ng-columnGroup, ng-columnGroup > ng-columnGroup"`
 
 #### *Properties*
  - `inputs`
@@ -391,8 +417,10 @@ export class AdvancedGridComponent
 ---
 ### `GridComponent` - Grid component used for displaying data
 
-#### *Component*
- - `selector: "ng-grid"`
+#### *Decorators*
+ - `Component()`
+    - `selector: "ng-grid"`
+    - `changeDetection: ChangeDetectionStrategy.OnPush`
 
 #### *Properties*
  - `page: number` - Gets or sets current page number of grid

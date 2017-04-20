@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 3.1.0
+- added `PagingAbstractComponent` base class for paging components
+- `PagingComponent` renamed to `BasicPagingComponent`
+- `BasicPagingComponent` is now set to OnPush change detection
+- `BasicPagingComponent` has new selector `'basic-paging'`
+- grid now supports dynamic change of paging component using new `GridOptions`
+- `GridOptions` added `pagingOptions` and `pagingType`
+
 ## Version 3.0.2
 - grid added option for disabling automatic data loading on init
 

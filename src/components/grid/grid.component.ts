@@ -68,12 +68,12 @@ import {Subscription} from 'rxjs/Subscription';
         </table>
 
         <div #noDataFoundContainer></div>
-        
+
         <ng-template #noDataFoundTemplate>
             <div *ngIf="noDataMessage" class="alert alert-tight text-center">{{noDataMessage}}</div>
-        </ng-template>        
+        </ng-template>
 
-        <ng-template [ngIf]=="gridOptions.pagingEnabled">
+        <ng-template [ngIf]="gridOptions.pagingEnabled">
             <ng-template #pagingComponent="ngComponentOutletEx" [ngComponentOutletEx]="gridOptions.pagingType"></ng-template>
         </ng-template>
 
@@ -160,7 +160,7 @@ import {Subscription} from 'rxjs/Subscription';
             visibility: visible;
             pointer-events: auto;
         }
-        
+
         .row-selected
         {
             background-color: #efefef;
@@ -249,6 +249,12 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
      */
     public gridOptions: GridOptions;
 
+    /**
+     * Array of column definitions for columns
+     * @internal
+     */
+    public columns: ColumnComponent[];
+
     //######################### public properties - children #########################
 
     /**
@@ -298,6 +304,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
     public set page(page: number)
     {
         this._page = page;
+        this._runOnPaging(paging => paging.page = this._page);
         this._setRowIndexes();
 
         this.refresh();
@@ -313,9 +320,10 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
     public set itemsPerPage(itemsPerPage: number)
     {
         this._itemsPerPage = itemsPerPage;
+        this._runOnPaging(paging => paging.itemsPerPage = this._itemsPerPage);
 
         let settings: GridCookieConfig = this.gridSettings;
-        settings.selectItemsPerPage = itemsPerPage;
+        settings.selectItemsPerPage = this._itemsPerPage;
         this.gridSettings = settings;
         this._setRowIndexes();
 
@@ -325,41 +333,6 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
     {
         return this._itemsPerPage;
     }
-
-    /**
-     * Gets visible columns
-     */
-    public get visibleColumns(): ColumnComponent[]
-    {
-        let visibleColumns: ColumnComponent[] = [];
-        if (this.columns && this.columns.length > 0) 
-        {
-            for(let i = 0; i < this.columns.length; i++)
-            {
-                if (this.columns[i].visible) 
-                {
-                    visibleColumns.push(<ColumnComponent> Utils.common.extend({}, this.columns[i]));
-                }
-            }
-        } 
-        return visibleColumns;
-    }
-
-    /**
-     * Array of column definitions for columns
-     * @internal
-     */
-    public columns: ColumnComponent[];
-
-    /**
-     * Current name of column that is used for ordering
-     */
-    public orderBy: string = null;
-
-    /**
-     * Current direction of ordering for selected column
-     */
-    public orderByDirection: OrderByDirection = null;
 
     //######################### public properties - inputs #########################
 
@@ -391,10 +364,11 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
     public set totalCount(totalCount: number)
     {
         this._totalCount = totalCount;
-        
+        this._runOnPaging(paging => paging.totalCount = this._totalCount);
+
         let paginator: Paginator = this._setRowIndexes();
         let pageCount = paginator.getPageCount() || 1;
-        
+
         if (pageCount < this.page)
         {
             this.page = pageCount;
@@ -470,6 +444,35 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
     //######################### private properties #########################
 
     /**
+     * Current name of column that is used for ordering
+     */
+    private orderBy: string = null;
+
+    /**
+     * Current direction of ordering for selected column
+     */
+    private orderByDirection: OrderByDirection = null;
+
+    /**
+     * Gets visible columns
+     */
+    private get visibleColumns(): ColumnComponent[]
+    {
+        let visibleColumns: ColumnComponent[] = [];
+        if (this.columns && this.columns.length > 0)
+        {
+            for(let i = 0; i < this.columns.length; i++)
+            {
+                if (this.columns[i].visible)
+                {
+                    visibleColumns.push(<ColumnComponent> Utils.common.extend({}, this.columns[i]));
+                }
+            }
+        }
+        return visibleColumns;
+    }
+
+    /**
      * Gets column visibility settings cookie id
      */
     private get settingsCookieId(): string
@@ -491,7 +494,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
     };
     private set gridSettings(settings: GridCookieConfig)
     {
-        if (this.id) 
+        if (this.id)
         {
             this._cookieService.setCookie(this.settingsCookieId, settings, 1000);
         }
@@ -776,20 +779,20 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
      */
     public toggleRowSelection(row: any, event: MouseEvent)
     {
-        if (event && event.stopPropagation) 
+        if (event && event.stopPropagation)
         {
             event.stopPropagation();
         }
 
-        if (this.gridOptions.rowSelectionEnabled) 
+        if (this.gridOptions.rowSelectionEnabled)
         {
             let selectionIndex = this._getRowSelectionIndex(row);
 
-            if (selectionIndex != -1) 
+            if (selectionIndex != -1)
             {
                 this.selection.splice( selectionIndex, 1);
-            } 
-            else 
+            }
+            else
             {
                 this.selection = this.selection || [];
                 this.selection.push(row);
@@ -866,39 +869,39 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
      * @param  {any} row instance of row
      * @returns number -1 if row is not selected otherwise index of row
      */
-    private _getRowSelectionIndex(row: any) : number 
+    private _getRowSelectionIndex(row: any) : number
     {
         let index : number = -1;
 
-        if (this.selection) 
+        if (this.selection)
         {
-            for (let i = 0; i < this.selection.length; i++) 
+            for (let i = 0; i < this.selection.length; i++)
             {
-                if (this.selection[i] == row) 
+                if (this.selection[i] == row)
                 {
                     index = i;
                     break;
                 }
             }
         }
-        
+
         return index;
     }
 
     /**
-     * Check if column selection is allowed on particular column 
+     * Check if column selection is allowed on particular column
      * @param {ColumnComponent} column instance of column
      * @returns true if column selection is allowed on particular column otherwise false
      */
-    private _isColumnSelectionAllowed(column: ColumnComponent) : boolean 
+    private _isColumnSelectionAllowed(column: ColumnComponent) : boolean
     {
         if (!column)
         {
             return false;
         }
 
-        if ((column.visible && (!this.gridOptions.minVisibleColumns || this.visibleColumns.length > this.gridOptions.minVisibleColumns)) || 
-            (!column.visible && (!this.gridOptions.maxVisibleColumns || this.visibleColumns.length < this.gridOptions.maxVisibleColumns))) 
+        if ((column.visible && (!this.gridOptions.minVisibleColumns || this.visibleColumns.length > this.gridOptions.minVisibleColumns)) ||
+            (!column.visible && (!this.gridOptions.maxVisibleColumns || this.visibleColumns.length < this.gridOptions.maxVisibleColumns)))
         {
             return true;
         }
@@ -915,7 +918,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
         {
             return;
         }
-        
+
         this.noDataFoundContainer.clear();
 
         let noData: boolean = isBlank(this._data) || this._data.length == 0;
@@ -923,7 +926,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
         if (noData)
         {
             this.noDataFoundContainer.createEmbeddedView(this._noDataFoundTemplate);
-        }        
+        }
     }
 
     /**
@@ -947,6 +950,28 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
         this._itemsPerPageChangeSubscription = paging.itemsPerPageChange.subscribe(itemsPerPage => this.itemsPerPage = itemsPerPage);
 
         paging.invalidateVisuals();
+    }
+
+    /**
+     * Runs action on paging component and invalidates its content as default
+     * @param {(paging: PagingAbstractComponent) => void} action Action to be run
+     * @param {boolean} invalidateContent Indication whether invalidate content (defaults to true)
+     */
+    private _runOnPaging(action: (paging: PagingAbstractComponent) => void, invalidateContent: boolean = true)
+    {
+        if(!this.pagingComponent)
+        {
+            return;
+        }
+
+        let paging = this.pagingComponent.component;
+
+        action(paging);
+
+        if(invalidateContent)
+        {
+            paging.invalidateVisuals();
+        }
     }
 }
 
