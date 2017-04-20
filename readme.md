@@ -319,6 +319,7 @@ export class AdvancedGridComponent
 - `initialPage?: number` - Initial page index that will be rendered
 - `initialItemsPerPage?: number` - Initial number of items per page that will be rendered
 - `pagingOptions?: number[]` - Options passed to paging component, specific to selected paging
+- `pagingType?: Type<PagingAbstractComponent>` - Type representing paging component implementation that will be used for paging
 - `debounceDataCallback?: number` - Number of miliseconds that are used for debounce call of dataCallback, or false
 - `minVisibleColumns?: number` - Minimal number of visible columns for grid
 - `maxVisibleColumns?: number` - Maximal number of visible columns for grid
