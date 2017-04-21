@@ -58,4 +58,11 @@ export abstract class PagingAbstractComponent
     {
         this._changeDetector.detectChanges();
     }
+
+    /**
+     * Method that initialize paging component, this method can be used for initialization if paging used dynamicaly
+     */
+    public initialize(): void
+    {
+    }
 }

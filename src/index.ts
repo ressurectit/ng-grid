@@ -7,3 +7,4 @@ export {GridOptions} from './components/grid/gridOptions';
 export {ColumnComponent} from './components/grid/column.component';
 export {ColumnGroupComponent} from './components/grid/columnGroup.component';
 export {GridModule} from './modules/grid.module';
+export {LoadMorePagingComponent} from "./components/paging/loadMorePaging.component";

@@ -7,6 +7,7 @@
 - `BasicPagingComponent` has new selector `'basic-paging'`
 - grid now supports dynamic change of paging component using new `GridOptions`
 - `GridOptions` added `pagingOptions` and `pagingType`
+- `LoadMorePagingComponent` has been added
 
 ## Version 3.0.2
 - grid added option for disabling automatic data loading on init
