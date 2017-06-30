@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 3.1.1
+- `PreviousNextPagingComponent` has been added
+
 ## Version 3.1.0
 - added `PagingAbstractComponent` base class for paging components
 - `PagingComponent` renamed to `BasicPagingComponent`

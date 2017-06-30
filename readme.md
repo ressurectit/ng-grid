@@ -22,10 +22,12 @@ Module contains component for *Grid* and *Paging*.
 * Grid supports column selection
 * Grid supports dynamic paging change if paging *Component* extends `PagingAbstractComponent`
 * Various types of paging components
-  * `BasicPagingComponet` - Displays pages and items per page, requires total count of items
-  * `LoadMorePagingComponent` - Displayes only one page and allows to load another page on click, requires total count that contains one more item than currently displayed if there is more items to display
+  * `BasicPagingComponet` - Displays pages and items per page, requires total count of items, allows selection of number of items
+  * `LoadMorePagingComponent` - Displays only one page and allows to load another page on click, requires total count that contains one more item than currently displayed if there is more items to display
+  * `PreviousNextPagingComponent` - Displays only buttons next and previous page, does not need total count of items, allows selection of number of items
 * BasicPaging is set to `OnPush` change detection
 * LoadMorePaging is set to `OnPush` change detection
+* PreviousNextPagingComponent is set to `OnPush` change detection
 
 ## Installation
 
@@ -66,6 +68,7 @@ Available types:
 
 - `BasicPagingComponent`
 - `LoadMorePagingComponent`
+- `PreviousNextPagingComponent`
 - `ColumnComponent`
 - `ColumnGroupComponent`
 - `GridComponent`
@@ -302,7 +305,7 @@ export class AdvancedGridComponent
         <ng-column name="email" title="E-Mail" headerClass="text-right" cellClass="text-right content-nowrap">
         </ng-column>
 
-        <ng-column name="address" title="Address">
+        <ng-column title="Address">
             <ng-template let-col>
                 {{col.email}} - {{col.address}}
             </ng-template>
@@ -369,6 +372,30 @@ Basic paging allows you to select pages to be displayed, displaying available pa
 #### *Properties*
  - `inputs`
     - `pagingOptions: {pagesDispersion?: number, itemsPerPageValues: number[]}` - Gets or sets options specific to paging implementation DEFAULT: {itemsPerPageValues: null, pagesDispersion: 4}
+    - `page: number` - Gets or sets index of currently selected page
+    - `itemsPerPage: number` - Gets or sets number of items currently used for paging
+    - `totalCount: number` - Gets or sets number of all items that are paged with current filter criteria
+ - `outputs`
+    - `pageChange: EventEmitter<number>` - Occurs when index of currently selected page has been changed
+    - `itemsPerPageChange: EventEmitter<number>` - Occurs when number of items per page currently selected has been changed
+    
+---
+### `PreviousNextPagingComponent` - Component used for rendering paging with next and previous buttons
+
+#### *Summary*
+Paging used for switching to next or previous page. Allows you to jump to first page. Allows you to select items per page. If you use `NaN` as items per page value, allows you to display all items. This paging does not require total count of all items available for displaying to work correctly.
+
+#### *Extends*
+- `PagingAbstractComponent`
+
+#### *Decorators*
+ - `Component()`
+    - `selector: "next-previous-paging"`
+    - `changeDetection: ChangeDetectionStrategy.OnPush`
+
+#### *Properties*
+ - `inputs`
+    - `pagingOptions: {itemsPerPageValues: number[]}` - Gets or sets options specific to paging implementation DEFAULT: {itemsPerPageValues: null}
     - `page: number` - Gets or sets index of currently selected page
     - `itemsPerPage: number` - Gets or sets number of items currently used for paging
     - `totalCount: number` - Gets or sets number of all items that are paged with current filter criteria
