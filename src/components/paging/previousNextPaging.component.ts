@@ -134,7 +134,7 @@ export class PreviousNextPagingComponent extends PagingAbstractComponent impleme
             };
         });
 
-        this._generateItemsPerPage();
+        this.generateItemsPerPage();
     }
     public get pagingOptions(): any
     {
@@ -163,7 +163,7 @@ export class PreviousNextPagingComponent extends PagingAbstractComponent impleme
     {
         this._itemsPerPage = itemsPerPage;
         this._paginator.setItemsPerPage(itemsPerPage);
-        this._generateItemsPerPage();
+        this.generateItemsPerPage();
     }
     public get itemsPerPage(): number
     {
@@ -208,13 +208,14 @@ export class PreviousNextPagingComponent extends PagingAbstractComponent impleme
         this._initialized = true;
     }
 
-    //######################### private methods - template methods #########################
+    //######################### public methods - template methods #########################
 
     /**
      * Sets page for current paging
      * @param  {number} page Page index to be set
+     * @internal
      */
-    private setPage(page: number)
+    public setPage(page: number)
     {
         if(this.isFirst && page <= 1)
         {
@@ -233,8 +234,9 @@ export class PreviousNextPagingComponent extends PagingAbstractComponent impleme
     /**
      * Sets items per page for current paging
      * @param  {ItemsPerPageItem} itemsPerPage Number of items per page
+     * @internal
      */
-    private setItemsPerPage(itemsPerPage: ItemsPerPageItem)
+    public setItemsPerPage(itemsPerPage: ItemsPerPageItem)
     {
         if(itemsPerPage.isActive)
         {
@@ -243,6 +245,15 @@ export class PreviousNextPagingComponent extends PagingAbstractComponent impleme
 
         this.itemsPerPage = itemsPerPage.value;
         this.itemsPerPageChange.emit(this.itemsPerPage);
+    }
+
+    /**
+     * Generates rendered items per page
+     * @internal
+     */
+    public generateItemsPerPage()
+    {
+        this.itemsPerPageItems.forEach(itm => itm.isActive = itm.value == this.itemsPerPage || (isNaN(itm.value) && isNaN(this.itemsPerPage)));
     }
 
     //######################### private methods #########################
@@ -254,13 +265,5 @@ export class PreviousNextPagingComponent extends PagingAbstractComponent impleme
     private _renderItemsPerPageText(value: number): string
     {
         return isNaN(value) ? "&infin;" : value.toString();
-    }
-
-    /**
-     * Generates rendered items per page
-     */
-    private _generateItemsPerPage()
-    {
-        this.itemsPerPageItems.forEach(itm => itm.isActive = itm.value == this.itemsPerPage || (isNaN(itm.value) && isNaN(this.itemsPerPage)));
     }
 }

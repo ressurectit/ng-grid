@@ -9,7 +9,7 @@ import {PagingAbstractComponent} from "./pagingAbstract.component";
     selector: 'load-more-paging',
     template: `
     <div class="text-center" *ngIf="moreAvailable">
-        <button type="button" class="btn btn-primary btn-sm" (click)="_loadMore()">Load More</button>
+        <button type="button" class="btn btn-primary btn-sm" (click)="loadMore()">Load More</button>
     </div>`
 })
 export class LoadMorePagingComponent extends PagingAbstractComponent
@@ -80,12 +80,13 @@ export class LoadMorePagingComponent extends PagingAbstractComponent
     @Output()
     public itemsPerPageChange: EventEmitter<number> = new EventEmitter<number>();
 
-    //######################### private methods #########################
+    //######################### public methods - template methods #########################
 
     /**
      * Loads more data
+     * @internal
      */
-    private _loadMore()
+    public loadMore()
     {
         this._displayedPages++;
 

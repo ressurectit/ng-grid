@@ -40,7 +40,7 @@ export class ItemsPerPageItem
             <ul class="pagination pagination-sm margin-sm-vertical">
                 <li *ngFor="let itemsPerPage of itemsPerPageItems" [ngClass]="{active: itemsPerPage.isActive, 'pointer-cursor': !itemsPerPage.isActive}">
                     <a (click)="setItemsPerPage(itemsPerPage)">
-                        <span [innerHtml]="_renderItemsPerPageText(itemsPerPage.value)"></span>
+                        <span [innerHtml]="renderItemsPerPageText(itemsPerPage.value)"></span>
                     </a>
                 </li>
             </ul>
@@ -219,13 +219,14 @@ export class BasicPagingComponent extends PagingAbstractComponent implements OnI
         this._initialized = true;
     }
 
-    //######################### private methods - template methods #########################
+    //######################### public methods - template methods #########################
 
     /**
      * Sets page for current paging
      * @param  {number} page Page index to be set
+     * @internal
      */
-    private setPage(page: {isActive: boolean; isDisabled: boolean; page: number})
+    public setPage(page: {isActive: boolean; isDisabled: boolean; page: number})
     {
         if(page.isActive || page.isDisabled)
         {
@@ -239,8 +240,9 @@ export class BasicPagingComponent extends PagingAbstractComponent implements OnI
     /**
      * Sets items per page for current paging
      * @param  {ItemsPerPageItem} itemsPerPage Number of items per page
+     * @internal
      */
-    private setItemsPerPage(itemsPerPage: ItemsPerPageItem)
+    public setItemsPerPage(itemsPerPage: ItemsPerPageItem)
     {
         if(itemsPerPage.isActive)
         {
@@ -251,16 +253,17 @@ export class BasicPagingComponent extends PagingAbstractComponent implements OnI
         this.itemsPerPageChange.emit(this.itemsPerPage);
     }
 
-    //######################### private methods #########################
-
     /**
      * Converts number to text that is going to be rendered for ItemsPerPage
      * @param  {number} value
+     * @internal
      */
-    private _renderItemsPerPageText(value: number): string
+    public renderItemsPerPageText(value: number): string
     {
         return isNaN(value) ? "&infin;" : value.toString();
     }
+
+    //######################### private methods #########################
 
     /**
      * Generates rendered pages
