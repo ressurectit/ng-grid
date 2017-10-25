@@ -538,6 +538,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
     public ngOnInit()
     {
         this._debounceSubscription = this._debounceSubject
+            .asObservable()
             .debounceTime(this.gridOptions.debounceDataCallback)
             .subscribe(() =>
             {
@@ -805,7 +806,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
      * @param  {any} row instance of row
      * @returns boolean true if row is selected otherwise false
      */
-    public isRowSelected(row: any) : boolean
+    public isRowSelected(row: any): boolean
     {
         return this._getRowSelectionIndex(row) != -1;
     }
@@ -869,7 +870,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
      * @param  {any} row instance of row
      * @returns number -1 if row is not selected otherwise index of row
      */
-    private _getRowSelectionIndex(row: any) : number
+    private _getRowSelectionIndex(row: any): number
     {
         let index : number = -1;
 
@@ -893,7 +894,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
      * @param {ColumnComponent} column instance of column
      * @returns true if column selection is allowed on particular column otherwise false
      */
-    private _isColumnSelectionAllowed(column: ColumnComponent) : boolean
+    private _isColumnSelectionAllowed(column: ColumnComponent): boolean
     {
         if (!column)
         {
@@ -940,6 +941,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
         }
 
         let paging = this.pagingComponent.component;
+        paging.uninitialize();
 
         paging.pagingOptions = this.gridOptions.pagingOptions;
         paging.page = this.page;
@@ -950,6 +952,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
         this._itemsPerPageChangeSubscription = paging.itemsPerPageChange.subscribe(itemsPerPage => this.itemsPerPage = itemsPerPage);
 
         paging.invalidateVisuals();
+        paging.initialize();
     }
 
     /**

@@ -53,11 +53,6 @@ export class BasicPagingComponent extends PagingAbstractComponent implements OnI
     //######################### private fields #########################
 
     /**
-     * Indication whether is component initialized
-     */
-    private _initialized: Boolean = false;
-
-    /**
      * Paginator used for getting page numbers
      */
     private _paginator: Paginator = new Paginator();

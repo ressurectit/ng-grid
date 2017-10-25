@@ -15,7 +15,7 @@ import {PagingAbstractComponent} from "./pagingAbstract.component";
 export class LoadMorePagingComponent extends PagingAbstractComponent
 {
     //######################### private fields #########################
-    
+
     /**
      * Currently displayed pages
      */
@@ -35,23 +35,23 @@ export class LoadMorePagingComponent extends PagingAbstractComponent
     public moreAvailable: boolean = true;
 
     //######################### public properties - inputs #########################
-    
+
     /**
      * Gets or sets options specific to paging implementation - NOT USED
      */
     public pagingOptions: any;
-    
+
     /**
      * Gets or sets index of currently selected page - NOT USED
      */
     public page: number;
-    
+
     /**
      * Gets or sets number of items currently used for paging
      */
     @Input()
     public itemsPerPage: number;
-    
+
     /**
      * Gets or sets number of all items that are paged with current filter criteria
      */
@@ -67,13 +67,13 @@ export class LoadMorePagingComponent extends PagingAbstractComponent
     }
 
     //######################### public properties - outputs #########################
-    
+
     /**
      * Occurs when index of currently selected page has been changed
      */
     @Output()
     public pageChange: EventEmitter<number> = new EventEmitter<number>();
-    
+
     /**
      * Occurs when number of items per page currently selected has been changed
      */

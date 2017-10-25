@@ -6,6 +6,13 @@ import {EventEmitter, ChangeDetectorRef, Injectable} from "@angular/core";
 @Injectable()
 export abstract class PagingAbstractComponent
 {
+    //######################### protected fields #########################
+
+    /**
+     * Indication whether is component initialized
+     */
+    protected _initialized: boolean = false;
+
     //######################### public properties #########################
 
     /**
@@ -64,5 +71,14 @@ export abstract class PagingAbstractComponent
      */
     public initialize(): void
     {
+        this._initialized = true;
+    }
+
+    /**
+     * Method that unitialize paging component, this method can be used for delaying initialization if paging used dynamicaly
+     */
+    public uninitialize(): void
+    {
+        this._initialized = false;
     }
 }

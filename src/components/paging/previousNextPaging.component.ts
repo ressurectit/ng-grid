@@ -48,11 +48,6 @@ export class PreviousNextPagingComponent extends PagingAbstractComponent impleme
     //######################### private fields #########################
 
     /**
-     * Indication whether is component initialized
-     */
-    private _initialized: Boolean = false;
-
-    /**
      * Paginator used for getting page numbers
      */
     private _paginator: Paginator = new Paginator();

@@ -354,6 +354,8 @@ export class AdvancedGridComponent
 
 #### *Methods*
  - `invalidateVisuals(): void` - Explicitly runs invalidation of content (change detection)
+ - `initialize(): void` - Method that initialize paging component, this method can be used for initialization if paging used dynamicaly
+ - `uninitialize(): void` - Method that unitialize paging component, this method can be used for delaying initialization if paging used dynamicaly
 
 ---
 ### `BasicPagingComponent` - Component used for rendering basic simple paging

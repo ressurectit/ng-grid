@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 3.1.3
+- fixed properly setting of initial page to paging
+- added new method `uninitialize` for `PagingAbstractComponent`
+
+## Version 3.1.2
+- changed private methods accessed from template to public
+
 ## Version 3.1.1
 - `PreviousNextPagingComponent` has been added
 
