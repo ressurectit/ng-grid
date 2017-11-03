@@ -8,6 +8,7 @@ import {BasicPagingComponent} from "../paging/basicPaging.component";
 import {PagingAbstractComponent} from "../paging/pagingAbstract.component";
 import {Subject} from 'rxjs/Subject';
 import {Subscription} from 'rxjs/Subscription';
+import {debounceTime} from 'rxjs/operators';
 
 //TODO - add localData
 //TODO - grid make grid ready to be dynamic, need to split ngOnInit => initialize => detectChanges
@@ -92,7 +93,7 @@ import {Subscription} from 'rxjs/Subscription';
                 <div *ngFor="let column of columns; let index=index">
                     <dl *ngIf="column.selectionVisible">
                         <dt>
-                            <input [id]="'column' + internalId + column.name" type="checkbox" [disabled]="!_isColumnSelectionAllowed(column)" [checked]="column.visible" (click)="toggleColumn(index)">
+                            <input [id]="'column' + internalId + column.name" type="checkbox" [disabled]="!isColumnSelectionAllowed(column)" [checked]="column.visible" (click)="toggleColumn(index)">
                         </dt>
                         <dd>
                             <label [attr.for]="'column' + internalId + column.name">{{column.title}}</label>
@@ -521,6 +522,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
             autoLoadData: true,
             dataCallback: (page: number, itemsPerPage: number, orderBy: string, orderByDirection: OrderByDirection) =>
             {
+                console.log(page, itemsPerPage, orderBy, orderByDirection);
                 //TODO - client implementation
 
                 this.totalCount = this.data.length;
@@ -539,7 +541,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
     {
         this._debounceSubscription = this._debounceSubject
             .asObservable()
-            .debounceTime(this.gridOptions.debounceDataCallback)
+            .pipe(debounceTime(this.gridOptions.debounceDataCallback))
             .subscribe(() =>
             {
                 this.selection = [];
@@ -811,6 +813,27 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
         return this._getRowSelectionIndex(row) != -1;
     }
 
+    /**
+     * Check if column selection is allowed on particular column
+     * @param {ColumnComponent} column instance of column
+     * @returns true if column selection is allowed on particular column otherwise false
+     */
+    public isColumnSelectionAllowed(column: ColumnComponent): boolean
+    {
+        if (!column)
+        {
+            return false;
+        }
+
+        if ((column.visible && (!this.gridOptions.minVisibleColumns || this.visibleColumns.length > this.gridOptions.minVisibleColumns)) ||
+            (!column.visible && (!this.gridOptions.maxVisibleColumns || this.visibleColumns.length < this.gridOptions.maxVisibleColumns)))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     //######################### private methdos #########################
 
     /**
@@ -887,27 +910,6 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
         }
 
         return index;
-    }
-
-    /**
-     * Check if column selection is allowed on particular column
-     * @param {ColumnComponent} column instance of column
-     * @returns true if column selection is allowed on particular column otherwise false
-     */
-    private _isColumnSelectionAllowed(column: ColumnComponent): boolean
-    {
-        if (!column)
-        {
-            return false;
-        }
-
-        if ((column.visible && (!this.gridOptions.minVisibleColumns || this.visibleColumns.length > this.gridOptions.minVisibleColumns)) ||
-            (!column.visible && (!this.gridOptions.maxVisibleColumns || this.visibleColumns.length < this.gridOptions.maxVisibleColumns)))
-        {
-            return true;
-        }
-
-        return false;
     }
 
     /**

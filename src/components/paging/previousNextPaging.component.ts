@@ -1,5 +1,5 @@
 import {Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy} from '@angular/core';
-import {Paginator, isArray, isBlank, isPresent, isJsObject, isNumber} from '@anglr/common';
+import {Paginator, isArray, isBlank, isJsObject} from '@anglr/common';
 import {PagingAbstractComponent} from "./pagingAbstract.component";
 import {ItemsPerPageItem} from "./basicPaging.component";
 
@@ -35,7 +35,7 @@ import {ItemsPerPageItem} from "./basicPaging.component";
             <ul class="pagination pagination-sm margin-sm-vertical">
                 <li *ngFor="let itemsPerPage of itemsPerPageItems" [ngClass]="{active: itemsPerPage.isActive, 'pointer-cursor': !itemsPerPage.isActive}">
                     <a (click)="setItemsPerPage(itemsPerPage)">
-                        <span [innerHtml]="_renderItemsPerPageText(itemsPerPage.value)"></span>
+                        <span [innerHtml]="renderItemsPerPageText(itemsPerPage.value)"></span>
                     </a>
                 </li>
             </ul>
@@ -251,13 +251,11 @@ export class PreviousNextPagingComponent extends PagingAbstractComponent impleme
         this.itemsPerPageItems.forEach(itm => itm.isActive = itm.value == this.itemsPerPage || (isNaN(itm.value) && isNaN(this.itemsPerPage)));
     }
 
-    //######################### private methods #########################
-
     /**
      * Converts number to text that is going to be rendered for ItemsPerPage
      * @param  {number} value
      */
-    private _renderItemsPerPageText(value: number): string
+    public renderItemsPerPageText(value: number): string
     {
         return isNaN(value) ? "&infin;" : value.toString();
     }

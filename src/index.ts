@@ -1,5 +1,3 @@
-import 'rxjs/add/operator/debounceTime';
-
 export {BasicPagingComponent, ItemsPerPageItem} from './components/paging/basicPaging.component';
 export {PagingAbstractComponent} from './components/paging/pagingAbstract.component';
 export {GRID_DIRECTIVES, GridComponent} from './components/grid/grid.component';
