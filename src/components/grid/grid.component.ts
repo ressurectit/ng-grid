@@ -89,16 +89,12 @@ import {Subscription} from 'rxjs/Subscription';
                     </a>
                 </div>
 
-                <div *ngFor="let column of columns; let index=index">
-                    <dl *ngIf="column.selectionVisible">
-                        <dt>
-                            <input [id]="'column' + internalId + column.name" type="checkbox" [disabled]="!_isColumnSelectionAllowed(column)" [checked]="column.visible" (click)="toggleColumn(index)">
-                        </dt>
-                        <dd>
-                            <label [attr.for]="'column' + internalId + column.name">{{column.title}}</label>
-                        </dd>
-                    </dl>
-                </div>
+                <ng-template ngFor [ngForOf]="columns" let-column let-index="index">
+                    <div *ngIf="column.selectionVisible" style="white-space: nowrap;">
+                        <input [id]="'column' + internalId + column.name" type="checkbox" [disabled]="!_isColumnSelectionAllowed(column)" [checked]="column.visible" (click)="toggleColumn(index)">
+                        <label [attr.for]="'column' + internalId + column.name">{{column.title}}</label>
+                    </div>
+                </ng-template>
             </div>
         </div>
     </div>`,
@@ -117,22 +113,6 @@ import {Subscription} from 'rxjs/Subscription';
             border-radius: 6px;
             box-shadow: 0 0 3px #d3d3f3;
             padding: 8px;
-        }
-
-        .column-selector dl
-        {
-            margin: 0;
-        }
-
-        .column-selector dt
-        {
-            float: left;
-        }
-
-        .column-selector dd
-        {
-            margin-left: 15px;
-            white-space: nowrap;
         }
 
         .column-selector

@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 3.1.4
+- fixed displaying of column selection for Google Chrome
+
 ## Version 3.1.3
 - fixed properly setting of initial page to paging
 - added new method `uninitialize` for `PagingAbstractComponent`
