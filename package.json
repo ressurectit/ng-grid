@@ -1,6 +1,6 @@
 {
     "name": "@anglr/grid",
-    "version": "4.0.2",
+    "version": "4.0.3",
     "description": "Angular module displaying grid",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",

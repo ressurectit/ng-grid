@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 4.0.3
+- fixed displaying of column selection for Google Chrome
+
+## Version 3.1.4
+- fixed displaying of column selection for Google Chrome
+
 ## Version 4.0.2
  - returned typescript version back to 2.4.2 and removed distJit
 
