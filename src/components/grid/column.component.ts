@@ -1,15 +1,15 @@
 import {Component, Input, ContentChild, TemplateRef, AfterContentInit} from '@angular/core';
-import {ColumnTemplateContext} from './columnTemplate.context';
+import {ColumnTemplateLegacyContext} from './columnTemplate.context';
 
 /**
  * Definition of column metadata
  */
 @Component(
 {
-    selector: "ng-grid > ng-column",
+    selector: "ng-legacy-grid > ng-legacy-column",
     template: ''
 })
-export class ColumnComponent implements AfterContentInit
+export class ColumnLegacyComponent implements AfterContentInit
 {
     //######################### public properties - inputs #########################
     
@@ -85,19 +85,19 @@ export class ColumnComponent implements AfterContentInit
      * Template that is used for rendering of cell
      */
     @ContentChild(TemplateRef) 
-    public template: TemplateRef<ColumnTemplateContext>;
+    public template: TemplateRef<ColumnTemplateLegacyContext>;
 
     /**
      * Template that is used for rendering of cell header
      */
     @ContentChild('headerTemplate')
-    public headerTemplate: TemplateRef<ColumnTemplateContext>;
+    public headerTemplate: TemplateRef<ColumnTemplateLegacyContext>;
 
     /**
      * Template that is used for rendering of cell body
      */
     @ContentChild('bodyTemplate')
-    public bodyTemplate: TemplateRef<ColumnTemplateContext>;
+    public bodyTemplate: TemplateRef<ColumnTemplateLegacyContext>;
 
     /**
      * Css class that is used for displaying current ordering
@@ -109,7 +109,7 @@ export class ColumnComponent implements AfterContentInit
      * Instance of template used for rendering body
      * @internal
      */
-    public bodyTemplateInstance: TemplateRef<ColumnTemplateContext>;
+    public bodyTemplateInstance: TemplateRef<ColumnTemplateLegacyContext>;
     
     //######################### constructor #########################
     constructor()

@@ -5,10 +5,10 @@ import {Component, Input} from '@angular/core';
  */
 @Component(
 {
-    selector: "ng-grid > ng-columnGroup, ng-columnGroup > ng-columnGroup",
+    selector: "ng-legacy-grid > ng-legacy-columnGroup, ng-legacy-columnGroup > ng-legacy-columnGroup",
     template: ''
 })
-export class ColumnGroupComponent
+export class ColumnGroupLegacyComponent
 {
     //######################### public properties - inputs #########################
     

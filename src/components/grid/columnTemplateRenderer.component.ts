@@ -1,23 +1,23 @@
 import {Component, Input, OnInit, ViewContainerRef, TemplateRef} from '@angular/core';
-import {ColumnTemplateContext} from './columnTemplate.context';
-import {ColumnComponent} from './column.component';
+import {ColumnTemplateLegacyContext} from './columnTemplate.context';
+import {ColumnLegacyComponent} from './column.component';
 
 /**
  * Renderer that is used for rendering column template
  */
 @Component(
 {
-    selector: "ng-grid > column-template-renderer",
+    selector: "ng-legacy-grid > column-template-renderer",
     template: ''
 })
-export class ColumnTemplateRendererComponent implements OnInit
+export class ColumnTemplateRendererLegacyComponent implements OnInit
 {
     //######################### private fields #########################
 
     /**
      * Context fur current template
      */
-    private _context: ColumnTemplateContext;
+    private _context: ColumnTemplateLegacyContext;
 
     /**
      * Row indexes of displayed items
@@ -30,7 +30,7 @@ export class ColumnTemplateRendererComponent implements OnInit
      * Column definition for currenttly rendered column
      */
     @Input()
-    public column: ColumnComponent;
+    public column: ColumnLegacyComponent;
 
     /**
      * Data to be used for rendering
@@ -48,7 +48,7 @@ export class ColumnTemplateRendererComponent implements OnInit
      * Template that is used to render content
      */
     @Input()
-    public template: TemplateRef<ColumnTemplateContext>;
+    public template: TemplateRef<ColumnTemplateLegacyContext>;
 
     /**
      * Row indexes of displayed items
@@ -80,7 +80,7 @@ export class ColumnTemplateRendererComponent implements OnInit
      */
     public ngOnInit()
     {
-        this._context = new ColumnTemplateContext(this.rowData, this.column, this.currentIndex, this.rowIndexes);
-        this._viewContainer.createEmbeddedView<ColumnTemplateContext>(this.template ? this.template : this.column.bodyTemplateInstance, this._context);
+        this._context = new ColumnTemplateLegacyContext(this.rowData, this.column, this.currentIndex, this.rowIndexes);
+        this._viewContainer.createEmbeddedView<ColumnTemplateLegacyContext>(this.template ? this.template : this.column.bodyTemplateInstance, this._context);
     }
 }

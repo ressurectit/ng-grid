@@ -1,11 +1,11 @@
 import {Type} from '@angular/core';
 import {OrderByDirection} from '@anglr/common';
-import {PagingAbstractComponent} from "../paging/pagingAbstract.component";
+import {PagingAbstractLegacyComponent} from "../paging/pagingAbstract.component";
 
 /**
  * Options for grid configuration 
  */
-export interface GridOptions
+export interface GridLegacyOptions
 {
     /**
      * Indication whether is paging enabled
@@ -55,7 +55,7 @@ export interface GridOptions
     /**
      * Type representing paging component implementation that will be used for paging
      */
-    pagingType?: Type<PagingAbstractComponent>;
+    pagingType?: Type<PagingAbstractLegacyComponent>;
     
     /**
      * Number of miliseconds that are used for debounce call of dataCallback, or false

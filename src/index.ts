@@ -1,9 +1,9 @@
-export {BasicPagingComponent, ItemsPerPageItem} from './components/paging/basicPaging.component';
-export {PagingAbstractComponent} from './components/paging/pagingAbstract.component';
-export {GRID_DIRECTIVES, GridComponent} from './components/grid/grid.component';
-export {GridOptions} from './components/grid/gridOptions';
-export {ColumnComponent} from './components/grid/column.component';
-export {ColumnGroupComponent} from './components/grid/columnGroup.component';
-export {GridModule} from './modules/grid.module';
-export {LoadMorePagingComponent} from "./components/paging/loadMorePaging.component";
-export {PreviousNextPagingComponent} from "./components/paging/previousNextPaging.component";
+export {BasicPagingLegacyComponent, LegacyItemsPerPageItem} from './components/paging/basicPaging.component';
+export {PagingAbstractLegacyComponent} from './components/paging/pagingAbstract.component';
+export {GRID_LEGACY_DIRECTIVES, GridLegacyComponent} from './components/grid/grid.component';
+export {GridLegacyOptions} from './components/grid/gridOptions';
+export {ColumnLegacyComponent} from './components/grid/column.component';
+export {ColumnGroupLegacyComponent} from './components/grid/columnGroup.component';
+export {GridLegacyModule} from './modules/gridLegacy.module';
+export {LoadMorePagingLegacyComponent} from "./components/paging/loadMorePaging.component";
+export {PreviousNextPagingLegacyComponent} from "./components/paging/previousNextPaging.component";

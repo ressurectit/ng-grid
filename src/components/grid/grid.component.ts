@@ -1,11 +1,11 @@
 import {Component, ViewChild, Input, OnInit, OnDestroy, AfterContentInit, AfterViewInit, ContentChildren, QueryList, Output, EventEmitter, ContentChild, TemplateRef, ViewContainerRef, ChangeDetectorRef, ChangeDetectionStrategy} from '@angular/core';
 import {OrderByDirection, Utils, Paginator, isString, isBlank, isPresent, CookieService, NgComponentOutletEx} from '@anglr/common';
-import {ColumnComponent} from './column.component';
-import {ColumnGroupComponent} from './columnGroup.component';
-import {GridOptions} from './gridOptions';
-import {GridCookieConfig} from './gridCookie.config';
-import {BasicPagingComponent} from "../paging/basicPaging.component";
-import {PagingAbstractComponent} from "../paging/pagingAbstract.component";
+import {ColumnLegacyComponent} from './column.component';
+import {ColumnGroupLegacyComponent} from './columnGroup.component';
+import {GridLegacyOptions} from './gridOptions';
+import {GridCookieLegacyConfig} from './gridCookie.config';
+import {BasicPagingLegacyComponent} from "../paging/basicPaging.component";
+import {PagingAbstractLegacyComponent} from "../paging/pagingAbstract.component";
 import {Subject} from 'rxjs/Subject';
 import {Subscription} from 'rxjs/Subscription';
 import {debounceTime} from 'rxjs/operators';
@@ -19,7 +19,7 @@ import {debounceTime} from 'rxjs/operators';
  */
 @Component(
 {
-    selector: 'ng-grid',
+    selector: 'ng-legacy-grid',
     template:
    `<div style="position: relative; overflow-x: auto;" class="table-div {{gridOptions.cssClass}}">
         <table class="table table-condensed table-striped table-hover">
@@ -149,14 +149,14 @@ import {debounceTime} from 'rxjs/operators';
     `],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GridComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit
+export class GridLegacyComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit
 {
     //######################### private fields #########################
 
     /**
      * Default options that are used for configuraging grid
      */
-    private _defaultOptions: GridOptions;
+    private _defaultOptions: GridLegacyOptions;
 
     /**
      * Current page number of grid
@@ -222,33 +222,33 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
      * Column groups that are rendered
      * @internal
      */
-    public columnGroups: ColumnGroupComponent[] = [];
+    public columnGroups: ColumnGroupLegacyComponent[] = [];
 
     /**
      * Options that are used for configuring grid
      * @internal
      */
-    public gridOptions: GridOptions;
+    public gridOptions: GridLegacyOptions;
 
     /**
      * Array of column definitions for columns
      * @internal
      */
-    public columns: ColumnComponent[];
+    public columns: ColumnLegacyComponent[];
 
     //######################### public properties - children #########################
 
     /**
      * Array of column definitions for columns, content getter
      */
-    @ContentChildren(ColumnComponent)
-    public columnsComponents: QueryList<ColumnComponent>;
+    @ContentChildren(ColumnLegacyComponent)
+    public columnsComponents: QueryList<ColumnLegacyComponent>;
 
     /**
      * Array of column group definitions for grid, content getter
      */
-    @ContentChildren(ColumnGroupComponent)
-    public columnGroupsComponents: QueryList<ColumnGroupComponent>;
+    @ContentChildren(ColumnGroupLegacyComponent)
+    public columnGroupsComponents: QueryList<ColumnGroupLegacyComponent>;
 
     /**
      * Custom template for no data found message
@@ -275,7 +275,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
      * @internal
      */
     @ViewChild('pagingComponent')
-    public pagingComponent: NgComponentOutletEx<PagingAbstractComponent>;
+    public pagingComponent: NgComponentOutletEx<PagingAbstractLegacyComponent>;
 
     //######################### public properties #########################
 
@@ -303,7 +303,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
         this._itemsPerPage = itemsPerPage;
         this._runOnPaging(paging => paging.itemsPerPage = this._itemsPerPage);
 
-        let settings: GridCookieConfig = this.gridSettings;
+        let settings: GridCookieLegacyConfig = this.gridSettings;
         settings.selectItemsPerPage = this._itemsPerPage;
         this.gridSettings = settings;
         this._setRowIndexes();
@@ -370,7 +370,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
      * Set options that are used for configuring grid
      */
     @Input()
-    public set options(options: GridOptions)
+    public set options(options: GridLegacyOptions)
     {
         //TODO - add change detection for grid options
 
@@ -420,7 +420,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
      * Occurs when column selection was changed
      */
     @Output()
-    public columnSelectionChange: EventEmitter<ColumnComponent> = new EventEmitter<ColumnComponent>();
+    public columnSelectionChange: EventEmitter<ColumnLegacyComponent> = new EventEmitter<ColumnLegacyComponent>();
 
     //######################### private properties #########################
 
@@ -437,16 +437,16 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
     /**
      * Gets visible columns
      */
-    private get visibleColumns(): ColumnComponent[]
+    private get visibleColumns(): ColumnLegacyComponent[]
     {
-        let visibleColumns: ColumnComponent[] = [];
+        let visibleColumns: ColumnLegacyComponent[] = [];
         if (this.columns && this.columns.length > 0)
         {
             for(let i = 0; i < this.columns.length; i++)
             {
                 if (this.columns[i].visible)
                 {
-                    visibleColumns.push(<ColumnComponent> Utils.common.extend({}, this.columns[i]));
+                    visibleColumns.push(<ColumnLegacyComponent> Utils.common.extend({}, this.columns[i]));
                 }
             }
         }
@@ -464,16 +464,16 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
     /**
      * Gets or sets settings for current grid
      */
-    private get gridSettings(): GridCookieConfig
+    private get gridSettings(): GridCookieLegacyConfig
     {
         if (!this.id)
         {
             return {};
         }
 
-        return (<GridCookieConfig>this._cookieService.getCookie(this.settingsCookieId)) || {};
+        return (<GridCookieLegacyConfig>this._cookieService.getCookie(this.settingsCookieId)) || {};
     };
-    private set gridSettings(settings: GridCookieConfig)
+    private set gridSettings(settings: GridCookieLegacyConfig)
     {
         if (this.id)
         {
@@ -495,7 +495,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
             {
                 itemsPerPageValues: []
             },
-            pagingType: BasicPagingComponent,
+            pagingType: BasicPagingLegacyComponent,
             initialItemsPerPage: 10,
             initialPage: 1,
             debounceDataCallback: 40,
@@ -592,7 +592,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
     public ngAfterContentInit()
     {
         let columns = this.columnsComponents.toArray();
-        let settings: GridCookieConfig = this.gridSettings;
+        let settings: GridCookieLegacyConfig = this.gridSettings;
 
         if(isPresent(settings.selectedColumns))
         {
@@ -650,7 +650,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
         this.columnSelectionChange.emit(this.columns[index]);
         this._calculateGroupColSpan();
 
-        let settings: GridCookieConfig = this.gridSettings;
+        let settings: GridCookieLegacyConfig = this.gridSettings;
         settings.selectedColumns = this.columns.map(itm => itm.visible);
         this.gridSettings = settings;
     }
@@ -685,16 +685,16 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
 
     /**
      * Performs ordering on provided column
-     * @param  {ColumnComponent|string} orderingColumn Name of column or column itself that is used for ordering
+     * @param  {ColumnLegacyComponent|string} orderingColumn Name of column or column itself that is used for ordering
      */
-    public performsOrdering(orderingColumn: ColumnComponent|string)
+    public performsOrdering(orderingColumn: ColumnLegacyComponent|string)
     {
         if(isBlank(orderingColumn))
         {
             throw new Error("Unable perform ordering if no column was specified");
         }
 
-        let column: ColumnComponent = <ColumnComponent>orderingColumn;
+        let column: ColumnLegacyComponent = <ColumnLegacyComponent>orderingColumn;
 
         if(isString(orderingColumn))
         {
@@ -795,10 +795,10 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
 
     /**
      * Check if column selection is allowed on particular column
-     * @param {ColumnComponent} column instance of column
+     * @param {ColumnLegacyComponent} column instance of column
      * @returns true if column selection is allowed on particular column otherwise false
      */
-    public isColumnSelectionAllowed(column: ColumnComponent): boolean
+    public isColumnSelectionAllowed(column: ColumnLegacyComponent): boolean
     {
         if (!column)
         {
@@ -939,10 +939,10 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
 
     /**
      * Runs action on paging component and invalidates its content as default
-     * @param {(paging: PagingAbstractComponent) => void} action Action to be run
+     * @param {(paging: PagingAbstractLegacyComponent) => void} action Action to be run
      * @param {boolean} invalidateContent Indication whether invalidate content (defaults to true)
      */
-    private _runOnPaging(action: (paging: PagingAbstractComponent) => void, invalidateContent: boolean = true)
+    private _runOnPaging(action: (paging: PagingAbstractLegacyComponent) => void, invalidateContent: boolean = true)
     {
         if(!this.pagingComponent)
         {
@@ -963,4 +963,4 @@ export class GridComponent implements OnInit, OnDestroy, AfterContentInit, After
 /**
  * Grid directives
  */
-export const GRID_DIRECTIVES = [GridComponent, ColumnComponent, ColumnGroupComponent];
+export const GRID_LEGACY_DIRECTIVES = [GridLegacyComponent, ColumnLegacyComponent, ColumnGroupLegacyComponent];

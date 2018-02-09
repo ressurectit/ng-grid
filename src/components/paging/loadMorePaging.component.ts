@@ -1,18 +1,18 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {PagingAbstractComponent} from "./pagingAbstract.component";
+import {PagingAbstractLegacyComponent} from "./pagingAbstract.component";
 
 /**
  * Paging that uses simple button to load more content
  */
 @Component(
 {
-    selector: 'load-more-paging',
+    selector: 'load-more-legacy-paging',
     template: `
     <div class="text-center" *ngIf="moreAvailable">
         <button type="button" class="btn btn-primary btn-sm" (click)="loadMore()">Load More</button>
     </div>`
 })
-export class LoadMorePagingComponent extends PagingAbstractComponent
+export class LoadMorePagingLegacyComponent extends PagingAbstractLegacyComponent
 {
     //######################### private fields #########################
 

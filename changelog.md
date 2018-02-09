@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 5.0.0-beta.0
+- old grid renamed to `ng-legacy-grid`, `GridLegacyComponent`
+- old column component renamed to `ng-legacy-column`, `ColumnLegacyComponent`
+- old column group component renamed to `ng-legacy-columnGroup`, `ColumnGroupLegacyComponent`
+- old basic paging renamed to `basic-legacy-paging`, `BasicPagingLegacyComponent`
+- old basic paging renamed to `load-more-legacy-paging`, `LoadMorePagingLegacyComponent`
+- old basic paging renamed to `PagingAbstractLegacyComponent`
+- old basic paging renamed to `next-previous-legacy-paging`, `PreviousNextPagingLegacyComponent`
+- all classes used by *Legacy* grid are deprecated, will be removed in version 6
+
 ## Version 4.0.3
 - fixed displaying of column selection for Google Chrome
 

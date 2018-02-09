@@ -4,7 +4,7 @@ import {EventEmitter, ChangeDetectorRef, Injectable} from "@angular/core";
  * Abstract class that represents any paging component
  */
 @Injectable()
-export abstract class PagingAbstractComponent
+export abstract class PagingAbstractLegacyComponent
 {
     //######################### protected fields #########################
 

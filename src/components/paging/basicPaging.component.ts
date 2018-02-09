@@ -1,11 +1,11 @@
 import {Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Paginator, isArray, isBlank, isPresent, isJsObject, isNumber} from '@anglr/common';
-import {PagingAbstractComponent} from "./pagingAbstract.component";
+import {PagingAbstractLegacyComponent} from "./pagingAbstract.component";
 
 /**
  * Items per page single item
  */
-export class ItemsPerPageItem
+export class LegacyItemsPerPageItem
 {
     /**
      * Indication that item is active
@@ -23,7 +23,7 @@ export class ItemsPerPageItem
  */
 @Component(
 {
-    selector: "basic-paging",
+    selector: "basic-legacy-paging",
     template:
    `<div>
         <ul class="pagination pagination-sm margin-sm-vertical">
@@ -48,7 +48,7 @@ export class ItemsPerPageItem
     </div>`,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BasicPagingComponent extends PagingAbstractComponent implements OnInit
+export class BasicPagingLegacyComponent extends PagingAbstractLegacyComponent implements OnInit
 {
     //######################### private fields #########################
 
@@ -97,7 +97,7 @@ export class BasicPagingComponent extends PagingAbstractComponent implements OnI
      * Array of items per page that are rendered
      * @internal
      */
-    public itemsPerPageItems: ItemsPerPageItem[] = [];
+    public itemsPerPageItems: LegacyItemsPerPageItem[] = [];
 
     //######################### public properties - inputs #########################
 
@@ -234,10 +234,10 @@ export class BasicPagingComponent extends PagingAbstractComponent implements OnI
 
     /**
      * Sets items per page for current paging
-     * @param  {ItemsPerPageItem} itemsPerPage Number of items per page
+     * @param  {LegacyItemsPerPageItem} itemsPerPage Number of items per page
      * @internal
      */
-    public setItemsPerPage(itemsPerPage: ItemsPerPageItem)
+    public setItemsPerPage(itemsPerPage: LegacyItemsPerPageItem)
     {
         if(itemsPerPage.isActive)
         {

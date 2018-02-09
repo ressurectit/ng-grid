@@ -1,14 +1,14 @@
 import {Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Paginator, isArray, isBlank, isJsObject} from '@anglr/common';
-import {PagingAbstractComponent} from "./pagingAbstract.component";
-import {ItemsPerPageItem} from "./basicPaging.component";
+import {PagingAbstractLegacyComponent} from "./pagingAbstract.component";
+import {LegacyItemsPerPageItem} from "./basicPaging.component";
 
 /**
  * Component used for rendering paging with next and previous buttons
  */
 @Component(
 {
-    selector: "next-previous-paging",
+    selector: "next-previous-legacy-paging",
     template:
    `<div>
         <ul class="pagination pagination-sm margin-sm-vertical">
@@ -43,7 +43,7 @@ import {ItemsPerPageItem} from "./basicPaging.component";
     </div>`,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PreviousNextPagingComponent extends PagingAbstractComponent implements OnInit
+export class PreviousNextPagingLegacyComponent extends PagingAbstractLegacyComponent implements OnInit
 {
     //######################### private fields #########################
 
@@ -79,7 +79,7 @@ export class PreviousNextPagingComponent extends PagingAbstractComponent impleme
      * Array of items per page that are rendered
      * @internal
      */
-    public itemsPerPageItems: ItemsPerPageItem[] = [];
+    public itemsPerPageItems: LegacyItemsPerPageItem[] = [];
 
     /**
      * Indication that currently displayed page is first
@@ -228,10 +228,10 @@ export class PreviousNextPagingComponent extends PagingAbstractComponent impleme
 
     /**
      * Sets items per page for current paging
-     * @param  {ItemsPerPageItem} itemsPerPage Number of items per page
+     * @param  {LegacyItemsPerPageItem} itemsPerPage Number of items per page
      * @internal
      */
-    public setItemsPerPage(itemsPerPage: ItemsPerPageItem)
+    public setItemsPerPage(itemsPerPage: LegacyItemsPerPageItem)
     {
         if(itemsPerPage.isActive)
         {
