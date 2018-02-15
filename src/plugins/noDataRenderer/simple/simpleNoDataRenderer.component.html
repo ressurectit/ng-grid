@@ -1,0 +1,3 @@
+<div [ngClass]="options?.cssClasses?.wrapperDiv" *ngIf="!dataPresent">
+    <span [ngClass]="options?.cssClasses?.textSpan" *ngIf="!options?.template; else options?.template">{{options?.text}}</span>
+</div>

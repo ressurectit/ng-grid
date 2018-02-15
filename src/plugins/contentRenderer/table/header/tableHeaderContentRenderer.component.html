@@ -1,0 +1,17 @@
+<tr>
+    <th *ngFor="let meta of metadata; let index=index" 
+        [ngClass]="mergeStringClasses(options?.cssClasses?.thDefault, meta?.headerClass, meta?.ordering ? options?.cssClasses?.thOrderable : null)" 
+        [style.width]="meta?.width"
+        (click)="orderBy(meta)">
+        <ng-template [ngIf]="meta?.titleVisible">
+            <ng-template [ngIf]="!meta?.headerTemplate" [ngIfElse]="headerTemplate">
+                <span [ngClass]="options?.cssClasses?.spanContent">{{meta?.title}}</span>
+            </ng-template>
+
+            <ng-template #headerTemplate [ngTemplateOutlet]="meta?.headerTemplate" [ngTemplateOutletContext]="meta?.getColumnContext(null, meta, index)">
+            </ng-template>
+
+            <span *ngIf="meta?.ordering" [ngClass]="mergeStringClasses(options?.cssClasses?.spanOrdering, meta?.orderingClass)"></span>
+        </ng-template>
+    </th>
+</tr>

@@ -1,515 +1,200 @@
-import {Component, ViewChild, Input, OnInit, OnDestroy, AfterContentInit, AfterViewInit, ContentChildren, QueryList, Output, EventEmitter, ContentChild, TemplateRef, ViewContainerRef, ChangeDetectorRef, ChangeDetectionStrategy} from '@angular/core';
-import {OrderByDirection, Utils, Paginator, isString, isBlank, isPresent, CookieService, NgComponentOutletEx} from '@anglr/common';
-import {ColumnLegacyComponent} from './column.component';
-import {ColumnGroupLegacyComponent} from './columnGroup.component';
-import {GridLegacyOptions} from './gridOptions';
-import {GridCookieLegacyConfig} from './gridCookie.config';
-import {BasicPagingLegacyComponent} from "../paging/basicPaging.component";
-import {PagingAbstractLegacyComponent} from "../paging/pagingAbstract.component";
-import {Subject} from 'rxjs/Subject';
-import {Subscription} from 'rxjs/Subscription';
-import {debounceTime} from 'rxjs/operators';
+import {Component, ChangeDetectionStrategy, ValueProvider, Inject, Optional, Type, Input, OnInit, AfterViewChecked, ContentChild, forwardRef, resolveForwardRef} from "@angular/core";
+import {Utils} from "@anglr/common";
 
-//TODO - add localData
-//TODO - grid make grid ready to be dynamic, need to split ngOnInit => initialize => detectChanges
-//TODO - create interface for grid for public use
+import {GRID_PLUGIN_INSTANCES, GridPluginInstances, Grid, GridFunction} from "./grid.interface";
+import {GridOptions, PagingPosition, PluginDescription, GRID_OPTIONS, PAGING_TYPE, DATA_LOADER_TYPE, CONTENT_RENDERER_TYPE, METADATA_SELECTOR_TYPE, GridPlugin, NO_DATA_RENDERER_TYPE, TEXTS_LOCATOR_TYPE, ROW_SELECTOR_TYPE} from "../../misc";
+import {BasicPagingComponent, PAGING, Paging} from "../../plugins/paging";
+import {MetadataGatherer, METADATA_GATHERER} from "../metadata";
+import {DataLoader, DATA_LOADER, AsyncDataLoaderComponent} from "../../plugins/dataLoader";
+import {ContentRenderer, CONTENT_RENDERER, TableContentRendererComponent} from "../../plugins/contentRenderer";
+import {MetadataSelector, METADATA_SELECTOR, NoMetadataSelectorComponent} from "../../plugins/metadataSelector";
+import {NoDataRenderer, SimpleNoDataRendererComponent, NO_DATA_RENDERER} from "../../plugins/noDataRenderer";
+import {NoTextsLocatorComponent, TextsLocator, TEXTS_LOCATOR} from "../../plugins/textsLocator";
+import {BasicRowSelectorComponent, RowSelector, ROW_SELECTOR} from "../../plugins/rowSelector";
 
 /**
- * Grid component used for displaying data
+ * Default 'GridOptions'
+ */
+const defaultOptions: GridOptions =
+{
+    autoInitialize: true,
+    pagingPosition: PagingPosition.Bottom,
+    plugins:
+    {
+        paging: <PluginDescription<BasicPagingComponent>>
+        {
+            type: forwardRef(() => BasicPagingComponent)
+        },
+        metadataSelector: <PluginDescription<NoMetadataSelectorComponent<any>>>
+        {
+            type: forwardRef(() => NoMetadataSelectorComponent)
+        },
+        dataLoader: <PluginDescription<AsyncDataLoaderComponent<any, any>>>
+        {
+            type: forwardRef(() => AsyncDataLoaderComponent)
+        },
+        contentRenderer: <PluginDescription<TableContentRendererComponent<any, any, any>>>
+        {
+            type: forwardRef(() => TableContentRendererComponent)
+        },
+        noDataRenderer: <PluginDescription<SimpleNoDataRendererComponent>>
+        {
+            type: forwardRef(() => SimpleNoDataRendererComponent)
+        },
+        textsLocator: <PluginDescription<NoTextsLocatorComponent>>
+        {
+            type: forwardRef(() => NoTextsLocatorComponent)
+        },
+        rowSelector: <PluginDescription<BasicRowSelectorComponent<any, any, any>>>
+        {
+            type: forwardRef(() => BasicRowSelectorComponent)
+        }
+    }
+};
+
+/**
+ * Grid component used for rendering grid
  */
 @Component(
 {
-    selector: 'ng-legacy-grid',
-    template:
-   `<div style="position: relative; overflow-x: auto;" class="table-div {{gridOptions.cssClass}}">
-        <table class="table table-condensed table-striped table-hover">
-            <thead>
-                <tr *ngIf="columnGroups.length > 0">
-                    <ng-template ngFor let-group [ngForOf]="columnGroups">
-                        <th *ngIf="group.colSpan > 0" [attr.colspan]="group.colSpan" [class]="group.cssClass">
-                            {{group.title}}
-                        </th>
-                    </ng-template>
-                </tr>
-
-                <tr>
-                    <th *ngFor="let column of columns"
-                        class="{{column.headerClass}}"
-                        [ngClass]="{hidden: !column.visible, 'column-orderable': column.ordering}"
-                        [ngStyle]="{width: column.width}"
-                        (click)="performsOrdering(column)">
-                        <span style="white-space: nowrap;">
-                            <span style="white-space: normal;" [title]="column.headerTooltip || ''">
-                                <ng-template [ngIf]="column.headerTemplate">
-                                    <column-template-renderer [template]="column.headerTemplate" [column]="column"></column-template-renderer>
-                                </ng-template>
-                                <ng-template [ngIf]="!column.headerTemplate">
-                                    {{column.titleVisible ? column.title : ""}}
-                                </ng-template>
-                            </span>
-                            <span *ngIf="column.ordering" class="fa {{column.orderingCssClass}}"></span>
-                        </span>
-                    </th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <tr *ngFor="let row of data; let rowIndex = index" [ngClass]="isRowSelected(row) ? rowSelectionClass : ''" [class]="rowCssClassCallback(row)" (click)="toggleRowSelection(row)">
-                    <td *ngFor="let column of columns" [ngClass]="{hidden: !column.visible}" class="{{column.cellClass}}">
-                        <ng-template [ngIf]="column.template">
-                            <column-template-renderer [column]="column" [rowData]="row" [currentIndex]="rowIndex" [rowIndexes]="rowIndexes"></column-template-renderer>
-                        </ng-template>
-
-                        <ng-template [ngIf]="!column.template">
-                            {{row[column.name]}}
-                        </ng-template>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-        <div #noDataFoundContainer></div>
-
-        <ng-template #noDataFoundTemplate>
-            <div *ngIf="noDataMessage" class="alert alert-tight text-center">{{noDataMessage}}</div>
-        </ng-template>
-
-        <ng-template [ngIf]="gridOptions.pagingEnabled">
-            <ng-template #pagingComponent="ngComponentOutletEx" [ngComponentOutletEx]="gridOptions.pagingType"></ng-template>
-        </ng-template>
-
-        <div *ngIf="gridOptions.columnsSelection" class="column-selector">
-            <a [title]="gridOptions.columnSelectionTitle || ''" style="cursor: pointer;" data-toggle="collapse" [attr.data-target]="'#columnSelection' + internalId">
-                <span class="glyphicon glyphicon-list"></span>
-            </a>
-
-            <div class="{{gridOptions.columnSelectionCssClass}} collapse" [id]="'columnSelection' + internalId">
-                <div class="clearfix">
-                    <a class="pull-right" style="cursor: pointer;" data-toggle="collapse" [attr.data-target]="'#columnSelection' + internalId">
-                        <span class="glyphicon glyphicon-remove"></span>
-                    </a>
-                </div>
-
-                <ng-template ngFor [ngForOf]="columns" let-column let-index="index">
-                    <div *ngIf="column.selectionVisible" style="white-space: nowrap;">
-                        <input [id]="'column' + internalId + column.name" type="checkbox" [disabled]="!isColumnSelectionAllowed(column)" [checked]="column.visible" (click)="toggleColumn(index)">
-                        <label [attr.for]="'column' + internalId + column.name">{{column.title}}</label>
-                    </div>
-                </ng-template>
-            </div>
-        </div>
-    </div>`,
-    styles:
-    [`
-        .column-orderable:hover
+    selector: 'ng-grid',
+    templateUrl: 'grid.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers:
+    [
+        <ValueProvider>
         {
-            background-color: #f4f4f4;
-            cursor: pointer;
+            provide: GRID_PLUGIN_INSTANCES,
+            useValue: {}
         }
-
-        .column-selection
-        {
-            background-color: #fff;
-            border: 1px solid #d3d3d3;
-            border-radius: 6px;
-            box-shadow: 0 0 3px #d3d3f3;
-            padding: 8px;
-        }
-
-        .column-selector
-        {
-            visibility: hidden;
-            opacity: 0;
-            position: absolute;
-            right: 0;
-            top: 0;
-            transition: all 200ms;
-            pointer-events: none;
-            z-index: 10;
-        }
-
-        .column-selector > div
-        {
-            position: absolute;
-            right: 0;
-            top: 0;
-        }
-
-        .table-div:hover > .column-selector
-        {
-            opacity: 1;
-            visibility: visible;
-            pointer-events: auto;
-        }
-
-        .row-selected
-        {
-            background-color: #efefef;
-        }
-    `],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    ]
 })
-export class GridLegacyComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit
+export class GridComponent implements OnInit, AfterViewChecked, Grid
 {
     //######################### private fields #########################
 
     /**
-     * Default options that are used for configuraging grid
+     * Grid options
      */
-    private _defaultOptions: GridLegacyOptions;
+    private _gridOptions: GridOptions;
 
     /**
-     * Current page number of grid
+     * Indication that grid has been fully initialized
      */
-    private _page: number = null;
-
-    /**
-     * Current number of items per page
-     */
-    private _itemsPerPage: number = null;
-
-    /**
-     * Subscription for debounce dataCallback
-     */
-    private _debounceSubscription: Subscription = null;
-
-    /**
-     * Subscription for paging page change
-     */
-    private _pageChangeSubscription: Subscription = null;
-
-    /**
-     * Subscription for paging items per page change
-     */
-    private _itemsPerPageChangeSubscription: Subscription = null;
-
-    /**
-     * Subject for debounce dataCallback
-     */
-    private _debounceSubject: Subject<boolean> = new Subject<boolean>();
-
-    /**
-     * Final template used for no data found message
-     */
-    private _noDataFoundTemplate: TemplateRef<any>;
-
-    /**
-     * Backing field for data that are rendered in grid
-     */
-    private _data: any[];
-
-    /**
-     * Number of all items for current filter
-     * @internal
-     */
-    private _totalCount: number;
-
-    //######################### public properties - bindings #########################
-
-    /**
-     * Id that represents grid component
-     * @internal
-     */
-    public internalId: string;
-
-    /**
-     * Row indexes that are displayed
-     * @internal
-     */
-    public rowIndexes: number[] = [];
-
-    /**
-     * Column groups that are rendered
-     * @internal
-     */
-    public columnGroups: ColumnGroupLegacyComponent[] = [];
-
-    /**
-     * Options that are used for configuring grid
-     * @internal
-     */
-    public gridOptions: GridLegacyOptions;
-
-    /**
-     * Array of column definitions for columns
-     * @internal
-     */
-    public columns: ColumnLegacyComponent[];
-
-    //######################### public properties - children #########################
-
-    /**
-     * Array of column definitions for columns, content getter
-     */
-    @ContentChildren(ColumnLegacyComponent)
-    public columnsComponents: QueryList<ColumnLegacyComponent>;
-
-    /**
-     * Array of column group definitions for grid, content getter
-     */
-    @ContentChildren(ColumnGroupLegacyComponent)
-    public columnGroupsComponents: QueryList<ColumnGroupLegacyComponent>;
-
-    /**
-     * Custom template for no data found message
-     */
-    @ContentChild("noDataFoundTemplate")
-    public noDataFoundCustom: TemplateRef<any>;
-
-    /**
-     * Default template for no data found message
-     * @internal
-     */
-    @ViewChild("noDataFoundTemplate")
-    public noDataFoundDefault: TemplateRef<any>;
-
-    /**
-     * Container for no data found message
-     * @internal
-     */
-    @ViewChild("noDataFoundContainer", { read: ViewContainerRef })
-    public noDataFoundContainer: ViewContainerRef;
-
-    /**
-     * Paging component that is rendered for grid
-     * @internal
-     */
-    @ViewChild('pagingComponent')
-    public pagingComponent: NgComponentOutletEx<PagingAbstractLegacyComponent>;
-
-    //######################### public properties #########################
-
-    /**
-     * Gets or sets current page number of grid
-     */
-    public set page(page: number)
-    {
-        this._page = page;
-        this._runOnPaging(paging => paging.page = this._page);
-        this._setRowIndexes();
-
-        this.refresh();
-    }
-    public get page(): number
-    {
-        return this._page;
-    }
-
-    /**
-     * Gets or sets current number of items per page
-     */
-    public set itemsPerPage(itemsPerPage: number)
-    {
-        this._itemsPerPage = itemsPerPage;
-        this._runOnPaging(paging => paging.itemsPerPage = this._itemsPerPage);
-
-        let settings: GridCookieLegacyConfig = this.gridSettings;
-        settings.selectItemsPerPage = this._itemsPerPage;
-        this.gridSettings = settings;
-        this._setRowIndexes();
-
-        this.refresh();
-    }
-    public get itemsPerPage(): number
-    {
-        return this._itemsPerPage;
-    }
+    private _initialized: boolean = false;
 
     //######################### public properties - inputs #########################
 
     /**
-     * Id of grid, must be unique
+     * Gets or sets grid options
      */
     @Input()
-    public id: string;
-
-    /**
-     * Gets or sets data that are rendered in grid
-     */
-    @Input()
-    public set data(data: any[])
+    public set gridOptions(options: GridOptions)
     {
-        this._data = data;
-
-        this._toggleNoDataTemplate();
+        this._gridOptions = Utils.common.extend(true, this._gridOptions, options);
     }
-    public get data(): any[]
+    public get gridOptions(): GridOptions
     {
-        return this._data;
+        return this._gridOptions;
     }
 
+    //######################### public properties - children #########################
+
     /**
-     * Number of all items for current filter
+     * Metadata gatherer instance
      */
-    @Input()
-    public set totalCount(totalCount: number)
+    @ContentChild(METADATA_GATHERER)
+    public metadataGatherer: MetadataGatherer<any>;
+
+    //######################### constructors #########################
+    constructor(@Inject(GRID_PLUGIN_INSTANCES) private _pluginInstances: GridPluginInstances,
+                @Inject(GRID_OPTIONS) @Optional() options?: GridOptions,
+                @Inject(PAGING_TYPE) @Optional() pagingType?: Type<Paging>,
+                @Inject(DATA_LOADER_TYPE) @Optional() dataLoaderType?: Type<DataLoader<any>>,
+                @Inject(CONTENT_RENDERER_TYPE) @Optional() contentRendererType?: Type<ContentRenderer<any>>,
+                @Inject(METADATA_SELECTOR_TYPE) @Optional() metadataSelectorType?: Type<MetadataSelector<any>>,
+                @Inject(NO_DATA_RENDERER_TYPE) @Optional() noDataRendererType?: Type<NoDataRenderer>,
+                @Inject(TEXTS_LOCATOR_TYPE) @Optional() textsLocatorType?: Type<TextsLocator>,
+                @Inject(ROW_SELECTOR_TYPE) @Optional() rowSelectorType?: Type<RowSelector<any, any, any>>)
     {
-        this._totalCount = totalCount;
-        this._runOnPaging(paging => paging.totalCount = this._totalCount);
+        let opts: GridOptions = Utils.common.extend({}, options);
 
-        let paginator: Paginator = this._setRowIndexes();
-        let pageCount = paginator.getPageCount() || 1;
-
-        if (pageCount < this.page)
+        if(!opts.plugins)
         {
-            this.page = pageCount;
-        }
-    }
-    public get totalCount(): number
-    {
-        return this._totalCount;
-    }
-
-    /**
-     * Callback function that is called for each row with data of row and allows you to return string css classes, enables adding special css classes to row
-     */
-    @Input()
-    public rowCssClassCallback: (rowData: any) => string = () => "";
-
-    /**
-     * Set options that are used for configuring grid
-     */
-    @Input()
-    public set options(options: GridLegacyOptions)
-    {
-        //TODO - add change detection for grid options
-
-        this.gridOptions = options;
-
-        if(isBlank(this.gridOptions))
-        {
-            this.gridOptions = this._defaultOptions;
+            opts.plugins = {};
         }
 
-        Object.keys(this._defaultOptions).forEach(key =>
+        if(pagingType)
         {
-            if(isBlank(this.gridOptions[key]))
+            if(!opts.plugins.paging)
             {
-                this.gridOptions[key] = this._defaultOptions[key];
+                opts.plugins.paging = {};
             }
-        });
-    }
 
-    /**
-     * Selected rows
-     */
-    @Input()
-    public selection: any;
+            opts.plugins.paging.type = pagingType;
+        }
 
-    /**
-     * CSS class for selected rows
-     */
-    @Input()
-    public rowSelectionClass: string = "row-selected";
-
-    /**
-     * Message for no data found alert default template
-     */
-    @Input()
-    public noDataMessage: string;
-
-    //######################### public properties - outputs #########################
-
-    /**
-     * Occurs when row selection was changed
-     */
-    @Output()
-    public selectionChange: EventEmitter<any> = new EventEmitter<any>();
-
-    /**
-     * Occurs when column selection was changed
-     */
-    @Output()
-    public columnSelectionChange: EventEmitter<ColumnLegacyComponent> = new EventEmitter<ColumnLegacyComponent>();
-
-    //######################### private properties #########################
-
-    /**
-     * Current name of column that is used for ordering
-     */
-    private orderBy: string = null;
-
-    /**
-     * Current direction of ordering for selected column
-     */
-    private orderByDirection: OrderByDirection = null;
-
-    /**
-     * Gets visible columns
-     */
-    private get visibleColumns(): ColumnLegacyComponent[]
-    {
-        let visibleColumns: ColumnLegacyComponent[] = [];
-        if (this.columns && this.columns.length > 0)
+        if(dataLoaderType)
         {
-            for(let i = 0; i < this.columns.length; i++)
+            if(!opts.plugins.dataLoader)
             {
-                if (this.columns[i].visible)
-                {
-                    visibleColumns.push(<ColumnLegacyComponent> Utils.common.extend({}, this.columns[i]));
-                }
+                opts.plugins.dataLoader = {};
             }
+
+            opts.plugins.dataLoader.type = dataLoaderType;
         }
-        return visibleColumns;
-    }
-
-    /**
-     * Gets column visibility settings cookie id
-     */
-    private get settingsCookieId(): string
-    {
-        return `grid-settings-${this.id}`;
-    }
-
-    /**
-     * Gets or sets settings for current grid
-     */
-    private get gridSettings(): GridCookieLegacyConfig
-    {
-        if (!this.id)
+        
+        if(contentRendererType)
         {
-            return {};
-        }
-
-        return (<GridCookieLegacyConfig>this._cookieService.getCookie(this.settingsCookieId)) || {};
-    };
-    private set gridSettings(settings: GridCookieLegacyConfig)
-    {
-        if (this.id)
-        {
-            this._cookieService.setCookie(this.settingsCookieId, settings, 1000);
-        }
-    }
-
-    //######################### constructor #########################
-    constructor(private _changeDetectorRef: ChangeDetectorRef,
-                private _cookieService: CookieService)
-    {
-        this._defaultOptions = {
-            pagingEnabled: true,
-            columnsSelection: false,
-            cssClass: "",
-            columnSelectionCssClass: "column-selection",
-            columnSelectionTitle: "",
-            pagingOptions:
+            if(!opts.plugins.contentRenderer)
             {
-                itemsPerPageValues: []
-            },
-            pagingType: BasicPagingLegacyComponent,
-            initialItemsPerPage: 10,
-            initialPage: 1,
-            debounceDataCallback: 40,
-            autoLoadData: true,
-            dataCallback: (page: number, itemsPerPage: number, orderBy: string, orderByDirection: OrderByDirection) =>
-            {
-                console.log(page, itemsPerPage, orderBy, orderByDirection);
-                //TODO - client implementation
-
-                this.totalCount = this.data.length;
+                opts.plugins.contentRenderer = {};
             }
-        };
 
-        this.gridOptions = this._defaultOptions;
+            opts.plugins.contentRenderer.type = contentRendererType;
+        }
+
+        if(metadataSelectorType)
+        {
+            if(!opts.plugins.metadataSelector)
+            {
+                opts.plugins.metadataSelector = {};
+            }
+
+            opts.plugins.metadataSelector.type = metadataSelectorType;
+        }
+
+        if(noDataRendererType)
+        {
+            if(!opts.plugins.noDataRenderer)
+            {
+                opts.plugins.noDataRenderer = {};
+            }
+
+            opts.plugins.noDataRenderer.type = noDataRendererType;
+        }
+
+        if(textsLocatorType)
+        {
+            if(!opts.plugins.textsLocator)
+            {
+                opts.plugins.textsLocator = {};
+            }
+
+            opts.plugins.textsLocator.type = textsLocatorType;
+        }
+
+        if(rowSelectorType)
+        {
+            if(!opts.plugins.rowSelector)
+            {
+                opts.plugins.rowSelector = {};
+            }
+
+            opts.plugins.rowSelector.type = rowSelectorType;
+        }
+
+        this._gridOptions = Utils.common.extend(true, {}, defaultOptions, opts);
     }
 
     //######################### public methods - implementation of OnInit #########################
@@ -519,448 +204,353 @@ export class GridLegacyComponent implements OnInit, OnDestroy, AfterContentInit,
      */
     public ngOnInit()
     {
-        this._debounceSubscription = this._debounceSubject
-            .asObservable()
-            .pipe(debounceTime(this.gridOptions.debounceDataCallback))
-            .subscribe(() =>
-            {
-                this.selection = [];
-                this.selectionChange.emit(this.selection);
-                this.gridOptions.dataCallback(this.page,
-                                           this.itemsPerPage,
-                                           this.orderBy,
-                                           this.orderByDirection);
-            });
-
-        this.internalId = Utils.common.generateId(16);
-        this._page = this.gridOptions.initialPage;
-
-        let settings = this.gridSettings;
-        let itemsPerPage;
-
-        if(isPresent(settings.selectItemsPerPage))
+        if(this._gridOptions.autoInitialize)
         {
-            itemsPerPage = settings.selectItemsPerPage;
-        }
-        else
-        {
-            itemsPerPage = this.gridOptions.initialItemsPerPage;
-        }
-
-        if(this.gridOptions.autoLoadData)
-        {
-            this.itemsPerPage = itemsPerPage;
-        }
-        else
-        {
-            this._itemsPerPage = itemsPerPage;
-            this._setRowIndexes();
+            this.initialize();
         }
     }
 
-    //######################### public methods - implementation of OnDestroy #########################
+    //######################### public methods - implementation of AfterViewChecked #########################
 
     /**
-     * Called when component is destroyed
+     * Called when view was checked
      */
-    public ngOnDestroy()
+    public ngAfterViewChecked()
     {
-        if(this._debounceSubscription)
+        if(this._initialized)
         {
-            this._debounceSubscription.unsubscribe();
-            this._debounceSubscription = null;
+            return;
         }
 
-        if(this._itemsPerPageChangeSubscription)
+        this._pluginInstances[TEXTS_LOCATOR].initialize();
+        this._pluginInstances[ROW_SELECTOR].initialize();
+        this._pluginInstances[METADATA_SELECTOR].initialize();
+        this._pluginInstances[PAGING].initialize();
+        this._pluginInstances[CONTENT_RENDERER].initialize();
+        this._pluginInstances[NO_DATA_RENDERER].initialize();
+        this._pluginInstances[DATA_LOADER].initialize();
+
+        this._initialized = true;
+    }
+
+    //######################### public methods - template bindings #########################
+
+    /**
+     * Sets paging component
+     * @param {Paging} paging Created paging that is rendered
+     * @internal
+     */
+    public setPagingComponent(paging: Paging)
+    {
+        if(!paging)
         {
-            this._itemsPerPageChangeSubscription.unsubscribe();
-            this._itemsPerPageChangeSubscription = null;
+            return;
         }
 
-        if(this._pageChangeSubscription)
+        this._initialized = false;
+        this._pluginInstances[PAGING] = paging;
+
+        if(this._gridOptions.plugins && this._gridOptions.plugins.paging && this._gridOptions.plugins.paging.options)
         {
-            this._pageChangeSubscription.unsubscribe();
-            this._pageChangeSubscription = null;
+            paging.options = this._gridOptions.plugins.paging.options;
+        }
+        
+        if(this._gridOptions.plugins && this._gridOptions.plugins.paging && this._gridOptions.plugins.paging.instanceCallback)
+        {
+            this._gridOptions.plugins.paging.instanceCallback(paging);
         }
     }
 
-    //######################### public methods - implementation of AfterContentInit #########################
-
     /**
-     * Called when content was initialized
+     * Sets metadata selector component
+     * @param {MetadataSelector<any>} metadataSelector Created metadata selector that is used
+     * @internal
      */
-    public ngAfterContentInit()
+    public setMetadataSelectorComponent(metadataSelector: MetadataSelector<any>)
     {
-        let columns = this.columnsComponents.toArray();
-        let settings: GridCookieLegacyConfig = this.gridSettings;
-
-        if(isPresent(settings.selectedColumns))
+        if(!metadataSelector)
         {
-            for(let x = 0; x < settings.selectedColumns.length; x++)
-            {
-                if(columns.length == x)
-                {
-                    break;
-                }
-
-                columns[x].visible = settings.selectedColumns[x];
-            }
+            return;
         }
 
-        this.columns = columns;
+        this._initialized = false;
+        this._pluginInstances[METADATA_SELECTOR] = metadataSelector;
 
-        if(this.columnGroupsComponents.length > 0)
+        metadataSelector.metadataGatherer = this.metadataGatherer;
+
+        if(this._gridOptions.plugins && this._gridOptions.plugins.metadataSelector && this._gridOptions.plugins.metadataSelector.options)
         {
-            let groups = this.columnGroupsComponents.toArray();
-
-            this.columnGroups = groups;
-            this._calculateGroupColSpan();
+            metadataSelector.options = this._gridOptions.plugins.metadataSelector.options;
+        }
+        
+        if(this._gridOptions.plugins && this._gridOptions.plugins.metadataSelector && this._gridOptions.plugins.metadataSelector.instanceCallback)
+        {
+            this._gridOptions.plugins.metadataSelector.instanceCallback(metadataSelector);
         }
     }
 
-    //######################### public methods - implementation of AfterViewInit #########################
-
     /**
-     * Called when view was initialized
+     * Sets data loader component
+     * @param {DataLoader} dataLoader Created data loader that is used
+     * @internal
      */
-    public ngAfterViewInit()
+    public setDataLoaderComponent(dataLoader: DataLoader<any>)
     {
-        this._noDataFoundTemplate = this.noDataFoundDefault;
-
-        if (this.noDataFoundCustom)
+        if(!dataLoader)
         {
-            this._noDataFoundTemplate = this.noDataFoundCustom;
+            return;
         }
 
-        this._toggleNoDataTemplate();
-        this._changeDetectorRef.detectChanges();
+        this._initialized = false;
+        this._pluginInstances[DATA_LOADER] = dataLoader;
 
-        this._initPaging();
+        if(this._gridOptions.plugins && this._gridOptions.plugins.dataLoader && this._gridOptions.plugins.dataLoader.options)
+        {
+            dataLoader.options = this._gridOptions.plugins.dataLoader.options;
+        }
+        
+        if(this._gridOptions.plugins && this._gridOptions.plugins.dataLoader && this._gridOptions.plugins.dataLoader.instanceCallback)
+        {
+            this._gridOptions.plugins.dataLoader.instanceCallback(dataLoader);
+        }
+    }
+
+    /**
+     * Sets content renderer component
+     * @param {ContentRenderer<any>} contentRenderer Created content renderer that is rendered
+     * @internal
+     */
+    public setContentRendererComponent(contentRenderer: ContentRenderer<any>)
+    {
+        if(!contentRenderer)
+        {
+            return;
+        }
+
+        this._initialized = false;
+        this._pluginInstances[CONTENT_RENDERER] = contentRenderer;
+
+        if(this._gridOptions.plugins && this._gridOptions.plugins.contentRenderer && this._gridOptions.plugins.contentRenderer.options)
+        {
+            contentRenderer.options = this._gridOptions.plugins.contentRenderer.options;
+        }
+        
+        if(this._gridOptions.plugins && this._gridOptions.plugins.contentRenderer && this._gridOptions.plugins.contentRenderer.instanceCallback)
+        {
+            this._gridOptions.plugins.contentRenderer.instanceCallback(contentRenderer);
+        }
+    }
+
+    /**
+     * Sets no data renderer component
+     * @param {NoDataRenderer} noDataRenderer Created no data renderer that is rendered
+     * @internal
+     */
+    public setNoDataRendererComponent(noDataRenderer: NoDataRenderer)
+    {
+        if(!noDataRenderer)
+        {
+            return;
+        }
+
+        this._initialized = false;
+        this._pluginInstances[NO_DATA_RENDERER] = noDataRenderer;
+
+        if(this._gridOptions.plugins && this._gridOptions.plugins.noDataRenderer && this._gridOptions.plugins.noDataRenderer.options)
+        {
+            noDataRenderer.options = this._gridOptions.plugins.noDataRenderer.options;
+        }
+        
+        if(this._gridOptions.plugins && this._gridOptions.plugins.noDataRenderer && this._gridOptions.plugins.noDataRenderer.instanceCallback)
+        {
+            this._gridOptions.plugins.noDataRenderer.instanceCallback(noDataRenderer);
+        }
+    }
+
+    /**
+     * Sets texts locator component
+     * @param {TextsLocator} textsLocator Created texts locator that is rendered
+     * @internal
+     */
+    public setTextsLocatorComponent(textsLocator: TextsLocator)
+    {
+        if(!textsLocator)
+        {
+            return;
+        }
+
+        this._initialized = false;
+        this._pluginInstances[TEXTS_LOCATOR] = textsLocator;
+
+        if(this._gridOptions.plugins && this._gridOptions.plugins.textsLocator && this._gridOptions.plugins.textsLocator.options)
+        {
+            textsLocator.options = this._gridOptions.plugins.textsLocator.options;
+        }
+        
+        if(this._gridOptions.plugins && this._gridOptions.plugins.textsLocator && this._gridOptions.plugins.textsLocator.instanceCallback)
+        {
+            this._gridOptions.plugins.textsLocator.instanceCallback(textsLocator);
+        }
+    }
+
+    /**
+     * Sets row selector component
+     * @param {RowSelector<any, any, any>} rowSelector Created row selector that is rendered
+     * @internal
+     */
+    public setRowSelectorComponent(rowSelector: RowSelector<any, any, any>)
+    {
+        if(!rowSelector)
+        {
+            return;
+        }
+
+        this._initialized = false;
+        this._pluginInstances[ROW_SELECTOR] = rowSelector;
+
+        if(this._gridOptions.plugins && this._gridOptions.plugins.rowSelector && this._gridOptions.plugins.rowSelector.options)
+        {
+            rowSelector.options = this._gridOptions.plugins.rowSelector.options;
+        }
+        
+        if(this._gridOptions.plugins && this._gridOptions.plugins.rowSelector && this._gridOptions.plugins.rowSelector.instanceCallback)
+        {
+            this._gridOptions.plugins.rowSelector.instanceCallback(rowSelector);
+        }
     }
 
     //######################### public methods #########################
 
     /**
-     * Toggles visibility of column
-     * @param  {number} index Index of toggled column
+     * Initialize options, automaticaly called during init phase, but can be used to reinitialize GridOptions
      */
-    public toggleColumn(index: number)
+    public initialize()
     {
-        this.columns[index].visible = !this.columns[index].visible;
-        this.columnSelectionChange.emit(this.columns[index]);
-        this._calculateGroupColSpan();
+        this._initialized = false;
 
-        let settings: GridCookieLegacyConfig = this.gridSettings;
-        settings.selectedColumns = this.columns.map(itm => itm.visible);
-        this.gridSettings = settings;
-    }
-
-    /**
-     * Refresh grid data with initial paging and ordering
-     */
-    public refreshToDefault()
-    {
-        this._page = this.gridOptions.initialPage;
-        this.orderBy = null;
-        this.orderByDirection = null;
-
-        this.refresh();
-    }
-
-    /**
-     * Refresh grid data
-     */
-    public refresh()
-    {
-        this._debounceSubject.next(true);
-    }
-
-    /**
-     * Invalidates visuals, runs change detection explicitly
-     */
-    public invalidateVisuals(): void
-    {
-        this._changeDetectorRef.detectChanges();
-    }
-
-    /**
-     * Performs ordering on provided column
-     * @param  {ColumnLegacyComponent|string} orderingColumn Name of column or column itself that is used for ordering
-     */
-    public performsOrdering(orderingColumn: ColumnLegacyComponent|string)
-    {
-        if(isBlank(orderingColumn))
+        if(this._gridOptions.plugins)
         {
-            throw new Error("Unable perform ordering if no column was specified");
-        }
-
-        let column: ColumnLegacyComponent = <ColumnLegacyComponent>orderingColumn;
-
-        if(isString(orderingColumn))
-        {
-            let tmp = this.columns.filter(itm => itm.name == orderingColumn);
-
-            if(tmp.length < 1)
+            if(this._gridOptions.plugins.paging)
             {
-                throw new Error("There is no column with specified name");
-            }
+                this._gridOptions.plugins.paging.type = resolveForwardRef(this._gridOptions.plugins.paging.type);
 
-            column = tmp[0];
-        }
-
-        if(!column.ordering)
-        {
-            return;
-        }
-
-        this.columns.forEach(col =>
-        {
-            if(col.name != column.name)
-            {
-                col.orderingCssClass = "fa-sort";
-            }
-            else
-            {
-                switch(col.orderingCssClass)
+                if(this._gridOptions.plugins.paging.instance &&
+                   this._gridOptions.plugins.paging.instance != this._pluginInstances[PAGING])
                 {
-                    case "fa-sort":
-                    default:
-                    {
-                        this.orderBy = col.name;
-                        this.orderByDirection = OrderByDirection.Ascendant;
-                        col.orderingCssClass = "fa-sort-up";
-
-                        break;
-                    }
-                    case "fa-sort-up":
-                    {
-                        this.orderBy = col.name;
-                        this.orderByDirection = OrderByDirection.Descendant;
-                        col.orderingCssClass = "fa-sort-down";
-
-                        break;
-                    }
-                    case "fa-sort-down":
-                    {
-                        this.orderBy = null;
-                        this.orderByDirection = null;
-                        col.orderingCssClass = "fa-sort";
-
-                        break;
-                    }
+                    this._pluginInstances[PAGING] = this._gridOptions.plugins.paging.instance;
+                    this._gridOptions.plugins.paging.instance.gridPlugins = this._pluginInstances;
                 }
             }
-        });
 
-        this.refresh();
-    }
-
-    /**
-     * Toggles selection on row
-     * @param  {any} row selected row
-     * @param  {MouseEvent} event mouse click event
-     */
-    public toggleRowSelection(row: any, event: MouseEvent)
-    {
-        if (event && event.stopPropagation)
-        {
-            event.stopPropagation();
-        }
-
-        if (this.gridOptions.rowSelectionEnabled)
-        {
-            let selectionIndex = this._getRowSelectionIndex(row);
-
-            if (selectionIndex != -1)
+            if(this._gridOptions.plugins.dataLoader)
             {
-                this.selection.splice( selectionIndex, 1);
+                this._gridOptions.plugins.dataLoader.type = resolveForwardRef(this._gridOptions.plugins.dataLoader.type);
+
+                if(this._gridOptions.plugins.dataLoader.instance &&
+                   this._gridOptions.plugins.dataLoader.instance != this._pluginInstances[DATA_LOADER])
+            {
+                this._pluginInstances[DATA_LOADER] = this._gridOptions.plugins.dataLoader.instance;
+                this._gridOptions.plugins.dataLoader.instance.gridPlugins = this._pluginInstances;
             }
-            else
-            {
-                this.selection = this.selection || [];
-                this.selection.push(row);
-            }
-        }
-    }
-
-    /**
-     * Check if row is selected
-     * @param  {any} row instance of row
-     * @returns boolean true if row is selected otherwise false
-     */
-    public isRowSelected(row: any): boolean
-    {
-        return this._getRowSelectionIndex(row) != -1;
-    }
-
-    /**
-     * Check if column selection is allowed on particular column
-     * @param {ColumnLegacyComponent} column instance of column
-     * @returns true if column selection is allowed on particular column otherwise false
-     */
-    public isColumnSelectionAllowed(column: ColumnLegacyComponent): boolean
-    {
-        if (!column)
-        {
-            return false;
-        }
-
-        if ((column.visible && (!this.gridOptions.minVisibleColumns || this.visibleColumns.length > this.gridOptions.minVisibleColumns)) ||
-            (!column.visible && (!this.gridOptions.maxVisibleColumns || this.visibleColumns.length < this.gridOptions.maxVisibleColumns)))
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    //######################### private methdos #########################
-
-    /**
-     * Sets row indexes
-     * @returns Paginator paginator created to enable row numbering
-     */
-    private _setRowIndexes(): Paginator
-    {
-        let paginator = new Paginator();
-
-        paginator.setPage(this.page)
-            .setItemsPerPage(this.itemsPerPage)
-            .setItemCount(this.totalCount);
-
-        this.rowIndexes = paginator.getIndexesPerPage();
-
-        return paginator;
-    }
-
-    /**
-     * Calculates col spans for displayed column groups
-     */
-    private _calculateGroupColSpan()
-    {
-        if(this.columnGroups.length < 1)
-        {
-            return;
-        }
-
-        let colSpanCounter = {};
-
-        this.columns.forEach(col =>
-        {
-            if(!col.visible)
-            {
-                return;
             }
 
-            if(isBlank(colSpanCounter[col.columnGroupName]))
+            if(this._gridOptions.plugins.contentRenderer)
             {
-                colSpanCounter[col.columnGroupName] = 1;
-            }
-            else
-            {
-                colSpanCounter[col.columnGroupName] += 1;
-            }
-        });
+                this._gridOptions.plugins.contentRenderer.type = resolveForwardRef(this._gridOptions.plugins.contentRenderer.type);
 
-        this.columnGroups.forEach(group =>
-        {
-            group.colSpan = colSpanCounter[group.name];
-        });
-    }
-
-    /**
-     * Returns selection index of row
-     * @param  {any} row instance of row
-     * @returns number -1 if row is not selected otherwise index of row
-     */
-    private _getRowSelectionIndex(row: any): number
-    {
-        let index : number = -1;
-
-        if (this.selection)
-        {
-            for (let i = 0; i < this.selection.length; i++)
-            {
-                if (this.selection[i] == row)
+                if(this._gridOptions.plugins.contentRenderer.instance &&
+                   this._gridOptions.plugins.contentRenderer.instance != this._pluginInstances[CONTENT_RENDERER])
                 {
-                    index = i;
-                    break;
+                    this._pluginInstances[CONTENT_RENDERER] = this._gridOptions.plugins.contentRenderer.instance;
+                    this._gridOptions.plugins.contentRenderer.instance.gridPlugins = this._pluginInstances;
+                }
+            }
+
+            if(this._gridOptions.plugins.metadataSelector)
+            {
+                this._gridOptions.plugins.metadataSelector.type = resolveForwardRef(this._gridOptions.plugins.metadataSelector.type);
+
+                if(this._gridOptions.plugins.metadataSelector.instance &&
+                   this._gridOptions.plugins.metadataSelector.instance != this._pluginInstances[METADATA_SELECTOR])
+                {
+                    this._pluginInstances[METADATA_SELECTOR] = this._gridOptions.plugins.metadataSelector.instance;
+                    this._gridOptions.plugins.metadataSelector.instance.gridPlugins = this._pluginInstances;
+                    this._gridOptions.plugins.metadataSelector.instance.metadataGatherer = this.metadataGatherer;
+                }
+            }
+
+            if(this._gridOptions.plugins.noDataRenderer)
+            {
+                this._gridOptions.plugins.noDataRenderer.type = resolveForwardRef(this._gridOptions.plugins.noDataRenderer.type);
+
+                if(this._gridOptions.plugins.noDataRenderer.instance &&
+                   this._gridOptions.plugins.noDataRenderer.instance != this._pluginInstances[NO_DATA_RENDERER])
+                {
+                    this._pluginInstances[NO_DATA_RENDERER] = this._gridOptions.plugins.noDataRenderer.instance;
+                    this._gridOptions.plugins.noDataRenderer.instance.gridPlugins = this._pluginInstances;
+                }
+            }
+
+            if(this._gridOptions.plugins.textsLocator)
+            {
+                this._gridOptions.plugins.textsLocator.type = resolveForwardRef(this._gridOptions.plugins.textsLocator.type);
+
+                if(this._gridOptions.plugins.textsLocator.instance &&
+                   this._gridOptions.plugins.textsLocator.instance != this._pluginInstances[TEXTS_LOCATOR])
+                {
+                    this._pluginInstances[TEXTS_LOCATOR] = this._gridOptions.plugins.textsLocator.instance;
+                    this._gridOptions.plugins.textsLocator.instance.gridPlugins = this._pluginInstances;
+                }
+            }
+
+            if(this._gridOptions.plugins.rowSelector)
+            {
+                this._gridOptions.plugins.rowSelector.type = resolveForwardRef(this._gridOptions.plugins.rowSelector.type);
+
+                if(this._gridOptions.plugins.rowSelector.instance &&
+                   this._gridOptions.plugins.rowSelector.instance != this._pluginInstances[ROW_SELECTOR])
+                {
+                    this._pluginInstances[ROW_SELECTOR] = this._gridOptions.plugins.rowSelector.instance;
+                    this._gridOptions.plugins.rowSelector.instance.gridPlugins = this._pluginInstances;
                 }
             }
         }
-
-        return index;
     }
 
     /**
-     * Shows or hide no data found message based on retrieved data
+     * Gets instance of plugin by its id
+     * @param {string} pluginId Id of plugin, use constants
      */
-    private _toggleNoDataTemplate()
+    public getPlugin<PluginType extends GridPlugin>(pluginId: string): PluginType
     {
-        if (!this.noDataFoundContainer || !this._noDataFoundTemplate)
+        return this._pluginInstances[pluginId] as PluginType;
+    }
+
+    /**
+     * Executes actions on grid
+     * @param actions Array of actions that are executed over grid
+     */
+    public execute(...actions: ((grid: GridComponent) => void)[])
+    {
+        if(!actions)
         {
             return;
         }
 
-        this.noDataFoundContainer.clear();
-
-        let noData: boolean = isBlank(this._data) || this._data.length == 0;
-
-        if (noData)
-        {
-            this.noDataFoundContainer.createEmbeddedView(this._noDataFoundTemplate);
-        }
+        actions.forEach(action => action(this));
     }
 
     /**
-     * Initialize dynamic paging component
+     * Executes function on grid and returns result
+     * @param func Function that is executed and its result is returned
      */
-    private _initPaging()
+    public executeAndReturn<TResult>(func: GridFunction<TResult>): TResult
     {
-        if(!this.pagingComponent)
+        if(!func)
         {
             return;
         }
 
-        let paging = this.pagingComponent.component;
-        paging.uninitialize();
-
-        paging.pagingOptions = this.gridOptions.pagingOptions;
-        paging.page = this.page;
-        paging.itemsPerPage = this.itemsPerPage;
-        paging.totalCount = this.totalCount;
-
-        this._pageChangeSubscription = paging.pageChange.subscribe(page => this.page = page);
-        this._itemsPerPageChangeSubscription = paging.itemsPerPageChange.subscribe(itemsPerPage => this.itemsPerPage = itemsPerPage);
-
-        paging.invalidateVisuals();
-        paging.initialize();
-    }
-
-    /**
-     * Runs action on paging component and invalidates its content as default
-     * @param {(paging: PagingAbstractLegacyComponent) => void} action Action to be run
-     * @param {boolean} invalidateContent Indication whether invalidate content (defaults to true)
-     */
-    private _runOnPaging(action: (paging: PagingAbstractLegacyComponent) => void, invalidateContent: boolean = true)
-    {
-        if(!this.pagingComponent)
-        {
-            return;
-        }
-
-        let paging = this.pagingComponent.component;
-
-        action(paging);
-
-        if(invalidateContent)
-        {
-            paging.invalidateVisuals();
-        }
+        return func(this);
     }
 }
-
-/**
- * Grid directives
- */
-export const GRID_LEGACY_DIRECTIVES = [GridLegacyComponent, ColumnLegacyComponent, ColumnGroupLegacyComponent];

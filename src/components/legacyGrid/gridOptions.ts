@@ -1,6 +1,6 @@
 import {Type} from '@angular/core';
 import {OrderByDirection} from '@anglr/common';
-import {PagingAbstractLegacyComponent} from "../paging/pagingAbstract.component";
+import {PagingAbstractLegacyComponent} from "../legacyPaging/pagingAbstract.component";
 
 /**
  * Options for grid configuration 
