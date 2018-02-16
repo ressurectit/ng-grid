@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 5.0.0-beta.3
+- added new tool that correctly updates components to use external html
+
+## Version 5.0.0-beta.2
+- added missing external html
+
 ## Version 5.0.0-beta.1
 - added new `GridComponent`
 - added new `GridModule`

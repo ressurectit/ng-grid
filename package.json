@@ -1,6 +1,6 @@
 {
     "name": "@anglr/grid",
-    "version": "5.0.0-beta.2",
+    "version": "5.0.0-beta.3",
     "description": "Angular module displaying grid",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
@@ -14,7 +14,7 @@
         "prepublishOnly": "npm run bundle",
         "postpublish": "npm run clean",
         "republish": "npm publish --force",
-        "bundle": "npm run clean && npm run build && copyfiles -u 1 src/**/*.html dist",
+        "bundle": "npm run clean && npm run build && copyfiles -u 1 src/**/*.html dist && nnrh *.js -d dist",
         "deploy:stable": "npp -b",
         "deploy:next": "npp -p -b -s \"beta\" -t \"next\"",
         "deploy:stable:local": "npp -b --registry http://local:4873",
@@ -69,6 +69,7 @@
         "copyfiles": "~1.2.0",
         "typescript": "2.6.2",
         "webpack": "3.8.1",
-        "npm-publish-package": "~1.2.0"
+        "npm-publish-package": "~1.2.0",
+        "npm-ng-require-html": "~1.0.0"
     }
 }
