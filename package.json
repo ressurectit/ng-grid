@@ -1,6 +1,6 @@
 {
     "name": "@anglr/grid",
-    "version": "5.0.0-beta.1",
+    "version": "5.0.0-beta.2",
     "description": "Angular module displaying grid",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
@@ -14,7 +14,7 @@
         "prepublishOnly": "npm run bundle",
         "postpublish": "npm run clean",
         "republish": "npm publish --force",
-        "bundle": "npm run clean && npm run build",
+        "bundle": "npm run clean && npm run build && copyfiles -u 1 src/**/*.html dist",
         "deploy:stable": "npp -b",
         "deploy:next": "npp -p -b -s \"beta\" -t \"next\"",
         "deploy:stable:local": "npp -b --registry http://local:4873",
