@@ -16,7 +16,7 @@ const UNUSED_DRAG = "UNUSED_DRAG"
 /**
  * Coordinates for spans for placements
  */
-interface SpanCoordinates
+export interface SpanCoordinates
 {
     startX?: number;
     halfOffset?: number;
@@ -470,7 +470,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
      * Event handler used for handling drag enter
      * @param {DragEvent} event Event for dragging
      */
-    public dragEnter(event: DragEvent)
+    public dragEnter()
     {
         this._dropItem.classList.toggle(this.options.cssClasses.selectionDiv.dropDraggingOverClass);
     }
@@ -493,7 +493,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
      * Event handler used for handling drag leave
      * @param {DragEvent} event Event for dragging
      */
-    public dragLeave(event: DragEvent)
+    public dragLeave()
     {
         this._dropItem.classList.toggle(this.options.cssClasses.selectionDiv.dropDraggingOverClass);
     }

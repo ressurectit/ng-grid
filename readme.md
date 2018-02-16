@@ -2,7 +2,7 @@
 
 Implementation of angular grid for displaying data.
 
-Module contains component for *Grid* and *Paging*.
+Completely reworked `GridComponent` guide and documentation to old `LegacyGrid` can be found at version >=4.0.0 `@anglr/grid`.
 
 * [Description](#description)
 * [Installation](#installation)
@@ -15,19 +15,16 @@ Module contains component for *Grid* and *Paging*.
 
 * Module supports Angular Server Side Rendering
 * Module supports Angular Ahead of Time Compilation
-* Grid is set to `OnPush` change detection
-* Grid supports paging
-* Grid supports ordering for single column
-* Grid supports column templating
-* Grid supports column selection
-* Grid supports dynamic paging change if paging *Component* extends `PagingAbstractComponent`
-* Various types of paging components
-  * `BasicPagingComponet` - Displays pages and items per page, requires total count of items, allows selection of number of items
-  * `LoadMorePagingComponent` - Displays only one page and allows to load another page on click, requires total count that contains one more item than currently displayed if there is more items to display
-  * `PreviousNextPagingComponent` - Displays only buttons next and previous page, does not need total count of items, allows selection of number of items
-* BasicPaging is set to `OnPush` change detection
-* LoadMorePaging is set to `OnPush` change detection
-* PreviousNextPagingComponent is set to `OnPush` change detection
+* Grid is composed of plugins and replecable parts, allows to change implementation of these plugins
+* Metadata are gathered dynamically using `MetadataGatherer`
+* Paging is realized using `Paging` plugin
+* Row selection is realized using `RowSelector` plugin
+* Texts used in components can be *localizaed* using `TextsLocator` plugin
+* Information about no data are rendered using `NoDataRenderer` plugin
+* Information about selected columns (metadata) are realized using `MetadataSelector`
+* Obtaining data for grid is done by `DataLoader` plugin
+* Rendering content (grid data) is done by `ContentRenderer` plugin
+* All components are set to `OnPush` change detection
 
 ## Installation
 
@@ -37,45 +34,29 @@ To install latest version of this module you just run:
 npm install "@anglr/grid" --save
 ```
 
-### SystemJs Usage
-
-In your **SystemJs** configuration script add following lines to `packages` configuration section:
-
-```javascript
-packages:
-{
-    '@anglr/grid': 
-    {
-        main: "dist/index.min.js",
-        defaultExtension: 'js'
-    }
-}
-```
-
-### Webpack Usage
-
-This depends on your preferences, but you can use it as any other angular module, just use it in code and webpack will automatically add it to result `.js` file.
-
 ## Types
 
 Available types:
 
+# TODO - finish rest of documentation
+
 ### Modules
 
  - `GridModule`
+ - `GridLegacyModule`
 
 ### Components
 
-- `BasicPagingComponent`
-- `LoadMorePagingComponent`
-- `PreviousNextPagingComponent`
-- `ColumnComponent`
-- `ColumnGroupComponent`
-- `GridComponent`
+- `BasicPagingLegacyComponent`
+- `LoadMorePagingLegacyComponent`
+- `PreviousNextPagingLegacyComponent`
+- `ColumnLegacyComponent`
+- `ColumnGroupLegacyComponent`
+- `GridLegacyComponent`
 
 ### Interfaces
 
-- `GridOptions`
+- `GridLegacyOptions`
 
 ## Usage
 

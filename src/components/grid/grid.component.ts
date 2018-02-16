@@ -548,7 +548,7 @@ export class GridComponent implements OnInit, AfterViewChecked, Grid
     {
         if(!func)
         {
-            return;
+            return null;
         }
 
         return func(this);

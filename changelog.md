@@ -1,5 +1,18 @@
 # Changelog
 
+## Version 5.0.0-beta.1
+- added new `GridComponent`
+- added new `GridModule`
+- added new metadata gatherer `BasicTableMetadataGatherer`
+- added grid extensions `refreshData`, `getPage`, `setPage`, `refreshDataToDefaults`
+- added `TextsLocator` plugin, `NoTextsLocator`
+- added `RowSelector` plugin, `BasicRowSelector`
+- added `Paging` plugins, `NoPaging`, `BasicPaging`
+- added `NoDataRenderer` plugin, `SimpleNoDataRenderer`
+- added `MetadataSelector` plugins, `NoMetadataSelector`, `AdvancedMetadataSelector`
+- added `DataLoader` plugins, `SyncDataLoader`, `AsyncDataLoader`
+- added `ContentRenderer` plugins, `TableContentRenderer`, `TableBodyContentRenderer`, `TableHeaderContentRenderer`, `AdvancedTableBodyContentRenderer`, `CssDivsContentRenderer`, `CssDivsBodyContentRenderer`, `CssDivsHeaderContentRenderer`
+
 ## Version 5.0.0-beta.0
 - old grid renamed to `ng-legacy-grid`, `GridLegacyComponent`
 - old column component renamed to `ng-legacy-column`, `ColumnLegacyComponent`
