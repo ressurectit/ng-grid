@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 5.0.0-beta.5
+- added index.ts for extensions for easier import using `import {} from '@anglr/grid/dist/extesions'`
+
 ## Version 5.0.0-beta.4
 - added new extensions for grid `areSelectedAllOnPage`, `getSelectedData`, `isSelectedAny`, `resetSelection`, `selectAllOnPage`
 - fixed missing z-index for advanced metadata selector
