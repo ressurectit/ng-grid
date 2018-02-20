@@ -106,6 +106,7 @@ const defaultOptions: AdvancedMetadataSelectorOptions =
             top: -72px;
             height: 100px;
             border-radius: 4px;
+            z-index: 10;
         }
 
         .drop

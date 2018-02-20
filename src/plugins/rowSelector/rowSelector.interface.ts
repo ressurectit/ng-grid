@@ -66,9 +66,9 @@ export interface RowSelector<TSelectedData, TData, TId> extends GridPlugin
     /**
      * Adds item to selection (or remove it from selection if deselect is true)
      * @param {TData} item Item that is going to be selected
-     * @param {boolean} deselect Indication whether deselect specified item
+     * @param {boolean} select Indication whether select specified item, defaults to true
      */
-    selectItem(item: TData, deselect?: boolean);
+    selectItem(item: TData, select?: boolean);
 
     /**
      * Gets indication whether item is currently selected

@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 5.0.0-beta.4
+- added new extensions for grid `areSelectedAllOnPage`, `getSelectedData`, `isSelectedAny`, `resetSelection`, `selectAllOnPage`
+- fixed missing z-index for advanced metadata selector
+- added title *tooltips* for selected columns in advanced metadata selector
+- changed method signature `selectItem`, now second parameter is `select` instead of `deselect` and defaults to `true`
+- `SimplenoDataRendererComponent` displayed text centered
+
 ## Version 5.0.0-beta.3
 - added new tool that correctly updates components to use external html
 

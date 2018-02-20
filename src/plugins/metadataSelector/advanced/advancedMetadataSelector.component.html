@@ -36,7 +36,7 @@
             <div [ngClass]="options?.cssClasses?.selectionDiv?.droppedColumnDiv"
                  *ngFor="let meta of metadata"
                  [style.width]="(!!meta?.realWidth ? meta?.realWidth : 0) + 'px'">
-                 <div [ngClass]="options?.cssClasses?.selectionDiv?.droppedColumnTitleDiv">{{meta?.title}}</div>
+                 <div [ngClass]="options?.cssClasses?.selectionDiv?.droppedColumnTitleDiv" [title]="meta?.title">{{meta?.title}}</div>
 
                  <div [ngClass]="options?.cssClasses?.selectionDiv?.droppedColumnRemoveDiv">
                     <button [ngClass]="options?.cssClasses?.selectionDiv?.droppedColumnRemoveButton" (click)="hideColumn(meta)">

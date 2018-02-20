@@ -33,6 +33,7 @@ const defaultOptions: NoDataRendererOptions<CssClassesSimpleNoDataRenderer> =
         `.simple-no-data
         {
             padding: 2px 8px;
+            text-align: center;
         }
 
         .simple-no-data-text

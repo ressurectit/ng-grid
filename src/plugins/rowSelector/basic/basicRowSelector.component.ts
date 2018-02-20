@@ -117,9 +117,9 @@ export class BasicRowSelectorComponent<TSelectedData, TData, TId> implements Row
     /**
      * Adds item to selection (or remove it from selection if deselect is true)
      * @param {TData} item Item that is going to be selected
-     * @param {boolean} deselect Indication whether deselect specified item
+     * @param {boolean} select Indication whether select specified item, defaults to true
      */
-    public selectItem(item: TData, deselect?: boolean)
+    public selectItem(item: TData, select: boolean = true)
     {
         if(isBlank(this.options.getRowId))
         {
@@ -134,7 +134,7 @@ export class BasicRowSelectorComponent<TSelectedData, TData, TId> implements Row
         let id = this.options.getRowId(item);
         let index;
 
-        //add if not exists
+        //select if not selected
         if((index = this.selectedIds.indexOf(id)) < 0)
         {
             this.selectedIds.push(id);
@@ -143,7 +143,7 @@ export class BasicRowSelectorComponent<TSelectedData, TData, TId> implements Row
             this.selectedChange.emit();
         }
         //remove from selection
-        else if(deselect)
+        else if(!select)
         {
             this.selectedIds.splice(index, 1);
             this.selectedData.splice(index, 1);
