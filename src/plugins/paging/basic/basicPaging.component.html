@@ -1,4 +1,5 @@
 <div>
+    <ng-template [ngComponentOutletEx]="options?.pagingInitializer?.type" (ngComponentOutletExCreated)="setPagingInitializerComponent($event)"></ng-template>
     <ul [ngClass]="options?.cssClasses?.pagingUl">
         <li *ngFor="let page of pages" [ngClass]="{disabled: page.isDisabled, active: page.isActive, 'pointer-cursor': !page.IsDisabled && !page.isActive}">
             <a (click)="setPage(page)">

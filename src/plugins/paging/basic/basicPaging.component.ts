@@ -1,10 +1,11 @@
-import {Component, Input, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, ElementRef} from '@angular/core';
+import {Component, Input, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, ElementRef, forwardRef} from '@angular/core';
 import {Paginator, isPresent, Utils} from '@anglr/common';
 
 import {GRID_PLUGIN_INSTANCES, GridPluginInstances} from '../../../components/grid';
 import {PagingAbstractComponent} from '../pagingAbstract.component';
 import {BasicPagingOptions, BasicPaging, CssClassesBasicPaging} from './basicPaging.interface';
-import {PAGING_OPTIONS} from '../paging.interface';
+import {PAGING_OPTIONS, PAGING_INITIALIZER, PagingInitializer} from '../paging.interface';
+import {NoPagingInitializerComponent} from '../plugins/pagingInitializer';
 
 /**
  * Items per page single item
@@ -37,6 +38,10 @@ const defaultOptions: BasicPagingOptions =
         itemsPerPageDiv: "pull-right",
         displayedItemsCountSpan: "items-count",
         itemsPerPageUl: "pagination pagination-sm margin-sm-vertical"
+    },
+    pagingInitializer:
+    {
+        type: forwardRef(() => NoPagingInitializerComponent)
     }
 };
 
@@ -130,6 +135,7 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
         this._paginator.setPage(page);
         this._generatePages();
         this._setDisplayedItemsCount();
+        (this.gridPlugins[PAGING_INITIALIZER] as PagingInitializer).setPage(this._page);
     }
     public get page(): number
     {
@@ -147,6 +153,7 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
         this._generatePages();
         this._generateItemsPerPage();
         this._setDisplayedItemsCount();
+        (this.gridPlugins[PAGING_INITIALIZER] as PagingInitializer).setItemsPerPage(this._itemsPerPage);
     }
     public get itemsPerPage(): number
     {
@@ -178,6 +185,7 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
         super(pluginElement, changeDetector, gridPlugins);
 
         this._options = Utils.common.extend(true, {}, defaultOptions, options);
+        this.initOptions();
     }
 
     //######################### public methods - template bindings #########################

@@ -3,7 +3,7 @@ import {CommonModule as AngularCommonModule} from "@angular/common";
 import {CommonModule} from "@anglr/common";
 
 import {GridComponent} from "../components/grid/grid.component";
-import {BasicPagingComponent, NoPagingComponent} from "../plugins/paging";
+import {BasicPagingComponent, NoPagingComponent, QueryPagingInitializerComponent, NoPagingInitializerComponent} from "../plugins/paging";
 import {SyncDataLoaderComponent, AsyncDataLoaderComponent} from "../plugins/dataLoader";
 import {BasicTableColumnComponent, BasicTableMetadataGathererComponent} from "../components/metadata";
 import {NoMetadataSelectorComponent, AdvancedMetadataSelectorComponent} from "../plugins/metadataSelector";
@@ -26,6 +26,8 @@ import {BasicRowSelectorComponent} from "../plugins/rowSelector";
         BasicTableMetadataGathererComponent,
         BasicPagingComponent,
         NoPagingComponent,
+        QueryPagingInitializerComponent,
+        NoPagingInitializerComponent,
         SyncDataLoaderComponent,
         AsyncDataLoaderComponent,
         NoMetadataSelectorComponent,
@@ -45,6 +47,8 @@ import {BasicRowSelectorComponent} from "../plugins/rowSelector";
     [
         BasicPagingComponent,
         NoPagingComponent,
+        QueryPagingInitializerComponent,
+        NoPagingInitializerComponent,
         SyncDataLoaderComponent,
         AsyncDataLoaderComponent,
         NoMetadataSelectorComponent,

@@ -1,11 +1,23 @@
-import {EventEmitter, ChangeDetectorRef, Injectable, Inject, Optional, Input, Output, OnDestroy, ElementRef} from "@angular/core";
-import {Utils} from '@anglr/common';
+import {EventEmitter, ChangeDetectorRef, Injectable, Inject, Optional, Input, Output, OnDestroy, ElementRef, forwardRef, resolveForwardRef} from "@angular/core";
+import {Utils, isPresent} from '@anglr/common';
 import {Subscription} from "rxjs/Subscription";
 
-import {PagingOptions, Paging} from "./paging.interface";
+import {PagingOptions, Paging, PagingInitializer, PAGING_INITIALIZER} from "./paging.interface";
 import {GridPluginInstances, GRID_PLUGIN_INSTANCES} from "../../components/grid";
 import {GridPluginGeneric} from "../../misc";
 import {DataLoader, DATA_LOADER, DataResponse} from "../dataLoader";
+import {NoPagingInitializerComponent} from "./plugins/pagingInitializer";
+
+/**
+ * Default options for all paging
+ */
+const defaultOptions: PagingOptions<any> =
+{
+    pagingInitializer:
+    {
+        type: forwardRef(() => NoPagingInitializerComponent)
+    }
+};
 
 /**
  * Abstract class that represents any paging component
@@ -101,11 +113,13 @@ export abstract class PagingAbstractComponent<TCssClasses, TOptions extends Pagi
                 protected _changeDetector: ChangeDetectorRef,
                 @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins?: GridPluginInstances)
     {
+        this._options = Utils.common.extend(true, {}, defaultOptions) as TOptions;
         this.gridPlugins = gridPlugins;
+        this.initOptions();
     }
 
     //######################### public methods - implementation of OnDestroy #########################
-    
+
     /**
      * Called when component is destroyed
      */
@@ -133,8 +147,29 @@ export abstract class PagingAbstractComponent<TCssClasses, TOptions extends Pagi
      */
     public initialize(): void
     {
-        this.page = this._options.initialPage;
-        this.itemsPerPage = this._options.initialItemsPerPage;
+        let pagingInitializer = this.gridPlugins[PAGING_INITIALIZER] as PagingInitializer;
+        let initialPage = this._options.initialPage;
+        let initialItemsPerPage = this._options.initialItemsPerPage;
+
+        if(pagingInitializer)
+        {
+            let page = pagingInitializer.getPage();
+
+            if(isPresent(page))
+            {
+                initialPage = page;
+            }
+
+            let itemsPerPage = pagingInitializer.getItemsPerPage();
+
+            if(isPresent(itemsPerPage))
+            {
+                initialItemsPerPage = itemsPerPage;
+            }
+        }
+
+        this.page = initialPage
+        this.itemsPerPage = initialItemsPerPage;
 
         let dataLoader: DataLoader<DataResponse<any>> = this.gridPlugins[DATA_LOADER] as DataLoader<DataResponse<any>>;
 
@@ -159,6 +194,53 @@ export abstract class PagingAbstractComponent<TCssClasses, TOptions extends Pagi
         }
 
         this._initialized = true;
+    }
+
+    /**
+     * Initialize options
+     */
+    public initOptions()
+    {
+        if(this._options.pagingInitializer)
+        {
+            this._options.pagingInitializer.type = resolveForwardRef(this._options.pagingInitializer.type);
+
+            if(this._options.pagingInitializer.instance &&
+               this._options.pagingInitializer.instance != this.gridPlugins[PAGING_INITIALIZER])
+            {
+                this.gridPlugins[PAGING_INITIALIZER] = this._options.pagingInitializer.instance;
+                this._options.pagingInitializer.instance.gridPlugins = this.gridPlugins;
+                this._options.pagingInitializer.instance.initialize();
+            }
+        }
+    }
+
+    //######################### public methods - template bindings #########################
+
+    /**
+     * Sets paging initializer component
+     * @param {PagingInitializer} pagingInitializer Created paging initializer that is rendered
+     * @internal
+     */
+    public setPagingInitializerComponent(pagingInitializer: PagingInitializer)
+    {
+        if(!pagingInitializer)
+        {
+            return;
+        }
+
+        this._initialized = false;
+        this.gridPlugins[PAGING_INITIALIZER] = pagingInitializer;
+
+        if(this._options.pagingInitializer && this._options.pagingInitializer.options)
+        {
+            pagingInitializer.options = this._options.pagingInitializer.options;
+        }
+
+        if(this._options.pagingInitializer && this._options.pagingInitializer.instanceCallback)
+        {
+            this._options.pagingInitializer.instanceCallback(pagingInitializer);
+        }
     }
 
     //######################### protected methods #########################
