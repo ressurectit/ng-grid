@@ -1,6 +1,6 @@
 {
     "name": "@anglr/grid",
-    "version": "5.0.0-beta.6",
+    "version": "5.0.0-beta.7",
     "description": "Angular module displaying grid",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
@@ -32,6 +32,7 @@
     "peerDependencies": {
         "@angular/core": ">=5.0.0",
         "@angular/common": ">=5.0.0",
+        "@angular/router": ">=5.0.0",
         "rxjs": ">=5.5.0",
         "@anglr/common": ">=4.0.0",
         "bootstrap": "~3.3.7"
@@ -39,8 +40,8 @@
     "devDependencies": {
         "@angular/core": "^5.0.0",
         "@angular/common": "^5.0.0",
-        "@angular/forms": "^5.0.0",
         "@angular/router": "^5.0.0",
+        "@angular/forms": "^5.0.0",
         "rxjs": "^5.5.0",
         "@anglr/common": "^4.0.0",
         "@types/jasmine": "~2.6.0",

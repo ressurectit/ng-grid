@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, Inject, Optional, ElementRef, Component} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
+import {Location} from '@angular/common';
 import {Utils} from "@anglr/common";
 
 import {GridPluginGeneric} from "../../../../../misc";
@@ -78,6 +79,7 @@ export class QueryPagingInitializerComponent implements QueryPagingInitializer, 
     //######################### constructor #########################
     constructor(private _router: Router, 
                 private _route: ActivatedRoute,
+                private _location: Location,
                 @Inject(PAGING_INITIALIZER_OPTIONS) @Optional() options?: QueryPagingInitializerOptions)
     {
         this._options = Utils.common.extend(true, {}, defaultOptions, options);
@@ -122,13 +124,14 @@ export class QueryPagingInitializerComponent implements QueryPagingInitializer, 
 
         pageParam[this.pageName] = page;
 
-        this._router.navigate(['.', this._route.snapshot.params],
+        let url = this._router.createUrlTree(['.', this._route.snapshot.params],
         {
             relativeTo: this._route,
-            replaceUrl: true,
             queryParams: pageParam,
             queryParamsHandling: "merge"
         });
+
+        this._location.replaceState(url.toString());
     }
 
     /**
@@ -154,12 +157,13 @@ export class QueryPagingInitializerComponent implements QueryPagingInitializer, 
 
         pageParam[this.itemsPerPageName] = itemsPerPage;
 
-        this._router.navigate(['.', this._route.snapshot.params],
+        let url = this._router.createUrlTree(['.', this._route.snapshot.params],
         {
             relativeTo: this._route,
-            replaceUrl: true,
             queryParams: pageParam,
             queryParamsHandling: "merge"
         });
+
+        this._location.replaceState(url.toString());
     }
 }
