@@ -1,5 +1,18 @@
 # Changelog
 
+## Version 5.0.0-beta.9
+- added new feature for `Grid`, `EventEmitter` that is called every time grid is initialized called `initialized`
+
+## Version 5.0.0-beta.8
+- fixed `QueryPagingInitializerComponent` now correctly sets query string
+
+## Version 5.0.0-beta.7
+- changed `QueryPagingInitializerComponent`, now using `replaceState`
+
+## Version 5.0.0-beta.6
+- added new feature for paging `PagingInitializer`
+- added two implementation of `PagingInitializer`: `QueryPagingInitializerComponent`, `NoPagingInitializerComponent`
+
 ## Version 5.0.0-beta.5
 - added index.ts for extensions for easier import using `import {} from '@anglr/grid/dist/extesions'`
 

@@ -1,4 +1,4 @@
-import {InjectionToken} from "@angular/core";
+import {InjectionToken, EventEmitter} from "@angular/core";
 
 import {GridOptions, GridPlugin} from "../../misc";
 
@@ -20,6 +20,11 @@ export interface GridPluginInstances
  */
 export interface Grid
 {
+    /**
+     * Occurs every time when grid is initialized or reinitialized
+     */
+    initialized: EventEmitter<void>;
+
     /**
      * Gets or sets grid options
      */

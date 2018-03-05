@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ValueProvider, Inject, Optional, Type, Input, OnInit, AfterViewChecked, ContentChild, forwardRef, resolveForwardRef} from "@angular/core";
+import {Component, ChangeDetectionStrategy, ValueProvider, Inject, Optional, Type, Input, OnInit, AfterViewChecked, ContentChild, forwardRef, resolveForwardRef, EventEmitter, Output} from "@angular/core";
 import {Utils} from "@anglr/common";
 
 import {GRID_PLUGIN_INSTANCES, GridPluginInstances, Grid, GridFunction} from "./grid.interface";
@@ -97,6 +97,14 @@ export class GridComponent implements OnInit, AfterViewChecked, Grid
     {
         return this._gridOptions;
     }
+
+    //######################### public properties - outputs #########################
+
+    /**
+     * Occurs every time when grid is initialized or reinitialized
+     */
+    @Output()
+    initialized: EventEmitter<void> = new EventEmitter<void>();
 
     //######################### public properties - children #########################
 
@@ -231,6 +239,7 @@ export class GridComponent implements OnInit, AfterViewChecked, Grid
         this._pluginInstances[DATA_LOADER].initialize();
 
         this._initialized = true;
+        this.initialized.emit();
     }
 
     //######################### public methods - template bindings #########################
