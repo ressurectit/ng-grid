@@ -25,14 +25,12 @@ const defaultOptions: PagingOptions<any> =
 @Injectable()
 export abstract class PagingAbstractComponent<TCssClasses, TOptions extends PagingOptions<TCssClasses>> implements Paging, GridPluginGeneric<TOptions>, OnDestroy
 {
-    //######################### private fields #########################
+    //######################### protected fields #########################
 
     /**
      * Subscription for changes in data
      */
-    private _dataChangedSubscription: Subscription;
-
-    //######################### protected fields #########################
+    protected _dataChangedSubscription: Subscription;
 
     /**
      * Indication whether is component initialized

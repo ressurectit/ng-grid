@@ -69,27 +69,27 @@ const defaultOptions: BasicPagingOptions =
 })
 export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasicPaging, BasicPagingOptions> implements BasicPaging
 {
-    //######################### private fields #########################
+    //######################### protected fields #########################
 
     /**
      * Paginator used for getting page numbers
      */
-    private _paginator: Paginator = new Paginator();
+    protected _paginator: Paginator = new Paginator();
 
     /**
      * Index of currently selected page
      */
-    private _page: number;
+    protected _page: number;
 
     /**
      * Number of items currently used for paging
      */
-    private _itemsPerPage: number;
+    protected _itemsPerPage: number;
 
     /**
      * Number of all items that are paged with current filter criteria
      */
-    private _totalCount: number;
+    protected _totalCount: number;
 
     //######################### public properties - template bindings #########################
 
@@ -245,12 +245,12 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
         this._paginator.setItemsPerPage(this._itemsPerPage);
     }
 
-    //######################### private methods #########################
+    //######################### protected methods #########################
 
     /**
      * Generates rendered pages
      */
-    private _generatePages()
+    protected _generatePages()
     {
         if(!this._initialized)
         {
@@ -317,7 +317,7 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
     /**
      * Generates rendered items per page
      */
-    private _generateItemsPerPage()
+    protected _generateItemsPerPage()
     {
         this.itemsPerPageItems.forEach(itm => itm.isActive = itm.value == this.itemsPerPage || (isNaN(itm.value) && isNaN(this.itemsPerPage)));
     }
@@ -325,7 +325,7 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
     /**
      * Sets displayed items count
      */
-    private _setDisplayedItemsCount()
+    protected _setDisplayedItemsCount()
     {
         if(!this._initialized)
         {

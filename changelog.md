@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 5.0.0-beta.11
+- updated `PagingAbstractComponent` and `BasicPagingComponent`, all `private` members changed to `protected`
+
 ## Version 5.0.0-beta.10
 - updated `Grid.initialized`, now its `Observable<boolean>` and returns true if is grid initialized otherwise false
 
