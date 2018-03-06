@@ -1,5 +1,7 @@
-import {Component, ChangeDetectionStrategy, ValueProvider, Inject, Optional, Type, Input, OnInit, AfterViewChecked, ContentChild, forwardRef, resolveForwardRef, EventEmitter, Output} from "@angular/core";
+import {Component, ChangeDetectionStrategy, ValueProvider, Inject, Optional, Type, Input, OnInit, AfterViewChecked, ContentChild, forwardRef, resolveForwardRef} from "@angular/core";
 import {Utils} from "@anglr/common";
+import {Observable} from 'rxjs/Observable';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 import {GRID_PLUGIN_INSTANCES, GridPluginInstances, Grid, GridFunction} from "./grid.interface";
 import {GridOptions, PagingPosition, PluginDescription, GRID_OPTIONS, PAGING_TYPE, DATA_LOADER_TYPE, CONTENT_RENDERER_TYPE, METADATA_SELECTOR_TYPE, GridPlugin, NO_DATA_RENDERER_TYPE, TEXTS_LOCATOR_TYPE, ROW_SELECTOR_TYPE} from "../../misc";
@@ -83,6 +85,11 @@ export class GridComponent implements OnInit, AfterViewChecked, Grid
      */
     private _initialized: boolean = false;
 
+    /**
+     * Subject used for indication that grid was initialized
+     */
+    private _initializedSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
     //######################### public properties - inputs #########################
 
     /**
@@ -103,8 +110,10 @@ export class GridComponent implements OnInit, AfterViewChecked, Grid
     /**
      * Occurs every time when grid is initialized or reinitialized
      */
-    @Output()
-    initialized: EventEmitter<void> = new EventEmitter<void>();
+    public get initialized(): Observable<boolean>
+    {
+        return this._initializedSubject.asObservable();
+    }
 
     //######################### public properties - children #########################
 
@@ -239,7 +248,7 @@ export class GridComponent implements OnInit, AfterViewChecked, Grid
         this._pluginInstances[DATA_LOADER].initialize();
 
         this._initialized = true;
-        this.initialized.emit();
+        this._initializedSubject.next(true);
     }
 
     //######################### public methods - template bindings #########################

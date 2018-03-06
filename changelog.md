@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 5.0.0-beta.10
+- updated `Grid.initialized`, now its `Observable<boolean>` and returns true if is grid initialized otherwise false
+
 ## Version 5.0.0-beta.9
 - added new feature for `Grid`, `EventEmitter` that is called every time grid is initialized called `initialized`
 

@@ -1,4 +1,5 @@
-import {InjectionToken, EventEmitter} from "@angular/core";
+import {InjectionToken} from "@angular/core";
+import {Observable} from "rxjs/Observable";
 
 import {GridOptions, GridPlugin} from "../../misc";
 
@@ -21,9 +22,9 @@ export interface GridPluginInstances
 export interface Grid
 {
     /**
-     * Occurs every time when grid is initialized or reinitialized
+     * Occurs every time when grid is initialized or reinitialized, if value is false grid was not initialized yet
      */
-    initialized: EventEmitter<void>;
+    readonly initialized: Observable<boolean>;
 
     /**
      * Gets or sets grid options
