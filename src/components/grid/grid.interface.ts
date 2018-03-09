@@ -32,9 +32,14 @@ export interface Grid
     gridOptions: GridOptions;
 
     /**
-     * Initialize options, automaticaly called during init phase, but can be used to reinitialize GridOptions
+     * Initialize component, automatically called once if not blocked by options
      */
     initialize();
+
+    /**
+     * Initialize options, automaticaly called during init phase, but can be used to reinitialize GridOptions
+     */
+    initOptions();
 
     /**
      * Gets instance of plugin by its id
@@ -53,6 +58,11 @@ export interface Grid
      * @param func Function that is executed and its result is returned
      */
     executeAndReturn<TResult>(func: GridFunction<TResult>): TResult;
+
+    /**
+     * Explicitly runs invalidation of content (change detection)
+     */
+    invalidateVisuals(): void;
 }
 
 /**

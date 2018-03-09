@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ValueProvider, Inject, Optional, Type, Input, OnInit, AfterViewChecked, ContentChild, forwardRef, resolveForwardRef} from "@angular/core";
+import {Component, ChangeDetectionStrategy, ValueProvider, Inject, Optional, Type, Input, OnInit, AfterViewInit, ContentChild, forwardRef, resolveForwardRef, ChangeDetectorRef} from "@angular/core";
 import {Utils} from "@anglr/common";
 import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
@@ -71,7 +71,7 @@ const defaultOptions: GridOptions =
         }
     ]
 })
-export class GridComponent implements OnInit, AfterViewChecked, Grid
+export class GridComponent implements OnInit, AfterViewInit, Grid
 {
     //######################### private fields #########################
 
@@ -79,11 +79,6 @@ export class GridComponent implements OnInit, AfterViewChecked, Grid
      * Grid options
      */
     private _gridOptions: GridOptions;
-
-    /**
-     * Indication that grid has been fully initialized
-     */
-    private _initialized: boolean = false;
 
     /**
      * Subject used for indication that grid was initialized
@@ -124,7 +119,8 @@ export class GridComponent implements OnInit, AfterViewChecked, Grid
     public metadataGatherer: MetadataGatherer<any>;
 
     //######################### constructors #########################
-    constructor(@Inject(GRID_PLUGIN_INSTANCES) private _pluginInstances: GridPluginInstances,
+    constructor(private _changeDetector: ChangeDetectorRef,
+                @Inject(GRID_PLUGIN_INSTANCES) private _pluginInstances: GridPluginInstances,
                 @Inject(GRID_OPTIONS) @Optional() options?: GridOptions,
                 @Inject(PAGING_TYPE) @Optional() pagingType?: Type<Paging>,
                 @Inject(DATA_LOADER_TYPE) @Optional() dataLoaderType?: Type<DataLoader<any>>,
@@ -221,34 +217,20 @@ export class GridComponent implements OnInit, AfterViewChecked, Grid
      */
     public ngOnInit()
     {
+        this.initOptions();
+    }
+
+    //######################### public methods - implementation of AfterViewInit #########################
+    
+    /**
+     * Called when view was initialized
+     */
+    public ngAfterViewInit()
+    {
         if(this._gridOptions.autoInitialize)
         {
             this.initialize();
         }
-    }
-
-    //######################### public methods - implementation of AfterViewChecked #########################
-
-    /**
-     * Called when view was checked
-     */
-    public ngAfterViewChecked()
-    {
-        if(this._initialized)
-        {
-            return;
-        }
-
-        this._pluginInstances[TEXTS_LOCATOR].initialize();
-        this._pluginInstances[ROW_SELECTOR].initialize();
-        this._pluginInstances[METADATA_SELECTOR].initialize();
-        this._pluginInstances[PAGING].initialize();
-        this._pluginInstances[CONTENT_RENDERER].initialize();
-        this._pluginInstances[NO_DATA_RENDERER].initialize();
-        this._pluginInstances[DATA_LOADER].initialize();
-
-        this._initialized = true;
-        this._initializedSubject.next(true);
     }
 
     //######################### public methods - template bindings #########################
@@ -265,7 +247,6 @@ export class GridComponent implements OnInit, AfterViewChecked, Grid
             return;
         }
 
-        this._initialized = false;
         this._pluginInstances[PAGING] = paging;
 
         if(this._gridOptions.plugins && this._gridOptions.plugins.paging && this._gridOptions.plugins.paging.options)
@@ -291,7 +272,6 @@ export class GridComponent implements OnInit, AfterViewChecked, Grid
             return;
         }
 
-        this._initialized = false;
         this._pluginInstances[METADATA_SELECTOR] = metadataSelector;
 
         metadataSelector.metadataGatherer = this.metadataGatherer;
@@ -319,7 +299,6 @@ export class GridComponent implements OnInit, AfterViewChecked, Grid
             return;
         }
 
-        this._initialized = false;
         this._pluginInstances[DATA_LOADER] = dataLoader;
 
         if(this._gridOptions.plugins && this._gridOptions.plugins.dataLoader && this._gridOptions.plugins.dataLoader.options)
@@ -345,7 +324,6 @@ export class GridComponent implements OnInit, AfterViewChecked, Grid
             return;
         }
 
-        this._initialized = false;
         this._pluginInstances[CONTENT_RENDERER] = contentRenderer;
 
         if(this._gridOptions.plugins && this._gridOptions.plugins.contentRenderer && this._gridOptions.plugins.contentRenderer.options)
@@ -371,7 +349,6 @@ export class GridComponent implements OnInit, AfterViewChecked, Grid
             return;
         }
 
-        this._initialized = false;
         this._pluginInstances[NO_DATA_RENDERER] = noDataRenderer;
 
         if(this._gridOptions.plugins && this._gridOptions.plugins.noDataRenderer && this._gridOptions.plugins.noDataRenderer.options)
@@ -397,7 +374,6 @@ export class GridComponent implements OnInit, AfterViewChecked, Grid
             return;
         }
 
-        this._initialized = false;
         this._pluginInstances[TEXTS_LOCATOR] = textsLocator;
 
         if(this._gridOptions.plugins && this._gridOptions.plugins.textsLocator && this._gridOptions.plugins.textsLocator.options)
@@ -423,7 +399,6 @@ export class GridComponent implements OnInit, AfterViewChecked, Grid
             return;
         }
 
-        this._initialized = false;
         this._pluginInstances[ROW_SELECTOR] = rowSelector;
 
         if(this._gridOptions.plugins && this._gridOptions.plugins.rowSelector && this._gridOptions.plugins.rowSelector.options)
@@ -440,12 +415,26 @@ export class GridComponent implements OnInit, AfterViewChecked, Grid
     //######################### public methods #########################
 
     /**
-     * Initialize options, automaticaly called during init phase, but can be used to reinitialize GridOptions
+     * Initialize component, automatically called once if not blocked by options
      */
     public initialize()
     {
-        this._initialized = false;
+        this._pluginInstances[TEXTS_LOCATOR].initialize();
+        this._pluginInstances[ROW_SELECTOR].initialize();
+        this._pluginInstances[METADATA_SELECTOR].initialize();
+        this._pluginInstances[PAGING].initialize();
+        this._pluginInstances[CONTENT_RENDERER].initialize();
+        this._pluginInstances[NO_DATA_RENDERER].initialize();
+        this._pluginInstances[DATA_LOADER].initialize();
 
+        this._initializedSubject.next(true);
+    }
+
+    /**
+     * Initialize options, automaticaly called during init phase, but can be used to reinitialize GridOptions
+     */
+    public initOptions()
+    {
         if(this._gridOptions.plugins)
         {
             if(this._gridOptions.plugins.paging)
@@ -533,6 +522,14 @@ export class GridComponent implements OnInit, AfterViewChecked, Grid
                 }
             }
         }
+    }
+
+    /**
+     * Explicitly runs invalidation of content (change detection)
+     */
+    public invalidateVisuals(): void
+    {
+        this._changeDetector.detectChanges();
     }
 
     /**
