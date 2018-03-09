@@ -1,8 +1,8 @@
 import {Component, ChangeDetectionStrategy, ElementRef, EventEmitter, Inject} from "@angular/core";
 
 import {GridPluginGeneric} from "../../../misc";
-import {TextsLocator, TextsLocatorOptions} from "../textsLocator.interface";
 import {GridPluginInstances, GRID_PLUGIN_INSTANCES} from "../../../components/grid";
+import {NoTextsLocatorOptions, NoTextsLocator} from "./noTextsLocator.interface";
 
 /**
  * Component used for rendering no texts locator
@@ -13,14 +13,14 @@ import {GridPluginInstances, GRID_PLUGIN_INSTANCES} from "../../../components/gr
     template: '',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NoTextsLocatorComponent implements TextsLocator, GridPluginGeneric<TextsLocatorOptions>
+export class NoTextsLocatorComponent implements NoTextsLocator, GridPluginGeneric<NoTextsLocatorOptions>
 {
     //######################### public properties - implementation of TextsLocator #########################
 
     /**
      * Options for grid plugin
      */
-    public options: TextsLocatorOptions;
+    public options: NoTextsLocatorOptions;
 
     /**
      * Indication that texts should be obtained again, because they have changed
@@ -44,10 +44,18 @@ export class NoTextsLocatorComponent implements TextsLocator, GridPluginGeneric<
     }
 
     /**
-     * Initialize plugin, to be ready to use
+     * Initialize plugin, to be ready to use, initialize communication with other plugins
      */
     public initialize()
     {
+    }
+
+    /**
+     * Initialize plugin options, all operations required to be done with plugin options are handled here
+     */
+    public initOptions()
+    {
+
     }
 
     /**

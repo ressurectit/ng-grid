@@ -185,7 +185,6 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
         super(pluginElement, changeDetector, gridPlugins);
 
         this._options = Utils.common.extend(true, {}, defaultOptions, options);
-        this.initOptions();
     }
 
     //######################### public methods - template bindings #########################

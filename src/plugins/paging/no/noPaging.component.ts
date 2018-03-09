@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component} from "@angular/core";
-import {PagingOptions} from "../paging.interface";
 import {PagingAbstractComponent} from "../pagingAbstract.component";
+import {NoPagingOptions, NoPaging} from "./noPaging.interface";
 
 /**
  * Component used for no paging
@@ -11,7 +11,7 @@ import {PagingAbstractComponent} from "../pagingAbstract.component";
     template: '',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NoPagingComponent extends PagingAbstractComponent<any, PagingOptions<any>> 
+export class NoPagingComponent extends PagingAbstractComponent<any, NoPagingOptions<any>> implements NoPaging
 {
     /**
      * Zero based index of first displayed item on page

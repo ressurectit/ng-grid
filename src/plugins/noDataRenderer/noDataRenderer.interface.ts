@@ -13,15 +13,6 @@ export const NO_DATA_RENDERER_OPTIONS: InjectionToken<NoDataRendererOptions<any>
 export const NO_DATA_RENDERER = "NO_DATA_RENDERER";
 
 /**
- * Css classes for simple no data renderer
- */
-export interface CssClassesSimpleNoDataRenderer
-{
-    wrapperDiv?: string;
-    textSpan?: string;
-}
-
-/**
  * Base no data renderer options
  */
 export interface NoDataRendererOptions<TCssClasses> extends VisualPluginOptions<TCssClasses>

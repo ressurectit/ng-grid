@@ -32,9 +32,14 @@ export interface GridPlugin
     options: any;
 
     /**
-     * Initialize plugin, to be ready to use
+     * Initialize plugin, to be ready to use, initialize communication with other plugins
      */
     initialize();
+
+    /**
+     * Initialize plugin options, all operations required to be done with plugin options are handled here
+     */
+    initOptions();
 
     /**
      * Explicitly runs invalidation of content (change detection)

@@ -3,8 +3,9 @@
 ## Version 5.0.0-beta.12
 - added `initOptions` method to `Grid`
 - added `invalidateVisuals` method to `Grid`
-- changed way how is grid initialized, more consistent behavior, ctor => initOptions => createPlugins => setPluginOptions => initPluginOptions => initializeGrid => initializePlugins, same works for nested plugins
+- changed way how is grid initialized, more consistent behavior, ctor => setOptions => initOptions => createPlugins => setPluginOptions => initPluginOptions => initialize => initializePlugins, same works for nested plugins
 - added extension method for reinitialization of grid options `reinitializeOptions`
+- all `GridPlugin` extended with method `initOptions`, to be more consistent with grid and plugins lifecycle
 
 ## Version 5.0.0-beta.11
 - updated `PagingAbstractComponent` and `BasicPagingComponent`, all `private` members changed to `protected`

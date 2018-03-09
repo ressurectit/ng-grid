@@ -2,15 +2,16 @@ import {Inject, Component, ChangeDetectionStrategy, ElementRef, ChangeDetectorRe
 import {Utils} from "@anglr/common";
 import {Subscription} from "rxjs/Subscription";
 
-import {CssClassesSimpleNoDataRenderer, NoDataRenderer, NoDataRendererOptions, NO_DATA_RENDERER_OPTIONS} from "../noDataRenderer.interface";
+import {NO_DATA_RENDERER_OPTIONS} from "../noDataRenderer.interface";
 import {GridPluginGeneric} from "../../../misc";
 import {GridPluginInstances, GRID_PLUGIN_INSTANCES} from "../../../components/grid";
 import {DataLoader, DataResponse, DATA_LOADER} from "../../dataLoader";
+import {SimpleNoDataRenderer, CssClassesSimpleNoDataRenderer, SimpleNoDataRendererOptions} from "./simpleNoDataRenderer.interface";
 
 /**
  * Default options for no data renderer
  */
-const defaultOptions: NoDataRendererOptions<CssClassesSimpleNoDataRenderer> =
+const defaultOptions: SimpleNoDataRendererOptions<CssClassesSimpleNoDataRenderer> =
 {
     text: 'No data available.',
     cssClasses:
@@ -42,14 +43,14 @@ const defaultOptions: NoDataRendererOptions<CssClassesSimpleNoDataRenderer> =
         }`
     ]
 })
-export class SimpleNoDataRendererComponent implements NoDataRenderer, GridPluginGeneric<NoDataRendererOptions<CssClassesSimpleNoDataRenderer>>, OnDestroy
+export class SimpleNoDataRendererComponent implements SimpleNoDataRenderer, GridPluginGeneric<SimpleNoDataRendererOptions<CssClassesSimpleNoDataRenderer>>, OnDestroy
 {
     //######################### private fields #########################
 
     /**
      * Options for grid plugin
      */
-    private _options: NoDataRendererOptions<CssClassesSimpleNoDataRenderer>;
+    private _options: SimpleNoDataRendererOptions<CssClassesSimpleNoDataRenderer>;
 
     /**
      * Data loader currently used
@@ -73,11 +74,11 @@ export class SimpleNoDataRendererComponent implements NoDataRenderer, GridPlugin
     /**
      * Options for grid plugin
      */
-    public get options(): NoDataRendererOptions<CssClassesSimpleNoDataRenderer>
+    public get options(): SimpleNoDataRendererOptions<CssClassesSimpleNoDataRenderer>
     {
         return this._options;
     }
-    public set options(options: NoDataRendererOptions<CssClassesSimpleNoDataRenderer>)
+    public set options(options: SimpleNoDataRendererOptions<CssClassesSimpleNoDataRenderer>)
     {
         this._options = Utils.common.extend(true, this._options, options);
     }
@@ -86,7 +87,7 @@ export class SimpleNoDataRendererComponent implements NoDataRenderer, GridPlugin
     constructor(@Inject(GRID_PLUGIN_INSTANCES) public gridPlugins: GridPluginInstances,
                 public pluginElement: ElementRef,
                 private _changeDetector: ChangeDetectorRef,
-                @Inject(NO_DATA_RENDERER_OPTIONS) @Optional() options?: NoDataRendererOptions<CssClassesSimpleNoDataRenderer>)
+                @Inject(NO_DATA_RENDERER_OPTIONS) @Optional() options?: SimpleNoDataRendererOptions<CssClassesSimpleNoDataRenderer>)
     {
         this._options = Utils.common.extend(true, {}, defaultOptions, options);
     }
@@ -108,7 +109,7 @@ export class SimpleNoDataRendererComponent implements NoDataRenderer, GridPlugin
     //######################### public methods - implementation of NoDataRenderer #########################
 
     /**
-     * Initialize plugin, to be ready to use
+     * Initialize plugin, to be ready to use, initialize communication with other plugins
      */
     public initialize()
     {
@@ -130,6 +131,13 @@ export class SimpleNoDataRendererComponent implements NoDataRenderer, GridPlugin
         }
 
         this.invalidateVisuals();
+    }
+
+    /**
+     * Initialize plugin options, all operations required to be done with plugin options are handled here
+     */
+    public initOptions()
+    {
     }
 
     /**

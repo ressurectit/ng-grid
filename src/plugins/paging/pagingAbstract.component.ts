@@ -113,7 +113,6 @@ export abstract class PagingAbstractComponent<TCssClasses, TOptions extends Pagi
     {
         this._options = Utils.common.extend(true, {}, defaultOptions) as TOptions;
         this.gridPlugins = gridPlugins;
-        this.initOptions();
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -151,6 +150,8 @@ export abstract class PagingAbstractComponent<TCssClasses, TOptions extends Pagi
 
         if(pagingInitializer)
         {
+            pagingInitializer.initialize();
+
             let page = pagingInitializer.getPage();
 
             if(isPresent(page))
@@ -208,7 +209,13 @@ export abstract class PagingAbstractComponent<TCssClasses, TOptions extends Pagi
             {
                 this.gridPlugins[PAGING_INITIALIZER] = this._options.pagingInitializer.instance;
                 this._options.pagingInitializer.instance.gridPlugins = this.gridPlugins;
-                this._options.pagingInitializer.instance.initialize();
+
+                if(this._options.pagingInitializer && this._options.pagingInitializer.options)
+                {
+                    this._options.pagingInitializer.instance.options = this._options.pagingInitializer.options;
+                }
+
+                this._options.pagingInitializer.instance.initOptions();
             }
         }
     }
@@ -227,13 +234,14 @@ export abstract class PagingAbstractComponent<TCssClasses, TOptions extends Pagi
             return;
         }
 
-        this._initialized = false;
         this.gridPlugins[PAGING_INITIALIZER] = pagingInitializer;
 
         if(this._options.pagingInitializer && this._options.pagingInitializer.options)
         {
             pagingInitializer.options = this._options.pagingInitializer.options;
         }
+
+        pagingInitializer.initOptions();
 
         if(this._options.pagingInitializer && this._options.pagingInitializer.instanceCallback)
         {

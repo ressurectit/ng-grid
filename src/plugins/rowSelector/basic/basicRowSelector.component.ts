@@ -5,12 +5,13 @@ import {Subscription} from "rxjs/Subscription";
 import {GridPluginInstances, GRID_PLUGIN_INSTANCES} from "../../../components/grid";
 import {GridPluginGeneric} from "../../../misc";
 import {DataLoader, DATA_LOADER} from "../../dataLoader";
-import {RowSelector, RowSelectorOptions, ROW_SELECTOR_OPTIONS} from "../rowSelector.interface";
+import {ROW_SELECTOR_OPTIONS} from "../rowSelector.interface";
+import {BasicRowSelectorOptions, BasicRowSelector} from "./basicRowSelector.interface";
 
 /**
  * Default options for row selector
  */
-const defaultOptions: RowSelectorOptions<any, any, any> =
+const defaultOptions: BasicRowSelectorOptions<any, any, any> =
 {
     getRowId: null,
     autoResetOnDataChange: false,
@@ -27,14 +28,14 @@ const defaultOptions: RowSelectorOptions<any, any, any> =
     template: '',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BasicRowSelectorComponent<TSelectedData, TData, TId> implements RowSelector<TSelectedData, TData, TId>, GridPluginGeneric<RowSelectorOptions<TSelectedData, TData, TId>>, OnDestroy
+export class BasicRowSelectorComponent<TSelectedData, TData, TId> implements BasicRowSelector<TSelectedData, TData, TId>, GridPluginGeneric<BasicRowSelectorOptions<TSelectedData, TData, TId>>, OnDestroy
 {
     //######################### private fields #########################
 
     /**
      * Options for grid plugin
      */
-    private _options: RowSelectorOptions<TSelectedData, TData, TId>;
+    private _options: BasicRowSelectorOptions<TSelectedData, TData, TId>;
 
     /**
      * Data loader used for loading data
@@ -51,11 +52,11 @@ export class BasicRowSelectorComponent<TSelectedData, TData, TId> implements Row
     /**
      * Options for grid plugin
      */
-    public set options(options: RowSelectorOptions<TSelectedData, TData, TId>)
+    public set options(options: BasicRowSelectorOptions<TSelectedData, TData, TId>)
     {
-        this._options = Utils.common.extend(true, this._options, options) as RowSelectorOptions<TSelectedData, TData, TId>;
+        this._options = Utils.common.extend(true, this._options, options) as BasicRowSelectorOptions<TSelectedData, TData, TId>;
     }
-    public get options(): RowSelectorOptions<TSelectedData, TData, TId>
+    public get options(): BasicRowSelectorOptions<TSelectedData, TData, TId>
     {
         return this._options;
     }
@@ -78,9 +79,9 @@ export class BasicRowSelectorComponent<TSelectedData, TData, TId> implements Row
     //######################### constructor #########################
     constructor(@Inject(GRID_PLUGIN_INSTANCES) public gridPlugins: GridPluginInstances,
                 public pluginElement: ElementRef,
-                @Inject(ROW_SELECTOR_OPTIONS) @Optional() options?: RowSelectorOptions<TSelectedData, TData, TId>)
+                @Inject(ROW_SELECTOR_OPTIONS) @Optional() options?: BasicRowSelectorOptions<TSelectedData, TData, TId>)
     {
-        this._options = Utils.common.extend(true, {}, defaultOptions, options) as RowSelectorOptions<TSelectedData, TData, TId>;
+        this._options = Utils.common.extend(true, {}, defaultOptions, options) as BasicRowSelectorOptions<TSelectedData, TData, TId>;
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -171,7 +172,7 @@ export class BasicRowSelectorComponent<TSelectedData, TData, TId> implements Row
     }
 
     /**
-     * Initialize plugin, to be ready to use
+     * Initialize plugin, to be ready to use, initialize communication with other plugins
      */
     public initialize()
     {
@@ -197,12 +198,10 @@ export class BasicRowSelectorComponent<TSelectedData, TData, TId> implements Row
                 }
             });
         }
-
-        this.initOptions();
     }
 
     /**
-     * Initialize options
+     * Initialize plugin options, all operations required to be done with plugin options are handled here
      */
     public initOptions()
     {
