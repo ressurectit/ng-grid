@@ -7,3 +7,4 @@ export * from './refreshDataToDefaults';
 export * from './resetSelection';
 export * from './selectAllOnPage';
 export * from './setPage';
+export * from './reinitializeOptions';
