@@ -1,8 +1,7 @@
 import {Component, ChangeDetectionStrategy, EventEmitter, OnDestroy, ElementRef} from "@angular/core";
 import {Subscription} from "rxjs/Subscription";
 
-import {NoMetadataSelector} from "./noMetadataSelector.interface";
-import {MetadataSelectorOptions} from "../metadataSelector.interface";
+import {NoMetadataSelector, NoMetadataSelectorOptions} from "./noMetadataSelector.interface";
 import {MetadataGatherer} from "../../../components/metadata";
 import {GridPluginInstances} from "../../../components/grid";
 import {GridPluginGeneric} from "../../../misc";
@@ -16,7 +15,7 @@ import {GridPluginGeneric} from "../../../misc";
     template: '',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NoMetadataSelectorComponent<TMetadata> implements NoMetadataSelector<TMetadata>, GridPluginGeneric<MetadataSelectorOptions>, OnDestroy
+export class NoMetadataSelectorComponent<TMetadata> implements NoMetadataSelector<TMetadata>, GridPluginGeneric<NoMetadataSelectorOptions>, OnDestroy
 {
     /**
      * Subscription for metadata changes
@@ -38,7 +37,7 @@ export class NoMetadataSelectorComponent<TMetadata> implements NoMetadataSelecto
     /**
      * Options for metadata selector
      */
-    public options: MetadataSelectorOptions;
+    public options: NoMetadataSelectorOptions;
 
     /**
      * Instance of metadata gatherer, which is used for getting initial metadata
@@ -80,7 +79,7 @@ export class NoMetadataSelectorComponent<TMetadata> implements NoMetadataSelecto
     //######################### public methods - implementation of NoMetadataSelector #########################
 
     /**
-     * Initialize plugin
+     * Initialize plugin, to be ready to use, initialize communication with other plugins
      */
     public initialize()
     {
@@ -101,6 +100,13 @@ export class NoMetadataSelectorComponent<TMetadata> implements NoMetadataSelecto
         }
 
         this.metadata = this.metadataGatherer.getMetadata();
+    }
+
+    /**
+     * Initialize plugin options, all operations required to be done with plugin options are handled here
+     */
+    public initOptions()
+    {
     }
 
     /**

@@ -1,4 +1,11 @@
-import {MetadataSelector} from "../metadataSelector.interface";
+import {MetadataSelector, MetadataSelectorOptions} from "../metadataSelector.interface";
+
+/**
+ * No metadata selector options
+ */
+export interface NoMetadataSelectorOptions extends MetadataSelectorOptions
+{
+}
 
 /**
  * Public API for 'NoMetadataSelectorComponent'

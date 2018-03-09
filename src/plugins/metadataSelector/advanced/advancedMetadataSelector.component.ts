@@ -548,7 +548,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
     //######################### public methods - implementation of AdvancedMetadataSelector #########################
 
     /**
-     * Initialize plugin, to be ready to use
+     * Initialize plugin, to be ready to use, initialize communication with other plugins
      */
     public initialize()
     {
@@ -588,15 +588,14 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
 
         this._allMetadata = this.metadataGatherer.getMetadata();
         this._initMetadata();
-        this.initOptions();
+        this._initTexts();
     }
 
     /**
-     * Method used for initialization of options
+     * Initialize plugin options, all operations required to be done with plugin options are handled here
      */
     public initOptions()
     {
-        this._initTexts();
     }
 
     /**
