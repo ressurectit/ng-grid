@@ -5,8 +5,8 @@ import {PagingOptions, Paging} from "../paging.interface";
  */
 export interface CssClassesLoadMorePaging
 {
-    containerDiv: string;
-    loadMoreBtn: string;
+    containerDiv?: string;
+    loadMoreBtn?: string;
 }
 
 /**

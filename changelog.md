@@ -2,6 +2,7 @@
 
 ## Version 5.0.0-beta.13
 - added `LoadMorePagingComponent` as paging for new grid allowing click to load more content
+- added `PreviousNextPagingComponent` as paging for new grid allowing change pages using next, previous buttons
 
 ## Version 5.0.0-beta.12
 - added `initOptions` method to `Grid`
