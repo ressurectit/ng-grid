@@ -10,9 +10,8 @@ import {BodyContentRendererAbstractComponent} from "../../bodyContentRendererAbs
 /**
  * Default options for 'CssDivsBodyContentRendererComponent'
  */
-const defaultOptions: CssDivsBodyContentRendererOptions<any> =
+const defaultOptions: CssDivsBodyContentRendererOptions =
 {
-    rowCssClass: () => null,
     cssClasses:
     {
         bodyDiv: '',
@@ -55,7 +54,7 @@ const defaultOptions: CssDivsBodyContentRendererOptions<any> =
         }`
     ]
 })
-export class CssDivsBodyContentRendererComponent<TData> extends BodyContentRendererAbstractComponent<TData, CssDivsBodyContentRendererOptions<TData>, BasicTableColumn<TData>[], CssClassesCssDivsBodyContentRenderer>
+export class CssDivsBodyContentRendererComponent<TData> extends BodyContentRendererAbstractComponent<TData, CssDivsBodyContentRendererOptions, BasicTableColumn<TData>[], CssClassesCssDivsBodyContentRenderer>
 {
     //######################### public properties - hosts #########################
 
@@ -72,7 +71,7 @@ export class CssDivsBodyContentRendererComponent<TData> extends BodyContentRende
     constructor(pluginElement: ElementRef,
                 changeDetector: ChangeDetectorRef,
                 @Inject(GRID_PLUGIN_INSTANCES) gridPlugins: GridPluginInstances,
-                @Inject(BODY_CONTENT_RENDERER_OPTIONS) @Optional() options: CssDivsBodyContentRendererOptions<TData>)
+                @Inject(BODY_CONTENT_RENDERER_OPTIONS) @Optional() options: CssDivsBodyContentRendererOptions)
     {
         super(pluginElement, changeDetector, gridPlugins);
 

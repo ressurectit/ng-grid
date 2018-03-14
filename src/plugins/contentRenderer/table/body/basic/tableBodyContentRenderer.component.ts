@@ -10,9 +10,8 @@ import {BodyContentRendererAbstractComponent} from "../../../bodyContentRenderer
 /**
  * Default options for 'TableBodyContentRendererComponent'
  */
-const defaultOptions: TableBodyContentRendererOptions<any> =
+const defaultOptions: TableBodyContentRendererOptions =
 {
-    rowCssClass: () => null
 };
 
 /**
@@ -24,13 +23,13 @@ const defaultOptions: TableBodyContentRendererOptions<any> =
     templateUrl: 'tableBodyContentRenderer.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TableBodyContentRendererComponent<TData> extends BodyContentRendererAbstractComponent<TData, TableBodyContentRendererOptions<TData>, BasicTableColumn<TData>[], any>
+export class TableBodyContentRendererComponent<TData> extends BodyContentRendererAbstractComponent<TData, TableBodyContentRendererOptions, BasicTableColumn<TData>[], any>
 {
     //######################### constructor #########################
     constructor(pluginElement: ElementRef,
                 changeDetector: ChangeDetectorRef,
                 @Inject(GRID_PLUGIN_INSTANCES) gridPlugins: GridPluginInstances,
-                @Inject(BODY_CONTENT_RENDERER_OPTIONS) @Optional() options: TableBodyContentRendererOptions<TData>)
+                @Inject(BODY_CONTENT_RENDERER_OPTIONS) @Optional() options: TableBodyContentRendererOptions)
     {
         super(pluginElement, changeDetector, gridPlugins);
 

@@ -7,14 +7,12 @@ import {PAGING, Paging} from "../paging";
 import {GridPluginGeneric} from "../../misc";
 
 //TODO - compute classes before rendering
-//TODO - create bodyContentRendererExt - rowHighlight
-//                                     - row selection
 
 /**
  * Abstract component for body content renderer
  */
 @Injectable()
-export class BodyContentRendererAbstractComponent<TData, TOptions extends BodyContentRendererOptions<TCssClasses, TData>, TMetadata, TCssClasses> implements BodyContentRenderer<TData, TMetadata>, GridPluginGeneric<TOptions>
+export class BodyContentRendererAbstractComponent<TData, TOptions extends BodyContentRendererOptions<TCssClasses>, TMetadata, TCssClasses> implements BodyContentRenderer<TData, TMetadata>, GridPluginGeneric<TOptions>
 {
     //######################### protected fields #########################
 
@@ -64,9 +62,16 @@ export class BodyContentRendererAbstractComponent<TData, TOptions extends BodyCo
     //######################### public methods - implementation of CssDivsBodyContentRenderer<TData, BasicTableColumn> #########################
 
     /**
-     * Initialize plugin, to be ready to use
+     * Initialize plugin, to be ready to use, initialize communication with other plugins
      */
     public initialize()
+    {
+    }
+
+    /**
+     * Initialize plugin options, all operations required to be done with plugin options are handled here
+     */
+    public initOptions()
     {
     }
 

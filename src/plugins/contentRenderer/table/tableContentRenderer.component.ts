@@ -61,6 +61,5 @@ export class TableContentRendererComponent<TOrdering, TData, TMetadata> extends 
         super(pluginElement, gridPlugins);
 
         this._options = Utils.common.extend(true, {}, defaultOptions, options);
-        this._initOptions();
     }
 }

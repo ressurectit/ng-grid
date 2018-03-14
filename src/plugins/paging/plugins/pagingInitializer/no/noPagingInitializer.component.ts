@@ -35,9 +35,16 @@ export class NoPagingInitializerComponent implements NoPagingInitializer, GridPl
     //######################### public methods - implementation of NoPagingInitializer #########################
 
     /**
-     * Initialize plugin, to be ready to use
+     * Initialize plugin, to be ready to use, initialize communication with other plugins
      */
     public initialize()
+    {
+    }
+
+    /**
+     * Initialize plugin options, all operations required to be done with plugin options are handled here
+     */
+    public initOptions()
     {
     }
 

@@ -70,12 +70,8 @@ export const BODY_CONTENT_RENDERER = "BODY_CONTENT_RENDERER";
 /**
  * Options for 'BodyContentRenderer'
  */
-export interface BodyContentRendererOptions<TCssClasses, TData> extends VisualPluginOptions<TCssClasses>
+export interface BodyContentRendererOptions<TCssClasses> extends VisualPluginOptions<TCssClasses>
 {
-    /**
-     * Callback called for each row with data for row returning css class, that will be applied to row element
-     */
-    rowCssClass?: (rowData: TData) => string;
 }
 
 /**

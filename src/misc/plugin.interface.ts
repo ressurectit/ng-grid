@@ -9,8 +9,6 @@ import {NoDataRenderer} from "../plugins/noDataRenderer";
 import {TextsLocator} from "../plugins/textsLocator";
 import {RowSelector} from "../plugins/rowSelector";
 
-//TODO - split initialize and initOptions
-
 /**
  * Grid plugin interface
  */

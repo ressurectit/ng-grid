@@ -10,10 +10,6 @@ import {Subject} from 'rxjs/Subject';
 import {Subscription} from 'rxjs/Subscription';
 import {debounceTime} from 'rxjs/operators';
 
-//TODO - add localData
-//TODO - grid make grid ready to be dynamic, need to split ngOnInit => initialize => detectChanges
-//TODO - create interface for grid for public use
-
 /**
  * Grid component used for displaying data
  */
@@ -372,8 +368,6 @@ export class GridLegacyComponent implements OnInit, OnDestroy, AfterContentInit,
     @Input()
     public set options(options: GridLegacyOptions)
     {
-        //TODO - add change detection for grid options
-
         this.gridOptions = options;
 
         if(isBlank(this.gridOptions))
@@ -503,8 +497,6 @@ export class GridLegacyComponent implements OnInit, OnDestroy, AfterContentInit,
             dataCallback: (page: number, itemsPerPage: number, orderBy: string, orderByDirection: OrderByDirection) =>
             {
                 console.log(page, itemsPerPage, orderBy, orderByDirection);
-                //TODO - client implementation
-
                 this.totalCount = this.data.length;
             }
         };

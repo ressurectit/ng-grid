@@ -49,6 +49,5 @@ export class CssDivsContentRendererComponent<TOrdering, TData, TMetadata> extend
         super(pluginElement, gridPlugins);
 
         this._options = Utils.common.extend(true, {}, defaultOptions, options);
-        this._initOptions();
     }
 }

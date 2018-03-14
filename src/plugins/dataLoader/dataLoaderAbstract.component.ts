@@ -140,7 +140,7 @@ export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOpt
     //######################### public methodes - implements DataLoader #########################
 
     /**
-     * Initialize 'DataLoader'
+     * Initialize plugin, to be ready to use, initialize communication with other plugins
      */
     public initialize()
     {
@@ -187,6 +187,14 @@ export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOpt
         {
             this.loadData();
         }
+    }
+
+    /**
+     * Initialize plugin options, all operations required to be done with plugin options are handled here
+     */
+    public initOptions()
+    {
+
     }
 
     /**

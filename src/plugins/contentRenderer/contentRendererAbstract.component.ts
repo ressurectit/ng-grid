@@ -8,8 +8,6 @@ import {MetadataSelector, METADATA_SELECTOR} from "../metadataSelector";
 import {DataResponse, DataLoader, DATA_LOADER} from "../dataLoader";
 import {GridPluginGeneric} from "../../misc";
 
-//TODO - move initialize to different location for plugins
-
 /**
  * Abstract component for content renderers
  */
@@ -131,7 +129,7 @@ export class ContentRendererAbstractComponent<TOrdering, TData, TMetadata, TOpti
     }
 
     /**
-     * Initialize options, automaticaly called during init phase, but can be used to reinitialize Options
+     * Initialize plugin, to be ready to use, initialize communication with other plugins
      */
     public initialize()
     {
@@ -167,7 +165,65 @@ export class ContentRendererAbstractComponent<TOrdering, TData, TMetadata, TOpti
             this._dataChangedSubscription = this._dataLoader.resultChange.subscribe(() => this._invalidateVisuals());
         }
 
-        this.invalidateVisuals();
+        this.gridPlugins[HEADER_CONTENT_RENDERER].initialize();
+        this.gridPlugins[BODY_CONTENT_RENDERER].initialize();
+
+        this._invalidateVisuals();
+    }
+
+    /**
+     * Initialize plugin options, all operations required to be done with plugin options are handled here
+     */
+    public initOptions()
+    {
+        if(this._options.plugins)
+        {
+            if(this._options.plugins.bodyRenderer)
+            {
+                this._options.plugins.bodyRenderer.type = resolveForwardRef(this._options.plugins.bodyRenderer.type);
+
+                if(this._options.plugins.bodyRenderer.instance &&
+                   this._options.plugins.bodyRenderer.instance != this.gridPlugins[BODY_CONTENT_RENDERER])
+                {
+                    this.gridPlugins[BODY_CONTENT_RENDERER] = this._options.plugins.bodyRenderer.instance;
+                    this._options.plugins.bodyRenderer.instance.gridPlugins = this.gridPlugins;
+
+                    if(this._options.plugins && this._options.plugins.bodyRenderer && this._options.plugins.bodyRenderer.options)
+                    {
+                        this._options.plugins.bodyRenderer.instance.options = this._options.plugins.bodyRenderer.options;
+                    }
+
+                    this._options.plugins.bodyRenderer.instance.initOptions();
+                }
+            }
+
+            if(this._options.plugins.headerRenderer)
+            {
+                this._options.plugins.headerRenderer.type = resolveForwardRef(this._options.plugins.headerRenderer.type);
+
+                if(this._options.plugins.headerRenderer.instance &&
+                   this._options.plugins.headerRenderer.instance != this.gridPlugins[HEADER_CONTENT_RENDERER])
+                {
+                    this.gridPlugins[HEADER_CONTENT_RENDERER] = this._options.plugins.headerRenderer.instance;
+                    this._options.plugins.headerRenderer.instance.gridPlugins = this.gridPlugins;
+
+                    if(this._options.plugins && this._options.plugins.headerRenderer && this._options.plugins.headerRenderer.options)
+                    {
+                        this._options.plugins.headerRenderer.instance.options = this._options.plugins.headerRenderer.options;
+                    }
+
+                    this._options.plugins.headerRenderer.instance.initOptions();
+
+                    if(this._orderingChangedSubscription)
+                    {
+                        this._orderingChangedSubscription.unsubscribe();
+                        this._orderingChangedSubscription = null;
+                    }
+
+                    this._orderingChangedSubscription = this._options.plugins.headerRenderer.instance.orderingChange.subscribe(() => this.orderingChange.emit());
+                }
+            }
+        }
     }
 
     //######################### public methods - template bindings #########################
@@ -191,12 +247,12 @@ export class ContentRendererAbstractComponent<TOrdering, TData, TMetadata, TOpti
             bodyRenderer.options = this._options.plugins.bodyRenderer.options;
         }
 
+        bodyRenderer.initOptions();
+
         if(this._options.plugins && this._options.plugins.bodyRenderer && this._options.plugins.bodyRenderer.instanceCallback)
         {
             this._options.plugins.bodyRenderer.instanceCallback(bodyRenderer);
         }
-
-        bodyRenderer.initialize();
     }
 
     /**
@@ -218,6 +274,8 @@ export class ContentRendererAbstractComponent<TOrdering, TData, TMetadata, TOpti
             headerRenderer.options = this._options.plugins.headerRenderer.options;
         }
 
+        headerRenderer.initOptions();
+
         if(this._options.plugins && this._options.plugins.headerRenderer && this._options.plugins.headerRenderer.instanceCallback)
         {
             this._options.plugins.headerRenderer.instanceCallback(headerRenderer);
@@ -230,8 +288,6 @@ export class ContentRendererAbstractComponent<TOrdering, TData, TMetadata, TOpti
         }
 
         this._orderingChangedSubscription = headerRenderer.orderingChange.subscribe(() => this.orderingChange.emit());
-
-        headerRenderer.initialize();
     }
 
     //######################### protected methods #########################
@@ -256,49 +312,6 @@ export class ContentRendererAbstractComponent<TOrdering, TData, TMetadata, TOpti
             bodyRenderer.data = this._dataLoader.result.data;
             bodyRenderer.metadata = this._metadataSelector.metadata;
             bodyRenderer.invalidateVisuals();
-        }
-    }
-
-    /**
-     * Initialize options
-     */
-    protected _initOptions()
-    {
-        if(this._options.plugins)
-        {
-            if(this._options.plugins.bodyRenderer)
-            {
-                this._options.plugins.bodyRenderer.type = resolveForwardRef(this._options.plugins.bodyRenderer.type);
-
-                if(this._options.plugins.bodyRenderer.instance &&
-                   this._options.plugins.bodyRenderer.instance != this.gridPlugins[BODY_CONTENT_RENDERER])
-                {
-                    this.gridPlugins[BODY_CONTENT_RENDERER] = this._options.plugins.bodyRenderer.instance;
-                    this._options.plugins.bodyRenderer.instance.gridPlugins = this.gridPlugins;
-                    this._options.plugins.bodyRenderer.instance.initialize();
-                }
-            }
-
-            if(this._options.plugins.headerRenderer)
-            {
-                this._options.plugins.headerRenderer.type = resolveForwardRef(this._options.plugins.headerRenderer.type);
-
-                if(this._options.plugins.headerRenderer.instance &&
-                   this._options.plugins.headerRenderer.instance != this.gridPlugins[HEADER_CONTENT_RENDERER])
-                {
-                    this.gridPlugins[HEADER_CONTENT_RENDERER] = this._options.plugins.headerRenderer.instance;
-                    this._options.plugins.headerRenderer.instance.gridPlugins = this.gridPlugins;
-                    this._options.plugins.headerRenderer.instance.initialize();
-
-                    if(this._orderingChangedSubscription)
-                    {
-                        this._orderingChangedSubscription.unsubscribe();
-                        this._orderingChangedSubscription = null;
-                    }
-
-                    this._orderingChangedSubscription = this._options.plugins.headerRenderer.instance.orderingChange.subscribe(() => this.orderingChange.emit());
-                }
-            }
         }
     }
 }

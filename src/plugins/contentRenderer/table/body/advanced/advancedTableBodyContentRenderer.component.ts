@@ -28,12 +28,12 @@ const defaultOptions: AdvancedTableBodyContentRendererOptions<any> =
 })
 export class AdvancedTableBodyContentRendererComponent<TData> extends BodyContentRendererAbstractComponent<TData, AdvancedTableBodyContentRendererOptions<TData>, BasicTableColumn<TData>[], any>
 {
-    //######################### private fields #########################
+    //######################### protected fields #########################
 
     /**
      * Currently used row selector
      */
-    private _rowSelector: RowSelector<any, any, TData>;
+    protected _rowSelector: RowSelector<any, any, TData>;
 
     //######################### constructor #########################
     constructor(pluginElement: ElementRef,

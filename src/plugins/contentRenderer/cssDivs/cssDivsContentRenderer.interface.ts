@@ -1,4 +1,4 @@
-import {BodyContentRendererOptions, ContentRendererPlugins, HeaderContentRendererOptions, ContentRendererOptions, CssClassesHeaderContentRenderer} from "../contentRenderer.interface";
+import {ContentRenderer, HeaderContentRenderer, BodyContentRenderer, BodyContentRendererOptions, ContentRendererPlugins, HeaderContentRendererOptions, ContentRendererOptions, CssClassesHeaderContentRenderer} from "../contentRenderer.interface";
 
 /**
  * Css classes for css divs content renderer
@@ -15,6 +15,13 @@ export interface CssDivsContentRendererOptions extends ContentRendererOptions<Cs
 }
 
 /**
+ * Public API for CssDivsContentRenderer
+ */
+export interface CssDivsContentRenderer<TOrdering> extends ContentRenderer<TOrdering>
+{
+}
+
+/**
  * Css classes for css divs body content renderer
  */
 export interface CssClassesCssDivsBodyContentRenderer
@@ -27,7 +34,14 @@ export interface CssClassesCssDivsBodyContentRenderer
 /**
  * Options for 'CssDivsBodyContentRendererComponent'
  */
-export interface CssDivsBodyContentRendererOptions<TData> extends BodyContentRendererOptions<CssClassesCssDivsBodyContentRenderer, TData>
+export interface CssDivsBodyContentRendererOptions extends BodyContentRendererOptions<CssClassesCssDivsBodyContentRenderer>
+{
+}
+
+/**
+ * Public API for CssDivsBodyContentRenderer
+ */
+export interface CssDivsBodyContentRenderer<TData, TMetadata> extends BodyContentRenderer<TData, TMetadata>
 {
 }
 
@@ -48,5 +62,12 @@ export interface CssClassesCssDivsHeaderContentRenderer extends CssClassesHeader
  * Options for 'CssDivsHeaderContentRendererOptions'
  */
 export interface CssDivsHeaderContentRendererOptions extends HeaderContentRendererOptions<CssClassesCssDivsHeaderContentRenderer>
+{
+}
+
+/**
+ * Public API for CssDivsHeaderContentRenderer
+ */
+export interface CssDivsHeaderContentRenderer<TOrdering, TMetadata> extends HeaderContentRenderer<TOrdering, TMetadata>
 {
 }

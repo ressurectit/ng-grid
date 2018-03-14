@@ -70,9 +70,16 @@ export class HeaderContentRendererAbstractComponent<TData, TOptions extends Head
     }
 
     /**
-     * Initialize plugin, to be ready to use
+     * Initialize plugin, to be ready to use, initialize communication with other plugins
      */
     public initialize()
+    {
+    }
+
+    /**
+     * Initialize plugin options, all operations required to be done with plugin options are handled here
+     */
+    public initOptions()
     {
     }
 
@@ -143,12 +150,12 @@ export class HeaderContentRendererAbstractComponent<TData, TOptions extends Head
         }
     }
 
-    //######################### private methods #########################
+    //######################### protected methods #########################
 
     /**
      * Resets ordering to none
      */
-    private _resetOrdering()
+    protected _resetOrdering()
     {
         this.metadata.forEach(meta => meta.orderingClass = this.options.cssClasses.spanOrderingDirection.none);
     }
