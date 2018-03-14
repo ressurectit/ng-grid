@@ -55,7 +55,7 @@ export interface AdvancedMetadataSelectorTexts
 export interface AdvancedMetadataSelectorOptions extends MetadataSelectorOptions, VisualPluginOptions<CssClassesAdvancedMetadataSelector>
 {
     /**
-     * Texts that are used withing AdvancedMetadataSelector
+     * Texts that are used within AdvancedMetadataSelector
      */
     texts?: AdvancedMetadataSelectorTexts;
 

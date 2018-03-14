@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 5.0.0-beta.13
+- added `LoadMorePagingComponent` as paging for new grid allowing click to load more content
+
 ## Version 5.0.0-beta.12
 - added `initOptions` method to `Grid`
 - added `invalidateVisuals` method to `Grid`

@@ -1,0 +1,3 @@
+<div [ngClass]="options?.cssClasses?.containerDiv" *ngIf="moreAvailable">
+    <button type="button" [ngClass]="options?.cssClasses?.loadMoreBtn" (click)="loadMore()">Load More</button>
+</div>

@@ -231,7 +231,7 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
         return isNaN(value) ? "&infin;" : value.toString();
     }
 
-    //######################### public properties #########################
+    //######################### public methods #########################
 
     /**
      * Method that initialize paging component, this method can be used for initialization if paging used dynamicaly
