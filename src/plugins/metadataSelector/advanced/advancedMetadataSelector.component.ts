@@ -11,6 +11,9 @@ import {HEADER_CONTENT_RENDERER} from "../../contentRenderer";
 import {AdvancedMetadataSelectorTexts} from "..";
 import {TextsLocator, TEXTS_LOCATOR} from "../../textsLocator";
 
+/**
+ * @ignore
+ */
 const UNUSED_DRAG = "UNUSED_DRAG"
 
 /**

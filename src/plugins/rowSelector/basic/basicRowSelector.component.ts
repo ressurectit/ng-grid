@@ -22,6 +22,106 @@ const defaultOptions: BasicRowSelectorOptions<any, any, any> =
 
 /**
  * Component used for handling row selection
+ *
+ * This component requires `ContentRenderer` which supports row selection, one possible use is with `TableContentRendererComponent` with `AdvancedTableBodyContentRendererComponent`, any
+ * other `ContentRenderer` that supports row selection can be used
+ *
+ * Working with `BasicRowSelectorComponent` from code should be done using extensions methods
+ *
+ * If you want to use row selection you must provide at least `getRowId`, you can use `getRowData` for obtaining selected data in requested format see below example:
+ * 
+ * ``` typescript
+ * var gridOptions =
+ * {
+ *     plugins:
+ *     {
+ *         contentRenderer:
+ *         {
+ *             options: <TableContentRendererOptions>
+ *             {
+ *                 plugins:
+ *                 {
+ *                     bodyRenderer:
+ *                     {
+ *                         type: AdvancedTableBodyContentRendererComponent
+ *                     }
+ *                 }
+ *             }
+ *         },
+ *         rowSelector:
+ *         {
+ *             options: <RowSelectorOptions<SelectedDataType, DataType, string>>
+ *             {
+ *                 getRowId: item => item.uuid,
+ *                 getRowData: item =>
+ *                 {
+ *                     return {
+ *                         uuid: item.uuid,
+ *                         myNumber: item.myNumber,
+ *                         myString: item.myString
+ *                     };
+ *                 }
+ *             }
+ *         }
+ *     }
+ * };
+ * ```
+ *
+ * Example usage with `AdvancedTableBodyContentRendererComponent`
+ * 
+ * ``` html
+ * <ng-grid #grid [gridOptions]="gridOptions">
+ *     <basic-table-metadata>
+ *         <basic-table-column id="uuid" name="uuid" title="Id"></basic-table-column>
+ *         <basic-table-column id="myNumber" name="myNumber" title="Number value"></basic-table-column>
+ *         <basic-table-column id="myString" name="myString" title="String value"></basic-table-column>
+ *
+ *         <basic-table-column id="rowSelection" name="rowSelection" title="Row selection">
+ *             <!-- selection of all rows in header -->
+ *             <ng-template #headerTemplate>
+ *                 <input type="checkbox" (click)="toggleAllSelected($event.target.checked, $event)" [checked]="selectedAll">
+ *             </ng-template>
+ *
+ *             <!-- selection of single row -->
+ *             <ng-template #bodyTemplate let-item let-rowSelector="rowSelector" let-isSelected="isSelected">
+ *                 <input type="checkbox" (click)="rowSelector.selectItem(item, $event.target.checked)" [checked]="isSelected">
+ *             </ng-template>
+ *         </basic-table-column>
+ *     </basic-table-metadata>
+ * </ng-grid>
+ * ```
+ *
+ * Selecting all items in code
+ * 
+ * ``` typescript
+ * public selectedAll: boolean = false;
+ * 
+ * (at)ViewChild('grid')
+ * public grid: GridComponent;
+ * 
+ * public ngAfterViewInit()
+ * {
+ *     this._setSelectedFlags();
+ *
+ *     let dataLoader = this.grid.getPlugin<DataLoader<DataResponse<any>>>(DATA_LOADER);
+ *     let rowSelector = this.grid.getPlugin<RowSelector<any, any, any>>(ROW_SELECTOR);
+ *
+ *     rowSelector.selectedChange.subscribe(() => this._setSelectedFlags());
+ *     dataLoader.resultChange.subscribe(() => this._setSelectedFlags());
+ * }
+ *
+ * public toggleAllSelected(value: boolean)
+ * {
+ *     this.grid.execute(selectAllOnPage(value));
+ * }
+ *
+ * private _setSelectedFlags()
+ * {
+ *     this.selectedAll = this.grid.executeAndReturn(areSelectedAllOnPage());
+ *
+ *     this._changeDetector.detectChanges();
+ * }
+ * ```
  */
 @Component(
 {
@@ -31,23 +131,23 @@ const defaultOptions: BasicRowSelectorOptions<any, any, any> =
 })
 export class BasicRowSelectorComponent<TSelectedData, TData, TId> implements BasicRowSelector<TSelectedData, TData, TId>, GridPluginGeneric<BasicRowSelectorOptions<TSelectedData, TData, TId>>, OnDestroy
 {
-    //######################### private fields #########################
+    //######################### protected fields #########################
 
     /**
      * Options for grid plugin
      */
-    private _options: BasicRowSelectorOptions<TSelectedData, TData, TId>;
+    protected _options: BasicRowSelectorOptions<TSelectedData, TData, TId>;
 
     /**
      * Data loader used for loading data
      */
-    private _dataLoader: DataLoader<any>;
+    protected _dataLoader: DataLoader<any>;
 
     /**
      * Subscription for data changes
      */
-    private _dataChangedSubscription: Subscription;
-    
+    protected _dataChangedSubscription: Subscription;
+
     //######################### public properties - implementation of RowSelector #########################
 
     /**
@@ -86,7 +186,7 @@ export class BasicRowSelectorComponent<TSelectedData, TData, TId> implements Bas
     }
 
     //######################### public methods - implementation of OnDestroy #########################
-    
+
     /**
      * Called when component is destroyed
      */

@@ -16,6 +16,7 @@ import {BasicRowSelectorComponent, RowSelector, ROW_SELECTOR} from "../../plugin
 
 /**
  * Default 'GridOptions'
+ * @internal
  */
 const defaultOptions: GridOptions =
 {
@@ -114,6 +115,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
 
     /**
      * Metadata gatherer instance
+     * @internal
      */
     @ContentChild(METADATA_GATHERER)
     public metadataGatherer: MetadataGatherer<any>;

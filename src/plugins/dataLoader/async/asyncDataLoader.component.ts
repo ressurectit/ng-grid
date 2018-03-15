@@ -19,6 +19,44 @@ const defaultOptions: AsyncDataLoaderOptions<any, any> =
 
 /**
  * Data loader that allows asynchronous data loading
+ * 
+ * If you want to use async data loader you have to provide at least `dataCallback`.
+ * 
+ * Sample grid options
+ * ``` typescript
+ * var gridOptions =
+ * {
+ *     plugins:
+ *     {
+ *         dataLoader:
+ *         {
+ *             type: AsyncDataLoaderComponent, //this is default value could be omitted
+ *             options: <AsyncDataLoaderOptions<DataType, SimpleOrdering>>
+ *             {
+ *                 dataCallback: this._getData.bind(this)
+ *             }
+ *         }
+ *     }
+ * };
+ * ```
+ * 
+ * data callback should look like this
+ * ``` typescript
+ * private async _getData(page: number, itemsPerPage: number, ordering: SimpleOrdering): Promise<DataResponse<DataType>>
+ * {
+ *     let result = await this._dataSvc
+ *         .getData(
+ *         {
+ *             page: (page - 1),
+ *             size: itemsPerPage
+ *         }).toPromise();
+ * 
+ *     return {
+ *         data: result.content,
+ *         totalCount: result.totalElements
+ *     };
+ * }
+ * ```
  */
 @Component(
 {

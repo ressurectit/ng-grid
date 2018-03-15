@@ -35,6 +35,7 @@ export class BasicTableMetadataGathererComponent<TData> implements AfterContentI
 
     /**
      * Gets all columns defined in gatherer
+     * @internal
      */
     @ContentChildren(BasicTableColumnComponent)
     public columns: QueryList<BasicTableColumnComponent<TData>>;

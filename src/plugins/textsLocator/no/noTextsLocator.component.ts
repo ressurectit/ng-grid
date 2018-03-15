@@ -55,7 +55,6 @@ export class NoTextsLocatorComponent implements NoTextsLocator, GridPluginGeneri
      */
     public initOptions()
     {
-
     }
 
     /**

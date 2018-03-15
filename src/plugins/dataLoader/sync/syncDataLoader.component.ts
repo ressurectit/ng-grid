@@ -45,6 +45,30 @@ const defaultOptions: SyncDataLoaderOptions<any, SimpleOrdering> =
 
 /**
  * Data loader that allows synchronous data loading
+ *
+ * If you want to use this loader you have to provide all data you want to be displayed in grid
+ *
+ * You have to provide data at least
+ * ``` typescript
+ * var arrayOfItems: DataType[] = [];
+ *
+ * var gridOptions =
+ * {
+ *      plugins:
+ *      {
+ *          dataLoader:
+ *          {
+ *              type: SyncDataLoaderComponent,
+ *              options: <SyncDataLoaderOptions<DataType, SimpleOrdering>>
+ *              {
+ *                  data: arrayOfItems
+ *              }
+ *          }
+ *      }
+ * };
+ * ```
+ * 
+ * You must set these options before end of sync call of `ngOnInit`, if you set it later you have to disable auto initialization of grid and initialize it manualy
  */
 @Component(
 {
@@ -86,7 +110,7 @@ export class SyncDataLoaderComponent<TData, TOrdering> extends DataLoaderAbstrac
     }
 
     //######################### protected methodes - implements DataLoaderAbstractComponent #########################
-    
+
     /**
      * Loads data from 'source'
      * @param {boolean} force Indication that data should be reloaded even if nothing changed
@@ -111,7 +135,7 @@ export class SyncDataLoaderComponent<TData, TOrdering> extends DataLoaderAbstrac
                   toArray())
             .toPromise();
 
-        this._result = 
+        this._result =
         {
             data: data,
             totalCount: this._options.data.length

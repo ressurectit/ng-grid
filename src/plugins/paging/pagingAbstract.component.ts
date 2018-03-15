@@ -10,6 +10,7 @@ import {NoPagingInitializerComponent} from "./plugins/pagingInitializer";
 
 /**
  * Default options for all paging
+ * @internal
  */
 const defaultOptions: PagingOptions<any> =
 {
