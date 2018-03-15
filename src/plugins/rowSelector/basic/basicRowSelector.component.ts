@@ -10,6 +10,7 @@ import {BasicRowSelectorOptions, BasicRowSelector} from "./basicRowSelector.inte
 
 /**
  * Default options for row selector
+ * @internal
  */
 const defaultOptions: BasicRowSelectorOptions<any, any, any> =
 {

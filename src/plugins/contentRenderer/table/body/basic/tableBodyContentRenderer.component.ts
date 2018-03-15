@@ -9,6 +9,7 @@ import {BodyContentRendererAbstractComponent} from "../../../bodyContentRenderer
 
 /**
  * Default options for 'TableBodyContentRendererComponent'
+ * @internal
  */
 const defaultOptions: TableBodyContentRendererOptions =
 {

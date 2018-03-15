@@ -11,6 +11,7 @@ import {TextsLocator, TEXTS_LOCATOR} from '../../textsLocator';
 
 /**
  * Default options for paging
+ * @internal
  */
 const defaultOptions: LoadMorePagingOptions =
 {

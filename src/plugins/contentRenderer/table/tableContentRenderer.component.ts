@@ -11,6 +11,7 @@ import {ContentRendererAbstractComponent} from "../contentRendererAbstract.compo
 
 /**
  * Default options for 'TableContentRendererComponent'
+ * @internal
  */
 const defaultOptions: TableContentRendererOptions =
 {

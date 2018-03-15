@@ -10,6 +10,7 @@ import {PreviousNextPaging, PreviousNextPagingOptions, CssClassesPreviousNextPag
 
 /**
  * Default options for paging
+ * @internal
  */
 const defaultOptions: PreviousNextPagingOptions =
 {

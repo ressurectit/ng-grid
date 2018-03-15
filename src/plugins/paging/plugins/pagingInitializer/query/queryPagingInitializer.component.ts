@@ -9,6 +9,7 @@ import {GridPluginInstances} from "../../../../../components/grid";
 
 /**
  * Default options for query paging initializer
+ * @internal
  */
 const defaultOptions: QueryPagingInitializerOptions =
 {

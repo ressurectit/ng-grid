@@ -15,6 +15,7 @@ const UNUSED_DRAG = "UNUSED_DRAG"
 
 /**
  * Coordinates for spans for placements
+ * @internal
  */
 export interface SpanCoordinates
 {
@@ -25,6 +26,7 @@ export interface SpanCoordinates
 
 /**
  * Cookie state
+ * @internal
  */
 interface CookieState
 {
@@ -33,6 +35,7 @@ interface CookieState
 
 /**
  * Default options for advanced metadata selector
+ * @internal
  */
 const defaultOptions: AdvancedMetadataSelectorOptions =
 {

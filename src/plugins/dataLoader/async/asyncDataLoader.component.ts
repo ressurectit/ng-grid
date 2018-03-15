@@ -8,6 +8,7 @@ import {DataLoaderAbstractComponent} from "../dataLoaderAbstract.component";
 
 /**
  * Default options for async data loader
+ * @internal
  */
 const defaultOptions: AsyncDataLoaderOptions<any, any> =
 {

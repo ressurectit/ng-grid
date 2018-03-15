@@ -11,6 +11,7 @@ import {CssDivsHeaderContentRendererComponent} from "./header/cssDivsHeaderConte
 
 /**
  * Default options for 'CssDivsContentRendererComponent'
+ * @internal
  */
 const defaultOptions: CssDivsContentRendererOptions =
 {

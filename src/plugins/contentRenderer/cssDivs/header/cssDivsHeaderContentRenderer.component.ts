@@ -7,6 +7,7 @@ import {HeaderContentRendererAbstractComponent} from "../../headerContentRendere
 
 /**
  * Default options for 'CssDivsHeaderContentRendererComponent'
+ * @internal
  */
 const defaultOptions: CssDivsHeaderContentRendererOptions =
 {

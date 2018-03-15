@@ -13,6 +13,7 @@ import {SimpleOrdering} from "../../contentRenderer";
 
 /**
  * Default options for sync data loader
+ * @internal
  */
 const defaultOptions: SyncDataLoaderOptions<any, SimpleOrdering> =
 {

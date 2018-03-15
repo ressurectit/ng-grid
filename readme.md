@@ -1,6 +1,6 @@
 # Angular Grid
 
-This is [readme](http://ezk-ivp-moss01/docs/ng-grid/index.html) for angular grid.
+This is [readme](http://ezk-ivp-moss01/docs/ng-grid/) for angular grid.
 
 Implementation of angular grid for displaying data.
 
@@ -9,7 +9,7 @@ Completely reworked `GridComponent` guide and documentation to old `LegacyGrid` 
 * [Description](#description)
 * [Installation](#installation)
 * [Usage](#usage)
-* [API](http://ezk-ivp-moss01/docs/ng-grid/)
+* [API](http://ezk-ivp-moss01/docs/ng-grid/overview.html)
 * [Change Log](http://ezk-ivp-moss01/docs/ng-grid/changelog.html)
 
 ## Description

@@ -9,6 +9,7 @@ import {NoPagingInitializerComponent} from '../plugins/pagingInitializer';
 
 /**
  * Items per page single item
+ * @internal
  */
 export class ItemsPerPageItem
 {
@@ -25,6 +26,7 @@ export class ItemsPerPageItem
 
 /**
  * Default options for paging
+ * @internal
  */
 const defaultOptions: BasicPagingOptions =
 {

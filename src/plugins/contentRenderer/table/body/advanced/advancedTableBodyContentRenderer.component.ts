@@ -11,6 +11,7 @@ import {AdvancedTableBodyContentRendererOptions} from "./advancedTableBodyConten
 
 /**
  * Default options for 'AdvancedTableBodyContentRendererComponent'
+ * @internal
  */
 const defaultOptions: AdvancedTableBodyContentRendererOptions<any> =
 {

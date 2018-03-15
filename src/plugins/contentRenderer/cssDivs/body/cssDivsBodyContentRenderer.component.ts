@@ -9,6 +9,7 @@ import {BodyContentRendererAbstractComponent} from "../../bodyContentRendererAbs
 
 /**
  * Default options for 'CssDivsBodyContentRendererComponent'
+ * @internal
  */
 const defaultOptions: CssDivsBodyContentRendererOptions =
 {

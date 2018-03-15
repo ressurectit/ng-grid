@@ -10,6 +10,7 @@ import {SimpleNoDataRenderer, CssClassesSimpleNoDataRenderer, SimpleNoDataRender
 
 /**
  * Default options for no data renderer
+ * @internal
  */
 const defaultOptions: SimpleNoDataRendererOptions<CssClassesSimpleNoDataRenderer> =
 {
