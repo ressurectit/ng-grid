@@ -6,6 +6,7 @@ import {ContentRenderer, HeaderContentRenderer, BodyContentRenderer, BodyContent
 export interface CssClassesTableContentRenderer
 {
     table?: string;
+    containerDiv?: string;
 }
 
 /**

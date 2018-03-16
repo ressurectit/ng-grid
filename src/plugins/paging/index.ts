@@ -6,6 +6,8 @@ export * from './loadMore/loadMorePaging.component';
 export * from './loadMore/loadMorePaging.interface';
 export * from './previousNext/previousNextPaging.component';
 export * from './previousNext/previousNextPaging.interface';
+export * from './virtualScroll/virtualScrollPaging.component';
+export * from './virtualScroll/virtualScrollPaging.interface';
 export * from './no/noPaging.component';
 export * from './no/noPaging.interface';
 export * from './plugins/pagingInitializer';

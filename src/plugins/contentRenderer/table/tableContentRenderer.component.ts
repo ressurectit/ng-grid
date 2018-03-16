@@ -17,7 +17,8 @@ const defaultOptions: TableContentRendererOptions =
 {
     cssClasses:
     {
-        table: 'table table-condensed table-striped table-hover'
+        table: 'table table-condensed table-striped table-hover',
+        containerDiv: ''
     },
     plugins:
     {
@@ -37,7 +38,7 @@ const defaultOptions: TableContentRendererOptions =
  */
 @Component(
 {
-    selector: 'table.content-renderer',
+    selector: 'div.table-content-renderer',
     templateUrl: 'tableContentRenderer.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -51,7 +52,7 @@ export class TableContentRendererComponent<TOrdering, TData, TMetadata> extends 
     @HostBinding('class')
     public get cssClass(): string
     {
-        return this._options.cssClasses.table;
+        return this._options.cssClasses.containerDiv;
     }
 
     //######################### constructor #########################

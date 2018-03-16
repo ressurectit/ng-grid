@@ -3,7 +3,7 @@ import {CommonModule as AngularCommonModule} from "@angular/common";
 import {CommonModule} from "@anglr/common";
 
 import {GridComponent} from "../components/grid/grid.component";
-import {PreviousNextPagingComponent, LoadMorePagingComponent, BasicPagingComponent, NoPagingComponent, QueryPagingInitializerComponent, NoPagingInitializerComponent} from "../plugins/paging";
+import {VirtualScrollPagingComponent, PreviousNextPagingComponent, LoadMorePagingComponent, BasicPagingComponent, NoPagingComponent, QueryPagingInitializerComponent, NoPagingInitializerComponent} from "../plugins/paging";
 import {SyncDataLoaderComponent, AsyncDataLoaderComponent} from "../plugins/dataLoader";
 import {BasicTableColumnComponent, BasicTableMetadataGathererComponent} from "../components/metadata";
 import {NoMetadataSelectorComponent, AdvancedMetadataSelectorComponent} from "../plugins/metadataSelector";
@@ -26,6 +26,7 @@ import {BasicRowSelectorComponent} from "../plugins/rowSelector";
         BasicTableMetadataGathererComponent,
         BasicPagingComponent,
         LoadMorePagingComponent,
+        VirtualScrollPagingComponent,
         PreviousNextPagingComponent,
         NoPagingComponent,
         QueryPagingInitializerComponent,
@@ -49,6 +50,7 @@ import {BasicRowSelectorComponent} from "../plugins/rowSelector";
     [
         BasicPagingComponent,
         LoadMorePagingComponent,
+        VirtualScrollPagingComponent,
         PreviousNextPagingComponent,
         NoPagingComponent,
         QueryPagingInitializerComponent,
@@ -75,6 +77,7 @@ import {BasicRowSelectorComponent} from "../plugins/rowSelector";
         BasicTableMetadataGathererComponent,
         BasicPagingComponent,
         LoadMorePagingComponent,
+        VirtualScrollPagingComponent,
         PreviousNextPagingComponent
     ],
     providers:

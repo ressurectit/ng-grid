@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 5.0.0-beta.14
+- added generated documentation, added few samples, updated `@internal` flags
+- added `VirtualScrollPagingComponent` as paging for grid, that allows loading data when content of grid is scrolled passing treshold
+- changed `TableContentRendererComponent`, now renders wrapping `<div>` around `<table>`
+
 ## Version 5.0.0-beta.13
 - added `LoadMorePagingComponent` as paging for new grid allowing click to load more content
 - added `PreviousNextPagingComponent` as paging for new grid allowing change pages using next, previous buttons
