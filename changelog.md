@@ -2,7 +2,8 @@
 
 ## Version 5.0.0-beta.14
 - added generated documentation, added few samples, updated `@internal` flags
-- added `VirtualScrollPagingComponent` as paging for grid, that allows loading data when content of grid is scrolled passing treshold
+- added `ContentVirtualScrollPagingComponent` as paging for grid, that allows loading data when content of grid is scrolled passing treshold
+- added `PageVirtualScrollPagingComponent` as paging for grid, that allows loading data when page is scrolled passing treshold
 - changed `TableContentRendererComponent`, now renders wrapping `<div>` around `<table>`
 
 ## Version 5.0.0-beta.13
