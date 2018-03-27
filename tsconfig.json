@@ -21,6 +21,7 @@
         ],
         "types": 
         [
+            "node",
             "numeral",
             "scrollmagic",
             "jasmine"
@@ -41,9 +42,7 @@
     [
         "node_modules",
         "dist",
-        "testing",
-        "*.spec.ts",
-        "karma-test-shim.ts"
+        "testing"
     ],
     "angularCompilerOptions": 
     {

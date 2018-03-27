@@ -15,11 +15,11 @@ module.exports = function(config)
         frameworks: ['jasmine'],
 
         // list of files / patterns to load in the browser
-        files: 
+        files:
         [
             path.join(__dirname, distPath + '/dependencies.js'),
             'karma-test-shim.ts',
-            '**/*.spec.ts'
+            'src/**/*.spec.ts'
         ],
 
         // list of files to exclude
@@ -32,7 +32,7 @@ module.exports = function(config)
             '**/*.ts': 'webpack'
         },
 
-        mime: 
+        mime:
         {
             'text/x-typescript': ['ts']
         },
@@ -42,7 +42,7 @@ module.exports = function(config)
         // available reporters: https://npmjs.org/browse/keyword/karma-reporter
         reporters: ['progress', 'kjhtml'],
 
-        webpack: 
+        webpack:
         {
             output:
             {
@@ -90,7 +90,7 @@ module.exports = function(config)
             ]
         },
 
-        webpackMiddleware: 
+        webpackMiddleware:
         {
             // webpack-dev-middleware configuration
             stats: 'errors-only',
