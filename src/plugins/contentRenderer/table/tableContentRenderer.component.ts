@@ -18,7 +18,7 @@ const defaultOptions: TableContentRendererOptions =
     cssClasses:
     {
         table: 'table table-condensed table-striped table-hover',
-        containerDiv: ''
+        containerDiv: 'table-container'
     },
     plugins:
     {

@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 5.0.0-beta.15
+- set default css class `table-container` for `TableContentRendererComponent` wrapping div
+
 ## Version 5.0.0-beta.14
 - added generated documentation, added few samples, updated `@internal` flags
 - added `ContentVirtualScrollPagingComponent` as paging for grid, that allows loading data when content of grid is scrolled passing treshold
