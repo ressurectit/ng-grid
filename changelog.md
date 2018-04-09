@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 5.0.0-beta.16
+- all plugin components added to `exports` of `GridModule`, so can be instantiated outside of grid, allowing custom positioning of visual components
+
 ## Version 5.0.0-beta.15
 - set default css class `table-container` for `TableContentRendererComponent` wrapping div
 

@@ -81,7 +81,24 @@ import {BasicRowSelectorComponent} from "../plugins/rowSelector";
         LoadMorePagingComponent,
         ContentVirtualScrollPagingComponent,
         PageVirtualScrollPagingComponent,
-        PreviousNextPagingComponent
+        PreviousNextPagingComponent,
+        NoPagingComponent,
+        QueryPagingInitializerComponent,
+        NoPagingInitializerComponent,
+        SyncDataLoaderComponent,
+        AsyncDataLoaderComponent,
+        NoMetadataSelectorComponent,
+        AdvancedMetadataSelectorComponent,
+        TableContentRendererComponent,
+        TableBodyContentRendererComponent,
+        AdvancedTableBodyContentRendererComponent,
+        TableHeaderContentRendererComponent,
+        CssDivsContentRendererComponent,
+        CssDivsBodyContentRendererComponent,
+        CssDivsHeaderContentRendererComponent,
+        SimpleNoDataRendererComponent,
+        NoTextsLocatorComponent,
+        BasicRowSelectorComponent
     ],
     providers:
     [
