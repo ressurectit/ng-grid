@@ -60,7 +60,7 @@ export class NoPagingInitializerComponent implements NoPagingInitializer, GridPl
      */
     public getPage(): number
     {
-        return 1;
+        return null;
     }
 
     /**
@@ -76,7 +76,7 @@ export class NoPagingInitializerComponent implements NoPagingInitializer, GridPl
      */
     public getItemsPerPage(): number
     {
-        return NaN;
+        return null;
     }
 
     /**

@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 5.0.0-beta.19
+- reverted changes in `NoPagingInitializerComponent`
+
 ## Version 5.0.0-beta.18
 - added default options into `NoPagingComponent` and removed from `PagingAbstractComponent`
 - added `setSyncData` extension into index
