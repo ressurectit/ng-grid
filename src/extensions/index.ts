@@ -8,3 +8,4 @@ export * from './resetSelection';
 export * from './selectAllOnPage';
 export * from './setPage';
 export * from './reinitializeOptions';
+export * from './setSyncData';

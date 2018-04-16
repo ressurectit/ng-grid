@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 5.0.0-beta.18
+- added default options into `NoPagingComponent` and removed from `PagingAbstractComponent`
+- added `setSyncData` extension into index
+
 ## Version 5.0.0-beta.17
 - bug fix in `SyncDataLoader` when `itemsPerPage` is set to NaN
 - added new extension for grid `setSyncData`

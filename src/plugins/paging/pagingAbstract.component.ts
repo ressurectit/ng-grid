@@ -1,4 +1,4 @@
-import {EventEmitter, ChangeDetectorRef, Injectable, Inject, Optional, Input, Output, OnDestroy, ElementRef, forwardRef, resolveForwardRef} from "@angular/core";
+import {EventEmitter, ChangeDetectorRef, Injectable, Inject, Optional, Input, Output, OnDestroy, ElementRef, resolveForwardRef} from "@angular/core";
 import {Utils, isPresent} from '@anglr/common';
 import {Subscription} from "rxjs/Subscription";
 
@@ -6,19 +6,6 @@ import {PagingOptions, Paging, PagingInitializer, PAGING_INITIALIZER} from "./pa
 import {GridPluginInstances, GRID_PLUGIN_INSTANCES} from "../../components/grid";
 import {GridPluginGeneric} from "../../misc";
 import {DataLoader, DATA_LOADER, DataResponse} from "../dataLoader";
-import {NoPagingInitializerComponent} from "./plugins/pagingInitializer";
-
-/**
- * Default options for all paging
- * @internal
- */
-const defaultOptions: PagingOptions<any> =
-{
-    pagingInitializer:
-    {
-        type: forwardRef(() => NoPagingInitializerComponent)
-    }
-};
 
 /**
  * Abstract class that represents any paging component
@@ -112,7 +99,6 @@ export abstract class PagingAbstractComponent<TCssClasses, TOptions extends Pagi
                 protected _changeDetector: ChangeDetectorRef,
                 @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins?: GridPluginInstances)
     {
-        this._options = Utils.common.extend(true, {}, defaultOptions) as TOptions;
         this.gridPlugins = gridPlugins;
     }
 

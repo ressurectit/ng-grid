@@ -1,6 +1,23 @@
-import {ChangeDetectionStrategy, Component} from "@angular/core";
+import {ChangeDetectionStrategy, Component, forwardRef, ElementRef, ChangeDetectorRef, Optional, Inject} from "@angular/core";
 import {PagingAbstractComponent} from "../pagingAbstract.component";
 import {NoPagingOptions, NoPaging} from "./noPaging.interface";
+import {NoPagingInitializerComponent} from "../plugins/pagingInitializer";
+import {GRID_PLUGIN_INSTANCES, GridPluginInstances, PAGING_OPTIONS} from "../../..";
+import {Utils} from "@anglr/common";
+
+/**
+ * Default options for paging
+ * @internal
+ */
+const defaultOptions: NoPagingOptions<any> =
+{
+    initialItemsPerPage: NaN,
+    initialPage: 1,
+    pagingInitializer:
+    {
+        type: forwardRef(() => NoPagingInitializerComponent)
+    }
+};
 
 /**
  * Component used for no paging
@@ -32,4 +49,15 @@ export class NoPagingComponent extends PagingAbstractComponent<any, NoPagingOpti
      * Gets or sets number of all items that are paged with current filter criteria
      */
     public totalCount: number = null;
+
+    //######################### constructor #########################
+    constructor(pluginElement: ElementRef,
+        changeDetector: ChangeDetectorRef,
+        @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins?: GridPluginInstances,
+        @Inject(PAGING_OPTIONS) @Optional() options?: NoPagingOptions<any>)
+    {
+        super(pluginElement, changeDetector, gridPlugins);
+
+        this._options = Utils.common.extend(true, {}, defaultOptions, options);
+    }
 }
