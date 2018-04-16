@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 5.0.0-beta.17
+- bug fix in `SyncDataLoader` when `itemsPerPage` is set to NaN
+- added new extension for grid `setSyncData`
+
 ## Version 5.0.0-beta.16
 - all plugin components added to `exports` of `GridModule`, so can be instantiated outside of grid, allowing custom positioning of visual components
 

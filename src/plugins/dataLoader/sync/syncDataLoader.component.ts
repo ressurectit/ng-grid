@@ -130,7 +130,7 @@ export class SyncDataLoaderComponent<TData, TOrdering> extends DataLoaderAbstrac
         }
 
         data = await from(data)
-            .pipe(skip((this._paging.page - 1) * this._paging.itemsPerPage),
+            .pipe(skip((this._paging.page - 1) * (isNaN(this._paging.itemsPerPage) ? 0 : this._paging.itemsPerPage)),
                   isNaN(this._paging.itemsPerPage) ? ((source: Observable<TData>) => source) : take(this._paging.itemsPerPage),
                   toArray())
             .toPromise();
