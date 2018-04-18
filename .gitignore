@@ -3,6 +3,7 @@
 /tests
 /testing
 /docs
+/extensions
 
 package-lock.json
 *.log

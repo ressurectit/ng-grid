@@ -343,7 +343,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
     public texts: AdvancedMetadataSelectorTexts = {};
 
     //######################### constructor #########################
-    constructor(@Inject(GRID_PLUGIN_INSTANCES) public gridPlugins: GridPluginInstances,
+    constructor(@Inject(GRID_PLUGIN_INSTANCES) @Optional() public gridPlugins: GridPluginInstances,
 
                 public pluginElement: ElementRef,
                 private _changeDetector: ChangeDetectorRef,

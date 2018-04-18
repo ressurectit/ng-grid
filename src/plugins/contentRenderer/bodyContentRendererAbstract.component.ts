@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Inject, Injectable, ElementRef} from "@angular/core";
+import {ChangeDetectorRef, Inject, Injectable, ElementRef, Optional} from "@angular/core";
 import {Utils} from "@anglr/common";
 
 import {GRID_PLUGIN_INSTANCES, GridPluginInstances} from "../../components/grid";
@@ -55,7 +55,7 @@ export class BodyContentRendererAbstractComponent<TData, TOptions extends BodyCo
     //######################### constructor #########################
     constructor(public pluginElement: ElementRef,
                 protected _changeDetector: ChangeDetectorRef,
-                @Inject(GRID_PLUGIN_INSTANCES) public gridPlugins: GridPluginInstances)
+                @Inject(GRID_PLUGIN_INSTANCES) @Optional() public gridPlugins: GridPluginInstances)
     {
     }
 

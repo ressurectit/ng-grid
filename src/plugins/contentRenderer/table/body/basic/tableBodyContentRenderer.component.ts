@@ -29,7 +29,7 @@ export class TableBodyContentRendererComponent<TData> extends BodyContentRendere
     //######################### constructor #########################
     constructor(pluginElement: ElementRef,
                 changeDetector: ChangeDetectorRef,
-                @Inject(GRID_PLUGIN_INSTANCES) gridPlugins: GridPluginInstances,
+                @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins: GridPluginInstances,
                 @Inject(BODY_CONTENT_RENDERER_OPTIONS) @Optional() options: TableBodyContentRendererOptions)
     {
         super(pluginElement, changeDetector, gridPlugins);

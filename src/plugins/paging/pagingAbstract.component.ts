@@ -196,13 +196,16 @@ export abstract class PagingAbstractComponent<TCssClasses, TOptions extends Pagi
             {
                 this.gridPlugins[PAGING_INITIALIZER] = this._options.pagingInitializer.instance;
                 this._options.pagingInitializer.instance.gridPlugins = this.gridPlugins;
+            }
 
+            if(this.gridPlugins[PAGING_INITIALIZER])
+            {
                 if(this._options.pagingInitializer && this._options.pagingInitializer.options)
                 {
-                    this._options.pagingInitializer.instance.options = this._options.pagingInitializer.options;
+                    this.gridPlugins[PAGING_INITIALIZER].options = this._options.pagingInitializer.options;
                 }
 
-                this._options.pagingInitializer.instance.initOptions();
+                this.gridPlugins[PAGING_INITIALIZER].initOptions();
             }
         }
     }

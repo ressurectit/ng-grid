@@ -57,7 +57,7 @@ export class TableContentRendererComponent<TOrdering, TData, TMetadata> extends 
 
     //######################### constructor #########################
     constructor(pluginElement: ElementRef,
-                @Inject(GRID_PLUGIN_INSTANCES) gridPlugins: GridPluginInstances,
+                @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins: GridPluginInstances,
                 @Inject(CONTENT_RENDERER_OPTIONS) @Optional() options?: TableContentRendererOptions)
     {
         super(pluginElement, gridPlugins);

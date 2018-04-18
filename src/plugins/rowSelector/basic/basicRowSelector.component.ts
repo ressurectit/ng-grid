@@ -178,7 +178,7 @@ export class BasicRowSelectorComponent<TSelectedData, TData, TId> implements Bas
     public selectedChange?: EventEmitter<void> = new EventEmitter<void>();
 
     //######################### constructor #########################
-    constructor(@Inject(GRID_PLUGIN_INSTANCES) public gridPlugins: GridPluginInstances,
+    constructor(@Inject(GRID_PLUGIN_INSTANCES) @Optional() public gridPlugins: GridPluginInstances,
                 public pluginElement: ElementRef,
                 @Inject(ROW_SELECTOR_OPTIONS) @Optional() options?: BasicRowSelectorOptions<TSelectedData, TData, TId>)
     {

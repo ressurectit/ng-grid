@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ElementRef, EventEmitter, Inject} from "@angular/core";
+import {Component, ChangeDetectionStrategy, ElementRef, EventEmitter, Inject, Optional} from "@angular/core";
 
 import {GridPluginGeneric} from "../../../misc";
 import {GridPluginInstances, GRID_PLUGIN_INSTANCES} from "../../../components/grid";
@@ -28,7 +28,7 @@ export class NoTextsLocatorComponent implements NoTextsLocator, GridPluginGeneri
     public textsChange: EventEmitter<void> = new EventEmitter<void>();
 
     //######################### constructor #########################
-    constructor(@Inject(GRID_PLUGIN_INSTANCES) public gridPlugins: GridPluginInstances,
+    constructor(@Inject(GRID_PLUGIN_INSTANCES) @Optional() public gridPlugins: GridPluginInstances,
                 public pluginElement: ElementRef)
     {
     }

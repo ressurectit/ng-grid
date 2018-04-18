@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 5.0.0-beta.20
+- changed path for importing extensions from `@anglr/grid/dist/extensions` to `@anglr/grid/extensions`
+- updated `initOptions` method, now correctly initialize options even if only options and no type has changed
+- updated all plugins constructors all `GridPluginInstances` are made `Optional` in constructors
+
 ## Version 5.0.0-beta.19
 - reverted changes in `NoPagingInitializerComponent`
 

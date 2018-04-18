@@ -44,7 +44,7 @@ export class CssDivsContentRendererComponent<TOrdering, TData, TMetadata> extend
 {
     //######################### constructor #########################
     constructor(pluginElement: ElementRef,
-                @Inject(GRID_PLUGIN_INSTANCES) gridPlugins: GridPluginInstances,
+                @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins: GridPluginInstances,
                 @Inject(CONTENT_RENDERER_OPTIONS) @Optional() options?: CssDivsContentRendererOptions)
     {
         super(pluginElement, gridPlugins);

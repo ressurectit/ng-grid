@@ -1,4 +1,4 @@
-import {EventEmitter, Inject, OnDestroy, resolveForwardRef, Injectable, ElementRef} from "@angular/core";
+import {EventEmitter, Inject, OnDestroy, resolveForwardRef, Injectable, ElementRef, Optional} from "@angular/core";
 import {Utils} from "@anglr/common";
 import {Subscription} from "rxjs/Subscription";
 
@@ -88,7 +88,7 @@ export class ContentRendererAbstractComponent<TOrdering, TData, TMetadata, TOpti
 
     //######################### constructor #########################
     constructor(public pluginElement: ElementRef,
-                @Inject(GRID_PLUGIN_INSTANCES) public gridPlugins: GridPluginInstances)
+                @Inject(GRID_PLUGIN_INSTANCES) @Optional() public gridPlugins: GridPluginInstances)
     {
     }
 
@@ -187,13 +187,16 @@ export class ContentRendererAbstractComponent<TOrdering, TData, TMetadata, TOpti
                 {
                     this.gridPlugins[BODY_CONTENT_RENDERER] = this._options.plugins.bodyRenderer.instance;
                     this._options.plugins.bodyRenderer.instance.gridPlugins = this.gridPlugins;
+                }
 
+                if(this.gridPlugins[BODY_CONTENT_RENDERER])
+                {
                     if(this._options.plugins && this._options.plugins.bodyRenderer && this._options.plugins.bodyRenderer.options)
                     {
-                        this._options.plugins.bodyRenderer.instance.options = this._options.plugins.bodyRenderer.options;
+                        this.gridPlugins[BODY_CONTENT_RENDERER].options = this._options.plugins.bodyRenderer.options;
                     }
 
-                    this._options.plugins.bodyRenderer.instance.initOptions();
+                    this.gridPlugins[BODY_CONTENT_RENDERER].initOptions();
                 }
             }
 
@@ -207,13 +210,6 @@ export class ContentRendererAbstractComponent<TOrdering, TData, TMetadata, TOpti
                     this.gridPlugins[HEADER_CONTENT_RENDERER] = this._options.plugins.headerRenderer.instance;
                     this._options.plugins.headerRenderer.instance.gridPlugins = this.gridPlugins;
 
-                    if(this._options.plugins && this._options.plugins.headerRenderer && this._options.plugins.headerRenderer.options)
-                    {
-                        this._options.plugins.headerRenderer.instance.options = this._options.plugins.headerRenderer.options;
-                    }
-
-                    this._options.plugins.headerRenderer.instance.initOptions();
-
                     if(this._orderingChangedSubscription)
                     {
                         this._orderingChangedSubscription.unsubscribe();
@@ -221,6 +217,16 @@ export class ContentRendererAbstractComponent<TOrdering, TData, TMetadata, TOpti
                     }
 
                     this._orderingChangedSubscription = this._options.plugins.headerRenderer.instance.orderingChange.subscribe(() => this.orderingChange.emit());
+                }
+
+                if(this.gridPlugins[HEADER_CONTENT_RENDERER])
+                {
+                    if(this._options.plugins && this._options.plugins.headerRenderer && this._options.plugins.headerRenderer.options)
+                    {
+                        this.gridPlugins[HEADER_CONTENT_RENDERER].options = this._options.plugins.headerRenderer.options;
+                    }
+
+                    this.gridPlugins[HEADER_CONTENT_RENDERER].initOptions();
                 }
             }
         }

@@ -85,7 +85,7 @@ export class SimpleNoDataRendererComponent implements SimpleNoDataRenderer, Grid
     }
 
     //######################### constructor #########################
-    constructor(@Inject(GRID_PLUGIN_INSTANCES) public gridPlugins: GridPluginInstances,
+    constructor(@Inject(GRID_PLUGIN_INSTANCES) @Optional() public gridPlugins: GridPluginInstances,
                 public pluginElement: ElementRef,
                 private _changeDetector: ChangeDetectorRef,
                 @Inject(NO_DATA_RENDERER_OPTIONS) @Optional() options?: SimpleNoDataRendererOptions<CssClassesSimpleNoDataRenderer>)

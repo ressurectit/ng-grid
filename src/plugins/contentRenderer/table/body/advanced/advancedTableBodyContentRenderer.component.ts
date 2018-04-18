@@ -39,7 +39,7 @@ export class AdvancedTableBodyContentRendererComponent<TData> extends BodyConten
     //######################### constructor #########################
     constructor(pluginElement: ElementRef,
                 changeDetector: ChangeDetectorRef,
-                @Inject(GRID_PLUGIN_INSTANCES) gridPlugins: GridPluginInstances,
+                @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins: GridPluginInstances,
                 @Inject(BODY_CONTENT_RENDERER_OPTIONS) @Optional() options: AdvancedTableBodyContentRendererOptions<TData>)
     {
         super(pluginElement, changeDetector, gridPlugins);
