@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 5.0.0-beta.21
+- changed `ValueProvider` to `FactoryProvider` for `GridComponent`s provider `GRID_PLUGIN_INSTANCES` value provider did not correctly created new instance for every grid
+- fixed import paths in extensions moved to package root
+
 ## Version 5.0.0-beta.20
 - changed path for importing extensions from `@anglr/grid/dist/extensions` to `@anglr/grid/extensions`
 - updated `initOptions` method, now correctly initialize options even if only options and no type has changed

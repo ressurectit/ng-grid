@@ -1,12 +1,12 @@
 {
     "name": "@anglr/grid",
-    "version": "5.0.0-beta.20",
+    "version": "5.0.0-beta.21",
     "description": "Angular module displaying grid",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
     "scripts": {
         "build": "npm run ngc",
-        "postbuild": "copyfiles -u 2 dist/src/**/*.* dist && copyfiles -u 2 dist/testing/**/*.* testing && copyfiles -u 2 dist/extensions/**/*.* extensions && rimraf dist/src dist/dist dist/node_modules dist/testing dist/extensions",
+        "postbuild": "copyfiles -u 2 dist/src/**/*.* dist && copyfiles -u 2 dist/testing/**/*.* testing && copyfiles -u 2 dist/extensions/**/*.* extensions && rimraf dist/src dist/dist dist/node_modules dist/testing dist/extensions && replace-in-file /\\.\\.\\//g ../dist/ extensions/*.js,extensions/*.ts --isRegex",
         "clean": "rimraf dist testing tests docs extensions",
         "clean:deps": "rimraf package-lock.json node_modules",
         "clean:all": "npm run clean && npm run clean:deps",
@@ -75,6 +75,7 @@
         "@compodoc/compodoc": "~1.0.9",
         "rimraf": "~2.6.2",
         "copyfiles": "~2.0.0",
+        "replace-in-file": "3.4.0",
         "typescript": "2.6.2",
         "webpack": "3.8.1",
         "npm-publish-package": "~1.2.0",

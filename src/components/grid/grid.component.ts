@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ValueProvider, Inject, Optional, Type, Input, OnInit, AfterViewInit, ContentChild, forwardRef, resolveForwardRef, ChangeDetectorRef} from "@angular/core";
+import {Component, ChangeDetectionStrategy, Inject, Optional, Type, Input, OnInit, AfterViewInit, ContentChild, forwardRef, resolveForwardRef, ChangeDetectorRef, FactoryProvider} from "@angular/core";
 import {Utils} from "@anglr/common";
 import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
@@ -56,6 +56,15 @@ const defaultOptions: GridOptions =
 };
 
 /**
+ * Grid plugin instances factory method
+ * @internal
+ */
+export function gridPluginInstancesFactory()
+{
+    return {};
+}
+
+/**
  * Grid component used for rendering grid
  */
 @Component(
@@ -65,10 +74,10 @@ const defaultOptions: GridOptions =
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers:
     [
-        <ValueProvider>
+        <FactoryProvider>
         {
             provide: GRID_PLUGIN_INSTANCES,
-            useValue: {}
+            useFactory: gridPluginInstancesFactory
         }
     ]
 })
