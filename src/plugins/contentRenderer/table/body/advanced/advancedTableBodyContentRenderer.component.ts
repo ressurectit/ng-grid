@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Optional, Inject, ElementRef} from "@angular/core";
 import {Utils} from "@anglr/common";
 
-import {BasicTableColumn} from "../../../../../components/metadata";
+import {BasicTableColumn, BasicTableMetadata} from "../../../../../components/metadata";
 import {GRID_PLUGIN_INSTANCES, GridPluginInstances} from "../../../../../components/grid";
 import {BODY_CONTENT_RENDERER_OPTIONS} from "../../../contentRenderer.interface";
 import {BodyContentRendererAbstractComponent} from "../../../bodyContentRendererAbstract.component";
@@ -27,7 +27,7 @@ const defaultOptions: AdvancedTableBodyContentRendererOptions<any> =
     templateUrl: 'advancedTableBodyContentRenderer.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdvancedTableBodyContentRendererComponent<TData> extends BodyContentRendererAbstractComponent<TData, AdvancedTableBodyContentRendererOptions<TData>, BasicTableColumn<TData>[], any>
+export class AdvancedTableBodyContentRendererComponent<TData> extends BodyContentRendererAbstractComponent<TData, AdvancedTableBodyContentRendererOptions<TData>, BasicTableMetadata<BasicTableColumn<TData>>, any>
 {
     //######################### protected fields #########################
 

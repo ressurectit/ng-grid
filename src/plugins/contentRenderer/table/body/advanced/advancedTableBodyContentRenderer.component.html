@@ -1,5 +1,5 @@
 <tr *ngFor="let datum of data; let index=index" [ngClass]="options?.rowCssClass(datum)" (click)="rowClick(datum, index)">
-    <ng-template ngFor [ngForOf]="metadata" let-meta>
+    <ng-template ngFor [ngForOf]="metadata?.columns" let-meta>
         <td [ngClass]="meta?.cellClass"
             [attr.data-header-title]="meta?.title">
             <ng-template [ngIf]="!meta?.bodyTemplate" [ngIfElse]="bodyTemplate">

@@ -1,5 +1,5 @@
 <tr>
-    <th *ngFor="let meta of metadata; let index=index" 
+    <th *ngFor="let meta of metadata?.columns; let index=index" 
         [ngClass]="mergeStringClasses(options?.cssClasses?.thDefault, meta?.headerClass, meta?.ordering ? options?.cssClasses?.thOrderable : null)" 
         [style.width]="meta?.width"
         (click)="orderBy(meta)">

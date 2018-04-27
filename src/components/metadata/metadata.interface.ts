@@ -22,6 +22,13 @@ export interface GridColumn
 }
 
 /**
+ * Base interface for metadata
+ */
+export interface GatheredMetadata
+{
+}
+
+/**
  * Token for getting component that is used as metadata gatherer
  */
 export class METADATA_GATHERER
@@ -62,7 +69,7 @@ export class METADATA_GATHERER
  * }
  * ```
  */
-export interface MetadataGatherer<TMetadata>
+export interface MetadataGatherer<TMetadata extends GatheredMetadata>
 {
     /**
      * Information that metadata for grid has changed

@@ -1,5 +1,5 @@
 <div [ngClass]="options?.cssClasses?.headerRowDiv">
-    <div *ngFor="let meta of metadata; let index=index" 
+    <div *ngFor="let meta of metadata?.columns; let index=index" 
          [style.width]="meta?.width"
          [ngClass]="mergeStringClasses(options?.cssClasses?.headerCellDiv, meta?.headerClass, meta?.ordering ? options?.cssClasses?.headerCellOrderableDiv : null)"
          (click)="orderBy(meta)">

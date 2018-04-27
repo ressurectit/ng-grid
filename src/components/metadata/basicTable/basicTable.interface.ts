@@ -1,7 +1,7 @@
 import {TemplateRef} from "@angular/core";
 
 import {BasicTableColumnContext} from "./basicTableColumn.context";
-import {GridColumn} from "../metadata.interface";
+import {GridColumn, GatheredMetadata} from "../metadata.interface";
 
 /**
  * Basic table column definition
@@ -57,4 +57,15 @@ export interface BasicTableColumn<TData> extends GridColumn
      * Gets basic table column context
      */
     getColumnContext(data: TData, column: BasicTableColumn<TData>, index: number, startingIndex: number): BasicTableColumnContext<TData>;
+}
+
+/**
+ * Basic table metadata, contains columns
+ */
+export interface BasicTableMetadata<TColumn extends GridColumn> extends GatheredMetadata
+{
+    /**
+     * Array of columns gathered
+     */
+    columns: TColumn[];
 }

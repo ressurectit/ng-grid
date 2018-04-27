@@ -3,7 +3,7 @@ import {Utils, isBlank, CookieService} from "@anglr/common";
 import {Subscription} from "rxjs/Subscription";
 
 import {GridPluginGeneric} from "../../../misc";
-import {MetadataGatherer} from "../../../components/metadata";
+import {MetadataGatherer, BasicTableMetadata} from "../../../components/metadata";
 import {GridPluginInstances, GRID_PLUGIN_INSTANCES} from "../../../components/grid";
 import {METADATA_SELECTOR_OPTIONS} from "../metadataSelector.interface";
 import {AdvancedMetadataSelectorOptions, AdvancedMetadataSelector, AdvancedGridColumn} from "./advancedMetadataSelector.interface";
@@ -211,7 +211,7 @@ const defaultOptions: AdvancedMetadataSelectorOptions =
         }`
     ]
 })
-export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelector<AdvancedGridColumn[]>, GridPluginGeneric<AdvancedMetadataSelectorOptions>, OnDestroy
+export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelector<BasicTableMetadata<AdvancedGridColumn>>, GridPluginGeneric<AdvancedMetadataSelectorOptions>, OnDestroy
 {
     //######################### private fields #########################
 
@@ -243,7 +243,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
     /**
      * Instance of metadata gatherer, which is used for getting initial metadata
      */
-    private _metadataGatherer: MetadataGatherer<AdvancedGridColumn[]>;
+    private _metadataGatherer: MetadataGatherer<BasicTableMetadata<AdvancedGridColumn>>;
 
     /**
      * Div element that contains selection
@@ -253,7 +253,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
     /**
      * All metadata that are available
      */
-    private _allMetadata: AdvancedGridColumn[];
+    private _allMetadata: BasicTableMetadata<AdvancedGridColumn>;
 
     /**
      * Html element that represents drop area
@@ -287,11 +287,11 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
     /**
      * Instance of metadata gatherer, which is used for getting initial metadata
      */
-    public get metadataGatherer(): MetadataGatherer<AdvancedGridColumn[]>
+    public get metadataGatherer(): MetadataGatherer<BasicTableMetadata<AdvancedGridColumn>>
     {
         return this._metadataGatherer;
     }
-    public set metadataGatherer(gatherer: MetadataGatherer<AdvancedGridColumn[]>)
+    public set metadataGatherer(gatherer: MetadataGatherer<BasicTableMetadata<AdvancedGridColumn>>)
     {
         if(this._metadataGatherer != gatherer)
         {
@@ -304,7 +304,10 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
     /**
      * Current metadata that are used for rendering
      */
-    public metadata: AdvancedGridColumn[];
+    public metadata: BasicTableMetadata<AdvancedGridColumn> = 
+    {
+        columns: []
+    };
 
     /**
      * Occurs when metadata changed
@@ -401,9 +404,13 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
      */
     public hideColumn(column: AdvancedGridColumn)
     {
-        let unused = this.metadata.splice(this.metadata.indexOf(column), 1);
+        let unused = this.metadata.columns.splice(this.metadata.columns.indexOf(column), 1);
         this.unusedMetadata.splice(this.unusedMetadata.length - 1, 0, unused[0]);
-        this.metadata = [...this.metadata];
+        this.metadata = 
+        {
+            columns: [...this.metadata.columns]
+        };
+
         this._saveToCookie();
 
         this.metadataChange.emit();
@@ -420,12 +427,16 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
     {
         if(isBlank(index))
         {
-            index = this.metadata.length;
+            index = this.metadata.columns.length;
         }
 
         let used = this.unusedMetadata.splice(this.unusedMetadata.indexOf(column), 1);
-        this.metadata.splice(index, 0, used[0]);
-        this.metadata = [...this.metadata];
+        this.metadata.columns.splice(index, 0, used[0]);
+        this.metadata = 
+        {
+            columns: [...this.metadata.columns]
+        };
+
         this._saveToCookie();
 
         this.metadataChange.emit();
@@ -636,9 +647,12 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
 
         if(cookieState)
         {
-            this.metadata = [];
+            this.metadata = 
+            {
+                columns: []
+            };
 
-            this._allMetadata.forEach(meta =>
+            this._allMetadata.columns.forEach(meta =>
             {
                 if(!meta.id)
                 {
@@ -650,20 +664,23 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
 
             Object.keys(cookieState).forEach(id =>
             {
-                let meta = this._allMetadata.find(itm => itm.id == id);
+                let meta = this._allMetadata.columns.find(itm => itm.id == id);
 
                 if(meta)
                 {
-                    this.metadata.push(meta);
+                    this.metadata.columns.push(meta);
                 }
             });
         }
         else
         {
-            this.metadata = this._allMetadata.filter(itm => itm.visible);
+            this.metadata = 
+            {
+                columns: this._allMetadata.columns.filter(itm => itm.visible)
+            }
         }
 
-        this.unusedMetadata = this._allMetadata.filter(itm => !itm.visible);
+        this.unusedMetadata = this._allMetadata.columns.filter(itm => !itm.visible);
     }
 
     /**
@@ -673,7 +690,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
     {
         let headerElement: HTMLElement = this.gridPlugins[HEADER_CONTENT_RENDERER].pluginElement.nativeElement;
         let colWidths = this.options.headerColumnGetter(headerElement);
-        this.metadata.forEach((meta, index) => meta.realWidth = colWidths[index]);
+        this.metadata.columns.forEach((meta, index) => meta.realWidth = colWidths[index]);
 
         this.splitCoordinates = [];
 
@@ -724,7 +741,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
 
         let state: CookieState = {};
 
-        this.metadata.forEach(meta =>
+        this.metadata.columns.forEach(meta =>
         {
             if(!meta.id)
             {

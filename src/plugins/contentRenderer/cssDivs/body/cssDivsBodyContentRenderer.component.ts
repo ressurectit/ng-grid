@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Optional, Inject, HostBinding, ElementRef} from "@angular/core";
 import {Utils} from "@anglr/common";
 
-import {BasicTableColumn} from "../../../../components/metadata";
+import {BasicTableColumn, BasicTableMetadata} from "../../../../components/metadata";
 import {CssDivsBodyContentRendererOptions, CssClassesCssDivsBodyContentRenderer} from "../cssDivsContentRenderer.interface";
 import {GRID_PLUGIN_INSTANCES, GridPluginInstances} from "../../../../components/grid";
 import {BODY_CONTENT_RENDERER_OPTIONS} from "../../contentRenderer.interface";
@@ -55,7 +55,7 @@ const defaultOptions: CssDivsBodyContentRendererOptions =
         }`
     ]
 })
-export class CssDivsBodyContentRendererComponent<TData> extends BodyContentRendererAbstractComponent<TData, CssDivsBodyContentRendererOptions, BasicTableColumn<TData>[], CssClassesCssDivsBodyContentRenderer>
+export class CssDivsBodyContentRendererComponent<TData> extends BodyContentRendererAbstractComponent<TData, CssDivsBodyContentRendererOptions, BasicTableMetadata<BasicTableColumn<TData>>, CssClassesCssDivsBodyContentRenderer>
 {
     //######################### public properties - hosts #########################
 

@@ -34,7 +34,7 @@
              (dragleave)="dragLeave($event)"
              (drop)="drop($event)">
             <div [ngClass]="options?.cssClasses?.selectionDiv?.droppedColumnDiv"
-                 *ngFor="let meta of metadata"
+                 *ngFor="let meta of metadata?.columns"
                  [style.width]="(!!meta?.realWidth ? meta?.realWidth : 0) + 'px'">
                  <div [ngClass]="options?.cssClasses?.selectionDiv?.droppedColumnTitleDiv" [title]="meta?.title">{{meta?.title}}</div>
 

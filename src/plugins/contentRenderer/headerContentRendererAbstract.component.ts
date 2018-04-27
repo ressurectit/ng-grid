@@ -4,12 +4,13 @@ import {Utils, OrderByDirection} from "@anglr/common";
 import {GridPluginInstances} from "../../components/grid";
 import {HeaderContentRenderer, SimpleOrdering, BasicOrderableColumn, HeaderContentRendererOptions, CssClassesHeaderContentRenderer} from "./contentRenderer.interface";
 import {GridPluginGeneric} from "../../misc";
+import {BasicTableMetadata} from "../../components/metadata";
 
 /**
  * Abstract component for header content renderer
  */
 @Injectable()
-export class HeaderContentRendererAbstractComponent<TData, TOptions extends HeaderContentRendererOptions<CssClassesHeaderContentRenderer>> implements HeaderContentRenderer<SimpleOrdering, BasicOrderableColumn<TData>[]>, GridPluginGeneric<TOptions>
+export class HeaderContentRendererAbstractComponent<TData, TOptions extends HeaderContentRendererOptions<CssClassesHeaderContentRenderer>> implements HeaderContentRenderer<SimpleOrdering, BasicTableMetadata<BasicOrderableColumn<TData>>>, GridPluginGeneric<TOptions>
 {
     //######################### protected fields #########################
 
@@ -35,7 +36,7 @@ export class HeaderContentRendererAbstractComponent<TData, TOptions extends Head
     /**
      * Metadata used for rendering
      */
-    public metadata: BasicOrderableColumn<TData>[];
+    public metadata: BasicTableMetadata<BasicOrderableColumn<TData>>;
 
     /**
      * Current ordering state
@@ -157,6 +158,6 @@ export class HeaderContentRendererAbstractComponent<TData, TOptions extends Head
      */
     protected _resetOrdering()
     {
-        this.metadata.forEach(meta => meta.orderingClass = this.options.cssClasses.spanOrderingDirection.none);
+        this.metadata.columns.forEach(meta => meta.orderingClass = this.options.cssClasses.spanOrderingDirection.none);
     }
 }

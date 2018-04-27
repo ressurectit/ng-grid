@@ -1,8 +1,7 @@
-import {Component, ChangeDetectionStrategy, EventEmitter, forwardRef, ContentChildren, QueryList, AfterContentInit} from "@angular/core";
+import {ExistingProvider, Component, ChangeDetectionStrategy, EventEmitter, forwardRef, ContentChildren, QueryList, AfterContentInit} from "@angular/core";
 
 import {MetadataGatherer, METADATA_GATHERER} from "../metadata.interface";
-import {BasicTableColumn} from "./basicTable.interface";
-import {ExistingProvider} from "@angular/core/src/di/provider";
+import {BasicTableColumn, BasicTableMetadata} from "./basicTable.interface";
 import {BasicTableColumnComponent} from "./basicTableColumn.component";
 
 /**
@@ -70,7 +69,7 @@ import {BasicTableColumnComponent} from "./basicTableColumn.component";
         }
     ]
 })
-export class BasicTableMetadataGathererComponent<TData> implements AfterContentInit, MetadataGatherer<BasicTableColumn<TData>[]>
+export class BasicTableMetadataGathererComponent<TData> implements AfterContentInit, MetadataGatherer<BasicTableMetadata<BasicTableColumn<TData>>>
 {
     //######################### public properties - implementation of MetadataGatherer<BasicTableColumn[]> #########################
 
@@ -93,9 +92,11 @@ export class BasicTableMetadataGathererComponent<TData> implements AfterContentI
     /**
      * Gets current metadata for grid
      */
-    getMetadata(): BasicTableColumn<TData>[]
+    getMetadata(): BasicTableMetadata<BasicTableColumn<TData>>
     {
-        return this.columns.toArray();
+        return {
+            columns: this.columns.toArray()
+        };
     }
 
     //######################### public methods - implementation of AfterContentInit #########################
