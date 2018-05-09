@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 5.0.0-beta.23
+- added isArray check into `setSyncData`
+
 ## Version 5.0.0-beta.22
 - added `initText` option to `NoDataRenederer` that is displayed when grid is not initialized
 - updated `PreviousNextPagingComponent` and `BasicPagingComponent`, now renders only if grid is initialized
