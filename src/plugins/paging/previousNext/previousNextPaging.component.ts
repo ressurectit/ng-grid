@@ -110,6 +110,14 @@ export class PreviousNextPagingComponent extends PagingAbstractComponent<CssClas
         return isNaN(offset) ? 0 : offset;
     }
 
+    /**
+     * Indication whether plugin is already initialized
+     */
+    public get initialized(): boolean
+    {
+        return this._initialized;
+    }
+
     //######################### public properties - inputs #########################
 
     /**

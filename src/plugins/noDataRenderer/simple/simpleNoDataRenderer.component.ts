@@ -70,6 +70,11 @@ export class SimpleNoDataRendererComponent implements SimpleNoDataRenderer, Grid
      */
     public dataPresent: boolean = false;
 
+    /**
+     * Indication whether plugin is already initialized
+     */
+    public initialized: boolean = false;
+
     //######################### public properties - implementation of NoDataRenderer #########################
 
     /**
@@ -130,7 +135,8 @@ export class SimpleNoDataRendererComponent implements SimpleNoDataRenderer, Grid
 
             this._dataChangedSubscription = this._dataLoader.resultChange.subscribe(() => this.invalidateVisuals());
         }
-
+        
+        this.initialized = true;
         this.invalidateVisuals();
     }
 

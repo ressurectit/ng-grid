@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 5.0.0-beta.22
+- added `initText` option to `NoDataRenederer` that is displayed when grid is not initialized
+- updated `PreviousNextPagingComponent` and `BasicPagingComponent`, now renders only if grid is initialized
+
 ## Version 5.0.0-beta.21
 - changed `ValueProvider` to `FactoryProvider` for `GridComponent`s provider `GRID_PLUGIN_INSTANCES` value provider did not correctly created new instance for every grid
 - fixed import paths in extensions moved to package root

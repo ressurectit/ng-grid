@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="initialized">
     <ul [ngClass]="options?.cssClasses?.previousNextContainerUl">
         <li [ngClass]="{disabled: isFirst, 'pointer-cursor': !isFirst}">
             <a (click)="setPage(1)">

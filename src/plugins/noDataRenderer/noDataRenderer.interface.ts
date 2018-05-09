@@ -23,6 +23,11 @@ export interface NoDataRendererOptions<TCssClasses> extends VisualPluginOptions<
     text?: string;
 
     /**
+     * Text displayed when plugin was not initialized
+     */
+    initText?: string;
+
+    /**
      * Custom template for no data
      */
     template?: TemplateRef<void>;
