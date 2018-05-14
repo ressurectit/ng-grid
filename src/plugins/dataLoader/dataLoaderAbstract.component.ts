@@ -1,7 +1,6 @@
 import {Injectable, Inject, Optional, OnDestroy, EventEmitter, ElementRef} from "@angular/core";
 import {Utils} from "@anglr/common";
-import {Subscription} from "rxjs/Subscription";
-import {Subject} from "rxjs/Subject";
+import {Subscription, Subject} from "rxjs";
 import {debounceTime} from "rxjs/operators";
 
 import {DataLoader, DataLoaderOptions} from './dataLoader.interface';

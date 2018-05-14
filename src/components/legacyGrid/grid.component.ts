@@ -6,8 +6,7 @@ import {GridLegacyOptions} from './gridOptions';
 import {GridCookieLegacyConfig} from './gridCookie.config';
 import {BasicPagingLegacyComponent} from "../legacyPaging/basicPaging.component";
 import {PagingAbstractLegacyComponent} from "../legacyPaging/pagingAbstract.component";
-import {Subject} from 'rxjs/Subject';
-import {Subscription} from 'rxjs/Subscription';
+import {Subject, Subscription} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
 
 /**
@@ -752,7 +751,7 @@ export class GridLegacyComponent implements OnInit, OnDestroy, AfterContentInit,
      * @param  {any} row selected row
      * @param  {MouseEvent} event mouse click event
      */
-    public toggleRowSelection(row: any, event: MouseEvent)
+    public toggleRowSelection(row: any, event?: MouseEvent)
     {
         if (event && event.stopPropagation)
         {

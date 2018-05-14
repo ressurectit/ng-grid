@@ -1,6 +1,6 @@
 import {Inject, Component, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef, Optional, OnDestroy} from "@angular/core";
 import {Utils} from "@anglr/common";
-import {Subscription} from "rxjs/Subscription";
+import {Subscription} from "rxjs";
 
 import {NO_DATA_RENDERER_OPTIONS} from "../noDataRenderer.interface";
 import {GridPluginGeneric} from "../../../misc";

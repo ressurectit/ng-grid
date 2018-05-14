@@ -1,6 +1,6 @@
 import {EventEmitter, ChangeDetectorRef, Injectable, Inject, Optional, Input, Output, OnDestroy, ElementRef, resolveForwardRef} from "@angular/core";
 import {Utils, isPresent} from '@anglr/common';
-import {Subscription} from "rxjs/Subscription";
+import {Subscription} from "rxjs";
 
 import {PagingOptions, Paging, PagingInitializer, PAGING_INITIALIZER} from "./paging.interface";
 import {GridPluginInstances, GRID_PLUGIN_INSTANCES} from "../../components/grid";

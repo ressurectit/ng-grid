@@ -1,6 +1,6 @@
 import {EventEmitter, Inject, OnDestroy, resolveForwardRef, Injectable, ElementRef, Optional} from "@angular/core";
 import {Utils} from "@anglr/common";
-import {Subscription} from "rxjs/Subscription";
+import {Subscription} from "rxjs";
 
 import {GRID_PLUGIN_INSTANCES, GridPluginInstances} from "../../components/grid";
 import {ContentRendererPlugins, ContentRendererOptions, ContentRenderer, HeaderContentRenderer, HEADER_CONTENT_RENDERER, BodyContentRenderer, BODY_CONTENT_RENDERER} from "./contentRenderer.interface";

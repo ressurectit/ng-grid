@@ -1,6 +1,6 @@
 import {Component, Input, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef, Inject, Optional, forwardRef, OnDestroy} from '@angular/core';
 import {Utils} from '@anglr/common';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 
 import {GRID_PLUGIN_INSTANCES, GridPluginInstances} from '../../../components/grid/grid.interface';
 import {PagingAbstractComponent} from '../pagingAbstract.component';

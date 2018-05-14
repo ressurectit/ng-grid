@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, ElementRef, EventEmitter, Inject, ChangeDetectorRef, Optional, OnDestroy} from "@angular/core";
 import {Utils, isBlank, CookieService} from "@anglr/common";
-import {Subscription} from "rxjs/Subscription";
+import {Subscription} from "rxjs";
 
 import {GridPluginGeneric} from "../../../misc";
 import {MetadataGatherer, BasicTableMetadata} from "../../../components/metadata";

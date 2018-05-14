@@ -29,9 +29,9 @@
         </div>
 
         <div [ngClass]="options?.cssClasses?.selectionDiv?.dropDiv"
-             (dragenter)="dragEnter($event)"
+             (dragenter)="dragEnter()"
              (dragover)="dragOver($event)"
-             (dragleave)="dragLeave($event)"
+             (dragleave)="dragLeave()"
              (drop)="drop($event)">
             <div [ngClass]="options?.cssClasses?.selectionDiv?.droppedColumnDiv"
                  *ngFor="let meta of metadata?.columns"

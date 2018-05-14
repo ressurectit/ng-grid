@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, EventEmitter, OnDestroy, ElementRef} from "@angular/core";
-import {Subscription} from "rxjs/Subscription";
+import {Subscription} from "rxjs";
 
 import {NoMetadataSelector, NoMetadataSelectorOptions} from "./noMetadataSelector.interface";
 import {MetadataGatherer} from "../../../components/metadata";

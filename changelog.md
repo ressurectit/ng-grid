@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 5.0.0-beta.24
+ - aktualizácia balíčkov `Angular` na `6`
+ - aktualizácia `Webpack` na verziu `4`
+ - aktualizácia `rxjs` na verziu `6`
+
 ## Version 5.0.0-beta.23
 - added isArray check into `setSyncData`
 

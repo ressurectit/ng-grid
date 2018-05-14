@@ -1,7 +1,6 @@
 import {Component, ChangeDetectionStrategy, Inject, Optional, ElementRef} from "@angular/core";
 import {Utils, OrderByDirection} from "@anglr/common";
-import {from} from "rxjs/observable/from";
-import {Observable} from "rxjs/Observable";
+import {from, Observable} from "rxjs";
 import {skip, take, toArray} from "rxjs/operators";
 
 import {SyncDataLoaderOptions, SyncDataLoader} from "./syncDataLoader.interface";
