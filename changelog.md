@@ -1,16 +1,23 @@
 # Changelog
 
-## Version 5.0.0-beta.24
+## Version 5.0.0
+ - `@anglr/grid` is now marked as *sideEffects* free
+ - stabilized for angular v6
+
+## Version 5.0.0-beta.25
  - aktualizácia balíčkov `Angular` na `6`
  - aktualizácia `Webpack` na verziu `4`
  - aktualizácia `rxjs` na verziu `6`
 
-## Version 5.0.0-beta.23
+## Version 5.0.0-beta.24
 - added isArray check into `setSyncData`
 
-## Version 5.0.0-beta.22
+## Version 5.0.0-beta.23
 - added `initText` option to `NoDataRenederer` that is displayed when grid is not initialized
 - updated `PreviousNextPagingComponent` and `BasicPagingComponent`, now renders only if grid is initialized
+
+## Version 5.0.0-beta.22
+- refactored `MetadataGatherer`, now allows easier extending, returning object instead of array
 
 ## Version 5.0.0-beta.21
 - changed `ValueProvider` to `FactoryProvider` for `GridComponent`s provider `GRID_PLUGIN_INSTANCES` value provider did not correctly created new instance for every grid
