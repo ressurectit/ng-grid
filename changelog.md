@@ -1,8 +1,8 @@
 # Changelog
 
 ## Version 5.0.1
- - pridaná nová extension metóda `refreshDataToDefaultPage`
- - pridaný nový `PagingInitializer` s podporou query a cookie pre počet položiek na stránku `QueryCookiePagingInitializerComponent`
+ - added new extension method `refreshDataToDefaultPage`
+ - added new `PagingInitializer` with support of query and cookie for items per page `QueryCookiePagingInitializerComponent`
 
 ## Version 5.0.0
  - `@anglr/grid` is now marked as *sideEffects* free
