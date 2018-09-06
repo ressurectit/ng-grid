@@ -3,6 +3,7 @@ export * from './getPage';
 export * from './getSelectedData';
 export * from './isSelectedAny';
 export * from './refreshData';
+export * from './refreshDataToDefaultPage';
 export * from './refreshDataToDefaults';
 export * from './resetSelection';
 export * from './selectAllOnPage';

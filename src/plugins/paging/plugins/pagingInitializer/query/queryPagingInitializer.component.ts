@@ -27,12 +27,12 @@ const defaultOptions: QueryPagingInitializerOptions =
 })
 export class QueryPagingInitializerComponent implements QueryPagingInitializer, GridPluginGeneric<QueryPagingInitializerOptions>
 {
-    //######################### private fields #########################
+    //######################### protected fields #########################
 
     /**
      * Options for grid plugin
      */
-    private _options: QueryPagingInitializerOptions;
+    protected _options: QueryPagingInitializerOptions;
 
     //######################### public properties - implementation of NoPagingInitializer #########################
 
@@ -58,12 +58,12 @@ export class QueryPagingInitializerComponent implements QueryPagingInitializer, 
         return this._options;
     }
 
-    //######################### private properties #########################
+    //######################### protected properties #########################
 
     /**
      * Gets name of page in url
      */
-    private get pageName(): string
+    protected get pageName(): string
     {
         return this._options.prefix + 'p';
     }
@@ -71,14 +71,14 @@ export class QueryPagingInitializerComponent implements QueryPagingInitializer, 
     /**
      * Gets name of items per page in url
      */
-    private get itemsPerPageName(): string
+    protected get itemsPerPageName(): string
     {
         return this._options.prefix + 'ipp';
     }
 
     //######################### constructor #########################
-    constructor(private _router: Router, 
-                private _route: ActivatedRoute,
+    constructor(protected _router: Router, 
+                protected _route: ActivatedRoute,
                 @Inject(PAGING_INITIALIZER_OPTIONS) @Optional() options?: QueryPagingInitializerOptions)
     {
         this._options = Utils.common.extend(true, {}, defaultOptions, options);
