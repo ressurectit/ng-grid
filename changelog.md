@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 5.0.2
+ - added new method `setGridPluginInstances` into `GridComponent` 
+
 ## Version 5.0.1
  - added new extension method `refreshDataToDefaultPage`
  - added new `PagingInitializer` with support of query and cookie for items per page `QueryCookiePagingInitializerComponent`

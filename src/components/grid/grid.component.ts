@@ -636,6 +636,15 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
     }
 
     /**
+     * Sets GridPluginInstances into GridPlugin
+     * @param {GridPlugin} plugin Grid plugin to be filled with grid GridPluginInstances
+     */
+    public setGridPluginInstances(plugin: GridPlugin)
+    {
+        plugin.gridPlugins = this._pluginInstances;
+    }
+
+    /**
      * Executes actions on grid
      * @param actions Array of actions that are executed over grid
      */
