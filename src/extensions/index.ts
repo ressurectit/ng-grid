@@ -10,3 +10,4 @@ export * from './selectAllOnPage';
 export * from './setPage';
 export * from './reinitializeOptions';
 export * from './setSyncData';
+export * from './invalidateBodyContent';

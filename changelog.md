@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 5.0.3
+ - added new extension method `invalidateBodyContent`, used for invalidating body content
+
 ## Version 5.0.2
  - added new method `setGridPluginInstances` into `GridComponent` 
 
