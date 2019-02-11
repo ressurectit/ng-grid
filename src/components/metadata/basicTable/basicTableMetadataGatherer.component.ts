@@ -92,7 +92,7 @@ export class BasicTableMetadataGathererComponent<TData> implements AfterContentI
     /**
      * Gets current metadata for grid
      */
-    getMetadata(): BasicTableMetadata<BasicTableColumn<TData>>
+    public getMetadata(): BasicTableMetadata<BasicTableColumn<TData>>
     {
         return {
             columns: this.columns.toArray()

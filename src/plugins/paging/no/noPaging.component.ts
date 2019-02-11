@@ -1,9 +1,11 @@
 import {ChangeDetectionStrategy, Component, forwardRef, ElementRef, ChangeDetectorRef, Optional, Inject} from "@angular/core";
+import {Utils} from "@anglr/common";
+
 import {PagingAbstractComponent} from "../pagingAbstract.component";
 import {NoPagingOptions, NoPaging} from "./noPaging.interface";
 import {NoPagingInitializerComponent} from "../plugins/pagingInitializer";
-import {GRID_PLUGIN_INSTANCES, GridPluginInstances, PAGING_OPTIONS} from "../../..";
-import {Utils} from "@anglr/common";
+import {GRID_PLUGIN_INSTANCES, GridPluginInstances} from "../../../components/grid";
+import {PAGING_OPTIONS} from "../paging.interface";
 
 /**
  * Default options for paging
@@ -52,9 +54,9 @@ export class NoPagingComponent extends PagingAbstractComponent<any, NoPagingOpti
 
     //######################### constructor #########################
     constructor(pluginElement: ElementRef,
-        changeDetector: ChangeDetectorRef,
-        @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins?: GridPluginInstances,
-        @Inject(PAGING_OPTIONS) @Optional() options?: NoPagingOptions<any>)
+                changeDetector: ChangeDetectorRef,
+                @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins?: GridPluginInstances,
+                @Inject(PAGING_OPTIONS) @Optional() options?: NoPagingOptions<any>)
     {
         super(pluginElement, changeDetector, gridPlugins);
 
