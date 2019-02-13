@@ -5,7 +5,7 @@ import {CommonModule} from "@anglr/common";
 import {GridComponent} from "../components/grid/grid.component";
 import {PageVirtualScrollPagingComponent, ContentVirtualScrollPagingComponent, PreviousNextPagingComponent, LoadMorePagingComponent, BasicPagingComponent, NoPagingComponent, QueryPagingInitializerComponent, QueryCookiePagingInitializerComponent, NoPagingInitializerComponent} from "../plugins/paging";
 import {SyncDataLoaderComponent, AsyncDataLoaderComponent} from "../plugins/dataLoader";
-import {BasicTableColumnComponent, BasicTableMetadataGathererComponent} from "../components/metadata";
+import {BasicTableColumnComponent, BasicTableMetadataGathererComponent, GroupedTableColumnComponent, GroupedTableMetadataGathererComponent, HeaderTableGroupComponent, HeaderTableGroupColumnComponent} from "../components/metadata";
 import {NoMetadataSelectorComponent, AdvancedMetadataSelectorComponent} from "../plugins/metadataSelector";
 import {TableContentRendererComponent, TableBodyContentRendererComponent, TableHeaderContentRendererComponent, CssDivsBodyContentRendererComponent, CssDivsHeaderContentRendererComponent, CssDivsContentRendererComponent, AdvancedTableBodyContentRendererComponent} from "../plugins/contentRenderer";
 import {SimpleNoDataRendererComponent} from "../plugins/noDataRenderer";
@@ -46,7 +46,11 @@ import {BasicRowSelectorComponent} from "../plugins/rowSelector";
         CssDivsHeaderContentRendererComponent,
         SimpleNoDataRendererComponent,
         NoTextsLocatorComponent,
-        BasicRowSelectorComponent
+        BasicRowSelectorComponent,
+        GroupedTableColumnComponent,
+        GroupedTableMetadataGathererComponent,
+        HeaderTableGroupComponent,
+        HeaderTableGroupColumnComponent
     ],
     entryComponents:
     [
@@ -101,7 +105,11 @@ import {BasicRowSelectorComponent} from "../plugins/rowSelector";
         CssDivsHeaderContentRendererComponent,
         SimpleNoDataRendererComponent,
         NoTextsLocatorComponent,
-        BasicRowSelectorComponent
+        BasicRowSelectorComponent,
+        GroupedTableColumnComponent,
+        GroupedTableMetadataGathererComponent,
+        HeaderTableGroupComponent,
+        HeaderTableGroupColumnComponent
     ],
     providers:
     [

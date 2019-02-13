@@ -43,7 +43,7 @@ export interface HeaderTableGroup
     /**
      * Content of current group, can contain nested groups or columns
      */
-    content: Array<HeaderTableGroup|HeaderTableGroupColumn>;
+    readonly content: Array<HeaderTableGroup|HeaderTableGroupColumn>;
 
     /**
      * Unique identification of group
@@ -74,6 +74,12 @@ export interface HeaderTableGroup
      * Gets group context for current group
      */
     readonly groupContext: HeaderTableGroupContext;
+
+    /**
+     * Sets array of grid columns that are currently displayed
+     * @param columns Array of columns that are currently loaded from gatherer
+     */
+    setDisplayedGridColumns(columns: GroupedTableColumn[]): void;
 }
 
 /**

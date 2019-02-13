@@ -1,6 +1,6 @@
-import {Component, ChangeDetectionStrategy, Input} from "@angular/core";
+import {Component, ChangeDetectionStrategy, Input, ExistingProvider, forwardRef} from "@angular/core";
 
-import {HeaderTableGroupColumn} from "./groupedTable.interface";
+import {HeaderTableGroupColumn, HEADER_GROUP} from "./groupedTable.interface";
 
 /**
  * Component for gathering information about table group column
@@ -9,7 +9,16 @@ import {HeaderTableGroupColumn} from "./groupedTable.interface";
 {
     selector: 'table-group > table-group-column',
     template: '',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers:
+    [
+        <ExistingProvider>
+        {
+            provide: HEADER_GROUP,
+            useExisting: forwardRef(() => HeaderTableGroupColumnComponent),
+            multi: true
+        }
+    ]
 })
 export class HeaderTableGroupColumnComponent implements HeaderTableGroupColumn
 {
