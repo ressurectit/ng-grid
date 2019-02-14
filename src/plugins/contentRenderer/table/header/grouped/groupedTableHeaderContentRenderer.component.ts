@@ -33,7 +33,7 @@ const defaultOptions: TableHeaderContentRendererOptions =
 /**
  * Metadata for rendering groups
  */
-interface GroupsMetadataRender
+export interface GroupsMetadataRender
 {
     /**
      * Number of columns grouped into this one
