@@ -9,7 +9,7 @@ import {HeaderTableGroupColumnComponent} from "./headerTableGroupColumn.componen
  */
 @Component(
 {
-    selector: 'grouped-table-metadata table-group',
+    selector: 'table-group',
     template: '',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -20,7 +20,7 @@ export class HeaderTableGroupComponent implements HeaderTableGroup
     /**
      * Array of columns that are displayed
      */
-    private _columns: HeaderTableGroupColumn[] = [];
+    private _columns: HeaderTableGroupColumn[];
 
     //######################### public properties #########################
 
@@ -37,7 +37,7 @@ export class HeaderTableGroupComponent implements HeaderTableGroup
      */
     public get groups(): HeaderTableGroup[]
     {
-        return this.groupsChildren.toArray();
+        return this.groupsChildren.toArray().filter(itm => itm != this);
     }
 
     /**
@@ -55,9 +55,9 @@ export class HeaderTableGroupComponent implements HeaderTableGroup
             this._columns = this.columnsChildren.toArray();
         }
 
-        if(this.groupsChildren.length && !this.columnsChildren.length)
+        if(this.groups.length && !this.columnsChildren.length)
         {
-            let groups = this.groupsChildren.toArray();
+            let groups = this.groups;
             
             this._columns = groups.reduce((acc, x) => acc.concat(x.columns), []);
         }
@@ -77,7 +77,7 @@ export class HeaderTableGroupComponent implements HeaderTableGroup
      * Indication whether is title for group visible, or not
      */
     @Input()
-    public titleVisible: boolean;
+    public titleVisible: boolean = true;
 
     /**
      * Css class applied to group

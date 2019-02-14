@@ -1,3 +1,14 @@
+<tr *ngFor="let levelGroup of groupsMetadataRender">
+    <th *ngFor="let group of levelGroup" [colSpan]="group.colspan" [ngClass]="group?.instance?.cssClass">
+        <ng-template [ngIf]="group?.instance?.titleVisible && !group?.instance?.template" [ngIfElse]="customTmpl">
+            {{group?.instance?.title}}
+        </ng-template>
+
+        <ng-template #customTmpl [ngTemplateOutlet]="group?.instance?.template" [ngTemplateOutletContext]="group?.instance?.groupContext">
+        </ng-template>
+    </th>
+</tr>
+
 <tr>
     <th *ngFor="let meta of metadata?.columns; let index=index" 
         [ngClass]="mergeStringClasses(options?.cssClasses?.thDefault, meta?.headerClass, meta?.ordering ? options?.cssClasses?.thOrderable : null)" 

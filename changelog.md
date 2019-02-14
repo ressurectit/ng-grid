@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 5.1.0
+ - added support for *Grouped Headers*, allowing multiline header with grouping of columns
+    - added new `MetadataGatherer` => `GroupedTableMetadataGathererComponent` for obtaining information about header groups (using `<grouped-table-metadata>` html)
+    - added new `HeaderTableGroupColumnComponent` and `HeaderTableGroupComponent` allowing definition of header groups (using `<table-group>`, `<table-group-column>` html)
+    - added new `GroupedTableHeaderContentRendererComponent` used for rendering grouped headers
+    - supporting only one level of grouped headers and each column must be part of group *for now*
+
 ## Version 5.0.3
  - added new extension method `invalidateBodyContent`, used for invalidating body content
 

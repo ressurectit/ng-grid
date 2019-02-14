@@ -8,7 +8,7 @@ import {BasicTableColumnContext} from "./basicTableColumn.context";
  */
 @Component(
 {
-    selector: 'basic-table-metadata > basic-table-column',
+    selector: 'basic-table-column',
     template: '',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
