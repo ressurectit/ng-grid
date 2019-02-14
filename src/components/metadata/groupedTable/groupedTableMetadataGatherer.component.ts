@@ -1,9 +1,10 @@
 import {ExistingProvider, Component, ChangeDetectionStrategy, EventEmitter, forwardRef, ContentChildren, QueryList, AfterContentInit} from "@angular/core";
 
 import {MetadataGatherer, METADATA_GATHERER} from "../metadata.interface";
-import {GroupedTableMetadata, GroupedTableColumn} from "./groupedTable.interface";
-import {GroupedTableColumnComponent} from "./groupedTableColumn.component";
+import {GroupedTableMetadata} from "./groupedTable.interface";
 import {HeaderTableGroupComponent} from "./headerTableGroup.component";
+import {BasicTableColumn} from "../basicTable/basicTable.interface";
+import {BasicTableColumnComponent} from "../basicTable/basicTableColumn.component";
 
 /**
  * Component that is used for gathering metadata for table with grouped header columns
@@ -24,7 +25,7 @@ import {HeaderTableGroupComponent} from "./headerTableGroup.component";
         }
     ]
 })
-export class GroupedTableMetadataGathererComponent<TData> implements AfterContentInit, MetadataGatherer<GroupedTableMetadata<GroupedTableColumn>>
+export class GroupedTableMetadataGathererComponent<TData> implements AfterContentInit, MetadataGatherer<GroupedTableMetadata<BasicTableColumn<TData>>>
 {
     //######################### public properties - implementation of MetadataGatherer<BasicTableColumn[]> #########################
 
@@ -39,8 +40,8 @@ export class GroupedTableMetadataGathererComponent<TData> implements AfterConten
      * Gets all columns defined in gatherer
      * @internal
      */
-    @ContentChildren(GroupedTableColumnComponent)
-    public columns: QueryList<GroupedTableColumnComponent<TData>>;
+    @ContentChildren(BasicTableColumnComponent)
+    public columns: QueryList<BasicTableColumn<TData>>;
 
     /**
      * Gets all groups defined in gatherer
@@ -54,7 +55,7 @@ export class GroupedTableMetadataGathererComponent<TData> implements AfterConten
     /**
      * Gets current metadata for grid
      */
-    public getMetadata(): GroupedTableMetadata<GroupedTableColumn>
+    public getMetadata(): GroupedTableMetadata<BasicTableColumn<TData>>
     {
         return {
             columns: this.columns.toArray(),

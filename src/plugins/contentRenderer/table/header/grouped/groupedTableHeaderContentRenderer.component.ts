@@ -1,12 +1,12 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, HostBinding, ElementRef} from "@angular/core";
 import {Utils} from "@anglr/common";
 
-import {TableHeaderContentRendererOptions} from "../tableContentRenderer.interface";
-import {HEADER_CONTENT_RENDERER_OPTIONS} from "../../contentRenderer.interface";
-import {HeaderContentRendererAbstractComponent} from "../../headerContentRendererAbstract.component";
+import {TableHeaderContentRendererOptions} from "../../tableContentRenderer.interface";
+import {HEADER_CONTENT_RENDERER_OPTIONS} from "../../../contentRenderer.interface";
+import {HeaderContentRendererAbstractComponent} from "../../../headerContentRendererAbstract.component";
 
 /**
- * Default options for 'TableHeaderContentRendererComponent'
+ * Default options for 'GroupedTableHeaderContentRendererComponent'
  * @internal
  */
 const defaultOptions: TableHeaderContentRendererOptions =
@@ -32,8 +32,8 @@ const defaultOptions: TableHeaderContentRendererOptions =
  */
 @Component(
 {
-    selector: 'thead.content-renderer',
-    templateUrl: 'tableHeaderContentRenderer.component.html',
+    selector: 'thead.grouped-content-renderer',
+    templateUrl: 'groupedTableHeaderContentRenderer.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
     styles:
     [
@@ -54,7 +54,7 @@ const defaultOptions: TableHeaderContentRendererOptions =
         }`
     ]
 })
-export class TableHeaderContentRendererComponent<TData> extends HeaderContentRendererAbstractComponent<TData, TableHeaderContentRendererOptions>
+export class GroupedTableHeaderContentRendererComponent<TData> extends HeaderContentRendererAbstractComponent<TData, TableHeaderContentRendererOptions>
 {
     //######################### public properties - host #########################
 
@@ -75,5 +75,17 @@ export class TableHeaderContentRendererComponent<TData> extends HeaderContentRen
         super(pluginElement, changeDetector);
 
         this._options = Utils.common.extend(true, {}, defaultOptions, options);
+    }
+
+    //######################### public methods - implementation of TableHeaderContentRenderer #########################
+
+    /**
+     * Resets metadata to defaults
+     */
+    public resetMetadata(): void
+    {
+        console.log(this.metadata);
+
+        super.resetMetadata();
     }
 }

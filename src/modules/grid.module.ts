@@ -5,13 +5,16 @@ import {CommonModule} from "@anglr/common";
 import {GridComponent} from "../components/grid/grid.component";
 import {PageVirtualScrollPagingComponent, ContentVirtualScrollPagingComponent, PreviousNextPagingComponent, LoadMorePagingComponent, BasicPagingComponent, NoPagingComponent, QueryPagingInitializerComponent, QueryCookiePagingInitializerComponent, NoPagingInitializerComponent} from "../plugins/paging";
 import {SyncDataLoaderComponent, AsyncDataLoaderComponent} from "../plugins/dataLoader";
-import {BasicTableColumnComponent, BasicTableMetadataGathererComponent, GroupedTableColumnComponent, GroupedTableMetadataGathererComponent, HeaderTableGroupComponent, HeaderTableGroupColumnComponent} from "../components/metadata";
+import {BasicTableColumnComponent, BasicTableMetadataGathererComponent, GroupedTableMetadataGathererComponent, HeaderTableGroupComponent, HeaderTableGroupColumnComponent} from "../components/metadata";
 import {NoMetadataSelectorComponent, AdvancedMetadataSelectorComponent} from "../plugins/metadataSelector";
-import {TableContentRendererComponent, TableBodyContentRendererComponent, TableHeaderContentRendererComponent, CssDivsBodyContentRendererComponent, CssDivsHeaderContentRendererComponent, CssDivsContentRendererComponent, AdvancedTableBodyContentRendererComponent} from "../plugins/contentRenderer";
+import {TableContentRendererComponent, TableBodyContentRendererComponent, TableHeaderContentRendererComponent, CssDivsBodyContentRendererComponent, CssDivsHeaderContentRendererComponent, CssDivsContentRendererComponent, AdvancedTableBodyContentRendererComponent, GroupedTableHeaderContentRendererComponent} from "../plugins/contentRenderer";
 import {SimpleNoDataRendererComponent} from "../plugins/noDataRenderer";
 import {NoTextsLocatorComponent} from "../plugins/textsLocator";
 import {BasicRowSelectorComponent} from "../plugins/rowSelector";
 
+/**
+ * Module for grid components
+ */
 @NgModule(
 {
     imports:
@@ -47,7 +50,7 @@ import {BasicRowSelectorComponent} from "../plugins/rowSelector";
         SimpleNoDataRendererComponent,
         NoTextsLocatorComponent,
         BasicRowSelectorComponent,
-        GroupedTableColumnComponent,
+        GroupedTableHeaderContentRendererComponent,
         GroupedTableMetadataGathererComponent,
         HeaderTableGroupComponent,
         HeaderTableGroupColumnComponent
@@ -76,7 +79,8 @@ import {BasicRowSelectorComponent} from "../plugins/rowSelector";
         CssDivsHeaderContentRendererComponent,
         SimpleNoDataRendererComponent,
         NoTextsLocatorComponent,
-        BasicRowSelectorComponent
+        BasicRowSelectorComponent,
+        GroupedTableHeaderContentRendererComponent
     ],
     exports:
     [
@@ -106,7 +110,7 @@ import {BasicRowSelectorComponent} from "../plugins/rowSelector";
         SimpleNoDataRendererComponent,
         NoTextsLocatorComponent,
         BasicRowSelectorComponent,
-        GroupedTableColumnComponent,
+        GroupedTableHeaderContentRendererComponent,
         GroupedTableMetadataGathererComponent,
         HeaderTableGroupComponent,
         HeaderTableGroupColumnComponent

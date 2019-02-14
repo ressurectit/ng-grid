@@ -6,7 +6,7 @@ import {GRID_PLUGIN_INSTANCES, GridPluginInstances} from "../../../components/gr
 import {CONTENT_RENDERER_OPTIONS} from "../contentRenderer.interface";
 import {PluginDescription} from "../../../misc";
 import {TableBodyContentRendererComponent} from './body/basic/tableBodyContentRenderer.component';
-import {TableHeaderContentRendererComponent} from "./header/tableHeaderContentRenderer.component";
+import {TableHeaderContentRendererComponent} from "./header/basic/tableHeaderContentRenderer.component";
 import {ContentRendererAbstractComponent} from "../contentRendererAbstract.component";
 
 /**

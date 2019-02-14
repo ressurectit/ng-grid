@@ -10,24 +10,9 @@ import {HeaderTableGroupContext} from "./headerTableGroup.context";
 export interface HeaderTableGroupColumn
 {
     /**
-     * Indication whether are these metadata for group or group column
-     */
-    readonly isColumn: boolean;
-
-    /**
-     * Unique identification of column, reference to 'id'
+     * Unique identification of column, reference to 'id' of column
      */
     id: string;
-
-    /**
-     * Indication whether is column in this group visible or not
-     */
-    visible: boolean;
-
-    /**
-     * Gets current number of 'columns' in group, since this is column, always returns 1
-     */
-    readonly size: number;
 }
 
 /**
@@ -36,77 +21,48 @@ export interface HeaderTableGroupColumn
 export interface HeaderTableGroup
 {
     /**
-     * Indication whether are these metadata for group or group column
-     */
-    readonly isColumn: boolean;
-
-    /**
-     * Content of current group, can contain nested groups or columns
-     */
-    readonly content: Array<HeaderTableGroup|HeaderTableGroupColumn>;
-
-    /**
-     * Unique identification of group
-     */
-    id: string;
-
-    /**
      * Title for column group, text that is displayed
      */
     title: string;
-
+    
     /**
      * Indication whether is title for group visible, or not
      */
     titleVisible: boolean;
 
     /**
+     * Css class applied to group
+     */
+    cssClass: string;
+    
+    /**
      * Template that is used for rendering of this group
      */
     template: TemplateRef<HeaderTableGroupContext>;
 
     /**
-     * Gets current number of columns in this group, used for rendering
+     * Array of nested groups in this group
      */
-    readonly size: number;
+    readonly groups: HeaderTableGroup[];
 
+    /**
+     * Array of columns that are in this group (also recursive columns)
+     */
+    readonly columns: HeaderTableGroupColumn[];
+    
     /**
      * Gets group context for current group
      */
     readonly groupContext: HeaderTableGroupContext;
-
-    /**
-     * Sets array of grid columns that are currently displayed
-     * @param columns Array of columns that are currently loaded from gatherer
-     */
-    setDisplayedGridColumns(columns: GroupedTableColumn[]): void;
-}
-
-/**
- * Grouped table column definition, used for creating table with grouped column header
- */
-export interface GroupedTableColumn extends GridColumn
-{
-    /**
-     * Id of group that identifies group in which will be this column displayed
-     */
-    groupId?: string;
 }
 
 /**
  * Grouped table metadata, contains columns and metadata for column groups
  */
-export interface GroupedTableMetadata<TColumn extends GroupedTableColumn> extends BasicTableMetadata<TColumn>
+export interface GroupedTableMetadata<TColumn extends GridColumn> extends BasicTableMetadata<TColumn>
 {
     /**
      * Definition of header groups that are displayed in header
      */
     groups: HeaderTableGroup[];
-}
-
-/**
- * Token for getting component that is used as header table group
- */
-export class HEADER_GROUP
-{
 }
