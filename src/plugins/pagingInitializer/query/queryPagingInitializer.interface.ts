@@ -1,4 +1,4 @@
-import {PagingInitializerOptions, PagingInitializer} from "../../../paging.interface";
+import {PagingInitializerOptions, PagingInitializer} from "../pagingInitializer.interface";
 
 /**
  * Query paging initializer options

@@ -2,10 +2,10 @@ import {ChangeDetectionStrategy, Inject, Optional, ElementRef, Component} from "
 import {ActivatedRoute, Router} from "@angular/router";
 import {Utils} from "@anglr/common";
 
-import {GridPluginGeneric} from "../../../../../misc";
+import {GridPluginGeneric} from "../../../misc";
 import {QueryPagingInitializer, QueryPagingInitializerOptions} from "./queryPagingInitializer.interface";
-import {PAGING_INITIALIZER_OPTIONS} from "../../../paging.interface";
-import {GridPluginInstances} from "../../../../../components/grid";
+import {PAGING_INITIALIZER_OPTIONS} from "../pagingInitializer.interface";
+import {GridPluginInstances} from "../../../components/grid";
 
 /**
  * Default options for query paging initializer

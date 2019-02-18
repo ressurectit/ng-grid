@@ -1,11 +1,11 @@
-import {Component, Input, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, ElementRef, forwardRef} from '@angular/core';
+import {Component, Input, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, ElementRef} from '@angular/core';
 import {Paginator, isPresent, Utils} from '@anglr/common';
 
 import {GRID_PLUGIN_INSTANCES, GridPluginInstances} from '../../../components/grid';
 import {PagingAbstractComponent} from '../pagingAbstract.component';
 import {BasicPagingOptions, BasicPaging, CssClassesBasicPaging} from './basicPaging.interface';
-import {PAGING_OPTIONS, PAGING_INITIALIZER, PagingInitializer} from '../paging.interface';
-import {NoPagingInitializerComponent} from '../plugins/pagingInitializer';
+import {PAGING_OPTIONS} from '../paging.interface';
+import {PAGING_INITIALIZER, PagingInitializer} from '../../pagingInitializer';
 
 /**
  * Items per page single item
@@ -40,10 +40,6 @@ const defaultOptions: BasicPagingOptions =
         itemsPerPageDiv: "pull-right",
         displayedItemsCountSpan: "items-count",
         itemsPerPageUl: "pagination pagination-sm margin-sm-vertical"
-    },
-    pagingInitializer:
-    {
-        type: forwardRef(() => NoPagingInitializerComponent)
     }
 };
 

@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, ElementRef, Component} from "@angular/core";
 
-import {GridPluginGeneric} from "../../../../../misc";
+import {GridPluginGeneric} from "../../../misc";
 import {NoPagingInitializerOptions, NoPagingInitializer} from "./noPagingInitializer.interface";
-import {GridPluginInstances} from "../../../../..";
+import {GridPluginInstances} from "../../../components/grid";
 
 /**
  * Component used for rendering no paging initializer

@@ -2,8 +2,8 @@ import {ChangeDetectionStrategy, Inject, Optional, Component} from "@angular/cor
 import {ActivatedRoute, Router} from "@angular/router";
 import {Utils, CookieService, isPresent} from "@anglr/common";
 
-import {GridPluginGeneric} from "../../../../../misc";
-import {PAGING_INITIALIZER_OPTIONS} from "../../../paging.interface";
+import {GridPluginGeneric} from "../../../misc";
+import {PAGING_INITIALIZER_OPTIONS} from "../pagingInitializer.interface";
 import {QueryCookiePagingInitializerOptions, QueryCookiePagingInitializer} from "./queryCookiePagingInitializer.interface";
 import {QueryPagingInitializerComponent} from "../query/queryPagingInitializer.component";
 

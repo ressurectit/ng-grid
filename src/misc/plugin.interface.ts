@@ -8,6 +8,7 @@ import {GridPluginInstances} from "../components/grid";
 import {NoDataRenderer} from "../plugins/noDataRenderer";
 import {TextsLocator} from "../plugins/textsLocator";
 import {RowSelector} from "../plugins/rowSelector";
+import {PagingInitializer} from "../plugins/pagingInitializer";
 
 /**
  * Grid plugin interface
@@ -67,6 +68,11 @@ export class GridPluginTypes
      * Paging component used for applying paging to data
      */
     paging?: PluginDescription<Paging>;
+
+    /**
+     * Paging initializer component used for obtaining initial paging data
+     */
+    pagingInitializer?: PluginDescription<PagingInitializer>;
 
     /**
      * Metadata selector used for gathering and manipulation with metadata

@@ -14,4 +14,3 @@ export * from './virtualScroll/pageVirtualScroll/pageVirtualScrollPaging.compone
 export * from './virtualScroll/pageVirtualScroll/pageVirtualScrollPaging.interface';
 export * from './no/noPaging.component';
 export * from './no/noPaging.interface';
-export * from './plugins/pagingInitializer';

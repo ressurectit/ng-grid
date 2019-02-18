@@ -1,9 +1,10 @@
-import {ChangeDetectionStrategy, Component, forwardRef, ElementRef, ChangeDetectorRef, Optional, Inject} from "@angular/core";
+import {ChangeDetectionStrategy, Component, ElementRef, ChangeDetectorRef, Optional, Inject} from "@angular/core";
+import {Utils} from "@anglr/common";
+
 import {PagingAbstractComponent} from "../pagingAbstract.component";
 import {NoPagingOptions, NoPaging} from "./noPaging.interface";
-import {NoPagingInitializerComponent} from "../plugins/pagingInitializer";
-import {GRID_PLUGIN_INSTANCES, GridPluginInstances, PAGING_OPTIONS} from "../../..";
-import {Utils} from "@anglr/common";
+import {GridPluginInstances, GRID_PLUGIN_INSTANCES} from "../../../components/grid";
+import {PAGING_OPTIONS} from "../paging.interface";
 
 /**
  * Default options for paging
@@ -12,11 +13,7 @@ import {Utils} from "@anglr/common";
 const defaultOptions: NoPagingOptions<any> =
 {
     initialItemsPerPage: NaN,
-    initialPage: 1,
-    pagingInitializer:
-    {
-        type: forwardRef(() => NoPagingInitializerComponent)
-    }
+    initialPage: 1
 };
 
 /**

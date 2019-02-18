@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 5.0.4
+ - refactored `PaginingInitializer`, now used as `GridPlugin`, instead of Paging plugin
+
 ## Version 5.0.3
  - added new extension method `invalidateBodyContent`, used for invalidating body content
 

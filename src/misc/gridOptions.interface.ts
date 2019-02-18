@@ -9,6 +9,7 @@ import {MetadataSelector} from "../plugins/metadataSelector";
 import {NoDataRenderer} from "../plugins/noDataRenderer";
 import {TextsLocator} from "../plugins/textsLocator";
 import {RowSelector} from "../plugins/rowSelector";
+import {PagingInitializer} from "../plugins/pagingInitializer";
 
 /**
  * Injection token for 'GridOptions'
@@ -19,6 +20,11 @@ export const GRID_OPTIONS: InjectionToken<GridOptions> = new InjectionToken<Grid
  * Injection token for 'Paging' implementation
  */
 export const PAGING_TYPE: InjectionToken<Paging> = new InjectionToken<Paging>('PAGING_TYPE');
+
+/**
+ * Injection token for 'PagingInitializer' implementation
+ */
+export const PAGING_INITIALIZER_TYPE: InjectionToken<PagingInitializer> = new InjectionToken<PagingInitializer>('PAGING_INITIALIZER_TYPE');
 
 /**
  * Injection token for 'DataLoader<any>' implementation

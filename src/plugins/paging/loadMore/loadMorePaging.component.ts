@@ -1,11 +1,10 @@
-import {Component, Input, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef, Inject, Optional, forwardRef, OnDestroy} from '@angular/core';
+import {Component, Input, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef, Inject, Optional, OnDestroy} from '@angular/core';
 import {Utils} from '@anglr/common';
 import {Subscription} from 'rxjs';
 
 import {GRID_PLUGIN_INSTANCES, GridPluginInstances} from '../../../components/grid/grid.interface';
 import {PagingAbstractComponent} from '../pagingAbstract.component';
 import {PAGING_OPTIONS} from '../paging.interface';
-import {NoPagingInitializerComponent} from '../plugins/pagingInitializer';
 import {LoadMorePaging, CssClassesLoadMorePaging, LoadMorePagingOptions, LoadMorePagingTexts} from './loadMorePaging.interface';
 import {TextsLocator, TEXTS_LOCATOR} from '../../textsLocator';
 
@@ -25,10 +24,6 @@ const defaultOptions: LoadMorePagingOptions =
     texts:
     {
         loadMoreBtn: 'Load More'
-    },
-    pagingInitializer:
-    {
-        type: forwardRef(() => NoPagingInitializerComponent)
     }
 };
 
