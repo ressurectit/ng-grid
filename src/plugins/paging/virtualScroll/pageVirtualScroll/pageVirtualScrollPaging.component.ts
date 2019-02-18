@@ -1,10 +1,9 @@
-import {Component, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef, Inject, Optional, forwardRef} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef, Inject, Optional} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {Utils} from '@anglr/common';
 
 import {GRID_PLUGIN_INSTANCES, GridPluginInstances} from '../../../../components/grid';
 import {BodyContentRenderer, BODY_CONTENT_RENDERER} from '../../../contentRenderer';
-import {NoPagingInitializerComponent} from '../../plugins/pagingInitializer';
 import {PAGING_OPTIONS} from '../../paging.interface';
 import {VirtualScrollPagingAbstractComponent} from '../virtualScrollPagingAbstract.component';
 import {PageVirtualScrollPagingOptions, PageVirtualScrollPaging} from './pageVirtualScrollPaging.interface';
@@ -20,10 +19,6 @@ const defaultOptions: PageVirtualScrollPagingOptions =
     loadOffsetTreshold: 0.75,
     cssClasses:
     {
-    },
-    pagingInitializer:
-    {
-        type: forwardRef(() => NoPagingInitializerComponent)
     }
 };
 

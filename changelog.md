@@ -7,6 +7,9 @@
     - added new `GroupedTableHeaderContentRendererComponent` used for rendering grouped headers
     - supporting only one level of grouped headers and each column must be part of group *for now*
 
+## Version 5.0.4
+ - refactored `PaginingInitializer`, now used as `GridPlugin`, instead of Paging plugin
+
 ## Version 5.0.3
  - added new extension method `invalidateBodyContent`, used for invalidating body content
 

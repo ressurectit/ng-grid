@@ -1,6 +1,6 @@
 import {InjectionToken, EventEmitter} from '@angular/core';
 
-import {VisualPluginOptions, GridPlugin, PluginOptions, PluginDescription} from '../../misc';
+import {VisualPluginOptions, GridPlugin} from '../../misc';
 
 /**
  * Token for injecting options for paging
@@ -26,11 +26,6 @@ export interface PagingOptions<TCssClasses> extends VisualPluginOptions<TCssClas
      * Initial number of items per page that will be rendered
      */
     initialItemsPerPage?: number;
-
-    /**
-     * Paging plugin used for initialization of paging
-     */
-    pagingInitializer?: PluginDescription<PagingInitializer>;
 }
 
 /**
@@ -67,53 +62,4 @@ export interface Paging extends GridPlugin
      * Occurs when number of items per page currently selected has been changed
      */
     itemsPerPageChange: EventEmitter<number>;
-}
-
-/**
- * Token for injecting options for paging initializer
- */
-export const PAGING_INITIALIZER_OPTIONS: InjectionToken<PagingInitializerOptions> = new InjectionToken<PagingInitializerOptions>('PAGING_INITIALIZER_OPTIONS');
-
-/**
- * Constant used for accessing paging initializer in grid
- */
-export const PAGING_INITIALIZER = "PAGING_INITIALIZER";
-
-/**
- * Base paging initializer options for every paging initializer
- */
-export interface PagingInitializerOptions extends PluginOptions
-{
-    /**
-     * Prefix that is applied to params storing page and items per page
-     */
-    prefix?: string;
-}
-
-/**
- * Initializer that is used for initialization of paging
- */
-export interface PagingInitializer extends GridPlugin
-{
-    /**
-     * Gets initial page
-     */
-    getPage(): number;
-
-    /**
-     * Sets current page when changed
-     * @param {number} page Page to be set
-     */
-    setPage(page: number);
-
-    /**
-     * Gets initial items per page
-     */
-    getItemsPerPage(): number;
-
-    /**
-     * Sets current items per page when changed
-     * @param {number} itemsPerPage Items per page to be set
-     */
-    setItemsPerPage(itemsPerPage: number);
 }

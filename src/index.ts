@@ -18,3 +18,4 @@ export * from './plugins/noDataRenderer';
 export * from './plugins/paging';
 export * from './plugins/rowSelector';
 export * from './plugins/textsLocator';
+export * from './plugins/pagingInitializer';

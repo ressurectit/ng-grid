@@ -1,11 +1,12 @@
-import {EventEmitter, ChangeDetectorRef, Injectable, Inject, Optional, Input, Output, OnDestroy, ElementRef, resolveForwardRef} from "@angular/core";
+import {EventEmitter, ChangeDetectorRef, Injectable, Inject, Optional, Input, Output, OnDestroy, ElementRef} from "@angular/core";
 import {Utils, isPresent} from '@anglr/common';
 import {Subscription} from "rxjs";
 
-import {PagingOptions, Paging, PagingInitializer, PAGING_INITIALIZER} from "./paging.interface";
+import {PagingOptions, Paging} from "./paging.interface";
 import {GridPluginInstances, GRID_PLUGIN_INSTANCES} from "../../components/grid";
 import {GridPluginGeneric} from "../../misc";
 import {DataLoader, DATA_LOADER, DataResponse} from "../dataLoader";
+import {PAGING_INITIALIZER, PagingInitializer} from "../pagingInitializer";
 
 /**
  * Abstract class that represents any paging component
@@ -187,56 +188,6 @@ export abstract class PagingAbstractComponent<TCssClasses, TOptions extends Pagi
      */
     public initOptions()
     {
-        if(this._options.pagingInitializer)
-        {
-            this._options.pagingInitializer.type = resolveForwardRef(this._options.pagingInitializer.type);
-
-            if(this._options.pagingInitializer.instance &&
-               this._options.pagingInitializer.instance != this.gridPlugins[PAGING_INITIALIZER])
-            {
-                this.gridPlugins[PAGING_INITIALIZER] = this._options.pagingInitializer.instance;
-                this._options.pagingInitializer.instance.gridPlugins = this.gridPlugins;
-            }
-
-            if(this.gridPlugins[PAGING_INITIALIZER])
-            {
-                if(this._options.pagingInitializer && this._options.pagingInitializer.options)
-                {
-                    this.gridPlugins[PAGING_INITIALIZER].options = this._options.pagingInitializer.options;
-                }
-
-                this.gridPlugins[PAGING_INITIALIZER].initOptions();
-            }
-        }
-    }
-
-    //######################### public methods - template bindings #########################
-
-    /**
-     * Sets paging initializer component
-     * @param {PagingInitializer} pagingInitializer Created paging initializer that is rendered
-     * @internal
-     */
-    public setPagingInitializerComponent(pagingInitializer: PagingInitializer)
-    {
-        if(!pagingInitializer)
-        {
-            return;
-        }
-
-        this.gridPlugins[PAGING_INITIALIZER] = pagingInitializer;
-
-        if(this._options.pagingInitializer && this._options.pagingInitializer.options)
-        {
-            pagingInitializer.options = this._options.pagingInitializer.options;
-        }
-
-        pagingInitializer.initOptions();
-
-        if(this._options.pagingInitializer && this._options.pagingInitializer.instanceCallback)
-        {
-            this._options.pagingInitializer.instanceCallback(pagingInitializer);
-        }
     }
 
     //######################### protected methods #########################

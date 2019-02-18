@@ -6,9 +6,8 @@ import {GridPluginGeneric} from "../../../misc";
 import {MetadataGatherer, BasicTableMetadata} from "../../../components/metadata";
 import {GridPluginInstances, GRID_PLUGIN_INSTANCES} from "../../../components/grid";
 import {METADATA_SELECTOR_OPTIONS} from "../metadataSelector.interface";
-import {AdvancedMetadataSelectorOptions, AdvancedMetadataSelector, AdvancedGridColumn} from "./advancedMetadataSelector.interface";
+import {AdvancedMetadataSelectorOptions, AdvancedMetadataSelector, AdvancedGridColumn, AdvancedMetadataSelectorTexts} from "./advancedMetadataSelector.interface";
 import {HEADER_CONTENT_RENDERER} from "../../contentRenderer";
-import {AdvancedMetadataSelectorTexts} from "..";
 import {TextsLocator, TEXTS_LOCATOR} from "../../textsLocator";
 
 /**
