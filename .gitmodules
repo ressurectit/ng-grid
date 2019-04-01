@@ -1,0 +1,3 @@
+[submodule "wiki"]
+	path = wiki
+	url = ../ng2-grid.wiki.git
