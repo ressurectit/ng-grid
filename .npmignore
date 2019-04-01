@@ -2,6 +2,7 @@
 /src
 /tests
 .jsbeautifyrc
+.gitmodules
 tsconfig.json
 webpack.config.js
 karma.conf.js
