@@ -27,4 +27,4 @@ npm install "@anglr/grid" --save
 ## Usage
 
 
-Tutorials and basic description can be found at [Wiki](./wikis/home)
+Tutorials and basic description can be found at [Wiki](https://gitlab/ace-common/ng/grid/wikis/home)
