@@ -1,7 +1,8 @@
 import {ChangeDetectorRef, Inject, Injectable, ElementRef, Optional} from "@angular/core";
 import {extend} from "@jscrpt/common";
 
-import {GRID_PLUGIN_INSTANCES, GridPluginInstances} from "../../components/grid";
+import {GridPluginInstances} from "../../components/grid";
+import {GRID_PLUGIN_INSTANCES} from "../../components/grid/types";
 import {BodyContentRenderer, BodyContentRendererOptions} from "./contentRenderer.interface";
 import {PAGING, Paging} from "../paging";
 import {GridPluginGeneric} from "../../misc";

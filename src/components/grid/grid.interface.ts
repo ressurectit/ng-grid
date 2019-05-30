@@ -1,12 +1,6 @@
-import {InjectionToken} from "@angular/core";
 import {Observable} from "rxjs";
 
 import {GridOptions, GridPlugin} from "../../misc";
-
-/**
- * Token used for obtaining 'GridPluginInstances'
- */
-export const GRID_PLUGIN_INSTANCES: InjectionToken<GridPluginInstances> = new InjectionToken<GridPluginInstances>('GRID_PLUGIN_INSTANCES');
 
 /**
  * Interface describing object storing all existing plugin instances for grid

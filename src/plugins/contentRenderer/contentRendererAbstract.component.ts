@@ -2,7 +2,8 @@ import {EventEmitter, Inject, OnDestroy, resolveForwardRef, Injectable, ElementR
 import {extend} from "@jscrpt/common";
 import {Subscription} from "rxjs";
 
-import {GRID_PLUGIN_INSTANCES, GridPluginInstances} from "../../components/grid";
+import {GridPluginInstances} from "../../components/grid";
+import {GRID_PLUGIN_INSTANCES} from "../../components/grid/types";
 import {ContentRendererPlugins, ContentRendererOptions, ContentRenderer, HeaderContentRenderer, HEADER_CONTENT_RENDERER, BodyContentRenderer, BODY_CONTENT_RENDERER} from "./contentRenderer.interface";
 import {MetadataSelector, METADATA_SELECTOR} from "../metadataSelector";
 import {DataResponse, DataLoader, DATA_LOADER} from "../dataLoader";

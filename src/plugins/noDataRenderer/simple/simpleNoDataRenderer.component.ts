@@ -4,7 +4,8 @@ import {Subscription} from "rxjs";
 
 import {NO_DATA_RENDERER_OPTIONS} from "../noDataRenderer.interface";
 import {GridPluginGeneric} from "../../../misc";
-import {GridPluginInstances, GRID_PLUGIN_INSTANCES} from "../../../components/grid";
+import {GridPluginInstances} from "../../../components/grid";
+import {GRID_PLUGIN_INSTANCES} from "../../../components/grid/types";
 import {DataLoader, DataResponse, DATA_LOADER} from "../../dataLoader";
 import {SimpleNoDataRenderer, CssClassesSimpleNoDataRenderer, SimpleNoDataRendererOptions} from "./simpleNoDataRenderer.interface";
 

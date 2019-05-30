@@ -5,7 +5,8 @@ import {skip, take, toArray} from "rxjs/operators";
 
 import {SyncDataLoaderOptions, SyncDataLoader} from "./syncDataLoader.interface";
 import {DATA_LOADER_OPTIONS} from "../dataLoader.interface";
-import {GRID_PLUGIN_INSTANCES, GridPluginInstances} from "../../../components/grid";
+import {GridPluginInstances} from "../../../components/grid";
+import {GRID_PLUGIN_INSTANCES} from "../../../components/grid/types";
 import {DataResponse} from "../dataLoader.interface";
 import {DataLoaderAbstractComponent} from "../dataLoaderAbstract.component";
 import {SimpleOrdering} from "../../contentRenderer";

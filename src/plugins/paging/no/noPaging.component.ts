@@ -3,7 +3,8 @@ import {extend} from "@jscrpt/common";
 
 import {PagingAbstractComponent} from "../pagingAbstract.component";
 import {NoPagingOptions, NoPaging} from "./noPaging.interface";
-import {GridPluginInstances, GRID_PLUGIN_INSTANCES} from "../../../components/grid";
+import {GridPluginInstances} from "../../../components/grid";
+import {GRID_PLUGIN_INSTANCES} from "../../../components/grid/types";
 import {PAGING_OPTIONS} from "../paging.interface";
 
 /**

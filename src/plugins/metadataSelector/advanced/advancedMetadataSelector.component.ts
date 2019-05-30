@@ -5,7 +5,8 @@ import {Subscription} from "rxjs";
 
 import {GridPluginGeneric} from "../../../misc";
 import {MetadataGatherer, BasicTableMetadata} from "../../../components/metadata";
-import {GridPluginInstances, GRID_PLUGIN_INSTANCES} from "../../../components/grid";
+import {GridPluginInstances} from "../../../components/grid";
+import {GRID_PLUGIN_INSTANCES} from "../../../components/grid/types";
 import {METADATA_SELECTOR_OPTIONS} from "../metadataSelector.interface";
 import {AdvancedMetadataSelectorOptions, AdvancedMetadataSelector, AdvancedGridColumn, AdvancedMetadataSelectorTexts} from "./advancedMetadataSelector.interface";
 import {HEADER_CONTENT_RENDERER} from "../../contentRenderer";

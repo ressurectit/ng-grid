@@ -2,7 +2,8 @@ import {Component, Input, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef
 import {extend} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
-import {GRID_PLUGIN_INSTANCES, GridPluginInstances} from '../../../components/grid/grid.interface';
+import {GridPluginInstances} from '../../../components/grid';
+import {GRID_PLUGIN_INSTANCES} from '../../../components/grid/types';
 import {PagingAbstractComponent} from '../pagingAbstract.component';
 import {PAGING_OPTIONS} from '../paging.interface';
 import {LoadMorePaging, CssClassesLoadMorePaging, LoadMorePagingOptions, LoadMorePagingTexts} from './loadMorePaging.interface';

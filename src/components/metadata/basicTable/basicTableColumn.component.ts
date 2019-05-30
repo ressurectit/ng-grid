@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, Input, TemplateRef, ContentChild} from "@angular/core";
 
 import {BasicTableColumn} from "./basicTable.interface";
-import {BasicTableColumnContext} from "./basicTableColumn.context";
+import {BasicTableColumnContext} from "../types";
 
 /**
  * Component for gathering information about basic table column

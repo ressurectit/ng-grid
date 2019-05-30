@@ -29,13 +29,6 @@ export interface GatheredMetadata
 }
 
 /**
- * Token for getting component that is used as metadata gatherer
- */
-export class METADATA_GATHERER
-{
-}
-
-/**
  * Gatherer used for gathering metadata for grid
  *
  * If you need to use your own metadata gatherer you need to implement this interface and `Component` that

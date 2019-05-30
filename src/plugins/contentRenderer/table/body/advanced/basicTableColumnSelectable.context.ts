@@ -1,4 +1,5 @@
-import {BasicTableColumnContext, BasicTableColumn} from "../../../../../components/metadata";
+import {BasicTableColumn} from "../../../../../components/metadata";
+import {BasicTableColumnContext} from "../../../../../components/metadata/types";
 import {RowSelector} from "../../../../rowSelector";
 
 /**

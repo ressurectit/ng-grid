@@ -2,7 +2,8 @@ import {Component, ChangeDetectionStrategy, Inject, Optional, OnDestroy, forward
 import {extend} from "@jscrpt/common";
 
 import {CssDivsContentRendererOptions} from "./cssDivsContentRenderer.interface";
-import {GRID_PLUGIN_INSTANCES, GridPluginInstances} from "../../../components/grid";
+import {GridPluginInstances} from "../../../components/grid";
+import {GRID_PLUGIN_INSTANCES} from "../../../components/grid/types";
 import {CONTENT_RENDERER_OPTIONS} from "../contentRenderer.interface";
 import {PluginDescription} from "../../../misc";
 import {ContentRendererAbstractComponent} from "../contentRendererAbstract.component";

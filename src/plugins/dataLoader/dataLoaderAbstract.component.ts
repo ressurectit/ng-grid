@@ -6,7 +6,8 @@ import {debounceTime} from "rxjs/operators";
 import {DataLoader, DataLoaderOptions} from './dataLoader.interface';
 import {Paging, PAGING} from "../paging";
 import {ContentRenderer, CONTENT_RENDERER} from "../contentRenderer";
-import {GridPluginInstances, GRID_PLUGIN_INSTANCES} from "../../components/grid";
+import {GridPluginInstances} from "../../components/grid";
+import {GRID_PLUGIN_INSTANCES} from "../../components/grid/types";
 import {GridPluginGeneric} from "../../misc";
 
 /**

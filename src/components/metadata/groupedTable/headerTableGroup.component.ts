@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, Input, TemplateRef, ContentChild, ContentChildren, QueryList} from "@angular/core";
 
 import {HeaderTableGroup, HeaderTableGroupColumn} from "./groupedTable.interface";
-import {HeaderTableGroupContext} from "./headerTableGroup.context";
+import {HeaderTableGroupContext} from "../types";
 import {HeaderTableGroupColumnComponent} from "./headerTableGroupColumn.component";
 
 /**

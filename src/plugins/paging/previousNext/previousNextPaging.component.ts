@@ -1,7 +1,8 @@
 import {Component, Input, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef, Inject, Optional} from '@angular/core';
 import {Paginator, extend} from '@jscrpt/common';
 
-import {GRID_PLUGIN_INSTANCES, GridPluginInstances} from '../../../components/grid/grid.interface';
+import {GridPluginInstances} from '../../../components/grid';
+import {GRID_PLUGIN_INSTANCES} from '../../../components/grid/types';
 import {PagingAbstractComponent} from '../pagingAbstract.component';
 import {ItemsPerPageItem} from '../basic/basicPaging.component';
 import {PAGING_OPTIONS} from '../paging.interface';

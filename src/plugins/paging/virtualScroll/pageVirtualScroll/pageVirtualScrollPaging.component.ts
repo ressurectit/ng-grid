@@ -2,7 +2,8 @@ import {Component, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef, Injec
 import {DOCUMENT} from '@angular/common';
 import {extend} from '@jscrpt/common';
 
-import {GRID_PLUGIN_INSTANCES, GridPluginInstances} from '../../../../components/grid';
+import {GridPluginInstances} from '../../../../components/grid';
+import {GRID_PLUGIN_INSTANCES} from '../../../../components/grid/types';
 import {BodyContentRenderer, BODY_CONTENT_RENDERER} from '../../../contentRenderer';
 import {PAGING_OPTIONS} from '../../paging.interface';
 import {VirtualScrollPagingAbstractComponent} from '../virtualScrollPagingAbstract.component';

@@ -2,7 +2,8 @@ import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Optional, Inject,
 import {extend} from "@jscrpt/common";
 
 import {BasicTableColumn, BasicTableMetadata} from "../../../../../components/metadata";
-import {GRID_PLUGIN_INSTANCES, GridPluginInstances} from "../../../../../components/grid";
+import {GridPluginInstances} from "../../../../../components/grid";
+import {GRID_PLUGIN_INSTANCES} from "../../../../../components/grid/types";
 import {BODY_CONTENT_RENDERER_OPTIONS} from "../../../contentRenderer.interface";
 import {BodyContentRendererAbstractComponent} from "../../../bodyContentRendererAbstract.component";
 import {RowSelector, ROW_SELECTOR} from "../../../../rowSelector";

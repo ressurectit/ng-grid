@@ -2,10 +2,12 @@ import {Component, ChangeDetectionStrategy, Inject, Optional, Type, Input, OnIni
 import {extend} from "@jscrpt/common";
 import {Observable, BehaviorSubject} from 'rxjs';
 
-import {GRID_PLUGIN_INSTANCES, GridPluginInstances, Grid, GridFunction} from "./grid.interface";
+import {GridPluginInstances, Grid, GridFunction} from "./grid.interface";
+import {GRID_PLUGIN_INSTANCES} from './types';
 import {GridOptions, PagingPosition, PluginDescription, GRID_OPTIONS, PAGING_TYPE, DATA_LOADER_TYPE, CONTENT_RENDERER_TYPE, METADATA_SELECTOR_TYPE, GridPlugin, NO_DATA_RENDERER_TYPE, TEXTS_LOCATOR_TYPE, ROW_SELECTOR_TYPE, PAGING_INITIALIZER_TYPE} from "../../misc";
 import {BasicPagingComponent, PAGING, Paging} from "../../plugins/paging";
-import {MetadataGatherer, METADATA_GATHERER} from "../metadata";
+import {MetadataGatherer} from "../metadata";
+import {METADATA_GATHERER} from "../metadata/types";
 import {DataLoader, DATA_LOADER, AsyncDataLoaderComponent} from "../../plugins/dataLoader";
 import {ContentRenderer, CONTENT_RENDERER, TableContentRendererComponent} from "../../plugins/contentRenderer";
 import {MetadataSelector, METADATA_SELECTOR, NoMetadataSelectorComponent} from "../../plugins/metadataSelector";

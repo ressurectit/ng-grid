@@ -2,7 +2,7 @@ import {TemplateRef} from "@angular/core";
 
 import {GridColumn} from "../metadata.interface";
 import {BasicTableMetadata} from "../basicTable/basicTable.interface";
-import {HeaderTableGroupContext} from "./headerTableGroup.context";
+import {HeaderTableGroupContext} from "../types";
 
 /**
  * Represents information about column that is inside of group

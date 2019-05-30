@@ -1,7 +1,8 @@
 import {Component, ChangeDetectionStrategy, ElementRef, EventEmitter, Inject, Optional} from "@angular/core";
 
 import {GridPluginGeneric} from "../../../misc";
-import {GridPluginInstances, GRID_PLUGIN_INSTANCES} from "../../../components/grid";
+import {GridPluginInstances} from "../../../components/grid";
+import {GRID_PLUGIN_INSTANCES} from "../../../components/grid/types";
 import {NoTextsLocatorOptions, NoTextsLocator} from "./noTextsLocator.interface";
 
 /**

@@ -3,7 +3,8 @@ import {extend, isPresent} from '@jscrpt/common';
 import {Subscription} from "rxjs";
 
 import {PagingOptions, Paging} from "./paging.interface";
-import {GridPluginInstances, GRID_PLUGIN_INSTANCES} from "../../components/grid";
+import {GridPluginInstances} from "../../components/grid";
+import {GRID_PLUGIN_INSTANCES} from "../../components/grid/types";
 import {GridPluginGeneric} from "../../misc";
 import {DataLoader, DATA_LOADER, DataResponse} from "../dataLoader";
 import {PAGING_INITIALIZER, PagingInitializer} from "../pagingInitializer";

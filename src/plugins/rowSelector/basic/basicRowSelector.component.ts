@@ -2,7 +2,8 @@ import {Component, ChangeDetectionStrategy, ElementRef, EventEmitter, Inject, Op
 import {extend, isBlank} from "@jscrpt/common";
 import {Subscription} from "rxjs";
 
-import {GridPluginInstances, GRID_PLUGIN_INSTANCES} from "../../../components/grid";
+import {GridPluginInstances} from "../../../components/grid";
+import {GRID_PLUGIN_INSTANCES} from "../../../components/grid/types";
 import {GridPluginGeneric} from "../../../misc";
 import {DataLoader, DATA_LOADER} from "../../dataLoader";
 import {ROW_SELECTOR_OPTIONS} from "../rowSelector.interface";

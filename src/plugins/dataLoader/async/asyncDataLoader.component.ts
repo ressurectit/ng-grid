@@ -3,7 +3,8 @@ import {extend} from "@jscrpt/common";
 
 import {DATA_LOADER_OPTIONS, DataResponse} from "../dataLoader.interface";
 import {AsyncDataLoaderOptions, AsyncDataLoader} from "./asyncDataLoader.interface";
-import {GRID_PLUGIN_INSTANCES, GridPluginInstances} from "../../../components/grid";
+import {GridPluginInstances} from "../../../components/grid";
+import {GRID_PLUGIN_INSTANCES} from "../../../components/grid/types";
 import {DataLoaderAbstractComponent} from "../dataLoaderAbstract.component";
 
 /**
