@@ -65,7 +65,7 @@ export class NoPagingInitializerComponent implements NoPagingInitializer, GridPl
 
     /**
      * Sets current page when changed
-     * @param {number} page Page to be set
+     * @param page Page to be set
      */
     public setPage()
     {
@@ -81,7 +81,7 @@ export class NoPagingInitializerComponent implements NoPagingInitializer, GridPl
 
     /**
      * Sets current items per page when changed
-     * @param {number} itemsPerPage Items per page to be set
+     * @param itemsPerPage Items per page to be set
      */
     public setItemsPerPage()
     {

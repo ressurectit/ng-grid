@@ -4,7 +4,7 @@ import {PAGING, Paging, PagingOptions} from "../plugins/paging";
 
 /**
  * Refresh data to defaults
- * @param {boolean} force Indication that data should be reloaded
+ * @param force Indication that data should be reloaded
  */
 export function refreshDataToDefaults(force?: boolean): GridAction
 {

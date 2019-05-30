@@ -1,11 +1,12 @@
+import {isArray} from "@jscrpt/common";
+
 import {GridAction} from "../components/grid";
 import {DataLoader, DATA_LOADER} from "../plugins/dataLoader";
-import {isArray} from "@anglr/common";
 
 /**
  * Sets data for SyncDataLoader
  * @param data data that should be replaced
- * @param {boolean} force Indication that data should be reloaded 
+ * @param force Indication that data should be reloaded 
  */
 export function setSyncData(data: any[], force?: boolean): GridAction
 {

@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Optional, Inject, ElementRef} from "@angular/core";
-import {Utils} from "@anglr/common";
+import {extend} from "@jscrpt/common";
 
 import {BasicTableColumn, BasicTableMetadata} from "../../../../../components/metadata";
 import {GRID_PLUGIN_INSTANCES, GridPluginInstances} from "../../../../../components/grid";
@@ -44,7 +44,7 @@ export class AdvancedTableBodyContentRendererComponent<TData> extends BodyConten
     {
         super(pluginElement, changeDetector, gridPlugins);
 
-        this._options = Utils.common.extend(true, {}, defaultOptions, options);
+        this._options = extend(true, {}, defaultOptions, options);
     }
 
     //######################### public methods - template bindings #########################
@@ -59,8 +59,8 @@ export class AdvancedTableBodyContentRendererComponent<TData> extends BodyConten
 
     /**
      * Handles click to row
-     * @param {TData} data Data of row that was clicked
-     * @param {number} index Index of clicked row
+     * @param data Data of row that was clicked
+     * @param index Index of clicked row
      */
     public rowClick(data: TData, index: number)
     {

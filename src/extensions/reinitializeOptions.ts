@@ -3,7 +3,7 @@ import {GridOptions} from "../misc/gridOptions.interface";
 
 /**
  * Method reinitialize options for grid
- * @param {GridOptions} options Options to be used for reinitialization
+ * @param options Options to be used for reinitialization
  */
 export function reinitializeOptions(options?: GridOptions): GridAction
 {

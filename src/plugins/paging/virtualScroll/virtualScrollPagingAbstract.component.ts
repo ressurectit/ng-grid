@@ -74,9 +74,9 @@ export abstract class VirtualScrollPagingAbstractComponent<TOptions extends Virt
 
     /**
      * Initialize base events for scrolling
-     * @param {Element} element Element which scrolling is tracked
-     * @param {HTMLElement} bodyElement Element that changes when new data are loaded
-     * @param {HTMLDocument} document Html document
+     * @param element Element which scrolling is tracked
+     * @param bodyElement Element that changes when new data are loaded
+     * @param document Html document
      */
     protected _initEvents(element: Element, bodyElement: HTMLElement, document?: HTMLDocument)
     {

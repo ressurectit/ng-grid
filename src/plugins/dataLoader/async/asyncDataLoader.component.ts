@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, Inject, Optional, ElementRef} from "@angular/core";
-import {Utils} from "@anglr/common";
+import {extend} from "@jscrpt/common";
 
 import {DATA_LOADER_OPTIONS, DataResponse} from "../dataLoader.interface";
 import {AsyncDataLoaderOptions, AsyncDataLoader} from "./asyncDataLoader.interface";
@@ -94,14 +94,14 @@ export class AsyncDataLoaderComponent<TData, TOrdering> extends DataLoaderAbstra
     {
         super(pluginElement, gridPlugins);
 
-        this._options = Utils.common.extend(true, {}, defaultOptions, options);
+        this._options = extend(true, {}, defaultOptions, options);
     }
 
     //######################### protected methodes - implements DataLoaderAbstractComponent #########################
     
     /**
      * Loads data from 'source'
-     * @param {boolean} force Indication that data should be reloaded even if nothing changed
+     * @param force Indication that data should be reloaded even if nothing changed
      */
     protected async _loadData(force?: boolean)
     {

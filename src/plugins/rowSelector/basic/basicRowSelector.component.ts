@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, ElementRef, EventEmitter, Inject, Optional, OnDestroy} from "@angular/core";
-import {Utils, isBlank} from "@anglr/common";
+import {extend, isBlank} from "@jscrpt/common";
 import {Subscription} from "rxjs";
 
 import {GridPluginInstances, GRID_PLUGIN_INSTANCES} from "../../../components/grid";
@@ -155,7 +155,7 @@ export class BasicRowSelectorComponent<TSelectedData, TData, TId> implements Bas
      */
     public set options(options: BasicRowSelectorOptions<TSelectedData, TData, TId>)
     {
-        this._options = Utils.common.extend(true, this._options, options) as BasicRowSelectorOptions<TSelectedData, TData, TId>;
+        this._options = extend(true, this._options, options) as BasicRowSelectorOptions<TSelectedData, TData, TId>;
     }
     public get options(): BasicRowSelectorOptions<TSelectedData, TData, TId>
     {
@@ -182,7 +182,7 @@ export class BasicRowSelectorComponent<TSelectedData, TData, TId> implements Bas
                 public pluginElement: ElementRef,
                 @Inject(ROW_SELECTOR_OPTIONS) @Optional() options?: BasicRowSelectorOptions<TSelectedData, TData, TId>)
     {
-        this._options = Utils.common.extend(true, {}, defaultOptions, options) as BasicRowSelectorOptions<TSelectedData, TData, TId>;
+        this._options = extend(true, {}, defaultOptions, options) as BasicRowSelectorOptions<TSelectedData, TData, TId>;
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -203,7 +203,7 @@ export class BasicRowSelectorComponent<TSelectedData, TData, TId> implements Bas
 
     /**
      * Resets current selection
-     * @param {boolean} emit Indication whether emit selection change
+     * @param emit Indication whether emit selection change
      */
     public resetSelection(emit: boolean = true)
     {
@@ -218,8 +218,8 @@ export class BasicRowSelectorComponent<TSelectedData, TData, TId> implements Bas
 
     /**
      * Adds item to selection (or remove it from selection if deselect is true)
-     * @param {TData} item Item that is going to be selected
-     * @param {boolean} select Indication whether select specified item, defaults to true
+     * @param item Item that is going to be selected
+     * @param select Indication whether select specified item, defaults to true
      */
     public selectItem(item: TData, select: boolean = true)
     {
@@ -258,7 +258,7 @@ export class BasicRowSelectorComponent<TSelectedData, TData, TId> implements Bas
 
     /**
      * Gets indication whether item is currently selected
-     * @param {TData} item Item that is tested for current selection
+     * @param item Item that is tested for current selection
      */
     public isSelected(item: TData): boolean
     {

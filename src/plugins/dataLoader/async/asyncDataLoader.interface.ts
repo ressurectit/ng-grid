@@ -7,9 +7,9 @@ export interface AsyncDataLoaderOptions<TData, TOrdering> extends DataLoaderOpti
 {
     /**
      * Callback used for obtaining data
-     * @param  {number} page Index of requested page
-     * @param  {number} itemsPerPage Number of items per page
-     * @param  {TOrdering} ordering Order by column name
+     * @param page Index of requested page
+     * @param itemsPerPage Number of items per page
+     * @param ordering Order by column name
      */
     dataCallback?: (page: number, itemsPerPage: number, ordering: TOrdering) => Promise<DataResponse<TData>>;
 }

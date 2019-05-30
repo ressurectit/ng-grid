@@ -1,5 +1,5 @@
 import {EventEmitter, ChangeDetectorRef, Injectable, Inject, Optional, Input, Output, OnDestroy, ElementRef} from "@angular/core";
-import {Utils, isPresent} from '@anglr/common';
+import {extend, isPresent} from '@jscrpt/common';
 import {Subscription} from "rxjs";
 
 import {PagingOptions, Paging} from "./paging.interface";
@@ -49,7 +49,7 @@ export abstract class PagingAbstractComponent<TCssClasses, TOptions extends Pagi
     @Input()
     public set options(options: TOptions)
     {
-        this._options = Utils.common.extend(true, this._options, options) as TOptions;
+        this._options = extend(true, this._options, options) as TOptions;
 
         this.optionsSet();
     }

@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, HostBinding, ElementRef} from "@angular/core";
-import {Utils} from "@anglr/common";
+import {extend} from "@jscrpt/common";
 
 import {TableHeaderContentRendererOptions} from "../../tableContentRenderer.interface";
 import {HEADER_CONTENT_RENDERER_OPTIONS, BasicOrderableColumn} from "../../../contentRenderer.interface";
@@ -122,7 +122,7 @@ export class GroupedTableHeaderContentRendererComponent<TData> extends HeaderCon
     {
         super(pluginElement, changeDetector);
 
-        this._options = Utils.common.extend(true, {}, defaultOptions, options);
+        this._options = extend(true, {}, defaultOptions, options);
     }
 
     //######################### public methods - implementation of TableHeaderContentRenderer #########################

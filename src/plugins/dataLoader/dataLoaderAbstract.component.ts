@@ -1,5 +1,5 @@
 import {Injectable, Inject, Optional, OnDestroy, EventEmitter, ElementRef} from "@angular/core";
-import {Utils} from "@anglr/common";
+import {extend} from "@jscrpt/common";
 import {Subscription, Subject} from "rxjs";
 import {debounceTime} from "rxjs/operators";
 
@@ -81,7 +81,7 @@ export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOpt
      */
     public set options(options: TOptions)
     {
-        this._options = Utils.common.extend(true, this._options, options) as TOptions;
+        this._options = extend(true, this._options, options) as TOptions;
     }
     public get options(): TOptions
     {
@@ -205,7 +205,7 @@ export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOpt
 
     /**
      * Loads data from 'source'
-     * @param {boolean} force Indication that data should be reloaded even if nothing changed
+     * @param force Indication that data should be reloaded even if nothing changed
      */
     public loadData(force?: boolean)
     {
@@ -216,7 +216,7 @@ export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOpt
 
     /**
      * Loads data from 'source'
-     * @param {boolean} force Indication that data should be reloaded even if nothing changed
+     * @param force Indication that data should be reloaded even if nothing changed
      */
     protected abstract _loadData(force?: boolean);
 

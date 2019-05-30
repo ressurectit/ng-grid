@@ -1,5 +1,5 @@
 import {Component, Input, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, ElementRef} from '@angular/core';
-import {Paginator, isPresent, Utils} from '@anglr/common';
+import {Paginator, isPresent, extend} from '@jscrpt/common';
 
 import {GRID_PLUGIN_INSTANCES, GridPluginInstances} from '../../../components/grid';
 import {PagingAbstractComponent} from '../pagingAbstract.component';
@@ -190,14 +190,14 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
     {
         super(pluginElement, changeDetector, gridPlugins);
 
-        this._options = Utils.common.extend(true, {}, defaultOptions, options);
+        this._options = extend(true, {}, defaultOptions, options);
     }
 
     //######################### public methods - template bindings #########################
 
     /**
      * Sets page for current paging
-     * @param  {number} page Page index to be set
+     * @param page Page index to be set
      * @internal
      */
     public setPage(page: {isActive: boolean; isDisabled: boolean; page: number})
@@ -213,7 +213,7 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
 
     /**
      * Sets items per page for current paging
-     * @param  {ItemsPerPageItem} itemsPerPage Number of items per page
+     * @param itemsPerPage Number of items per page
      * @internal
      */
     public setItemsPerPage(itemsPerPage: ItemsPerPageItem)
@@ -229,7 +229,7 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
 
     /**
      * Converts number to text that is going to be rendered for ItemsPerPage
-     * @param  {number} value
+     * @param value
      * @internal
      */
     public renderItemsPerPageText(value: number): string

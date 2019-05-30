@@ -4,7 +4,7 @@ import {DATA_LOADER, DataLoader} from "../plugins/dataLoader";
 
 /**
  * Sets page for grid
- * @param {number} page Number of page that is going to be set
+ * @param page Number of page that is going to be set
  */
 export function setPage(page: number): GridAction
 {

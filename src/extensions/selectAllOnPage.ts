@@ -4,7 +4,7 @@ import {DATA_LOADER, DataLoader, DataResponse} from "../plugins/dataLoader";
 
 /**
  * Selects or deselects all items on current page
- * @param {boolean} select Indication whether select or deselect all items on current page
+ * @param select Indication whether select or deselect all items on current page
  */
 export function selectAllOnPage(select: boolean = true): GridAction
 {

@@ -20,10 +20,10 @@ export class BasicTableColumnContext<TData>
     
     /**
      * Creates instance of BasicTableColumnContext
-     * @param  {TData} $implicit Data of current row
-     * @param  {BasicTableColumn} column Object of column metadata itself
-     * @param  {number} index Index of rendered row in current page
-     * @param  {number} startingIndex Starting index of currently displayed items
+     * @param $implicit Data of current row
+     * @param column Object of column metadata itself
+     * @param index Index of rendered row in current page
+     * @param startingIndex Starting index of currently displayed items
      */
     constructor(public $implicit: TData, 
                 public column: BasicTableColumn<TData>, 

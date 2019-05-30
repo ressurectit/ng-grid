@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Optional, Inject, ElementRef} from "@angular/core";
-import {Utils} from "@anglr/common";
+import {extend} from "@jscrpt/common";
 
 import {BasicTableColumn, BasicTableMetadata} from "../../../../../components/metadata";
 import {TableBodyContentRendererOptions} from "../../tableContentRenderer.interface";
@@ -34,6 +34,6 @@ export class TableBodyContentRendererComponent<TData> extends BodyContentRendere
     {
         super(pluginElement, changeDetector, gridPlugins);
 
-        this._options = Utils.common.extend(true, {}, defaultOptions, options);
+        this._options = extend(true, {}, defaultOptions, options);
     }
 }

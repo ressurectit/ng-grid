@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef, Inject, Optional, OnDestroy} from '@angular/core';
-import {Utils, isPresent} from '@anglr/common';
+import {extend, isPresent} from '@jscrpt/common';
 
 import {GRID_PLUGIN_INSTANCES, GridPluginInstances} from '../../../../components/grid';
 import {ContentRenderer, CONTENT_RENDERER, BodyContentRenderer, BODY_CONTENT_RENDERER} from '../../../contentRenderer';
@@ -47,7 +47,7 @@ export class ContentVirtualScrollPagingComponent extends VirtualScrollPagingAbst
     {
         super(pluginElement, changeDetector, gridPlugins);
 
-        this._options = Utils.common.extend(true, {}, defaultOptions, options);
+        this._options = extend(true, {}, defaultOptions, options);
     }
 
     //######################### public methods - implementation of OnDestroy #########################

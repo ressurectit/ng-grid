@@ -1,5 +1,5 @@
 import {Component, Input, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef, Inject, Optional, OnDestroy} from '@angular/core';
-import {Utils} from '@anglr/common';
+import {extend} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
 import {GRID_PLUGIN_INSTANCES, GridPluginInstances} from '../../../components/grid/grid.interface';
@@ -118,7 +118,7 @@ export class LoadMorePagingComponent  extends PagingAbstractComponent<CssClasses
     {
         super(pluginElement, changeDetector, gridPlugins);
 
-        this._options = Utils.common.extend(true, {}, defaultOptions, options);
+        this._options = extend(true, {}, defaultOptions, options);
     }
 
     //######################### public methods - implementation of OnDestroy #########################

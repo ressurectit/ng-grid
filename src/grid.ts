@@ -1,12 +1,3 @@
-export {BasicPagingLegacyComponent, LegacyItemsPerPageItem} from './components/legacyPaging/basicPaging.component';
-export {PagingAbstractLegacyComponent} from './components/legacyPaging/pagingAbstract.component';
-export {GRID_LEGACY_DIRECTIVES, GridLegacyComponent} from './components/legacyGrid/grid.component';
-export {GridLegacyOptions} from './components/legacyGrid/gridOptions';
-export {ColumnLegacyComponent} from './components/legacyGrid/column.component';
-export {ColumnGroupLegacyComponent} from './components/legacyGrid/columnGroup.component';
-export {GridLegacyModule} from './modules/gridLegacy.module';
-export {LoadMorePagingLegacyComponent} from "./components/legacyPaging/loadMorePaging.component";
-export {PreviousNextPagingLegacyComponent} from "./components/legacyPaging/previousNextPaging.component";
 export * from './components/grid';
 export * from './components/metadata';
 export * from './misc';

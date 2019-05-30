@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, ElementRef, ChangeDetectorRef, Optional, Inject} from "@angular/core";
-import {Utils} from "@anglr/common";
+import {extend} from "@jscrpt/common";
 
 import {PagingAbstractComponent} from "../pagingAbstract.component";
 import {NoPagingOptions, NoPaging} from "./noPaging.interface";
@@ -55,6 +55,6 @@ export class NoPagingComponent extends PagingAbstractComponent<any, NoPagingOpti
     {
         super(pluginElement, changeDetector, gridPlugins);
 
-        this._options = Utils.common.extend(true, {}, defaultOptions, options);
+        this._options = extend(true, {}, defaultOptions, options);
     }
 }

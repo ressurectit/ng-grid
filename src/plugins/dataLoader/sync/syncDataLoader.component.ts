@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, Inject, Optional, ElementRef} from "@angular/core";
-import {Utils, OrderByDirection} from "@anglr/common";
+import {extend, OrderByDirection} from "@jscrpt/common";
 import {from, Observable} from "rxjs";
 import {skip, take, toArray} from "rxjs/operators";
 
@@ -105,14 +105,14 @@ export class SyncDataLoaderComponent<TData, TOrdering> extends DataLoaderAbstrac
     {
         super(pluginElement, gridPlugins);
 
-        this._options = Utils.common.extend(true, {}, defaultOptions, options);
+        this._options = extend(true, {}, defaultOptions, options);
     }
 
     //######################### protected methodes - implements DataLoaderAbstractComponent #########################
 
     /**
      * Loads data from 'source'
-     * @param {boolean} force Indication that data should be reloaded even if nothing changed
+     * @param force Indication that data should be reloaded even if nothing changed
      */
     protected async _loadData(force?: boolean)
     {

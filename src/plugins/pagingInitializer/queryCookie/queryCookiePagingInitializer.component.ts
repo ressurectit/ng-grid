@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Inject, Optional, Component} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Utils, CookieService, isPresent} from "@anglr/common";
+import {CookieService} from "@anglr/common";
+import {extend, isPresent} from "@jscrpt/common";
 
 import {GridPluginGeneric} from "../../../misc";
 import {PAGING_INITIALIZER_OPTIONS} from "../pagingInitializer.interface";
@@ -25,7 +26,7 @@ export class QueryCookiePagingInitializerComponent extends QueryPagingInitialize
      */
     public set options(options: QueryCookiePagingInitializerOptions)
     {
-        this._options = Utils.common.extend(true, this._options, options) as QueryCookiePagingInitializerOptions;
+        this._options = extend(true, this._options, options) as QueryCookiePagingInitializerOptions;
     }
     public get options(): QueryCookiePagingInitializerOptions
     {
@@ -80,7 +81,7 @@ export class QueryCookiePagingInitializerComponent extends QueryPagingInitialize
 
     /**
      * Sets current items per page when changed
-     * @param {number} itemsPerPage Items per page to be set
+     * @param itemsPerPage Items per page to be set
      */
     public setItemsPerPage(itemsPerPage: number)
     {

@@ -1,5 +1,5 @@
 import {EventEmitter, Inject, OnDestroy, resolveForwardRef, Injectable, ElementRef, Optional} from "@angular/core";
-import {Utils} from "@anglr/common";
+import {extend} from "@jscrpt/common";
 import {Subscription} from "rxjs";
 
 import {GRID_PLUGIN_INSTANCES, GridPluginInstances} from "../../components/grid";
@@ -53,7 +53,7 @@ export class ContentRendererAbstractComponent<TOrdering, TData, TMetadata, TOpti
      */
     public set options(options: TOptions)
     {
-        this._options = Utils.common.extend(true, this._options, options) as TOptions;
+        this._options = extend(true, this._options, options) as TOptions;
     }
     public get options(): TOptions
     {
@@ -236,7 +236,7 @@ export class ContentRendererAbstractComponent<TOrdering, TData, TMetadata, TOpti
 
     /**
      * Sets body renderer component
-     * @param {BodyContentRenderer<TData, TMetadata>} bodyRenderer Created body renderer that is rendered
+     * @param bodyRenderer Created body renderer that is rendered
      * @internal
      */
     public setBodyRendererComponent(bodyRenderer: BodyContentRenderer<TData, TMetadata>)
@@ -263,7 +263,7 @@ export class ContentRendererAbstractComponent<TOrdering, TData, TMetadata, TOpti
 
     /**
      * Sets header renderer component
-     * @param {HeaderContentRenderer<TOrdering, TMetadata>} headerRenderer Created header renderer that is rendered
+     * @param headerRenderer Created header renderer that is rendered
      * @internal
      */
     public setHeaderRendererComponent(headerRenderer: HeaderContentRenderer<TOrdering, TMetadata>)

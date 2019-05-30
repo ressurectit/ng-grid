@@ -1,5 +1,5 @@
 import {Injectable, EventEmitter, ChangeDetectorRef, ElementRef} from "@angular/core";
-import {Utils, OrderByDirection} from "@anglr/common";
+import {OrderByDirection, extend} from "@jscrpt/common";
 
 import {GridPluginInstances} from "../../components/grid";
 import {HeaderContentRenderer, SimpleOrdering, BasicOrderableColumn, HeaderContentRendererOptions, CssClassesHeaderContentRenderer} from "./contentRenderer.interface";
@@ -26,7 +26,7 @@ export class HeaderContentRendererAbstractComponent<TData, TOptions extends Head
      */
     public set options(options: TOptions)
     {
-        this._options = Utils.common.extend(true, this._options, options) as TOptions;
+        this._options = extend(true, this._options, options) as TOptions;
     }
     public get options(): TOptions
     {
@@ -109,7 +109,7 @@ export class HeaderContentRendererAbstractComponent<TData, TOptions extends Head
 
     /**
      * Applies ordering for specified column
-     * @param {BasicOrderableColumn<TData>} meta Metadata for column that was selected for ordering
+     * @param meta Metadata for column that was selected for ordering
      */
     public orderBy(meta: BasicOrderableColumn<TData>)
     {

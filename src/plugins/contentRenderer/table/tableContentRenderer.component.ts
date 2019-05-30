@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, Inject, Optional, OnDestroy, HostBinding, forwardRef, ElementRef} from "@angular/core";
-import {Utils} from "@anglr/common";
+import {extend} from "@jscrpt/common";
 
 import {TableContentRendererOptions} from "./tableContentRenderer.interface";
 import {GRID_PLUGIN_INSTANCES, GridPluginInstances} from "../../../components/grid";
@@ -62,6 +62,6 @@ export class TableContentRendererComponent<TOrdering, TData, TMetadata> extends 
     {
         super(pluginElement, gridPlugins);
 
-        this._options = Utils.common.extend(true, {}, defaultOptions, options);
+        this._options = extend(true, {}, defaultOptions, options);
     }
 }

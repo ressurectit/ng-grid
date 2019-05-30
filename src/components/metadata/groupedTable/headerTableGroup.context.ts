@@ -9,7 +9,7 @@ export class HeaderTableGroupContext
     
     /**
      * Creates instance of HeaderTableGroupContext
-     * @param  {HeaderTableGroup} $implicit Represents metadata for this group
+     * @param $implicit Represents metadata for this group
      */
     constructor(public $implicit: HeaderTableGroup)
     {

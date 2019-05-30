@@ -1,5 +1,5 @@
 import {Inject, Component, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef, Optional, OnDestroy} from "@angular/core";
-import {Utils} from "@anglr/common";
+import {extend} from "@jscrpt/common";
 import {Subscription} from "rxjs";
 
 import {NO_DATA_RENDERER_OPTIONS} from "../noDataRenderer.interface";
@@ -86,7 +86,7 @@ export class SimpleNoDataRendererComponent implements SimpleNoDataRenderer, Grid
     }
     public set options(options: SimpleNoDataRendererOptions<CssClassesSimpleNoDataRenderer>)
     {
-        this._options = Utils.common.extend(true, this._options, options);
+        this._options = extend(true, this._options, options);
     }
 
     //######################### constructor #########################
@@ -95,7 +95,7 @@ export class SimpleNoDataRendererComponent implements SimpleNoDataRenderer, Grid
                 private _changeDetector: ChangeDetectorRef,
                 @Inject(NO_DATA_RENDERER_OPTIONS) @Optional() options?: SimpleNoDataRendererOptions<CssClassesSimpleNoDataRenderer>)
     {
-        this._options = Utils.common.extend(true, {}, defaultOptions, options);
+        this._options = extend(true, {}, defaultOptions, options);
     }
 
     //######################### public methods - implementation of OnDestroy #########################

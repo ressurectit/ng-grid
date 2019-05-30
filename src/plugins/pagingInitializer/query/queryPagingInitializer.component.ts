@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Inject, Optional, ElementRef, Component} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Utils} from "@anglr/common";
+import {extend} from "@jscrpt/common";
 
 import {GridPluginGeneric} from "../../../misc";
 import {QueryPagingInitializer, QueryPagingInitializerOptions} from "./queryPagingInitializer.interface";
@@ -51,7 +51,7 @@ export class QueryPagingInitializerComponent implements QueryPagingInitializer, 
      */
     public set options(options: QueryPagingInitializerOptions)
     {
-        this._options = Utils.common.extend(true, this._options, options) as QueryPagingInitializerOptions;
+        this._options = extend(true, this._options, options) as QueryPagingInitializerOptions;
     }
     public get options(): QueryPagingInitializerOptions
     {
@@ -81,7 +81,7 @@ export class QueryPagingInitializerComponent implements QueryPagingInitializer, 
                 protected _route: ActivatedRoute,
                 @Inject(PAGING_INITIALIZER_OPTIONS) @Optional() options?: QueryPagingInitializerOptions)
     {
-        this._options = Utils.common.extend(true, {}, defaultOptions, options);
+        this._options = extend(true, {}, defaultOptions, options);
     }    
 
     //######################### public methods - implementation of NoPagingInitializer #########################
@@ -122,7 +122,7 @@ export class QueryPagingInitializerComponent implements QueryPagingInitializer, 
 
     /**
      * Sets current page when changed
-     * @param {number} page Page to be set
+     * @param page Page to be set
      */
     public setPage(page: number)
     {
@@ -154,7 +154,7 @@ export class QueryPagingInitializerComponent implements QueryPagingInitializer, 
 
     /**
      * Sets current items per page when changed
-     * @param {number} itemsPerPage Items per page to be set
+     * @param itemsPerPage Items per page to be set
      */
     public setItemsPerPage(itemsPerPage: number)
     {

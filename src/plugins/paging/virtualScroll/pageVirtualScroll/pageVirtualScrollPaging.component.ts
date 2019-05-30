@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef, Inject, Optional} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
-import {Utils} from '@anglr/common';
+import {extend} from '@jscrpt/common';
 
 import {GRID_PLUGIN_INSTANCES, GridPluginInstances} from '../../../../components/grid';
 import {BodyContentRenderer, BODY_CONTENT_RENDERER} from '../../../contentRenderer';
@@ -42,7 +42,7 @@ export class PageVirtualScrollPagingComponent extends VirtualScrollPagingAbstrac
     {
         super(pluginElement, changeDetector, gridPlugins);
 
-        this._options = Utils.common.extend(true, {}, defaultOptions, options);
+        this._options = extend(true, {}, defaultOptions, options);
     }
 
     //######################### public methods #########################

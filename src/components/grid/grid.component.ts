@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, Inject, Optional, Type, Input, OnInit, AfterViewInit, ContentChild, forwardRef, resolveForwardRef, ChangeDetectorRef, FactoryProvider} from "@angular/core";
-import {Utils} from "@anglr/common";
+import {extend} from "@jscrpt/common";
 import {Observable, BehaviorSubject} from 'rxjs';
 
 import {GRID_PLUGIN_INSTANCES, GridPluginInstances, Grid, GridFunction} from "./grid.interface";
@@ -107,7 +107,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
     @Input()
     public set gridOptions(options: GridOptions)
     {
-        this._gridOptions = Utils.common.extend(true, this._gridOptions, options);
+        this._gridOptions = extend(true, this._gridOptions, options);
     }
     public get gridOptions(): GridOptions
     {
@@ -130,7 +130,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
      * Metadata gatherer instance
      * @internal
      */
-    @ContentChild(METADATA_GATHERER)
+    @ContentChild(METADATA_GATHERER, {static: false})
     public metadataGatherer: MetadataGatherer<any>;
 
     //######################### constructors #########################
@@ -146,7 +146,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
                 @Inject(TEXTS_LOCATOR_TYPE) @Optional() textsLocatorType?: Type<TextsLocator>,
                 @Inject(ROW_SELECTOR_TYPE) @Optional() rowSelectorType?: Type<RowSelector<any, any, any>>)
     {
-        let opts: GridOptions = Utils.common.extend({}, options);
+        let opts: GridOptions = extend({}, options);
 
         if(!opts.plugins)
         {
@@ -233,7 +233,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
             opts.plugins.rowSelector.type = rowSelectorType;
         }
 
-        this._gridOptions = Utils.common.extend(true, {}, defaultOptions, opts);
+        this._gridOptions = extend(true, {}, defaultOptions, opts);
     }
 
     //######################### public methods - implementation of OnInit #########################
@@ -263,7 +263,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
 
     /**
      * Sets paging component
-     * @param {Paging} paging Created paging that is rendered
+     * @param paging Created paging that is rendered
      * @internal
      */
     public setPagingComponent(paging: Paging)
@@ -290,7 +290,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
 
     /**
      * Sets paging initializer component
-     * @param {PagingInitializer} pagingInitializer Created paging initializer that is used
+     * @param pagingInitializer Created paging initializer that is used
      * @internal
      */
     public setPagingInitializerComponent(pagingInitializer: PagingInitializer)
@@ -317,7 +317,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
 
     /**
      * Sets metadata selector component
-     * @param {MetadataSelector<any>} metadataSelector Created metadata selector that is used
+     * @param metadataSelector Created metadata selector that is used
      * @internal
      */
     public setMetadataSelectorComponent(metadataSelector: MetadataSelector<any>)
@@ -346,7 +346,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
 
     /**
      * Sets data loader component
-     * @param {DataLoader} dataLoader Created data loader that is used
+     * @param dataLoader Created data loader that is used
      * @internal
      */
     public setDataLoaderComponent(dataLoader: DataLoader<any>)
@@ -373,7 +373,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
 
     /**
      * Sets content renderer component
-     * @param {ContentRenderer<any>} contentRenderer Created content renderer that is rendered
+     * @param contentRenderer Created content renderer that is rendered
      * @internal
      */
     public setContentRendererComponent(contentRenderer: ContentRenderer<any>)
@@ -400,7 +400,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
 
     /**
      * Sets no data renderer component
-     * @param {NoDataRenderer} noDataRenderer Created no data renderer that is rendered
+     * @param noDataRenderer Created no data renderer that is rendered
      * @internal
      */
     public setNoDataRendererComponent(noDataRenderer: NoDataRenderer)
@@ -427,7 +427,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
 
     /**
      * Sets texts locator component
-     * @param {TextsLocator} textsLocator Created texts locator that is rendered
+     * @param textsLocator Created texts locator that is rendered
      * @internal
      */
     public setTextsLocatorComponent(textsLocator: TextsLocator)
@@ -454,7 +454,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
 
     /**
      * Sets row selector component
-     * @param {RowSelector<any, any, any>} rowSelector Created row selector that is rendered
+     * @param rowSelector Created row selector that is rendered
      * @internal
      */
     public setRowSelectorComponent(rowSelector: RowSelector<any, any, any>)
@@ -694,7 +694,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
 
     /**
      * Gets instance of plugin by its id
-     * @param {string} pluginId Id of plugin, use constants
+     * @param pluginId Id of plugin, use constants
      */
     public getPlugin<PluginType extends GridPlugin>(pluginId: string): PluginType
     {
@@ -703,7 +703,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
 
     /**
      * Sets GridPluginInstances into GridPlugin
-     * @param {GridPlugin} plugin Grid plugin to be filled with grid GridPluginInstances
+     * @param plugin Grid plugin to be filled with grid GridPluginInstances
      */
     public setGridPluginInstances(plugin: GridPlugin)
     {

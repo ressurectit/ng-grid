@@ -3,7 +3,7 @@ import {DataLoader, DATA_LOADER} from "../plugins/dataLoader";
 
 /**
  * Refresh data
- * @param {boolean} force Indication that data should be reloaded
+ * @param force Indication that data should be reloaded
  */
 export function refreshData(force?: boolean): GridAction
 {

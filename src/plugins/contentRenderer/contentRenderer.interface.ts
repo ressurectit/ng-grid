@@ -1,5 +1,5 @@
 import {EventEmitter, InjectionToken} from "@angular/core";
-import {OrderByDirection} from "@anglr/common";
+import {OrderByDirection} from "@jscrpt/common";
 
 import {VisualPluginOptions, GridPlugin, PluginDescription} from "../../misc";
 import {BasicTableColumn} from "../../components/metadata";

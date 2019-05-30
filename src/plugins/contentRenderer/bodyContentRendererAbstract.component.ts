@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Inject, Injectable, ElementRef, Optional} from "@angular/core";
-import {Utils} from "@anglr/common";
+import {extend} from "@jscrpt/common";
 
 import {GRID_PLUGIN_INSTANCES, GridPluginInstances} from "../../components/grid";
 import {BodyContentRenderer, BodyContentRendererOptions} from "./contentRenderer.interface";
@@ -35,7 +35,7 @@ export class BodyContentRendererAbstractComponent<TData, TOptions extends BodyCo
      */
     public set options(options: TOptions)
     {
-        this._options = Utils.common.extend(true, this._options, options) as TOptions;
+        this._options = extend(true, this._options, options) as TOptions;
     }
     public get options(): TOptions
     {

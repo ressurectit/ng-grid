@@ -5,6 +5,7 @@
 - Angular IVY ready (APF compliant package)
 - added support for ES2015 compilation
 - Angular 8
+- removed *deprecated* `LegacyGrid` and all its parts
 
 ## Version 5.1.0
  - added support for *Grouped Headers*, allowing multiline header with grouping of columns

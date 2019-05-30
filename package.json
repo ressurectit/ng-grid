@@ -38,7 +38,7 @@
         "@angular/common": ">=8.0.0",
         "@angular/router": ">=8.0.0",
         "rxjs": ">=6.5.0",
-        "@jscrpt/common": ">=1.0.1"
+        "@jscrpt/common": ">=1.0.1",
         "@anglr/common": ">=6.0.0-beta"
     },
     "devDependencies": {
@@ -46,6 +46,7 @@
         "@angular/common": "^8.0.0",
         "@angular/router": "^8.0.0",
         "rxjs": "^6.5.0",
+        "@jscrpt/common": "^1.0.1",
         "@anglr/common": "^6.0.0-beta",
         "zone.js": "^0.8.26",
         "@types/jasmine": "~2.8.7",
