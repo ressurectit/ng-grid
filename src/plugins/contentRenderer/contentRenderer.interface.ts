@@ -1,18 +1,8 @@
-import {EventEmitter, InjectionToken} from "@angular/core";
+import {EventEmitter} from "@angular/core";
 import {OrderByDirection} from "@jscrpt/common";
 
 import {VisualPluginOptions, GridPlugin, PluginDescription} from "../../misc";
 import {BasicTableColumn} from "../../components/metadata";
-
-/**
- * Token for injecting options for content renderer
- */
-export const CONTENT_RENDERER_OPTIONS: InjectionToken<ContentRendererOptions<any, any>> = new InjectionToken<ContentRendererOptions<any, any>>('CONTENT_RENDERER_OPTIONS');
-
-/**
- * Constant used for accessing content renderer in grid
- */
-export const CONTENT_RENDERER = "CONTENT_RENDERER";
 
 /**
  * Definition of plugins for ContentRenderer
@@ -58,16 +48,6 @@ export interface ContentRenderer<TOrdering> extends GridPlugin
 }
 
 /**
- * Token for injecting options for content body renderer
- */
-export const BODY_CONTENT_RENDERER_OPTIONS: InjectionToken<VisualPluginOptions<any>> = new InjectionToken<VisualPluginOptions<any>>('BODY_CONTENT_RENDERER_OPTIONS');
-
-/**
- * Constant used for accessing content body renderer in grid
- */
-export const BODY_CONTENT_RENDERER = "BODY_CONTENT_RENDERER";
-
-/**
  * Options for 'BodyContentRenderer'
  */
 export interface BodyContentRendererOptions<TCssClasses> extends VisualPluginOptions<TCssClasses>
@@ -89,16 +69,6 @@ export interface BodyContentRenderer<TData, TMetadata> extends GridPlugin
      */
     metadata: TMetadata;
 }
-
-/**
- * Token for injecting options for content header renderer
- */
-export const HEADER_CONTENT_RENDERER_OPTIONS: InjectionToken<VisualPluginOptions<any>> = new InjectionToken<VisualPluginOptions<any>>('HEADER_CONTENT_RENDERER_OPTIONS');
-
-/**
- * Constant used for accessing content header renderer in grid
- */
-export const HEADER_CONTENT_RENDERER = "HEADER_CONTENT_RENDERER";
 
 /**
  * Css classes for header content renderer

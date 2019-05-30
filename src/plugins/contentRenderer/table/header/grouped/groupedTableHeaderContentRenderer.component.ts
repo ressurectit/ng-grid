@@ -2,7 +2,8 @@ import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional,
 import {extend} from "@jscrpt/common";
 
 import {TableHeaderContentRendererOptions} from "../../tableContentRenderer.interface";
-import {HEADER_CONTENT_RENDERER_OPTIONS, BasicOrderableColumn} from "../../../contentRenderer.interface";
+import {BasicOrderableColumn} from "../../../contentRenderer.interface";
+import {HEADER_CONTENT_RENDERER_OPTIONS} from "../../../types";
 import {HeaderContentRendererAbstractComponent} from "../../../headerContentRendererAbstract.component";
 import {GroupedTableMetadata, HeaderTableGroup} from "../../../../../components/metadata";
 

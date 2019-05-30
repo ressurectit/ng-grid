@@ -5,7 +5,7 @@ import {BasicTableColumn, BasicTableMetadata} from "../../../../../components/me
 import {TableBodyContentRendererOptions} from "../../tableContentRenderer.interface";
 import {GridPluginInstances} from "../../../../../components/grid";
 import {GRID_PLUGIN_INSTANCES} from "../../../../../components/grid/types";
-import {BODY_CONTENT_RENDERER_OPTIONS} from "../../../contentRenderer.interface";
+import {BODY_CONTENT_RENDERER_OPTIONS} from "../../../types";
 import {BodyContentRendererAbstractComponent} from "../../../bodyContentRendererAbstract.component";
 
 /**

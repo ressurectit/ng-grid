@@ -9,7 +9,7 @@ import {GridPluginInstances} from "../../../components/grid";
 import {GRID_PLUGIN_INSTANCES} from "../../../components/grid/types";
 import {METADATA_SELECTOR_OPTIONS} from "../types";
 import {AdvancedMetadataSelectorOptions, AdvancedMetadataSelector, AdvancedGridColumn, AdvancedMetadataSelectorTexts} from "./advancedMetadataSelector.interface";
-import {HEADER_CONTENT_RENDERER} from "../../contentRenderer";
+import {HEADER_CONTENT_RENDERER} from "../../contentRenderer/types";
 import {TextsLocator} from "../../textsLocator";
 import {TEXTS_LOCATOR} from "../../textsLocator/types";
 

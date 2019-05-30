@@ -3,7 +3,8 @@ import {extend, isPresent} from '@jscrpt/common';
 
 import {GridPluginInstances} from '../../../../components/grid';
 import {GRID_PLUGIN_INSTANCES} from '../../../../components/grid/types';
-import {ContentRenderer, CONTENT_RENDERER, BodyContentRenderer, BODY_CONTENT_RENDERER} from '../../../contentRenderer';
+import {ContentRenderer, BodyContentRenderer} from '../../../contentRenderer';
+import {CONTENT_RENDERER, BODY_CONTENT_RENDERER} from '../../../contentRenderer/types';
 import {PAGING_OPTIONS} from '../../types';
 import {VirtualScrollPagingAbstractComponent} from '../virtualScrollPagingAbstract.component';
 import {ContentVirtualScrollPagingOptions, ContentVirtualScrollPaging} from './contentVirtualScrollPaging.interface';

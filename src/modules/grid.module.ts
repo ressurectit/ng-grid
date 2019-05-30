@@ -12,14 +12,7 @@ import {BasicTableMetadataGathererComponent} from "../components/metadata/basicT
 import {BasicTableColumnComponent} from "../components/metadata/basicTable/basicTableColumn.component";
 import {HeaderTableGroupColumnComponent} from "../components/metadata/groupedTable/headerTableGroupColumn.component";
 import {NoMetadataSelectorComponent, AdvancedMetadataSelectorComponent} from "../plugins/metadataSelector/components";
-import {GroupedTableHeaderContentRendererComponent} from "../plugins/contentRenderer/table/header/grouped/groupedTableHeaderContentRenderer.component";
-import {AdvancedTableBodyContentRendererComponent} from "../plugins/contentRenderer/table/body/advanced/advancedTableBodyContentRenderer.component";
-import {CssDivsContentRendererComponent} from "../plugins/contentRenderer/cssDivs/cssDivsContentRenderer.component";
-import {CssDivsHeaderContentRendererComponent} from "../plugins/contentRenderer/cssDivs/header/cssDivsHeaderContentRenderer.component";
-import {CssDivsBodyContentRendererComponent} from "../plugins/contentRenderer/cssDivs/body/cssDivsBodyContentRenderer.component";
-import {TableHeaderContentRendererComponent} from "../plugins/contentRenderer//table/header/basic/tableHeaderContentRenderer.component";
-import {TableBodyContentRendererComponent} from "../plugins/contentRenderer/table/body/basic/tableBodyContentRenderer.component";
-import {TableContentRendererComponent} from "../plugins/contentRenderer/table/tableContentRenderer.component";
+import {GroupedTableHeaderContentRendererComponent, AdvancedTableBodyContentRendererComponent, CssDivsContentRendererComponent, CssDivsHeaderContentRendererComponent, CssDivsBodyContentRendererComponent, TableHeaderContentRendererComponent, TableBodyContentRendererComponent, TableContentRendererComponent} from "../plugins/contentRenderer/components";
 import {SimpleNoDataRendererComponent} from "../plugins/noDataRenderer/components";
 import {NoTextsLocatorComponent} from "../plugins/textsLocator/components";
 import {BasicRowSelectorComponent} from "../plugins/rowSelector/components";

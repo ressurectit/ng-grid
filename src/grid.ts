@@ -9,6 +9,8 @@ export * from './misc/types';
 export * from './misc/enums';
 export * from './modules/grid.module';
 export * from './plugins/contentRenderer';
+export * from './plugins/contentRenderer/types';
+export * from './plugins/contentRenderer/components';
 export * from './plugins/dataLoader';
 export * from './plugins/dataLoader/types';
 export * from './plugins/dataLoader/components';

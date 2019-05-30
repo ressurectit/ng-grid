@@ -4,7 +4,8 @@ import {Subscription} from "rxjs";
 
 import {GridPluginInstances} from "../../components/grid";
 import {GRID_PLUGIN_INSTANCES} from "../../components/grid/types";
-import {ContentRendererPlugins, ContentRendererOptions, ContentRenderer, HeaderContentRenderer, HEADER_CONTENT_RENDERER, BodyContentRenderer, BODY_CONTENT_RENDERER} from "./contentRenderer.interface";
+import {ContentRendererPlugins, ContentRendererOptions, ContentRenderer, HeaderContentRenderer, BodyContentRenderer} from "./contentRenderer.interface";
+import {BODY_CONTENT_RENDERER, HEADER_CONTENT_RENDERER} from "./types";
 import {MetadataSelector} from "../metadataSelector";
 import {METADATA_SELECTOR} from "../metadataSelector/types";
 import {DataResponse, DataLoader} from "../dataLoader";

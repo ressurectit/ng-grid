@@ -1,8 +1,3 @@
-export * from './contentRenderer.interface';
-export * from './table/tableContentRenderer.interface';
-export * from './table/body/advanced/advancedTableBodyContentRenderer.interface';
-export * from './cssDivs/cssDivsContentRenderer.interface';
-
 export * from './contentRendererAbstract.component';
 export * from './bodyContentRendererAbstract.component';
 export * from './headerContentRendererAbstract.component';
