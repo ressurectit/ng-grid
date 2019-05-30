@@ -1,14 +1,6 @@
 import {Type, ElementRef} from "@angular/core";
 
-import {Paging} from "../plugins/paging";
-import {DataLoader} from "../plugins/dataLoader";
-import {ContentRenderer} from "../plugins/contentRenderer";
-import {MetadataSelector} from "../plugins/metadataSelector";
 import {GridPluginInstances} from "../components/grid";
-import {NoDataRenderer} from "../plugins/noDataRenderer";
-import {TextsLocator} from "../plugins/textsLocator";
-import {RowSelector} from "../plugins/rowSelector";
-import {PagingInitializer} from "../plugins/pagingInitializer";
 
 /**
  * Grid plugin interface
@@ -52,52 +44,6 @@ export interface GridPlugin
 export interface GridPluginGeneric<TOptions> extends GridPlugin
 {
     options: TOptions;
-}
-
-/**
- * All available types of plugins for grid
- */
-export class GridPluginTypes
-{
-    /**
-     * Loader that is used for obtaining data that will be displayed
-     */
-    dataLoader?: PluginDescription<DataLoader<any>>;
-
-    /**
-     * Paging component used for applying paging to data
-     */
-    paging?: PluginDescription<Paging>;
-
-    /**
-     * Paging initializer component used for obtaining initial paging data
-     */
-    pagingInitializer?: PluginDescription<PagingInitializer>;
-
-    /**
-     * Metadata selector used for gathering and manipulation with metadata
-     */
-    metadataSelector?: PluginDescription<MetadataSelector<any>>;
-
-    /**
-     * Renderer that renders obtained data
-     */
-    contentRenderer?: PluginDescription<ContentRenderer<any>>;
-
-    /**
-     * Renderer used for rendering information that there are no data currently
-     */
-    noDataRenderer?: PluginDescription<NoDataRenderer>;
-
-    /**
-     * Locator for texts that are used in plugins
-     */
-    textsLocator?: PluginDescription<TextsLocator>;
-
-    /**
-     * Row selector used for handling row selection
-     */
-    rowSelector?: PluginDescription<RowSelector<any, any, any>>;
 }
 
 /**

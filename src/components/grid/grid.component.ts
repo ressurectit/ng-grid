@@ -4,7 +4,9 @@ import {Observable, BehaviorSubject} from 'rxjs';
 
 import {GridPluginInstances, Grid, GridFunction} from "./grid.interface";
 import {GRID_PLUGIN_INSTANCES} from './types';
-import {GridOptions, PagingPosition, PluginDescription, GRID_OPTIONS, PAGING_TYPE, DATA_LOADER_TYPE, CONTENT_RENDERER_TYPE, METADATA_SELECTOR_TYPE, GridPlugin, NO_DATA_RENDERER_TYPE, TEXTS_LOCATOR_TYPE, ROW_SELECTOR_TYPE, PAGING_INITIALIZER_TYPE} from "../../misc";
+import {GridOptions, PluginDescription, GridPlugin} from "../../misc";
+import {GRID_OPTIONS, PAGING_TYPE, DATA_LOADER_TYPE, CONTENT_RENDERER_TYPE, METADATA_SELECTOR_TYPE, NO_DATA_RENDERER_TYPE, TEXTS_LOCATOR_TYPE, ROW_SELECTOR_TYPE, PAGING_INITIALIZER_TYPE} from "../../misc/types";
+import {PagingPosition} from "../../misc/enums";
 import {BasicPagingComponent, PAGING, Paging} from "../../plugins/paging";
 import {MetadataGatherer} from "../metadata";
 import {METADATA_GATHERER} from "../metadata/types";
