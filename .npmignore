@@ -1,14 +1,21 @@
 /.vscode
 /src
 /tests
+/wiki
 .jsbeautifyrc
 .gitmodules
 tsconfig.json
+tsconfig.es5.json
+tsconfig.es2015.json
 webpack.config.js
 karma.conf.js
 karma-dependencies-shim.js
 karma-test-shim.ts
 ngv.config.json
+
+*.ts
+!*.d.ts
+!/src/**/*.d.ts
 
 *.log
 *.spec.js

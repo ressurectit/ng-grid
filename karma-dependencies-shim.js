@@ -1,6 +1,7 @@
 import 'core-js/es6';
 import 'core-js/es7/reflect';
 import 'rxjs';
+import 'rxjs/operators';
 
 import 'zone.js/dist/zone';
 import 'zone.js/dist/long-stack-trace-zone';
@@ -18,4 +19,3 @@ import "@angular/common/testing";
 import "@angular/platform-browser";
 import "@angular/platform-browser-dynamic";
 import "@angular/platform-browser-dynamic/testing";
-import "@anglr/common";

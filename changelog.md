@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 6.0.0
+
+- Angular IVY ready (APF compliant package)
+- added support for ES2015 compilation
+- Angular 8
+
 ## Version 5.1.0
  - added support for *Grouped Headers*, allowing multiline header with grouping of columns
     - added new `MetadataGatherer` => `GroupedTableMetadataGathererComponent` for obtaining information about header groups (using `<grouped-table-metadata>` html)
