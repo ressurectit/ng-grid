@@ -1,5 +1,6 @@
 import {GridAction} from "../components/grid";
-import {DataLoader, DATA_LOADER} from "../plugins/dataLoader";
+import {DataLoader} from "../plugins/dataLoader";
+import {DATA_LOADER} from "../plugins/dataLoader/types";
 
 /**
  * Refresh data

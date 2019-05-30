@@ -1,7 +1,8 @@
 import {Component, ChangeDetectionStrategy, Inject, Optional, ElementRef} from "@angular/core";
 import {extend} from "@jscrpt/common";
 
-import {DATA_LOADER_OPTIONS, DataResponse} from "../dataLoader.interface";
+import {DataResponse} from "../dataLoader.interface";
+import {DATA_LOADER_OPTIONS} from "../types";
 import {AsyncDataLoaderOptions, AsyncDataLoader} from "./asyncDataLoader.interface";
 import {GridPluginInstances} from "../../../components/grid";
 import {GRID_PLUGIN_INSTANCES} from "../../../components/grid/types";

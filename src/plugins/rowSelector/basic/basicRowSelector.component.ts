@@ -5,7 +5,8 @@ import {Subscription} from "rxjs";
 import {GridPluginInstances} from "../../../components/grid";
 import {GRID_PLUGIN_INSTANCES} from "../../../components/grid/types";
 import {GridPluginGeneric} from "../../../misc";
-import {DataLoader, DATA_LOADER} from "../../dataLoader";
+import {DataLoader} from "../../dataLoader";
+import {DATA_LOADER} from "../../dataLoader/types";
 import {ROW_SELECTOR_OPTIONS} from "../types";
 import {BasicRowSelectorOptions, BasicRowSelector} from "./basicRowSelector.interface";
 

@@ -1,6 +1,7 @@
 import {Injectable, OnDestroy, Input} from "@angular/core";
 
-import {DataLoader, DataResponse, DATA_LOADER} from "../../dataLoader";
+import {DataLoader, DataResponse} from "../../dataLoader";
+import {DATA_LOADER} from "../../dataLoader/types";
 import {PagingAbstractComponent} from "../pagingAbstract.component";
 import {VirtualScrollPagingOptions, CssClassesVirtualScrollPaging, VirtualScrollPaging} from './virtualScrollPaging.interface';
 

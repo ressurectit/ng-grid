@@ -6,7 +6,8 @@ import {PagingOptions, Paging} from "./paging.interface";
 import {GridPluginInstances} from "../../components/grid";
 import {GRID_PLUGIN_INSTANCES} from "../../components/grid/types";
 import {GridPluginGeneric} from "../../misc";
-import {DataLoader, DATA_LOADER, DataResponse} from "../dataLoader";
+import {DataLoader, DataResponse} from "../dataLoader";
+import {DATA_LOADER} from "../dataLoader/types";
 import {PagingInitializer} from "../pagingInitializer";
 import {PAGING_INITIALIZER} from "../pagingInitializer/types";
 

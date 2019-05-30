@@ -1,7 +1,8 @@
 import {GridAction} from "../components/grid";
 import {RowSelector} from "../plugins/rowSelector";
 import {ROW_SELECTOR} from "../plugins/rowSelector/types";
-import {DATA_LOADER, DataLoader, DataResponse} from "../plugins/dataLoader";
+import {DataLoader, DataResponse} from "../plugins/dataLoader";
+import {DATA_LOADER} from "../plugins/dataLoader/types";
 
 /**
  * Selects or deselects all items on current page

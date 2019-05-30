@@ -1,7 +1,8 @@
 import {GridAction} from "../components/grid";
 import {Paging} from "../plugins/paging";
 import {PAGING} from "../plugins/paging/types";
-import {DATA_LOADER, DataLoader} from "../plugins/dataLoader";
+import {DataLoader} from "../plugins/dataLoader";
+import {DATA_LOADER} from "../plugins/dataLoader/types";
 
 /**
  * Sets page for grid

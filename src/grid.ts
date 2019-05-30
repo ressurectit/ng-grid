@@ -10,6 +10,8 @@ export * from './misc/enums';
 export * from './modules/grid.module';
 export * from './plugins/contentRenderer';
 export * from './plugins/dataLoader';
+export * from './plugins/dataLoader/types';
+export * from './plugins/dataLoader/components';
 export * from './plugins/metadataSelector';
 export * from './plugins/metadataSelector/types';
 export * from './plugins/metadataSelector/components';

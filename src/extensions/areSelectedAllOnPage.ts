@@ -1,7 +1,8 @@
 import {GridFunction} from "../components/grid";
 import {RowSelector} from "../plugins/rowSelector";
 import {ROW_SELECTOR} from "../plugins/rowSelector/types";
-import {DATA_LOADER, DataLoader, DataResponse} from "../plugins/dataLoader";
+import {DataLoader, DataResponse} from "../plugins/dataLoader";
+import {DATA_LOADER} from "../plugins/dataLoader/types";
 
 /**
  * Gets indication whether are all currently displayed items on page selected or not, works with DataResponse DataLoader

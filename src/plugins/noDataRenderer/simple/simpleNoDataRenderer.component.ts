@@ -6,7 +6,8 @@ import {NO_DATA_RENDERER_OPTIONS} from "../types";
 import {GridPluginGeneric} from "../../../misc";
 import {GridPluginInstances} from "../../../components/grid";
 import {GRID_PLUGIN_INSTANCES} from "../../../components/grid/types";
-import {DataLoader, DataResponse, DATA_LOADER} from "../../dataLoader";
+import {DataLoader, DataResponse} from "../../dataLoader";
+import {DATA_LOADER} from "../../dataLoader/types";
 import {SimpleNoDataRenderer, CssClassesSimpleNoDataRenderer, SimpleNoDataRendererOptions} from "./simpleNoDataRenderer.interface";
 
 /**
