@@ -1,5 +1,6 @@
 import {GridFunction} from "../components/grid";
-import {ROW_SELECTOR, RowSelector} from "../plugins/rowSelector";
+import {RowSelector} from "../plugins/rowSelector";
+import {ROW_SELECTOR} from "../plugins/rowSelector/types";
 
 /**
  * Gets indication whether is selected at least one item from whole selection

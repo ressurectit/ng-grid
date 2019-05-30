@@ -6,7 +6,8 @@ import {GridPluginInstances} from "../../../../../components/grid";
 import {GRID_PLUGIN_INSTANCES} from "../../../../../components/grid/types";
 import {BODY_CONTENT_RENDERER_OPTIONS} from "../../../contentRenderer.interface";
 import {BodyContentRendererAbstractComponent} from "../../../bodyContentRendererAbstract.component";
-import {RowSelector, ROW_SELECTOR} from "../../../../rowSelector";
+import {RowSelector} from "../../../../rowSelector";
+import {ROW_SELECTOR} from "../../../../rowSelector/types";
 import {BasicTableColumnSelectableContext} from "./basicTableColumnSelectable.context";
 import {AdvancedTableBodyContentRendererOptions} from "./advancedTableBodyContentRenderer.interface";
 

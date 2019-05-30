@@ -10,7 +10,8 @@ import {GRID_PLUGIN_INSTANCES} from "../../../components/grid/types";
 import {METADATA_SELECTOR_OPTIONS} from "../metadataSelector.interface";
 import {AdvancedMetadataSelectorOptions, AdvancedMetadataSelector, AdvancedGridColumn, AdvancedMetadataSelectorTexts} from "./advancedMetadataSelector.interface";
 import {HEADER_CONTENT_RENDERER} from "../../contentRenderer";
-import {TextsLocator, TEXTS_LOCATOR} from "../../textsLocator";
+import {TextsLocator} from "../../textsLocator";
+import {TEXTS_LOCATOR} from "../../textsLocator/types";
 
 /**
  * @ignore

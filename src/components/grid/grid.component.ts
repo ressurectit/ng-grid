@@ -14,8 +14,12 @@ import {DataLoader, DATA_LOADER, AsyncDataLoaderComponent} from "../../plugins/d
 import {ContentRenderer, CONTENT_RENDERER, TableContentRendererComponent} from "../../plugins/contentRenderer";
 import {MetadataSelector, METADATA_SELECTOR, NoMetadataSelectorComponent} from "../../plugins/metadataSelector";
 import {NoDataRenderer, SimpleNoDataRendererComponent, NO_DATA_RENDERER} from "../../plugins/noDataRenderer";
-import {NoTextsLocatorComponent, TextsLocator, TEXTS_LOCATOR} from "../../plugins/textsLocator";
-import {BasicRowSelectorComponent, RowSelector, ROW_SELECTOR} from "../../plugins/rowSelector";
+import {TextsLocator} from "../../plugins/textsLocator";
+import {NoTextsLocatorComponent} from "../../plugins/textsLocator/components";
+import {TEXTS_LOCATOR} from "../../plugins/textsLocator/types";
+import {RowSelector} from "../../plugins/rowSelector";
+import {BasicRowSelectorComponent} from "../../plugins/rowSelector/components";
+import {ROW_SELECTOR} from "../../plugins/rowSelector/types";
 import {NoPagingInitializerComponent, PagingInitializer, PAGING_INITIALIZER} from "../../plugins/pagingInitializer";
 
 /**

@@ -6,7 +6,7 @@ import {GridPluginInstances} from "../../../components/grid";
 import {GRID_PLUGIN_INSTANCES} from "../../../components/grid/types";
 import {GridPluginGeneric} from "../../../misc";
 import {DataLoader, DATA_LOADER} from "../../dataLoader";
-import {ROW_SELECTOR_OPTIONS} from "../rowSelector.interface";
+import {ROW_SELECTOR_OPTIONS} from "../types";
 import {BasicRowSelectorOptions, BasicRowSelector} from "./basicRowSelector.interface";
 
 /**
