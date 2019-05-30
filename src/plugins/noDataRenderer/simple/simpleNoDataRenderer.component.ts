@@ -2,7 +2,7 @@ import {Inject, Component, ChangeDetectionStrategy, ElementRef, ChangeDetectorRe
 import {extend} from "@jscrpt/common";
 import {Subscription} from "rxjs";
 
-import {NO_DATA_RENDERER_OPTIONS} from "../noDataRenderer.interface";
+import {NO_DATA_RENDERER_OPTIONS} from "../types";
 import {GridPluginGeneric} from "../../../misc";
 import {GridPluginInstances} from "../../../components/grid";
 import {GRID_PLUGIN_INSTANCES} from "../../../components/grid/types";

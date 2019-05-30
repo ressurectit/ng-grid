@@ -1,16 +1,6 @@
-import {InjectionToken, TemplateRef} from "@angular/core";
+import {TemplateRef} from "@angular/core";
 
 import {VisualPluginOptions, GridPlugin} from "../../misc";
-
-/**
- * Token for injecting options for no data renderer
- */
-export const NO_DATA_RENDERER_OPTIONS: InjectionToken<NoDataRendererOptions<any>> = new InjectionToken<NoDataRendererOptions<any>>('NO_DATA_RENDERER_OPTIONS');
-
-/**
- * Constant used for accessing no data renderer in grid
- */
-export const NO_DATA_RENDERER = "NO_DATA_RENDERER";
 
 /**
  * Base no data renderer options

@@ -1,17 +1,7 @@
-import {InjectionToken, EventEmitter} from "@angular/core";
+import {EventEmitter} from "@angular/core";
 
 import {PluginOptions, GridPlugin} from "../../misc";
 import {MetadataGatherer} from "../../components/metadata";
-
-/**
- * Token for injecting options for metadata selector
- */
-export const METADATA_SELECTOR_OPTIONS: InjectionToken<MetadataSelectorOptions> = new InjectionToken<MetadataSelectorOptions>('METADATA_SELECTOR_OPTIONS');
-
-/**
- * Constant used for accessing metadata selector in grid
- */
-export const METADATA_SELECTOR = "METADATA_SELECTOR";
 
 /**
  * Metadata selector options

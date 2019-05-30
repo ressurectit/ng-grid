@@ -12,8 +12,7 @@ import {GroupedTableMetadataGathererComponent} from "../components/metadata/grou
 import {BasicTableMetadataGathererComponent} from "../components/metadata/basicTable/basicTableMetadataGatherer.component";
 import {BasicTableColumnComponent} from "../components/metadata/basicTable/basicTableColumn.component";
 import {HeaderTableGroupColumnComponent} from "../components/metadata/groupedTable/headerTableGroupColumn.component";
-import {AdvancedMetadataSelectorComponent} from "../plugins/metadataSelector/advanced/advancedMetadataSelector.component";
-import {NoMetadataSelectorComponent} from "../plugins/metadataSelector/no/noMetadataSelector.component";
+import {NoMetadataSelectorComponent, AdvancedMetadataSelectorComponent} from "../plugins/metadataSelector/components";
 import {GroupedTableHeaderContentRendererComponent} from "../plugins/contentRenderer/table/header/grouped/groupedTableHeaderContentRenderer.component";
 import {AdvancedTableBodyContentRendererComponent} from "../plugins/contentRenderer/table/body/advanced/advancedTableBodyContentRenderer.component";
 import {CssDivsContentRendererComponent} from "../plugins/contentRenderer/cssDivs/cssDivsContentRenderer.component";
@@ -22,7 +21,7 @@ import {CssDivsBodyContentRendererComponent} from "../plugins/contentRenderer/cs
 import {TableHeaderContentRendererComponent} from "../plugins/contentRenderer//table/header/basic/tableHeaderContentRenderer.component";
 import {TableBodyContentRendererComponent} from "../plugins/contentRenderer/table/body/basic/tableBodyContentRenderer.component";
 import {TableContentRendererComponent} from "../plugins/contentRenderer/table/tableContentRenderer.component";
-import {SimpleNoDataRendererComponent} from "../plugins/noDataRenderer/simple/simpleNoDataRenderer.component";
+import {SimpleNoDataRendererComponent} from "../plugins/noDataRenderer/components";
 import {NoTextsLocatorComponent} from "../plugins/textsLocator/components";
 import {BasicRowSelectorComponent} from "../plugins/rowSelector/components";
 
