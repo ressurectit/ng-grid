@@ -4,7 +4,8 @@ import {extend} from "@jscrpt/common";
 import {GridPluginInstances} from "../../components/grid";
 import {GRID_PLUGIN_INSTANCES} from "../../components/grid/types";
 import {BodyContentRenderer, BodyContentRendererOptions} from "./contentRenderer.interface";
-import {PAGING, Paging} from "../paging";
+import {Paging} from "../paging";
+import {PAGING} from "../paging/types";
 import {GridPluginGeneric} from "../../misc";
 
 //TODO - compute classes before rendering

@@ -5,7 +5,7 @@ import {extend} from '@jscrpt/common';
 import {GridPluginInstances} from '../../../../components/grid';
 import {GRID_PLUGIN_INSTANCES} from '../../../../components/grid/types';
 import {BodyContentRenderer, BODY_CONTENT_RENDERER} from '../../../contentRenderer';
-import {PAGING_OPTIONS} from '../../paging.interface';
+import {PAGING_OPTIONS} from '../../types';
 import {VirtualScrollPagingAbstractComponent} from '../virtualScrollPagingAbstract.component';
 import {PageVirtualScrollPagingOptions, PageVirtualScrollPaging} from './pageVirtualScrollPaging.interface';
 

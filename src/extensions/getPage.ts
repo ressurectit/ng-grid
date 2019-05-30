@@ -1,5 +1,6 @@
 import {GridFunction} from "../components/grid";
-import {Paging, PAGING} from "../plugins/paging";
+import {Paging} from "../plugins/paging";
+import {PAGING} from "../plugins/paging/types";
 
 /**
  * Gets current page of grid

@@ -13,6 +13,8 @@ export * from './plugins/dataLoader';
 export * from './plugins/metadataSelector';
 export * from './plugins/noDataRenderer';
 export * from './plugins/paging';
+export * from './plugins/paging/types';
+export * from './plugins/paging/components';
 export * from './plugins/rowSelector';
 export * from './plugins/rowSelector/types';
 export * from './plugins/rowSelector/components';

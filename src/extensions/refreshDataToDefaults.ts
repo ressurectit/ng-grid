@@ -1,6 +1,7 @@
 import {GridAction} from "../components/grid";
 import {DataLoader, DATA_LOADER} from "../plugins/dataLoader";
-import {PAGING, Paging, PagingOptions} from "../plugins/paging";
+import {Paging, PagingOptions} from "../plugins/paging";
+import {PAGING} from "../plugins/paging/types";
 
 /**
  * Refresh data to defaults

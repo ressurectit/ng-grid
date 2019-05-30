@@ -5,7 +5,7 @@ import {Subscription} from 'rxjs';
 import {GridPluginInstances} from '../../../components/grid';
 import {GRID_PLUGIN_INSTANCES} from '../../../components/grid/types';
 import {PagingAbstractComponent} from '../pagingAbstract.component';
-import {PAGING_OPTIONS} from '../paging.interface';
+import {PAGING_OPTIONS} from '../types';
 import {LoadMorePaging, CssClassesLoadMorePaging, LoadMorePagingOptions, LoadMorePagingTexts} from './loadMorePaging.interface';
 import {TextsLocator} from '../../textsLocator';
 import {TEXTS_LOCATOR} from '../../textsLocator/types';

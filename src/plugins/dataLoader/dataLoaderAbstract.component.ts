@@ -4,7 +4,8 @@ import {Subscription, Subject} from "rxjs";
 import {debounceTime} from "rxjs/operators";
 
 import {DataLoader, DataLoaderOptions} from './dataLoader.interface';
-import {Paging, PAGING} from "../paging";
+import {Paging} from "../paging";
+import {PAGING} from "../paging/types";
 import {ContentRenderer, CONTENT_RENDERER} from "../contentRenderer";
 import {GridPluginInstances} from "../../components/grid";
 import {GRID_PLUGIN_INSTANCES} from "../../components/grid/types";

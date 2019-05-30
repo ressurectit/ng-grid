@@ -3,12 +3,7 @@ import {CommonModule as AngularCommonModule} from "@angular/common";
 import {CommonModule} from "@anglr/common";
 
 import {GridComponent} from "../components/grid/grid.component";
-import {BasicPagingComponent} from "../plugins/paging/basic/basicPaging.component";
-import {LoadMorePagingComponent} from "../plugins/paging/loadMore/loadMorePaging.component";
-import {PreviousNextPagingComponent} from "../plugins/paging/previousNext/previousNextPaging.component";
-import {ContentVirtualScrollPagingComponent} from "../plugins/paging/virtualScroll/contentVirtualScroll/contentVirtualScrollPaging.component";
-import {PageVirtualScrollPagingComponent} from "../plugins/paging/virtualScroll/pageVirtualScroll/pageVirtualScrollPaging.component";
-import {NoPagingComponent} from "../plugins/paging/no/noPaging.component";
+import {BasicPagingComponent, LoadMorePagingComponent, PreviousNextPagingComponent, ContentVirtualScrollPagingComponent, PageVirtualScrollPagingComponent, NoPagingComponent} from "../plugins/paging/components";
 import {NoPagingInitializerComponent, QueryCookiePagingInitializerComponent, QueryPagingInitializerComponent} from "../plugins/pagingInitializer/components";
 import {AsyncDataLoaderComponent} from "../plugins/dataLoader/async/asyncDataLoader.component";
 import {SyncDataLoaderComponent} from "../plugins/dataLoader/sync/syncDataLoader.component";
