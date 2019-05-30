@@ -20,3 +20,5 @@ export * from './plugins/textsLocator';
 export * from './plugins/textsLocator/types';
 export * from './plugins/textsLocator/components';
 export * from './plugins/pagingInitializer';
+export * from './plugins/pagingInitializer/types';
+export * from './plugins/pagingInitializer/components';

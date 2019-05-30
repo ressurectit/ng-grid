@@ -4,7 +4,7 @@ import {extend} from "@jscrpt/common";
 
 import {GridPluginGeneric} from "../../../misc";
 import {QueryPagingInitializer, QueryPagingInitializerOptions} from "./queryPagingInitializer.interface";
-import {PAGING_INITIALIZER_OPTIONS} from "../pagingInitializer.interface";
+import {PAGING_INITIALIZER_OPTIONS} from "../types";
 import {GridPluginInstances} from "../../../components/grid";
 
 /**

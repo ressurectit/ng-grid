@@ -20,7 +20,9 @@ import {TEXTS_LOCATOR} from "../../plugins/textsLocator/types";
 import {RowSelector} from "../../plugins/rowSelector";
 import {BasicRowSelectorComponent} from "../../plugins/rowSelector/components";
 import {ROW_SELECTOR} from "../../plugins/rowSelector/types";
-import {NoPagingInitializerComponent, PagingInitializer, PAGING_INITIALIZER} from "../../plugins/pagingInitializer";
+import {PagingInitializer} from "../../plugins/pagingInitializer";
+import {NoPagingInitializerComponent} from "../../plugins/pagingInitializer/components";
+import {PAGING_INITIALIZER} from "../../plugins/pagingInitializer/types";
 
 /**
  * Default 'GridOptions'

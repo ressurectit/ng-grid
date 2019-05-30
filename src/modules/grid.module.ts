@@ -9,9 +9,7 @@ import {PreviousNextPagingComponent} from "../plugins/paging/previousNext/previo
 import {ContentVirtualScrollPagingComponent} from "../plugins/paging/virtualScroll/contentVirtualScroll/contentVirtualScrollPaging.component";
 import {PageVirtualScrollPagingComponent} from "../plugins/paging/virtualScroll/pageVirtualScroll/pageVirtualScrollPaging.component";
 import {NoPagingComponent} from "../plugins/paging/no/noPaging.component";
-import {NoPagingInitializerComponent} from "../plugins/pagingInitializer/no/noPagingInitializer.component";
-import {QueryCookiePagingInitializerComponent} from "../plugins/pagingInitializer/queryCookie/queryCookiePagingInitializer.component";
-import {QueryPagingInitializerComponent} from "../plugins/pagingInitializer/query/queryPagingInitializer.component";
+import {NoPagingInitializerComponent, QueryCookiePagingInitializerComponent, QueryPagingInitializerComponent} from "../plugins/pagingInitializer/components";
 import {AsyncDataLoaderComponent} from "../plugins/dataLoader/async/asyncDataLoader.component";
 import {SyncDataLoaderComponent} from "../plugins/dataLoader/sync/syncDataLoader.component";
 import {HeaderTableGroupComponent} from "../components/metadata/groupedTable/headerTableGroup.component";
@@ -30,8 +28,8 @@ import {TableHeaderContentRendererComponent} from "../plugins/contentRenderer//t
 import {TableBodyContentRendererComponent} from "../plugins/contentRenderer/table/body/basic/tableBodyContentRenderer.component";
 import {TableContentRendererComponent} from "../plugins/contentRenderer/table/tableContentRenderer.component";
 import {SimpleNoDataRendererComponent} from "../plugins/noDataRenderer/simple/simpleNoDataRenderer.component";
-import {NoTextsLocatorComponent} from "../plugins/textsLocator/no/noTextsLocator.component";
-import {BasicRowSelectorComponent} from "../plugins/rowSelector/basic/basicRowSelector.component";
+import {NoTextsLocatorComponent} from "../plugins/textsLocator/components";
+import {BasicRowSelectorComponent} from "../plugins/rowSelector/components";
 
 /**
  * Module for grid components

@@ -6,7 +6,8 @@ import {GRID_PLUGIN_INSTANCES} from '../../../components/grid/types';
 import {PagingAbstractComponent} from '../pagingAbstract.component';
 import {BasicPagingOptions, BasicPaging, CssClassesBasicPaging} from './basicPaging.interface';
 import {PAGING_OPTIONS} from '../paging.interface';
-import {PAGING_INITIALIZER, PagingInitializer} from '../../pagingInitializer';
+import {PagingInitializer} from '../../pagingInitializer';
+import {PAGING_INITIALIZER} from '../../pagingInitializer/types';
 
 /**
  * Items per page single item

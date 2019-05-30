@@ -7,7 +7,8 @@ import {GridPluginInstances} from "../../components/grid";
 import {GRID_PLUGIN_INSTANCES} from "../../components/grid/types";
 import {GridPluginGeneric} from "../../misc";
 import {DataLoader, DATA_LOADER, DataResponse} from "../dataLoader";
-import {PAGING_INITIALIZER, PagingInitializer} from "../pagingInitializer";
+import {PagingInitializer} from "../pagingInitializer";
+import {PAGING_INITIALIZER} from "../pagingInitializer/types";
 
 /**
  * Abstract class that represents any paging component

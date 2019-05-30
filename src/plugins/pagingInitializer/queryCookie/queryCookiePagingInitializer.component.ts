@@ -4,7 +4,7 @@ import {CookieService} from "@anglr/common";
 import {extend, isPresent} from "@jscrpt/common";
 
 import {GridPluginGeneric} from "../../../misc";
-import {PAGING_INITIALIZER_OPTIONS} from "../pagingInitializer.interface";
+import {PAGING_INITIALIZER_OPTIONS} from "../types";
 import {QueryCookiePagingInitializerOptions, QueryCookiePagingInitializer} from "./queryCookiePagingInitializer.interface";
 import {QueryPagingInitializerComponent} from "../query/queryPagingInitializer.component";
 
