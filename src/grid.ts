@@ -8,6 +8,8 @@ export * from './misc';
 export * from './misc/types';
 export * from './misc/enums';
 export * from './modules/grid.module';
+export * from './modules/cssGrid.module';
+export * from './modules/groupedGrid.module';
 export * from './plugins/contentRenderer';
 export * from './plugins/contentRenderer/types';
 export * from './plugins/contentRenderer/components';
