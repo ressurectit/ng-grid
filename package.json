@@ -7,7 +7,9 @@
     "typings": "./grid.d.ts",
     "sideEffects": false,
     "scripts": {
-        "build": "ngc -p tsconfig.es5.json && ngc -p tsconfig.es2015.json",
+        "build": "npm run build:grid && npm run build:extensions",
+        "build:grid": "ngc -p tsconfig.es5.json && ngc -p tsconfig.es2015.json",
+        "build:extensions": "ngc -p extensions/tsconfig.es5.json && ngc -p extensions/tsconfig.es2015.json",
         "clean": "rimraf dist tests docs src/**/*.d.ts */*.d.ts */*.metadata.json ./*.metadata.json ./*.d.ts",
         "clean:deps": "rimraf package-lock.json node_modules",
         "clean:all": "npm run clean && npm run clean:deps",

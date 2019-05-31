@@ -1,0 +1,27 @@
+{
+    "extends": "../tsconfig.json",
+    "compilerOptions": 
+    {
+        "inlineSourceMap": true,
+        "inlineSources": true,
+        "rootDir": "..",
+        "outDir": "../dist/es5"
+    },
+    "files":
+    [
+        "../src/extensions/index.ts"
+    ],
+    "exclude": 
+    [
+        "../node_modules",
+        "../dist",
+        "../karma-test-shim.ts"
+    ],
+    "angularCompilerOptions":
+    {
+        "enableResourceInlining": true,
+        "annotateForClosureCompiler": true,
+        "strictMetadataEmit": false,
+        "skipTemplateCodegen": true
+    }
+}
