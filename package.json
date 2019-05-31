@@ -7,10 +7,11 @@
     "typings": "./grid.d.ts",
     "sideEffects": false,
     "scripts": {
-        "build": "npm run build:grid && npm run build:extensions",
+        "build": "npm run build:grid && npm run build:extensions && npm run build:scrollmagic",
         "build:grid": "ngc -p tsconfig.es5.json && ngc -p tsconfig.es2015.json",
         "build:extensions": "ngc -p extensions/tsconfig.es5.json && ngc -p extensions/tsconfig.es2015.json",
-        "clean": "rimraf dist tests docs src/**/*.d.ts */*.d.ts */*.metadata.json ./*.metadata.json ./*.d.ts",
+        "build:scrollmagic": "ngc -p scrollmagic/tsconfig.es5.json && ngc -p scrollmagic/tsconfig.es2015.json",
+        "clean": "rimraf dist tests docs src/**/*.d.ts scrollmagic/**/*.d.ts */*.d.ts */*.metadata.json ./*.metadata.json ./*.d.ts",
         "clean:deps": "rimraf package-lock.json node_modules",
         "clean:all": "npm run clean && npm run clean:deps",
         "ngc": "ngc",
@@ -41,7 +42,8 @@
         "@angular/router": ">=8.0.0",
         "rxjs": ">=6.5.0",
         "@jscrpt/common": ">=1.0.1",
-        "@anglr/common": ">=6.0.0-beta"
+        "@anglr/common": ">=6.0.0-beta",
+        "scrollmagic": "^2.0.5"
     },
     "devDependencies": {
         "@angular/core": "^8.0.0",
@@ -51,6 +53,8 @@
         "@jscrpt/common": "^1.0.1",
         "@anglr/common": "^6.0.0-beta",
         "zone.js": "^0.8.26",
+        "@anglr/types": "1.1.15",
+        "scrollmagic": "^2.0.5",
         "@types/jasmine": "~2.8.7",
         "@angular/forms": "^8.0.0",
         "@angular/compiler-cli": "^8.0.0",

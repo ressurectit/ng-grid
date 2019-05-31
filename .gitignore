@@ -4,6 +4,8 @@
 /tests
 /src/**/*.d.ts
 /src/**/*.json
+/scrollmagic/**/*.d.ts
+/scrollmagic/**/*.json
 /*.d.ts
 /*.metadata.json
 

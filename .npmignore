@@ -16,6 +16,7 @@ ngv.config.json
 *.ts
 !*.d.ts
 !/src/**/*.d.ts
+!/scrollmagic/**/*.d.ts
 
 *.log
 *.spec.js

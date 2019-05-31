@@ -6,6 +6,9 @@
 - added support for ES2015 compilation
 - Angular 8
 - removed *deprecated* `LegacyGrid` and all its parts
+- now if you want to use *Grouped Headers* you have to also use new `GroupedGridModule`
+- now if you want to use *Css Grid* (grid composed of divs with css, not table) you have to also use new `CssGridModule`
+- moved functionality from `@anglr/grid-extensions` to subproject `@anglr/grid/scrollmagic`
 
 ## Version 5.1.0
  - added support for *Grouped Headers*, allowing multiline header with grouping of columns
