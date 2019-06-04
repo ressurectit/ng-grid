@@ -4,8 +4,8 @@
     {
         "inlineSourceMap": true,
         "inlineSources": true,
-        "rootDir": "../",
-        "outDir": "../dist/es5"
+        "rootDir": "..",
+        "outDir": "./dist/es5"
     },
     "files":
     [

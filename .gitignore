@@ -6,6 +6,7 @@
 /src/**/*.json
 /scrollmagic/**/*.d.ts
 /scrollmagic/**/*.json
+/*/dist
 /*.d.ts
 /*.metadata.json
 
