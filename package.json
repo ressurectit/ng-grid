@@ -43,7 +43,7 @@
         "@angular/router": ">=8.0.0",
         "rxjs": ">=6.5.0",
         "@jscrpt/common": ">=1.0.1",
-        "@anglr/common": ">=6.0.0-beta",
+        "@anglr/common": ">=6.0.0",
         "scrollmagic": "^2.0.5"
     },
     "devDependencies": {
@@ -52,7 +52,7 @@
         "@angular/router": "^8.0.0",
         "rxjs": "^6.5.0",
         "@jscrpt/common": "^1.0.1",
-        "@anglr/common": "^6.0.0-beta",
+        "@anglr/common": "^6.0.0",
         "zone.js": "^0.8.26",
         "@anglr/types": "1.1.15",
         "scrollmagic": "^2.0.5",
