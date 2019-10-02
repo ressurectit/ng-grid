@@ -1,8 +1,6 @@
 import {isArray} from "@jscrpt/common";
 
-import {GridAction} from "../components/grid";
-import {DataLoader} from "../plugins/dataLoader";
-import {DATA_LOADER} from "../plugins/dataLoader/types";
+import {GridAction, DataLoader, DATA_LOADER} from "@anglr/grid";
 
 /**
  * Sets data for SyncDataLoader

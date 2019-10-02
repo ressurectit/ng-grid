@@ -6,6 +6,10 @@
 /src/**/*.json
 /scrollmagic/**/*.d.ts
 /scrollmagic/**/*.json
+/material/**/*.d.ts
+/material/**/*.json
+/extensions/**/*.d.ts
+/extensions/**/*.json
 /*/dist
 /*.d.ts
 /*.metadata.json

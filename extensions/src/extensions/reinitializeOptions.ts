@@ -1,5 +1,4 @@
-import {GridAction} from "../components/grid";
-import {GridOptions} from "../misc/gridOptions.interface";
+import {GridAction, GridOptions} from "@anglr/grid";
 
 /**
  * Method reinitialize options for grid

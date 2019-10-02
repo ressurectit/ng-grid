@@ -12,16 +12,15 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "strictNullChecks": false,
-        "lib": 
+        "lib":
         [
-            "es2016", 
+            "es2016",
             "dom"
         ],
-        "types": 
+        "types":
         [
-            "jasmine"
         ],
-        "plugins": 
+        "plugins":
         [
             {
                 "name": "@angular/language-service"
@@ -34,7 +33,7 @@
         "dist",
         "karma-test-shim.ts"
     ],
-    "angularCompilerOptions": 
+    "angularCompilerOptions":
     {
         "fullTemplateTypeCheck": true
     }

@@ -1,27 +1,23 @@
 {
-    "extends": "../tsconfig.json",
+    "extends": "./tsconfig.json",
     "compilerOptions": 
     {
         "inlineSourceMap": true,
         "inlineSources": true,
         "rootDir": "..",
-        "outDir": "../dist/es5"
+        "outDir": "./dist/es5"
     },
     "files":
     [
-        "../src/extensions/index.ts"
-    ],
-    "exclude": 
-    [
-        "../node_modules",
-        "../dist",
-        "../karma-test-shim.ts"
+        "public_api.ts"
     ],
     "angularCompilerOptions":
     {
         "enableResourceInlining": true,
         "annotateForClosureCompiler": true,
         "strictMetadataEmit": false,
-        "skipTemplateCodegen": true
+        "skipTemplateCodegen": true,
+        "flatModuleOutFile": "index.js",
+        "flatModuleId": "@anglr/grid/extensions"
     }
 }

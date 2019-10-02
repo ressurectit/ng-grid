@@ -1,8 +1,4 @@
-import {GridAction} from "../components/grid";
-import {DataLoader} from "../plugins/dataLoader";
-import {DATA_LOADER} from "../plugins/dataLoader/types";
-import {Paging, PagingOptions} from "../plugins/paging";
-import {PAGING} from "../plugins/paging/types";
+import {GridAction, DataLoader, DATA_LOADER, Paging, PagingOptions, PAGING} from "@anglr/grid";
 
 /**
  * Refresh data to default page

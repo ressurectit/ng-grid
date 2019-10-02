@@ -11,7 +11,6 @@ import {BasicTableColumnComponent} from "../components/metadata/basicTable/basic
 import {NoMetadataSelectorComponent, AdvancedMetadataSelectorComponent} from "../plugins/metadataSelector/components";
 import {AdvancedTableBodyContentRendererComponent, TableHeaderContentRendererComponent, TableBodyContentRendererComponent, TableContentRendererComponent} from "../plugins/contentRenderer/components";
 import {SimpleNoDataRendererComponent} from "../plugins/noDataRenderer/components";
-import {NoTextsLocatorComponent} from "../plugins/textsLocator/components";
 import {BasicRowSelectorComponent} from "../plugins/rowSelector/components";
 
 /**
@@ -47,7 +46,6 @@ import {BasicRowSelectorComponent} from "../plugins/rowSelector/components";
         AdvancedTableBodyContentRendererComponent,
         TableHeaderContentRendererComponent,
         SimpleNoDataRendererComponent,
-        NoTextsLocatorComponent,
         BasicRowSelectorComponent
     ],
     entryComponents:
@@ -70,7 +68,6 @@ import {BasicRowSelectorComponent} from "../plugins/rowSelector/components";
         AdvancedTableBodyContentRendererComponent,
         TableHeaderContentRendererComponent,
         SimpleNoDataRendererComponent,
-        NoTextsLocatorComponent,
         BasicRowSelectorComponent
     ],
     exports:
@@ -96,7 +93,6 @@ import {BasicRowSelectorComponent} from "../plugins/rowSelector/components";
         AdvancedTableBodyContentRendererComponent,
         TableHeaderContentRendererComponent,
         SimpleNoDataRendererComponent,
-        NoTextsLocatorComponent,
         BasicRowSelectorComponent
     ],
     providers:

@@ -1,5 +1,4 @@
-import {GridAction} from "../components/grid";
-import {BODY_CONTENT_RENDERER} from "../plugins/contentRenderer/types";
+import {GridAction, BODY_CONTENT_RENDERER} from "@anglr/grid";
 
 /**
  * Invalidates body content renderer view

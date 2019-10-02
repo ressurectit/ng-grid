@@ -1,4 +1,5 @@
 import {Component, Input, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef, Inject, Optional, OnDestroy} from '@angular/core';
+import {STRING_LOCALIZATION, StringLocalization} from "@anglr/common";
 import {extend} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
@@ -7,8 +8,6 @@ import {GRID_PLUGIN_INSTANCES} from '../../../components/grid/types';
 import {PagingAbstractComponent} from '../pagingAbstract.component';
 import {PAGING_OPTIONS} from '../types';
 import {LoadMorePaging, CssClassesLoadMorePaging, LoadMorePagingOptions, LoadMorePagingTexts} from './loadMorePaging.interface';
-import {TextsLocator} from '../../textsLocator';
-import {TEXTS_LOCATOR} from '../../textsLocator/types';
 
 /**
  * Default options for paging
@@ -51,11 +50,6 @@ export class LoadMorePagingComponent  extends PagingAbstractComponent<CssClasses
      * Number of all items that are paged with current filter criteria
      */
     protected _totalCount: number = 0;
-
-    /**
-     * Texts locator used for handling texts
-     */
-    protected _textsLocator: TextsLocator;
 
     /**
      * Subscription for changes in texts
@@ -115,6 +109,7 @@ export class LoadMorePagingComponent  extends PagingAbstractComponent<CssClasses
     //######################### constructor #########################
     constructor(pluginElement: ElementRef,
                 changeDetector: ChangeDetectorRef,
+                @Inject(STRING_LOCALIZATION) protected _stringLocalization: StringLocalization,
                 @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins?: GridPluginInstances,
                 @Inject(PAGING_OPTIONS) @Optional() options?: LoadMorePagingOptions)
     {
@@ -144,22 +139,7 @@ export class LoadMorePagingComponent  extends PagingAbstractComponent<CssClasses
      */
     public initialize()
     {
-        let textsLocator: TextsLocator = this.gridPlugins[TEXTS_LOCATOR] as TextsLocator;
-
-        if(this._textsLocator && this._textsLocator != textsLocator)
-        {
-            this._textsChangedSubscription.unsubscribe();
-            this._textsChangedSubscription = null;
-
-            this._textsLocator = null;
-        }
-
-        if(!this._textsLocator)
-        {
-            this._textsLocator = textsLocator;
-
-            this._textsChangedSubscription = this._textsLocator.textsChange.subscribe(() => this._initTexts());
-        }
+        this._textsChangedSubscription = this._stringLocalization.textsChange.subscribe(() => this._initTexts());
 
         this._initTexts();
         super.initialize();
@@ -188,7 +168,7 @@ export class LoadMorePagingComponent  extends PagingAbstractComponent<CssClasses
     {
         Object.keys(this.options.texts).forEach(key =>
         {
-            this.texts[key] = this._textsLocator.getText(this.options.texts[key]);
+            this.texts[key] = this._stringLocalization.get(this.options.texts[key]);
         });
 
         this._changeDetector.detectChanges();

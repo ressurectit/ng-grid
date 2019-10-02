@@ -1,7 +1,6 @@
 <div>
     <ng-template [ngComponentOutletEx]="gridOptions?.plugins?.metadataSelector?.type" (ngComponentOutletExCreated)="setMetadataSelectorComponent($event)"></ng-template>
     <ng-template [ngComponentOutletEx]="gridOptions?.plugins?.dataLoader?.type" (ngComponentOutletExCreated)="setDataLoaderComponent($event)"></ng-template>
-    <ng-template [ngComponentOutletEx]="gridOptions?.plugins?.textsLocator?.type" (ngComponentOutletExCreated)="setTextsLocatorComponent($event)"></ng-template>
     <ng-template [ngComponentOutletEx]="gridOptions?.plugins?.rowSelector?.type" (ngComponentOutletExCreated)="setRowSelectorComponent($event)"></ng-template>
     <ng-template [ngComponentOutletEx]="gridOptions?.plugins?.pagingInitializer?.type" (ngComponentOutletExCreated)="setPagingInitializerComponent($event)"></ng-template>
 

@@ -5,7 +5,7 @@ import {Observable, BehaviorSubject} from 'rxjs';
 import {GridPluginInstances, Grid, GridFunction} from "./grid.interface";
 import {GRID_PLUGIN_INSTANCES} from './types';
 import {GridOptions, PluginDescription, GridPlugin} from "../../misc";
-import {GRID_OPTIONS, PAGING_TYPE, DATA_LOADER_TYPE, CONTENT_RENDERER_TYPE, METADATA_SELECTOR_TYPE, NO_DATA_RENDERER_TYPE, TEXTS_LOCATOR_TYPE, ROW_SELECTOR_TYPE, PAGING_INITIALIZER_TYPE} from "../../misc/types";
+import {GRID_OPTIONS, PAGING_TYPE, DATA_LOADER_TYPE, CONTENT_RENDERER_TYPE, METADATA_SELECTOR_TYPE, NO_DATA_RENDERER_TYPE, ROW_SELECTOR_TYPE, PAGING_INITIALIZER_TYPE} from "../../misc/types";
 import {PagingPosition} from "../../misc/enums";
 import {Paging} from "../../plugins/paging";
 import {BasicPagingComponent} from "../../plugins/paging/components";
@@ -24,9 +24,6 @@ import {METADATA_SELECTOR} from "../../plugins/metadataSelector/types";
 import {NoDataRenderer} from "../../plugins/noDataRenderer";
 import {SimpleNoDataRendererComponent} from "../../plugins/noDataRenderer/components";
 import {NO_DATA_RENDERER} from "../../plugins/noDataRenderer/types";
-import {TextsLocator} from "../../plugins/textsLocator";
-import {NoTextsLocatorComponent} from "../../plugins/textsLocator/components";
-import {TEXTS_LOCATOR} from "../../plugins/textsLocator/types";
 import {RowSelector} from "../../plugins/rowSelector";
 import {BasicRowSelectorComponent} from "../../plugins/rowSelector/components";
 import {ROW_SELECTOR} from "../../plugins/rowSelector/types";
@@ -63,10 +60,6 @@ const defaultOptions: GridOptions =
         noDataRenderer: <PluginDescription<SimpleNoDataRendererComponent>>
         {
             type: forwardRef(() => SimpleNoDataRendererComponent)
-        },
-        textsLocator: <PluginDescription<NoTextsLocatorComponent>>
-        {
-            type: forwardRef(() => NoTextsLocatorComponent)
         },
         rowSelector: <PluginDescription<BasicRowSelectorComponent<any, any, any>>>
         {
@@ -163,7 +156,6 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
                 @Inject(CONTENT_RENDERER_TYPE) @Optional() contentRendererType?: Type<ContentRenderer<any>>,
                 @Inject(METADATA_SELECTOR_TYPE) @Optional() metadataSelectorType?: Type<MetadataSelector<any>>,
                 @Inject(NO_DATA_RENDERER_TYPE) @Optional() noDataRendererType?: Type<NoDataRenderer>,
-                @Inject(TEXTS_LOCATOR_TYPE) @Optional() textsLocatorType?: Type<TextsLocator>,
                 @Inject(ROW_SELECTOR_TYPE) @Optional() rowSelectorType?: Type<RowSelector<any, any, any>>)
     {
         let opts: GridOptions = extend({}, options);
@@ -231,16 +223,6 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
             }
 
             opts.plugins.noDataRenderer.type = noDataRendererType;
-        }
-
-        if(textsLocatorType)
-        {
-            if(!opts.plugins.textsLocator)
-            {
-                opts.plugins.textsLocator = {};
-            }
-
-            opts.plugins.textsLocator.type = textsLocatorType;
         }
 
         if(rowSelectorType)
@@ -446,33 +428,6 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
     }
 
     /**
-     * Sets texts locator component
-     * @param textsLocator Created texts locator that is rendered
-     * @internal
-     */
-    public setTextsLocatorComponent(textsLocator: TextsLocator)
-    {
-        if(!textsLocator)
-        {
-            return;
-        }
-
-        this._pluginInstances[TEXTS_LOCATOR] = textsLocator;
-
-        if(this._gridOptions.plugins && this._gridOptions.plugins.textsLocator && this._gridOptions.plugins.textsLocator.options)
-        {
-            textsLocator.options = this._gridOptions.plugins.textsLocator.options;
-        }
-
-        textsLocator.initOptions();
-        
-        if(this._gridOptions.plugins && this._gridOptions.plugins.textsLocator && this._gridOptions.plugins.textsLocator.instanceCallback)
-        {
-            this._gridOptions.plugins.textsLocator.instanceCallback(textsLocator);
-        }
-    }
-
-    /**
      * Sets row selector component
      * @param rowSelector Created row selector that is rendered
      * @internal
@@ -506,7 +461,6 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
      */
     public initialize()
     {
-        this._pluginInstances[TEXTS_LOCATOR].initialize();
         this._pluginInstances[ROW_SELECTOR].initialize();
         this._pluginInstances[METADATA_SELECTOR].initialize();
         this._pluginInstances[PAGING_INITIALIZER].initialize();
@@ -655,28 +609,6 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
                     }
 
                     this._pluginInstances[NO_DATA_RENDERER].initOptions();
-                }
-            }
-
-            if(this._gridOptions.plugins.textsLocator)
-            {
-                this._gridOptions.plugins.textsLocator.type = resolveForwardRef(this._gridOptions.plugins.textsLocator.type);
-
-                if(this._gridOptions.plugins.textsLocator.instance &&
-                   this._gridOptions.plugins.textsLocator.instance != this._pluginInstances[TEXTS_LOCATOR])
-                {
-                    this._pluginInstances[TEXTS_LOCATOR] = this._gridOptions.plugins.textsLocator.instance;
-                    this._gridOptions.plugins.textsLocator.instance.gridPlugins = this._pluginInstances;
-                }
-
-                if(this._pluginInstances[TEXTS_LOCATOR])
-                {
-                    if(this._gridOptions.plugins && this._gridOptions.plugins.textsLocator && this._gridOptions.plugins.textsLocator.options)
-                    {
-                        this._pluginInstances[TEXTS_LOCATOR].options = this._gridOptions.plugins.textsLocator.options;
-                    }
-
-                    this._pluginInstances[TEXTS_LOCATOR].initOptions();
                 }
             }
 

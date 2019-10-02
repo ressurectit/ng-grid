@@ -1,6 +1,4 @@
-import {GridFunction} from "../components/grid";
-import {Paging} from "../plugins/paging";
-import {PAGING} from "../plugins/paging/types";
+import {GridFunction, Paging, PAGING} from "@anglr/grid";
 
 /**
  * Gets current page of grid

@@ -1,6 +1,4 @@
-import {GridFunction} from "../components/grid";
-import {RowSelector} from "../plugins/rowSelector";
-import {ROW_SELECTOR} from "../plugins/rowSelector/types";
+import {GridFunction, RowSelector, ROW_SELECTOR} from "@anglr/grid";
 
 /**
  * Gets indication whether is selected at least one item from whole selection

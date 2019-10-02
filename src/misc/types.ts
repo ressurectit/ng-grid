@@ -5,7 +5,6 @@ import {DataLoader} from "../plugins/dataLoader";
 import {ContentRenderer} from "../plugins/contentRenderer";
 import {MetadataSelector} from "../plugins/metadataSelector";
 import {NoDataRenderer} from "../plugins/noDataRenderer";
-import {TextsLocator} from "../plugins/textsLocator";
 import {RowSelector} from "../plugins/rowSelector";
 import {PagingInitializer} from "../plugins/pagingInitializer";
 import {GridOptions} from "./gridOptions.interface";
@@ -47,11 +46,6 @@ export const METADATA_SELECTOR_TYPE: InjectionToken<MetadataSelector<any>> = new
 export const NO_DATA_RENDERER_TYPE: InjectionToken<NoDataRenderer> = new InjectionToken<NoDataRenderer>('NO_DATA_RENDERER_TYPE');
 
 /**
- * Injection token for 'TextsLocator' implementation
- */
-export const TEXTS_LOCATOR_TYPE: InjectionToken<TextsLocator> = new InjectionToken<TextsLocator>('TEXTS_LOCATOR_TYPE');
-
-/**
  * Injection token for 'RowSelector' implementation
  */
 export const ROW_SELECTOR_TYPE: InjectionToken<RowSelector<any, any, any>> = new InjectionToken<RowSelector<any, any, any>>('ROW_SELECTOR_TYPE');
@@ -90,11 +84,6 @@ export class GridPluginTypes
      * Renderer used for rendering information that there are no data currently
      */
     noDataRenderer?: PluginDescription<NoDataRenderer>;
-
-    /**
-     * Locator for texts that are used in plugins
-     */
-    textsLocator?: PluginDescription<TextsLocator>;
 
     /**
      * Row selector used for handling row selection

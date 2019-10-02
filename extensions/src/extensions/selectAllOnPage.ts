@@ -1,8 +1,4 @@
-import {GridAction} from "../components/grid";
-import {RowSelector} from "../plugins/rowSelector";
-import {ROW_SELECTOR} from "../plugins/rowSelector/types";
-import {DataLoader, DataResponse} from "../plugins/dataLoader";
-import {DATA_LOADER} from "../plugins/dataLoader/types";
+import {GridAction, RowSelector, ROW_SELECTOR, DataLoader, DataResponse, DATA_LOADER} from "@anglr/grid";
 
 /**
  * Selects or deselects all items on current page

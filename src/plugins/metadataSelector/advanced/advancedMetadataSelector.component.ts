@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, ElementRef, EventEmitter, Inject, ChangeDetectorRef, Optional, OnDestroy} from "@angular/core";
-import {CookieService} from "@anglr/common";
+import {CookieService, STRING_LOCALIZATION, StringLocalization} from "@anglr/common";
 import {extend, isBlank} from "@jscrpt/common";
 import {Subscription} from "rxjs";
 
@@ -10,8 +10,6 @@ import {GRID_PLUGIN_INSTANCES} from "../../../components/grid/types";
 import {METADATA_SELECTOR_OPTIONS} from "../types";
 import {AdvancedMetadataSelectorOptions, AdvancedMetadataSelector, AdvancedGridColumn, AdvancedMetadataSelectorTexts} from "./advancedMetadataSelector.interface";
 import {HEADER_CONTENT_RENDERER} from "../../contentRenderer/types";
-import {TextsLocator} from "../../textsLocator";
-import {TEXTS_LOCATOR} from "../../textsLocator/types";
 
 /**
  * @ignore
@@ -223,11 +221,6 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
     private _options: AdvancedMetadataSelectorOptions;
 
     /**
-     * Texts locator used for handling texts
-     */
-    private _textsLocator: TextsLocator;
-
-    /**
      * Subscription for changes in texts
      */
     private _textsChangedSubscription: Subscription;
@@ -353,6 +346,8 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
                 public pluginElement: ElementRef,
                 private _changeDetector: ChangeDetectorRef,
                 private _cookies: CookieService,
+                @Inject(STRING_LOCALIZATION) protected _stringLocalization: StringLocalization,
+
                 @Inject(METADATA_SELECTOR_OPTIONS) @Optional() options?: AdvancedMetadataSelectorOptions)
     {
         this._options = extend(true, {}, defaultOptions, options);
@@ -588,22 +583,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
             });
         }
 
-        let textsLocator: TextsLocator = this.gridPlugins[TEXTS_LOCATOR] as TextsLocator;
-
-        if(this._textsLocator && this._textsLocator != textsLocator)
-        {
-            this._textsChangedSubscription.unsubscribe();
-            this._textsChangedSubscription = null;
-
-            this._textsLocator = null;
-        }
-
-        if(!this._textsLocator)
-        {
-            this._textsLocator = textsLocator;
-
-            this._textsChangedSubscription = this._textsLocator.textsChange.subscribe(() => this._initTexts());
-        }
+        this._textsChangedSubscription = this._stringLocalization.textsChange.subscribe(() => this._initTexts());
 
         this._allMetadata = this.metadataGatherer.getMetadata();
         this._initMetadata();
@@ -634,7 +614,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
     {
         Object.keys(this.options.texts).forEach(key =>
         {
-            this.texts[key] = this._textsLocator.getText(this.options.texts[key]);
+            this.texts[key] = this._stringLocalization.get(this.options.texts[key]);
         });
 
         this._changeDetector.detectChanges();

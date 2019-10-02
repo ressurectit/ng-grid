@@ -1,6 +1,4 @@
-import {GridAction} from "../components/grid";
-import {RowSelector} from "../plugins/rowSelector";
-import {ROW_SELECTOR} from "../plugins/rowSelector/types";
+import {GridAction, RowSelector, ROW_SELECTOR} from "@anglr/grid";
 
 /**
  * Resets (deselects) all selection

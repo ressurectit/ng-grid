@@ -1,8 +1,8 @@
 {
     "name": "@anglr/grid/scrollmagic",
-    "module": "./dist/es5/scrollmagic/scrollmagic.js",
-    "esm2015": "./dist/es2015/scrollmagic/scrollmagic.js",
-    "esm5": "./dist/es5/scrollmagic/scrollmagic.js",
-    "typings": "./scrollmagic.d.ts",
+    "module": "./dist/es5/scrollmagic/index.js",
+    "esm2015": "./dist/es2015/scrollmagic/index.js",
+    "esm5": "./dist/es5/scrollmagic/index.js",
+    "typings": "./index.d.ts",
     "sideEffects": false
 }
