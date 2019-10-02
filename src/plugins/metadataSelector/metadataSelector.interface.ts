@@ -29,4 +29,9 @@ export interface MetadataSelector<TMetadata> extends GridPlugin
      * Occurs when metadata changed
      */
     metadataChange: EventEmitter<void>;
+
+    /**
+     * Shows metadata selector
+     */
+    show(): void;
 }

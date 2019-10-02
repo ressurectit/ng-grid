@@ -299,7 +299,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
     /**
      * Current metadata that are used for rendering
      */
-    public metadata: BasicTableMetadata<AdvancedGridColumn> = 
+    public metadata: BasicTableMetadata<AdvancedGridColumn> =
     {
         columns: []
     };
@@ -354,7 +354,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
     }
 
     //######################### public methods - implementation of OnDestroy #########################
-    
+
     /**
      * Called when component is destroyed
      */
@@ -403,7 +403,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
     {
         let unused = this.metadata.columns.splice(this.metadata.columns.indexOf(column), 1);
         this.unusedMetadata.splice(this.unusedMetadata.length - 1, 0, unused[0]);
-        this.metadata = 
+        this.metadata =
         {
             columns: [...this.metadata.columns]
         };
@@ -429,7 +429,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
 
         let used = this.unusedMetadata.splice(this.unusedMetadata.indexOf(column), 1);
         this.metadata.columns.splice(index, 0, used[0]);
-        this.metadata = 
+        this.metadata =
         {
             columns: [...this.metadata.columns]
         };
@@ -562,6 +562,16 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
     //######################### public methods - implementation of AdvancedMetadataSelector #########################
 
     /**
+     * Shows metadata selector
+     */
+    public show(): void
+    {
+        this.showColSelection();
+
+        this.invalidateVisuals();
+    }
+
+    /**
      * Initialize plugin, to be ready to use, initialize communication with other plugins
      */
     public initialize()
@@ -629,7 +639,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
 
         if(cookieState)
         {
-            this.metadata = 
+            this.metadata =
             {
                 columns: []
             };
@@ -656,7 +666,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
         }
         else
         {
-            this.metadata = 
+            this.metadata =
             {
                 columns: this._allMetadata.columns.filter(itm => itm.visible)
             }

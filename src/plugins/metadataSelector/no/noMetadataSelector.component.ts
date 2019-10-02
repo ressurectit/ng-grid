@@ -79,6 +79,13 @@ export class NoMetadataSelectorComponent<TMetadata> implements NoMetadataSelecto
     //######################### public methods - implementation of NoMetadataSelector #########################
 
     /**
+     * Shows metadata selector
+     */
+    public show(): void
+    {
+    }
+
+    /**
      * Initialize plugin, to be ready to use, initialize communication with other plugins
      */
     public initialize()

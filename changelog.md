@@ -6,6 +6,7 @@
    - `LocalPermanentStorageService` as implementation of `PermanentStorage` using *LocalStorage*
  - created *subpackage* `@anglr/grid/extensions` containing all `extensions` methods (moved sources to this folder)
    - added new extension method `showMetadataSelector` allowing to display metadata selector
+ - added method `show` to `MetadataSelector`
  - removed `TextsLocator` plugin and everything about it, replaced with `@anglr/common` `StringLocalization`
 
 ## Version 6.0.0

@@ -1,0 +1,19 @@
+{
+    "extends": "../tsconfig.json",
+    "compilerOptions": 
+    {
+        "baseUrl": ".",
+        "paths": 
+        {
+            "@anglr/grid": ["../src/grid"]
+        }
+    },
+    "files":
+    [
+        "public_api.ts"
+    ],
+    "angularCompilerOptions":
+    {
+        "fullTemplateTypeCheck": true
+    }
+}
