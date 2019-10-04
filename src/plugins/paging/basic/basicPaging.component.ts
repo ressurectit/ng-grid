@@ -193,6 +193,7 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
         super(pluginElement, changeDetector, gridPlugins);
 
         this._options = extend(true, {}, defaultOptions, options);
+        this.optionsSet();
     }
 
     //######################### public methods - template bindings #########################

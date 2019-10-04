@@ -3,11 +3,13 @@
 ## Version 6.1.0
 
  - created *subpackage* `@anglr/grid/material` containing all `@angular/material` dependent code
-   - `LocalPermanentStorageService` as implementation of `PermanentStorage` using *LocalStorage*
+   - added new `DialogMetadataSelectorComponent` as `MetadataSelector` plugin (using angular material dialog)
+   - added new `VerticalDragNDropSelectionComponent` that is used as default content of `DialogMetadataSelectorComponent`
  - created *subpackage* `@anglr/grid/extensions` containing all `extensions` methods (moved sources to this folder)
    - added new extension method `showMetadataSelector` allowing to display metadata selector
  - added method `show` to `MetadataSelector`
  - removed `TextsLocator` plugin and everything about it, replaced with `@anglr/common` `StringLocalization`
+ - fixed `BasicPagingComponent`, `PreviousNextPagingComponent` initialization
 
 ## Version 6.0.0
 

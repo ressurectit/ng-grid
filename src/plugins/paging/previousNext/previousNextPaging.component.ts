@@ -168,6 +168,7 @@ export class PreviousNextPagingComponent extends PagingAbstractComponent<CssClas
         super(pluginElement, changeDetector, gridPlugins);
 
         this._options = extend(true, {}, defaultOptions, options);
+        this.optionsSet();
     }
 
     //######################### public methods #########################
