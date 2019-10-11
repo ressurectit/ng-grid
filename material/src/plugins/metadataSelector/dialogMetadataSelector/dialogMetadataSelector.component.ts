@@ -5,7 +5,7 @@ import {GridColumn, GridPluginGeneric, MetadataGatherer, BasicTableMetadata, Gri
 import {extend, isPresent, Dictionary, isJsObject} from "@jscrpt/common";
 import {Subscription} from "rxjs";
 
-import {DialogMetadataSelectorOptions, DialogMetadataSelector, DialogMetadataSelectorTexts, DialogMetadataSelectorComponent as DialogMetadataSelectorComponentInterface, DialogMetadataSelectorComponentData} from "./dialogMetadataSelector.interface";
+import {DialogMetadataSelectorOptions, DialogMetadataSelector, DialogMetadataSelectorTexts, DialogMetadataSelectorContentComponent, DialogMetadataSelectorComponentData} from "./dialogMetadataSelector.interface";
 import {VerticalDragNDropSelectionComponent} from "../../../components/verticalDragNDropSelection/types";
 import {CssClassesVerticalDragNDropSelection, VerticalDragNDropSelectionTexts} from "../../../components/verticalDragNDropSelection";
 
@@ -103,7 +103,7 @@ export class DialogMetadataSelectorComponent implements DialogMetadataSelector<B
     /**
      * Component that is used for handling metadata selection itself
      */
-    protected _dialogComponent?: Type<DialogMetadataSelectorComponentInterface<BasicTableMetadata<GridColumn>>>;
+    protected _dialogComponent?: Type<DialogMetadataSelectorContentComponent<BasicTableMetadata<GridColumn>>>;
 
     /**
      * Metadata for selection, contains all metadata in correct order

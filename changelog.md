@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 6.1.2
+
+ - *subpackage* `@anglr/grid/material`
+   - fixed compilation error
+
 ## Version 6.1.1
 
  - *subpackage* `@anglr/grid/material`
