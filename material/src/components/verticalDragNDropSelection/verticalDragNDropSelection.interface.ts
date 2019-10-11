@@ -6,6 +6,7 @@ export interface CssClassesVerticalDragNDropSelection
     titleClass?: string;
     containerClass?: string;
     itemClass?: string;
+    dragIconClass?: string;
 }
 
 /**

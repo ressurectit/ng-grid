@@ -3,7 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import {BasicTableMetadata, GridColumn} from "@anglr/grid";
 
-import {DialogMetadataSelectorComponent, DialogMetadataSelectorComponentData} from "../../plugins/metadataSelector";
+import {DialogMetadataSelectorContentComponent, DialogMetadataSelectorComponentData} from "../../plugins/metadataSelector";
 import {VerticalDragNDropSelectionTexts, CssClassesVerticalDragNDropSelection} from './verticalDragNDropSelection.interface';
 
 /**
@@ -16,7 +16,7 @@ import {VerticalDragNDropSelectionTexts, CssClassesVerticalDragNDropSelection} f
     styleUrls: ['verticalDragNDropSelection.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VerticalDragNDropSelectionComponent implements DialogMetadataSelectorComponent<BasicTableMetadata<GridColumn>>
+export class VerticalDragNDropSelectionComponent implements DialogMetadataSelectorContentComponent<BasicTableMetadata<GridColumn>>
 {
     //######################### public properties - template bindings #########################
 

@@ -44,7 +44,7 @@ export interface DialogMetadataSelectorOptions<TMetadata> extends MetadataSelect
     /**
      * Component that is used for handling metadata selection itself
      */
-    dialogComponent?: Type<DialogMetadataSelectorComponent<TMetadata>>;
+    dialogComponent?: Type<DialogMetadataSelectorContentComponent<TMetadata>>;
 }
 
 /**
@@ -84,7 +84,7 @@ export interface DialogMetadataSelectorComponentData<TMetadata>
 /**
  * Component that is rendered within dialog
  */
-export interface DialogMetadataSelectorComponent<TMetadata>
+export interface DialogMetadataSelectorContentComponent<TMetadata>
 {
     /**
      * Data that are used for communication with MetadataSelector

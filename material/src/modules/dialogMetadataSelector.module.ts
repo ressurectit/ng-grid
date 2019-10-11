@@ -1,6 +1,7 @@
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import {MatDialogModule} from "@angular/material/dialog";
 
 import {DialogMetadataSelectorComponent} from "../plugins/metadataSelector/components";
 import {VerticalDragNDropSelectionComponent} from "../components/verticalDragNDropSelection/types";
@@ -13,7 +14,8 @@ import {VerticalDragNDropSelectionComponent} from "../components/verticalDragNDr
     imports:
     [
         CommonModule,
-        DragDropModule
+        DragDropModule,
+        MatDialogModule
     ],
     declarations:
     [

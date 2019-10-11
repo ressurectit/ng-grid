@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 6.1.1
+
+ - *subpackage* `@anglr/grid/material`
+   - fix `DialogMetadataSelectorComponent` export now correctly exported as stated
+   - added missing import `MatDialogModule` to `DialogMetadataSelectorModule`
+   - `VerticalDragNDropSelectionComponent`
+      - added padding to component
+      - added icon for dragging
+
 ## Version 6.1.0
 
  - created *subpackage* `@anglr/grid/material` containing all `@angular/material` dependent code

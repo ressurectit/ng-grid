@@ -35,7 +35,8 @@ const defaultOptions: DialogMetadataSelectorOptions<any> =
         {
             containerClass: 'metadata-columns',
             itemClass: 'metadata-column',
-            titleClass: 'metadata-columns-title'
+            titleClass: 'metadata-columns-title',
+            dragIconClass: 'fa fa-bars'
         }
     },
     texts:
