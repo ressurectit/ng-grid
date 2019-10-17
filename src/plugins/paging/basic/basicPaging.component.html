@@ -1,6 +1,6 @@
 <div>
     <ul [ngClass]="options?.cssClasses?.pagingUl">
-        <li *ngFor="let page of pages" [ngClass]="{disabled: page.isDisabled, active: page.isActive, 'pointer-cursor': !page.IsDisabled && !page.isActive}">
+        <li *ngFor="let page of pages" [ngClass]="{disabled: page.isDisabled, active: page.isActive, 'pointer-cursor': !page.isDisabled && !page.isActive}">
             <a (click)="setPage(page)">
                 <span [innerHtml]="page.title"></span>
             </a>

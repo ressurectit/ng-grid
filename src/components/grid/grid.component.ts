@@ -31,6 +31,8 @@ import {PagingInitializer} from "../../plugins/pagingInitializer";
 import {NoPagingInitializerComponent} from "../../plugins/pagingInitializer/components";
 import {PAGING_INITIALIZER} from "../../plugins/pagingInitializer/types";
 
+//TODO - make grid css class customizable
+
 /**
  * Default 'GridOptions'
  * @internal
@@ -88,6 +90,7 @@ export function gridPluginInstancesFactory()
 {
     selector: 'ng-grid',
     templateUrl: 'grid.component.html',
+    styleUrls: ['grid.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers:
     [

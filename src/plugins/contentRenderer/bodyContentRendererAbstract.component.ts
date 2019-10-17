@@ -9,6 +9,7 @@ import {PAGING} from "../paging/types";
 import {GridPluginGeneric} from "../../misc";
 
 //TODO - compute classes before rendering
+//TOOD - mergeClasses as pipe
 
 /**
  * Abstract component for body content renderer

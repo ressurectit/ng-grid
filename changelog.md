@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 6.2.0
+
+- `GridComponent` now renders without *wrapper* div around plugins
+- *subpackage* `@anglr/grid/material` 
+   - added new `VirtualScrollTableContentRendererModule` that allows usage of *VirtualScrollContentRenderer*
+   - added new `VirtualScrollTableContentRendererComponent` as `ContentRenderer` plugin (using angular cdk virtual scroll)
+   - added new `VirtualScrollTableHeaderContentRendererComponent` as `HeaderContentRenderer` plugin (using angular cdk virtual scroll)
+   - added new `VirtualScrollTableBodyContentRendererComponent` as `BodyContentRenderer` plugin (using angular cdk virtual scroll)
+
 ## Version 6.1.2
 
  - *subpackage* `@anglr/grid/material`
@@ -49,7 +58,7 @@
  - added new extension method `invalidateBodyContent`, used for invalidating body content
 
 ## Version 5.0.2
- - added new method `setGridPluginInstances` into `GridComponent` 
+ - added new method `setGridPluginInstances` into `GridComponent`
 
 ## Version 5.0.1
  - added new extension method `refreshDataToDefaultPage`
@@ -308,7 +317,7 @@
 
 ## Version 1.2.4
  - items count correct displaying
- - all items now has active class when clicked 
+ - all items now has active class when clicked
 
 ## Version 1.2.3
  - items count not displayed if all items displayed
