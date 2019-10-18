@@ -1,3 +1,4 @@
+import {CdkVirtualScrollViewport} from "@angular/cdk/scrolling";
 import {ContentRenderer, HeaderContentRenderer, BodyContentRenderer, BodyContentRendererOptions, ContentRendererOptions, ContentRendererPlugins, CssClassesHeaderContentRenderer, HeaderContentRendererOptions} from "@anglr/grid";
 
 /**
@@ -26,6 +27,10 @@ export interface VirtualScrollTableContentRendererOptions extends ContentRendere
  */
 export interface VirtualScrollTableContentRenderer<TOrdering> extends ContentRenderer<TOrdering>
 {
+    /**
+     * Instance of angular CDK virtual scroll viewport
+     */
+    scrollViewport: CdkVirtualScrollViewport;
 }
 
 /**

@@ -1,8 +1,9 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, HostBinding, ElementRef} from "@angular/core";
-import {HEADER_CONTENT_RENDERER_OPTIONS, HeaderContentRendererAbstractComponent, SimpleOrdering, BasicTableMetadata, BasicOrderableColumn} from "@anglr/grid";
+import {CdkVirtualScrollViewport} from "@angular/cdk/scrolling";
+import {HEADER_CONTENT_RENDERER_OPTIONS, HeaderContentRendererAbstractComponent, SimpleOrdering, BasicTableMetadata, BasicOrderableColumn, CONTENT_RENDERER, GridPluginInstances, GRID_PLUGIN_INSTANCES} from "@anglr/grid";
 import {extend} from "@jscrpt/common";
 
-import {VirtualScrollTableHeaderContentRendererOptions, VirtualScrollTableHeaderContentRenderer} from '../virtualScrollTableContentRenderer.interface';
+import {VirtualScrollTableHeaderContentRendererOptions, VirtualScrollTableHeaderContentRenderer, VirtualScrollTableContentRenderer} from '../virtualScrollTableContentRenderer.interface';
 
 /**
  * Default options for 'VirtualScrollTableHeaderContentRendererComponent'
@@ -38,6 +39,29 @@ const defaultOptions: VirtualScrollTableHeaderContentRendererOptions =
 })
 export class VirtualScrollTableHeaderContentRendererComponent<TData> extends HeaderContentRendererAbstractComponent<TData, VirtualScrollTableHeaderContentRendererOptions> implements VirtualScrollTableHeaderContentRenderer<SimpleOrdering, BasicTableMetadata<BasicOrderableColumn<TData>>>
 {
+    //######################### protected fields #########################
+
+    /**
+     * Instance of angular CDK virtual scroll viewport assigned to parent content renderer
+     */
+    protected _scrollViewport: CdkVirtualScrollViewport;
+
+    //######################### public properties - template bindings #########################
+
+    /**
+     * Gets position of header from start after scrolling
+     * @internal
+     */
+    public get fromStart(): number
+    {
+        if(!this._scrollViewport)
+        {
+            return 0;
+        }
+
+        return -this._scrollViewport.getOffsetToRenderedContentStart();
+    };
+
     //######################### public properties - host #########################
 
     /**
@@ -52,10 +76,36 @@ export class VirtualScrollTableHeaderContentRendererComponent<TData> extends Hea
     //######################### constructor #########################
     constructor(pluginElement: ElementRef,
                 changeDetector: ChangeDetectorRef,
+                @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins: GridPluginInstances,
                 @Inject(HEADER_CONTENT_RENDERER_OPTIONS) @Optional() options: VirtualScrollTableHeaderContentRendererOptions)
     {
         super(pluginElement, changeDetector);
 
+        this.gridPlugins = gridPlugins;
         this._options = extend(true, {}, defaultOptions, options);
+    }
+
+    //######################### public methods - implementation of TableHeaderContentRenderer #########################
+
+    /**
+     * Initialize plugin, to be ready to use, initialize communication with other plugins
+     */
+    public initialize()
+    {
+        super.initialize();
+
+        let contentRenderer = this.gridPlugins[CONTENT_RENDERER] as VirtualScrollTableContentRenderer<any>;
+        this._scrollViewport = contentRenderer.scrollViewport;
+    }
+
+    //######################### public methods - implementation of DoCheck #########################
+    
+    /**
+     * Called when component is checked for changes
+     */
+    public ngDoCheck()
+    {
+        //TODO - check if there are no performance issues with this, so far working
+        this._changeDetector.detectChanges();
     }
 }

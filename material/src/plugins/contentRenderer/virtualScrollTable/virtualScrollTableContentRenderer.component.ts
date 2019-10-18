@@ -1,4 +1,5 @@
-import {Component, ChangeDetectionStrategy, Inject, Optional, OnDestroy, HostBinding, forwardRef, ElementRef} from "@angular/core";
+import {Component, ChangeDetectionStrategy, Inject, Optional, OnDestroy, HostBinding, forwardRef, ElementRef, ViewChild} from "@angular/core";
+import {CdkVirtualScrollViewport} from "@angular/cdk/scrolling";
 import {GridPluginInstances, GRID_PLUGIN_INSTANCES, CONTENT_RENDERER_OPTIONS, PluginDescription, ContentRendererAbstractComponent} from "@anglr/grid";
 import {extend} from "@jscrpt/common";
 
@@ -17,7 +18,7 @@ const defaultOptions: VirtualScrollTableContentRendererOptions =
     {
         table: 'table table-condensed table-striped table-hover',
         containerDiv: 'table-container',
-        virtualScrollViewport: 'viewport-container'
+        virtualScrollViewport: 'viewport-container thin-scrollbar'
     },
     plugins:
     {
@@ -48,12 +49,21 @@ export class VirtualScrollTableContentRendererComponent<TOrdering, TData, TMetad
 
     /**
      * Css class applied to grid itself
+     * @internal
      */
     @HostBinding('class')
     public get cssClass(): string
     {
         return this._options.cssClasses.containerDiv;
     }
+
+    //######################### public properties - children #########################
+
+    /**
+     * Instance of angular CDK virtual scroll viewport
+     */
+    @ViewChild(CdkVirtualScrollViewport)
+    public scrollViewport: CdkVirtualScrollViewport;
 
     //######################### constructor #########################
     constructor(pluginElement: ElementRef,
