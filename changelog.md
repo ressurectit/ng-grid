@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 6.1.3
+
+ - added missing *title* with tooltip for `TableHeaderContentRendererComponent` and `GroupedTableHeaderContentRendererComponent`
+
 ## Version 6.1.2
 
  - *subpackage* `@anglr/grid/material`
