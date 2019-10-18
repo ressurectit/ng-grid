@@ -4,6 +4,7 @@ import {ScrollingModule} from '@angular/cdk/scrolling';
 import {CommonModule as NgCommonModule} from "@anglr/common";
 
 import {VirtualScrollTableContentRendererComponent, VirtualScrollTableBodyContentRendererComponent, VirtualScrollTableHeaderContentRendererComponent} from "../plugins/contentRenderer/components";
+import {CdkVirtualScrollPagingComponent} from "../plugins/paging/components";
 
 /**
  * Module allows using of angular material virtual scroll within content renderer
@@ -20,19 +21,22 @@ import {VirtualScrollTableContentRendererComponent, VirtualScrollTableBodyConten
     [
         VirtualScrollTableContentRendererComponent,
         VirtualScrollTableBodyContentRendererComponent,
-        VirtualScrollTableHeaderContentRendererComponent
+        VirtualScrollTableHeaderContentRendererComponent,
+        CdkVirtualScrollPagingComponent
     ],
     entryComponents:
     [
         VirtualScrollTableContentRendererComponent,
         VirtualScrollTableBodyContentRendererComponent,
-        VirtualScrollTableHeaderContentRendererComponent
+        VirtualScrollTableHeaderContentRendererComponent,
+        CdkVirtualScrollPagingComponent
     ],
     exports:
     [
         VirtualScrollTableContentRendererComponent,
         VirtualScrollTableBodyContentRendererComponent,
-        VirtualScrollTableHeaderContentRendererComponent
+        VirtualScrollTableHeaderContentRendererComponent,
+        CdkVirtualScrollPagingComponent
     ]
 })
 export class VirtualScrollTableContentRendererModule

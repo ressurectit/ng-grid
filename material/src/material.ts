@@ -6,3 +6,5 @@ export * from './plugins/metadataSelector/components';
 export * from './plugins/metadataSelector';
 export * from './plugins/contentRenderer/components';
 export * from './plugins/contentRenderer';
+export * from './plugins/paging/components';
+export * from './plugins/paging';
