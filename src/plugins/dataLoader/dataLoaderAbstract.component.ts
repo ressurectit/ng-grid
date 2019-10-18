@@ -11,6 +11,7 @@ import {CONTENT_RENDERER} from "../contentRenderer/types";
 import {GridPluginInstances} from "../../components/grid";
 import {GRID_PLUGIN_INSTANCES} from "../../components/grid/types";
 import {GridPluginGeneric} from "../../misc";
+import {DataLoaderState} from "./types";
 
 /**
  * Abstract class that represents any data loader component
@@ -48,6 +49,11 @@ export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOpt
     protected _paging: Paging;
 
     /**
+     * Current state of data loader
+     */
+    protected _state: DataLoaderState = DataLoaderState.NotLoadedYet;
+
+    /**
      * Subscription for page change in paging
      */
     protected _pageChangedSubscription: Subscription;
@@ -80,6 +86,14 @@ export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOpt
     //######################### public properties #########################
 
     /**
+     * Current state of data loader
+     */
+    public get state(): DataLoaderState
+    {
+        return this._state;
+    }
+
+    /**
      * Gets or sets options for 'DataLoader'
      */
     public set options(options: TOptions)
@@ -100,6 +114,11 @@ export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOpt
      * Indication that data has changed
      */
     public resultChange: EventEmitter<void> = new EventEmitter<void>();
+
+    /**
+     * Indication that data loader state has changed
+     */
+    public stateChange: EventEmitter<void> =  new EventEmitter<void>();
 
     //######################### constructor #########################
     constructor(public pluginElement: ElementRef,

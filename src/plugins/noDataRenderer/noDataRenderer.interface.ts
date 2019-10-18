@@ -3,19 +3,35 @@ import {TemplateRef} from "@angular/core";
 import {VisualPluginOptions, GridPlugin} from "../../misc";
 
 /**
+ * Texts that are used within NoDataRenderer
+ */
+export interface NoDataRendererTexts
+{
+    /**
+     * Text that should be displayed when there is no data available
+     */
+    noData?: string;
+
+    /**
+     * Text that should be displayed when there is no data and data are loaded
+     */
+    loading?: string;
+
+    /**
+     * Text that should be displayed when data were not loaded yet, before first obtaining of data
+     */
+    notLoaded?: string;
+}
+
+/**
  * Base no data renderer options
  */
 export interface NoDataRendererOptions<TCssClasses> extends VisualPluginOptions<TCssClasses>
 {
     /**
-     * Text displayed if no data were obtained
+     * Texts that are used within NoDataRenderer
      */
-    text?: string;
-
-    /**
-     * Text displayed when plugin was not initialized
-     */
-    initText?: string;
+    texts?: NoDataRendererTexts;
 
     /**
      * Custom template for no data

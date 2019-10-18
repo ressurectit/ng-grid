@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy, Inject, Optional, ElementRef} from "
 import {extend} from "@jscrpt/common";
 
 import {DataResponse} from "../dataLoader.interface";
-import {DATA_LOADER_OPTIONS} from "../types";
+import {DATA_LOADER_OPTIONS, DataLoaderState} from "../types";
 import {AsyncDataLoaderOptions, AsyncDataLoader} from "./asyncDataLoader.interface";
 import {GridPluginInstances} from "../../../components/grid";
 import {GRID_PLUGIN_INSTANCES} from "../../../components/grid/types";
@@ -112,7 +112,13 @@ export class AsyncDataLoaderComponent<TData, TOrdering> extends DataLoaderAbstra
             return;
         }
 
+        this._state = (this._result && this._result.data && this._result.data.length) ? DataLoaderState.DataLoading : DataLoaderState.NoDataLoading;
+        this.stateChange.emit();
+
         let result = await this._options.dataCallback(this._paging.page, this._paging.itemsPerPage, this._contentRenderer.ordering);
+
+        this._state = (result && result.data && result.data.length) ? DataLoaderState.Loaded : DataLoaderState.NoData;
+        this.stateChange.emit();
 
         this._paging.totalCount = result.totalCount;
         this._paging.invalidateVisuals();

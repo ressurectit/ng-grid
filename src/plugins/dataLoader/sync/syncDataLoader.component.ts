@@ -4,7 +4,7 @@ import {from, Observable} from "rxjs";
 import {skip, take, toArray} from "rxjs/operators";
 
 import {SyncDataLoaderOptions, SyncDataLoader} from "./syncDataLoader.interface";
-import {DATA_LOADER_OPTIONS} from "../types";
+import {DATA_LOADER_OPTIONS, DataLoaderState} from "../types";
 import {GridPluginInstances} from "../../../components/grid";
 import {GRID_PLUGIN_INSTANCES} from "../../../components/grid/types";
 import {DataResponse} from "../dataLoader.interface";
@@ -124,6 +124,9 @@ export class SyncDataLoaderComponent<TData, TOrdering> extends DataLoaderAbstrac
 
         let data = [...this._options.data];
 
+        this._state = (data && data.length) ? DataLoaderState.DataLoading : DataLoaderState.NoDataLoading;
+        this.stateChange.emit();
+
         if(this._options.orderData)
         {
             data = this._options.orderData(data, this._contentRenderer.ordering);
@@ -134,6 +137,9 @@ export class SyncDataLoaderComponent<TData, TOrdering> extends DataLoaderAbstrac
                   isNaN(this._paging.itemsPerPage) ? ((source: Observable<TData>) => source) : take(this._paging.itemsPerPage),
                   toArray())
             .toPromise();
+
+        this._state = (data && data.length) ? DataLoaderState.Loaded : DataLoaderState.NoData;
+        this.stateChange.emit();
 
         this._result =
         {

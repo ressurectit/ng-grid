@@ -1,4 +1,5 @@
 import {Inject, Component, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef, Optional, OnDestroy} from "@angular/core";
+import {STRING_LOCALIZATION, StringLocalization} from "@anglr/common";
 import {extend} from "@jscrpt/common";
 import {Subscription} from "rxjs";
 
@@ -7,8 +8,11 @@ import {GridPluginGeneric} from "../../../misc";
 import {GridPluginInstances} from "../../../components/grid";
 import {GRID_PLUGIN_INSTANCES} from "../../../components/grid/types";
 import {DataLoader, DataResponse} from "../../dataLoader";
-import {DATA_LOADER} from "../../dataLoader/types";
+import {DATA_LOADER, DataLoaderState} from "../../dataLoader/types";
 import {SimpleNoDataRenderer, CssClassesSimpleNoDataRenderer, SimpleNoDataRendererOptions} from "./simpleNoDataRenderer.interface";
+import {NoDataRendererTexts} from "../noDataRenderer.interface";
+
+//TODO - change texts for texts options with localizations
 
 /**
  * Default options for no data renderer
@@ -16,7 +20,12 @@ import {SimpleNoDataRenderer, CssClassesSimpleNoDataRenderer, SimpleNoDataRender
  */
 const defaultOptions: SimpleNoDataRendererOptions<CssClassesSimpleNoDataRenderer> =
 {
-    text: 'No data available.',
+    texts:
+    {
+        loading: 'Loading ...',
+        noData: 'No data available.',
+        notLoaded: 'No data loaded yet'
+    },
     cssClasses:
     {
         wrapperDiv: 'simple-no-data',
@@ -48,34 +57,39 @@ const defaultOptions: SimpleNoDataRendererOptions<CssClassesSimpleNoDataRenderer
 })
 export class SimpleNoDataRendererComponent implements SimpleNoDataRenderer, GridPluginGeneric<SimpleNoDataRendererOptions<CssClassesSimpleNoDataRenderer>>, OnDestroy
 {
-    //######################### private fields #########################
+    //######################### protected fields #########################
 
     /**
      * Options for grid plugin
      */
-    private _options: SimpleNoDataRendererOptions<CssClassesSimpleNoDataRenderer>;
+    protected _options: SimpleNoDataRendererOptions<CssClassesSimpleNoDataRenderer>;
 
     /**
      * Data loader currently used
      */
-    private _dataLoader: DataLoader<DataResponse<any>>;
+    protected _dataLoader: DataLoader<DataResponse<any>>;
 
     /**
-     * Subscription for changes in data
+     * Subscription for changes in state of data loader
      */
-    private _dataChangedSubscription: Subscription;
+    protected _stateChangedSubscription: Subscription;
+
+    /**
+     * Subscription for changes in texts
+     */
+    protected _textsChangedSubscription: Subscription;
+
+    /**
+     * Object containing available texts
+     */
+    protected _texts: NoDataRendererTexts = {};
 
     //######################### public properties - template bindings #########################
 
     /**
-     * Indication that data are present or not
+     * Currently displayed text
      */
-    public dataPresent: boolean = false;
-
-    /**
-     * Indication whether plugin is already initialized
-     */
-    public initialized: boolean = false;
+    public text: string;
 
     //######################### public properties - implementation of NoDataRenderer #########################
 
@@ -93,8 +107,9 @@ export class SimpleNoDataRendererComponent implements SimpleNoDataRenderer, Grid
 
     //######################### constructor #########################
     constructor(@Inject(GRID_PLUGIN_INSTANCES) @Optional() public gridPlugins: GridPluginInstances,
+                @Inject(STRING_LOCALIZATION) protected _stringLocalization: StringLocalization,
                 public pluginElement: ElementRef,
-                private _changeDetector: ChangeDetectorRef,
+                protected _changeDetector: ChangeDetectorRef,
                 @Inject(NO_DATA_RENDERER_OPTIONS) @Optional() options?: SimpleNoDataRendererOptions<CssClassesSimpleNoDataRenderer>)
     {
         this._options = extend(true, {}, defaultOptions, options);
@@ -107,10 +122,16 @@ export class SimpleNoDataRendererComponent implements SimpleNoDataRenderer, Grid
      */
     public ngOnDestroy()
     {
-        if(this._dataChangedSubscription)
+        if(this._stateChangedSubscription)
         {
-            this._dataChangedSubscription.unsubscribe();
-            this._dataChangedSubscription = null;
+            this._stateChangedSubscription.unsubscribe();
+            this._stateChangedSubscription = null;
+        }
+
+        if(this._textsChangedSubscription)
+        {
+            this._textsChangedSubscription.unsubscribe();
+            this._textsChangedSubscription = null;
         }
     }
 
@@ -125,8 +146,8 @@ export class SimpleNoDataRendererComponent implements SimpleNoDataRenderer, Grid
 
         if(this._dataLoader && this._dataLoader != dataLoader)
         {
-            this._dataChangedSubscription.unsubscribe();
-            this._dataChangedSubscription = null;
+            this._stateChangedSubscription.unsubscribe();
+            this._stateChangedSubscription = null;
 
             this._dataLoader = null;
         }
@@ -135,10 +156,12 @@ export class SimpleNoDataRendererComponent implements SimpleNoDataRenderer, Grid
         {
             this._dataLoader = dataLoader;
 
-            this._dataChangedSubscription = this._dataLoader.resultChange.subscribe(() => this.invalidateVisuals());
+            this._stateChangedSubscription = this._dataLoader.stateChange.subscribe(() => this._processLoaderState());
         }
+
+        this._textsChangedSubscription = this._stringLocalization.textsChange.subscribe(() => this._initTexts());
+        this._initTexts();
         
-        this.initialized = true;
         this.invalidateVisuals();
     }
 
@@ -154,8 +177,64 @@ export class SimpleNoDataRendererComponent implements SimpleNoDataRenderer, Grid
      */
     public invalidateVisuals(): void
     {
-        this.dataPresent = !!this._dataLoader.result.data.length;
+        this._changeDetector.detectChanges();
+    }
+
+    //######################### protected methods #########################
+
+    /**
+     * Process current loader state
+     */
+    protected _processLoaderState()
+    {
+        if(!this._dataLoader)
+        {
+            return;
+        }
+
+        switch(this._dataLoader.state)
+        {
+            case DataLoaderState.NoDataLoading:
+            {
+                this.text = this._texts.loading;
+
+                break;
+            }
+            case DataLoaderState.NoData:
+            {
+                this.text = this._texts.noData;
+
+                break;
+            }
+            case DataLoaderState.NotLoadedYet:
+            {
+                this.text = this._texts.notLoaded;
+
+                break;
+            }
+            default:
+            //case DataLoaderState.Loaded:
+            //case DataLoaderState.DataLoading:
+            {
+                this.text = null;
+
+                break;
+            }
+        }
 
         this._changeDetector.detectChanges();
+    }
+
+    /**
+     * Initialize texts
+     */
+    protected _initTexts()
+    {
+        Object.keys(this.options.texts).forEach(key =>
+        {
+            this._texts[key] = this._stringLocalization.get(this.options.texts[key]);
+        });
+
+        this._processLoaderState();
     }
 }

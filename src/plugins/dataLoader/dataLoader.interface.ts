@@ -1,6 +1,7 @@
 import {EventEmitter} from "@angular/core";
 
 import {PluginOptions, GridPlugin} from "../../misc";
+import {DataLoaderState} from "./types";
 
 /**
  * Options for data loader
@@ -35,9 +36,19 @@ export interface DataLoader<TResult> extends GridPlugin
     readonly result: TResult;
 
     /**
+     * Current state of data loader
+     */
+    readonly state: DataLoaderState;
+
+    /**
      * Indication that data has changed
      */
     resultChange: EventEmitter<void>;
+
+    /**
+     * Indication that data loader state has changed
+     */
+    stateChange: EventEmitter<void>;
 }
 
 /**
