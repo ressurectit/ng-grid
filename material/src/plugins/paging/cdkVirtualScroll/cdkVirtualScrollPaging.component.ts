@@ -26,7 +26,7 @@ const defaultOptions: CdkVirtualScrollPagingOptions =
     template: '',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CdkVirtualScrollPagingComponent  extends PagingAbstractComponent<CssClassesCdkVirtualScrollPaging, CdkVirtualScrollPagingOptions> implements CdkVirtualScrollPaging, OnDestroy
+export class CdkVirtualScrollPagingComponent extends PagingAbstractComponent<CssClassesCdkVirtualScrollPaging, CdkVirtualScrollPagingOptions> implements CdkVirtualScrollPaging, OnDestroy
 {
     //######################### protected fields #########################
 

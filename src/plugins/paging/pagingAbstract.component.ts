@@ -1,4 +1,4 @@
-import {EventEmitter, ChangeDetectorRef, Injectable, Inject, Optional, Input, Output, OnDestroy, ElementRef} from "@angular/core";
+import {EventEmitter, ChangeDetectorRef, Directive, Inject, Optional, Input, Output, OnDestroy, ElementRef} from "@angular/core";
 import {extend, isPresent} from '@jscrpt/common';
 import {Subscription} from "rxjs";
 
@@ -14,7 +14,7 @@ import {PAGING_INITIALIZER} from "../pagingInitializer/types";
 /**
  * Abstract class that represents any paging component
  */
-@Injectable()
+@Directive()
 export abstract class PagingAbstractComponent<TCssClasses, TOptions extends PagingOptions<TCssClasses>> implements Paging, GridPluginGeneric<TOptions>, OnDestroy
 {
     //######################### protected fields #########################

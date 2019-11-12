@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Inject, Injectable, ElementRef, Optional} from "@angular/core";
+import {ChangeDetectorRef, Inject, Directive, ElementRef, Optional} from "@angular/core";
 import {extend} from "@jscrpt/common";
 
 import {GridPluginInstances} from "../../components/grid";
@@ -14,7 +14,7 @@ import {GridPluginGeneric} from "../../misc";
 /**
  * Abstract component for body content renderer
  */
-@Injectable()
+@Directive()
 export class BodyContentRendererAbstractComponent<TData, TOptions extends BodyContentRendererOptions<TCssClasses>, TMetadata, TCssClasses> implements BodyContentRenderer<TData, TMetadata>, GridPluginGeneric<TOptions>
 {
     //######################### protected fields #########################

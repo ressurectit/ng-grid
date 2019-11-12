@@ -1,4 +1,4 @@
-import {EventEmitter, Inject, OnDestroy, resolveForwardRef, Injectable, ElementRef, Optional} from "@angular/core";
+import {EventEmitter, Inject, OnDestroy, resolveForwardRef, Directive, ElementRef, Optional} from "@angular/core";
 import {extend} from "@jscrpt/common";
 import {Subscription} from "rxjs";
 
@@ -15,7 +15,7 @@ import {GridPluginGeneric} from "../../misc";
 /**
  * Abstract component for content renderers
  */
-@Injectable()
+@Directive()
 export class ContentRendererAbstractComponent<TOrdering, TData, TMetadata, TOptions extends ContentRendererOptions<any, ContentRendererPlugins>> implements ContentRenderer<TOrdering>, OnDestroy, GridPluginGeneric<TOptions>
 {
     //######################### protected fields #########################
