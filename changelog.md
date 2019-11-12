@@ -9,6 +9,10 @@
    - added new `VirtualScrollTableHeaderContentRendererComponent` as `HeaderContentRenderer` plugin (using angular cdk virtual scroll)
    - added new `VirtualScrollTableBodyContentRendererComponent` as `BodyContentRenderer` plugin (using angular cdk virtual scroll)
 
+## Version 6.1.3
+
+ - added missing *title* with tooltip for `TableHeaderContentRendererComponent` and `GroupedTableHeaderContentRendererComponent`
+
 ## Version 6.1.2
 
  - *subpackage* `@anglr/grid/material`

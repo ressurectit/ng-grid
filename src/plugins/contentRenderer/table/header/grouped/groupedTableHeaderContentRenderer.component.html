@@ -13,7 +13,8 @@
     <th *ngFor="let meta of metadata?.columns; let index=index" 
         [ngClass]="mergeStringClasses(options?.cssClasses?.thDefault, meta?.headerClass, meta?.ordering ? options?.cssClasses?.thOrderable : null)" 
         [style.width]="meta?.width"
-        (click)="orderBy(meta)">
+        (click)="orderBy(meta)"
+        [title]="meta?.headerTooltip">
         <ng-template [ngIf]="meta?.titleVisible">
             <ng-template [ngIf]="!meta?.headerTemplate" [ngIfElse]="headerTemplate">
                 <span [ngClass]="options?.cssClasses?.spanContent">{{meta?.title}}</span>
