@@ -4,7 +4,7 @@
 
 - `GridComponent` now renders without *wrapper* div around plugins
 - *subpackage* `@anglr/grid/material` 
-   - added new `VirtualScrollTableContentRendererModule` that allows usage of *VirtualScrollContentRenderer*
+   - added new `VirtualScrollTableContentRendererModule` that allows usage of *VirtualScrollContentRenderer* (experimental, needs optimalization)
    - added new `VirtualScrollTableContentRendererComponent` as `ContentRenderer` plugin (using angular cdk virtual scroll)
    - added new `VirtualScrollTableHeaderContentRendererComponent` as `HeaderContentRenderer` plugin (using angular cdk virtual scroll)
    - added new `VirtualScrollTableBodyContentRendererComponent` as `BodyContentRenderer` plugin (using angular cdk virtual scroll)

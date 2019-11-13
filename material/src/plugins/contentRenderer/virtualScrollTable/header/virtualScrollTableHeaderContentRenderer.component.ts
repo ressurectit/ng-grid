@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, HostBinding, ElementRef} from "@angular/core";
+import {Component, ChangeDetectorRef, Inject, Optional, HostBinding, ElementRef} from "@angular/core";
 import {CdkVirtualScrollViewport} from "@angular/cdk/scrolling";
 import {HEADER_CONTENT_RENDERER_OPTIONS, HeaderContentRendererAbstractComponent, SimpleOrdering, BasicTableMetadata, BasicOrderableColumn, CONTENT_RENDERER, GridPluginInstances, GRID_PLUGIN_INSTANCES} from "@anglr/grid";
 import {extend} from "@jscrpt/common";
@@ -34,8 +34,7 @@ const defaultOptions: VirtualScrollTableHeaderContentRendererOptions =
 {
     selector: 'thead.virtual-scroll-content-renderer',
     templateUrl: 'virtualScrollTableHeaderContentRenderer.component.html',
-    styleUrls: ['virtualScrollTableHeaderContentRenderer.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    styleUrls: ['virtualScrollTableHeaderContentRenderer.component.css']
 })
 export class VirtualScrollTableHeaderContentRendererComponent<TData> extends HeaderContentRendererAbstractComponent<TData, VirtualScrollTableHeaderContentRendererOptions> implements VirtualScrollTableHeaderContentRenderer<SimpleOrdering, BasicTableMetadata<BasicOrderableColumn<TData>>>
 {
@@ -96,16 +95,5 @@ export class VirtualScrollTableHeaderContentRendererComponent<TData> extends Hea
 
         let contentRenderer = this.gridPlugins[CONTENT_RENDERER] as VirtualScrollTableContentRenderer<any>;
         this._scrollViewport = contentRenderer.scrollViewport;
-    }
-
-    //######################### public methods - implementation of DoCheck #########################
-    
-    /**
-     * Called when component is checked for changes
-     */
-    public ngDoCheck()
-    {
-        //TODO - check if there are no performance issues with this, so far working
-        this._changeDetector.detectChanges();
     }
 }
