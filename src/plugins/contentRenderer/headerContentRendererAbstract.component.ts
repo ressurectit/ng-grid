@@ -1,4 +1,4 @@
-import {Directive, EventEmitter, ChangeDetectorRef, ElementRef} from "@angular/core";
+import {Injectable, EventEmitter, ChangeDetectorRef, ElementRef} from "@angular/core";
 import {OrderByDirection, extend} from "@jscrpt/common";
 
 import {GridPluginInstances} from "../../components/grid";
@@ -9,7 +9,7 @@ import {BasicTableMetadata} from "../../components/metadata";
 /**
  * Abstract component for header content renderer
  */
-@Directive()
+@Injectable()
 export class HeaderContentRendererAbstractComponent<TData, TOptions extends HeaderContentRendererOptions<CssClassesHeaderContentRenderer>> implements HeaderContentRenderer<SimpleOrdering, BasicTableMetadata<BasicOrderableColumn<TData>>>, GridPluginGeneric<TOptions>
 {
     //######################### protected fields #########################

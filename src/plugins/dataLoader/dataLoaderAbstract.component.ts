@@ -1,4 +1,4 @@
-import {Directive, Inject, Optional, OnDestroy, EventEmitter, ElementRef} from "@angular/core";
+import {Injectable, Inject, Optional, OnDestroy, EventEmitter, ElementRef} from "@angular/core";
 import {extend} from "@jscrpt/common";
 import {Subscription, Subject} from "rxjs";
 import {debounceTime} from "rxjs/operators";
@@ -16,7 +16,7 @@ import {DataLoaderState} from "./types";
 /**
  * Abstract class that represents any data loader component
  */
-@Directive()
+@Injectable()
 export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOptions, TOrdering, TResult> implements DataLoader<TResult>, GridPluginGeneric<TOptions>, OnDestroy
 {
     //######################### private fields #########################
