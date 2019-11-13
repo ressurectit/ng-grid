@@ -8,6 +8,9 @@
    - added new `VirtualScrollTableContentRendererComponent` as `ContentRenderer` plugin (using angular cdk virtual scroll)
    - added new `VirtualScrollTableHeaderContentRendererComponent` as `HeaderContentRenderer` plugin (using angular cdk virtual scroll)
    - added new `VirtualScrollTableBodyContentRendererComponent` as `BodyContentRenderer` plugin (using angular cdk virtual scroll)
+- refactored `DataLoader`, now holds information about its *state* and emits event when this *state* changes
+   - state `DataLoaderState` has 5 values
+- `NoDataRenderer` now using these new *states* of `DataLoader` and displays more detail info about state
 
 ## Version 6.1.3
 

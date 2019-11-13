@@ -1,7 +1,6 @@
 <tr>
     <th *ngFor="let meta of metadata?.columns; let index=index" 
         [ngClass]="mergeStringClasses(options?.cssClasses?.thDefault, meta?.headerClass, meta?.ordering ? options?.cssClasses?.thOrderable : null)" 
-        style="position: sticky;"
         [style.top.px]="fromStart"
         [style.width]="meta?.width"
         [title]="meta?.headerTooltip || meta?.title"

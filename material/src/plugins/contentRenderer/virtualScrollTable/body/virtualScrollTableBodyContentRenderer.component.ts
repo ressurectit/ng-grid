@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Optional, Inject, ElementRef} from "@angular/core";
+import {Component, ChangeDetectorRef, Optional, Inject, ElementRef} from "@angular/core";
 import {BasicTableColumn, BasicTableMetadata, GridPluginInstances, GRID_PLUGIN_INSTANCES, BODY_CONTENT_RENDERER_OPTIONS, BodyContentRendererAbstractComponent} from '@anglr/grid';
 import {extend} from "@jscrpt/common";
 
@@ -18,8 +18,7 @@ const defaultOptions: VirtualScrollTableBodyContentRendererOptions =
 @Component(
 {
     selector: 'tbody.content-renderer',
-    templateUrl: 'virtualScrollTableBodyContentRenderer.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: 'virtualScrollTableBodyContentRenderer.component.html'
 })
 export class VirtualScrollTableBodyContentRendererComponent<TData> extends BodyContentRendererAbstractComponent<TData, VirtualScrollTableBodyContentRendererOptions, BasicTableMetadata<BasicTableColumn<TData>>, any> implements VirtualScrollTableBodyContentRenderer<TData, BasicTableMetadata<BasicTableColumn<TData>>>
 {

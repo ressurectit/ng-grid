@@ -1,6 +1,7 @@
 .header-default
 {
     white-space: nowrap;
+    position: sticky;
 }
 
 .header-orderable:hover

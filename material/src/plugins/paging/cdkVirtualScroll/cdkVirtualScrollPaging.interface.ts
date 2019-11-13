@@ -12,6 +12,10 @@ export interface CssClassesCdkVirtualScrollPaging
  */
 export interface CdkVirtualScrollPagingOptions extends PagingOptions<CssClassesCdkVirtualScrollPaging>
 {
+    /**
+     * Value between 0 and 1 which indicates scroll percentage, when to run loading next page if available
+     */
+    loadPageTreshold?: number;
 }
 
 /**

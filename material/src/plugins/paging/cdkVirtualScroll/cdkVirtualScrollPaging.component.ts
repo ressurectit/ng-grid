@@ -14,7 +14,8 @@ import {VirtualScrollTableContentRenderer} from '../../contentRenderer';
 const defaultOptions: CdkVirtualScrollPagingOptions =
 {
     initialItemsPerPage: 25,
-    initialPage: 1
+    initialPage: 1,
+    loadPageTreshold: 0.8
 };
 
 /**
@@ -152,7 +153,7 @@ export class CdkVirtualScrollPagingComponent  extends PagingAbstractComponent<Cs
                 return;
             }
 
-            if((lastDisplayedItem / loadedItems) > 0.8)
+            if((lastDisplayedItem / loadedItems) > this._options.loadPageTreshold)
             {
                 this._loadMore();
             }
