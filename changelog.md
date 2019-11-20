@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 6.2.2
+
+- extension method `areSelectedAllOnPage` extended with optional parameter `predicate` which allows conditionally return info whether selected all
+
 ## Version 6.2.1
 
 - extension method `selectAllOnPage` extended with optional parameter `predicate` which allows conditionally select all
