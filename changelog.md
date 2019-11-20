@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 6.2.1
+
+- extension method `selectAllOnPage` extended with optional parameter `predicate` which allows conditionally select all
+
 ## Version 6.2.0
 
 - `GridComponent` now renders without *wrapper* div around plugins
