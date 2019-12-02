@@ -5,6 +5,14 @@ import {VisualPluginOptions, GridPlugin, PluginDescription} from "../../misc";
 import {BasicTableColumn} from "../../components/metadata";
 
 /**
+ * Css classes for content renderer
+ */
+export interface CssClassesContentRenderer
+{
+    containerDiv?: string;
+}
+
+/**
  * Definition of plugins for ContentRenderer
  */
 export interface ContentRendererPlugins
@@ -23,7 +31,7 @@ export interface ContentRendererPlugins
 /**
  * Options for content renderer
  */
-export interface ContentRendererOptions<TCssClasses, TPlugins extends ContentRendererPlugins> extends VisualPluginOptions<TCssClasses>
+export interface ContentRendererOptions<TCssClasses extends CssClassesContentRenderer, TPlugins extends ContentRendererPlugins> extends VisualPluginOptions<TCssClasses>
 {
     /**
      * Object containing plugins for TableContentRenderer

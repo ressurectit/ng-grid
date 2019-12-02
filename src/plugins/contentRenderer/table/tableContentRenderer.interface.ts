@@ -1,12 +1,11 @@
-import {ContentRenderer, HeaderContentRenderer, BodyContentRenderer, BodyContentRendererOptions, ContentRendererOptions, ContentRendererPlugins, CssClassesHeaderContentRenderer, HeaderContentRendererOptions} from "../contentRenderer.interface";
+import {ContentRenderer, HeaderContentRenderer, BodyContentRenderer, BodyContentRendererOptions, ContentRendererOptions, ContentRendererPlugins, CssClassesHeaderContentRenderer, HeaderContentRendererOptions, CssClassesContentRenderer} from "../contentRenderer.interface";
 
 /**
  * Css classes for table content renderer
  */
-export interface CssClassesTableContentRenderer
+export interface CssClassesTableContentRenderer extends CssClassesContentRenderer
 {
     table?: string;
-    containerDiv?: string;
 }
 
 /**

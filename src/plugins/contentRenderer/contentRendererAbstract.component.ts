@@ -1,10 +1,10 @@
-import {EventEmitter, Inject, OnDestroy, resolveForwardRef, Injectable, ElementRef, Optional} from "@angular/core";
+import {EventEmitter, Inject, OnDestroy, resolveForwardRef, Directive, ElementRef, Optional, HostBinding} from "@angular/core";
 import {extend} from "@jscrpt/common";
 import {Subscription} from "rxjs";
 
 import {GridPluginInstances} from "../../components/grid";
 import {GRID_PLUGIN_INSTANCES} from "../../components/grid/types";
-import {ContentRendererPlugins, ContentRendererOptions, ContentRenderer, HeaderContentRenderer, BodyContentRenderer} from "./contentRenderer.interface";
+import {ContentRendererPlugins, ContentRendererOptions, ContentRenderer, HeaderContentRenderer, BodyContentRenderer, CssClassesContentRenderer} from "./contentRenderer.interface";
 import {BODY_CONTENT_RENDERER, HEADER_CONTENT_RENDERER} from "./types";
 import {MetadataSelector} from "../metadataSelector";
 import {METADATA_SELECTOR} from "../metadataSelector/types";
@@ -15,8 +15,8 @@ import {GridPluginGeneric} from "../../misc";
 /**
  * Abstract component for content renderers
  */
-@Injectable()
-export class ContentRendererAbstractComponent<TOrdering, TData, TMetadata, TOptions extends ContentRendererOptions<any, ContentRendererPlugins>> implements ContentRenderer<TOrdering>, OnDestroy, GridPluginGeneric<TOptions>
+@Directive()
+export class ContentRendererAbstractComponent<TOrdering, TData, TMetadata, TOptions extends ContentRendererOptions<CssClassesContentRenderer, ContentRendererPlugins>> implements ContentRenderer<TOrdering>, OnDestroy, GridPluginGeneric<TOptions>
 {
     //######################### protected fields #########################
 
@@ -89,6 +89,17 @@ export class ContentRendererAbstractComponent<TOrdering, TData, TMetadata, TOpti
      * Indication that ordering has changed
      */
     public orderingChange: EventEmitter<void> = new EventEmitter<void>();
+
+    //######################### public properties - hosts #########################
+
+    /**
+     * Css class applied to grid itself
+     */
+    @HostBinding('class')
+    public get cssClass(): string
+    {
+        return this._options.cssClasses.containerDiv;
+    }
 
     //######################### constructor #########################
     constructor(public pluginElement: ElementRef,

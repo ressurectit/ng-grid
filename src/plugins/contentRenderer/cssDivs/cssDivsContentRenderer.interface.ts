@@ -1,9 +1,9 @@
-import {ContentRenderer, HeaderContentRenderer, BodyContentRenderer, BodyContentRendererOptions, ContentRendererPlugins, HeaderContentRendererOptions, ContentRendererOptions, CssClassesHeaderContentRenderer} from "../contentRenderer.interface";
+import {ContentRenderer, HeaderContentRenderer, BodyContentRenderer, BodyContentRendererOptions, ContentRendererPlugins, HeaderContentRendererOptions, ContentRendererOptions, CssClassesHeaderContentRenderer, CssClassesContentRenderer} from "../contentRenderer.interface";
 
 /**
  * Css classes for css divs content renderer
  */
-export interface CssClassesCssDivsContentRenderer
+export interface CssClassesCssDivsContentRenderer extends CssClassesContentRenderer
 {
 }
 
