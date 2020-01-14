@@ -27,6 +27,10 @@
         "pretest": "webpack",
         "test": "karma start karma.conf.js"
     },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ressurectit/ng-grid.git"
+    },
     "keywords": [
         "angular",
         "ng",
@@ -34,6 +38,10 @@
     ],
     "author": "kukjevov",
     "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/ressurectit/ng-grid/issues"
+    },
+    "homepage": "https://github.com/ressurectit/ng-grid",
     "peerDependencies": {
         "@angular/core": ">=9.0.0-rc.4",
         "@angular/common": ">=9.0.0-rc.4",

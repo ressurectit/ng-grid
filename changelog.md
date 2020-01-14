@@ -5,6 +5,10 @@
 - added `CssClassesContentRenderer` for `ContentRenderer` that allows to use css class on content renderer
 - changed angular to version 9, added `strictTemplates` option for strict template checking
 
+## Version 6.2.3
+
+- added extension method `patchOptions` which patches options without running initialization of grid, only initialize options
+
 ## Version 6.2.2
 
 - extension method `areSelectedAllOnPage` extended with optional parameter `predicate` which allows conditionally return info whether selected all
