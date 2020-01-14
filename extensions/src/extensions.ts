@@ -12,3 +12,4 @@ export * from './extensions/reinitializeOptions';
 export * from './extensions/setSyncData';
 export * from './extensions/invalidateBodyContent';
 export * from './extensions/showMetadataSelector';
+export * from './extensions/patchOptions';
