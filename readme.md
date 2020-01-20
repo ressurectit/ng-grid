@@ -1,19 +1,17 @@
 # Angular Grid
 
-This is [readme](http://ezk-ivp-moss01/docs/ng-grid/) for angular grid.
+This is readme for `Angular` grid.
 
-Implementation of angular grid for displaying data.
+Implementation of `Angular` grid for displaying data. Absolutely customizable `Angular` grid. Every part of grid can be customized or replaced with own implementation. Allows you to create any custom requested feature.
 
 * [Description](#description)
 * [Installation](#installation)
 * [Usage](#usage)
-* [API](http://ezk-ivp-moss01/docs/ng-grid/overview.html)
-* [Change Log](http://ezk-ivp-moss01/docs/ng-grid/changelog.html)
 
 ## Description
 
-* Module supports Angular Server Side Rendering
-* Module supports Angular Ahead of Time Compilation
+* Module supports `Angular` Server Side Rendering
+* Module supports `Angular` Ahead of Time Compilation
 * Grid is composed of plugins and replecable parts, allows to change implementation of these plugins
 * All components are set to `OnPush` change detection
 
@@ -27,4 +25,4 @@ npm install "@anglr/grid" --save
 ## Usage
 
 
-Tutorials and basic description can be found at [Wiki](https://gitlab/ace-common/ng/grid/wikis/home)
+Tutorials and basic description can be found at [Wiki](https://github.com/ressurectit/ng-grid/wiki)
