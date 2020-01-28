@@ -2,7 +2,7 @@
 
 This is readme for `Angular` grid.
 
-Implementation of `Angular` grid for displaying data. Absolutely customizable `Angular` grid. Every part of grid can be customized or replaced with own implementation. Allows you to create any custom requested feature.
+Implementation of `Angular` grid for displaying data. Absolutely customizable `Angular` grid. Every part of grid can be customized or replaced with own implementation. Should allow you to create any custom requested feature.
 
 * [Description](#description)
 * [Installation](#installation)
@@ -14,6 +14,7 @@ Implementation of `Angular` grid for displaying data. Absolutely customizable `A
 * Module supports `Angular` Ahead of Time Compilation
 * Grid is composed of plugins and replecable parts, allows to change implementation of these plugins
 * All components are set to `OnPush` change detection
+* Supports *Angular IVY*
 
 ## Installation
 
@@ -24,5 +25,4 @@ npm install "@anglr/grid" --save
 ```
 ## Usage
 
-
-Tutorials and basic description can be found at [Wiki](https://github.com/ressurectit/ng-grid/wiki)
+Tutorials and basic description can be found at [Homepage](https://ressurectit.github.io/#/content/grid)
