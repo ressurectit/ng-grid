@@ -2,7 +2,7 @@ import {GridAction, DataLoader, DATA_LOADER, Paging, PagingOptions, PAGING} from
 
 /**
  * Refresh data to defaults
- * @param force Indication that data should be reloaded
+ * @param force - Indication that data should be reloaded
  */
 export function refreshDataToDefaults(force?: boolean): GridAction
 {

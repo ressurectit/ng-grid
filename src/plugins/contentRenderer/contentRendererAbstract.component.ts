@@ -251,7 +251,7 @@ export class ContentRendererAbstractComponent<TOrdering, TData, TMetadata, TOpti
 
     /**
      * Sets body renderer component
-     * @param bodyRenderer Created body renderer that is rendered
+     * @param bodyRenderer - Created body renderer that is rendered
      * @internal
      */
     public setBodyRendererComponent(bodyRenderer: BodyContentRenderer<TData, TMetadata>)
@@ -278,7 +278,7 @@ export class ContentRendererAbstractComponent<TOrdering, TData, TMetadata, TOpti
 
     /**
      * Sets header renderer component
-     * @param headerRenderer Created header renderer that is rendered
+     * @param headerRenderer - Created header renderer that is rendered
      * @internal
      */
     public setHeaderRendererComponent(headerRenderer: HeaderContentRenderer<TOrdering, TMetadata>)

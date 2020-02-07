@@ -188,7 +188,7 @@ export class PreviousNextPagingComponent extends PagingAbstractComponent<CssClas
 
     /**
      * Sets page for current paging
-     * @param page Page index to be set
+     * @param page - Page index to be set
      * @internal
      */
     public setPage(page: number)
@@ -209,7 +209,7 @@ export class PreviousNextPagingComponent extends PagingAbstractComponent<CssClas
 
     /**
      * Sets items per page for current paging
-     * @param itemsPerPage Number of items per page
+     * @param itemsPerPage - Number of items per page
      * @internal
      */
     public setItemsPerPage(itemsPerPage: ItemsPerPageItem)

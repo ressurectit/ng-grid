@@ -26,7 +26,7 @@ export interface DataLoader<TResult> extends GridPlugin
 {
     /**
      * Loads data from 'source'
-     * @param force Indication that data should be reloaded even if nothing changed
+     * @param force - Indication that data should be reloaded even if nothing changed
      */
     loadData(force?: boolean);
 

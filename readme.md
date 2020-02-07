@@ -90,9 +90,9 @@ export class BasicSampleComponent
 
     /**
      * Callback used for obtaining data
-     * @param page Index of requested page
-     * @param itemsPerPage Number of items per page
-     * @param ordering Order by column name
+     * @param page - Index of requested page
+     * @param itemsPerPage - Number of items per page
+     * @param ordering - Order by column name
      */
     private async _getData(page: number, itemsPerPage: number, ordering: SimpleOrdering): Promise<DataResponse<Address>>
     {

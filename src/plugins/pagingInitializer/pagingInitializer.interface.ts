@@ -23,7 +23,7 @@ export interface PagingInitializer extends GridPlugin
 
     /**
      * Sets current page when changed
-     * @param page Page to be set
+     * @param page - Page to be set
      */
     setPage(page: number);
 
@@ -34,7 +34,7 @@ export interface PagingInitializer extends GridPlugin
 
     /**
      * Sets current items per page when changed
-     * @param itemsPerPage Items per page to be set
+     * @param itemsPerPage - Items per page to be set
      */
     setItemsPerPage(itemsPerPage: number);
 }

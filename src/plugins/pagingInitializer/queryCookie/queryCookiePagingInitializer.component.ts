@@ -81,7 +81,7 @@ export class QueryCookiePagingInitializerComponent extends QueryPagingInitialize
 
     /**
      * Sets current items per page when changed
-     * @param itemsPerPage Items per page to be set
+     * @param itemsPerPage - Items per page to be set
      */
     public setItemsPerPage(itemsPerPage: number)
     {

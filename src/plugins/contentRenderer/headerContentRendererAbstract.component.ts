@@ -109,7 +109,7 @@ export class HeaderContentRendererAbstractComponent<TData, TOptions extends Head
 
     /**
      * Applies ordering for specified column
-     * @param meta Metadata for column that was selected for ordering
+     * @param meta - Metadata for column that was selected for ordering
      */
     public orderBy(meta: BasicOrderableColumn<TData>)
     {

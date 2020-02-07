@@ -2,7 +2,7 @@ import {GridAction, Paging, PAGING, DataLoader, DATA_LOADER} from "@anglr/grid";
 
 /**
  * Sets page for grid
- * @param page Number of page that is going to be set
+ * @param page - Number of page that is going to be set
  */
 export function setPage(page: number): GridAction
 {

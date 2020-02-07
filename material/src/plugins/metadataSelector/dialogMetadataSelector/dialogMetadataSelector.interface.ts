@@ -76,7 +76,7 @@ export interface DialogMetadataSelectorComponentData<TMetadata>
 
     /**
      * Method that is used for sending metadata out of component to metadata selector
-     * @param metadata Metadata that were changed in component passed back to selector
+     * @param metadata - Metadata that were changed in component passed back to selector
      */
     setMetadata(metadata: TMetadata);
 }

@@ -51,7 +51,7 @@ export class VerticalDragNDropSelectionComponent implements DialogMetadataSelect
 
     /**
      * Called on drop event
-     * @param event Drop event data
+     * @param event - Drop event data
      * @internal
      */
     public drop(event: CdkDragDrop<string[]>)
@@ -63,8 +63,8 @@ export class VerticalDragNDropSelectionComponent implements DialogMetadataSelect
 
     /**
      * Toggles visibility of column
-     * @param column Column that is being toggled
-     * @param event Event that occured
+     * @param column - Column that is being toggled
+     * @param event - Event that occured
      * @internal
      */
     public toggleVisibility(column: GridColumn, target: {checked: boolean})

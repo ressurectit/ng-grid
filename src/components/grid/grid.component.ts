@@ -146,7 +146,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
      * Metadata gatherer instance
      * @internal
      */
-    @ContentChild(METADATA_GATHERER, {static: false})
+    @ContentChild(METADATA_GATHERER)
     public metadataGatherer: MetadataGatherer<any>;
 
     //######################### constructors #########################
@@ -268,7 +268,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
 
     /**
      * Sets paging component
-     * @param paging Created paging that is rendered
+     * @param paging - Created paging that is rendered
      * @internal
      */
     public setPagingComponent(paging: Paging)
@@ -295,7 +295,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
 
     /**
      * Sets paging initializer component
-     * @param pagingInitializer Created paging initializer that is used
+     * @param pagingInitializer - Created paging initializer that is used
      * @internal
      */
     public setPagingInitializerComponent(pagingInitializer: PagingInitializer)
@@ -322,7 +322,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
 
     /**
      * Sets metadata selector component
-     * @param metadataSelector Created metadata selector that is used
+     * @param metadataSelector - Created metadata selector that is used
      * @internal
      */
     public setMetadataSelectorComponent(metadataSelector: MetadataSelector<any>)
@@ -351,7 +351,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
 
     /**
      * Sets data loader component
-     * @param dataLoader Created data loader that is used
+     * @param dataLoader - Created data loader that is used
      * @internal
      */
     public setDataLoaderComponent(dataLoader: DataLoader<any>)
@@ -378,7 +378,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
 
     /**
      * Sets content renderer component
-     * @param contentRenderer Created content renderer that is rendered
+     * @param contentRenderer - Created content renderer that is rendered
      * @internal
      */
     public setContentRendererComponent(contentRenderer: ContentRenderer<any>)
@@ -405,7 +405,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
 
     /**
      * Sets no data renderer component
-     * @param noDataRenderer Created no data renderer that is rendered
+     * @param noDataRenderer - Created no data renderer that is rendered
      * @internal
      */
     public setNoDataRendererComponent(noDataRenderer: NoDataRenderer)
@@ -432,7 +432,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
 
     /**
      * Sets row selector component
-     * @param rowSelector Created row selector that is rendered
+     * @param rowSelector - Created row selector that is rendered
      * @internal
      */
     public setRowSelectorComponent(rowSelector: RowSelector<any, any, any>)
@@ -649,7 +649,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
 
     /**
      * Gets instance of plugin by its id
-     * @param pluginId Id of plugin, use constants
+     * @param pluginId - Id of plugin, use constants
      */
     public getPlugin<PluginType extends GridPlugin>(pluginId: string): PluginType
     {
@@ -658,7 +658,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
 
     /**
      * Sets GridPluginInstances into GridPlugin
-     * @param plugin Grid plugin to be filled with grid GridPluginInstances
+     * @param plugin - Grid plugin to be filled with grid GridPluginInstances
      */
     public setGridPluginInstances(plugin: GridPlugin)
     {
@@ -667,7 +667,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
 
     /**
      * Executes actions on grid
-     * @param actions Array of actions that are executed over grid
+     * @param actions - Array of actions that are executed over grid
      */
     public execute(...actions: ((grid: GridComponent) => void)[])
     {
@@ -681,7 +681,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
 
     /**
      * Executes function on grid and returns result
-     * @param func Function that is executed and its result is returned
+     * @param func - Function that is executed and its result is returned
      */
     public executeAndReturn<TResult>(func: GridFunction<TResult>): TResult
     {

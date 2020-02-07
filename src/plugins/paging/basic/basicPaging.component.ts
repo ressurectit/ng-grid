@@ -200,7 +200,7 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
 
     /**
      * Sets page for current paging
-     * @param page Page index to be set
+     * @param page - Page index to be set
      * @internal
      */
     public setPage(page: {isActive: boolean; isDisabled: boolean; page: number})
@@ -216,7 +216,7 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
 
     /**
      * Sets items per page for current paging
-     * @param itemsPerPage Number of items per page
+     * @param itemsPerPage - Number of items per page
      * @internal
      */
     public setItemsPerPage(itemsPerPage: ItemsPerPageItem)

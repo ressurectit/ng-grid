@@ -104,6 +104,6 @@ export class HeaderTableGroupComponent implements HeaderTableGroup
     /**
      * Template that is used for rendering of this group
      */
-    @ContentChild(TemplateRef, {static: false})
+    @ContentChild(TemplateRef)
     public template: TemplateRef<HeaderTableGroupContext>;
 }

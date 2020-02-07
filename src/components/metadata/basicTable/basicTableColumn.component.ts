@@ -80,13 +80,13 @@ export class BasicTableColumnComponent<TData> implements BasicTableColumn<TData>
     /**
      * Template that is used for rendering of cell header
      */
-    @ContentChild('headerTemplate', {static: false})
+    @ContentChild('headerTemplate')
     public headerTemplate: TemplateRef<BasicTableColumnContext<TData>>;
 
     /**
      * Template that is used for rendering of cell body
      */
-    @ContentChild('bodyTemplate', {static: false})
+    @ContentChild('bodyTemplate')
     public bodyTemplate: TemplateRef<BasicTableColumnContext<TData>>;
 
     //######################### public methods - helper #########################

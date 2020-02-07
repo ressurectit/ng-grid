@@ -211,8 +211,8 @@ export class GroupedTableHeaderContentRendererComponent<TData> extends HeaderCon
 
     /**
      * Fills current level of groups metadata
-     * @param level Level of current header group
-     * @param levelData Data for specified level
+     * @param level - Level of current header group
+     * @param levelData - Data for specified level
      */
     private _fillGroupsMetadata(level: number, levelData: HeaderTableGroup[])
     {

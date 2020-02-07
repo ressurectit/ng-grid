@@ -103,7 +103,7 @@ export class AsyncDataLoaderComponent<TData, TOrdering> extends DataLoaderAbstra
     
     /**
      * Loads data from 'source'
-     * @param force Indication that data should be reloaded even if nothing changed
+     * @param force - Indication that data should be reloaded even if nothing changed
      */
     protected async _loadData(force?: boolean)
     {

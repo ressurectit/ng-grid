@@ -295,7 +295,7 @@ export class DialogMetadataSelectorComponent implements DialogMetadataSelector<B
 
     /**
      * Initialize texts object
-     * @param texts Texts to be initialized
+     * @param texts - Texts to be initialized
      */
     protected _initTextsObject(texts: Dictionary)
     {

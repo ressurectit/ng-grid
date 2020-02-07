@@ -205,7 +205,7 @@ export class BasicRowSelectorComponent<TSelectedData, TData, TId> implements Bas
 
     /**
      * Resets current selection
-     * @param emit Indication whether emit selection change
+     * @param emit - Indication whether emit selection change
      */
     public resetSelection(emit: boolean = true)
     {
@@ -220,8 +220,8 @@ export class BasicRowSelectorComponent<TSelectedData, TData, TId> implements Bas
 
     /**
      * Adds item to selection (or remove it from selection if deselect is true)
-     * @param item Item that is going to be selected
-     * @param select Indication whether select specified item, defaults to true
+     * @param item - Item that is going to be selected
+     * @param select - Indication whether select specified item, defaults to true
      */
     public selectItem(item: TData, select: boolean = true)
     {
@@ -260,7 +260,7 @@ export class BasicRowSelectorComponent<TSelectedData, TData, TId> implements Bas
 
     /**
      * Gets indication whether item is currently selected
-     * @param item Item that is tested for current selection
+     * @param item - Item that is tested for current selection
      */
     public isSelected(item: TData): boolean
     {

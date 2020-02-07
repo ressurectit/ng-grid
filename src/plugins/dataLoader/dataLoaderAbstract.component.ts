@@ -227,7 +227,7 @@ export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOpt
 
     /**
      * Loads data from 'source'
-     * @param force Indication that data should be reloaded even if nothing changed
+     * @param force - Indication that data should be reloaded even if nothing changed
      */
     public loadData(force?: boolean)
     {
@@ -238,7 +238,7 @@ export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOpt
 
     /**
      * Loads data from 'source'
-     * @param force Indication that data should be reloaded even if nothing changed
+     * @param force - Indication that data should be reloaded even if nothing changed
      */
     protected abstract _loadData(force?: boolean);
 

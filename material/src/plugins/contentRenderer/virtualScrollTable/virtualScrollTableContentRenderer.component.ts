@@ -62,7 +62,7 @@ export class VirtualScrollTableContentRendererComponent<TOrdering, TData, TMetad
     /**
      * Instance of angular CDK virtual scroll viewport
      */
-    @ViewChild(CdkVirtualScrollViewport, {static: false})
+    @ViewChild(CdkVirtualScrollViewport)
     public scrollViewport: CdkVirtualScrollViewport;
 
     //######################### constructor #########################

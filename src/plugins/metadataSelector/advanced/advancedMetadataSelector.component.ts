@@ -396,7 +396,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
 
     /**
      * Hides column
-     * @param column Metadata selected for hiding
+     * @param column - Metadata selected for hiding
      * @internal
      */
     public hideColumn(column: AdvancedGridColumn)
@@ -416,8 +416,8 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
 
     /**
      * Shows column at selected index, or at the end
-     * @param column Metadata selected for hiding
-     * @param index Index where should be column displayed
+     * @param column - Metadata selected for hiding
+     * @param index - Index where should be column displayed
      * @internal
      */
     public showColumn(column: AdvancedGridColumn, index?: number)
@@ -442,8 +442,8 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
 
     /**
      * Event handler used for handling drag start
-     * @param event Event for dragging
-     * @param column Column that is being dragged
+     * @param event - Event for dragging
+     * @param column - Column that is being dragged
      */
     public dragStart(event: DragEvent, column: AdvancedGridColumn)
     {
@@ -457,7 +457,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
 
     /**
      * Event handler used for handling drag end
-     * @param event Event for dragging
+     * @param event - Event for dragging
      */
     public dragEnd(event: DragEvent)
     {
@@ -469,7 +469,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
 
     /**
      * Event handler used for handling drag enter
-     * @param event Event for dragging
+     * @param event - Event for dragging
      */
     public dragEnterSplit(event: DragEvent)
     {
@@ -483,7 +483,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
 
     /**
      * Event handler used for handling drag enter
-     * @param event Event for dragging
+     * @param event - Event for dragging
      */
     public dragEnter()
     {
@@ -492,7 +492,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
 
     /**
      * Event handler used for handling drag leave
-     * @param event Event for dragging
+     * @param event - Event for dragging
      */
     public dragLeaveSplit(event: DragEvent)
     {
@@ -506,7 +506,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
 
     /**
      * Event handler used for handling drag leave
-     * @param event Event for dragging
+     * @param event - Event for dragging
      */
     public dragLeave()
     {
@@ -515,8 +515,8 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
 
     /**
      * Event handler used for handling drag over
-     * @param event Event for dragging
-     * @param index Index of split span
+     * @param event - Event for dragging
+     * @param index - Index of split span
      */
     public dragOverSplit(event: DragEvent, index: number)
     {
@@ -528,7 +528,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
 
     /**
      * Event handler used for handling drag over
-     * @param event Event for dragging
+     * @param event - Event for dragging
      */
     public dragOver(event: DragEvent)
     {
@@ -540,7 +540,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
 
     /**
      * Event handler used for handling drop
-     * @param event Event for dragging
+     * @param event - Event for dragging
      */
     public drop(event: DragEvent)
     {

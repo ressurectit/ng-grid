@@ -61,8 +61,8 @@ export class AdvancedTableBodyContentRendererComponent<TData> extends BodyConten
 
     /**
      * Handles click to row
-     * @param data Data of row that was clicked
-     * @param index Index of clicked row
+     * @param data - Data of row that was clicked
+     * @param index - Index of clicked row
      */
     public rowClick(data: TData, index: number)
     {
