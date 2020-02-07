@@ -3,7 +3,8 @@
 ## Version 7.0.0
 
 - added `CssClassesContentRenderer` for `ContentRenderer` that allows to use css class on content renderer
-- changed angular to version 9, added `strictTemplates` option for strict template checking
+- updated to latest stable *Angular* 9
+- added generating of API doc
 
 ## Version 6.2.3
 

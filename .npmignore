@@ -1,9 +1,7 @@
 /.vscode
 /src
 /tests
-/wiki
 .jsbeautifyrc
-.gitmodules
 tsconfig.json
 tsconfig.es5.json
 tsconfig.es2015.json
