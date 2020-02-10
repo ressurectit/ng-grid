@@ -121,13 +121,13 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
      * Gets or sets grid options
      */
     @Input()
-    public set gridOptions(options: GridOptions)
-    {
-        this._gridOptions = extend(true, this._gridOptions, options);
-    }
     public get gridOptions(): GridOptions
     {
         return this._gridOptions;
+    }
+    public set gridOptions(options: GridOptions)
+    {
+        this._gridOptions = extend(true, this._gridOptions, options);
     }
 
     //######################### public properties - outputs #########################

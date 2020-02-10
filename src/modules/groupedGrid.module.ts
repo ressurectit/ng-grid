@@ -24,10 +24,6 @@ import {GroupedTableHeaderContentRendererComponent} from "../plugins/contentRend
         HeaderTableGroupComponent,
         HeaderTableGroupColumnComponent
     ],
-    entryComponents:
-    [
-        GroupedTableHeaderContentRendererComponent
-    ],
     exports:
     [
         GroupedTableHeaderContentRendererComponent,

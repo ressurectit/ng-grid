@@ -8,7 +8,7 @@ import {GridPlugin, PluginOptions} from "../../misc";
 export interface RowSelectorOptions<TSelectedData, TData, TId> extends PluginOptions
 {
     /**
-     * Method used for obtaining row id, without this row selector can`t work
+     * Method used for obtaining row id, without this row selector cant work
      */
     getRowId: (data: TData) => TId;
 

@@ -24,13 +24,6 @@ import {CdkVirtualScrollPagingComponent} from "../plugins/paging/components";
         VirtualScrollTableHeaderContentRendererComponent,
         CdkVirtualScrollPagingComponent
     ],
-    entryComponents:
-    [
-        VirtualScrollTableContentRendererComponent,
-        VirtualScrollTableBodyContentRendererComponent,
-        VirtualScrollTableHeaderContentRendererComponent,
-        CdkVirtualScrollPagingComponent
-    ],
     exports:
     [
         VirtualScrollTableContentRendererComponent,

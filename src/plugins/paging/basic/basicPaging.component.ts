@@ -53,8 +53,7 @@ const defaultOptions: BasicPagingOptions =
     selector: "ng-basic-paging",
     templateUrl: 'basicPaging.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    styles:
-    [
+    styles: [
         `.items-count
         {
             float: left;
@@ -137,6 +136,10 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
      * Gets or sets index of currently selected page
      */
     @Input()
+    public get page(): number
+    {
+        return this._page;
+    }
     public set page(page: number)
     {
         this._page = page;
@@ -145,15 +148,15 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
         this._setDisplayedItemsCount();
         (this.gridPlugins[PAGING_INITIALIZER] as PagingInitializer).setPage(this._page);
     }
-    public get page(): number
-    {
-        return this._page;
-    }
 
     /**
      * Gets or sets number of items currently used for paging
      */
     @Input()
+    public get itemsPerPage(): number
+    {
+        return this._itemsPerPage;
+    }
     public set itemsPerPage(itemsPerPage: number)
     {
         this._itemsPerPage = itemsPerPage;
@@ -163,25 +166,21 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
         this._setDisplayedItemsCount();
         (this.gridPlugins[PAGING_INITIALIZER] as PagingInitializer).setItemsPerPage(this._itemsPerPage);
     }
-    public get itemsPerPage(): number
-    {
-        return this._itemsPerPage;
-    }
 
     /**
      * Gets or sets number of all items that are paged with current filter criteria
      */
     @Input()
+    public get totalCount(): number
+    {
+        return this._totalCount;
+    }
     public set totalCount(totalCount: number)
     {
         this._totalCount = totalCount;
         this._paginator.setItemCount(totalCount);
         this._generatePages();
         this._setDisplayedItemsCount();
-    }
-    public get totalCount(): number
-    {
-        return this._totalCount;
     }
 
     //######################### constructor #########################
@@ -232,7 +231,7 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
 
     /**
      * Converts number to text that is going to be rendered for ItemsPerPage
-     * @param value
+     * @param value - Text that is returned for items per page
      * @internal
      */
     public renderItemsPerPageText(value: number): string

@@ -55,13 +55,13 @@ export class ContentRendererAbstractComponent<TOrdering, TData, TMetadata, TOpti
     /**
      * Options for content renderer
      */
-    public set options(options: TOptions)
-    {
-        this._options = extend(true, this._options, options) as TOptions;
-    }
     public get options(): TOptions
     {
         return this._options;
+    }
+    public set options(options: TOptions)
+    {
+        this._options = extend(true, this._options, options) as TOptions;
     }
 
     /**

@@ -24,13 +24,13 @@ export class HeaderContentRendererAbstractComponent<TData, TOptions extends Head
     /**
      * Options for header content renderer
      */
-    public set options(options: TOptions)
-    {
-        this._options = extend(true, this._options, options) as TOptions;
-    }
     public get options(): TOptions
     {
         return this._options;
+    }
+    public set options(options: TOptions)
+    {
+        this._options = extend(true, this._options, options) as TOptions;
     }
 
     /**

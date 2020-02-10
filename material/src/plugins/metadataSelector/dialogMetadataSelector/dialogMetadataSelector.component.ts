@@ -13,9 +13,8 @@ import {CssClassesVerticalDragNDropSelection, VerticalDragNDropSelectionTexts} f
 
 /**
  * Cookie state
- * @internal
  */
-interface CookieState
+export interface CookieState
 {
     [key: string]: GridColumn;
 }

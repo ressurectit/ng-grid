@@ -1,5 +1,5 @@
 {
-    "name": "@anglr/grid/scrollmagic",
+    "name": "@anglr/grid-scrollmagic",
     "module": "./dist/es5/scrollmagic/index.js",
     "esm2015": "./dist/es2015/scrollmagic/index.js",
     "esm5": "./dist/es5/scrollmagic/index.js",

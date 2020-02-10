@@ -49,13 +49,13 @@ export class QueryPagingInitializerComponent implements QueryPagingInitializer, 
     /**
      * Options for grid plugin
      */
-    public set options(options: QueryPagingInitializerOptions)
-    {
-        this._options = extend(true, this._options, options) as QueryPagingInitializerOptions;
-    }
     public get options(): QueryPagingInitializerOptions
     {
         return this._options;
+    }
+    public set options(options: QueryPagingInitializerOptions)
+    {
+        this._options = extend(true, this._options, options) as QueryPagingInitializerOptions;
     }
 
     //######################### protected properties #########################

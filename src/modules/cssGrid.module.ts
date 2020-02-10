@@ -20,12 +20,6 @@ import {CssDivsContentRendererComponent, CssDivsHeaderContentRendererComponent, 
         CssDivsBodyContentRendererComponent,
         CssDivsHeaderContentRendererComponent
     ],
-    entryComponents:
-    [
-        CssDivsContentRendererComponent,
-        CssDivsBodyContentRendererComponent,
-        CssDivsHeaderContentRendererComponent
-    ],
     exports:
     [
         CssDivsContentRendererComponent,

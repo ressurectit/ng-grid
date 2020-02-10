@@ -1,5 +1,5 @@
 {
-    "name": "@anglr/grid/extensions",
+    "name": "@anglr/grid-extensions",
     "module": "./dist/es5/extensions/index.js",
     "esm2015": "./dist/es2015/extensions/index.js",
     "esm5": "./dist/es5/extensions/index.js",

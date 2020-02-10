@@ -22,11 +22,6 @@ import {VerticalDragNDropSelectionComponent} from "../components/verticalDragNDr
         DialogMetadataSelectorComponent,
         VerticalDragNDropSelectionComponent
     ],
-    entryComponents:
-    [
-        DialogMetadataSelectorComponent,
-        VerticalDragNDropSelectionComponent
-    ],
     exports:
     [
         DialogMetadataSelectorComponent,

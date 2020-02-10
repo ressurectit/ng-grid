@@ -48,28 +48,6 @@ import {BasicRowSelectorComponent} from "../plugins/rowSelector/components";
         SimpleNoDataRendererComponent,
         BasicRowSelectorComponent
     ],
-    entryComponents:
-    [
-        BasicPagingComponent,
-        LoadMorePagingComponent,
-        ContentVirtualScrollPagingComponent,
-        PageVirtualScrollPagingComponent,
-        PreviousNextPagingComponent,
-        NoPagingComponent,
-        QueryPagingInitializerComponent,
-        QueryCookiePagingInitializerComponent,
-        NoPagingInitializerComponent,
-        SyncDataLoaderComponent,
-        AsyncDataLoaderComponent,
-        NoMetadataSelectorComponent,
-        AdvancedMetadataSelectorComponent,
-        TableContentRendererComponent,
-        TableBodyContentRendererComponent,
-        AdvancedTableBodyContentRendererComponent,
-        TableHeaderContentRendererComponent,
-        SimpleNoDataRendererComponent,
-        BasicRowSelectorComponent
-    ],
     exports:
     [
         GridComponent,

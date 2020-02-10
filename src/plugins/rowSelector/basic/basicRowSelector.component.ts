@@ -155,13 +155,13 @@ export class BasicRowSelectorComponent<TSelectedData, TData, TId> implements Bas
     /**
      * Options for grid plugin
      */
-    public set options(options: BasicRowSelectorOptions<TSelectedData, TData, TId>)
-    {
-        this._options = extend(true, this._options, options) as BasicRowSelectorOptions<TSelectedData, TData, TId>;
-    }
     public get options(): BasicRowSelectorOptions<TSelectedData, TData, TId>
     {
         return this._options;
+    }
+    public set options(options: BasicRowSelectorOptions<TSelectedData, TData, TId>)
+    {
+        this._options = extend(true, this._options, options) as BasicRowSelectorOptions<TSelectedData, TData, TId>;
     }
 
     /**

@@ -72,6 +72,7 @@
         "@angular/core": "^9.0.0",
         "@angular/common": "^9.0.0",
         "@angular/router": "^9.0.0",
+        "@angular/forms": "^9.0.0",
         "@angular/cdk": "^9.0.0",
         "@angular/animations": "^9.0.0",
         "@angular/material": "^9.0.0",

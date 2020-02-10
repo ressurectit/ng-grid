@@ -96,13 +96,13 @@ export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOpt
     /**
      * Gets or sets options for 'DataLoader'
      */
-    public set options(options: TOptions)
-    {
-        this._options = extend(true, this._options, options) as TOptions;
-    }
     public get options(): TOptions
     {
         return this._options;
+    }
+    public set options(options: TOptions)
+    {
+        this._options = extend(true, this._options, options) as TOptions;
     }
 
     /**

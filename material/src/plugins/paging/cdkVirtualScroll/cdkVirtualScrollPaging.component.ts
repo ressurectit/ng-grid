@@ -82,14 +82,14 @@ export class CdkVirtualScrollPagingComponent  extends PagingAbstractComponent<Cs
     /**
      * Gets or sets number of all items that are paged with current filter criteria
      */
+    public get totalCount(): number
+    {
+        return this._totalCount;
+    }
     public set totalCount(value: number)
     {
         this._totalCount = value;
         this.moreAvailable = (this._displayedPages * this.itemsPerPage) < this._totalCount;
-    }
-    public get totalCount(): number
-    {
-        return this._totalCount;
     }
 
     //######################### constructor #########################

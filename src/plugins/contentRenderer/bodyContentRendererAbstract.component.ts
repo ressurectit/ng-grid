@@ -36,13 +36,13 @@ export class BodyContentRendererAbstractComponent<TData, TOptions extends BodyCo
     /**
      * Options for body content renderer
      */
-    public set options(options: TOptions)
-    {
-        this._options = extend(true, this._options, options) as TOptions;
-    }
     public get options(): TOptions
     {
         return this._options;
+    }
+    public set options(options: TOptions)
+    {
+        this._options = extend(true, this._options, options) as TOptions;
     }
 
     /**

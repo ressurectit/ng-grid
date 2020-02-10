@@ -24,13 +24,13 @@ export class QueryCookiePagingInitializerComponent extends QueryPagingInitialize
     /**
      * Options for grid plugin
      */
-    public set options(options: QueryCookiePagingInitializerOptions)
-    {
-        this._options = extend(true, this._options, options) as QueryCookiePagingInitializerOptions;
-    }
     public get options(): QueryCookiePagingInitializerOptions
     {
         return this._options;
+    }
+    public set options(options: QueryCookiePagingInitializerOptions)
+    {
+        this._options = extend(true, this._options, options) as QueryCookiePagingInitializerOptions;
     }
 
     //######################### protected properties #########################

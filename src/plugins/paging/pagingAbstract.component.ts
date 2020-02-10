@@ -50,34 +50,34 @@ export abstract class PagingAbstractComponent<TCssClasses, TOptions extends Pagi
      * Gets or sets options specific to paging implementation
      */
     @Input()
+    public get options(): TOptions
+    {
+        return this._options;
+    }
     public set options(options: TOptions)
     {
         this._options = extend(true, this._options, options) as TOptions;
 
         this.optionsSet();
     }
-    public get options(): TOptions
-    {
-        return this._options;
-    }
 
     /**
      * Gets or sets index of currently selected page
      */
-    public abstract set page(page: number);
     public abstract get page(): number;
+    public abstract set page(page: number);
 
     /**
      * Gets or sets number of items currently used for paging
      */
-    public abstract set itemsPerPage(itemsPerPage: number);
     public abstract get itemsPerPage(): number;
+    public abstract set itemsPerPage(itemsPerPage: number);
 
     /**
      * Gets or sets number of all items that are paged with current filter criteria
      */
-    public abstract set totalCount(totalCount: number);
     public abstract get totalCount(): number;
+    public abstract set totalCount(totalCount: number);
 
     /**
      * Grid plugin instances available for this plugin
