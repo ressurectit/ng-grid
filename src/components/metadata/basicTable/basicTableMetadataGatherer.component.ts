@@ -8,6 +8,7 @@ import {BasicTableColumnComponent} from "./basicTableColumn.component";
 /**
  * Component that is used for gathering metadata for basic table
  *
+ * @example
  * This is metadata gatherer which works with `BasicTableColumnComponent`
  *
  * Here is sample of use of available options for `BasicTableMetadataGathererComponent` with `BasicTableColumnComponent`

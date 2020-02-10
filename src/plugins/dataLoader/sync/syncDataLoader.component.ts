@@ -46,6 +46,7 @@ const defaultOptions: SyncDataLoaderOptions<any, SimpleOrdering> =
 /**
  * Data loader that allows synchronous data loading
  *
+ * @example
  * If you want to use this loader you have to provide all data you want to be displayed in grid
  *
  * You have to provide data at least

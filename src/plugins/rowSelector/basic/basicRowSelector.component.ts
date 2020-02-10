@@ -30,6 +30,7 @@ const defaultOptions: BasicRowSelectorOptions<any, any, any> =
  *
  * Working with `BasicRowSelectorComponent` from code should be done using extensions methods
  *
+ * @example
  * If you want to use row selection you must provide at least `getRowId`, you can use `getRowData` for obtaining selected data in requested format see below example:
  * 
  * ``` typescript
@@ -69,6 +70,7 @@ const defaultOptions: BasicRowSelectorOptions<any, any, any> =
  * };
  * ```
  *
+ * @example
  * Example usage with `AdvancedTableBodyContentRendererComponent`
  * 
  * ``` html
@@ -93,6 +95,7 @@ const defaultOptions: BasicRowSelectorOptions<any, any, any> =
  * </ng-grid>
  * ```
  *
+ * @example
  * Selecting all items in code
  * 
  * ``` typescript
