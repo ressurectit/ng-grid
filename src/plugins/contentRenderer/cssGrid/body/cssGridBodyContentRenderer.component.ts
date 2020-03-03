@@ -1,18 +1,18 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Optional, Inject, HostBinding, ElementRef} from "@angular/core";
 import {extend} from "@jscrpt/common";
 
-import {BasicTableColumn, BasicTableMetadata} from "../../../../components/metadata";
-import {CssDivsBodyContentRendererOptions, CssClassesCssDivsBodyContentRenderer} from "../cssDivsContentRenderer.interface";
+import {CssGridBodyContentRendererOptions, CssClassesCssGridBodyContentRenderer} from "../cssGridContentRenderer.interface";
+import {BasicTableMetadata, BasicTableColumn} from "../../../../components/metadata";
 import {GridPluginInstances} from "../../../../components/grid";
 import {GRID_PLUGIN_INSTANCES} from "../../../../components/grid/types";
 import {BODY_CONTENT_RENDERER_OPTIONS} from "../../types";
 import {BodyContentRendererAbstractComponent} from "../../bodyContentRendererAbstract.component";
 
 /**
- * Default options for 'CssDivsBodyContentRendererComponent'
+ * Default options for 'CssGridBodyContentRendererComponent'
  * @internal
  */
-const defaultOptions: CssDivsBodyContentRendererOptions =
+const defaultOptions: CssGridBodyContentRendererOptions =
 {
     cssClasses:
     {
@@ -23,42 +23,43 @@ const defaultOptions: CssDivsBodyContentRendererOptions =
 };
 
 /**
- * Component used for rendering body for 'CssDivsContentRenderer'
+ * Component used for rendering body for 'CssGridContentRenderer'
  */
 @Component(
 {
     selector: 'div.content-renderer-body',
-    templateUrl: 'cssDivsBodyContentRenderer.component.html',
+    templateUrl: 'cssGridBodyContentRenderer.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
     styles:
     [
         `.body-row
         {
-            display: flex;
-            flex-direction: row;
+            display: contents;
         }
 
-        .body-row:hover, .body-row:nth-of-type(2n+0):hover
+        .body-row:nth-of-type(2n+0) > .body-cell
         {
-            background-color: #F3F3F3;
+            background-color: #f9f9f9;
         }
 
-        .body-row:nth-of-type(2n+0)
+        .body-row:hover > .body-cell
         {
-            background-color: #EDEDED;
+            background-color: #f5f5f5;
         }
 
         .body-cell
         {
-            flex: 1;
-            min-width: 0;
-            padding: 1px 4px;
-        }`
+            padding: 3px;
+            line-height: 1.42857143;
+            vertical-align: middle;
+            border-top: 1px solid #ddd;
+        }
+        `
     ]
 })
-export class CssDivsBodyContentRendererComponent<TData> extends BodyContentRendererAbstractComponent<TData, CssDivsBodyContentRendererOptions, BasicTableMetadata<BasicTableColumn<TData>>, CssClassesCssDivsBodyContentRenderer>
+export class CssGridBodyContentRendererComponent<TData> extends BodyContentRendererAbstractComponent<TData, CssGridBodyContentRendererOptions, BasicTableMetadata<BasicTableColumn<TData>>, CssClassesCssGridBodyContentRenderer>
 {
-    //######################### public properties - hosts #########################
+    //######################### public properties - host bindings #########################
 
     /**
      * Css class applied to grid itself
@@ -69,11 +70,17 @@ export class CssDivsBodyContentRendererComponent<TData> extends BodyContentRende
         return this._options.cssClasses.bodyDiv;
     }
 
+    /**
+     * Display style property of host element
+     */
+    @HostBinding('style.display')
+    public display: string = "contents";
+
     //######################### constructor #########################
     constructor(pluginElement: ElementRef,
                 changeDetector: ChangeDetectorRef,
                 @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins: GridPluginInstances,
-                @Inject(BODY_CONTENT_RENDERER_OPTIONS) @Optional() options: CssDivsBodyContentRendererOptions)
+                @Inject(BODY_CONTENT_RENDERER_OPTIONS) @Optional() options: CssGridBodyContentRendererOptions)
     {
         super(pluginElement, changeDetector, gridPlugins);
 

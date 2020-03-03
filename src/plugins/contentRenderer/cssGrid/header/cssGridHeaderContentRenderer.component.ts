@@ -1,20 +1,19 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, HostBinding, ElementRef} from "@angular/core";
 import {extend} from "@jscrpt/common";
 
-import {CssDivsHeaderContentRendererOptions} from "../cssDivsContentRenderer.interface";
 import {HEADER_CONTENT_RENDERER_OPTIONS} from "../../types";
+import {CssGridHeaderContentRendererOptions} from "../cssGridContentRenderer.interface";
 import {HeaderContentRendererAbstractComponent} from "../../headerContentRendererAbstract.component";
 
 /**
- * Default options for 'CssDivsHeaderContentRendererComponent'
+ * Default options for 'CssGridHeaderContentRendererComponent'
  * @internal
  */
-const defaultOptions: CssDivsHeaderContentRendererOptions =
+const defaultOptions: CssGridHeaderContentRendererOptions =
 {
     cssClasses:
     {
-        headerDiv: '',
-        headerRowDiv: 'header-row',
+        headerDiv: 'header-row',
         headerCellDiv: 'header-cell',
         headerCellOrderableDiv: 'header-orderable',
         spanContent: 'header-content',
@@ -29,29 +28,28 @@ const defaultOptions: CssDivsHeaderContentRendererOptions =
 };
 
 /**
- * Component used for rendering css divs header in css divs content renderer
+ * Component used for rendering css grid header in css grid content renderer
  */
 @Component(
 {
     selector: 'div.content-renderer-header',
-    templateUrl: 'cssDivsHeaderContentRenderer.component.html',
+    templateUrl: 'cssGridHeaderContentRenderer.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
     styles:
     [
-        `.header-row
+        `:host.header-row
         {
-            display: flex;
-            flex-direction: row;
+            display: contents;
             border-bottom: 1px solid #EDEDED;
         }
 
         .header-cell
         {
-            flex: 1;
-            min-width: 0;
-            padding: 2px 4px;
+            padding: 3px;
+            line-height: 1.42857143;
+            vertical-align: middle;
+            border-bottom: 1px solid #ddd;
             font-weight: bold;
-            white-space: nowrap;
         }
 
         .header-orderable:hover
@@ -66,7 +64,7 @@ const defaultOptions: CssDivsHeaderContentRendererOptions =
         }`
     ]
 })
-export class CssDivsHeaderContentRendererComponent<TData> extends HeaderContentRendererAbstractComponent<TData, CssDivsHeaderContentRendererOptions>
+export class CssGridHeaderContentRendererComponent<TData> extends HeaderContentRendererAbstractComponent<TData, CssGridHeaderContentRendererOptions>
 {
     //######################### public properties - hosts #########################
 
@@ -82,7 +80,7 @@ export class CssDivsHeaderContentRendererComponent<TData> extends HeaderContentR
     //######################### constructor #########################
     constructor(pluginElement: ElementRef,
                 changeDetector: ChangeDetectorRef,
-                @Inject(HEADER_CONTENT_RENDERER_OPTIONS) @Optional() options: CssDivsHeaderContentRendererOptions)
+                @Inject(HEADER_CONTENT_RENDERER_OPTIONS) @Optional() options: CssGridHeaderContentRendererOptions)
     {
         super(pluginElement, changeDetector);
 

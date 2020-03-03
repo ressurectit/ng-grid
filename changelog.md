@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 7.1.0
+
+- added new `CssGridContentRenderer` as `ContentRenderer` plugin (using css grid)
+- added new `CssGridHeaderContentRenderer` as `HeaderContentRenderer` plugin (using css grid)
+- added new `CssGridBodyContentRenderer` as `BodyContentRenderer` plugin (using css grid)
+
 ## Version 7.0.0
 
 - added `CssClassesContentRenderer` for `ContentRenderer` that allows to use css class on content renderer

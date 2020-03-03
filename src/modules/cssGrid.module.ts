@@ -2,7 +2,7 @@ import {NgModule} from "@angular/core";
 import {CommonModule as AngularCommonModule} from "@angular/common";
 import {CommonModule} from "@anglr/common";
 
-import {CssDivsContentRendererComponent, CssDivsHeaderContentRendererComponent, CssDivsBodyContentRendererComponent} from "../plugins/contentRenderer/components";
+import {CssGridContentRendererComponent, CssGridBodyContentRendererComponent, CssGridHeaderContentRendererComponent} from "../plugins/contentRenderer/components";
 
 /**
  * Module for grid components, allows using css grid and divs for rendering
@@ -16,15 +16,15 @@ import {CssDivsContentRendererComponent, CssDivsHeaderContentRendererComponent, 
     ],
     declarations:
     [
-        CssDivsContentRendererComponent,
-        CssDivsBodyContentRendererComponent,
-        CssDivsHeaderContentRendererComponent
+        CssGridContentRendererComponent,
+        CssGridBodyContentRendererComponent,
+        CssGridHeaderContentRendererComponent
     ],
     exports:
     [
-        CssDivsContentRendererComponent,
-        CssDivsBodyContentRendererComponent,
-        CssDivsHeaderContentRendererComponent
+        CssGridContentRendererComponent,
+        CssGridBodyContentRendererComponent,
+        CssGridHeaderContentRendererComponent
     ]
 })
 export class CssGridModule
