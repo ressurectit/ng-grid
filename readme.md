@@ -24,7 +24,7 @@ Implementation of `Angular` grid for displaying data. Absolutely customizable `A
 
 To install latest version of this module you just run:
 
-```nocode
+```bash
 npm install "@anglr/grid" --save
 ```
 
