@@ -2,18 +2,18 @@ import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional,
 import {extend} from "@jscrpt/common";
 
 import {HEADER_CONTENT_RENDERER_OPTIONS} from "../../types";
-import {CssGridHeaderContentRendererOptions} from "../cssGridContentRenderer.interface";
+import {CssDivsHeaderContentRendererOptions} from "../cssDivsContentRenderer.interface";
 import {HeaderContentRendererAbstractComponent} from "../../headerContentRendererAbstract.component";
 
 /**
- * Default options for 'CssGridHeaderContentRendererComponent'
+ * Default options for 'CssDivsHeaderContentRendererComponent'
  * @internal
  */
-const defaultOptions: CssGridHeaderContentRendererOptions =
+const defaultOptions: CssDivsHeaderContentRendererOptions =
 {
     cssClasses:
     {
-        headerDiv: 'header-row',
+        headerDiv: 'header-row-contents',
         headerCellDiv: 'header-cell',
         headerCellOrderableDiv: 'header-orderable',
         spanContent: 'header-content',
@@ -33,11 +33,11 @@ const defaultOptions: CssGridHeaderContentRendererOptions =
 @Component(
 {
     selector: 'div.content-renderer-header',
-    templateUrl: 'cssGridHeaderContentRenderer.component.html',
+    templateUrl: 'CssDivsHeaderContentRenderer.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
     styles:
     [
-        `:host.header-row
+        `:host.header-row-contents
         {
             display: contents;
             border-bottom: 1px solid #EDEDED;
@@ -64,7 +64,7 @@ const defaultOptions: CssGridHeaderContentRendererOptions =
         }`
     ]
 })
-export class CssGridHeaderContentRendererComponent<TData> extends HeaderContentRendererAbstractComponent<TData, CssGridHeaderContentRendererOptions>
+export class CssDivsHeaderContentRendererComponent<TData> extends HeaderContentRendererAbstractComponent<TData, CssDivsHeaderContentRendererOptions>
 {
     //######################### public properties - hosts #########################
 
@@ -80,7 +80,7 @@ export class CssGridHeaderContentRendererComponent<TData> extends HeaderContentR
     //######################### constructor #########################
     constructor(pluginElement: ElementRef,
                 changeDetector: ChangeDetectorRef,
-                @Inject(HEADER_CONTENT_RENDERER_OPTIONS) @Optional() options: CssGridHeaderContentRendererOptions)
+                @Inject(HEADER_CONTENT_RENDERER_OPTIONS) @Optional() options: CssDivsHeaderContentRendererOptions)
     {
         super(pluginElement, changeDetector);
 

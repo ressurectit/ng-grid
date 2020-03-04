@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Optional, Inject, HostBinding, ElementRef} from "@angular/core";
 import {extend} from "@jscrpt/common";
 
-import {CssGridBodyContentRendererOptions, CssClassesCssGridBodyContentRenderer} from "../cssGridContentRenderer.interface";
+import {CssDivsBodyContentRendererOptions, CssClassesCssDivsBodyContentRenderer} from "../cssDivsContentRenderer.interface";
 import {BasicTableMetadata, BasicTableColumn} from "../../../../components/metadata";
 import {GridPluginInstances} from "../../../../components/grid";
 import {GRID_PLUGIN_INSTANCES} from "../../../../components/grid/types";
@@ -9,30 +9,35 @@ import {BODY_CONTENT_RENDERER_OPTIONS} from "../../types";
 import {BodyContentRendererAbstractComponent} from "../../bodyContentRendererAbstract.component";
 
 /**
- * Default options for 'CssGridBodyContentRendererComponent'
+ * Default options for 'CssDivsBodyContentRendererComponent'
  * @internal
  */
-const defaultOptions: CssGridBodyContentRendererOptions =
+const defaultOptions: CssDivsBodyContentRendererOptions =
 {
     cssClasses:
     {
-        bodyDiv: '',
-        rowDiv: 'body-row',
+        bodyDiv: 'body-div-contents',
+        rowDiv: 'body-row-contents',
         cellDiv: 'body-cell'
     }
 };
 
 /**
- * Component used for rendering body for 'CssGridContentRenderer'
+ * Component used for rendering body for 'CssDivsContentRenderer'
  */
 @Component(
 {
     selector: 'div.content-renderer-body',
-    templateUrl: 'cssGridBodyContentRenderer.component.html',
+    templateUrl: 'CssDivsBodyContentRenderer.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
     styles:
     [
-        `.body-row
+        `:host.body-div-contents
+        {
+            display: contents;
+        }
+
+        .body-row-contents
         {
             display: contents;
         }
@@ -57,7 +62,7 @@ const defaultOptions: CssGridBodyContentRendererOptions =
         `
     ]
 })
-export class CssGridBodyContentRendererComponent<TData> extends BodyContentRendererAbstractComponent<TData, CssGridBodyContentRendererOptions, BasicTableMetadata<BasicTableColumn<TData>>, CssClassesCssGridBodyContentRenderer>
+export class CssDivsBodyContentRendererComponent<TData> extends BodyContentRendererAbstractComponent<TData, CssDivsBodyContentRendererOptions, BasicTableMetadata<BasicTableColumn<TData>>, CssClassesCssDivsBodyContentRenderer>
 {
     //######################### public properties - host bindings #########################
 
@@ -70,17 +75,11 @@ export class CssGridBodyContentRendererComponent<TData> extends BodyContentRende
         return this._options.cssClasses.bodyDiv;
     }
 
-    /**
-     * Display style property of host element
-     */
-    @HostBinding('style.display')
-    public display: string = "contents";
-
     //######################### constructor #########################
     constructor(pluginElement: ElementRef,
                 changeDetector: ChangeDetectorRef,
                 @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins: GridPluginInstances,
-                @Inject(BODY_CONTENT_RENDERER_OPTIONS) @Optional() options: CssGridBodyContentRendererOptions)
+                @Inject(BODY_CONTENT_RENDERER_OPTIONS) @Optional() options: CssDivsBodyContentRendererOptions)
     {
         super(pluginElement, changeDetector, gridPlugins);
 

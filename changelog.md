@@ -2,9 +2,9 @@
 
 ## Version 7.1.0
 
-- added new `CssGridContentRenderer` as `ContentRenderer` plugin (using css grid)
-- added new `CssGridHeaderContentRenderer` as `HeaderContentRenderer` plugin (using css grid)
-- added new `CssGridBodyContentRenderer` as `BodyContentRenderer` plugin (using css grid)
+- added new `CssDivsContentRendererComponent` as `ContentRenderer` plugin (using css grid)
+- added new `CssDivsHeaderContentRendererComponent` as `HeaderContentRenderer` plugin (using css grid)
+- added new `CssDivsBodyContentRendererComponent` as `BodyContentRenderer` plugin (using css grid)
 
 ## Version 7.0.0
 
@@ -72,7 +72,7 @@
 - Angular 8
 - removed *deprecated* `LegacyGrid` and all its parts
 - now if you want to use *Grouped Headers* you have to also use new `GroupedGridModule`
-- now if you want to use *Css Grid* (grid composed of divs with css, not table) you have to also use new `CssGridModule`
+- now if you want to use *Css Grid* (grid composed of divs with css, not table) you have to also use new `CssDivsModule`
 - moved functionality from `@anglr/grid-extensions` to subproject `@anglr/grid/scrollmagic`
 
 ## Version 5.1.0

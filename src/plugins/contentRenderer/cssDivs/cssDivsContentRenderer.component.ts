@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Inject, Optional, OnDestroy, ElementRef, ChangeDetectorRef, forwardRef, HostBinding, SkipSelf} from "@angular/core";
+import {Component, ChangeDetectionStrategy, Inject, Optional, OnDestroy, ElementRef, ChangeDetectorRef, forwardRef, HostBinding} from "@angular/core";
 import {DomSanitizer, SafeStyle} from "@angular/platform-browser";
 import {extend, isArray} from "@jscrpt/common";
 
@@ -8,49 +8,49 @@ import {GRID_PLUGIN_INSTANCES} from "../../../components/grid/types";
 import {PluginDescription} from "../../../misc";
 import {CONTENT_RENDERER_OPTIONS} from "../types";
 import {ContentRendererAbstractComponent} from "../contentRendererAbstract.component";
-import {CssGridContentRendererOptions} from "./cssGridContentRenderer.interface";
-import {CssGridBodyContentRendererComponent} from "./body/cssGridBodyContentRenderer.component";
-import {CssGridHeaderContentRendererComponent} from "./header/cssGridHeaderContentRenderer.component";
+import {CssDivsContentRendererOptions} from "./cssDivsContentRenderer.interface";
+import {CssDivsBodyContentRendererComponent} from "./body/cssDivsBodyContentRenderer.component";
+import {CssDivsHeaderContentRendererComponent} from "./header/cssDivsHeaderContentRenderer.component";
 
 /**
- * Default options for 'CssGridContentRendererComponent'
+ * Default options for 'CssDivsContentRendererComponent'
  * @internal
  */
-const defaultOptions: CssGridContentRendererOptions =
+const defaultOptions: CssDivsContentRendererOptions =
 {
     cssClasses:
     {
-        gridDiv: 'css-grid-table'
+        containerDiv: 'css-grid-table'
     },
     plugins:
     {
-        bodyRenderer: <PluginDescription<CssGridBodyContentRendererComponent<any>>>
+        bodyRenderer: <PluginDescription<CssDivsBodyContentRendererComponent<any>>>
         {
-            type: forwardRef(() => CssGridBodyContentRendererComponent)
+            type: forwardRef(() => CssDivsBodyContentRendererComponent)
         },
-        headerRenderer: <PluginDescription<CssGridHeaderContentRendererComponent<any>>>
+        headerRenderer: <PluginDescription<CssDivsHeaderContentRendererComponent<any>>>
         {
-            type: forwardRef(() => CssGridHeaderContentRendererComponent)
+            type: forwardRef(() => CssDivsHeaderContentRendererComponent)
         }
     }
 };
 
 /**
- * Component used for 'CssGridContentRendererComponent'
+ * Component used for 'CssDivsContentRendererComponent'
  */
 @Component(
 {
     selector: 'div.css-grid-content-renderer',
-    templateUrl: 'cssGridContentRenderer.component.html',
+    templateUrl: 'cssDivsContentRenderer.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
     styles: [`
-        :host
+        :host.css-grid-table
         {
             display: grid;
         }
     `]
 })
-export class CssGridContentRendererComponent<TOrdering, TData, TMetadata> extends ContentRendererAbstractComponent<TOrdering, TData, TMetadata, CssGridContentRendererOptions> implements OnDestroy
+export class CssDivsContentRendererComponent<TOrdering, TData, TMetadata> extends ContentRendererAbstractComponent<TOrdering, TData, TMetadata, CssDivsContentRendererOptions> implements OnDestroy
 {
     //######################### private properties #########################
 
@@ -70,12 +70,21 @@ export class CssGridContentRendererComponent<TOrdering, TData, TMetadata> extend
         return this._sanitizer.bypassSecurityTrustStyle(this._gridTemplateColumns);
     }
 
+    /**
+     * Css class applied to grid itself
+     */
+    @HostBinding('class')
+    public get cssClass(): string
+    {
+        return this._options.cssClasses.containerDiv;
+    }
+
     //######################### constructor #########################
     constructor(pluginElement: ElementRef,
                 private _sanitizer: DomSanitizer,
                 @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins: GridPluginInstances,
-                @Inject(CONTENT_RENDERER_OPTIONS) @Optional() options?: CssGridContentRendererOptions,
-                @SkipSelf() private _gridChangeDetector?: ChangeDetectorRef)
+                @Inject(CONTENT_RENDERER_OPTIONS) @Optional() options?: CssDivsContentRendererOptions,
+                private _changeDetector?: ChangeDetectorRef)
     {
         super(pluginElement, gridPlugins);
         this._options = extend(true, {}, defaultOptions, options);
@@ -91,14 +100,12 @@ export class CssGridContentRendererComponent<TOrdering, TData, TMetadata> extend
         super.initialize();
 
         this._setGridColumnsWidth();
-        this._gridChangeDetector.detectChanges();
 
         this._metadataSelector
             .metadataChange
             .subscribe(() =>
                 {
                     this._setGridColumnsWidth();
-                    this._gridChangeDetector.detectChanges();
                 }
             );
     }
@@ -122,6 +129,11 @@ export class CssGridContentRendererComponent<TOrdering, TData, TMetadata> extend
                 }
             });
             this._gridTemplateColumns = gridTemplateColumns.join(" ");
+            
+            setTimeout(() =>
+            {
+                this._changeDetector.markForCheck();
+            });
         }
     }
 }
