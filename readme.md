@@ -1,3 +1,6 @@
+[![npm version](https://badge.fury.io/js/%40anglr%2Fgrid.svg)](https://badge.fury.io/js/%40anglr%2Fgrid)
+[![Build status](https://ci.appveyor.com/api/projects/status/0qphc2ah63r9isdr?svg=true)](https://ci.appveyor.com/project/kukjevov/ng-grid)
+
 # Angular Grid
 
 This is readme for `Angular` grid.
