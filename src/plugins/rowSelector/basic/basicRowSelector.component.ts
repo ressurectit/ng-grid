@@ -236,18 +236,18 @@ export class BasicRowSelectorComponent<TSelectedData, TData, TId> implements Bas
         }
 
         let id = this.options.getRowId(item);
-        let index;
+        let index = this.selectedIds.indexOf(id);
 
         //select if not selected
-        if((index = this.selectedIds.indexOf(id)) < 0)
+        if(select && index < 0)
         {
             this.selectedIds.push(id);
             this.selectedData.push(this.options.getRowData(item));
 
             this.selectedChange.emit();
         }
-        //remove from selection
-        else if(!select)
+        //remove from selection if selected
+        else if(!select && index >= 0)
         {
             this.selectedIds.splice(index, 1);
             this.selectedData.splice(index, 1);

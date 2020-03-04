@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 6.2.4
+
+- fixed `BasicRowSelectorComponent` `selectItem` method, now correctly changes state of selected row
+
 ## Version 6.2.3
 
 - added extension method `patchOptions` which patches options without running initialization of grid, only initialize options
