@@ -3,39 +3,38 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {extend} from "@jscrpt/common";
 
 import {GridPluginGeneric} from "../../../misc";
-import {QueryPagingInitializer, QueryPagingInitializerOptions} from "./queryPagingInitializer.interface";
-import {PAGING_INITIALIZER_OPTIONS} from "../types";
+import {QueryGridInitializer, QueryGridInitializerOptions} from "./queryGridInitializer.interface";
+import {GRID_INITIALIZER_OPTIONS} from "../types";
 import {GridPluginInstances} from "../../../components/grid";
 
 /**
- * Default options for query paging initializer
+ * Default options for query grid initializer
  * @internal
  */
-const defaultOptions: QueryPagingInitializerOptions =
+const defaultOptions: QueryGridInitializerOptions =
 {
     prefix: ''
 };
 
 /**
- * Component used for rendering query paging initializer
- * @deprecated - use QueryGridInitializerComponent
+ * Component used for rendering query grid initializer
  */
 @Component(
 {
-    selector: "ng-query-paging-initializer",
+    selector: "ng-query-grid-initializer",
     template: '',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class QueryPagingInitializerComponent implements QueryPagingInitializer, GridPluginGeneric<QueryPagingInitializerOptions>
+export class QueryGridInitializerComponent implements QueryGridInitializer, GridPluginGeneric<QueryGridInitializerOptions>
 {
     //######################### protected fields #########################
 
     /**
      * Options for grid plugin
      */
-    protected _options: QueryPagingInitializerOptions;
+    protected _options: QueryGridInitializerOptions;
 
-    //######################### public properties - implementation of NoPagingInitializer #########################
+    //######################### public properties - implementation of NoGridInitializer #########################
 
     /**
      * Grid plugin instances available for this plugin
@@ -50,13 +49,13 @@ export class QueryPagingInitializerComponent implements QueryPagingInitializer, 
     /**
      * Options for grid plugin
      */
-    public get options(): QueryPagingInitializerOptions
+    public get options(): QueryGridInitializerOptions
     {
         return this._options;
     }
-    public set options(options: QueryPagingInitializerOptions)
+    public set options(options: QueryGridInitializerOptions)
     {
-        this._options = extend(true, this._options, options) as QueryPagingInitializerOptions;
+        this._options = extend(true, this._options, options) as QueryGridInitializerOptions;
     }
 
     //######################### protected properties #########################
@@ -80,12 +79,12 @@ export class QueryPagingInitializerComponent implements QueryPagingInitializer, 
     //######################### constructor #########################
     constructor(protected _router: Router, 
                 protected _route: ActivatedRoute,
-                @Inject(PAGING_INITIALIZER_OPTIONS) @Optional() options?: QueryPagingInitializerOptions)
+                @Inject(GRID_INITIALIZER_OPTIONS) @Optional() options?: QueryGridInitializerOptions)
     {
         this._options = extend(true, {}, defaultOptions, options);
     }    
 
-    //######################### public methods - implementation of NoPagingInitializer #########################
+    //######################### public methods - implementation of NoGridInitializer #########################
 
     /**
      * Initialize plugin, to be ready to use, initialize communication with other plugins
@@ -109,7 +108,7 @@ export class QueryPagingInitializerComponent implements QueryPagingInitializer, 
     }
 
     /**
-     * Gets initial page
+     * Gets stored page
      */
     public getPage(): number
     {
@@ -123,7 +122,7 @@ export class QueryPagingInitializerComponent implements QueryPagingInitializer, 
 
     /**
      * Sets current page when changed
-     * @param page - Page to be set
+     * @param page - Page to be stored
      */
     public setPage(page: number)
     {
@@ -141,7 +140,7 @@ export class QueryPagingInitializerComponent implements QueryPagingInitializer, 
     }
 
     /**
-     * Gets initial items per page
+     * Gets stored items per page
      */
     public getItemsPerPage(): number
     {
@@ -155,7 +154,7 @@ export class QueryPagingInitializerComponent implements QueryPagingInitializer, 
 
     /**
      * Sets current items per page when changed
-     * @param itemsPerPage - Items per page to be set
+     * @param itemsPerPage - Items per page to be stored
      */
     public setItemsPerPage(itemsPerPage: number)
     {
@@ -170,5 +169,21 @@ export class QueryPagingInitializerComponent implements QueryPagingInitializer, 
             queryParamsHandling: "merge",
             replaceUrl: true
         });
+    }
+
+    /**
+     * Gets stored ordering
+     */
+    public getOrdering(): string
+    {
+        return null;
+    }
+
+    /**
+     * Sets current ordering when changed
+     * @param orderig - Ordering as string to be stored
+     */
+    public setOrdering(orderig: string): void
+    {
     }
 }

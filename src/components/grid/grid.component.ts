@@ -5,7 +5,7 @@ import {Observable, BehaviorSubject} from 'rxjs';
 import {GridPluginInstances, Grid, GridFunction} from "./grid.interface";
 import {GRID_PLUGIN_INSTANCES} from './types';
 import {GridOptions, PluginDescription, GridPlugin} from "../../misc";
-import {GRID_OPTIONS, PAGING_TYPE, DATA_LOADER_TYPE, CONTENT_RENDERER_TYPE, METADATA_SELECTOR_TYPE, NO_DATA_RENDERER_TYPE, ROW_SELECTOR_TYPE, PAGING_INITIALIZER_TYPE} from "../../misc/types";
+import {GRID_OPTIONS, PAGING_TYPE, DATA_LOADER_TYPE, CONTENT_RENDERER_TYPE, METADATA_SELECTOR_TYPE, NO_DATA_RENDERER_TYPE, ROW_SELECTOR_TYPE, PAGING_INITIALIZER_TYPE, GRID_INITIALIZER_TYPE} from "../../misc/types";
 import {PagingPosition} from "../../misc/enums";
 import {Paging} from "../../plugins/paging";
 import {BasicPagingComponent} from "../../plugins/paging/components";
@@ -30,6 +30,9 @@ import {ROW_SELECTOR} from "../../plugins/rowSelector/types";
 import {PagingInitializer} from "../../plugins/pagingInitializer";
 import {NoPagingInitializerComponent} from "../../plugins/pagingInitializer/components";
 import {PAGING_INITIALIZER} from "../../plugins/pagingInitializer/types";
+import {GridInitializer} from "../../plugins/gridInitializer";
+import {NoGridInitializerComponent} from "../../plugins/gridInitializer/components";
+import {GRID_INITIALIZER} from "../../plugins/gridInitializer/types";
 
 //TODO - make grid css class customizable
 
@@ -70,6 +73,10 @@ const defaultOptions: GridOptions =
         pagingInitializer: <PluginDescription<NoPagingInitializerComponent>>
         {
             type: forwardRef(() => NoPagingInitializerComponent)
+        },
+        gridInitializer: <PluginDescription<NoGridInitializerComponent>>
+        {
+            type: forwardRef(() => NoGridInitializerComponent)
         }
     }
 };
@@ -155,6 +162,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
                 @Inject(GRID_OPTIONS) @Optional() options?: GridOptions,
                 @Inject(PAGING_TYPE) @Optional() pagingType?: Type<Paging>,
                 @Inject(PAGING_INITIALIZER_TYPE) @Optional() pagingInitializerType?: Type<PagingInitializer>,
+                @Inject(GRID_INITIALIZER_TYPE) @Optional() gridInitializerType?: Type<GridInitializer>,
                 @Inject(DATA_LOADER_TYPE) @Optional() dataLoaderType?: Type<DataLoader<any>>,
                 @Inject(CONTENT_RENDERER_TYPE) @Optional() contentRendererType?: Type<ContentRenderer<any>>,
                 @Inject(METADATA_SELECTOR_TYPE) @Optional() metadataSelectorType?: Type<MetadataSelector<any>>,
@@ -186,6 +194,16 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
             }
 
             opts.plugins.pagingInitializer.type = pagingInitializerType;
+        }
+
+        if(gridInitializerType)
+        {
+            if(!opts.plugins.gridInitializer)
+            {
+                opts.plugins.gridInitializer = {};
+            }
+
+            opts.plugins.gridInitializer.type = gridInitializerType;
         }
 
         if(dataLoaderType)
@@ -317,6 +335,33 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
         if(this._gridOptions.plugins && this._gridOptions.plugins.pagingInitializer && this._gridOptions.plugins.pagingInitializer.instanceCallback)
         {
             this._gridOptions.plugins.pagingInitializer.instanceCallback(pagingInitializer);
+        }
+    }
+
+    /**
+     * Sets grid initializer component
+     * @param gridInitializer - Created grid initializer that is used
+     * @internal
+     */
+    public setGridInitializerComponent(gridInitializer: GridInitializer)
+    {
+        if(!gridInitializer)
+        {
+            return;
+        }
+
+        this._pluginInstances[GRID_INITIALIZER] = gridInitializer;
+
+        if(this._gridOptions.plugins && this._gridOptions.plugins.gridInitializer && this._gridOptions.plugins.gridInitializer.options)
+        {
+            gridInitializer.options = this._gridOptions.plugins.gridInitializer.options;
+        }
+
+        gridInitializer.initOptions();
+        
+        if(this._gridOptions.plugins && this._gridOptions.plugins.gridInitializer && this._gridOptions.plugins.gridInitializer.instanceCallback)
+        {
+            this._gridOptions.plugins.gridInitializer.instanceCallback(gridInitializer);
         }
     }
 
@@ -467,6 +512,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
         this._pluginInstances[ROW_SELECTOR].initialize();
         this._pluginInstances[METADATA_SELECTOR].initialize();
         this._pluginInstances[PAGING_INITIALIZER].initialize();
+        this._pluginInstances[GRID_INITIALIZER].initialize();
         this._pluginInstances[PAGING].initialize();
         this._pluginInstances[CONTENT_RENDERER].initialize();
         this._pluginInstances[NO_DATA_RENDERER].initialize();
@@ -523,6 +569,28 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
                     }
 
                     this._pluginInstances[PAGING_INITIALIZER].initOptions();
+                }
+            }
+
+            if(this._gridOptions.plugins.gridInitializer)
+            {
+                this._gridOptions.plugins.gridInitializer.type = resolveForwardRef(this._gridOptions.plugins.gridInitializer.type);
+
+                if(this._gridOptions.plugins.gridInitializer.instance &&
+                   this._gridOptions.plugins.gridInitializer.instance != this._pluginInstances[GRID_INITIALIZER])
+                {
+                    this._pluginInstances[GRID_INITIALIZER] = this._gridOptions.plugins.gridInitializer.instance;
+                    this._gridOptions.plugins.gridInitializer.instance.gridPlugins = this._pluginInstances;
+                }
+
+                if(this._pluginInstances[GRID_INITIALIZER])
+                {
+                    if(this._gridOptions.plugins && this._gridOptions.plugins.gridInitializer && this._gridOptions.plugins.gridInitializer.options)
+                    {
+                        this._pluginInstances[GRID_INITIALIZER].options = this._gridOptions.plugins.gridInitializer.options;
+                    }
+
+                    this._pluginInstances[GRID_INITIALIZER].initOptions();
                 }
             }
 

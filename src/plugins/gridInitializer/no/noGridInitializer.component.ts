@@ -1,22 +1,21 @@
 import {ChangeDetectionStrategy, ElementRef, Component} from "@angular/core";
 
 import {GridPluginGeneric} from "../../../misc";
-import {NoPagingInitializerOptions, NoPagingInitializer} from "./noPagingInitializer.interface";
+import {NoGridInitializerOptions, NoGridInitializer} from "./noGridInitializer.interface";
 import {GridPluginInstances} from "../../../components/grid";
 
 /**
- * Component used for rendering no paging initializer
- * @deprecated - use NoGridInitializerComponent
+ * Component used for rendering no grid initializer
  */
 @Component(
 {
-    selector: "ng-no-paging-initializer",
+    selector: "ng-no-grid-initializer",
     template: '',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NoPagingInitializerComponent implements NoPagingInitializer, GridPluginGeneric<NoPagingInitializerOptions>
+export class NoGridInitializerComponent implements NoGridInitializer, GridPluginGeneric<NoGridInitializerOptions>
 {
-    //######################### public properties - implementation of NoPagingInitializer #########################
+    //######################### public properties - implementation of NoGridInitializer #########################
 
     /**
      * Grid plugin instances available for this plugin
@@ -31,9 +30,9 @@ export class NoPagingInitializerComponent implements NoPagingInitializer, GridPl
     /**
      * Options for grid plugin
      */
-    public options: NoPagingInitializerOptions;
+    public options: NoGridInitializerOptions;
 
-    //######################### public methods - implementation of NoPagingInitializer #########################
+    //######################### public methods - implementation of NoGridInitializer #########################
 
     /**
      * Initialize plugin, to be ready to use, initialize communication with other plugins
@@ -57,7 +56,7 @@ export class NoPagingInitializerComponent implements NoPagingInitializer, GridPl
     }
 
     /**
-     * Gets initial page
+     * Gets stored page
      */
     public getPage(): number
     {
@@ -66,14 +65,14 @@ export class NoPagingInitializerComponent implements NoPagingInitializer, GridPl
 
     /**
      * Sets current page when changed
-     * @param page - Page to be set
+     * @param page - Page to be stored
      */
     public setPage()
     {
     }
 
     /**
-     * Gets initial items per page
+     * Gets stored items per page
      */
     public getItemsPerPage(): number
     {
@@ -82,9 +81,25 @@ export class NoPagingInitializerComponent implements NoPagingInitializer, GridPl
 
     /**
      * Sets current items per page when changed
-     * @param itemsPerPage - Items per page to be set
+     * @param itemsPerPage - Items per page to be stored
      */
     public setItemsPerPage()
+    {
+    }
+
+    /**
+     * Gets stored ordering
+     */
+    public getOrdering(): string
+    {
+        return null;
+    }
+
+    /**
+     * Sets current ordering when changed
+     * @param orderig - Ordering as string to be stored
+     */
+    public setOrdering(orderig: string): void
     {
     }
 }

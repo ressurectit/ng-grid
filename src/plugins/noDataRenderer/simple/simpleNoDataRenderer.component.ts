@@ -40,20 +40,8 @@ const defaultOptions: SimpleNoDataRendererOptions<CssClassesSimpleNoDataRenderer
 {
     selector: 'ng-simple-no-data',
     templateUrl: 'simpleNoDataRenderer.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    styles:
-    [
-        `.simple-no-data
-        {
-            padding: 2px 8px;
-            text-align: center;
-        }
-
-        .simple-no-data-text
-        {
-            font-weight: bold;
-        }`
-    ]
+    styleUrls: ['simpleNoDataRenderer.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SimpleNoDataRendererComponent implements SimpleNoDataRenderer, GridPluginGeneric<SimpleNoDataRendererOptions<CssClassesSimpleNoDataRenderer>>, OnDestroy
 {

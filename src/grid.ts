@@ -31,3 +31,6 @@ export * from './plugins/rowSelector/components';
 export * from './plugins/pagingInitializer';
 export * from './plugins/pagingInitializer/types';
 export * from './plugins/pagingInitializer/components';
+export * from './plugins/gridInitializer';
+export * from './plugins/gridInitializer/types';
+export * from './plugins/gridInitializer/components';

@@ -9,7 +9,7 @@
                 <span [ngClass]="options?.cssClasses?.spanContent">{{meta?.title}}</span>
             </ng-template>
 
-            <ng-template #headerTemplate [ngTemplateOutlet]="meta?.headerTemplate" [ngTemplateOutletContext]="meta?.getColumnContext(null, meta, index)">
+            <ng-template #headerTemplate [ngTemplateOutlet]="meta?.headerTemplate" [ngTemplateOutletContext]="meta?.getColumnContext(null, meta, index, 0)">
             </ng-template>
 
             <span *ngIf="meta?.ordering" [ngClass]="mergeStringClasses(options?.cssClasses?.spanOrdering, meta?.orderingClass)"></span>

@@ -4,7 +4,7 @@
     <div *ngFor="let column of metadata?.columns" cdkDrag [ngClass]="cssClasses?.itemClass">
         <label>
             <span [ngClass]="cssClasses?.dragIconClass"></span>
-            <input type="checkbox" [checked]="column?.visible" (change)="toggleVisibility(column, $event.target)">
+            <input type="checkbox" [checked]="column?.visible" (change)="toggleVisibility(column, $any($event.target))">
             <span>{{column?.title}}</span>
         </label>
     </div>

@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 7.2.0
+
+- deprecated `PagingInitializer` plugin, use new `GridInitializer` (in next major version `PagingInitializer` will be removed)
+- added new `GridInitializer` plugin allowing obtaining obtaining and storing state of grid to *external* storage
+- for now `GridInitializer` is internally using `PagingInitializer` (in next major version this logic will be moved directly into `GridInitializer`)
+- all built-in `Paging` plugins are using `GridInitializer`, custom `Paging` plugins should do same
+- `GridInitializer` has same functionality as `PagingInitializer` extended with storing of *ordering*
+
 ## Version 7.1.0
 
 - added new `CssDivsContentRendererComponent` as `ContentRenderer` plugin (using css grid)

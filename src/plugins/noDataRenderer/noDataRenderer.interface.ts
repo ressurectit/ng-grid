@@ -1,4 +1,5 @@
 import {TemplateRef} from "@angular/core";
+import {NgIfContext} from '@angular/common';
 
 import {VisualPluginOptions, GridPlugin} from "../../misc";
 
@@ -36,7 +37,7 @@ export interface NoDataRendererOptions<TCssClasses> extends VisualPluginOptions<
     /**
      * Custom template for no data
      */
-    template?: TemplateRef<void>;
+    template?: TemplateRef<NgIfContext<boolean>>;
 }
 
 /**

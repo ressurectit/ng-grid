@@ -4,34 +4,33 @@ import {CookieService} from "@anglr/common";
 import {extend, isPresent} from "@jscrpt/common";
 
 import {GridPluginGeneric} from "../../../misc";
-import {PAGING_INITIALIZER_OPTIONS} from "../types";
-import {QueryCookiePagingInitializerOptions, QueryCookiePagingInitializer} from "./queryCookiePagingInitializer.interface";
-import {QueryPagingInitializerComponent} from "../query/queryPagingInitializer.component";
+import {GRID_INITIALIZER_OPTIONS} from "../types";
+import {QueryCookieGridInitializerOptions, QueryCookieGridInitializer} from "./queryCookieGridInitializer.interface";
+import {QueryGridInitializerComponent} from "../query/queryGridInitializer.component";
 
 /**
- * Component used for rendering query cookie paging initializer
- * @deprecated - use QueryCookieGridInitializerComponent
+ * Component used for rendering query cookie grid initializer
  */
 @Component(
 {
-    selector: "ng-query-cookie-paging-initializer",
+    selector: "ng-query-cookie-grid-initializer",
     template: '',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class QueryCookiePagingInitializerComponent extends QueryPagingInitializerComponent implements QueryCookiePagingInitializer, GridPluginGeneric<QueryCookiePagingInitializerOptions>
+export class QueryCookieGridInitializerComponent extends QueryGridInitializerComponent implements QueryCookieGridInitializer, GridPluginGeneric<QueryCookieGridInitializerOptions>
 {
-    //######################### public properties - implementation of NoPagingInitializer #########################
+    //######################### public properties - implementation of NoGridInitializer #########################
 
     /**
      * Options for grid plugin
      */
-    public get options(): QueryCookiePagingInitializerOptions
+    public get options(): QueryCookieGridInitializerOptions
     {
         return this._options;
     }
-    public set options(options: QueryCookiePagingInitializerOptions)
+    public set options(options: QueryCookieGridInitializerOptions)
     {
-        this._options = extend(true, this._options, options) as QueryCookiePagingInitializerOptions;
+        this._options = extend(true, this._options, options) as QueryCookieGridInitializerOptions;
     }
 
     //######################### protected properties #########################
@@ -48,12 +47,12 @@ export class QueryCookiePagingInitializerComponent extends QueryPagingInitialize
     constructor(_router: Router,
                 _route: ActivatedRoute,
                 @Optional() protected _cookies: CookieService,
-                @Inject(PAGING_INITIALIZER_OPTIONS) @Optional() options?: QueryCookiePagingInitializerOptions)
+                @Inject(GRID_INITIALIZER_OPTIONS) @Optional() options?: QueryCookieGridInitializerOptions)
     {
         super(_router, _route, options);
     }
 
-    //######################### public methods - implementation of NoPagingInitializer #########################
+    //######################### public methods - implementation of NoGridInitializer #########################
 
     /**
      * Gets initial items per page
