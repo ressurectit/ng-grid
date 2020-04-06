@@ -1,12 +1,14 @@
 import {ChangeDetectionStrategy, Inject, Optional, Component} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CookieService} from "@anglr/common";
-import {extend, isPresent} from "@jscrpt/common";
+import {extend} from "@jscrpt/common";
 
 import {GridPluginGeneric} from "../../../misc";
 import {GRID_INITIALIZER_OPTIONS} from "../types";
 import {QueryCookieGridInitializerOptions, QueryCookieGridInitializer} from "./queryCookieGridInitializer.interface";
 import {QueryGridInitializerComponent} from "../query/queryGridInitializer.component";
+import {GRID_PLUGIN_INSTANCES} from '../../../components/grid/types';
+import {GridPluginInstances} from '../../../components/grid';
 
 /**
  * Component used for rendering query cookie grid initializer
@@ -47,9 +49,10 @@ export class QueryCookieGridInitializerComponent extends QueryGridInitializerCom
     constructor(_router: Router,
                 _route: ActivatedRoute,
                 @Optional() protected _cookies: CookieService,
+                @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins: GridPluginInstances,
                 @Inject(GRID_INITIALIZER_OPTIONS) @Optional() options?: QueryCookieGridInitializerOptions)
     {
-        super(_router, _route, options);
+        super(_router, _route, gridPlugins, options);
     }
 
     //######################### public methods - implementation of NoGridInitializer #########################
@@ -59,24 +62,7 @@ export class QueryCookieGridInitializerComponent extends QueryGridInitializerCom
      */
     public getItemsPerPage(): number
     {
-        let ipp = super.getItemsPerPage();
-
-        if(ipp)
-        {
-            return ipp;
-        }
-
-        if(this._cookies && this.itemsPerPageCookieName)
-        {
-            ipp = this._cookies.getCookie(this.itemsPerPageCookieName) as number;
-
-            if(isPresent(ipp))
-            {
-                return ipp;
-            }
-        }
-
-        return null;
+        return this._pagingInitializer.getItemsPerPage();
     }
 
     /**
@@ -85,11 +71,6 @@ export class QueryCookieGridInitializerComponent extends QueryGridInitializerCom
      */
     public setItemsPerPage(itemsPerPage: number)
     {
-        if(this._cookies && this.itemsPerPageCookieName)
-        {
-            this._cookies.setCookie(this.itemsPerPageCookieName, itemsPerPage, null, "/");
-        }
-
-        super.setItemsPerPage(itemsPerPage);
+        this._pagingInitializer.setItemsPerPage(itemsPerPage);
     }
 }

@@ -8,8 +8,8 @@ import {GRID_PLUGIN_INSTANCES} from "../../components/grid/types";
 import {GridPluginGeneric} from "../../misc";
 import {DataLoader, DataResponse} from "../dataLoader";
 import {DATA_LOADER} from "../dataLoader/types";
-import {PagingInitializer} from "../pagingInitializer";
-import {PAGING_INITIALIZER} from "../pagingInitializer/types";
+import {GridInitializer} from "../gridInitializer";
+import {GRID_INITIALIZER} from "../gridInitializer/types";
 
 /**
  * Abstract class that represents any paging component
@@ -135,22 +135,22 @@ export abstract class PagingAbstractComponent<TCssClasses, TOptions extends Pagi
      */
     public initialize(): void
     {
-        let pagingInitializer = this.gridPlugins[PAGING_INITIALIZER] as PagingInitializer;
+        let gridInitializer = this.gridPlugins[GRID_INITIALIZER] as GridInitializer;
         let initialPage = this._options.initialPage;
         let initialItemsPerPage = this._options.initialItemsPerPage;
 
-        if(pagingInitializer)
+        if(gridInitializer)
         {
-            pagingInitializer.initialize();
+            gridInitializer.initialize();
 
-            let page = pagingInitializer.getPage();
+            let page = gridInitializer.getPage();
 
             if(isPresent(page))
             {
                 initialPage = page;
             }
 
-            let itemsPerPage = pagingInitializer.getItemsPerPage();
+            let itemsPerPage = gridInitializer.getItemsPerPage();
 
             if(isPresent(itemsPerPage))
             {

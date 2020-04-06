@@ -6,8 +6,8 @@ import {GRID_PLUGIN_INSTANCES} from '../../../components/grid/types';
 import {PagingAbstractComponent} from '../pagingAbstract.component';
 import {BasicPagingOptions, BasicPaging, CssClassesBasicPaging} from './basicPaging.interface';
 import {PAGING_OPTIONS} from '../types';
-import {PagingInitializer} from '../../pagingInitializer';
-import {PAGING_INITIALIZER} from '../../pagingInitializer/types';
+import {GridInitializer} from '../../gridInitializer';
+import {GRID_INITIALIZER} from '../../gridInitializer/types';
 
 /**
  * Items per page single item
@@ -146,7 +146,7 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
         this._paginator.setPage(page);
         this._generatePages();
         this._setDisplayedItemsCount();
-        (this.gridPlugins[PAGING_INITIALIZER] as PagingInitializer).setPage(this._page);
+        (this.gridPlugins[GRID_INITIALIZER] as GridInitializer).setPage(this._page);
     }
 
     /**
@@ -164,7 +164,7 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
         this._generatePages();
         this._generateItemsPerPage();
         this._setDisplayedItemsCount();
-        (this.gridPlugins[PAGING_INITIALIZER] as PagingInitializer).setItemsPerPage(this._itemsPerPage);
+        (this.gridPlugins[GRID_INITIALIZER] as GridInitializer).setItemsPerPage(this._itemsPerPage);
     }
 
     /**
