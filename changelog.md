@@ -7,6 +7,12 @@
 - for now `GridInitializer` is internally using `PagingInitializer` (in next major version this logic will be moved directly into `GridInitializer`)
 - all built-in `Paging` plugins are using `GridInitializer`, custom `Paging` plugins should do same
 - `GridInitializer` has same functionality as `PagingInitializer` extended with storing of *ordering*
+- added new `NoGridInitializerComponent` as `GridInitializer` plugin that does nothing
+- added new `QueryGridInitializerComponent` as `GridInitializer` plugin that is using query string for storing data
+- added new `QueryCookieGridInitializerComponent` as `GridInitializer` plugin that extends `QueryGridInitializerComponent` and allows to store *items per page* also in cookie
+- added `serializeSimpleOrdering`, `deserializeSimpleOrdering` helper functions for transformation of `SimpleOrdering` to and out of `string`
+- added new `LimitedRowSelectorComponent` as `RowSelector` plugin that allows limitation of selected rows
+- added `applyRowSelectionBlock` helper function that applies block of change event to *checkbox* inputs
 
 ## Version 7.1.0
 

@@ -12,7 +12,7 @@ import {BasicTableColumnComponent} from "../components/metadata/basicTable/basic
 import {NoMetadataSelectorComponent, AdvancedMetadataSelectorComponent} from "../plugins/metadataSelector/components";
 import {AdvancedTableBodyContentRendererComponent, TableHeaderContentRendererComponent, TableBodyContentRendererComponent, TableContentRendererComponent} from "../plugins/contentRenderer/components";
 import {SimpleNoDataRendererComponent} from "../plugins/noDataRenderer/components";
-import {BasicRowSelectorComponent} from "../plugins/rowSelector/components";
+import {BasicRowSelectorComponent, LimitedRowSelectorComponent} from "../plugins/rowSelector/components";
 
 /**
  * Module for grid components
@@ -50,7 +50,8 @@ import {BasicRowSelectorComponent} from "../plugins/rowSelector/components";
         AdvancedTableBodyContentRendererComponent,
         TableHeaderContentRendererComponent,
         SimpleNoDataRendererComponent,
-        BasicRowSelectorComponent
+        BasicRowSelectorComponent,
+        LimitedRowSelectorComponent
     ],
     exports:
     [
@@ -78,7 +79,8 @@ import {BasicRowSelectorComponent} from "../plugins/rowSelector/components";
         AdvancedTableBodyContentRendererComponent,
         TableHeaderContentRendererComponent,
         SimpleNoDataRendererComponent,
-        BasicRowSelectorComponent
+        BasicRowSelectorComponent,
+        LimitedRowSelectorComponent
     ],
     providers:
     [
