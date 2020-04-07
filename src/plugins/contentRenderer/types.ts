@@ -43,7 +43,7 @@ export function serializeSimpleOrdering(ordering: SimpleOrdering): string
 {
     if(!ordering)
     {
-        return "";
+        return null;
     }
 
     return `${ordering.orderBy},${ordering.orderByDirection}`;

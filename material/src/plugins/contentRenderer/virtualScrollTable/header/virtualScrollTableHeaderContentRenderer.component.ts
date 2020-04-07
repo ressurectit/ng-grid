@@ -78,9 +78,8 @@ export class VirtualScrollTableHeaderContentRendererComponent<TData> extends Hea
                 @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins: GridPluginInstances,
                 @Inject(HEADER_CONTENT_RENDERER_OPTIONS) @Optional() options: VirtualScrollTableHeaderContentRendererOptions)
     {
-        super(pluginElement, changeDetector);
+        super(pluginElement, gridPlugins, changeDetector);
 
-        this.gridPlugins = gridPlugins;
         this._options = extend(true, {}, defaultOptions, options);
     }
 

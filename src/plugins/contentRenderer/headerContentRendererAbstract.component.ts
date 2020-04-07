@@ -5,6 +5,9 @@ import {GridPluginInstances} from "../../components/grid";
 import {HeaderContentRenderer, SimpleOrdering, BasicOrderableColumn, HeaderContentRendererOptions, CssClassesHeaderContentRenderer} from "./contentRenderer.interface";
 import {GridPluginGeneric} from "../../misc";
 import {BasicTableMetadata} from "../../components/metadata";
+import {GridInitializer} from '../gridInitializer';
+import {GRID_INITIALIZER} from '../gridInitializer/types';
+import {deserializeSimpleOrdering, serializeSimpleOrdering} from './types';
 
 /**
  * Abstract component for header content renderer
@@ -18,6 +21,16 @@ export class HeaderContentRendererAbstractComponent<TData, TOptions extends Head
      * Options for header content renderer
      */
     protected _options: TOptions;
+
+    /**
+     * Current ordering state
+     */
+    protected _ordering: SimpleOrdering = null;
+
+    /**
+     * Instance of grid initializer
+     */
+    protected _gridInitializer: GridInitializer = null;
 
     //######################### public properties - implementation of TableHeaderContentRenderer #########################
 
@@ -41,20 +54,31 @@ export class HeaderContentRendererAbstractComponent<TData, TOptions extends Head
     /**
      * Current ordering state
      */
-    public ordering: SimpleOrdering = null;
+    public get ordering(): SimpleOrdering
+    {
+        if(!this._ordering)
+        {
+            this._ordering = deserializeSimpleOrdering(this._gridInitializer.getOrdering());
+
+            this._initializeOrderingCss();
+        }
+
+        return this._ordering;
+    }
+    public set ordering(ordering: SimpleOrdering)
+    {
+        this._gridInitializer.setOrdering(serializeSimpleOrdering(ordering));
+        this._ordering = ordering;
+    }
 
     /**
      * Occurs when ordering has changed
      */
     public orderingChange: EventEmitter<void> = new EventEmitter<void>();
 
-    /**
-     * Grid plugin instances available for this plugin
-     */
-    public gridPlugins: GridPluginInstances;
-
     //######################### constructor #########################
     constructor(public pluginElement: ElementRef,
+                public gridPlugins: GridPluginInstances,
                 protected _changeDetector: ChangeDetectorRef)
     {
     }
@@ -75,6 +99,7 @@ export class HeaderContentRendererAbstractComponent<TData, TOptions extends Head
      */
     public initialize()
     {
+        this._gridInitializer = this.gridPlugins[GRID_INITIALIZER] as GridInitializer;
     }
 
     /**
@@ -86,11 +111,16 @@ export class HeaderContentRendererAbstractComponent<TData, TOptions extends Head
 
     /**
      * Resets metadata to defaults
+     * @param force - Indication whether forcibly reset ordering, otherwise it is reset only if column is not present in displayed metadata
      */
-    public resetMetadata(): void
+    public resetMetadata(force: boolean = false): void
     {
-        this.ordering = null;
-        this._resetOrdering();
+        //only if current ordering column was removed from metadata or forced
+        if(force || !(!!this.ordering?.orderBy && this.metadata?.columns?.find(itm => itm.name == this.ordering.orderBy && itm.ordering)))
+        {
+            this.ordering = null;
+            this._resetOrdering();
+        }
     }
 
     //######################### public methods - template bindings #########################
@@ -159,5 +189,37 @@ export class HeaderContentRendererAbstractComponent<TData, TOptions extends Head
     protected _resetOrdering()
     {
         this.metadata.columns.forEach(meta => meta.orderingClass = this.options.cssClasses.spanOrderingDirection.none);
+    }
+
+    /**
+     * Initialize ordering css
+     */
+    protected _initializeOrderingCss()
+    {
+        //initialize css for ordering if set
+        if(!!this._ordering?.orderBy)
+        {
+            let meta = this.metadata?.columns?.find(itm => itm.name == this._ordering.orderBy);
+
+            if(meta)
+            {
+                switch(this._ordering.orderByDirection)
+                {
+                    case OrderByDirection.Ascendant:
+                    {
+                        meta.orderingClass = this.options.cssClasses.spanOrderingDirection.asc;
+
+                        break;
+                    }
+                    default:
+                    //case OrderByDirection.Descendant:
+                    {
+                        meta.orderingClass = this.options.cssClasses.spanOrderingDirection.desc;
+
+                        break;
+                    }
+                }
+            }
+        }
     }
 }

@@ -13,3 +13,4 @@ export * from './extensions/setSyncData';
 export * from './extensions/invalidateBodyContent';
 export * from './extensions/showMetadataSelector';
 export * from './extensions/patchOptions';
+export * from './extensions/setOrdering';

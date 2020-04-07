@@ -120,8 +120,9 @@ export interface HeaderContentRenderer<TOrdering, TMetadata> extends GridPlugin
 
     /**
      * Resets metadata to defaults
+     * @param force - Indication whether forcibly reset ordering, otherwise it is reset only if column is not present in displayed metadata
      */
-    resetMetadata(): void;
+    resetMetadata(force?: boolean): void;
 }
 
 /**

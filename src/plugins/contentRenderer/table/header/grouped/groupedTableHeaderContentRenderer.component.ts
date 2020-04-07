@@ -6,6 +6,8 @@ import {BasicOrderableColumn} from "../../../contentRenderer.interface";
 import {HEADER_CONTENT_RENDERER_OPTIONS} from "../../../types";
 import {HeaderContentRendererAbstractComponent} from "../../../headerContentRendererAbstract.component";
 import {GroupedTableMetadata, HeaderTableGroup} from "../../../../../components/metadata";
+import {GRID_PLUGIN_INSTANCES} from '../../../../../components/grid/types';
+import {GridPluginInstances} from '../../../../../components/grid';
 
 //TODO - added new property TransitiveColumns, to distinquish real columns and transitive one
 
@@ -59,25 +61,8 @@ export interface GroupsMetadataRender
 {
     selector: 'thead.grouped-content-renderer',
     templateUrl: 'groupedTableHeaderContentRenderer.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    styles:
-    [
-        `.header-default
-        {
-            white-space: nowrap;
-        }
-
-        .header-orderable:hover
-        {
-            background-color: #E3E3E3;
-            cursor: pointer;
-        }
-
-        .header-content
-        {
-            white-space: normal;
-        }`
-    ]
+    styleUrls: ['groupedTableHeaderContentRenderer.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GroupedTableHeaderContentRendererComponent<TData> extends HeaderContentRendererAbstractComponent<TData, TableHeaderContentRendererOptions>
 {
@@ -119,9 +104,10 @@ export class GroupedTableHeaderContentRendererComponent<TData> extends HeaderCon
     //######################### constructor #########################
     constructor(pluginElement: ElementRef,
                 changeDetector: ChangeDetectorRef,
-                @Inject(HEADER_CONTENT_RENDERER_OPTIONS) @Optional() options: TableHeaderContentRendererOptions)
+                @Inject(HEADER_CONTENT_RENDERER_OPTIONS) @Optional() options: TableHeaderContentRendererOptions,
+                @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins: GridPluginInstances)
     {
-        super(pluginElement, changeDetector);
+        super(pluginElement, gridPlugins, changeDetector);
 
         this._options = extend(true, {}, defaultOptions, options);
     }

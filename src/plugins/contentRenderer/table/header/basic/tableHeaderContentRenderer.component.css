@@ -1,0 +1,15 @@
+.header-default
+{
+    white-space: nowrap;
+}
+
+.header-orderable:hover
+{
+    background-color: #E3E3E3;
+    cursor: pointer;
+}
+
+.header-content
+{
+    white-space: normal;
+}

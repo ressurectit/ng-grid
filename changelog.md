@@ -16,6 +16,8 @@
 - added `serializeSimpleOrdering`, `deserializeSimpleOrdering` helper functions for transformation of `SimpleOrdering` to and out of `string`
 - added new `LimitedRowSelectorComponent` as `RowSelector` plugin that allows limitation of selected rows
 - added `applyRowSelectionBlock` helper function that applies block of change event to *checkbox* inputs
+- method `resetMetadata` of `HeaderContentRenderer` now have optional parameter `force` indicating whether forcibly reset metadata
+- added extension method `setOrdering` which allows setting ordering from code
 
 ## Version 6.2.4
 

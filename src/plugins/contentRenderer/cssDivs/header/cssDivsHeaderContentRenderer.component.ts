@@ -4,6 +4,8 @@ import {extend} from "@jscrpt/common";
 import {HEADER_CONTENT_RENDERER_OPTIONS} from "../../types";
 import {CssDivsHeaderContentRendererOptions} from "../cssDivsContentRenderer.interface";
 import {HeaderContentRendererAbstractComponent} from "../../headerContentRendererAbstract.component";
+import {GRID_PLUGIN_INSTANCES} from '../../../../components/grid/types';
+import {GridPluginInstances} from '../../../../components/grid';
 
 /**
  * Default options for 'CssDivsHeaderContentRendererComponent'
@@ -34,35 +36,8 @@ const defaultOptions: CssDivsHeaderContentRendererOptions =
 {
     selector: 'div.content-renderer-header',
     templateUrl: 'CssDivsHeaderContentRenderer.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    styles:
-    [
-        `:host.header-row-contents
-        {
-            display: contents;
-            border-bottom: 1px solid #EDEDED;
-        }
-
-        .header-cell
-        {
-            padding: 3px;
-            line-height: 1.42857143;
-            vertical-align: middle;
-            border-bottom: 1px solid #ddd;
-            font-weight: bold;
-        }
-
-        .header-orderable:hover
-        {
-            background-color: #E3E3E3;
-            cursor: pointer;
-        }
-
-        .header-content
-        {
-            white-space: normal;
-        }`
-    ]
+    styleUrls: ['CssDivsHeaderContentRenderer.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CssDivsHeaderContentRendererComponent<TData> extends HeaderContentRendererAbstractComponent<TData, CssDivsHeaderContentRendererOptions>
 {
@@ -80,9 +55,10 @@ export class CssDivsHeaderContentRendererComponent<TData> extends HeaderContentR
     //######################### constructor #########################
     constructor(pluginElement: ElementRef,
                 changeDetector: ChangeDetectorRef,
-                @Inject(HEADER_CONTENT_RENDERER_OPTIONS) @Optional() options: CssDivsHeaderContentRendererOptions)
+                @Inject(HEADER_CONTENT_RENDERER_OPTIONS) @Optional() options: CssDivsHeaderContentRendererOptions,
+                @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins: GridPluginInstances)
     {
-        super(pluginElement, changeDetector);
+        super(pluginElement, gridPlugins, changeDetector);
 
         this._options = extend(true, {}, defaultOptions, options);
     }
