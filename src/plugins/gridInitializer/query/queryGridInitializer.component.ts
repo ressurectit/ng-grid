@@ -79,6 +79,14 @@ export class QueryGridInitializerComponent implements QueryGridInitializer, Grid
         return this._options.prefix + 'ipp';
     }
 
+    /**
+     * Gets name of ordering in url
+     */
+    protected get orderingName(): string
+    {
+        return this._options.prefix + 'o';
+    }
+
     //######################### constructor #########################
     constructor(protected _router: Router, 
                 protected _route: ActivatedRoute,
@@ -151,14 +159,30 @@ export class QueryGridInitializerComponent implements QueryGridInitializer, Grid
      */
     public getOrdering(): string
     {
-        return null;
+        if(!this._route.snapshot.queryParamMap.has(this.orderingName))
+        {
+            return null;
+        }
+
+        return this._route.snapshot.queryParamMap.get(this.orderingName);
     }
 
     /**
      * Sets current ordering when changed
-     * @param orderig - Ordering as string to be stored
+     * @param ordering - Ordering as string to be stored
      */
-    public setOrdering(orderig: string): void
+    public setOrdering(ordering: string): void
     {
+        let orderingParam = {};
+
+        orderingParam[this.orderingName] = ordering;
+
+        this._router.navigate(['.'],
+        {
+            relativeTo: this._route,
+            queryParams: orderingParam,
+            queryParamsHandling: "merge",
+            replaceUrl: true
+        });
     }
 }

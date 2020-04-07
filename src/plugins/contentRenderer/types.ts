@@ -1,6 +1,6 @@
 import {InjectionToken} from "@angular/core";
 
-import {ContentRendererOptions} from "./contentRenderer.interface";
+import {ContentRendererOptions, SimpleOrdering} from "./contentRenderer.interface";
 import {VisualPluginOptions} from "../../misc";
 
 export * from './table/body/advanced/basicTableColumnSelectable.context';
@@ -34,3 +34,36 @@ export const HEADER_CONTENT_RENDERER_OPTIONS: InjectionToken<VisualPluginOptions
  * Constant used for accessing content header renderer in grid
  */
 export const HEADER_CONTENT_RENDERER = "HEADER_CONTENT_RENDERER";
+
+/**
+ * Serialize ordering
+ * @param ordering - Ordering to be serialized
+ */
+export function serializeSimpleOrdering(ordering: SimpleOrdering): string
+{
+    if(!ordering)
+    {
+        return "";
+    }
+
+    return `${ordering.orderBy},${ordering.orderByDirection}`;
+}
+
+/**
+ * Deserialize ordering
+ * @param ordering - Ordering as string to be deserialized
+ */
+export function deserializeSimpleOrdering(ordering: string): SimpleOrdering
+{
+    if(!ordering)
+    {
+        return null;
+    }
+
+    let [orderBy, orderByDirection] = ordering.split(',');
+
+    return {
+        orderBy: orderBy,
+        orderByDirection: +orderByDirection
+    };
+}

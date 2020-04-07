@@ -45,7 +45,7 @@ export interface GridInitializer extends GridPlugin
 
     /**
      * Sets current ordering when changed
-     * @param orderig - Ordering as string to be stored
+     * @param ordering - Ordering as string to be stored
      */
-    setOrdering(orderig: string): void;
+    setOrdering(ordering: string): void;
 }

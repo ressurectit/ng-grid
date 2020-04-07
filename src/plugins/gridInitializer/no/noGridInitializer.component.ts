@@ -97,9 +97,9 @@ export class NoGridInitializerComponent implements NoGridInitializer, GridPlugin
 
     /**
      * Sets current ordering when changed
-     * @param orderig - Ordering as string to be stored
+     * @param ordering - Ordering as string to be stored
      */
-    public setOrdering(orderig: string): void
+    public setOrdering(): void
     {
     }
 }
