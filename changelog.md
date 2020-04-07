@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 7.1.1
+
+- fixed `NoGridInitializerComponent` which now using existing `PagingInitializer` to be backward compatible until next major version
+
 ## Version 7.1.0
 
 - added new `CssDivsContentRendererComponent` as `ContentRenderer` plugin (using css grid)
