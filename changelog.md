@@ -1,7 +1,10 @@
 # Changelog
 
-## Version 7.2.0
+## Version 7.1.0
 
+- added new `CssDivsContentRendererComponent` as `ContentRenderer` plugin (using css grid)
+- added new `CssDivsHeaderContentRendererComponent` as `HeaderContentRenderer` plugin (using css grid)
+- added new `CssDivsBodyContentRendererComponent` as `BodyContentRenderer` plugin (using css grid)
 - deprecated `PagingInitializer` plugin, use new `GridInitializer` (in next major version `PagingInitializer` will be removed)
 - added new `GridInitializer` plugin allowing obtaining obtaining and storing state of grid to *external* storage
 - for now `GridInitializer` is internally using `PagingInitializer` (in next major version this logic will be moved directly into `GridInitializer`)
@@ -13,12 +16,6 @@
 - added `serializeSimpleOrdering`, `deserializeSimpleOrdering` helper functions for transformation of `SimpleOrdering` to and out of `string`
 - added new `LimitedRowSelectorComponent` as `RowSelector` plugin that allows limitation of selected rows
 - added `applyRowSelectionBlock` helper function that applies block of change event to *checkbox* inputs
-
-## Version 7.1.0
-
-- added new `CssDivsContentRendererComponent` as `ContentRenderer` plugin (using css grid)
-- added new `CssDivsHeaderContentRendererComponent` as `HeaderContentRenderer` plugin (using css grid)
-- added new `CssDivsBodyContentRendererComponent` as `BodyContentRenderer` plugin (using css grid)
 
 ## Version 6.2.4
 
