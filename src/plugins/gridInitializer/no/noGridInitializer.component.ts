@@ -1,11 +1,9 @@
-import {ChangeDetectionStrategy, ElementRef, Component, Inject, Optional} from "@angular/core";
+import {ChangeDetectionStrategy, Component, ElementRef} from "@angular/core";
 
-import {GridPluginGeneric} from "../../../misc";
-import {NoGridInitializerOptions, NoGridInitializer} from "./noGridInitializer.interface";
 import {GridPluginInstances} from "../../../components/grid";
-import {PagingInitializer} from '../../pagingInitializer';
-import {PAGING_INITIALIZER} from '../../pagingInitializer/types';
-import {GRID_PLUGIN_INSTANCES} from '../../../components/grid/types';
+import {GridPluginGeneric} from "../../../misc";
+import {NoGridInitializer, NoGridInitializerOptions} from "./noGridInitializer.interface";
+
 
 /**
  * Component used for rendering no grid initializer
@@ -18,13 +16,6 @@ import {GRID_PLUGIN_INSTANCES} from '../../../components/grid/types';
 })
 export class NoGridInitializerComponent implements NoGridInitializer, GridPluginGeneric<NoGridInitializerOptions>
 {
-    //######################### protected fields #########################
-
-    /**
-     * Paging initializer plugin
-     */
-    protected _pagingInitializer: PagingInitializer;
-
     //######################### public properties - implementation of NoGridInitializer #########################
 
     /**
@@ -37,10 +28,10 @@ export class NoGridInitializerComponent implements NoGridInitializer, GridPlugin
      */
     public options: NoGridInitializerOptions;
 
-    //######################### constructor #########################
-    constructor(@Inject(GRID_PLUGIN_INSTANCES) @Optional() public gridPlugins: GridPluginInstances)
-    {
-    }
+    /**
+     * Grid plugin instances available for this plugin
+     */
+    public gridPlugins: GridPluginInstances;
 
     //######################### public methods - implementation of NoGridInitializer #########################
 
@@ -49,7 +40,6 @@ export class NoGridInitializerComponent implements NoGridInitializer, GridPlugin
      */
     public initialize()
     {
-        this._pagingInitializer = this.gridPlugins[PAGING_INITIALIZER] as PagingInitializer;
     }
 
     /**
@@ -71,16 +61,15 @@ export class NoGridInitializerComponent implements NoGridInitializer, GridPlugin
      */
     public getPage(): number
     {
-        return this._pagingInitializer.getPage();
+        return null;
     }
 
     /**
      * Sets current page when changed
      * @param page - Page to be stored
      */
-    public setPage(page: number)
+    public setPage()
     {
-        this._pagingInitializer.setPage(page);
     }
 
     /**
@@ -88,16 +77,15 @@ export class NoGridInitializerComponent implements NoGridInitializer, GridPlugin
      */
     public getItemsPerPage(): number
     {
-        return this._pagingInitializer.getItemsPerPage();
+        return null;
     }
 
     /**
      * Sets current items per page when changed
      * @param itemsPerPage - Items per page to be stored
      */
-    public setItemsPerPage(itemsPerPage: number)
+    public setItemsPerPage()
     {
-        this._pagingInitializer.setItemsPerPage(itemsPerPage);
     }
 
     /**

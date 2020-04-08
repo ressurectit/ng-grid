@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 8.0.0
+
+- moved logic from `PagingInitializer` to `GridInitializer`
+   - from `NoPagingInitializerComponent` to `NoGridInitializerComponent`
+   - from `QueryPagingInitializerComponent` to `QueryGridInitializerComponent`
+   - from `QueryCookiePagingInitializerComponent` to `QueryCookieGridInitializerComponent`
+- **Breaking Changes**
+   - removed deprecated `PagingInitializer` plugin
+
 ## Version 7.1.1
 
 - fixed `NoGridInitializerComponent` which now using existing `PagingInitializer` to be backward compatible until next major version

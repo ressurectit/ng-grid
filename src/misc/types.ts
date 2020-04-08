@@ -6,7 +6,6 @@ import {ContentRenderer} from "../plugins/contentRenderer";
 import {MetadataSelector} from "../plugins/metadataSelector";
 import {NoDataRenderer} from "../plugins/noDataRenderer";
 import {RowSelector} from "../plugins/rowSelector";
-import {PagingInitializer} from "../plugins/pagingInitializer";
 import {GridOptions} from "./gridOptions.interface";
 import {PluginDescription} from "./plugin.interface";
 import {GridInitializer} from '../plugins/gridInitializer';
@@ -20,11 +19,6 @@ export const GRID_OPTIONS: InjectionToken<GridOptions> = new InjectionToken<Grid
  * Injection token for 'Paging' implementation
  */
 export const PAGING_TYPE: InjectionToken<Paging> = new InjectionToken<Paging>('PAGING_TYPE');
-
-/**
- * Injection token for 'PagingInitializer' implementation
- */
-export const PAGING_INITIALIZER_TYPE: InjectionToken<PagingInitializer> = new InjectionToken<PagingInitializer>('PAGING_INITIALIZER_TYPE');
 
 /**
  * Injection token for 'GridInitializer' implementation
@@ -70,11 +64,6 @@ export class GridPluginTypes
      * Paging component used for applying paging to data
      */
     paging?: PluginDescription<Paging>;
-
-    /**
-     * Paging initializer component used for obtaining initial paging data
-     */
-    pagingInitializer?: PluginDescription<PagingInitializer>;
 
     /**
      * Grid initializer component used for obtaining stored grid data

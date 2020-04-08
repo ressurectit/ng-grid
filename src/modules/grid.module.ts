@@ -4,7 +4,6 @@ import {CommonModule} from "@anglr/common";
 
 import {GridComponent} from "../components/grid/grid.component";
 import {BasicPagingComponent, LoadMorePagingComponent, PreviousNextPagingComponent, ContentVirtualScrollPagingComponent, PageVirtualScrollPagingComponent, NoPagingComponent} from "../plugins/paging/components";
-import {NoPagingInitializerComponent, QueryCookiePagingInitializerComponent, QueryPagingInitializerComponent} from "../plugins/pagingInitializer/components";
 import {NoGridInitializerComponent, QueryCookieGridInitializerComponent, QueryGridInitializerComponent} from "../plugins/gridInitializer/components";
 import {AsyncDataLoaderComponent, SyncDataLoaderComponent} from "../plugins/dataLoader/components";
 import {BasicTableMetadataGathererComponent} from "../components/metadata/basicTable/basicTableMetadataGatherer.component";
@@ -35,9 +34,6 @@ import {BasicRowSelectorComponent, LimitedRowSelectorComponent} from "../plugins
         PageVirtualScrollPagingComponent,
         PreviousNextPagingComponent,
         NoPagingComponent,
-        QueryPagingInitializerComponent,
-        QueryCookiePagingInitializerComponent,
-        NoPagingInitializerComponent,
         QueryGridInitializerComponent,
         QueryCookieGridInitializerComponent,
         NoGridInitializerComponent,
@@ -64,9 +60,6 @@ import {BasicRowSelectorComponent, LimitedRowSelectorComponent} from "../plugins
         PageVirtualScrollPagingComponent,
         PreviousNextPagingComponent,
         NoPagingComponent,
-        QueryPagingInitializerComponent,
-        QueryCookiePagingInitializerComponent,
-        NoPagingInitializerComponent,
         QueryGridInitializerComponent,
         QueryCookieGridInitializerComponent,
         NoGridInitializerComponent,

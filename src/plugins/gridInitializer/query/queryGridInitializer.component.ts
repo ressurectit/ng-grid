@@ -6,9 +6,6 @@ import {GridPluginGeneric} from "../../../misc";
 import {QueryGridInitializer, QueryGridInitializerOptions} from "./queryGridInitializer.interface";
 import {GRID_INITIALIZER_OPTIONS} from "../types";
 import {GridPluginInstances} from "../../../components/grid";
-import {GRID_PLUGIN_INSTANCES} from '../../../components/grid/types';
-import {PAGING_INITIALIZER} from '../../pagingInitializer/types';
-import {PagingInitializer} from '../../pagingInitializer';
 
 /**
  * Default options for query grid initializer
@@ -37,12 +34,12 @@ export class QueryGridInitializerComponent implements QueryGridInitializer, Grid
      */
     protected _options: QueryGridInitializerOptions;
 
-    /**
-     * Paging initializer plugin
-     */
-    protected _pagingInitializer: PagingInitializer;
-
     //######################### public properties - implementation of NoGridInitializer #########################
+
+    /**
+     * Grid plugin instances available for this plugin
+     */
+    public gridPlugins: GridPluginInstances;
 
     /**
      * Element that represents plugin
@@ -90,7 +87,6 @@ export class QueryGridInitializerComponent implements QueryGridInitializer, Grid
     //######################### constructor #########################
     constructor(protected _router: Router, 
                 protected _route: ActivatedRoute,
-                @Inject(GRID_PLUGIN_INSTANCES) @Optional() public gridPlugins: GridPluginInstances,
                 @Inject(GRID_INITIALIZER_OPTIONS) @Optional() options?: QueryGridInitializerOptions)
     {
         this._options = extend(true, {}, defaultOptions, options);
@@ -103,7 +99,6 @@ export class QueryGridInitializerComponent implements QueryGridInitializer, Grid
      */
     public initialize()
     {
-        this._pagingInitializer = this.gridPlugins[PAGING_INITIALIZER] as PagingInitializer;
     }
 
     /**
@@ -125,7 +120,12 @@ export class QueryGridInitializerComponent implements QueryGridInitializer, Grid
      */
     public getPage(): number
     {
-        return this._pagingInitializer.getPage();
+        if(!this._route.snapshot.queryParamMap.has(this.pageName))
+        {
+            return null;
+        }
+
+        return +this._route.snapshot.queryParamMap.get(this.pageName);
     }
 
     /**
@@ -134,7 +134,17 @@ export class QueryGridInitializerComponent implements QueryGridInitializer, Grid
      */
     public setPage(page: number)
     {
-        this._pagingInitializer.setPage(page);
+        let pageParam = {};
+
+        pageParam[this.pageName] = page;
+
+        this._router.navigate(['.'],
+        {
+            relativeTo: this._route,
+            queryParams: pageParam,
+            queryParamsHandling: "merge",
+            replaceUrl: true
+        });
     }
 
     /**
@@ -142,7 +152,12 @@ export class QueryGridInitializerComponent implements QueryGridInitializer, Grid
      */
     public getItemsPerPage(): number
     {
-        return this._pagingInitializer.getItemsPerPage();
+        if(!this._route.snapshot.queryParamMap.has(this.itemsPerPageName))
+        {
+            return null;
+        }
+
+        return +this._route.snapshot.queryParamMap.get(this.itemsPerPageName);
     }
 
     /**
@@ -151,7 +166,17 @@ export class QueryGridInitializerComponent implements QueryGridInitializer, Grid
      */
     public setItemsPerPage(itemsPerPage: number)
     {
-        this._pagingInitializer.setItemsPerPage(itemsPerPage);
+        let pageParam = {};
+
+        pageParam[this.itemsPerPageName] = itemsPerPage;
+
+        this._router.navigate(['.'],
+        {
+            relativeTo: this._route,
+            queryParams: pageParam,
+            queryParamsHandling: "merge",
+            replaceUrl: true
+        });
     }
 
     /**
