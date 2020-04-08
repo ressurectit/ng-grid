@@ -15,7 +15,7 @@ import {GridPluginGeneric} from "../../misc";
  * Abstract component for body content renderer
  */
 @Injectable()
-export class BodyContentRendererAbstractComponent<TData, TOptions extends BodyContentRendererOptions<TCssClasses>, TMetadata, TCssClasses> implements BodyContentRenderer<TData, TMetadata>, GridPluginGeneric<TOptions>
+export class BodyContentRendererAbstractComponent<TData = any, TOptions extends BodyContentRendererOptions<TCssClasses> = any, TMetadata = any, TCssClasses = any> implements BodyContentRenderer<TData, TMetadata>, GridPluginGeneric<TOptions>
 {
     //######################### protected fields #########################
 

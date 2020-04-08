@@ -15,7 +15,7 @@ import {AdvancedTableBodyContentRendererOptions} from "./advancedTableBodyConten
  * Default options for 'AdvancedTableBodyContentRendererComponent'
  * @internal
  */
-const defaultOptions: AdvancedTableBodyContentRendererOptions<any> =
+const defaultOptions: AdvancedTableBodyContentRendererOptions =
 {
     rowCssClass: () => null
 };
@@ -29,7 +29,7 @@ const defaultOptions: AdvancedTableBodyContentRendererOptions<any> =
     templateUrl: 'advancedTableBodyContentRenderer.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdvancedTableBodyContentRendererComponent<TData> extends BodyContentRendererAbstractComponent<TData, AdvancedTableBodyContentRendererOptions<TData>, BasicTableMetadata<BasicTableColumn<TData>>, any>
+export class AdvancedTableBodyContentRendererComponent<TData = any> extends BodyContentRendererAbstractComponent<TData, AdvancedTableBodyContentRendererOptions<TData>, BasicTableMetadata<BasicTableColumn<TData>>>
 {
     //######################### protected fields #########################
 

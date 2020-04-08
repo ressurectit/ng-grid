@@ -16,7 +16,7 @@ import {GridPluginGeneric} from "../../misc";
  * Abstract component for content renderers
  */
 @Directive()
-export class ContentRendererAbstractComponent<TOrdering, TData, TMetadata, TOptions extends ContentRendererOptions<CssClassesContentRenderer, ContentRendererPlugins>> implements ContentRenderer<TOrdering>, OnDestroy, GridPluginGeneric<TOptions>
+export class ContentRendererAbstractComponent<TOrdering = any, TData = any, TMetadata = any, TOptions extends ContentRendererOptions<CssClassesContentRenderer, ContentRendererPlugins> = any> implements ContentRenderer<TOrdering>, OnDestroy, GridPluginGeneric<TOptions>
 {
     //######################### protected fields #########################
 

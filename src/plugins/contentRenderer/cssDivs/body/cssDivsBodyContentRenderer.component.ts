@@ -62,7 +62,7 @@ const defaultOptions: CssDivsBodyContentRendererOptions =
         `
     ]
 })
-export class CssDivsBodyContentRendererComponent<TData> extends BodyContentRendererAbstractComponent<TData, CssDivsBodyContentRendererOptions, BasicTableMetadata<BasicTableColumn<TData>>, CssClassesCssDivsBodyContentRenderer>
+export class CssDivsBodyContentRendererComponent<TData = any> extends BodyContentRendererAbstractComponent<TData, CssDivsBodyContentRendererOptions, BasicTableMetadata<BasicTableColumn<TData>>, CssClassesCssDivsBodyContentRenderer>
 {
     //######################### public properties - host bindings #########################
 

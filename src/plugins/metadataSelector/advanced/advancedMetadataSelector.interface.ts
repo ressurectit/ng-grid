@@ -73,7 +73,7 @@ export interface AdvancedMetadataSelectorOptions extends MetadataSelectorOptions
 /**
  * Public API for 'AdvancedMetadataSelector'
  */
-export interface AdvancedMetadataSelector<TMetadata> extends MetadataSelector<TMetadata>
+export interface AdvancedMetadataSelector<TMetadata = any> extends MetadataSelector<TMetadata>
 {
 }
 

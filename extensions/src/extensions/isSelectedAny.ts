@@ -7,7 +7,7 @@ export function isSelectedAny(): GridFunction<boolean>
 {
     return grid =>
     {
-        let rowSelector = grid.getPlugin<RowSelector<any, any, any>>(ROW_SELECTOR);
+        let rowSelector = grid.getPlugin<RowSelector>(ROW_SELECTOR);
 
         return rowSelector.selectedIds.length > 0;
     };

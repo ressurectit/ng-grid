@@ -13,7 +13,7 @@ export interface MetadataSelectorOptions extends PluginOptions
 /**
  * Metadata selector plugin interface
  */
-export interface MetadataSelector<TMetadata> extends GridPlugin
+export interface MetadataSelector<TMetadata = any> extends GridPlugin
 {
     /**
      * Instance of metadata gatherer, which is used for getting initial metadata

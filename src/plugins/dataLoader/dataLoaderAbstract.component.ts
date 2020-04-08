@@ -17,7 +17,7 @@ import {DataLoaderState} from "./types";
  * Abstract class that represents any data loader component
  */
 @Injectable()
-export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOptions, TOrdering, TResult> implements DataLoader<TResult>, GridPluginGeneric<TOptions>, OnDestroy
+export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOptions = any, TOrdering = any, TResult = any> implements DataLoader<TResult>, GridPluginGeneric<TOptions>, OnDestroy
 {
     //######################### private fields #########################
 

@@ -39,7 +39,7 @@ const defaultOptions: TableHeaderContentRendererOptions =
     styleUrls: ['tableHeaderContentRenderer.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TableHeaderContentRendererComponent<TData> extends HeaderContentRendererAbstractComponent<TData, TableHeaderContentRendererOptions>
+export class TableHeaderContentRendererComponent<TData = any> extends HeaderContentRendererAbstractComponent<TData, TableHeaderContentRendererOptions>
 {
     //######################### public properties - host #########################
 

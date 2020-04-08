@@ -63,7 +63,7 @@ export interface GatheredMetadata
  * }
  * ```
  */
-export interface MetadataGatherer<TMetadata extends GatheredMetadata>
+export interface MetadataGatherer<TMetadata extends GatheredMetadata = any>
 {
     /**
      * Information that metadata for grid has changed

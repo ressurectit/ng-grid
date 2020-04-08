@@ -24,7 +24,7 @@ export interface DialogMetadataSelectorTexts
 /**
  * Dialog metadata selector options
  */
-export interface DialogMetadataSelectorOptions<TMetadata> extends MetadataSelectorOptions, VisualPluginOptions<CssClassesDialogMetadataSelector>
+export interface DialogMetadataSelectorOptions<TMetadata = any> extends MetadataSelectorOptions, VisualPluginOptions<CssClassesDialogMetadataSelector>
 {
     /**
      * Texts that are used within DialogMetadataSelector
@@ -50,14 +50,14 @@ export interface DialogMetadataSelectorOptions<TMetadata> extends MetadataSelect
 /**
  * Public API for 'DialogMetadataSelector'
  */
-export interface DialogMetadataSelector<TMetadata> extends MetadataSelector<TMetadata>
+export interface DialogMetadataSelector<TMetadata = any> extends MetadataSelector<TMetadata>
 {
 }
 
 /**
  * Data that are passed to component that handles metadata
  */
-export interface DialogMetadataSelectorComponentData<TMetadata>
+export interface DialogMetadataSelectorComponentData<TMetadata = any>
 {
     /**
      * Method that is used for setting metadata into component
@@ -84,7 +84,7 @@ export interface DialogMetadataSelectorComponentData<TMetadata>
 /**
  * Component that is rendered within dialog
  */
-export interface DialogMetadataSelectorContentComponent<TMetadata>
+export interface DialogMetadataSelectorContentComponent<TMetadata = any>
 {
     /**
      * Data that are used for communication with MetadataSelector

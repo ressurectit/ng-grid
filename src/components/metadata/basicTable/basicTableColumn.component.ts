@@ -12,7 +12,7 @@ import {BasicTableColumnContext} from "../types";
     template: '',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BasicTableColumnComponent<TData> implements BasicTableColumn<TData>
+export class BasicTableColumnComponent<TData = any> implements BasicTableColumn<TData>
 {
     //######################### public properties - inputs #########################
     /**

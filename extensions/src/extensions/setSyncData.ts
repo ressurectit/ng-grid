@@ -11,7 +11,7 @@ export function setSyncData(data: any[], force?: boolean): GridAction
 {
     return grid =>
     {
-        let dataLoader = grid.getPlugin<DataLoader<any>>(DATA_LOADER);
+        let dataLoader = grid.getPlugin<DataLoader>(DATA_LOADER);
 
         dataLoader.options.data = isArray(data) ? data : [];
         dataLoader.loadData(force);

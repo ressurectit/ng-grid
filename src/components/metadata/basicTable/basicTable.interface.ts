@@ -6,7 +6,7 @@ import {GridColumn, GatheredMetadata} from "../metadata.interface";
 /**
  * Basic table column definition
  */
-export interface BasicTableColumn<TData> extends GridColumn
+export interface BasicTableColumn<TData = any> extends GridColumn
 {
     /**
      * Name of property which is assigned to this column
@@ -62,7 +62,7 @@ export interface BasicTableColumn<TData> extends GridColumn
 /**
  * Basic table metadata, contains columns
  */
-export interface BasicTableMetadata<TColumn extends GridColumn> extends GatheredMetadata
+export interface BasicTableMetadata<TColumn extends GridColumn = any> extends GatheredMetadata
 {
     /**
      * Array of columns gathered

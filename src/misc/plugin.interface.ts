@@ -41,7 +41,7 @@ export interface GridPlugin
 /**
  * Grid plugin generic interface
  */
-export interface GridPluginGeneric<TOptions> extends GridPlugin
+export interface GridPluginGeneric<TOptions = any> extends GridPlugin
 {
     options: TOptions;
 }
@@ -56,7 +56,7 @@ export interface PluginOptions
 /**
  * Base options for every visual plugin (component)
  */
-export interface VisualPluginOptions<TCssClasses> extends PluginOptions
+export interface VisualPluginOptions<TCssClasses = any> extends PluginOptions
 {
     /**
      * Css classes applied to visual plugin (component), possible to override only part of classes

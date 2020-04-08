@@ -25,7 +25,7 @@ export interface VirtualScrollTableContentRendererOptions extends ContentRendere
 /**
  * Public API for VirtualScrollTableContentRenderer
  */
-export interface VirtualScrollTableContentRenderer<TOrdering> extends ContentRenderer<TOrdering>
+export interface VirtualScrollTableContentRenderer<TOrdering = any> extends ContentRenderer<TOrdering>
 {
     /**
      * Instance of angular CDK virtual scroll viewport
@@ -36,14 +36,14 @@ export interface VirtualScrollTableContentRenderer<TOrdering> extends ContentRen
 /**
  * Options for 'VirtualScrollTableBodyContentRendererComponent'
  */
-export interface VirtualScrollTableBodyContentRendererOptions extends BodyContentRendererOptions<any>
+export interface VirtualScrollTableBodyContentRendererOptions extends BodyContentRendererOptions
 {
 }
 
 /**
  * Public API for VirtualScrollTableBodyContentRenderer
  */
-export interface VirtualScrollTableBodyContentRenderer<TData, TMetadata> extends BodyContentRenderer<TData, TMetadata>
+export interface VirtualScrollTableBodyContentRenderer<TData = any, TMetadata = any> extends BodyContentRenderer<TData, TMetadata>
 {
 }
 
@@ -69,6 +69,6 @@ export interface VirtualScrollTableHeaderContentRendererOptions extends HeaderCo
 /**
  * Public API for VirtualScrollTableHeaderContentRenderer
  */
-export interface VirtualScrollTableHeaderContentRenderer<TOrdering, TMetadata> extends HeaderContentRenderer<TOrdering, TMetadata>
+export interface VirtualScrollTableHeaderContentRenderer<TOrdering = any, TMetadata = any> extends HeaderContentRenderer<TOrdering, TMetadata>
 {
 }

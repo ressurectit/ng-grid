@@ -15,7 +15,7 @@ import {GridPluginGeneric} from "../../../misc";
     template: '',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NoMetadataSelectorComponent<TMetadata> implements NoMetadataSelector<TMetadata>, GridPluginGeneric<NoMetadataSelectorOptions>, OnDestroy
+export class NoMetadataSelectorComponent<TMetadata = any> implements NoMetadataSelector<TMetadata>, GridPluginGeneric<NoMetadataSelectorOptions>, OnDestroy
 {
     /**
      * Subscription for metadata changes

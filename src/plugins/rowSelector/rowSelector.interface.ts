@@ -5,7 +5,7 @@ import {GridPlugin, PluginOptions} from "../../misc";
 /**
  * Row selector options
  */
-export interface RowSelectorOptions<TSelectedData, TData, TId> extends PluginOptions
+export interface RowSelectorOptions<TSelectedData = any, TData = any, TId = any> extends PluginOptions
 {
     /**
      * Method used for obtaining row id, without this row selector cant work
@@ -31,7 +31,7 @@ export interface RowSelectorOptions<TSelectedData, TData, TId> extends PluginOpt
 /**
  * Public API for row selector
  */
-export interface RowSelector<TSelectedData, TData, TId> extends GridPlugin
+export interface RowSelector<TSelectedData = any, TData = any, TId = any> extends GridPlugin
 {
     /**
      * Array of currently selected row ids

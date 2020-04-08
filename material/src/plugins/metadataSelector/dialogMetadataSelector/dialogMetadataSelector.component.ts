@@ -21,7 +21,7 @@ export interface StorageState
  * Default options for dialog metadata selector
  * @internal
  */
-const defaultOptions: DialogMetadataSelectorOptions<any> =
+const defaultOptions: DialogMetadataSelectorOptions =
 {
     cssClasses:
     {

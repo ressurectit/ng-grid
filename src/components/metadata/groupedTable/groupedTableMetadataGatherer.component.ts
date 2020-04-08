@@ -26,7 +26,7 @@ import {BasicTableColumnComponent} from "../basicTable/basicTableColumn.componen
         }
     ]
 })
-export class GroupedTableMetadataGathererComponent<TData> implements AfterContentInit, MetadataGatherer<GroupedTableMetadata<BasicTableColumn<TData>>>
+export class GroupedTableMetadataGathererComponent<TData = any> implements AfterContentInit, MetadataGatherer<GroupedTableMetadata<BasicTableColumn<TData>>>
 {
     //######################### public properties - implementation of MetadataGatherer<BasicTableColumn[]> #########################
 

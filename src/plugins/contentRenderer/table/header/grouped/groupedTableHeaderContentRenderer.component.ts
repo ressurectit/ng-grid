@@ -64,7 +64,7 @@ export interface GroupsMetadataRender
     styleUrls: ['groupedTableHeaderContentRenderer.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GroupedTableHeaderContentRendererComponent<TData> extends HeaderContentRendererAbstractComponent<TData, TableHeaderContentRendererOptions>
+export class GroupedTableHeaderContentRendererComponent<TData = any> extends HeaderContentRendererAbstractComponent<TData, TableHeaderContentRendererOptions>
 {
     //######################### private fields #########################
 

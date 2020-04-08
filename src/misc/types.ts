@@ -26,19 +26,19 @@ export const PAGING_TYPE: InjectionToken<Paging> = new InjectionToken<Paging>('P
 export const GRID_INITIALIZER_TYPE: InjectionToken<GridInitializer> = new InjectionToken<GridInitializer>('GRID_INITIALIZER_TYPE');
 
 /**
- * Injection token for 'DataLoader<any>' implementation
+ * Injection token for 'DataLoader' implementation
  */
-export const DATA_LOADER_TYPE: InjectionToken<DataLoader<any>> = new InjectionToken<DataLoader<any>>('DATA_LOADER_TYPE');
+export const DATA_LOADER_TYPE: InjectionToken<DataLoader> = new InjectionToken<DataLoader>('DATA_LOADER_TYPE');
 
 /**
- * Injection token for 'ContentRenderer<any>' implementation
+ * Injection token for 'ContentRenderer' implementation
  */
-export const CONTENT_RENDERER_TYPE: InjectionToken<ContentRenderer<any>> = new InjectionToken<ContentRenderer<any>>('CONTENT_RENDERER_TYPE');
+export const CONTENT_RENDERER_TYPE: InjectionToken<ContentRenderer> = new InjectionToken<ContentRenderer>('CONTENT_RENDERER_TYPE');
 
 /**
- * Injection token for 'MetadataSelector<any>' implementation
+ * Injection token for 'MetadataSelector' implementation
  */
-export const METADATA_SELECTOR_TYPE: InjectionToken<MetadataSelector<any>> = new InjectionToken<MetadataSelector<any>>('METADATA_SELECTOR_TYPE');
+export const METADATA_SELECTOR_TYPE: InjectionToken<MetadataSelector> = new InjectionToken<MetadataSelector>('METADATA_SELECTOR_TYPE');
 
 /**
  * Injection token for 'NoDataRenderer' implementation
@@ -48,7 +48,7 @@ export const NO_DATA_RENDERER_TYPE: InjectionToken<NoDataRenderer> = new Injecti
 /**
  * Injection token for 'RowSelector' implementation
  */
-export const ROW_SELECTOR_TYPE: InjectionToken<RowSelector<any, any, any>> = new InjectionToken<RowSelector<any, any, any>>('ROW_SELECTOR_TYPE');
+export const ROW_SELECTOR_TYPE: InjectionToken<RowSelector> = new InjectionToken<RowSelector>('ROW_SELECTOR_TYPE');
 
 /**
  * All available types of plugins for grid
@@ -58,7 +58,7 @@ export class GridPluginTypes
     /**
      * Loader that is used for obtaining data that will be displayed
      */
-    dataLoader?: PluginDescription<DataLoader<any>>;
+    dataLoader?: PluginDescription<DataLoader>;
 
     /**
      * Paging component used for applying paging to data
@@ -73,12 +73,12 @@ export class GridPluginTypes
     /**
      * Metadata selector used for gathering and manipulation with metadata
      */
-    metadataSelector?: PluginDescription<MetadataSelector<any>>;
+    metadataSelector?: PluginDescription<MetadataSelector>;
 
     /**
      * Renderer that renders obtained data
      */
-    contentRenderer?: PluginDescription<ContentRenderer<any>>;
+    contentRenderer?: PluginDescription<ContentRenderer>;
 
     /**
      * Renderer used for rendering information that there are no data currently
@@ -88,5 +88,5 @@ export class GridPluginTypes
     /**
      * Row selector used for handling row selection
      */
-    rowSelector?: PluginDescription<RowSelector<any, any, any>>;
+    rowSelector?: PluginDescription<RowSelector>;
 }

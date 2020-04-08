@@ -5,7 +5,7 @@ import {VisualPluginOptions, GridPlugin} from '../../misc';
 /**
  * Base paging options for every paging
  */
-export interface PagingOptions<TCssClasses> extends VisualPluginOptions<TCssClasses>
+export interface PagingOptions<TCssClasses = any> extends VisualPluginOptions<TCssClasses>
 {
     /**
      * Initial page index that will be rendered, 1 based

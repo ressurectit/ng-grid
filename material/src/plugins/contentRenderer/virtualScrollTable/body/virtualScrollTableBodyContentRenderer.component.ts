@@ -20,7 +20,7 @@ const defaultOptions: VirtualScrollTableBodyContentRendererOptions =
     selector: 'tbody.content-renderer',
     templateUrl: 'virtualScrollTableBodyContentRenderer.component.html'
 })
-export class VirtualScrollTableBodyContentRendererComponent<TData> extends BodyContentRendererAbstractComponent<TData, VirtualScrollTableBodyContentRendererOptions, BasicTableMetadata<BasicTableColumn<TData>>, any> implements VirtualScrollTableBodyContentRenderer<TData, BasicTableMetadata<BasicTableColumn<TData>>>
+export class VirtualScrollTableBodyContentRendererComponent<TData = any> extends BodyContentRendererAbstractComponent<TData, VirtualScrollTableBodyContentRendererOptions, BasicTableMetadata<BasicTableColumn<TData>>, any> implements VirtualScrollTableBodyContentRenderer<TData, BasicTableMetadata<BasicTableColumn<TData>>>
 {
     //######################### constructor #########################
     constructor(pluginElement: ElementRef,

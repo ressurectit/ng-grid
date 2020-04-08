@@ -5,7 +5,7 @@ import {RowSelector} from "../../../../rowSelector";
 /**
  * Context for basic table column selectable template
  */
-export class BasicTableColumnSelectableContext<TData> extends BasicTableColumnContext<TData>
+export class BasicTableColumnSelectableContext<TData = any> extends BasicTableColumnContext<TData>
 {
     //######################### public properties #########################
 

@@ -56,7 +56,7 @@ export class PageVirtualScrollPagingComponent extends VirtualScrollPagingAbstrac
     {
         super.initialize();
 
-        let bodyRenderer: BodyContentRenderer<any, any> = this.gridPlugins[BODY_CONTENT_RENDERER] as BodyContentRenderer<any, any>;
+        let bodyRenderer: BodyContentRenderer = this.gridPlugins[BODY_CONTENT_RENDERER] as BodyContentRenderer;
 
         this._initEvents(<any>this._document.scrollingElement, bodyRenderer.pluginElement.nativeElement, this._document);
     }

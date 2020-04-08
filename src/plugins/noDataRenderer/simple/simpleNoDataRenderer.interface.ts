@@ -12,7 +12,7 @@ export interface CssClassesSimpleNoDataRenderer
 /**
  * Base simple no data renderer options
  */
-export interface SimpleNoDataRendererOptions<TCssClasses> extends NoDataRendererOptions<TCssClasses>
+export interface SimpleNoDataRendererOptions<TCssClasses = any> extends NoDataRendererOptions<TCssClasses>
 {
 }
 

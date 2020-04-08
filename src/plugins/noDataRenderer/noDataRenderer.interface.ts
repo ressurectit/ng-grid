@@ -27,7 +27,7 @@ export interface NoDataRendererTexts
 /**
  * Base no data renderer options
  */
-export interface NoDataRendererOptions<TCssClasses> extends VisualPluginOptions<TCssClasses>
+export interface NoDataRendererOptions<TCssClasses = any> extends VisualPluginOptions<TCssClasses>
 {
     /**
      * Texts that are used within NoDataRenderer

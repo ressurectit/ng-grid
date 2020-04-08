@@ -12,7 +12,7 @@ import {DataLoaderAbstractComponent} from "../dataLoaderAbstract.component";
  * Default options for async data loader
  * @internal
  */
-const defaultOptions: AsyncDataLoaderOptions<any, any> =
+const defaultOptions: AsyncDataLoaderOptions =
 {
     autoLoadData: true,
     debounceDataCallback: 30,
@@ -68,7 +68,7 @@ const defaultOptions: AsyncDataLoaderOptions<any, any> =
     template: '',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AsyncDataLoaderComponent<TData, TOrdering> extends DataLoaderAbstractComponent<AsyncDataLoaderOptions<TData, TOrdering>, TOrdering, DataResponse<TData>> implements AsyncDataLoader<TData>
+export class AsyncDataLoaderComponent<TData = any, TOrdering = any> extends DataLoaderAbstractComponent<AsyncDataLoaderOptions<TData, TOrdering>, TOrdering, DataResponse<TData>> implements AsyncDataLoader<TData>
 {
     //######################### private fields #########################
 

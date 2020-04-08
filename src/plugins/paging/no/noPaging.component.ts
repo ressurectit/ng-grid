@@ -11,7 +11,7 @@ import {PAGING_OPTIONS} from "../types";
  * Default options for paging
  * @internal
  */
-const defaultOptions: NoPagingOptions<any> =
+const defaultOptions: NoPagingOptions =
 {
     initialItemsPerPage: NaN,
     initialPage: 1
@@ -26,7 +26,7 @@ const defaultOptions: NoPagingOptions<any> =
     template: '',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NoPagingComponent extends PagingAbstractComponent<any, NoPagingOptions<any>> implements NoPaging
+export class NoPagingComponent extends PagingAbstractComponent<any, NoPagingOptions> implements NoPaging
 {
     /**
      * Zero based index of first displayed item on page
@@ -52,7 +52,7 @@ export class NoPagingComponent extends PagingAbstractComponent<any, NoPagingOpti
     constructor(pluginElement: ElementRef,
                 changeDetector: ChangeDetectorRef,
                 @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins?: GridPluginInstances,
-                @Inject(PAGING_OPTIONS) @Optional() options?: NoPagingOptions<any>)
+                @Inject(PAGING_OPTIONS) @Optional() options?: NoPagingOptions)
     {
         super(pluginElement, changeDetector, gridPlugins);
 

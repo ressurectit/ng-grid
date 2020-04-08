@@ -59,7 +59,7 @@ export interface HeaderTableGroup
 /**
  * Grouped table metadata, contains columns and metadata for column groups
  */
-export interface GroupedTableMetadata<TColumn extends GridColumn> extends BasicTableMetadata<TColumn>
+export interface GroupedTableMetadata<TColumn extends GridColumn = any> extends BasicTableMetadata<TColumn>
 {
     /**
      * Definition of header groups that are displayed in header

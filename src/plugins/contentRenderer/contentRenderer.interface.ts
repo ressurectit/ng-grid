@@ -20,18 +20,18 @@ export interface ContentRendererPlugins
     /**
      * Plugin used for rendering of header
      */
-    headerRenderer?: PluginDescription<HeaderContentRenderer<any, any>>;
+    headerRenderer?: PluginDescription<HeaderContentRenderer>;
 
     /**
      * Plugin used for rendering of body
      */
-    bodyRenderer?: PluginDescription<BodyContentRenderer<any, any>>;
+    bodyRenderer?: PluginDescription<BodyContentRenderer>;
 }
 
 /**
  * Options for content renderer
  */
-export interface ContentRendererOptions<TCssClasses extends CssClassesContentRenderer, TPlugins extends ContentRendererPlugins> extends VisualPluginOptions<TCssClasses>
+export interface ContentRendererOptions<TCssClasses extends CssClassesContentRenderer = any, TPlugins extends ContentRendererPlugins = any> extends VisualPluginOptions<TCssClasses>
 {
     /**
      * Object containing plugins for TableContentRenderer
@@ -42,7 +42,7 @@ export interface ContentRendererOptions<TCssClasses extends CssClassesContentRen
 /**
  * Renderer used for rendering (data) content
  */
-export interface ContentRenderer<TOrdering> extends GridPlugin
+export interface ContentRenderer<TOrdering = any> extends GridPlugin
 {
     /**
      * Information about current ordering state
@@ -58,14 +58,14 @@ export interface ContentRenderer<TOrdering> extends GridPlugin
 /**
  * Options for 'BodyContentRenderer'
  */
-export interface BodyContentRendererOptions<TCssClasses> extends VisualPluginOptions<TCssClasses>
+export interface BodyContentRendererOptions<TCssClasses = any> extends VisualPluginOptions<TCssClasses>
 {
 }
 
 /**
  * Definition of renderer for body for ContentRenderer
  */
-export interface BodyContentRenderer<TData, TMetadata> extends GridPlugin
+export interface BodyContentRenderer<TData = any, TMetadata = any> extends GridPlugin
 {
     /**
      * Data that are rendered
@@ -94,14 +94,14 @@ export interface CssClassesHeaderContentRenderer
 /**
  * Options for 'HeaderContentRenderer'
  */
-export interface HeaderContentRendererOptions<TCssClasses extends CssClassesHeaderContentRenderer> extends VisualPluginOptions<TCssClasses>
+export interface HeaderContentRendererOptions<TCssClasses extends CssClassesHeaderContentRenderer = any> extends VisualPluginOptions<TCssClasses>
 {
 }
 
 /**
  * Definition of renderer for header for ContentRenderer
  */
-export interface HeaderContentRenderer<TOrdering, TMetadata> extends GridPlugin
+export interface HeaderContentRenderer<TOrdering = any, TMetadata = any> extends GridPlugin
 {
     /**
      * Metadata used for rendering
@@ -128,7 +128,7 @@ export interface HeaderContentRenderer<TOrdering, TMetadata> extends GridPlugin
 /**
  * Metadata for column extended with orderable information
  */
-export interface BasicOrderableColumn<TData> extends BasicTableColumn<TData>
+export interface BasicOrderableColumn<TData = any> extends BasicTableColumn<TData>
 {
     orderingClass: string;
 }

@@ -9,8 +9,8 @@ export function refreshDataToDefaultPage(force?: boolean): GridAction
     return grid =>
     {
         let paging = grid.getPlugin<Paging>(PAGING);
-        let dataLoader = grid.getPlugin<DataLoader<any>>(DATA_LOADER);
-        let pagingOptions: PagingOptions<any> = paging.options;
+        let dataLoader = grid.getPlugin<DataLoader>(DATA_LOADER);
+        let pagingOptions: PagingOptions = paging.options;
         
         paging.page = pagingOptions.initialPage;
 

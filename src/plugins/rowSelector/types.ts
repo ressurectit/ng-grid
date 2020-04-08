@@ -6,7 +6,7 @@ import {Grid} from '../../components/grid';
 /**
  * Token for injecting options for row selector
  */
-export const ROW_SELECTOR_OPTIONS: InjectionToken<RowSelectorOptions<any, any, any>> = new InjectionToken<RowSelectorOptions<any, any, any>>('ROW_SELECTOR_OPTIONS');
+export const ROW_SELECTOR_OPTIONS: InjectionToken<RowSelectorOptions> = new InjectionToken<RowSelectorOptions>('ROW_SELECTOR_OPTIONS');
 
 /**
  * Constant used for accessing row selector in grid
@@ -21,7 +21,7 @@ export const ROW_SELECTOR = "ROW_SELECTOR";
  */
 export function applyRowSelectionBlock<TItem>(grid: Grid, itm: TItem, event: MouseEvent)
 {
-    let rowSelector = grid.getPlugin<RowSelector<any, any, any>>(ROW_SELECTOR);
+    let rowSelector = grid.getPlugin<RowSelector>(ROW_SELECTOR);
 
     if(!rowSelector.isSelected(itm) && (event.target as HTMLInputElement).checked)
     {

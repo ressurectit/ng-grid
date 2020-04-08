@@ -128,7 +128,7 @@ export class CdkVirtualScrollPagingComponent  extends PagingAbstractComponent<Cs
     {
         super.initialize();
 
-        let contentRenderer = this.gridPlugins[CONTENT_RENDERER] as VirtualScrollTableContentRenderer<any>;
+        let contentRenderer = this.gridPlugins[CONTENT_RENDERER] as VirtualScrollTableContentRenderer;
 
         if(!contentRenderer || !contentRenderer.scrollViewport)
         {

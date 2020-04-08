@@ -77,7 +77,7 @@ const defaultOptions: SyncDataLoaderOptions<any, SimpleOrdering> =
     template: '',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SyncDataLoaderComponent<TData, TOrdering> extends DataLoaderAbstractComponent<SyncDataLoaderOptions<TData, TOrdering>, TOrdering, DataResponse<TData>> implements SyncDataLoader<TData>
+export class SyncDataLoaderComponent<TData = any, TOrdering = any> extends DataLoaderAbstractComponent<SyncDataLoaderOptions<TData, TOrdering>, TOrdering, DataResponse<TData>> implements SyncDataLoader<TData>
 {
     //######################### private fields #########################
 

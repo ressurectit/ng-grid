@@ -39,7 +39,7 @@ const defaultOptions: CssDivsHeaderContentRendererOptions =
     styleUrls: ['CssDivsHeaderContentRenderer.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CssDivsHeaderContentRendererComponent<TData> extends HeaderContentRendererAbstractComponent<TData, CssDivsHeaderContentRendererOptions>
+export class CssDivsHeaderContentRendererComponent<TData = any> extends HeaderContentRendererAbstractComponent<TData, CssDivsHeaderContentRendererOptions>
 {
     //######################### public properties - hosts #########################
 

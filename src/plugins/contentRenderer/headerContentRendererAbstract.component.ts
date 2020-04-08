@@ -12,7 +12,7 @@ import {deserializeSimpleOrdering, serializeSimpleOrdering} from './types';
 /**
  * Abstract component for header content renderer
  */
-export abstract class HeaderContentRendererAbstractComponent<TData, TOptions extends HeaderContentRendererOptions<CssClassesHeaderContentRenderer>> implements HeaderContentRenderer<SimpleOrdering, BasicTableMetadata<BasicOrderableColumn<TData>>>, GridPluginGeneric<TOptions>
+export abstract class HeaderContentRendererAbstractComponent<TData = any, TOptions extends HeaderContentRendererOptions<CssClassesHeaderContentRenderer> = any> implements HeaderContentRenderer<SimpleOrdering, BasicTableMetadata<BasicOrderableColumn<TData>>>, GridPluginGeneric<TOptions>
 {
     //######################### protected fields #########################
 

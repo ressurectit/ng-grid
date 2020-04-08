@@ -7,7 +7,7 @@ export function getSelectedData<TSelectedData>(): GridFunction<TSelectedData[]>
 {
     return grid =>
     {
-        let rowSelector = grid.getPlugin<RowSelector<TSelectedData, any, any>>(ROW_SELECTOR);
+        let rowSelector = grid.getPlugin<RowSelector<TSelectedData>>(ROW_SELECTOR);
 
         return rowSelector.selectedData;
     };

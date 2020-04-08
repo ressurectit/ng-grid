@@ -67,4 +67,4 @@ export type GridAction = (grid: Grid) => void;
 /**
  * Definition of function that can be executed on grid and returns some data
  */
-export type GridFunction<TResult> = (grid: Grid) => TResult;
+export type GridFunction<TResult = any> = (grid: Grid) => TResult;

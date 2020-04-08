@@ -4,7 +4,7 @@ import {BodyContentRenderer} from '../../../contentRenderer.interface';
 /**
  * Options for advanced table body content renderer
  */
-export interface AdvancedTableBodyContentRendererOptions<TData> extends TableBodyContentRendererOptions
+export interface AdvancedTableBodyContentRendererOptions<TData = any> extends TableBodyContentRendererOptions
 {
     /**
      * Callback allows handle click on the row
@@ -20,6 +20,6 @@ export interface AdvancedTableBodyContentRendererOptions<TData> extends TableBod
 /**
  * Public API for AdvancedTableBodyContentRenderer
  */
-export interface AdvancedTableBodyContentRenderer<TData, TMetadata> extends BodyContentRenderer<TData, TMetadata>
+export interface AdvancedTableBodyContentRenderer<TData = any, TMetadata = any> extends BodyContentRenderer<TData, TMetadata>
 {
 }

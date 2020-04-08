@@ -10,7 +10,7 @@ export function selectAllOnPage<TItem>(select: boolean = true, predicate: (item:
     return grid =>
     {
         let dataLoader = grid.getPlugin<DataLoader<DataResponse<TItem>>>(DATA_LOADER);
-        let rowSelector = grid.getPlugin<RowSelector<any, any, any>>(ROW_SELECTOR);
+        let rowSelector = grid.getPlugin<RowSelector>(ROW_SELECTOR);
 
         dataLoader.result.data.forEach(datum =>
         {

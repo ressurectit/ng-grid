@@ -47,15 +47,15 @@ const defaultOptions: GridOptions =
         {
             type: forwardRef(() => BasicPagingComponent)
         },
-        metadataSelector: <PluginDescription<NoMetadataSelectorComponent<any>>>
+        metadataSelector: <PluginDescription<NoMetadataSelectorComponent>>
         {
             type: forwardRef(() => NoMetadataSelectorComponent)
         },
-        dataLoader: <PluginDescription<AsyncDataLoaderComponent<any, any>>>
+        dataLoader: <PluginDescription<AsyncDataLoaderComponent>>
         {
             type: forwardRef(() => AsyncDataLoaderComponent)
         },
-        contentRenderer: <PluginDescription<TableContentRendererComponent<any, any, any>>>
+        contentRenderer: <PluginDescription<TableContentRendererComponent>>
         {
             type: forwardRef(() => TableContentRendererComponent)
         },
@@ -63,7 +63,7 @@ const defaultOptions: GridOptions =
         {
             type: forwardRef(() => SimpleNoDataRendererComponent)
         },
-        rowSelector: <PluginDescription<BasicRowSelectorComponent<any, any, any>>>
+        rowSelector: <PluginDescription<BasicRowSelectorComponent>>
         {
             type: forwardRef(() => BasicRowSelectorComponent)
         },
@@ -147,7 +147,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
      * @internal
      */
     @ContentChild(METADATA_GATHERER)
-    public metadataGatherer: MetadataGatherer<any>;
+    public metadataGatherer: MetadataGatherer;
 
     //######################### constructors #########################
     constructor(private _changeDetector: ChangeDetectorRef,
@@ -155,11 +155,11 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
                 @Inject(GRID_OPTIONS) @Optional() options?: GridOptions,
                 @Inject(PAGING_TYPE) @Optional() pagingType?: Type<Paging>,
                 @Inject(GRID_INITIALIZER_TYPE) @Optional() gridInitializerType?: Type<GridInitializer>,
-                @Inject(DATA_LOADER_TYPE) @Optional() dataLoaderType?: Type<DataLoader<any>>,
-                @Inject(CONTENT_RENDERER_TYPE) @Optional() contentRendererType?: Type<ContentRenderer<any>>,
-                @Inject(METADATA_SELECTOR_TYPE) @Optional() metadataSelectorType?: Type<MetadataSelector<any>>,
+                @Inject(DATA_LOADER_TYPE) @Optional() dataLoaderType?: Type<DataLoader>,
+                @Inject(CONTENT_RENDERER_TYPE) @Optional() contentRendererType?: Type<ContentRenderer>,
+                @Inject(METADATA_SELECTOR_TYPE) @Optional() metadataSelectorType?: Type<MetadataSelector>,
                 @Inject(NO_DATA_RENDERER_TYPE) @Optional() noDataRendererType?: Type<NoDataRenderer>,
-                @Inject(ROW_SELECTOR_TYPE) @Optional() rowSelectorType?: Type<RowSelector<any, any, any>>)
+                @Inject(ROW_SELECTOR_TYPE) @Optional() rowSelectorType?: Type<RowSelector>)
     {
         let opts: GridOptions = extend({}, options);
 
@@ -325,7 +325,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
      * @param metadataSelector - Created metadata selector that is used
      * @internal
      */
-    public setMetadataSelectorComponent(metadataSelector: MetadataSelector<any>)
+    public setMetadataSelectorComponent(metadataSelector: MetadataSelector)
     {
         if(!metadataSelector)
         {
@@ -354,7 +354,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
      * @param dataLoader - Created data loader that is used
      * @internal
      */
-    public setDataLoaderComponent(dataLoader: DataLoader<any>)
+    public setDataLoaderComponent(dataLoader: DataLoader)
     {
         if(!dataLoader)
         {
@@ -381,7 +381,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
      * @param contentRenderer - Created content renderer that is rendered
      * @internal
      */
-    public setContentRendererComponent(contentRenderer: ContentRenderer<any>)
+    public setContentRendererComponent(contentRenderer: ContentRenderer)
     {
         if(!contentRenderer)
         {
@@ -435,7 +435,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
      * @param rowSelector - Created row selector that is rendered
      * @internal
      */
-    public setRowSelectorComponent(rowSelector: RowSelector<any, any, any>)
+    public setRowSelectorComponent(rowSelector: RowSelector)
     {
         if(!rowSelector)
         {

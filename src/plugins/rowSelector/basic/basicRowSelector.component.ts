@@ -14,7 +14,7 @@ import {BasicRowSelectorOptions, BasicRowSelector} from "./basicRowSelector.inte
  * Default options for row selector
  * @internal
  */
-const defaultOptions: BasicRowSelectorOptions<any, any, any> =
+const defaultOptions: BasicRowSelectorOptions =
 {
     getRowId: null,
     autoResetOnDataChange: false,
@@ -108,8 +108,8 @@ const defaultOptions: BasicRowSelectorOptions<any, any, any> =
  * {
  *     this._setSelectedFlags();
  *
- *     let dataLoader = this.grid.getPlugin<DataLoader<DataResponse<any>>>(DATA_LOADER);
- *     let rowSelector = this.grid.getPlugin<RowSelector<any, any, any>>(ROW_SELECTOR);
+ *     let dataLoader = this.grid.getPlugin<DataLoader<DataResponse>>(DATA_LOADER);
+ *     let rowSelector = this.grid.getPlugin<RowSelector>(ROW_SELECTOR);
  *
  *     rowSelector.selectedChange.subscribe(() => this._setSelectedFlags());
  *     dataLoader.resultChange.subscribe(() => this._setSelectedFlags());
@@ -134,7 +134,7 @@ const defaultOptions: BasicRowSelectorOptions<any, any, any> =
     template: '',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BasicRowSelectorComponent<TSelectedData, TData, TId> implements BasicRowSelector<TSelectedData, TData, TId>, GridPluginGeneric<BasicRowSelectorOptions<TSelectedData, TData, TId>>, OnDestroy
+export class BasicRowSelectorComponent<TSelectedData = any, TData = any, TId = any> implements BasicRowSelector<TSelectedData, TData, TId>, GridPluginGeneric<BasicRowSelectorOptions<TSelectedData, TData, TId>>, OnDestroy
 {
     //######################### protected fields #########################
 
@@ -146,7 +146,7 @@ export class BasicRowSelectorComponent<TSelectedData, TData, TId> implements Bas
     /**
      * Data loader used for loading data
      */
-    protected _dataLoader: DataLoader<any>;
+    protected _dataLoader: DataLoader;
 
     /**
      * Subscription for data changes
@@ -282,7 +282,7 @@ export class BasicRowSelectorComponent<TSelectedData, TData, TId> implements Bas
      */
     public initialize()
     {
-        let dataLoader: DataLoader<any> = this.gridPlugins[DATA_LOADER] as DataLoader<any>;
+        let dataLoader: DataLoader = this.gridPlugins[DATA_LOADER] as DataLoader;
 
         if(this._dataLoader && this._dataLoader != dataLoader)
         {

@@ -22,7 +22,7 @@ export interface DataLoaderOptions extends PluginOptions
 /**
  * Data loader plugin interface
  */
-export interface DataLoader<TResult> extends GridPlugin
+export interface DataLoader<TResult = any> extends GridPlugin
 {
     /**
      * Loads data from 'source'
@@ -54,7 +54,7 @@ export interface DataLoader<TResult> extends GridPlugin
 /**
  * Standard data response
  */
-export interface DataResponse<TData>
+export interface DataResponse<TData = any>
 {
     /**
      * Currently returned data that are being displayed

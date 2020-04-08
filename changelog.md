@@ -4,6 +4,7 @@
 
 - `QueryPermanentStorageGridInitializerComponent` now using `PermanentStorage` to store state instead of `CookieService`
 - `DialogMetadataSelectorComponent` now using `PermanentStorage` to store state instead of `CookieService`
+- all generic types are now optional, all defaults to `any`
 - moved logic from `PagingInitializer` to `GridInitializer`
    - from `NoPagingInitializerComponent` to `NoGridInitializerComponent`
    - from `QueryPagingInitializerComponent` to `QueryGridInitializerComponent`

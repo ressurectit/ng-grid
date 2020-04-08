@@ -23,11 +23,11 @@ const defaultOptions: TableContentRendererOptions =
     },
     plugins:
     {
-        bodyRenderer: <PluginDescription<TableBodyContentRendererComponent<any>>>
+        bodyRenderer: <PluginDescription<TableBodyContentRendererComponent>>
         {
             type: forwardRef(() => TableBodyContentRendererComponent)
         },
-        headerRenderer: <PluginDescription<TableHeaderContentRendererComponent<any>>>
+        headerRenderer: <PluginDescription<TableHeaderContentRendererComponent>>
         {
             type: forwardRef(() => TableHeaderContentRendererComponent)
         }
@@ -43,7 +43,7 @@ const defaultOptions: TableContentRendererOptions =
     templateUrl: 'tableContentRenderer.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TableContentRendererComponent<TOrdering, TData, TMetadata> extends ContentRendererAbstractComponent<TOrdering, TData, TMetadata, TableContentRendererOptions> implements OnDestroy
+export class TableContentRendererComponent<TOrdering = any, TData = any, TMetadata = any> extends ContentRendererAbstractComponent<TOrdering, TData, TMetadata, TableContentRendererOptions> implements OnDestroy
 {
     //######################### public properties - hosts #########################
 

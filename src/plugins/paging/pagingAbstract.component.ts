@@ -15,7 +15,7 @@ import {GRID_INITIALIZER} from "../gridInitializer/types";
  * Abstract class that represents any paging component
  */
 @Injectable()
-export abstract class PagingAbstractComponent<TCssClasses, TOptions extends PagingOptions<TCssClasses>> implements Paging, GridPluginGeneric<TOptions>, OnDestroy
+export abstract class PagingAbstractComponent<TCssClasses = any, TOptions extends PagingOptions<TCssClasses> = any> implements Paging, GridPluginGeneric<TOptions>, OnDestroy
 {
     //######################### protected fields #########################
 
@@ -37,7 +37,7 @@ export abstract class PagingAbstractComponent<TCssClasses, TOptions extends Pagi
     /**
      * Data loader used within grid
      */
-    protected _dataLoader?: DataLoader<DataResponse<any>>;
+    protected _dataLoader?: DataLoader<DataResponse>;
 
     //######################### public properties #########################
 
@@ -161,7 +161,7 @@ export abstract class PagingAbstractComponent<TCssClasses, TOptions extends Pagi
         this.page = initialPage
         this.itemsPerPage = initialItemsPerPage;
 
-        let dataLoader: DataLoader<DataResponse<any>> = this.gridPlugins[DATA_LOADER] as DataLoader<DataResponse<any>>;
+        let dataLoader: DataLoader<DataResponse> = this.gridPlugins[DATA_LOADER] as DataLoader<DataResponse>;
 
         if(this._dataLoader && this._dataLoader != dataLoader)
         {

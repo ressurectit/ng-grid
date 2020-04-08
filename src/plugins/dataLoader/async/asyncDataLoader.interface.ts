@@ -3,7 +3,7 @@ import {DataLoaderOptions, DataLoader, DataResponse} from "../dataLoader.interfa
 /**
  * Async data loader options
  */
-export interface AsyncDataLoaderOptions<TData, TOrdering> extends DataLoaderOptions
+export interface AsyncDataLoaderOptions<TData = any, TOrdering = any> extends DataLoaderOptions
 {
     /**
      * Callback used for obtaining data
@@ -17,6 +17,6 @@ export interface AsyncDataLoaderOptions<TData, TOrdering> extends DataLoaderOpti
 /**
  * Public API for 'AsyncDataLoaderComponent'
  */
-export interface AsyncDataLoader<TData> extends DataLoader<DataResponse<TData>>
+export interface AsyncDataLoader<TData = any> extends DataLoader<DataResponse<TData>>
 {
 }

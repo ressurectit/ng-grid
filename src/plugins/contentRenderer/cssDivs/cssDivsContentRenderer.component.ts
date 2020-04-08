@@ -24,11 +24,11 @@ const defaultOptions: CssDivsContentRendererOptions =
     },
     plugins:
     {
-        bodyRenderer: <PluginDescription<CssDivsBodyContentRendererComponent<any>>>
+        bodyRenderer: <PluginDescription<CssDivsBodyContentRendererComponent>>
         {
             type: forwardRef(() => CssDivsBodyContentRendererComponent)
         },
-        headerRenderer: <PluginDescription<CssDivsHeaderContentRendererComponent<any>>>
+        headerRenderer: <PluginDescription<CssDivsHeaderContentRendererComponent>>
         {
             type: forwardRef(() => CssDivsHeaderContentRendererComponent)
         }
@@ -50,7 +50,7 @@ const defaultOptions: CssDivsContentRendererOptions =
         }
     `]
 })
-export class CssDivsContentRendererComponent<TOrdering, TData, TMetadata> extends ContentRendererAbstractComponent<TOrdering, TData, TMetadata, CssDivsContentRendererOptions> implements OnDestroy
+export class CssDivsContentRendererComponent<TOrdering = any, TData = any, TMetadata = any> extends ContentRendererAbstractComponent<TOrdering, TData, TMetadata, CssDivsContentRendererOptions> implements OnDestroy
 {
     //######################### private properties #########################
 

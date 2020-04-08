@@ -7,7 +7,7 @@ export function resetSelection(): GridAction
 {
     return grid =>
     {
-        let rowSelector = grid.getPlugin<RowSelector<any, any, any>>(ROW_SELECTOR);
+        let rowSelector = grid.getPlugin<RowSelector>(ROW_SELECTOR);
 
         rowSelector.resetSelection();
     };

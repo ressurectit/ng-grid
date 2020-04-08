@@ -18,21 +18,21 @@ export interface TableContentRendererOptions extends ContentRendererOptions<CssC
 /**
  * Public API for TableContentRenderer
  */
-export interface TableContentRenderer<TOrdering> extends ContentRenderer<TOrdering>
+export interface TableContentRenderer<TOrdering = any> extends ContentRenderer<TOrdering>
 {
 }
 
 /**
  * Options for 'TableBodyContentRendererComponent'
  */
-export interface TableBodyContentRendererOptions extends BodyContentRendererOptions<any>
+export interface TableBodyContentRendererOptions extends BodyContentRendererOptions
 {
 }
 
 /**
  * Public API for TableBodyContentRenderer
  */
-export interface TableBodyContentRenderer<TData, TMetadata> extends BodyContentRenderer<TData, TMetadata>
+export interface TableBodyContentRenderer<TData = any, TMetadata = any> extends BodyContentRenderer<TData, TMetadata>
 {
 }
 
@@ -58,6 +58,6 @@ export interface TableHeaderContentRendererOptions extends HeaderContentRenderer
 /**
  * Public API for TableHeaderContentRenderer
  */
-export interface TableHeaderContentRenderer<TOrdering, TMetadata> extends HeaderContentRenderer<TOrdering, TMetadata>
+export interface TableHeaderContentRenderer<TOrdering = any, TMetadata = any> extends HeaderContentRenderer<TOrdering, TMetadata>
 {
 }

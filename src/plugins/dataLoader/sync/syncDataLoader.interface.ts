@@ -3,7 +3,7 @@ import {DataLoaderOptions, DataLoader, DataResponse} from "../dataLoader.interfa
 /**
  * Sync data loader options
  */
-export interface SyncDataLoaderOptions<TData, TOrdering> extends DataLoaderOptions
+export interface SyncDataLoaderOptions<TData = any, TOrdering = any> extends DataLoaderOptions
 {
     /**
      * Static data which will be rendered by grid
@@ -19,6 +19,6 @@ export interface SyncDataLoaderOptions<TData, TOrdering> extends DataLoaderOptio
 /**
  * Public API for 'SyncDataLoaderComponent'
  */
-export interface SyncDataLoader<TData> extends DataLoader<DataResponse<TData>>
+export interface SyncDataLoader<TData = any> extends DataLoader<DataResponse<TData>>
 {
 }

@@ -3,7 +3,7 @@ import {BasicTableColumn} from "./basicTable.interface";
 /**
  * Context for basic table column template
  */
-export class BasicTableColumnContext<TData>
+export class BasicTableColumnContext<TData = any>
 {
     //######################### public properties #########################
 

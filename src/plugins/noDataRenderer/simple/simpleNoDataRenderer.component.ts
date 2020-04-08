@@ -55,7 +55,7 @@ export class SimpleNoDataRendererComponent implements SimpleNoDataRenderer, Grid
     /**
      * Data loader currently used
      */
-    protected _dataLoader: DataLoader<DataResponse<any>>;
+    protected _dataLoader: DataLoader<DataResponse>;
 
     /**
      * Subscription for changes in state of data loader
@@ -130,7 +130,7 @@ export class SimpleNoDataRendererComponent implements SimpleNoDataRenderer, Grid
      */
     public initialize()
     {
-        let dataLoader: DataLoader<DataResponse<any>> = this.gridPlugins[DATA_LOADER] as DataLoader<DataResponse<any>>;
+        let dataLoader: DataLoader<DataResponse> = this.gridPlugins[DATA_LOADER] as DataLoader<DataResponse>;
 
         if(this._dataLoader && this._dataLoader != dataLoader)
         {

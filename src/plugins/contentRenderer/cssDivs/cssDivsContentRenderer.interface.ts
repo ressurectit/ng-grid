@@ -17,7 +17,7 @@ export interface CssDivsContentRendererOptions extends ContentRendererOptions<Cs
 /**
  * Public API for CssDivsContentRenderer
  */
-export interface CssDivsContentRenderer<TOrdering> extends ContentRenderer<TOrdering>
+export interface CssDivsContentRenderer<TOrdering = any> extends ContentRenderer<TOrdering>
 {
 }
 
@@ -41,7 +41,7 @@ export interface CssDivsBodyContentRendererOptions extends BodyContentRendererOp
 /**
  * Public API for CssDivsBodyContentRenderer
  */
-export interface CssDivsBodyContentRenderer<TData, TMetadata> extends BodyContentRenderer<TData, TMetadata>
+export interface CssDivsBodyContentRenderer<TData = any, TMetadata = any> extends BodyContentRenderer<TData, TMetadata>
 {
 }
 
@@ -68,6 +68,6 @@ export interface CssDivsHeaderContentRendererOptions extends HeaderContentRender
 /**
  * Public API for CssDivsHeaderContentRenderer
  */
-export interface CssDivsHeaderContentRenderer<TOrdering, TMetadata> extends HeaderContentRenderer<TOrdering, TMetadata>
+export interface CssDivsHeaderContentRenderer<TOrdering = any, TMetadata = any> extends HeaderContentRenderer<TOrdering, TMetadata>
 {
 }

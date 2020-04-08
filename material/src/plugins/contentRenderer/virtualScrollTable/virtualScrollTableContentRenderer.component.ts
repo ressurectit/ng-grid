@@ -22,11 +22,11 @@ const defaultOptions: VirtualScrollTableContentRendererOptions =
     },
     plugins:
     {
-        bodyRenderer: <PluginDescription<VirtualScrollTableBodyContentRendererComponent<any>>>
+        bodyRenderer: <PluginDescription<VirtualScrollTableBodyContentRendererComponent>>
         {
             type: forwardRef(() => VirtualScrollTableBodyContentRendererComponent)
         },
-        headerRenderer: <PluginDescription<VirtualScrollTableHeaderContentRendererComponent<any>>>
+        headerRenderer: <PluginDescription<VirtualScrollTableHeaderContentRendererComponent>>
         {
             type: forwardRef(() => VirtualScrollTableHeaderContentRendererComponent)
         }
@@ -43,7 +43,7 @@ const defaultOptions: VirtualScrollTableContentRendererOptions =
     styleUrls: ['virtualScrollTableContentRenderer.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class VirtualScrollTableContentRendererComponent<TOrdering, TData, TMetadata> extends ContentRendererAbstractComponent<TOrdering, TData, TMetadata, VirtualScrollTableContentRendererOptions> implements VirtualScrollTableContentRenderer<TOrdering>, OnDestroy
+export class VirtualScrollTableContentRendererComponent<TOrdering = any, TData = any, TMetadata = any> extends ContentRendererAbstractComponent<TOrdering, TData, TMetadata, VirtualScrollTableContentRendererOptions> implements VirtualScrollTableContentRenderer<TOrdering>, OnDestroy
 {
     //######################### public properties - hosts #########################
 

@@ -5,7 +5,7 @@ import {PagingOptions} from "./paging.interface";
 /**
  * Token for injecting options for paging
  */
-export const PAGING_OPTIONS: InjectionToken<PagingOptions<any>> = new InjectionToken<PagingOptions<any>>('PAGING_OPTIONS');
+export const PAGING_OPTIONS: InjectionToken<PagingOptions> = new InjectionToken<PagingOptions>('PAGING_OPTIONS');
 
 /**
  * Constant used for accessing paging in grid

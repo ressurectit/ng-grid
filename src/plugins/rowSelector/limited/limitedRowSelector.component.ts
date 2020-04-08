@@ -13,7 +13,7 @@ import {GridPluginGeneric} from '../../../misc/plugin.interface';
     template: '',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LimitedRowSelectorComponent<TSelectedData, TData, TId> extends BasicRowSelectorComponent<TSelectedData, TData, TId> implements LimitedRowSelector<TSelectedData, TData, TId>, GridPluginGeneric<LimitedRowSelectorOptions<TSelectedData, TData, TId>>, OnDestroy
+export class LimitedRowSelectorComponent<TSelectedData = any, TData = any, TId = any> extends BasicRowSelectorComponent<TSelectedData, TData, TId> implements LimitedRowSelector<TSelectedData, TData, TId>, GridPluginGeneric<LimitedRowSelectorOptions<TSelectedData, TData, TId>>, OnDestroy
 {
     /**
      * Options for grid plugin

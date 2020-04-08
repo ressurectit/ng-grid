@@ -61,7 +61,7 @@ export class ContentVirtualScrollPagingComponent extends VirtualScrollPagingAbst
     {
         if(this._originalStyle)
         {
-            let contentRenderer: ContentRenderer<any> = this.gridPlugins[CONTENT_RENDERER] as ContentRenderer<any>;
+            let contentRenderer: ContentRenderer = this.gridPlugins[CONTENT_RENDERER] as ContentRenderer;
             let element: HTMLElement = contentRenderer.pluginElement.nativeElement;
 
             element.style.maxHeight = this._originalStyle.maxHeight;
@@ -80,8 +80,8 @@ export class ContentVirtualScrollPagingComponent extends VirtualScrollPagingAbst
     {
         super.initialize();
 
-        let contentRenderer: ContentRenderer<any> = this.gridPlugins[CONTENT_RENDERER] as ContentRenderer<any>;
-        let bodyRenderer: BodyContentRenderer<any, any> = this.gridPlugins[BODY_CONTENT_RENDERER] as BodyContentRenderer<any, any>;
+        let contentRenderer: ContentRenderer = this.gridPlugins[CONTENT_RENDERER] as ContentRenderer;
+        let bodyRenderer: BodyContentRenderer = this.gridPlugins[BODY_CONTENT_RENDERER] as BodyContentRenderer;
         let element: HTMLElement = contentRenderer.pluginElement.nativeElement;
 
         this._originalStyle =

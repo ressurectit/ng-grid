@@ -36,7 +36,7 @@ const defaultOptions: VirtualScrollTableHeaderContentRendererOptions =
     templateUrl: 'virtualScrollTableHeaderContentRenderer.component.html',
     styleUrls: ['virtualScrollTableHeaderContentRenderer.component.css']
 })
-export class VirtualScrollTableHeaderContentRendererComponent<TData> extends HeaderContentRendererAbstractComponent<TData, VirtualScrollTableHeaderContentRendererOptions> implements VirtualScrollTableHeaderContentRenderer<SimpleOrdering, BasicTableMetadata<BasicOrderableColumn<TData>>>
+export class VirtualScrollTableHeaderContentRendererComponent<TData = any> extends HeaderContentRendererAbstractComponent<TData, VirtualScrollTableHeaderContentRendererOptions> implements VirtualScrollTableHeaderContentRenderer<SimpleOrdering, BasicTableMetadata<BasicOrderableColumn<TData>>>
 {
     //######################### protected fields #########################
 
@@ -92,7 +92,7 @@ export class VirtualScrollTableHeaderContentRendererComponent<TData> extends Hea
     {
         super.initialize();
 
-        let contentRenderer = this.gridPlugins[CONTENT_RENDERER] as VirtualScrollTableContentRenderer<any>;
+        let contentRenderer = this.gridPlugins[CONTENT_RENDERER] as VirtualScrollTableContentRenderer;
         this._scrollViewport = contentRenderer.scrollViewport;
     }
 }

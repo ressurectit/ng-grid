@@ -25,7 +25,7 @@ const defaultOptions: TableBodyContentRendererOptions =
     templateUrl: 'tableBodyContentRenderer.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TableBodyContentRendererComponent<TData> extends BodyContentRendererAbstractComponent<TData, TableBodyContentRendererOptions, BasicTableMetadata<BasicTableColumn<TData>>, any>
+export class TableBodyContentRendererComponent<TData = any> extends BodyContentRendererAbstractComponent<TData, TableBodyContentRendererOptions, BasicTableMetadata<BasicTableColumn<TData>>, any>
 {
     //######################### constructor #########################
     constructor(pluginElement: ElementRef,

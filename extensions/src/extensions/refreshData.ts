@@ -8,7 +8,7 @@ export function refreshData(force?: boolean): GridAction
 {
     return grid =>
     {
-        let dataLoader = grid.getPlugin<DataLoader<any>>(DATA_LOADER);
+        let dataLoader = grid.getPlugin<DataLoader>(DATA_LOADER);
 
         dataLoader.loadData(force);
     };
