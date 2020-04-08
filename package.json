@@ -66,7 +66,7 @@
         "@angular/material": ">=9.0.0",
         "rxjs": ">=6.5.0",
         "@jscrpt/common": ">=1.1.0",
-        "@anglr/common": ">=7.0.0",
+        "@anglr/common": ">=7.3.0",
         "scrollmagic": "^2.0.7"
     },
     "devDependencies": {
@@ -79,7 +79,7 @@
         "@angular/material": "^9.0.0",
         "rxjs": "^6.5.0",
         "@jscrpt/common": "^1.1.0",
-        "@anglr/common": "^7.0.0",
+        "@anglr/common": "^7.3.0",
         "zone.js": "^0.10.2",
         "@anglr/types": "1.1.18",
         "scrollmagic": "^2.0.7",

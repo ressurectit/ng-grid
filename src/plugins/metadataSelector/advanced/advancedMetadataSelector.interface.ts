@@ -65,9 +65,9 @@ export interface AdvancedMetadataSelectorOptions extends MetadataSelectorOptions
     headerColumnGetter?: (header: HTMLElement) => number[];
 
     /**
-     * Name of cookie storing current metadata status
+     * Name of storage storing current metadata status
      */
-    cookieName?: string;
+    storageName?: string;
 }
 
 /**

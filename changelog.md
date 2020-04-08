@@ -2,12 +2,19 @@
 
 ## Version 8.0.0
 
+- `QueryPermanentStorageGridInitializerComponent` now using `PermanentStorage` to store state instead of `CookieService`
+- `DialogMetadataSelectorComponent` now using `PermanentStorage` to store state instead of `CookieService`
 - moved logic from `PagingInitializer` to `GridInitializer`
    - from `NoPagingInitializerComponent` to `NoGridInitializerComponent`
    - from `QueryPagingInitializerComponent` to `QueryGridInitializerComponent`
    - from `QueryCookiePagingInitializerComponent` to `QueryCookieGridInitializerComponent`
 - **Breaking Changes**
    - removed deprecated `PagingInitializer` plugin
+   - renamend `QueryCookieGridInitializerComponent` to `QueryPermanentStorageGridInitializerComponent`
+   - renamend `QueryCookieGridInitializerOptions` to `QueryPermanentStorageGridInitializerOptions`
+   - `DialogMetadataSelectorOptions` property `cookieName` renamed to `storageName`
+   - `QueryPermanentStorageGridInitializerOptions` property `cookieIppName` renamed to `storageIppName`
+   - now depends on `@anglr/common` *7.3.0* version minimum
 
 ## Version 7.1.1
 
@@ -299,6 +306,7 @@
 ## Version 3.0.0-beta.5
 - angular 4.0.0-rc.5
 - cookieService that can be used with SSR
+
 
 ## Version 3.0.0-beta.4
 - changes from 2.2.6

@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, ElementRef, EventEmitter, Inject, ChangeDetectorRef, Optional, OnDestroy, forwardRef, Type, resolveForwardRef} from "@angular/core";
 import {MatDialog} from "@angular/material/dialog";
-import {CookieService, STRING_LOCALIZATION, StringLocalization} from "@anglr/common";
+import {STRING_LOCALIZATION, StringLocalization, PermanentStorage, PERMANENT_STORAGE} from "@anglr/common";
 import {GridColumn, GridPluginGeneric, MetadataGatherer, BasicTableMetadata, GridPluginInstances, GRID_PLUGIN_INSTANCES, METADATA_SELECTOR_OPTIONS} from "@anglr/grid";
 import {extend, isPresent, Dictionary, isJsObject} from "@jscrpt/common";
 import {Subscription} from "rxjs";
@@ -9,12 +9,10 @@ import {DialogMetadataSelectorOptions, DialogMetadataSelector, DialogMetadataSel
 import {VerticalDragNDropSelectionComponent} from "../../../components/verticalDragNDropSelection/types";
 import {CssClassesVerticalDragNDropSelection, VerticalDragNDropSelectionTexts} from "../../../components/verticalDragNDropSelection";
 
-//TODO - change cookies to permanent storage
-
 /**
- * Cookie state
+ * Storage state
  */
-export interface CookieState
+export interface StorageState
 {
     [key: string]: GridColumn;
 }
@@ -169,7 +167,7 @@ export class DialogMetadataSelectorComponent implements DialogMetadataSelector<B
 
                 public pluginElement: ElementRef,
                 protected _changeDetector: ChangeDetectorRef,
-                protected _cookies: CookieService,
+                @Inject(PERMANENT_STORAGE) protected _storage: PermanentStorage,
                 protected _dialog: MatDialog,
                 @Inject(STRING_LOCALIZATION) protected _stringLocalization: StringLocalization,
                 @Inject(METADATA_SELECTOR_OPTIONS) @Optional() options?: DialogMetadataSelectorOptions<BasicTableMetadata<GridColumn>>)
@@ -214,7 +212,7 @@ export class DialogMetadataSelectorComponent implements DialogMetadataSelector<B
                 {
                     this._metadataForSelection.columns = [...metadata.columns];
                     this._setMetadata();
-                    this._saveToCookie();
+                    this._saveToStorage();
 
                     this.metadataChange.next();
                 },
@@ -320,9 +318,9 @@ export class DialogMetadataSelectorComponent implements DialogMetadataSelector<B
      */
     protected _initMetadata()
     {
-        let cookieState: CookieState = this._loadFromCookie();
+        let storageState: StorageState = this._loadFromStorage();
 
-        if(cookieState)
+        if(storageState)
         {
             this.metadata =
             {
@@ -333,18 +331,18 @@ export class DialogMetadataSelectorComponent implements DialogMetadataSelector<B
             {
                 if(!meta.id)
                 {
-                    throw new Error('Missing id for column to be stored in cookie!');
+                    throw new Error('Missing id for column to be stored in storage!');
                 }
 
-                meta.visible = cookieState[meta.id] && cookieState[meta.id].visible;
+                meta.visible = storageState[meta.id] && storageState[meta.id].visible;
             });
 
             this._metadataForSelection = 
             {
-                columns: Object.keys(cookieState)
+                columns: Object.keys(storageState)
                     .map(id => this._allMetadata.columns.find(itm => itm.id == id))
                     .filter(itm => !!itm)
-                    .concat(this._allMetadata.columns.filter(meta => !cookieState[meta.id]))
+                    .concat(this._allMetadata.columns.filter(meta => !storageState[meta.id]))
             };
 
             this._setMetadata();
@@ -361,22 +359,22 @@ export class DialogMetadataSelectorComponent implements DialogMetadataSelector<B
     }
 
     /**
-     * Saves current state to cookie
+     * Saves current state to storage
      */
-    protected _saveToCookie()
+    protected _saveToStorage()
     {
-        if(!this.options.cookieName)
+        if(!this.options.storageName)
         {
             return;
         }
 
-        let state: CookieState = {};
+        let state: StorageState = {};
 
         this._metadataForSelection.columns.forEach(meta =>
         {
             if(!meta.id)
             {
-                throw new Error('Missing id for column to be stored in cookie!');
+                throw new Error('Missing id for column to be stored in storage!');
             }
 
             state[meta.id] =
@@ -385,20 +383,20 @@ export class DialogMetadataSelectorComponent implements DialogMetadataSelector<B
             };
         });
 
-        this._cookies.setCookie(this.options.cookieName, state, null, '/');
+        this._storage.set(this.options.storageName, state);
     }
 
     /**
-     * Gets stored cookie state
+     * Gets stored storage state
      */
-    protected _loadFromCookie(): CookieState
+    protected _loadFromStorage(): StorageState
     {
-        if(!this.options.cookieName)
+        if(!this.options.storageName)
         {
             return null;
         }
 
-        return this._cookies.getCookie(this.options.cookieName);
+        return this._storage.get(this.options.storageName);
     }
 
     /**

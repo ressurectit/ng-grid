@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, ElementRef, EventEmitter, Inject, ChangeDetectorRef, Optional, OnDestroy} from "@angular/core";
-import {CookieService, STRING_LOCALIZATION, StringLocalization} from "@anglr/common";
+import {STRING_LOCALIZATION, StringLocalization, PermanentStorage, PERMANENT_STORAGE} from "@anglr/common";
 import {extend, isBlank} from "@jscrpt/common";
 import {Subscription} from "rxjs";
 
@@ -28,10 +28,10 @@ export interface SpanCoordinates
 }
 
 /**
- * Cookie state
+ * Storage state
  * @internal
  */
-interface CookieState
+interface StorageState
 {
     [key: string]: AdvancedGridColumn;
 }
@@ -99,117 +99,8 @@ const defaultOptions: AdvancedMetadataSelectorOptions =
 {
     selector: 'ng-advanced-metadata-selector',
     templateUrl: 'advancedMetadataSelector.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    styles:
-    [
-        `.advanced-metadata-selector-div
-        {
-            display: none;
-            position: absolute;
-            background-color: #FFFFFF;
-            width: 100%;
-            box-shadow: 0 0 4px #AAA;
-            top: -72px;
-            height: 100px;
-            border-radius: 4px;
-            z-index: 10;
-        }
-
-        .drop
-        {
-            height: 30px;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            border-top: 1px solid #AAA;
-            display: flex;
-            flex-direction: row;
-        }
-
-        .drop-dragging
-        {
-            box-shadow: 0 0 4px #23527c;
-        }
-
-        .drop-dragging-over
-        {
-            background-color: #F5F5F5;
-        }
-
-        .drop-split-span
-        {
-            position: absolute;
-            height: 30px;
-            background: transparent;
-        }
-
-        .drop-split-span-dragging
-        {
-            position: absolute;
-            height: 30px;
-            left: 125px;
-            box-shadow: 0 0 11px 2px #FF0000;
-            width: 1px;
-            background-color: #FF00004D;
-        }
-
-        .dropped-column
-        {
-            line-height: 30px;
-            box-shadow: inset 0 0 7px -1px #666;
-            display: flex;
-        }
-
-        .dropped-column-title
-        {
-            width: calc(100% - 20px);
-            text-align: center;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            flex: 1;
-            min-width: 0;
-        }
-
-        .dropped-column-remove
-        {
-            width: 22px;
-        }
-
-        .drag
-        {
-            display: inline-block;
-            padding: 2px 6px;
-            cursor: grab;
-            background-color: #337ab7;
-            color: #FFFFFF;
-            border-radius: 4px;
-            margin-right: 4px;
-        }
-
-        .draggable-container
-        {
-            padding: 2px;
-        }
-
-        .draggable-columns-title
-        {
-            font-weight: bold;
-        }
-
-        .add-column
-        {
-            cursor: pointer;
-        }
-
-        .btn-remove
-        {
-            padding: 0;
-            font-size: 1.2em;
-            display: block;
-            line-height: 26px;
-        }`
-    ]
+    styleUrls: ['advancedMetadataSelector.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelector<BasicTableMetadata<AdvancedGridColumn>>, GridPluginGeneric<AdvancedMetadataSelectorOptions>, OnDestroy
 {
@@ -345,7 +236,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
 
                 public pluginElement: ElementRef,
                 private _changeDetector: ChangeDetectorRef,
-                private _cookies: CookieService,
+                @Inject(PERMANENT_STORAGE) private _storage: PermanentStorage,
                 @Inject(STRING_LOCALIZATION) protected _stringLocalization: StringLocalization,
 
                 @Inject(METADATA_SELECTOR_OPTIONS) @Optional() options?: AdvancedMetadataSelectorOptions)
@@ -408,7 +299,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
             columns: [...this.metadata.columns]
         };
 
-        this._saveToCookie();
+        this._saveToStorage();
 
         this.metadataChange.emit();
         this._setWidthOfUsedColumns();
@@ -434,7 +325,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
             columns: [...this.metadata.columns]
         };
 
-        this._saveToCookie();
+        this._saveToStorage();
 
         this.metadataChange.emit();
         this._setWidthOfUsedColumns();
@@ -635,9 +526,9 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
      */
     private _initMetadata()
     {
-        let cookieState: CookieState = this._loadFromCookie();
+        let storageState: StorageState = this._loadFromStorage();
 
-        if(cookieState)
+        if(storageState)
         {
             this.metadata =
             {
@@ -648,13 +539,13 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
             {
                 if(!meta.id)
                 {
-                    throw new Error('Missing id for column to be stored in cookie!');
+                    throw new Error('Missing id for column to be stored in storage!');
                 }
 
-                meta.visible = !!cookieState[meta.id];
+                meta.visible = !!storageState[meta.id];
             });
 
-            Object.keys(cookieState).forEach(id =>
+            Object.keys(storageState).forEach(id =>
             {
                 let meta = this._allMetadata.columns.find(itm => itm.id == id);
 
@@ -722,22 +613,22 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
     }
 
     /**
-     * Saves current state to cookie
+     * Saves current state to storage
      */
-    private _saveToCookie()
+    private _saveToStorage()
     {
-        if(!this.options.cookieName)
+        if(!this.options.storageName)
         {
             return;
         }
 
-        let state: CookieState = {};
+        let state: StorageState = {};
 
         this.metadata.columns.forEach(meta =>
         {
             if(!meta.id)
             {
-                throw new Error('Missing id for column to be stored in cookie!');
+                throw new Error('Missing id for column to be stored in storage!');
             }
 
             state[meta.id] =
@@ -746,19 +637,19 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
             };
         });
 
-        this._cookies.setCookie(this.options.cookieName, state, null, '/');
+        this._storage.set(this.options.storageName, state);
     }
 
     /**
-     * Gets stored cookie state
+     * Gets stored storage state
      */
-    private _loadFromCookie(): CookieState
+    private _loadFromStorage(): StorageState
     {
-        if(!this.options.cookieName)
+        if(!this.options.storageName)
         {
             return null;
         }
 
-        return this._cookies.getCookie(this.options.cookieName);
+        return this._storage.get<StorageState>(this.options.storageName);
     }
 }

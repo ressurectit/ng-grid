@@ -37,9 +37,9 @@ export interface DialogMetadataSelectorOptions<TMetadata> extends MetadataSelect
     showButtonVisible?: boolean;
 
     /**
-     * Name of cookie storing current metadata status
+     * Name of storage storing current metadata status
      */
-    cookieName?: string;
+    storageName?: string;
 
     /**
      * Component that is used for handling metadata selection itself
