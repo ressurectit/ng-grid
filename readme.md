@@ -10,7 +10,11 @@ Implementation of `Angular` grid for displaying data. Absolutely customizable `A
 * [Description](#description)
 * [Installation](#installation)
 * [Usage](#usage)
-* [Sample](#sample)
+* [Samples](#samples)
+* [Basic concept](https://ressurectit.github.io/#/content/grid/concept)
+* [API](https://ressurectit.github.io/#/content/api/ng-grid/grid)
+* [API Extensions](https://ressurectit.github.io/#/content/api/ng-grid-extensions/grid-extensions)
+* [API Material](https://ressurectit.github.io/#/content/api/ng-grid-material/grid-material)
 
 ## Description
 
@@ -32,7 +36,14 @@ npm install "@anglr/grid" --save
 
 Tutorials and basic description can be found at [Homepage](https://ressurectit.github.io/#/content/grid)
 
-## Sample
+## Samples
+
+- [Basic asynchronous data](https://ressurectit.github.io/#/content/grid/basic)
+- [Basic synchronous data](https://ressurectit.github.io/#/content/grid/basicSync)
+- [Basic metadata (all)](https://ressurectit.github.io/#/content/grid/basicMetadata)
+- [Grouped metadata](https://ressurectit.github.io/#/content/grid/groupedMetadata)
+- [Configuration](https://ressurectit.github.io/#/content/grid/configuration)
+- [Custom renderer](https://ressurectit.github.io/#/content/grid/customRenderer)
 
 ```typescript
 import {Component, ChangeDetectionStrategy} from "@angular/core";

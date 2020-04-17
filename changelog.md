@@ -1,6 +1,8 @@
 # Changelog
 
-## Version 8.0.0
+## Version 8.0.0 (2020-04-08)
+
+### Features
 
 - `QueryPermanentStorageGridInitializerComponent` now using `PermanentStorage` to store state instead of `CookieService`
 - `DialogMetadataSelectorComponent` now using `PermanentStorage` to store state instead of `CookieService`
@@ -9,13 +11,15 @@
    - from `NoPagingInitializerComponent` to `NoGridInitializerComponent`
    - from `QueryPagingInitializerComponent` to `QueryGridInitializerComponent`
    - from `QueryCookiePagingInitializerComponent` to `QueryCookieGridInitializerComponent`
-- **Breaking Changes**
-   - removed deprecated `PagingInitializer` plugin
-   - renamend `QueryCookieGridInitializerComponent` to `QueryPermanentStorageGridInitializerComponent`
-   - renamend `QueryCookieGridInitializerOptions` to `QueryPermanentStorageGridInitializerOptions`
-   - `DialogMetadataSelectorOptions` property `cookieName` renamed to `storageName`
-   - `QueryPermanentStorageGridInitializerOptions` property `cookieIppName` renamed to `storageIppName`
-   - now depends on `@anglr/common` *7.3.0* version minimum
+
+### BREAKING CHANGES
+
+- removed deprecated `PagingInitializer` plugin
+- renamend `QueryCookieGridInitializerComponent` to `QueryPermanentStorageGridInitializerComponent`
+- renamend `QueryCookieGridInitializerOptions` to `QueryPermanentStorageGridInitializerOptions`
+- `DialogMetadataSelectorOptions` property `cookieName` renamed to `storageName`
+- `QueryPermanentStorageGridInitializerOptions` property `cookieIppName` renamed to `storageIppName`
+- now depends on `@anglr/common` *7.3.0* version minimum
 
 ## Version 7.1.1
 
