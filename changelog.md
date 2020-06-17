@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 8.0.1 (2020-06-17)
+
+### Bugfixes
+
+- `HeaderContentRendererAbstractComponent` fixed initial setup of ordering css classes when using stored ordering
+
 ## Version 8.0.0 (2020-04-08)
 
 ### Features

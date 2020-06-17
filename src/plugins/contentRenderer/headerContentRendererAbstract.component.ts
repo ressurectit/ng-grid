@@ -114,6 +114,9 @@ export abstract class HeaderContentRendererAbstractComponent<TData = any, TOptio
      */
     public resetMetadata(force: boolean = false): void
     {
+        //sets initial css classes for all columns
+        this._resetOrdering();
+
         //only if current ordering column was removed from metadata or forced
         if(force || !(!!this.ordering?.orderBy && this.metadata?.columns?.find(itm => itm.name == this.ordering.orderBy && itm.ordering)))
         {
