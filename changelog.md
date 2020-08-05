@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 8.0.2 (2020-06-17)
+
+### Bugfixes
+
+- `LoadMorePagingComponent` fixed static load more button text
+
 ## Version 8.0.1 (2020-06-17)
 
 ### Bugfixes
