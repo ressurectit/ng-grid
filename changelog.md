@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 8.0.3 (2020-09-09)
+
+### Bugfixes
+
+- `serializeSimpleOrdering` and `deserializeSimpleOrdering` are now using uri *decoding/encoding*
+
 ## Version 8.0.2 (2020-06-17)
 
 ### Bugfixes

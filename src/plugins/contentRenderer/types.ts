@@ -46,7 +46,7 @@ export function serializeSimpleOrdering(ordering: SimpleOrdering): string
         return null;
     }
 
-    return `${ordering.orderBy},${ordering.orderByDirection}`;
+    return encodeURIComponent(`${ordering.orderBy},${ordering.orderByDirection}`);
 }
 
 /**
@@ -60,7 +60,7 @@ export function deserializeSimpleOrdering(ordering: string): SimpleOrdering
         return null;
     }
 
-    let [orderBy, orderByDirection] = ordering.split(',');
+    let [orderBy, orderByDirection] = decodeURIComponent(ordering).split(',');
 
     return {
         orderBy: orderBy,
