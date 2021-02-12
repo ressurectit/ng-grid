@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 8.0.4 (2021-02-12)
+
+### Bugfixes
+
+- `TableHeaderContentRendererComponent` and `GroupedTableHeaderContentRendererComponent` now supports fallback for `undefined` title, now using column *title*
+
 ## Version 8.0.3 (2020-09-09)
 
 ### Bugfixes
