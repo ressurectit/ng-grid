@@ -43,31 +43,31 @@ const defaultOptions: GridOptions =
     pagingPosition: PagingPosition.Bottom,
     plugins:
     {
-        paging: <PluginDescription<BasicPagingComponent>>
+        paging: <PluginDescription<Paging>>
         {
             type: forwardRef(() => BasicPagingComponent)
         },
-        metadataSelector: <PluginDescription<NoMetadataSelectorComponent>>
+        metadataSelector: <PluginDescription<MetadataSelector>>
         {
             type: forwardRef(() => NoMetadataSelectorComponent)
         },
-        dataLoader: <PluginDescription<AsyncDataLoaderComponent>>
+        dataLoader: <PluginDescription<DataLoader>>
         {
             type: forwardRef(() => AsyncDataLoaderComponent)
         },
-        contentRenderer: <PluginDescription<TableContentRendererComponent>>
+        contentRenderer: <PluginDescription<ContentRenderer>>
         {
             type: forwardRef(() => TableContentRendererComponent)
         },
-        noDataRenderer: <PluginDescription<SimpleNoDataRendererComponent>>
+        noDataRenderer: <PluginDescription<NoDataRenderer>>
         {
             type: forwardRef(() => SimpleNoDataRendererComponent)
         },
-        rowSelector: <PluginDescription<BasicRowSelectorComponent>>
+        rowSelector: <PluginDescription<RowSelector>>
         {
             type: forwardRef(() => BasicRowSelectorComponent)
         },
-        gridInitializer: <PluginDescription<NoGridInitializerComponent>>
+        gridInitializer: <PluginDescription<GridInitializer>>
         {
             type: forwardRef(() => NoGridInitializerComponent)
         }

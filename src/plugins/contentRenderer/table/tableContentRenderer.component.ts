@@ -9,6 +9,7 @@ import {PluginDescription} from '../../../misc';
 import {TableBodyContentRendererComponent} from './body/basic/tableBodyContentRenderer.component';
 import {TableHeaderContentRendererComponent} from './header/basic/tableHeaderContentRenderer.component';
 import {ContentRendererAbstractComponent} from '../contentRendererAbstract.component';
+import {BodyContentRenderer, HeaderContentRenderer} from '../contentRenderer.interface';
 
 /**
  * Default options for 'TableContentRendererComponent'
@@ -23,11 +24,11 @@ const defaultOptions: TableContentRendererOptions =
     },
     plugins:
     {
-        bodyRenderer: <PluginDescription<TableBodyContentRendererComponent>>
+        bodyRenderer: <PluginDescription<BodyContentRenderer>>
         {
             type: forwardRef(() => TableBodyContentRendererComponent)
         },
-        headerRenderer: <PluginDescription<TableHeaderContentRendererComponent>>
+        headerRenderer: <PluginDescription<HeaderContentRenderer>>
         {
             type: forwardRef(() => TableHeaderContentRendererComponent)
         }

@@ -11,6 +11,7 @@ import {ContentRendererAbstractComponent} from '../contentRendererAbstract.compo
 import {CssDivsContentRendererOptions} from './cssDivsContentRenderer.interface';
 import {CssDivsBodyContentRendererComponent} from './body/cssDivsBodyContentRenderer.component';
 import {CssDivsHeaderContentRendererComponent} from './header/cssDivsHeaderContentRenderer.component';
+import {BodyContentRenderer, HeaderContentRenderer} from '../contentRenderer.interface';
 
 /**
  * Default options for 'CssDivsContentRendererComponent'
@@ -24,11 +25,11 @@ const defaultOptions: CssDivsContentRendererOptions =
     },
     plugins:
     {
-        bodyRenderer: <PluginDescription<CssDivsBodyContentRendererComponent>>
+        bodyRenderer: <PluginDescription<BodyContentRenderer>>
         {
             type: forwardRef(() => CssDivsBodyContentRendererComponent)
         },
-        headerRenderer: <PluginDescription<CssDivsHeaderContentRendererComponent>>
+        headerRenderer: <PluginDescription<HeaderContentRenderer>>
         {
             type: forwardRef(() => CssDivsHeaderContentRendererComponent)
         }
@@ -74,7 +75,7 @@ export class CssDivsContentRendererComponent<TOrdering = any, TData = any, TMeta
      * Css class applied to grid itself
      */
     @HostBinding('class')
-    public get cssClass(): string
+    public override get cssClass(): string
     {
         return this._options.cssClasses.containerDiv;
     }
@@ -95,7 +96,7 @@ export class CssDivsContentRendererComponent<TOrdering = any, TData = any, TMeta
     /**
      * Initiliaze Content Renderer plugin
      */
-    public initialize()
+    public override initialize()
     {
         super.initialize();
 
@@ -122,7 +123,8 @@ export class CssDivsContentRendererComponent<TOrdering = any, TData = any, TMeta
         if (isArray(metadata.columns))
         {
             const gridTemplateColumns: string[] = [];
-            metadata.columns.forEach(column => {
+            metadata.columns.forEach(column => 
+            {
                 if (column.visible)
                 {
                     gridTemplateColumns.push(column.width ? column.width : 'auto');

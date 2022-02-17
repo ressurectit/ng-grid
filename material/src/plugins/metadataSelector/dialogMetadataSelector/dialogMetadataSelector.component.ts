@@ -294,7 +294,7 @@ export class DialogMetadataSelectorComponent implements DialogMetadataSelector<B
      * Initialize texts object
      * @param texts - Texts to be initialized
      */
-    protected _initTextsObject(texts: Dictionary)
+    protected _initTextsObject(texts: Dictionary<any>)
     {
         const resultTexts = {};
 
@@ -352,7 +352,7 @@ export class DialogMetadataSelectorComponent implements DialogMetadataSelector<B
             this._metadataForSelection =
             {
                 columns: [...this._allMetadata.columns]
-            }
+            };
 
             this._setMetadata();
         }

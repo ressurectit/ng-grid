@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, Inject, Optional, OnDestroy, HostBinding, forwardRef, ElementRef, ViewChild} from '@angular/core';
 import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
-import {GridPluginInstances, GRID_PLUGIN_INSTANCES, CONTENT_RENDERER_OPTIONS, PluginDescription, ContentRendererAbstractComponent} from '@anglr/grid';
+import {GridPluginInstances, GRID_PLUGIN_INSTANCES, CONTENT_RENDERER_OPTIONS, PluginDescription, ContentRendererAbstractComponent, BodyContentRenderer, HeaderContentRenderer} from '@anglr/grid';
 import {extend} from '@jscrpt/common';
 
 import {VirtualScrollTableContentRendererOptions, VirtualScrollTableContentRenderer} from './virtualScrollTableContentRenderer.interface';
@@ -22,11 +22,11 @@ const defaultOptions: VirtualScrollTableContentRendererOptions =
     },
     plugins:
     {
-        bodyRenderer: <PluginDescription<VirtualScrollTableBodyContentRendererComponent>>
+        bodyRenderer: <PluginDescription<BodyContentRenderer>>
         {
             type: forwardRef(() => VirtualScrollTableBodyContentRendererComponent)
         },
-        headerRenderer: <PluginDescription<VirtualScrollTableHeaderContentRendererComponent>>
+        headerRenderer: <PluginDescription<HeaderContentRenderer>>
         {
             type: forwardRef(() => VirtualScrollTableHeaderContentRendererComponent)
         }
