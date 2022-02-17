@@ -1,11 +1,11 @@
-import {ChangeDetectionStrategy, Component, ElementRef, ChangeDetectorRef, Optional, Inject} from "@angular/core";
-import {extend} from "@jscrpt/common";
+import {ChangeDetectionStrategy, Component, ElementRef, ChangeDetectorRef, Optional, Inject} from '@angular/core';
+import {extend} from '@jscrpt/common';
 
-import {PagingAbstractComponent} from "../pagingAbstract.component";
-import {NoPagingOptions, NoPaging} from "./noPaging.interface";
-import {GridPluginInstances} from "../../../components/grid";
-import {GRID_PLUGIN_INSTANCES} from "../../../components/grid/types";
-import {PAGING_OPTIONS} from "../types";
+import {PagingAbstractComponent} from '../pagingAbstract.component';
+import {NoPagingOptions, NoPaging} from './noPaging.interface';
+import {GridPluginInstances} from '../../../components/grid';
+import {GRID_PLUGIN_INSTANCES} from '../../../components/grid/types';
+import {PAGING_OPTIONS} from '../types';
 
 /**
  * Default options for paging
@@ -22,7 +22,7 @@ const defaultOptions: NoPagingOptions =
  */
 @Component(
 {
-    selector: "ng-no-paging",
+    selector: 'ng-no-paging',
     template: '',
     changeDetection: ChangeDetectionStrategy.OnPush
 })

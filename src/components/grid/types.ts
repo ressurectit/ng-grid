@@ -1,6 +1,6 @@
-import {InjectionToken} from "@angular/core";
+import {InjectionToken} from '@angular/core';
 
-import {GridPluginInstances} from "./grid.interface";
+import {GridPluginInstances} from './grid.interface';
 
 /**
  * Token used for obtaining 'GridPluginInstances'

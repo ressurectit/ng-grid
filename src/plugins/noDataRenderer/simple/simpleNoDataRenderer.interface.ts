@@ -1,4 +1,4 @@
-import {NoDataRenderer, NoDataRendererOptions} from "../noDataRenderer.interface";
+import {NoDataRenderer, NoDataRendererOptions} from '../noDataRenderer.interface';
 
 /**
  * Css classes for simple no data renderer

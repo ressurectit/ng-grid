@@ -1,14 +1,14 @@
-import {Component, ChangeDetectionStrategy, ElementRef, EventEmitter, Inject, Optional, OnDestroy} from "@angular/core";
-import {extend, isBlank} from "@jscrpt/common";
-import {Subscription} from "rxjs";
+import {Component, ChangeDetectionStrategy, ElementRef, EventEmitter, Inject, Optional, OnDestroy} from '@angular/core';
+import {extend, isBlank} from '@jscrpt/common';
+import {Subscription} from 'rxjs';
 
-import {GridPluginInstances} from "../../../components/grid";
-import {GRID_PLUGIN_INSTANCES} from "../../../components/grid/types";
-import {GridPluginGeneric} from "../../../misc";
-import {DataLoader} from "../../dataLoader";
-import {DATA_LOADER} from "../../dataLoader/types";
-import {ROW_SELECTOR_OPTIONS} from "../types";
-import {BasicRowSelectorOptions, BasicRowSelector} from "./basicRowSelector.interface";
+import {GridPluginInstances} from '../../../components/grid';
+import {GRID_PLUGIN_INSTANCES} from '../../../components/grid/types';
+import {GridPluginGeneric} from '../../../misc';
+import {DataLoader} from '../../dataLoader';
+import {DATA_LOADER} from '../../dataLoader/types';
+import {ROW_SELECTOR_OPTIONS} from '../types';
+import {BasicRowSelectorOptions, BasicRowSelector} from './basicRowSelector.interface';
 
 /**
  * Default options for row selector
@@ -238,8 +238,8 @@ export class BasicRowSelectorComponent<TSelectedData = any, TData = any, TId = a
             this.resetSelection(false);
         }
 
-        let id = this.options.getRowId(item);
-        let index = this.selectedIds.indexOf(id);
+        const id = this.options.getRowId(item);
+        const index = this.selectedIds.indexOf(id);
 
         //select if not selected
         if(select && index < 0)
@@ -272,7 +272,7 @@ export class BasicRowSelectorComponent<TSelectedData = any, TData = any, TId = a
             throw new Error('Missing "getRowId" method in options before first use!');
         }
 
-        let id = this.options.getRowId(item);
+        const id = this.options.getRowId(item);
 
         return this.selectedIds.indexOf(id) > -1;
     }
@@ -282,7 +282,7 @@ export class BasicRowSelectorComponent<TSelectedData = any, TData = any, TId = a
      */
     public initialize()
     {
-        let dataLoader: DataLoader = this.gridPlugins[DATA_LOADER] as DataLoader;
+        const dataLoader: DataLoader = this.gridPlugins[DATA_LOADER] as DataLoader;
 
         if(this._dataLoader && this._dataLoader != dataLoader)
         {

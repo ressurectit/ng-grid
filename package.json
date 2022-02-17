@@ -6,7 +6,7 @@
     "sideEffects": false,
     "scripts": {
         "build": "ngc --declaration --declarationDir . --declarationMap && ngc -t es2015 --outDir es2015 && npm run dts:rollup",
-        "dts:rollup": "npm run api -- api-extractor.json && npm run api -- date-fns/api-extractor.json && npm run api -- avsc/api-extractor.json && npm run api -- stompjs/api-extractor.json && npm run api -- moment/api-extractor.json",
+        "dts:rollup": "npm run api -- api-extractor.json && npm run api -- extensions/api-extractor.json && npm run api -- material/api-extractor.json && npm run api -- scrollmagic/api-extractor.json",
         "api": "api-extractor run --local --verbose -c",
         "clean": "rimraf */temp temp es2015 es2020 **/tsdoc-metadata.json src/**/*.d.ts src/**/*.d.ts.map */src/**/*.d.ts */src/**/*.d.ts.map ./*.d.ts ./*.d.ts.map */*.d.ts",
         "clean:deps": "rimraf package-lock.json node_modules",
@@ -26,25 +26,22 @@
         "postdoc:generate": "npm run doc:save",
         "doc:generate": "npm run doc:generate:grid && npm run doc:generate:extensions && npm run doc:generate:scrollmagic && npm run doc:generate:material",
         "doc:save": "cd docs && git add . && git commit -m \"INT: updated API docs ng-grid\" && git push && cd ..",
-        "doc:generate:rest": "rimraf docs/content/api/ng-rest && npm run doc:json:rest && npm run doc:md:rest && npm run doc:api:rest",
-        "doc:json:rest": "api-extractor run --local --verbose -c api-extractor.json",
-        "doc:md:rest": "api-documenter markdown -i temp -o docs/content/api/ng-rest",
-        "doc:api:rest": "copyfiles -u 1 temp/rest.api.md docs/content/api/ng-rest && rimraf temp",
-
-        "doc:generate:avsc": "rimraf docs/content/api/ng-rest-avsc && npm run doc:json:avsc && npm run doc:md:avsc && npm run doc:api:avsc",
-        "doc:json:avsc": "api-extractor run --local --verbose -c avsc/api-extractor.json",
-        "doc:md:avsc": "api-documenter markdown -i avsc/temp -o docs/content/api/ng-rest-avsc",
-        "doc:api:avsc": "copyfiles -u 2 avsc/temp/common-avsc.api.md docs/content/api/ng-common-avsc && rimraf avsc/temp",
-
-        "doc:generate:moment": "rimraf docs/content/api/ng-rest-moment && npm run doc:json:moment && npm run doc:md:moment && npm run doc:api:moment",
-        "doc:json:moment": "api-extractor run --local --verbose -c moment/api-extractor.json",
-        "doc:md:moment": "api-documenter markdown -i moment/temp -o docs/content/api/ng-rest-moment",
-        "doc:api:moment": "copyfiles -u 2 moment/temp/rest-moment.api.md docs/content/api/ng-rest-moment && rimraf moment/temp",
-
-        "doc:generate:date-fns": "rimraf docs/content/api/ng-rest-date-fns && npm run doc:json:date-fns && npm run doc:md:date-fns && npm run doc:api:date-fns",
-        "doc:json:date-fns": "api-extractor run --local --verbose -c date-fns/api-extractor.json",
-        "doc:md:date-fns": "api-documenter markdown -i date-fns/temp -o docs/content/api/ng-rest-date-fns",
-        "doc:api:date-fns": "copyfiles -u 2 date-fns/temp/common-date-fns.api.md docs/content/api/ng-common-date-fns && rimraf date-fns/temp"
+        "doc:generate:grid": "rimraf docs/content/api/ng-grid && npm run doc:json:grid && npm run doc:md:grid && npm run doc:api:grid",
+        "doc:json:grid": "api-extractor run --local --verbose -c api-extractor.json",
+        "doc:md:grid": "api-documenter markdown -i temp -o docs/content/api/ng-grid",
+        "doc:api:grid": "copyfiles -u 1 temp/grid.api.md docs/content/api/ng-grid && rimraf temp",
+        "doc:generate:extensions": "rimraf docs/content/api/ng-grid-extensions && npm run doc:json:extensions && npm run doc:md:extensions && npm run doc:api:extensions",
+        "doc:json:extensions": "api-extractor run --local --verbose -c extensions/api-extractor.json",
+        "doc:md:extensions": "api-documenter markdown -i extensions/temp -o docs/content/api/ng-grid-extensions",
+        "doc:api:extensions": "copyfiles -u 2 extensions/temp/common-extensions.api.md docs/content/api/ng-common-extensions && rimraf extensions/temp",
+        "doc:generate:material": "rimraf docs/content/api/ng-grid-material && npm run doc:json:material && npm run doc:md:material && npm run doc:api:material",
+        "doc:json:material": "api-extractor run --local --verbose -c material/api-extractor.json",
+        "doc:md:material": "api-documenter markdown -i material/temp -o docs/content/api/ng-grid-material",
+        "doc:api:material": "copyfiles -u 2 material/temp/grid-material.api.md docs/content/api/ng-grid-material && rimraf material/temp",
+        "doc:generate:scrollmagic": "rimraf docs/content/api/ng-grid-scrollmagic && npm run doc:json:scrollmagic && npm run doc:md:scrollmagic && npm run doc:api:scrollmagic",
+        "doc:json:scrollmagic": "api-extractor run --local --verbose -c scrollmagic/api-extractor.json",
+        "doc:md:scrollmagic": "api-documenter markdown -i scrollmagic/temp -o docs/content/api/ng-grid-scrollmagic",
+        "doc:api:scrollmagic": "copyfiles -u 2 scrollmagic/temp/common-scrollmagic.api.md docs/content/api/ng-common-scrollmagic && rimraf scrollmagic/temp"
     },
     "engines": {
         "node": "^12.20.0 || ^14.15.0 || >=16.10.0"
@@ -68,18 +65,20 @@
         "@angular/core": ">=13.1.0",
         "@angular/common": ">=13.1.0",
         "@angular/router": ">=13.1.0",
+        "@angular/platform-browser": ">=13.1.0",
         "@angular/cdk": ">=13.1.0",
         "@angular/material": ">=13.1.0",
         "rxjs": ">=6.6.7",
         "@jscrpt/common": ">=2.2.0",
         "@anglr/common": ">=10.0.0",
-        "scrollmagic": "^2.0.7",
+        "scrollmagic": "^2.0.8",
         "tslib": "^2.3.1"
     },
     "devDependencies": {
         "@angular/core": "^13.1.0",
         "@angular/common": "^13.1.0",
         "@angular/router": "^13.1.0",
+        "@angular/platform-browser": ">=13.1.0",
         "@angular/forms": "^13.1.0",
         "@angular/cdk": "^13.1.0",
         "@angular/animations": "^13.1.0",
@@ -87,7 +86,7 @@
         "rxjs": "^6.6.7",
         "@jscrpt/common": "^2.2.0",
         "@anglr/common": "^10.0.0",
-        "scrollmagic": "^2.0.7",
+        "scrollmagic": "^2.0.8",
         "@angular/compiler-cli": "^13.1.0",
         "@angular/compiler": "^13.1.0",
         "@angular/language-service": "^13.1.0",
@@ -109,42 +108,42 @@
     "es2020": "./es2020/src/index.js",
     "es2015": "./es2015/src/index.js",
     "module": "./es2015/src/index.js",
-    "typings": "./rest.d.ts",
+    "typings": "./grid.d.ts",
     "exports": {
         "./package.json": {
             "default": "./package.json"
         },
         ".": {
-            "types": "./rest.d.ts",
+            "types": "./grid.d.ts",
             "esm2020": "./es2020/src/index.js",
             "es2020": "./es2020/src/index.js",
             "es2015": "./es2015/src/index.js",
             "node": "./es2015/src/index.js",
             "default": "./es2020/src/index.js"
         },
-        "./date-fns": {
-            "types": "./date-fns/rest-date-fns.d.ts",
-            "esm2020": "./es2020/date-fns/src/index.js",
-            "es2020": "./es2020/date-fns/src/index.js",
-            "es2015": "./es2015/date-fns/src/index.js",
-            "node": "./es2015/date-fns/src/index.js",
-            "default": "./es2020/date-fns/src/index.js"
+        "./extensions": {
+            "types": "./extensions/grid-extensions.d.ts",
+            "esm2020": "./es2020/extensions/src/index.js",
+            "es2020": "./es2020/extensions/src/index.js",
+            "es2015": "./es2015/extensions/src/index.js",
+            "node": "./es2015/extensions/src/index.js",
+            "default": "./es2020/extensions/src/index.js"
         },
-        "./moment": {
-            "types": "./moment/rest-moment.d.ts",
-            "esm2020": "./es2020/moment/src/index.js",
-            "es2020": "./es2020/moment/src/index.js",
-            "es2015": "./es2015/moment/src/index.js",
-            "node": "./es2015/moment/src/index.js",
-            "default": "./es2020/moment/src/index.js"
+        "./material": {
+            "types": "./material/grid-material.d.ts",
+            "esm2020": "./es2020/material/src/index.js",
+            "es2020": "./es2020/material/src/index.js",
+            "es2015": "./es2015/material/src/index.js",
+            "node": "./es2015/material/src/index.js",
+            "default": "./es2020/material/src/index.js"
         },
-        "./stompjs": {
-            "types": "./stompjs/rest-stompjs.d.ts",
-            "esm2020": "./es2020/stompjs/src/index.js",
-            "es2020": "./es2020/stompjs/src/index.js",
-            "es2015": "./es2015/stompjs/src/index.js",
-            "node": "./es2015/stompjs/src/index.js",
-            "default": "./es2020/stompjs/src/index.js"
+        "./scrollmagic": {
+            "types": "./scrollmagic/grid-scrollmagic.d.ts",
+            "esm2020": "./es2020/scrollmagic/src/index.js",
+            "es2020": "./es2020/scrollmagic/src/index.js",
+            "es2015": "./es2015/scrollmagic/src/index.js",
+            "node": "./es2015/scrollmagic/src/index.js",
+            "default": "./es2020/scrollmagic/src/index.js"
         }
     }
 }

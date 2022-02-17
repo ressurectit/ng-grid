@@ -1,9 +1,9 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, HostBinding, ElementRef} from "@angular/core";
-import {extend} from "@jscrpt/common";
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, HostBinding, ElementRef} from '@angular/core';
+import {extend} from '@jscrpt/common';
 
-import {HEADER_CONTENT_RENDERER_OPTIONS} from "../../types";
-import {CssDivsHeaderContentRendererOptions} from "../cssDivsContentRenderer.interface";
-import {HeaderContentRendererAbstractComponent} from "../../headerContentRendererAbstract.component";
+import {HEADER_CONTENT_RENDERER_OPTIONS} from '../../types';
+import {CssDivsHeaderContentRendererOptions} from '../cssDivsContentRenderer.interface';
+import {HeaderContentRendererAbstractComponent} from '../../headerContentRendererAbstract.component';
 import {GRID_PLUGIN_INSTANCES} from '../../../../components/grid/types';
 import {GridPluginInstances} from '../../../../components/grid';
 

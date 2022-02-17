@@ -1,7 +1,7 @@
-import {TemplateRef} from "@angular/core";
+import {TemplateRef} from '@angular/core';
 
-import {BasicTableColumnContext} from "../types";
-import {GridColumn, GatheredMetadata} from "../metadata.interface";
+import {BasicTableColumnContext} from '../types';
+import {GridColumn, GatheredMetadata} from '../metadata.interface';
 
 /**
  * Basic table column definition

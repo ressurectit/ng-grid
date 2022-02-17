@@ -1,15 +1,15 @@
-import {EventEmitter, ChangeDetectorRef, Injectable, Inject, Optional, Input, Output, OnDestroy, ElementRef} from "@angular/core";
+import {EventEmitter, ChangeDetectorRef, Injectable, Inject, Optional, Input, Output, OnDestroy, ElementRef} from '@angular/core';
 import {extend, isPresent} from '@jscrpt/common';
-import {Subscription} from "rxjs";
+import {Subscription} from 'rxjs';
 
-import {PagingOptions, Paging} from "./paging.interface";
-import {GridPluginInstances} from "../../components/grid";
-import {GRID_PLUGIN_INSTANCES} from "../../components/grid/types";
-import {GridPluginGeneric} from "../../misc";
-import {DataLoader, DataResponse} from "../dataLoader";
-import {DATA_LOADER} from "../dataLoader/types";
-import {GridInitializer} from "../gridInitializer";
-import {GRID_INITIALIZER} from "../gridInitializer/types";
+import {PagingOptions, Paging} from './paging.interface';
+import {GridPluginInstances} from '../../components/grid';
+import {GRID_PLUGIN_INSTANCES} from '../../components/grid/types';
+import {GridPluginGeneric} from '../../misc';
+import {DataLoader, DataResponse} from '../dataLoader';
+import {DATA_LOADER} from '../dataLoader/types';
+import {GridInitializer} from '../gridInitializer';
+import {GRID_INITIALIZER} from '../gridInitializer/types';
 
 /**
  * Abstract class that represents any paging component
@@ -135,7 +135,7 @@ export abstract class PagingAbstractComponent<TCssClasses = any, TOptions extend
      */
     public initialize(): void
     {
-        let gridInitializer = this.gridPlugins[GRID_INITIALIZER] as GridInitializer;
+        const gridInitializer = this.gridPlugins[GRID_INITIALIZER] as GridInitializer;
         let initialPage = this._options.initialPage;
         let initialItemsPerPage = this._options.initialItemsPerPage;
 
@@ -143,14 +143,14 @@ export abstract class PagingAbstractComponent<TCssClasses = any, TOptions extend
         {
             gridInitializer.initialize();
 
-            let page = gridInitializer.getPage();
+            const page = gridInitializer.getPage();
 
             if(isPresent(page))
             {
                 initialPage = page;
             }
 
-            let itemsPerPage = gridInitializer.getItemsPerPage();
+            const itemsPerPage = gridInitializer.getItemsPerPage();
 
             if(isPresent(itemsPerPage))
             {
@@ -158,10 +158,10 @@ export abstract class PagingAbstractComponent<TCssClasses = any, TOptions extend
             }
         }
 
-        this.page = initialPage
+        this.page = initialPage;
         this.itemsPerPage = initialItemsPerPage;
 
-        let dataLoader: DataLoader<DataResponse> = this.gridPlugins[DATA_LOADER] as DataLoader<DataResponse>;
+        const dataLoader: DataLoader<DataResponse> = this.gridPlugins[DATA_LOADER] as DataLoader<DataResponse>;
 
         if(this._dataLoader && this._dataLoader != dataLoader)
         {

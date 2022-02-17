@@ -1,7 +1,7 @@
-import {EventEmitter} from "@angular/core";
+import {EventEmitter} from '@angular/core';
 
-import {PluginOptions, GridPlugin} from "../../misc";
-import {DataLoaderState} from "./types";
+import {PluginOptions, GridPlugin} from '../../misc';
+import {DataLoaderState} from './types';
 
 /**
  * Options for data loader

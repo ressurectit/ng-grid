@@ -1,15 +1,15 @@
-import {Component, ChangeDetectionStrategy, Inject, Optional, ElementRef} from "@angular/core";
-import {extend, OrderByDirection} from "@jscrpt/common";
-import {from, Observable} from "rxjs";
-import {skip, take, toArray} from "rxjs/operators";
+import {Component, ChangeDetectionStrategy, Inject, Optional, ElementRef} from '@angular/core';
+import {extend, OrderByDirection} from '@jscrpt/common';
+import {from, Observable} from 'rxjs';
+import {skip, take, toArray} from 'rxjs/operators';
 
-import {SyncDataLoaderOptions, SyncDataLoader} from "./syncDataLoader.interface";
-import {DATA_LOADER_OPTIONS, DataLoaderState} from "../types";
-import {GridPluginInstances} from "../../../components/grid";
-import {GRID_PLUGIN_INSTANCES} from "../../../components/grid/types";
-import {DataResponse} from "../dataLoader.interface";
-import {DataLoaderAbstractComponent} from "../dataLoaderAbstract.component";
-import {SimpleOrdering} from "../../contentRenderer";
+import {SyncDataLoaderOptions, SyncDataLoader} from './syncDataLoader.interface';
+import {DATA_LOADER_OPTIONS, DataLoaderState} from '../types';
+import {GridPluginInstances} from '../../../components/grid';
+import {GRID_PLUGIN_INSTANCES} from '../../../components/grid/types';
+import {DataResponse} from '../dataLoader.interface';
+import {DataLoaderAbstractComponent} from '../dataLoaderAbstract.component';
+import {SimpleOrdering} from '../../contentRenderer';
 
 /**
  * Default options for sync data loader
@@ -31,11 +31,11 @@ const defaultOptions: SyncDataLoaderOptions<any, SimpleOrdering> =
         {
             if(a[ordering.orderBy] < b[ordering.orderBy])
             {
-                return ordering.orderByDirection == OrderByDirection.Ascendant ? -1 : 1;
+                return ordering.orderByDirection == OrderByDirection.Ascending ? -1 : 1;
             }
             else if(a[ordering.orderBy] > b[ordering.orderBy])
             {
-                return ordering.orderByDirection == OrderByDirection.Ascendant ? 1 : -1;
+                return ordering.orderByDirection == OrderByDirection.Ascending ? 1 : -1;
             }
 
             return 0;

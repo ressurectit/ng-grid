@@ -1,4 +1,4 @@
-import {GridAction, GridOptions} from "@anglr/grid";
+import {GridAction, GridOptions} from '@anglr/grid';
 
 /**
  * Method reinitialize options for grid

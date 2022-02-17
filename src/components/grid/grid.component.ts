@@ -1,35 +1,35 @@
-import {Component, ChangeDetectionStrategy, Inject, Optional, Type, Input, OnInit, AfterViewInit, ContentChild, forwardRef, resolveForwardRef, ChangeDetectorRef, FactoryProvider} from "@angular/core";
-import {extend} from "@jscrpt/common";
+import {Component, ChangeDetectionStrategy, Inject, Optional, Type, Input, OnInit, AfterViewInit, ContentChild, forwardRef, resolveForwardRef, ChangeDetectorRef, FactoryProvider} from '@angular/core';
+import {extend} from '@jscrpt/common';
 import {Observable, BehaviorSubject} from 'rxjs';
 
-import {GridPluginInstances, Grid, GridFunction} from "./grid.interface";
+import {GridPluginInstances, Grid, GridFunction} from './grid.interface';
 import {GRID_PLUGIN_INSTANCES} from './types';
-import {GridOptions, PluginDescription, GridPlugin} from "../../misc";
-import {GRID_OPTIONS, PAGING_TYPE, DATA_LOADER_TYPE, CONTENT_RENDERER_TYPE, METADATA_SELECTOR_TYPE, NO_DATA_RENDERER_TYPE, ROW_SELECTOR_TYPE, GRID_INITIALIZER_TYPE} from "../../misc/types";
-import {PagingPosition} from "../../misc/enums";
-import {Paging} from "../../plugins/paging";
-import {BasicPagingComponent} from "../../plugins/paging/components";
-import {PAGING} from "../../plugins/paging/types";
-import {MetadataGatherer} from "../metadata";
-import {METADATA_GATHERER} from "../metadata/types";
-import {DataLoader} from "../../plugins/dataLoader";
-import {AsyncDataLoaderComponent} from "../../plugins/dataLoader/components";
-import {DATA_LOADER} from "../../plugins/dataLoader/types";
-import {ContentRenderer} from "../../plugins/contentRenderer";
-import {TableContentRendererComponent} from "../../plugins/contentRenderer/components";
-import {CONTENT_RENDERER} from "../../plugins/contentRenderer/types";
-import {MetadataSelector} from "../../plugins/metadataSelector";
-import {NoMetadataSelectorComponent} from "../../plugins/metadataSelector/components";
-import {METADATA_SELECTOR} from "../../plugins/metadataSelector/types";
-import {NoDataRenderer} from "../../plugins/noDataRenderer";
-import {SimpleNoDataRendererComponent} from "../../plugins/noDataRenderer/components";
-import {NO_DATA_RENDERER} from "../../plugins/noDataRenderer/types";
-import {RowSelector} from "../../plugins/rowSelector";
-import {BasicRowSelectorComponent} from "../../plugins/rowSelector/components";
-import {ROW_SELECTOR} from "../../plugins/rowSelector/types";
-import {GridInitializer} from "../../plugins/gridInitializer";
-import {NoGridInitializerComponent} from "../../plugins/gridInitializer/components";
-import {GRID_INITIALIZER} from "../../plugins/gridInitializer/types";
+import {GridOptions, PluginDescription, GridPlugin} from '../../misc';
+import {GRID_OPTIONS, PAGING_TYPE, DATA_LOADER_TYPE, CONTENT_RENDERER_TYPE, METADATA_SELECTOR_TYPE, NO_DATA_RENDERER_TYPE, ROW_SELECTOR_TYPE, GRID_INITIALIZER_TYPE} from '../../misc/types';
+import {PagingPosition} from '../../misc/enums';
+import {Paging} from '../../plugins/paging';
+import {BasicPagingComponent} from '../../plugins/paging/components';
+import {PAGING} from '../../plugins/paging/types';
+import {MetadataGatherer} from '../metadata';
+import {METADATA_GATHERER} from '../metadata/types';
+import {DataLoader} from '../../plugins/dataLoader';
+import {AsyncDataLoaderComponent} from '../../plugins/dataLoader/components';
+import {DATA_LOADER} from '../../plugins/dataLoader/types';
+import {ContentRenderer} from '../../plugins/contentRenderer';
+import {TableContentRendererComponent} from '../../plugins/contentRenderer/components';
+import {CONTENT_RENDERER} from '../../plugins/contentRenderer/types';
+import {MetadataSelector} from '../../plugins/metadataSelector';
+import {NoMetadataSelectorComponent} from '../../plugins/metadataSelector/components';
+import {METADATA_SELECTOR} from '../../plugins/metadataSelector/types';
+import {NoDataRenderer} from '../../plugins/noDataRenderer';
+import {SimpleNoDataRendererComponent} from '../../plugins/noDataRenderer/components';
+import {NO_DATA_RENDERER} from '../../plugins/noDataRenderer/types';
+import {RowSelector} from '../../plugins/rowSelector';
+import {BasicRowSelectorComponent} from '../../plugins/rowSelector/components';
+import {ROW_SELECTOR} from '../../plugins/rowSelector/types';
+import {GridInitializer} from '../../plugins/gridInitializer';
+import {NoGridInitializerComponent} from '../../plugins/gridInitializer/components';
+import {GRID_INITIALIZER} from '../../plugins/gridInitializer/types';
 
 //TODO - make grid css class customizable
 
@@ -161,7 +161,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
                 @Inject(NO_DATA_RENDERER_TYPE) @Optional() noDataRendererType?: Type<NoDataRenderer>,
                 @Inject(ROW_SELECTOR_TYPE) @Optional() rowSelectorType?: Type<RowSelector>)
     {
-        let opts: GridOptions = extend({}, options);
+        const opts: GridOptions = extend({}, options);
 
         if(!opts.plugins)
         {

@@ -1,6 +1,6 @@
-import {MetadataSelector, MetadataSelectorOptions} from "../metadataSelector.interface";
-import {VisualPluginOptions} from "../../../misc";
-import {GridColumn} from "../../../components/metadata";
+import {MetadataSelector, MetadataSelectorOptions} from '../metadataSelector.interface';
+import {VisualPluginOptions} from '../../../misc';
+import {GridColumn} from '../../../components/metadata';
 
 //TODO - resize columns
 //     - compute height of advanced metadata selector

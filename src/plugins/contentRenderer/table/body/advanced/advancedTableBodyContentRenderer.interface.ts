@@ -1,4 +1,4 @@
-import {TableBodyContentRendererOptions} from "../../tableContentRenderer.interface";
+import {TableBodyContentRendererOptions} from '../../tableContentRenderer.interface';
 import {BodyContentRenderer} from '../../../contentRenderer.interface';
 
 /**

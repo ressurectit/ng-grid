@@ -1,13 +1,13 @@
-import {InjectionToken} from "@angular/core";
+import {InjectionToken} from '@angular/core';
 
-import {Paging} from "../plugins/paging";
-import {DataLoader} from "../plugins/dataLoader";
-import {ContentRenderer} from "../plugins/contentRenderer";
-import {MetadataSelector} from "../plugins/metadataSelector";
-import {NoDataRenderer} from "../plugins/noDataRenderer";
-import {RowSelector} from "../plugins/rowSelector";
-import {GridOptions} from "./gridOptions.interface";
-import {PluginDescription} from "./plugin.interface";
+import {Paging} from '../plugins/paging';
+import {DataLoader} from '../plugins/dataLoader';
+import {ContentRenderer} from '../plugins/contentRenderer';
+import {MetadataSelector} from '../plugins/metadataSelector';
+import {NoDataRenderer} from '../plugins/noDataRenderer';
+import {RowSelector} from '../plugins/rowSelector';
+import {GridOptions} from './gridOptions.interface';
+import {PluginDescription} from './plugin.interface';
 import {GridInitializer} from '../plugins/gridInitializer';
 
 /**

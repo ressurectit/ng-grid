@@ -1,12 +1,12 @@
-import {ChangeDetectorRef, Inject, Injectable, ElementRef, Optional} from "@angular/core";
-import {extend} from "@jscrpt/common";
+import {ChangeDetectorRef, Inject, Injectable, ElementRef, Optional} from '@angular/core';
+import {extend} from '@jscrpt/common';
 
-import {GridPluginInstances} from "../../components/grid";
-import {GRID_PLUGIN_INSTANCES} from "../../components/grid/types";
-import {BodyContentRenderer, BodyContentRendererOptions} from "./contentRenderer.interface";
-import {Paging} from "../paging";
-import {PAGING} from "../paging/types";
-import {GridPluginGeneric} from "../../misc";
+import {GridPluginInstances} from '../../components/grid';
+import {GRID_PLUGIN_INSTANCES} from '../../components/grid/types';
+import {BodyContentRenderer, BodyContentRendererOptions} from './contentRenderer.interface';
+import {Paging} from '../paging';
+import {PAGING} from '../paging/types';
+import {GridPluginGeneric} from '../../misc';
 
 //TODO - compute classes before rendering
 //TOOD - mergeClasses as pipe
@@ -94,7 +94,7 @@ export class BodyContentRendererAbstractComponent<TData = any, TOptions extends 
      */
     public mergeStringClasses(...classes: string[])
     {
-        let result = [];
+        const result = [];
 
         classes.forEach(cls => cls ? (result.push(cls)) : null);
 

@@ -1,17 +1,17 @@
-import {Injectable, Inject, Optional, OnDestroy, EventEmitter, ElementRef} from "@angular/core";
-import {extend} from "@jscrpt/common";
-import {Subscription, Subject} from "rxjs";
-import {debounceTime} from "rxjs/operators";
+import {Injectable, Inject, Optional, OnDestroy, EventEmitter, ElementRef} from '@angular/core';
+import {extend} from '@jscrpt/common';
+import {Subscription, Subject} from 'rxjs';
+import {debounceTime} from 'rxjs/operators';
 
 import {DataLoader, DataLoaderOptions} from './dataLoader.interface';
-import {Paging} from "../paging";
-import {PAGING} from "../paging/types";
-import {ContentRenderer} from "../contentRenderer";
-import {CONTENT_RENDERER} from "../contentRenderer/types";
-import {GridPluginInstances} from "../../components/grid";
-import {GRID_PLUGIN_INSTANCES} from "../../components/grid/types";
-import {GridPluginGeneric} from "../../misc";
-import {DataLoaderState} from "./types";
+import {Paging} from '../paging';
+import {PAGING} from '../paging/types';
+import {ContentRenderer} from '../contentRenderer';
+import {CONTENT_RENDERER} from '../contentRenderer/types';
+import {GridPluginInstances} from '../../components/grid';
+import {GRID_PLUGIN_INSTANCES} from '../../components/grid/types';
+import {GridPluginGeneric} from '../../misc';
+import {DataLoaderState} from './types';
 
 /**
  * Abstract class that represents any data loader component
@@ -167,7 +167,7 @@ export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOpt
     {
         this._registerDebounce();
 
-        let paging: Paging = this.gridPlugins[PAGING] as Paging;
+        const paging: Paging = this.gridPlugins[PAGING] as Paging;
 
         if(this._paging && this._paging != paging)
         {
@@ -187,7 +187,7 @@ export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOpt
             this._itemsPerPageChangedSubscription = this._paging.itemsPerPageChange.subscribe(() => this._debounceSubject.next());
         }
 
-        let contentRenderer: ContentRenderer<TOrdering> = this.gridPlugins[CONTENT_RENDERER] as ContentRenderer<TOrdering>;
+        const contentRenderer: ContentRenderer<TOrdering> = this.gridPlugins[CONTENT_RENDERER] as ContentRenderer<TOrdering>;
 
         if(this._contentRenderer && this._contentRenderer != contentRenderer)
         {

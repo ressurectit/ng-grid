@@ -1,10 +1,10 @@
-import {EventEmitter, ChangeDetectorRef, ElementRef} from "@angular/core";
-import {OrderByDirection, extend} from "@jscrpt/common";
+import {EventEmitter, ChangeDetectorRef, ElementRef} from '@angular/core';
+import {OrderByDirection, extend} from '@jscrpt/common';
 
-import {GridPluginInstances} from "../../components/grid";
-import {HeaderContentRenderer, SimpleOrdering, BasicOrderableColumn, HeaderContentRendererOptions, CssClassesHeaderContentRenderer} from "./contentRenderer.interface";
-import {GridPluginGeneric} from "../../misc";
-import {BasicTableMetadata} from "../../components/metadata";
+import {GridPluginInstances} from '../../components/grid';
+import {HeaderContentRenderer, SimpleOrdering, BasicOrderableColumn, HeaderContentRendererOptions, CssClassesHeaderContentRenderer} from './contentRenderer.interface';
+import {GridPluginGeneric} from '../../misc';
+import {BasicTableMetadata} from '../../components/metadata';
 import {GridInitializer} from '../gridInitializer';
 import {GRID_INITIALIZER} from '../gridInitializer/types';
 import {deserializeSimpleOrdering, serializeSimpleOrdering} from './types';
@@ -132,7 +132,7 @@ export abstract class HeaderContentRendererAbstractComponent<TData = any, TOptio
      */
     public mergeStringClasses(...classes: string[])
     {
-        let result = [];
+        const result = [];
 
         classes.forEach(cls => cls ? (result.push(cls)) : null);
 
@@ -157,18 +157,18 @@ export abstract class HeaderContentRendererAbstractComponent<TData = any, TOptio
 
             this.ordering =
             {
-                orderByDirection: OrderByDirection.Ascendant,
+                orderByDirection: OrderByDirection.Ascending,
                 orderBy: meta.name
             };
 
             meta.orderingClass = this.options.cssClasses.spanOrderingDirection.asc;
             this.orderingChange.emit();
         }
-        else if(this.ordering.orderByDirection == OrderByDirection.Ascendant)
+        else if(this.ordering.orderByDirection == OrderByDirection.Ascending)
         {
             this.ordering =
             {
-                orderByDirection: OrderByDirection.Descendant,
+                orderByDirection: OrderByDirection.Descending,
                 orderBy: meta.name
             };
 
@@ -199,15 +199,15 @@ export abstract class HeaderContentRendererAbstractComponent<TData = any, TOptio
     protected _initializeOrderingCss()
     {
         //initialize css for ordering if set
-        if(!!this._ordering?.orderBy)
+        if(this._ordering?.orderBy)
         {
-            let meta = this.metadata?.columns?.find(itm => itm.name == this._ordering.orderBy);
+            const meta = this.metadata?.columns?.find(itm => itm.name == this._ordering.orderBy);
 
             if(meta)
             {
                 switch(this._ordering.orderByDirection)
                 {
-                    case OrderByDirection.Ascendant:
+                    case OrderByDirection.Ascending:
                     {
                         meta.orderingClass = this.options.cssClasses.spanOrderingDirection.asc;
 

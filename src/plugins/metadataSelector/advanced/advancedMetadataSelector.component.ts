@@ -1,20 +1,20 @@
-import {Component, ChangeDetectionStrategy, ElementRef, EventEmitter, Inject, ChangeDetectorRef, Optional, OnDestroy} from "@angular/core";
-import {STRING_LOCALIZATION, StringLocalization, PermanentStorage, PERMANENT_STORAGE} from "@anglr/common";
-import {extend, isBlank} from "@jscrpt/common";
-import {Subscription} from "rxjs";
+import {Component, ChangeDetectionStrategy, ElementRef, EventEmitter, Inject, ChangeDetectorRef, Optional, OnDestroy} from '@angular/core';
+import {STRING_LOCALIZATION, StringLocalization, PermanentStorage, PERMANENT_STORAGE} from '@anglr/common';
+import {extend, isBlank} from '@jscrpt/common';
+import {Subscription} from 'rxjs';
 
-import {GridPluginGeneric} from "../../../misc";
-import {MetadataGatherer, BasicTableMetadata} from "../../../components/metadata";
-import {GridPluginInstances} from "../../../components/grid";
-import {GRID_PLUGIN_INSTANCES} from "../../../components/grid/types";
-import {METADATA_SELECTOR_OPTIONS} from "../types";
-import {AdvancedMetadataSelectorOptions, AdvancedMetadataSelector, AdvancedGridColumn, AdvancedMetadataSelectorTexts} from "./advancedMetadataSelector.interface";
-import {HEADER_CONTENT_RENDERER} from "../../contentRenderer/types";
+import {GridPluginGeneric} from '../../../misc';
+import {MetadataGatherer, BasicTableMetadata} from '../../../components/metadata';
+import {GridPluginInstances} from '../../../components/grid';
+import {GRID_PLUGIN_INSTANCES} from '../../../components/grid/types';
+import {METADATA_SELECTOR_OPTIONS} from '../types';
+import {AdvancedMetadataSelectorOptions, AdvancedMetadataSelector, AdvancedGridColumn, AdvancedMetadataSelectorTexts} from './advancedMetadataSelector.interface';
+import {HEADER_CONTENT_RENDERER} from '../../contentRenderer/types';
 
 /**
  * @ignore
  */
-const UNUSED_DRAG = "UNUSED_DRAG"
+const UNUSED_DRAG = 'UNUSED_DRAG';
 
 /**
  * Coordinates for spans for placements
@@ -80,8 +80,8 @@ const defaultOptions: AdvancedMetadataSelectorOptions =
     },
     headerColumnGetter: (header: HTMLElement) =>
     {
-        let cols = header.firstElementChild.children;
-        let result = [];
+        const cols = header.firstElementChild.children;
+        const result = [];
 
         for(let x = 0; x < cols.length; x++)
         {
@@ -292,7 +292,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
      */
     public hideColumn(column: AdvancedGridColumn)
     {
-        let unused = this.metadata.columns.splice(this.metadata.columns.indexOf(column), 1);
+        const unused = this.metadata.columns.splice(this.metadata.columns.indexOf(column), 1);
         this.unusedMetadata.splice(this.unusedMetadata.length - 1, 0, unused[0]);
         this.metadata =
         {
@@ -318,7 +318,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
             index = this.metadata.columns.length;
         }
 
-        let used = this.unusedMetadata.splice(this.unusedMetadata.indexOf(column), 1);
+        const used = this.unusedMetadata.splice(this.unusedMetadata.indexOf(column), 1);
         this.metadata.columns.splice(index, 0, used[0]);
         this.metadata =
         {
@@ -364,7 +364,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
      */
     public dragEnterSplit(event: DragEvent)
     {
-        let firstElementChild = (event.target as HTMLElement).firstElementChild;
+        const firstElementChild = (event.target as HTMLElement).firstElementChild;
 
         if(firstElementChild)
         {
@@ -387,7 +387,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
      */
     public dragLeaveSplit(event: DragEvent)
     {
-        let firstElementChild = (event.target as HTMLElement).firstElementChild;
+        const firstElementChild = (event.target as HTMLElement).firstElementChild;
 
         if(firstElementChild)
         {
@@ -526,7 +526,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
      */
     private _initMetadata()
     {
-        let storageState: StorageState = this._loadFromStorage();
+        const storageState: StorageState = this._loadFromStorage();
 
         if(storageState)
         {
@@ -547,7 +547,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
 
             Object.keys(storageState).forEach(id =>
             {
-                let meta = this._allMetadata.columns.find(itm => itm.id == id);
+                const meta = this._allMetadata.columns.find(itm => itm.id == id);
 
                 if(meta)
                 {
@@ -560,7 +560,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
             this.metadata =
             {
                 columns: this._allMetadata.columns.filter(itm => itm.visible)
-            }
+            };
         }
 
         this.unusedMetadata = this._allMetadata.columns.filter(itm => !itm.visible);
@@ -571,15 +571,15 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
      */
     private _setWidthOfUsedColumns()
     {
-        let headerElement: HTMLElement = this.gridPlugins[HEADER_CONTENT_RENDERER].pluginElement.nativeElement;
-        let colWidths = this.options.headerColumnGetter(headerElement);
+        const headerElement: HTMLElement = this.gridPlugins[HEADER_CONTENT_RENDERER].pluginElement.nativeElement;
+        const colWidths = this.options.headerColumnGetter(headerElement);
         this.metadata.columns.forEach((meta, index) => meta.realWidth = colWidths[index]);
 
         this.splitCoordinates = [];
 
         colWidths.forEach((value: number, index: number) =>
         {
-            let halfWidth = value / 2;
+            const halfWidth = value / 2;
 
             //first
             if(index == 0)
@@ -622,7 +622,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
             return;
         }
 
-        let state: StorageState = {};
+        const state: StorageState = {};
 
         this.metadata.columns.forEach(meta =>
         {

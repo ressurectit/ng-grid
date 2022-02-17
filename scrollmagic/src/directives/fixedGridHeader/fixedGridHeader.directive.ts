@@ -1,13 +1,13 @@
-import {Directive, OnInit, Renderer2, Inject, Input, Injector, InjectionToken} from "@angular/core";
-import {GridComponent, BODY_CONTENT_RENDERER, HEADER_CONTENT_RENDERER, Grid} from "@anglr/grid";
-import {APP_STABLE} from "@anglr/common";
-import {Subscription} from "rxjs";
+import {Directive, OnInit, Renderer2, Inject, Input, Injector, InjectionToken} from '@angular/core';
+import {GridComponent, BODY_CONTENT_RENDERER, HEADER_CONTENT_RENDERER, Grid} from '@anglr/grid';
+import {APP_STABLE} from '@anglr/common';
+import {Subscription} from 'rxjs';
 import * as scrollmagic from 'scrollmagic';
 
 /**
  * Token used for obtaining scrollmagic controller instance
  */
-export const SCROLL_MAGIC_CONTROLLER: InjectionToken<ScrollMagic.Controller> = new InjectionToken<ScrollMagic.Controller>("SCROLL_MAGIC_CONTROLLER");
+export const SCROLL_MAGIC_CONTROLLER: InjectionToken<ScrollMagic.Controller> = new InjectionToken<ScrollMagic.Controller>('SCROLL_MAGIC_CONTROLLER');
 
 /**
  * Directive that applies fixed header to grid
@@ -93,13 +93,13 @@ export class FixedGridHeaderDirective implements OnInit
 
                 this.ngOnDestroy();
 
-                let headerPlugin = this._grid.getPlugin(HEADER_CONTENT_RENDERER);
-                let header = headerPlugin.pluginElement.nativeElement as HTMLElement;
-                let tr = header.firstElementChild;
-                let body = this._grid.getPlugin(BODY_CONTENT_RENDERER).pluginElement.nativeElement as HTMLElement;
-                let tmpTr = this._renderer.createElement('tr');
+                const headerPlugin = this._grid.getPlugin(HEADER_CONTENT_RENDERER);
+                const header = headerPlugin.pluginElement.nativeElement as HTMLElement;
+                const tr = header.firstElementChild;
+                const body = this._grid.getPlugin(BODY_CONTENT_RENDERER).pluginElement.nativeElement as HTMLElement;
+                const tmpTr = this._renderer.createElement('tr');
 
-                this._renderer.setStyle(tmpTr, "display", "none");
+                this._renderer.setStyle(tmpTr, 'display', 'none');
                 this._renderer.appendChild(header, tmpTr);
 
                 this._headerObserver = new MutationObserver(() =>
@@ -108,7 +108,7 @@ export class FixedGridHeaderDirective implements OnInit
                     {
                         this._scene.offset(tr.getBoundingClientRect().bottom);
                         this._scene.refresh();
-                        this._renderer.setStyle(tmpTr, "height", `${tr.getBoundingClientRect().height}px`);
+                        this._renderer.setStyle(tmpTr, 'height', `${tr.getBoundingClientRect().height}px`);
 
                         this._headerObserver.disconnect();
                     }
@@ -135,25 +135,25 @@ export class FixedGridHeaderDirective implements OnInit
                     offset: tr.getBoundingClientRect().bottom,
                     duration: 0
                 }).
-                    on("enter leave", event =>
+                    on('enter leave', event =>
                     {
-                        let cols = tr.children;
+                        const cols = tr.children;
 
-                        if(event.type == "enter")
+                        if(event.type == 'enter')
                         {
                             this._originalWidths = [];
                         }
 
                         for(let x = 0; x < cols.length; x++)
                         {
-                            let col = cols[x] as HTMLElement;
+                            const col = cols[x] as HTMLElement;
 
-                            if(event.type == "enter")
+                            if(event.type == 'enter')
                             {
                                 this._originalWidths.push(col.style.width);
                                 col.style.width = `${col.clientWidth}px`;
-                                let th = this._renderer.createElement('th');
-                                this._renderer.setStyle(th, "width", `${col.clientWidth}px`);
+                                const th = this._renderer.createElement('th');
+                                this._renderer.setStyle(th, 'width', `${col.clientWidth}px`);
                                 this._renderer.appendChild(tmpTr, th);
                             }
                             else
@@ -166,13 +166,13 @@ export class FixedGridHeaderDirective implements OnInit
                                 }
                             }
                         }
-                        if(event.type == "enter")
+                        if(event.type == 'enter')
                         {
-                            this._renderer.setStyle(tmpTr, "display", "");
+                            this._renderer.setStyle(tmpTr, 'display', '');
                         }
                         else
                         {
-                            this._renderer.setStyle(tmpTr, "display", "none");
+                            this._renderer.setStyle(tmpTr, 'display', 'none');
                         }
                         
                         tr.classList.toggle(this.fixedCssClass);

@@ -1,8 +1,8 @@
-import {Component, ChangeDetectionStrategy, Input, TemplateRef, ContentChild, ContentChildren, QueryList} from "@angular/core";
+import {Component, ChangeDetectionStrategy, Input, TemplateRef, ContentChild, ContentChildren, QueryList} from '@angular/core';
 
-import {HeaderTableGroup, HeaderTableGroupColumn} from "./groupedTable.interface";
-import {HeaderTableGroupContext} from "../types";
-import {HeaderTableGroupColumnComponent} from "./headerTableGroupColumn.component";
+import {HeaderTableGroup, HeaderTableGroupColumn} from './groupedTable.interface';
+import {HeaderTableGroupContext} from '../types';
+import {HeaderTableGroupColumnComponent} from './headerTableGroupColumn.component';
 
 /**
  * Component for gathering information about table group
@@ -57,7 +57,7 @@ export class HeaderTableGroupComponent implements HeaderTableGroup
 
         if(this.groups.length && !this.columnsChildren.length)
         {
-            let groups = this.groups;
+            const groups = this.groups;
             
             this._columns = groups.reduce((acc, x) => acc.concat(x.columns), []);
         }

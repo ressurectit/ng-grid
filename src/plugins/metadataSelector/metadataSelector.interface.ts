@@ -1,7 +1,7 @@
-import {EventEmitter} from "@angular/core";
+import {EventEmitter} from '@angular/core';
 
-import {PluginOptions, GridPlugin} from "../../misc";
-import {MetadataGatherer} from "../../components/metadata";
+import {PluginOptions, GridPlugin} from '../../misc';
+import {MetadataGatherer} from '../../components/metadata';
 
 /**
  * Metadata selector options

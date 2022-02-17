@@ -38,10 +38,10 @@ const defaultOptions: BasicPagingOptions =
     pagesDispersion: 4,
     cssClasses:
     {
-        pagingUl: "pagination pagination-sm margin-sm-vertical",
-        itemsPerPageDiv: "pull-right",
-        displayedItemsCountSpan: "items-count",
-        itemsPerPageUl: "pagination pagination-sm margin-sm-vertical"
+        pagingUl: 'pagination pagination-sm margin-sm-vertical',
+        itemsPerPageDiv: 'pull-right',
+        displayedItemsCountSpan: 'items-count',
+        itemsPerPageUl: 'pagination pagination-sm margin-sm-vertical'
     }
 };
 
@@ -50,7 +50,7 @@ const defaultOptions: BasicPagingOptions =
  */
 @Component(
 {
-    selector: "ng-basic-paging",
+    selector: 'ng-basic-paging',
     templateUrl: 'basicPaging.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
     styles: [
@@ -96,7 +96,7 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
      * Text displaying items count
      * @internal
      */
-    public displayedItemsCount: string = "";
+    public displayedItemsCount: string = '';
 
     /**
      * Array of pages that are rendered
@@ -117,7 +117,7 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
      */
     public get firstItemIndex(): number
     {
-        let offset = this._paginator.getOffset();
+        const offset = this._paginator.getOffset();
 
         return isNaN(offset) ? 0 : offset;
     }
@@ -236,7 +236,7 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
      */
     public renderItemsPerPageText(value: number): string
     {
-        return isNaN(value) ? "&infin;" : value.toString();
+        return isNaN(value) ? '&infin;' : value.toString();
     }
 
     //######################### public methods #########################
@@ -244,7 +244,7 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
     /**
      * Method that initialize paging component, this method can be used for initialization if paging used dynamicaly
      */
-    public initialize()
+    public override initialize()
     {
         super.initialize();
 
@@ -264,7 +264,7 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
             return;
         }
 
-        var pageCount = this._paginator.getPageCount() || 1;
+        const pageCount = this._paginator.getPageCount() || 1;
 
         //Applied when displaying all items
         if(isNaN(pageCount))
@@ -297,7 +297,7 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
         {
             isActive: false,
             isDisabled: this._paginator.isFirst(),
-            title: "&laquo;",
+            title: '&laquo;',
             page: this._paginator.GetFirstPage()
         });
 
@@ -316,7 +316,7 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
         {
             isActive: false,
             isDisabled: this._paginator.isLast(),
-            title: "&raquo;",
+            title: '&raquo;',
             page: this._paginator.getLastPage()
         });
     }
@@ -339,9 +339,9 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
             return;
         }
 
-        let displayedItems = this._paginator.getOffset() + this._paginator.getLength();
+        const displayedItems = this._paginator.getOffset() + this._paginator.getLength();
 
-        this.displayedItemsCount = "";
+        this.displayedItemsCount = '';
 
         if(isNaN(displayedItems) && isPresent(this._totalCount))
         {
@@ -358,7 +358,7 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
     /**
      * Method called when options are set, allowing to do something after that when overriden
      */
-    protected optionsSet()
+    protected override optionsSet()
     {
         this.itemsPerPageItems = this.options.itemsPerPageValues.map(itm =>
         {

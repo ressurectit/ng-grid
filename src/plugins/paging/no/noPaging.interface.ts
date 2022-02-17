@@ -1,4 +1,4 @@
-import {PagingOptions, Paging} from "../paging.interface";
+import {PagingOptions, Paging} from '../paging.interface';
 
 /**
  * No paging options for paging

@@ -1,6 +1,6 @@
-import {InjectionToken} from "@angular/core";
+import {InjectionToken} from '@angular/core';
 
-import {RowSelectorOptions, RowSelector} from "./rowSelector.interface";
+import {RowSelectorOptions, RowSelector} from './rowSelector.interface';
 import {Grid} from '../../components/grid';
 
 /**
@@ -11,7 +11,7 @@ export const ROW_SELECTOR_OPTIONS: InjectionToken<RowSelectorOptions> = new Inje
 /**
  * Constant used for accessing row selector in grid
  */
-export const ROW_SELECTOR = "ROW_SELECTOR";
+export const ROW_SELECTOR = 'ROW_SELECTOR';
 
 /**
  * Applies block of row selection to grid, if row was not selected checkbox change event will be blocked
@@ -21,7 +21,7 @@ export const ROW_SELECTOR = "ROW_SELECTOR";
  */
 export function applyRowSelectionBlock<TItem>(grid: Grid, itm: TItem, event: MouseEvent)
 {
-    let rowSelector = grid.getPlugin<RowSelector>(ROW_SELECTOR);
+    const rowSelector = grid.getPlugin<RowSelector>(ROW_SELECTOR);
 
     if(!rowSelector.isSelected(itm) && (event.target as HTMLInputElement).checked)
     {

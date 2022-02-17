@@ -1,4 +1,4 @@
-import {EventEmitter} from "@angular/core";
+import {EventEmitter} from '@angular/core';
 
 /**
  * Basic grid column definition

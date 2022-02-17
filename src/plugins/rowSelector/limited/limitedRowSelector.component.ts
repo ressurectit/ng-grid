@@ -1,6 +1,6 @@
-import {Component, ChangeDetectionStrategy, OnDestroy} from "@angular/core";
+import {Component, ChangeDetectionStrategy, OnDestroy} from '@angular/core';
 
-import {LimitedRowSelectorOptions, LimitedRowSelector} from "./limitedRowSelector.interface";
+import {LimitedRowSelectorOptions, LimitedRowSelector} from './limitedRowSelector.interface';
 import {BasicRowSelectorComponent} from '../basic/basicRowSelector.component';
 import {GridPluginGeneric} from '../../../misc/plugin.interface';
 
@@ -18,14 +18,14 @@ export class LimitedRowSelectorComponent<TSelectedData = any, TData = any, TId =
     /**
      * Options for grid plugin
      */
-    protected _options: LimitedRowSelectorOptions<TSelectedData, TData, TId>;
+    protected override _options: LimitedRowSelectorOptions<TSelectedData, TData, TId>;
 
     /**
      * Adds item to selection (or remove it from selection if deselect is true)
      * @param item - Item that is going to be selected
      * @param select - Indication whether select specified item, defaults to true
      */
-    public selectItem(item: TData, select: boolean = true)
+    public override selectItem(item: TData, select: boolean = true)
     {
         if(!isNaN(this._options.limit) && !isNaN(this.selectedIds.length) && this.selectedIds.length >= this._options.limit && select)
         {

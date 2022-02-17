@@ -1,4 +1,4 @@
-import {GridAction, GridOptions} from "@anglr/grid";
+import {GridAction, GridOptions} from '@anglr/grid';
 
 /**
  * Method used to patch options without full initialization of grid, only options are initialized

@@ -1,15 +1,15 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Optional, Inject, ElementRef} from "@angular/core";
-import {extend} from "@jscrpt/common";
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Optional, Inject, ElementRef} from '@angular/core';
+import {extend} from '@jscrpt/common';
 
-import {BasicTableColumn, BasicTableMetadata} from "../../../../../components/metadata";
-import {GridPluginInstances} from "../../../../../components/grid";
-import {GRID_PLUGIN_INSTANCES} from "../../../../../components/grid/types";
-import {BODY_CONTENT_RENDERER_OPTIONS} from "../../../types";
-import {BodyContentRendererAbstractComponent} from "../../../bodyContentRendererAbstract.component";
-import {RowSelector} from "../../../../rowSelector";
-import {ROW_SELECTOR} from "../../../../rowSelector/types";
-import {BasicTableColumnSelectableContext} from "./basicTableColumnSelectable.context";
-import {AdvancedTableBodyContentRendererOptions} from "./advancedTableBodyContentRenderer.interface";
+import {BasicTableColumn, BasicTableMetadata} from '../../../../../components/metadata';
+import {GridPluginInstances} from '../../../../../components/grid';
+import {GRID_PLUGIN_INSTANCES} from '../../../../../components/grid/types';
+import {BODY_CONTENT_RENDERER_OPTIONS} from '../../../types';
+import {BodyContentRendererAbstractComponent} from '../../../bodyContentRendererAbstract.component';
+import {RowSelector} from '../../../../rowSelector';
+import {ROW_SELECTOR} from '../../../../rowSelector/types';
+import {BasicTableColumnSelectableContext} from './basicTableColumnSelectable.context';
+import {AdvancedTableBodyContentRendererOptions} from './advancedTableBodyContentRenderer.interface';
 
 /**
  * Default options for 'AdvancedTableBodyContentRendererComponent'
@@ -77,11 +77,11 @@ export class AdvancedTableBodyContentRendererComponent<TData = any> extends Body
     /**
      * Initialize plugin, to be ready to use
      */
-    public initialize()
+    public override initialize()
     {
         super.initialize();
 
-        let rowSelector: RowSelector<any, any, TData> = this.gridPlugins[ROW_SELECTOR] as RowSelector<any, any, TData>;
+        const rowSelector: RowSelector<any, any, TData> = this.gridPlugins[ROW_SELECTOR] as RowSelector<any, any, TData>;
 
         if(this._rowSelector && this._rowSelector != rowSelector)
         {

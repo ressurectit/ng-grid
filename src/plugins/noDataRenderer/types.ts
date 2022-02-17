@@ -1,6 +1,6 @@
-import {InjectionToken} from "@angular/core";
+import {InjectionToken} from '@angular/core';
 
-import {NoDataRendererOptions} from "./noDataRenderer.interface";
+import {NoDataRendererOptions} from './noDataRenderer.interface';
 
 /**
  * Token for injecting options for no data renderer
@@ -10,4 +10,4 @@ export const NO_DATA_RENDERER_OPTIONS: InjectionToken<NoDataRendererOptions> = n
 /**
  * Constant used for accessing no data renderer in grid
  */
-export const NO_DATA_RENDERER = "NO_DATA_RENDERER";
+export const NO_DATA_RENDERER = 'NO_DATA_RENDERER';

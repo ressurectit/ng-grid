@@ -1,4 +1,4 @@
-import {HeaderTableGroup} from "./groupedTable.interface";
+import {HeaderTableGroup} from './groupedTable.interface';
 
 /**
  * Context for header table group template

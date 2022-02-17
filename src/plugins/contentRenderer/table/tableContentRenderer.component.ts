@@ -1,14 +1,14 @@
-import {Component, ChangeDetectionStrategy, Inject, Optional, OnDestroy, HostBinding, forwardRef, ElementRef} from "@angular/core";
-import {extend} from "@jscrpt/common";
+import {Component, ChangeDetectionStrategy, Inject, Optional, OnDestroy, HostBinding, forwardRef, ElementRef} from '@angular/core';
+import {extend} from '@jscrpt/common';
 
-import {TableContentRendererOptions} from "./tableContentRenderer.interface";
-import {GridPluginInstances} from "../../../components/grid";
-import {GRID_PLUGIN_INSTANCES} from "../../../components/grid/types";
-import {CONTENT_RENDERER_OPTIONS} from "../types";
-import {PluginDescription} from "../../../misc";
+import {TableContentRendererOptions} from './tableContentRenderer.interface';
+import {GridPluginInstances} from '../../../components/grid';
+import {GRID_PLUGIN_INSTANCES} from '../../../components/grid/types';
+import {CONTENT_RENDERER_OPTIONS} from '../types';
+import {PluginDescription} from '../../../misc';
 import {TableBodyContentRendererComponent} from './body/basic/tableBodyContentRenderer.component';
-import {TableHeaderContentRendererComponent} from "./header/basic/tableHeaderContentRenderer.component";
-import {ContentRendererAbstractComponent} from "../contentRendererAbstract.component";
+import {TableHeaderContentRendererComponent} from './header/basic/tableHeaderContentRenderer.component';
+import {ContentRendererAbstractComponent} from '../contentRendererAbstract.component';
 
 /**
  * Default options for 'TableContentRendererComponent'
@@ -51,7 +51,7 @@ export class TableContentRendererComponent<TOrdering = any, TData = any, TMetada
      * Css class applied to grid itself
      */
     @HostBinding('class')
-    public get cssClass(): string
+    public override get cssClass(): string
     {
         return this._options.cssClasses.containerDiv;
     }

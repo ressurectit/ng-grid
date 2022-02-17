@@ -108,7 +108,7 @@ export class CdkVirtualScrollPagingComponent  extends PagingAbstractComponent<Cs
     /**
      * Called when component is destroyed
      */
-    public ngOnDestroy()
+    public override ngOnDestroy()
     {
         super.ngOnDestroy();
 
@@ -124,11 +124,11 @@ export class CdkVirtualScrollPagingComponent  extends PagingAbstractComponent<Cs
     /**
      * Method that initialize paging component, this method can be used for initialization if paging used dynamicaly
      */
-    public initialize()
+    public override initialize()
     {
         super.initialize();
 
-        let contentRenderer = this.gridPlugins[CONTENT_RENDERER] as VirtualScrollTableContentRenderer;
+        const contentRenderer = this.gridPlugins[CONTENT_RENDERER] as VirtualScrollTableContentRenderer;
 
         if(!contentRenderer || !contentRenderer.scrollViewport)
         {
@@ -145,8 +145,8 @@ export class CdkVirtualScrollPagingComponent  extends PagingAbstractComponent<Cs
 
         this._scrollRangeChangeSubscription = this._scrollViewport.renderedRangeStream.subscribe(range =>
         {
-            let loadedItems = this._scrollViewport.getDataLength();
-            let lastDisplayedItem = range.end;
+            const loadedItems = this._scrollViewport.getDataLength();
+            const lastDisplayedItem = range.end;
 
             if(loadedItems === 0)
             {

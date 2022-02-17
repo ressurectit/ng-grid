@@ -1,5 +1,5 @@
 import {Component, Input, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef, Inject, Optional, OnDestroy} from '@angular/core';
-import {STRING_LOCALIZATION, StringLocalization} from "@anglr/common";
+import {STRING_LOCALIZATION, StringLocalization} from '@anglr/common';
 import {extend} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
@@ -123,7 +123,7 @@ export class LoadMorePagingComponent  extends PagingAbstractComponent<CssClasses
     /**
      * Called when component is destroyed
      */
-    public ngOnDestroy()
+    public override ngOnDestroy()
     {
         if(this._textsChangedSubscription)
         {
@@ -137,7 +137,7 @@ export class LoadMorePagingComponent  extends PagingAbstractComponent<CssClasses
     /**
      * Method that initialize paging component, this method can be used for initialization if paging used dynamicaly
      */
-    public initialize()
+    public override initialize()
     {
         this._textsChangedSubscription = this._stringLocalization.textsChange.subscribe(() => this._initTexts());
 

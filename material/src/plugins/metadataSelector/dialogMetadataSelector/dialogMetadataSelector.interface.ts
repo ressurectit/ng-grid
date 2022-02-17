@@ -1,5 +1,5 @@
-import {Type} from "@angular/core";
-import {MetadataSelector, MetadataSelectorOptions, VisualPluginOptions} from "@anglr/grid";
+import {Type} from '@angular/core';
+import {MetadataSelector, MetadataSelectorOptions, VisualPluginOptions} from '@anglr/grid';
 
 /**
  * Css classes for dialog metadata selector

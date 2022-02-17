@@ -1,19 +1,19 @@
-import {ChangeDetectionStrategy, Inject, Optional, Component} from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
-import {PermanentStorage, PERMANENT_STORAGE} from "@anglr/common";
-import {extend, isPresent} from "@jscrpt/common";
+import {ChangeDetectionStrategy, Inject, Optional, Component} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {PermanentStorage, PERMANENT_STORAGE} from '@anglr/common';
+import {extend, isPresent} from '@jscrpt/common';
 
-import {GridPluginGeneric} from "../../../misc";
-import {GRID_INITIALIZER_OPTIONS} from "../types";
-import {QueryPermanentStorageGridInitializerOptions, QueryPermanentStorageGridInitializer} from "./queryPermanentStorageGridInitializer.interface";
-import {QueryGridInitializerComponent} from "../query/queryGridInitializer.component";
+import {GridPluginGeneric} from '../../../misc';
+import {GRID_INITIALIZER_OPTIONS} from '../types';
+import {QueryPermanentStorageGridInitializerOptions, QueryPermanentStorageGridInitializer} from './queryPermanentStorageGridInitializer.interface';
+import {QueryGridInitializerComponent} from '../query/queryGridInitializer.component';
 
 /**
  * Component used for rendering query, permanent storage grid initializer
  */
 @Component(
 {
-    selector: "ng-query-permanent-storage-grid-initializer",
+    selector: 'ng-query-permanent-storage-grid-initializer',
     template: '',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -24,11 +24,11 @@ export class QueryPermanentStorageGridInitializerComponent extends QueryGridInit
     /**
      * Options for grid plugin
      */
-    public get options(): QueryPermanentStorageGridInitializerOptions
+    public override get options(): QueryPermanentStorageGridInitializerOptions
     {
         return this._options;
     }
-    public set options(options: QueryPermanentStorageGridInitializerOptions)
+    public override set options(options: QueryPermanentStorageGridInitializerOptions)
     {
         this._options = extend(true, this._options, options) as QueryPermanentStorageGridInitializerOptions;
     }
@@ -57,7 +57,7 @@ export class QueryPermanentStorageGridInitializerComponent extends QueryGridInit
     /**
      * Gets initial items per page
      */
-    public getItemsPerPage(): number
+    public override getItemsPerPage(): number
     {
         let ipp = super.getItemsPerPage();
 
@@ -83,7 +83,7 @@ export class QueryPermanentStorageGridInitializerComponent extends QueryGridInit
      * Sets current items per page when changed
      * @param itemsPerPage - Items per page to be set
      */
-    public setItemsPerPage(itemsPerPage: number)
+    public override setItemsPerPage(itemsPerPage: number)
     {
         if(this._permanentStorages && this.itemsPerPagePermanentStorageName)
         {

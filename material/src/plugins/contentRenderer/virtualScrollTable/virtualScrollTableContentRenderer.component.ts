@@ -1,11 +1,11 @@
-import {Component, ChangeDetectionStrategy, Inject, Optional, OnDestroy, HostBinding, forwardRef, ElementRef, ViewChild} from "@angular/core";
-import {CdkVirtualScrollViewport} from "@angular/cdk/scrolling";
-import {GridPluginInstances, GRID_PLUGIN_INSTANCES, CONTENT_RENDERER_OPTIONS, PluginDescription, ContentRendererAbstractComponent} from "@anglr/grid";
-import {extend} from "@jscrpt/common";
+import {Component, ChangeDetectionStrategy, Inject, Optional, OnDestroy, HostBinding, forwardRef, ElementRef, ViewChild} from '@angular/core';
+import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
+import {GridPluginInstances, GRID_PLUGIN_INSTANCES, CONTENT_RENDERER_OPTIONS, PluginDescription, ContentRendererAbstractComponent} from '@anglr/grid';
+import {extend} from '@jscrpt/common';
 
-import {VirtualScrollTableContentRendererOptions, VirtualScrollTableContentRenderer} from "./virtualScrollTableContentRenderer.interface";
-import {VirtualScrollTableHeaderContentRendererComponent} from "./header/virtualScrollTableHeaderContentRenderer.component";
-import {VirtualScrollTableBodyContentRendererComponent} from "./body/virtualScrollTableBodyContentRenderer.component";
+import {VirtualScrollTableContentRendererOptions, VirtualScrollTableContentRenderer} from './virtualScrollTableContentRenderer.interface';
+import {VirtualScrollTableHeaderContentRendererComponent} from './header/virtualScrollTableHeaderContentRenderer.component';
+import {VirtualScrollTableBodyContentRendererComponent} from './body/virtualScrollTableBodyContentRenderer.component';
 
 /**
  * Default options for 'VirtualScrollTableContentRendererComponent'
@@ -52,7 +52,7 @@ export class VirtualScrollTableContentRendererComponent<TOrdering = any, TData =
      * @internal
      */
     @HostBinding('class')
-    public get cssClass(): string
+    public override get cssClass(): string
     {
         return this._options.cssClasses.containerDiv;
     }

@@ -1,12 +1,12 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Optional, Inject, HostBinding, ElementRef} from "@angular/core";
-import {extend} from "@jscrpt/common";
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Optional, Inject, HostBinding, ElementRef} from '@angular/core';
+import {extend} from '@jscrpt/common';
 
-import {CssDivsBodyContentRendererOptions, CssClassesCssDivsBodyContentRenderer} from "../cssDivsContentRenderer.interface";
-import {BasicTableMetadata, BasicTableColumn} from "../../../../components/metadata";
-import {GridPluginInstances} from "../../../../components/grid";
-import {GRID_PLUGIN_INSTANCES} from "../../../../components/grid/types";
-import {BODY_CONTENT_RENDERER_OPTIONS} from "../../types";
-import {BodyContentRendererAbstractComponent} from "../../bodyContentRendererAbstract.component";
+import {CssDivsBodyContentRendererOptions, CssClassesCssDivsBodyContentRenderer} from '../cssDivsContentRenderer.interface';
+import {BasicTableMetadata, BasicTableColumn} from '../../../../components/metadata';
+import {GridPluginInstances} from '../../../../components/grid';
+import {GRID_PLUGIN_INSTANCES} from '../../../../components/grid/types';
+import {BODY_CONTENT_RENDERER_OPTIONS} from '../../types';
+import {BodyContentRendererAbstractComponent} from '../../bodyContentRendererAbstract.component';
 
 /**
  * Default options for 'CssDivsBodyContentRendererComponent'

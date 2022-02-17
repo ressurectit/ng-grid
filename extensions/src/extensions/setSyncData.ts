@@ -1,6 +1,5 @@
-import {isArray} from "@jscrpt/common";
-
-import {GridAction, DataLoader, DATA_LOADER} from "@anglr/grid";
+import {GridAction, DataLoader, DATA_LOADER} from '@anglr/grid';
+import {isArray} from '@jscrpt/common';
 
 /**
  * Sets data for SyncDataLoader
@@ -11,7 +10,7 @@ export function setSyncData(data: any[], force?: boolean): GridAction
 {
     return grid =>
     {
-        let dataLoader = grid.getPlugin<DataLoader>(DATA_LOADER);
+        const dataLoader = grid.getPlugin<DataLoader>(DATA_LOADER);
 
         dataLoader.options.data = isArray(data) ? data : [];
         dataLoader.loadData(force);

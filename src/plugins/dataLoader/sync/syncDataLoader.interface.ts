@@ -1,4 +1,4 @@
-import {DataLoaderOptions, DataLoader, DataResponse} from "../dataLoader.interface";
+import {DataLoaderOptions, DataLoader, DataResponse} from '../dataLoader.interface';
 
 /**
  * Sync data loader options

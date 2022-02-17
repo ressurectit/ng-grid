@@ -1,9 +1,9 @@
-import {ExistingProvider, Component, ChangeDetectionStrategy, EventEmitter, forwardRef, ContentChildren, QueryList, AfterContentInit} from "@angular/core";
+import {ExistingProvider, Component, ChangeDetectionStrategy, EventEmitter, forwardRef, ContentChildren, QueryList, AfterContentInit} from '@angular/core';
 
-import {MetadataGatherer} from "../metadata.interface";
-import {METADATA_GATHERER} from "../types";
-import {BasicTableColumn, BasicTableMetadata} from "./basicTable.interface";
-import {BasicTableColumnComponent} from "./basicTableColumn.component";
+import {MetadataGatherer} from '../metadata.interface';
+import {METADATA_GATHERER} from '../types';
+import {BasicTableColumn, BasicTableMetadata} from './basicTable.interface';
+import {BasicTableColumnComponent} from './basicTableColumn.component';
 
 /**
  * Component that is used for gathering metadata for basic table

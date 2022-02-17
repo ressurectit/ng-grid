@@ -1,4 +1,4 @@
-import {VirtualScrollPagingOptions, VirtualScrollPaging} from "../virtualScrollPaging.interface";
+import {VirtualScrollPagingOptions, VirtualScrollPaging} from '../virtualScrollPaging.interface';
 
 /**
  * Content virtual scroll paging options

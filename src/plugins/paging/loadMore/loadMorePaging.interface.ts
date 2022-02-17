@@ -1,4 +1,4 @@
-import {PagingOptions, Paging} from "../paging.interface";
+import {PagingOptions, Paging} from '../paging.interface';
 
 /**
  * Css classes for load more paging

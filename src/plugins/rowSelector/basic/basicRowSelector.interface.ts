@@ -1,4 +1,4 @@
-import {RowSelectorOptions, RowSelector} from "../rowSelector.interface";
+import {RowSelectorOptions, RowSelector} from '../rowSelector.interface';
 
 /**
  * Basic row selector options

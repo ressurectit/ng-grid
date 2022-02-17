@@ -1,11 +1,11 @@
-import {ChangeDetectionStrategy, Inject, Optional, ElementRef, Component} from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
-import {extend} from "@jscrpt/common";
+import {ChangeDetectionStrategy, Inject, Optional, ElementRef, Component} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {extend} from '@jscrpt/common';
 
-import {GridPluginGeneric} from "../../../misc";
-import {QueryGridInitializer, QueryGridInitializerOptions} from "./queryGridInitializer.interface";
-import {GRID_INITIALIZER_OPTIONS} from "../types";
-import {GridPluginInstances} from "../../../components/grid";
+import {GridPluginGeneric} from '../../../misc';
+import {QueryGridInitializer, QueryGridInitializerOptions} from './queryGridInitializer.interface';
+import {GRID_INITIALIZER_OPTIONS} from '../types';
+import {GridPluginInstances} from '../../../components/grid';
 
 /**
  * Default options for query grid initializer
@@ -21,7 +21,7 @@ const defaultOptions: QueryGridInitializerOptions =
  */
 @Component(
 {
-    selector: "ng-query-grid-initializer",
+    selector: 'ng-query-grid-initializer',
     template: '',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -134,7 +134,7 @@ export class QueryGridInitializerComponent implements QueryGridInitializer, Grid
      */
     public setPage(page: number)
     {
-        let pageParam = {};
+        const pageParam = {};
 
         pageParam[this.pageName] = page;
 
@@ -142,7 +142,7 @@ export class QueryGridInitializerComponent implements QueryGridInitializer, Grid
         {
             relativeTo: this._route,
             queryParams: pageParam,
-            queryParamsHandling: "merge",
+            queryParamsHandling: 'merge',
             replaceUrl: true
         });
     }
@@ -166,7 +166,7 @@ export class QueryGridInitializerComponent implements QueryGridInitializer, Grid
      */
     public setItemsPerPage(itemsPerPage: number)
     {
-        let pageParam = {};
+        const pageParam = {};
 
         pageParam[this.itemsPerPageName] = itemsPerPage;
 
@@ -174,7 +174,7 @@ export class QueryGridInitializerComponent implements QueryGridInitializer, Grid
         {
             relativeTo: this._route,
             queryParams: pageParam,
-            queryParamsHandling: "merge",
+            queryParamsHandling: 'merge',
             replaceUrl: true
         });
     }
@@ -198,7 +198,7 @@ export class QueryGridInitializerComponent implements QueryGridInitializer, Grid
      */
     public setOrdering(ordering: string): void
     {
-        let orderingParam = {};
+        const orderingParam = {};
 
         orderingParam[this.orderingName] = ordering;
 
@@ -206,7 +206,7 @@ export class QueryGridInitializerComponent implements QueryGridInitializer, Grid
         {
             relativeTo: this._route,
             queryParams: orderingParam,
-            queryParamsHandling: "merge",
+            queryParamsHandling: 'merge',
             replaceUrl: true
         });
     }

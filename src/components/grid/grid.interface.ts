@@ -1,6 +1,6 @@
-import {Observable} from "rxjs";
+import {Observable} from 'rxjs';
 
-import {GridOptions, GridPlugin} from "../../misc";
+import {GridOptions, GridPlugin} from '../../misc';
 
 /**
  * Interface describing object storing all existing plugin instances for grid

@@ -1,10 +1,10 @@
-import {NgModule} from "@angular/core";
-import {CommonModule} from "@angular/common";
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {ScrollingModule} from '@angular/cdk/scrolling';
-import {CommonModule as NgCommonModule} from "@anglr/common";
+import {CommonDynamicModule} from '@anglr/common';
 
-import {VirtualScrollTableContentRendererComponent, VirtualScrollTableBodyContentRendererComponent, VirtualScrollTableHeaderContentRendererComponent} from "../plugins/contentRenderer/components";
-import {CdkVirtualScrollPagingComponent} from "../plugins/paging/components";
+import {VirtualScrollTableContentRendererComponent, VirtualScrollTableBodyContentRendererComponent, VirtualScrollTableHeaderContentRendererComponent} from '../plugins/contentRenderer/components';
+import {CdkVirtualScrollPagingComponent} from '../plugins/paging/components';
 
 /**
  * Module allows using of angular material virtual scroll within content renderer
@@ -14,8 +14,8 @@ import {CdkVirtualScrollPagingComponent} from "../plugins/paging/components";
     imports:
     [
         CommonModule,
-        NgCommonModule,
-        ScrollingModule
+        CommonDynamicModule,
+        ScrollingModule,
     ],
     declarations:
     [

@@ -1,4 +1,4 @@
-import {PagingOptions, Paging} from "@anglr/grid";
+import {PagingOptions, Paging} from '@anglr/grid';
 
 /**
  * Css classes for cdk virtual scroll paging

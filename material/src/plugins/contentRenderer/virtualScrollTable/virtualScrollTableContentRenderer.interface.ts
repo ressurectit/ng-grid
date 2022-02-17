@@ -1,5 +1,5 @@
-import {CdkVirtualScrollViewport} from "@angular/cdk/scrolling";
-import {ContentRenderer, HeaderContentRenderer, BodyContentRenderer, BodyContentRendererOptions, ContentRendererOptions, ContentRendererPlugins, CssClassesHeaderContentRenderer, HeaderContentRendererOptions} from "@anglr/grid";
+import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
+import {ContentRenderer, HeaderContentRenderer, BodyContentRenderer, BodyContentRendererOptions, ContentRendererOptions, ContentRendererPlugins, CssClassesHeaderContentRenderer, HeaderContentRendererOptions} from '@anglr/grid';
 
 /**
  * Css classes for virtual scroll table content renderer

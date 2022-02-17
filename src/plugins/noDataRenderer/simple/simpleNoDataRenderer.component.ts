@@ -1,16 +1,16 @@
-import {Inject, Component, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef, Optional, OnDestroy} from "@angular/core";
-import {STRING_LOCALIZATION, StringLocalization} from "@anglr/common";
-import {extend} from "@jscrpt/common";
-import {Subscription} from "rxjs";
+import {Inject, Component, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef, Optional, OnDestroy} from '@angular/core';
+import {STRING_LOCALIZATION, StringLocalization} from '@anglr/common';
+import {extend} from '@jscrpt/common';
+import {Subscription} from 'rxjs';
 
-import {NO_DATA_RENDERER_OPTIONS} from "../types";
-import {GridPluginGeneric} from "../../../misc";
-import {GridPluginInstances} from "../../../components/grid";
-import {GRID_PLUGIN_INSTANCES} from "../../../components/grid/types";
-import {DataLoader, DataResponse} from "../../dataLoader";
-import {DATA_LOADER, DataLoaderState} from "../../dataLoader/types";
-import {SimpleNoDataRenderer, CssClassesSimpleNoDataRenderer, SimpleNoDataRendererOptions} from "./simpleNoDataRenderer.interface";
-import {NoDataRendererTexts} from "../noDataRenderer.interface";
+import {NO_DATA_RENDERER_OPTIONS} from '../types';
+import {GridPluginGeneric} from '../../../misc';
+import {GridPluginInstances} from '../../../components/grid';
+import {GRID_PLUGIN_INSTANCES} from '../../../components/grid/types';
+import {DataLoader, DataResponse} from '../../dataLoader';
+import {DATA_LOADER, DataLoaderState} from '../../dataLoader/types';
+import {SimpleNoDataRenderer, CssClassesSimpleNoDataRenderer, SimpleNoDataRendererOptions} from './simpleNoDataRenderer.interface';
+import {NoDataRendererTexts} from '../noDataRenderer.interface';
 
 //TODO - change texts for texts options with localizations
 
@@ -130,7 +130,7 @@ export class SimpleNoDataRendererComponent implements SimpleNoDataRenderer, Grid
      */
     public initialize()
     {
-        let dataLoader: DataLoader<DataResponse> = this.gridPlugins[DATA_LOADER] as DataLoader<DataResponse>;
+        const dataLoader: DataLoader<DataResponse> = this.gridPlugins[DATA_LOADER] as DataLoader<DataResponse>;
 
         if(this._dataLoader && this._dataLoader != dataLoader)
         {

@@ -1,6 +1,6 @@
-import {Component, ChangeDetectionStrategy, Input} from "@angular/core";
+import {Component, ChangeDetectionStrategy, Input} from '@angular/core';
 
-import {HeaderTableGroupColumn} from "./groupedTable.interface";
+import {HeaderTableGroupColumn} from './groupedTable.interface';
 
 /**
  * Component for gathering information about table group column

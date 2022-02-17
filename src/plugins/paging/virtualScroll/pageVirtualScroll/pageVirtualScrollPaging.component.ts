@@ -52,11 +52,11 @@ export class PageVirtualScrollPagingComponent extends VirtualScrollPagingAbstrac
     /**
      * Method that initialize paging component, this method can be used for initialization if paging used dynamicaly
      */
-    public initialize()
+    public override initialize()
     {
         super.initialize();
 
-        let bodyRenderer: BodyContentRenderer = this.gridPlugins[BODY_CONTENT_RENDERER] as BodyContentRenderer;
+        const bodyRenderer: BodyContentRenderer = this.gridPlugins[BODY_CONTENT_RENDERER] as BodyContentRenderer;
 
         this._initEvents(<any>this._document.scrollingElement, bodyRenderer.pluginElement.nativeElement, this._document);
     }

@@ -1,7 +1,7 @@
-import {TemplateRef} from "@angular/core";
+import {TemplateRef} from '@angular/core';
 import {NgIfContext} from '@angular/common';
 
-import {VisualPluginOptions, GridPlugin} from "../../misc";
+import {VisualPluginOptions, GridPlugin} from '../../misc';
 
 /**
  * Texts that are used within NoDataRenderer

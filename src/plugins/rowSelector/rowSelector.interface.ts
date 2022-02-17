@@ -1,6 +1,6 @@
-import {EventEmitter} from "@angular/core";
+import {EventEmitter} from '@angular/core';
 
-import {GridPlugin, PluginOptions} from "../../misc";
+import {GridPlugin, PluginOptions} from '../../misc';
 
 /**
  * Row selector options

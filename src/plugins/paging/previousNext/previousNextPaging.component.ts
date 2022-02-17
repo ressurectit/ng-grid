@@ -33,7 +33,7 @@ const defaultOptions: PreviousNextPagingOptions =
  */
 @Component(
 {
-    selector: "next-previous-paging",
+    selector: 'next-previous-paging',
     templateUrl: 'previousNextPaging.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
     styles: [
@@ -82,7 +82,7 @@ export class PreviousNextPagingComponent extends PagingAbstractComponent<CssClas
     public get isFirst(): boolean
     {
         return this._paginator.isFirst();
-    };
+    }
 
     /**
      * Indication that currently displayed page is last
@@ -91,7 +91,7 @@ export class PreviousNextPagingComponent extends PagingAbstractComponent<CssClas
     public get isLast(): boolean
     {
         return this._paginator.isLast();
-    };
+    }
 
     //######################### public properties #########################
 
@@ -100,7 +100,7 @@ export class PreviousNextPagingComponent extends PagingAbstractComponent<CssClas
      */
     public get firstItemIndex(): number
     {
-        let offset = this._paginator.getOffset();
+        const offset = this._paginator.getOffset();
 
         return isNaN(offset) ? 0 : offset;
     }
@@ -175,7 +175,7 @@ export class PreviousNextPagingComponent extends PagingAbstractComponent<CssClas
     /**
      * Method that initialize paging component, this method can be used for initialization if paging used dynamicaly
      */
-    public initialize()
+    public override initialize()
     {
         super.initialize();
 
@@ -237,7 +237,7 @@ export class PreviousNextPagingComponent extends PagingAbstractComponent<CssClas
      */
     public renderItemsPerPageText(value: number): string
     {
-        return isNaN(value) ? "&infin;" : value.toString();
+        return isNaN(value) ? '&infin;' : value.toString();
     }
 
     //######################### protected methods - overrides #########################
@@ -245,7 +245,7 @@ export class PreviousNextPagingComponent extends PagingAbstractComponent<CssClas
     /**
      * Method called when options are set, allowing to do something after that when overriden
      */
-    protected optionsSet()
+    protected override optionsSet()
     {
         this.itemsPerPageItems = this.options.itemsPerPageValues.map(itm =>
         {

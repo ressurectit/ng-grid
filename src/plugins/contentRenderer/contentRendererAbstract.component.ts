@@ -1,16 +1,16 @@
-import {EventEmitter, Inject, OnDestroy, resolveForwardRef, Directive, ElementRef, Optional, HostBinding} from "@angular/core";
-import {extend} from "@jscrpt/common";
-import {Subscription} from "rxjs";
+import {EventEmitter, Inject, OnDestroy, resolveForwardRef, Directive, ElementRef, Optional, HostBinding} from '@angular/core';
+import {extend} from '@jscrpt/common';
+import {Subscription} from 'rxjs';
 
-import {GridPluginInstances} from "../../components/grid";
-import {GRID_PLUGIN_INSTANCES} from "../../components/grid/types";
-import {ContentRendererPlugins, ContentRendererOptions, ContentRenderer, HeaderContentRenderer, BodyContentRenderer, CssClassesContentRenderer} from "./contentRenderer.interface";
-import {BODY_CONTENT_RENDERER, HEADER_CONTENT_RENDERER} from "./types";
-import {MetadataSelector} from "../metadataSelector";
-import {METADATA_SELECTOR} from "../metadataSelector/types";
-import {DataResponse, DataLoader} from "../dataLoader";
-import {DATA_LOADER} from "../dataLoader/types";
-import {GridPluginGeneric} from "../../misc";
+import {GridPluginInstances} from '../../components/grid';
+import {GRID_PLUGIN_INSTANCES} from '../../components/grid/types';
+import {ContentRendererPlugins, ContentRendererOptions, ContentRenderer, HeaderContentRenderer, BodyContentRenderer, CssClassesContentRenderer} from './contentRenderer.interface';
+import {BODY_CONTENT_RENDERER, HEADER_CONTENT_RENDERER} from './types';
+import {MetadataSelector} from '../metadataSelector';
+import {METADATA_SELECTOR} from '../metadataSelector/types';
+import {DataResponse, DataLoader} from '../dataLoader';
+import {DATA_LOADER} from '../dataLoader/types';
+import {GridPluginGeneric} from '../../misc';
 
 /**
  * Abstract component for content renderers
@@ -69,13 +69,13 @@ export class ContentRendererAbstractComponent<TOrdering = any, TData = any, TMet
      */
     public get ordering(): TOrdering
     {
-        let headerRenderer: HeaderContentRenderer<TOrdering, TMetadata> = this.gridPlugins[HEADER_CONTENT_RENDERER] as HeaderContentRenderer<TOrdering, TMetadata>;
+        const headerRenderer: HeaderContentRenderer<TOrdering, TMetadata> = this.gridPlugins[HEADER_CONTENT_RENDERER] as HeaderContentRenderer<TOrdering, TMetadata>;
 
         return headerRenderer ? headerRenderer.ordering : null;
     }
     public set ordering(ordering: TOrdering)
     {
-        let headerRenderer: HeaderContentRenderer<TOrdering, TMetadata> = this.gridPlugins[HEADER_CONTENT_RENDERER] as HeaderContentRenderer<TOrdering, TMetadata>;
+        const headerRenderer: HeaderContentRenderer<TOrdering, TMetadata> = this.gridPlugins[HEADER_CONTENT_RENDERER] as HeaderContentRenderer<TOrdering, TMetadata>;
 
         if(headerRenderer)
         {
@@ -148,7 +148,7 @@ export class ContentRendererAbstractComponent<TOrdering = any, TData = any, TMet
      */
     public initialize()
     {
-        let metadataSelector: MetadataSelector<TMetadata> = this.gridPlugins[METADATA_SELECTOR] as MetadataSelector<TMetadata>;
+        const metadataSelector: MetadataSelector<TMetadata> = this.gridPlugins[METADATA_SELECTOR] as MetadataSelector<TMetadata>;
 
         if(this._metadataSelector && this._metadataSelector != metadataSelector)
         {
@@ -164,7 +164,7 @@ export class ContentRendererAbstractComponent<TOrdering = any, TData = any, TMet
             this._metadataChangedSubscription = this._metadataSelector.metadataChange.subscribe(() => this._invalidateVisuals());
         }
 
-        let dataLoader: DataLoader<DataResponse<TData>> = this.gridPlugins[DATA_LOADER] as DataLoader<DataResponse<TData>>;
+        const dataLoader: DataLoader<DataResponse<TData>> = this.gridPlugins[DATA_LOADER] as DataLoader<DataResponse<TData>>;
 
         if(this._dataLoader && this._dataLoader != dataLoader)
         {
@@ -318,8 +318,8 @@ export class ContentRendererAbstractComponent<TOrdering = any, TData = any, TMet
      */
     protected _invalidateVisuals()
     {
-        let bodyRenderer: BodyContentRenderer<TData, TMetadata> = this.gridPlugins[BODY_CONTENT_RENDERER] as BodyContentRenderer<TData, TMetadata>;
-        let headerRenderer: HeaderContentRenderer<TOrdering, TMetadata> = this.gridPlugins[HEADER_CONTENT_RENDERER] as HeaderContentRenderer<TOrdering, TMetadata>;
+        const bodyRenderer: BodyContentRenderer<TData, TMetadata> = this.gridPlugins[BODY_CONTENT_RENDERER] as BodyContentRenderer<TData, TMetadata>;
+        const headerRenderer: HeaderContentRenderer<TOrdering, TMetadata> = this.gridPlugins[HEADER_CONTENT_RENDERER] as HeaderContentRenderer<TOrdering, TMetadata>;
 
         if(headerRenderer.metadata != this._metadataSelector.metadata)
         {

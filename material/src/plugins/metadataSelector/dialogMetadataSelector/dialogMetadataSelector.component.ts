@@ -1,13 +1,13 @@
-import {Component, ChangeDetectionStrategy, ElementRef, EventEmitter, Inject, ChangeDetectorRef, Optional, OnDestroy, forwardRef, Type, resolveForwardRef} from "@angular/core";
-import {MatDialog} from "@angular/material/dialog";
-import {STRING_LOCALIZATION, StringLocalization, PermanentStorage, PERMANENT_STORAGE} from "@anglr/common";
-import {GridColumn, GridPluginGeneric, MetadataGatherer, BasicTableMetadata, GridPluginInstances, GRID_PLUGIN_INSTANCES, METADATA_SELECTOR_OPTIONS} from "@anglr/grid";
-import {extend, isPresent, Dictionary, isJsObject} from "@jscrpt/common";
-import {Subscription} from "rxjs";
+import {Component, ChangeDetectionStrategy, ElementRef, EventEmitter, Inject, ChangeDetectorRef, Optional, OnDestroy, forwardRef, Type, resolveForwardRef} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+import {STRING_LOCALIZATION, StringLocalization, PermanentStorage, PERMANENT_STORAGE} from '@anglr/common';
+import {GridColumn, GridPluginGeneric, MetadataGatherer, BasicTableMetadata, GridPluginInstances, GRID_PLUGIN_INSTANCES, METADATA_SELECTOR_OPTIONS} from '@anglr/grid';
+import {extend, isPresent, Dictionary, isJsObject} from '@jscrpt/common';
+import {Subscription} from 'rxjs';
 
-import {DialogMetadataSelectorOptions, DialogMetadataSelector, DialogMetadataSelectorTexts, DialogMetadataSelectorContentComponent, DialogMetadataSelectorComponentData} from "./dialogMetadataSelector.interface";
-import {VerticalDragNDropSelectionComponent} from "../../../components/verticalDragNDropSelection/types";
-import {CssClassesVerticalDragNDropSelection, VerticalDragNDropSelectionTexts} from "../../../components/verticalDragNDropSelection";
+import {DialogMetadataSelectorOptions, DialogMetadataSelector, DialogMetadataSelectorTexts, DialogMetadataSelectorContentComponent, DialogMetadataSelectorComponentData} from './dialogMetadataSelector.interface';
+import {VerticalDragNDropSelectionComponent} from '../../../components/verticalDragNDropSelection/types';
+import {CssClassesVerticalDragNDropSelection, VerticalDragNDropSelectionTexts} from '../../../components/verticalDragNDropSelection';
 
 /**
  * Storage state
@@ -227,7 +227,7 @@ export class DialogMetadataSelectorComponent implements DialogMetadataSelector<B
      */
     public initialize()
     {
-        let element: HTMLElement = this.pluginElement.nativeElement;
+        const element: HTMLElement = this.pluginElement.nativeElement;
 
         if(isPresent(this._cssClass))
         {
@@ -296,7 +296,7 @@ export class DialogMetadataSelectorComponent implements DialogMetadataSelector<B
      */
     protected _initTextsObject(texts: Dictionary)
     {
-        let resultTexts = {};
+        const resultTexts = {};
 
         Object.keys(texts).forEach(key =>
         {
@@ -318,7 +318,7 @@ export class DialogMetadataSelectorComponent implements DialogMetadataSelector<B
      */
     protected _initMetadata()
     {
-        let storageState: StorageState = this._loadFromStorage();
+        const storageState: StorageState = this._loadFromStorage();
 
         if(storageState)
         {
@@ -368,7 +368,7 @@ export class DialogMetadataSelectorComponent implements DialogMetadataSelector<B
             return;
         }
 
-        let state: StorageState = {};
+        const state: StorageState = {};
 
         this._metadataForSelection.columns.forEach(meta =>
         {

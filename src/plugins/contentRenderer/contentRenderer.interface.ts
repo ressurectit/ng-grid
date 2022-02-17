@@ -1,8 +1,8 @@
-import {EventEmitter} from "@angular/core";
-import {OrderByDirection} from "@jscrpt/common";
+import {EventEmitter} from '@angular/core';
+import {OrderByDirection} from '@jscrpt/common';
 
-import {VisualPluginOptions, GridPlugin, PluginDescription} from "../../misc";
-import {BasicTableColumn} from "../../components/metadata";
+import {VisualPluginOptions, GridPlugin, PluginDescription} from '../../misc';
+import {BasicTableColumn} from '../../components/metadata';
 
 /**
  * Css classes for content renderer

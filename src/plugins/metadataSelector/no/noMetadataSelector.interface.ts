@@ -1,4 +1,4 @@
-import {MetadataSelector, MetadataSelectorOptions} from "../metadataSelector.interface";
+import {MetadataSelector, MetadataSelectorOptions} from '../metadataSelector.interface';
 
 /**
  * No metadata selector options

@@ -1,10 +1,10 @@
-import {Component, ChangeDetectionStrategy, EventEmitter, OnDestroy, ElementRef} from "@angular/core";
-import {Subscription} from "rxjs";
+import {Component, ChangeDetectionStrategy, EventEmitter, OnDestroy, ElementRef} from '@angular/core';
+import {Subscription} from 'rxjs';
 
-import {NoMetadataSelector, NoMetadataSelectorOptions} from "./noMetadataSelector.interface";
-import {MetadataGatherer} from "../../../components/metadata";
-import {GridPluginInstances} from "../../../components/grid";
-import {GridPluginGeneric} from "../../../misc";
+import {NoMetadataSelector, NoMetadataSelectorOptions} from './noMetadataSelector.interface';
+import {MetadataGatherer} from '../../../components/metadata';
+import {GridPluginInstances} from '../../../components/grid';
+import {GridPluginGeneric} from '../../../misc';
 
 /**
  * Plugin component for metadata selector, which does not allows selection of metadata

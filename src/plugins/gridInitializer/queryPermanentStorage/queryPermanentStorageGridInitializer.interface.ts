@@ -1,4 +1,4 @@
-import {GridInitializerOptions, GridInitializer} from "../gridInitializer.interface";
+import {GridInitializerOptions, GridInitializer} from '../gridInitializer.interface';
 
 /**
  * Query permanentStorage grid initializer options

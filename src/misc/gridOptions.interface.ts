@@ -1,5 +1,5 @@
-import {PagingPosition} from "./enums";
-import {GridPluginTypes} from "./types";
+import {PagingPosition} from './enums';
+import {GridPluginTypes} from './types';
 
 /**
  * Describes grid options used for grid

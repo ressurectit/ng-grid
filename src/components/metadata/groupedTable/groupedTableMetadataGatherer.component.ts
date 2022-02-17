@@ -1,11 +1,11 @@
-import {ExistingProvider, Component, ChangeDetectionStrategy, EventEmitter, forwardRef, ContentChildren, QueryList, AfterContentInit} from "@angular/core";
+import {ExistingProvider, Component, ChangeDetectionStrategy, EventEmitter, forwardRef, ContentChildren, QueryList, AfterContentInit} from '@angular/core';
 
-import {MetadataGatherer} from "../metadata.interface";
-import {METADATA_GATHERER} from "../types";
-import {GroupedTableMetadata} from "./groupedTable.interface";
-import {HeaderTableGroupComponent} from "./headerTableGroup.component";
-import {BasicTableColumn} from "../basicTable/basicTable.interface";
-import {BasicTableColumnComponent} from "../basicTable/basicTableColumn.component";
+import {MetadataGatherer} from '../metadata.interface';
+import {METADATA_GATHERER} from '../types';
+import {GroupedTableMetadata} from './groupedTable.interface';
+import {HeaderTableGroupComponent} from './headerTableGroup.component';
+import {BasicTableColumn} from '../basicTable/basicTable.interface';
+import {BasicTableColumnComponent} from '../basicTable/basicTableColumn.component';
 
 /**
  * Component that is used for gathering metadata for table with grouped header columns

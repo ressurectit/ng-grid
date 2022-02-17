@@ -57,12 +57,12 @@ export class ContentVirtualScrollPagingComponent extends VirtualScrollPagingAbst
     /**
      * Called when component is destroyed
      */
-    public ngOnDestroy()
+    public override ngOnDestroy()
     {
         if(this._originalStyle)
         {
-            let contentRenderer: ContentRenderer = this.gridPlugins[CONTENT_RENDERER] as ContentRenderer;
-            let element: HTMLElement = contentRenderer.pluginElement.nativeElement;
+            const contentRenderer: ContentRenderer = this.gridPlugins[CONTENT_RENDERER] as ContentRenderer;
+            const element: HTMLElement = contentRenderer.pluginElement.nativeElement;
 
             element.style.maxHeight = this._originalStyle.maxHeight;
             element.style.overflowY = this._originalStyle.overflowY;
@@ -76,13 +76,13 @@ export class ContentVirtualScrollPagingComponent extends VirtualScrollPagingAbst
     /**
      * Method that initialize paging component, this method can be used for initialization if paging used dynamicaly
      */
-    public initialize()
+    public override initialize()
     {
         super.initialize();
 
-        let contentRenderer: ContentRenderer = this.gridPlugins[CONTENT_RENDERER] as ContentRenderer;
-        let bodyRenderer: BodyContentRenderer = this.gridPlugins[BODY_CONTENT_RENDERER] as BodyContentRenderer;
-        let element: HTMLElement = contentRenderer.pluginElement.nativeElement;
+        const contentRenderer: ContentRenderer = this.gridPlugins[CONTENT_RENDERER] as ContentRenderer;
+        const bodyRenderer: BodyContentRenderer = this.gridPlugins[BODY_CONTENT_RENDERER] as BodyContentRenderer;
+        const element: HTMLElement = contentRenderer.pluginElement.nativeElement;
 
         this._originalStyle =
         {
@@ -90,7 +90,7 @@ export class ContentVirtualScrollPagingComponent extends VirtualScrollPagingAbst
             overflowY: element.style.overflowY
         };
 
-        element.style.overflowY = "auto";
+        element.style.overflowY = 'auto';
         
         if(isPresent(this._options.maxHeight))
         {

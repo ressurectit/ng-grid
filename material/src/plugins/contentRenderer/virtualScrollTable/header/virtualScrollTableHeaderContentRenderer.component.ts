@@ -1,7 +1,7 @@
-import {Component, ChangeDetectorRef, Inject, Optional, HostBinding, ElementRef} from "@angular/core";
-import {CdkVirtualScrollViewport} from "@angular/cdk/scrolling";
-import {HEADER_CONTENT_RENDERER_OPTIONS, HeaderContentRendererAbstractComponent, SimpleOrdering, BasicTableMetadata, BasicOrderableColumn, CONTENT_RENDERER, GridPluginInstances, GRID_PLUGIN_INSTANCES} from "@anglr/grid";
-import {extend} from "@jscrpt/common";
+import {Component, ChangeDetectorRef, Inject, Optional, HostBinding, ElementRef} from '@angular/core';
+import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
+import {HEADER_CONTENT_RENDERER_OPTIONS, HeaderContentRendererAbstractComponent, SimpleOrdering, BasicTableMetadata, BasicOrderableColumn, CONTENT_RENDERER, GridPluginInstances, GRID_PLUGIN_INSTANCES} from '@anglr/grid';
+import {extend} from '@jscrpt/common';
 
 import {VirtualScrollTableHeaderContentRendererOptions, VirtualScrollTableHeaderContentRenderer, VirtualScrollTableContentRenderer} from '../virtualScrollTableContentRenderer.interface';
 
@@ -59,7 +59,7 @@ export class VirtualScrollTableHeaderContentRendererComponent<TData = any> exten
         }
 
         return -this._scrollViewport.getOffsetToRenderedContentStart();
-    };
+    }
 
     //######################### public properties - host #########################
 
@@ -88,11 +88,11 @@ export class VirtualScrollTableHeaderContentRendererComponent<TData = any> exten
     /**
      * Initialize plugin, to be ready to use, initialize communication with other plugins
      */
-    public initialize()
+    public override initialize()
     {
         super.initialize();
 
-        let contentRenderer = this.gridPlugins[CONTENT_RENDERER] as VirtualScrollTableContentRenderer;
+        const contentRenderer = this.gridPlugins[CONTENT_RENDERER] as VirtualScrollTableContentRenderer;
         this._scrollViewport = contentRenderer.scrollViewport;
     }
 }

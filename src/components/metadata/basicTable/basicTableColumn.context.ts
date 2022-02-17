@@ -1,4 +1,4 @@
-import {BasicTableColumn} from "./basicTable.interface";
+import {BasicTableColumn} from './basicTable.interface';
 
 /**
  * Context for basic table column template

@@ -1,6 +1,6 @@
-import {Type, ElementRef} from "@angular/core";
+import {Type, ElementRef} from '@angular/core';
 
-import {GridPluginInstances} from "../components/grid";
+import {GridPluginInstances} from '../components/grid';
 
 /**
  * Grid plugin interface

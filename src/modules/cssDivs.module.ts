@@ -1,8 +1,8 @@
-import {NgModule} from "@angular/core";
-import {CommonModule as AngularCommonModule} from "@angular/common";
-import {CommonModule} from "@anglr/common";
+import {NgModule} from '@angular/core';
+import {CommonModule as AngularCommonModule} from '@angular/common';
+import {CommonDynamicModule} from '@anglr/common';
 
-import {CssDivsContentRendererComponent, CssDivsBodyContentRendererComponent, CssDivsHeaderContentRendererComponent} from "../plugins/contentRenderer/components";
+import {CssDivsContentRendererComponent, CssDivsBodyContentRendererComponent, CssDivsHeaderContentRendererComponent} from '../plugins/contentRenderer/components';
 
 /**
  * Module for grid components, allows using css grid and divs for rendering
@@ -12,7 +12,7 @@ import {CssDivsContentRendererComponent, CssDivsBodyContentRendererComponent, Cs
     imports:
     [
         AngularCommonModule,
-        CommonModule
+        CommonDynamicModule,
     ],
     declarations:
     [

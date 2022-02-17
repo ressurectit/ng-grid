@@ -1,8 +1,8 @@
-import {ChangeDetectionStrategy, Component, ElementRef} from "@angular/core";
+import {ChangeDetectionStrategy, Component, ElementRef} from '@angular/core';
 
-import {GridPluginInstances} from "../../../components/grid";
-import {GridPluginGeneric} from "../../../misc";
-import {NoGridInitializer, NoGridInitializerOptions} from "./noGridInitializer.interface";
+import {GridPluginInstances} from '../../../components/grid';
+import {GridPluginGeneric} from '../../../misc';
+import {NoGridInitializer, NoGridInitializerOptions} from './noGridInitializer.interface';
 
 
 /**
@@ -10,7 +10,7 @@ import {NoGridInitializer, NoGridInitializerOptions} from "./noGridInitializer.i
  */
 @Component(
 {
-    selector: "ng-no-grid-initializer",
+    selector: 'ng-no-grid-initializer',
     template: '',
     changeDetection: ChangeDetectionStrategy.OnPush
 })

@@ -1,16 +1,16 @@
-import {Component, ChangeDetectionStrategy, Inject, Optional, OnDestroy, ElementRef, ChangeDetectorRef, forwardRef, HostBinding} from "@angular/core";
-import {DomSanitizer, SafeStyle} from "@angular/platform-browser";
-import {extend, isArray} from "@jscrpt/common";
+import {Component, ChangeDetectionStrategy, Inject, Optional, OnDestroy, ElementRef, ChangeDetectorRef, forwardRef, HostBinding} from '@angular/core';
+import {DomSanitizer, SafeStyle} from '@angular/platform-browser';
+import {extend, isArray} from '@jscrpt/common';
 
-import {BasicTableMetadata, BasicTableColumn} from "../../../components/metadata";
-import {GridPluginInstances} from "../../../components/grid";
-import {GRID_PLUGIN_INSTANCES} from "../../../components/grid/types";
-import {PluginDescription} from "../../../misc";
-import {CONTENT_RENDERER_OPTIONS} from "../types";
-import {ContentRendererAbstractComponent} from "../contentRendererAbstract.component";
-import {CssDivsContentRendererOptions} from "./cssDivsContentRenderer.interface";
-import {CssDivsBodyContentRendererComponent} from "./body/cssDivsBodyContentRenderer.component";
-import {CssDivsHeaderContentRendererComponent} from "./header/cssDivsHeaderContentRenderer.component";
+import {BasicTableMetadata, BasicTableColumn} from '../../../components/metadata';
+import {GridPluginInstances} from '../../../components/grid';
+import {GRID_PLUGIN_INSTANCES} from '../../../components/grid/types';
+import {PluginDescription} from '../../../misc';
+import {CONTENT_RENDERER_OPTIONS} from '../types';
+import {ContentRendererAbstractComponent} from '../contentRendererAbstract.component';
+import {CssDivsContentRendererOptions} from './cssDivsContentRenderer.interface';
+import {CssDivsBodyContentRendererComponent} from './body/cssDivsBodyContentRenderer.component';
+import {CssDivsHeaderContentRendererComponent} from './header/cssDivsHeaderContentRenderer.component';
 
 /**
  * Default options for 'CssDivsContentRendererComponent'
@@ -57,7 +57,7 @@ export class CssDivsContentRendererComponent<TOrdering = any, TData = any, TMeta
     /**
      * Concatenated string with width of all visible columns
      */
-    private _gridTemplateColumns: string = "";
+    private _gridTemplateColumns: string = '';
     
     //######################### public properties - host bindings #########################
 
@@ -117,18 +117,18 @@ export class CssDivsContentRendererComponent<TOrdering = any, TData = any, TMeta
      */
     private _setGridColumnsWidth()
     {
-        let metadata: BasicTableMetadata<BasicTableColumn<TData>> = <any>this._metadataSelector.metadata;
+        const metadata: BasicTableMetadata<BasicTableColumn<TData>> = <any>this._metadataSelector.metadata;
 
         if (isArray(metadata.columns))
         {
-            let gridTemplateColumns: string[] = [];
+            const gridTemplateColumns: string[] = [];
             metadata.columns.forEach(column => {
                 if (column.visible)
                 {
                     gridTemplateColumns.push(column.width ? column.width : 'auto');
                 }
             });
-            this._gridTemplateColumns = gridTemplateColumns.join(" ");
+            this._gridTemplateColumns = gridTemplateColumns.join(' ');
             
             setTimeout(() =>
             {

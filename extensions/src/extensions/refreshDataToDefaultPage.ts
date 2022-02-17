@@ -1,4 +1,4 @@
-import {GridAction, DataLoader, DATA_LOADER, Paging, PagingOptions, PAGING} from "@anglr/grid";
+import {GridAction, DataLoader, DATA_LOADER, Paging, PagingOptions, PAGING} from '@anglr/grid';
 
 /**
  * Refresh data to default page
@@ -8,9 +8,9 @@ export function refreshDataToDefaultPage(force?: boolean): GridAction
 {
     return grid =>
     {
-        let paging = grid.getPlugin<Paging>(PAGING);
-        let dataLoader = grid.getPlugin<DataLoader>(DATA_LOADER);
-        let pagingOptions: PagingOptions = paging.options;
+        const paging = grid.getPlugin<Paging>(PAGING);
+        const dataLoader = grid.getPlugin<DataLoader>(DATA_LOADER);
+        const pagingOptions: PagingOptions = paging.options;
         
         paging.page = pagingOptions.initialPage;
 

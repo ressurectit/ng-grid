@@ -1,11 +1,11 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, HostBinding, ElementRef} from "@angular/core";
-import {extend} from "@jscrpt/common";
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, HostBinding, ElementRef} from '@angular/core';
+import {extend} from '@jscrpt/common';
 
-import {TableHeaderContentRendererOptions} from "../../tableContentRenderer.interface";
-import {BasicOrderableColumn} from "../../../contentRenderer.interface";
-import {HEADER_CONTENT_RENDERER_OPTIONS} from "../../../types";
-import {HeaderContentRendererAbstractComponent} from "../../../headerContentRendererAbstract.component";
-import {GroupedTableMetadata, HeaderTableGroup} from "../../../../../components/metadata";
+import {TableHeaderContentRendererOptions} from '../../tableContentRenderer.interface';
+import {BasicOrderableColumn} from '../../../contentRenderer.interface';
+import {HEADER_CONTENT_RENDERER_OPTIONS} from '../../../types';
+import {HeaderContentRendererAbstractComponent} from '../../../headerContentRendererAbstract.component';
+import {GroupedTableMetadata, HeaderTableGroup} from '../../../../../components/metadata';
 import {GRID_PLUGIN_INSTANCES} from '../../../../../components/grid/types';
 import {GridPluginInstances} from '../../../../../components/grid';
 
@@ -117,7 +117,7 @@ export class GroupedTableHeaderContentRendererComponent<TData = any> extends Hea
     /**
      * Resets metadata to defaults
      */
-    public resetMetadata(): void
+    public override resetMetadata(): void
     {
         this._initializeGroups();
         super.resetMetadata();
@@ -184,7 +184,7 @@ export class GroupedTableHeaderContentRendererComponent<TData = any> extends Hea
      */
     private _transformGroupsMetadata()
     {
-        let metadata = this.groupsMetadata.groups;
+        const metadata = this.groupsMetadata.groups;
 
         if(!metadata)
         {
@@ -208,7 +208,7 @@ export class GroupedTableHeaderContentRendererComponent<TData = any> extends Hea
         }
 
         this._transformedGroupsMetadata[level] = levelData;
-        let nextLevelData = levelData.reduce<HeaderTableGroup[]>((acc, x) => acc.concat(x.groups), []);
+        const nextLevelData = levelData.reduce<HeaderTableGroup[]>((acc, x) => acc.concat(x.groups), []);
         this._fillGroupsMetadata(level + 1, nextLevelData);
     }
 }

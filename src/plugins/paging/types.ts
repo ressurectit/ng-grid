@@ -1,6 +1,6 @@
-import {InjectionToken} from "@angular/core";
+import {InjectionToken} from '@angular/core';
 
-import {PagingOptions} from "./paging.interface";
+import {PagingOptions} from './paging.interface';
 
 /**
  * Token for injecting options for paging
@@ -10,4 +10,4 @@ export const PAGING_OPTIONS: InjectionToken<PagingOptions> = new InjectionToken<
 /**
  * Constant used for accessing paging in grid
  */
-export const PAGING = "PAGING";
+export const PAGING = 'PAGING';

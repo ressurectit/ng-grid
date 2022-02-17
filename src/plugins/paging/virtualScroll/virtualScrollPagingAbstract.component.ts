@@ -1,8 +1,8 @@
-import {Injectable, OnDestroy, Input} from "@angular/core";
+import {Injectable, OnDestroy, Input} from '@angular/core';
 
-import {DataLoader, DataResponse} from "../../dataLoader";
-import {DATA_LOADER} from "../../dataLoader/types";
-import {PagingAbstractComponent} from "../pagingAbstract.component";
+import {DataLoader, DataResponse} from '../../dataLoader';
+import {DATA_LOADER} from '../../dataLoader/types';
+import {PagingAbstractComponent} from '../pagingAbstract.component';
 import {VirtualScrollPagingOptions, CssClassesVirtualScrollPaging, VirtualScrollPaging} from './virtualScrollPaging.interface';
 
 /**
@@ -62,7 +62,7 @@ export abstract class VirtualScrollPagingAbstractComponent<TOptions extends Virt
     /**
      * Called when component is destroyed
      */
-    public ngOnDestroy()
+    public override ngOnDestroy()
     {
         if(this._bodyObserver)
         {
@@ -81,7 +81,7 @@ export abstract class VirtualScrollPagingAbstractComponent<TOptions extends Virt
      */
     protected _initEvents(element: Element, bodyElement: HTMLElement, document?: HTMLDocument)
     {
-        let dataLoader: DataLoader<DataResponse<any>> = this.gridPlugins[DATA_LOADER] as DataLoader<DataResponse<any>>;
+        const dataLoader: DataLoader<DataResponse<any>> = this.gridPlugins[DATA_LOADER] as DataLoader<DataResponse<any>>;
 
         if(dataLoader.result.data.length)
         {
@@ -128,7 +128,7 @@ export abstract class VirtualScrollPagingAbstractComponent<TOptions extends Virt
             return;
         }
 
-        let offset = element.scrollTop / (element.scrollHeight - element.clientHeight);
+        const offset = element.scrollTop / (element.scrollHeight - element.clientHeight);
 
         if(isNaN(offset) || offset >= this._options.loadOffsetTreshold)
         {

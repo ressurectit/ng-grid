@@ -1,7 +1,7 @@
-import {InjectionToken} from "@angular/core";
+import {InjectionToken} from '@angular/core';
 
-import {ContentRendererOptions, SimpleOrdering} from "./contentRenderer.interface";
-import {VisualPluginOptions} from "../../misc";
+import {ContentRendererOptions, SimpleOrdering} from './contentRenderer.interface';
+import {VisualPluginOptions} from '../../misc';
 
 export * from './table/body/advanced/basicTableColumnSelectable.context';
 
@@ -13,7 +13,7 @@ export const CONTENT_RENDERER_OPTIONS: InjectionToken<ContentRendererOptions> = 
 /**
  * Constant used for accessing content renderer in grid
  */
-export const CONTENT_RENDERER = "CONTENT_RENDERER";
+export const CONTENT_RENDERER = 'CONTENT_RENDERER';
 
 /**
  * Token for injecting options for content body renderer
@@ -23,7 +23,7 @@ export const BODY_CONTENT_RENDERER_OPTIONS: InjectionToken<VisualPluginOptions> 
 /**
  * Constant used for accessing content body renderer in grid
  */
-export const BODY_CONTENT_RENDERER = "BODY_CONTENT_RENDERER";
+export const BODY_CONTENT_RENDERER = 'BODY_CONTENT_RENDERER';
 
 /**
  * Token for injecting options for content header renderer
@@ -33,7 +33,7 @@ export const HEADER_CONTENT_RENDERER_OPTIONS: InjectionToken<VisualPluginOptions
 /**
  * Constant used for accessing content header renderer in grid
  */
-export const HEADER_CONTENT_RENDERER = "HEADER_CONTENT_RENDERER";
+export const HEADER_CONTENT_RENDERER = 'HEADER_CONTENT_RENDERER';
 
 /**
  * Serialize ordering
@@ -60,7 +60,7 @@ export function deserializeSimpleOrdering(ordering: string): SimpleOrdering
         return null;
     }
 
-    let [orderBy, orderByDirection] = decodeURIComponent(ordering).split(',');
+    const [orderBy, orderByDirection] = decodeURIComponent(ordering).split(',');
 
     return {
         orderBy: orderBy,

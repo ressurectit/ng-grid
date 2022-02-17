@@ -1,6 +1,6 @@
-import {Component, ChangeDetectorRef, Optional, Inject, ElementRef} from "@angular/core";
+import {Component, ChangeDetectorRef, Optional, Inject, ElementRef} from '@angular/core';
 import {BasicTableColumn, BasicTableMetadata, GridPluginInstances, GRID_PLUGIN_INSTANCES, BODY_CONTENT_RENDERER_OPTIONS, BodyContentRendererAbstractComponent} from '@anglr/grid';
-import {extend} from "@jscrpt/common";
+import {extend} from '@jscrpt/common';
 
 import {VirtualScrollTableBodyContentRendererOptions, VirtualScrollTableBodyContentRenderer} from '../virtualScrollTableContentRenderer.interface';
 

@@ -1,6 +1,6 @@
-import {InjectionToken} from "@angular/core";
+import {InjectionToken} from '@angular/core';
 
-import {DataLoaderOptions} from "./dataLoader.interface";
+import {DataLoaderOptions} from './dataLoader.interface';
 
 /**
  * Possible states of data loader
@@ -36,7 +36,7 @@ export enum DataLoaderState
 /**
  * Constant used for accessing data loader in grid
  */
-export const DATA_LOADER = "DATA_LOADER";
+export const DATA_LOADER = 'DATA_LOADER';
 
 /**
  * Token for injecting options for data loader

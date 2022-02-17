@@ -1,12 +1,12 @@
-import {Component, ChangeDetectionStrategy, Inject, Optional, ElementRef} from "@angular/core";
-import {extend} from "@jscrpt/common";
+import {Component, ChangeDetectionStrategy, Inject, Optional, ElementRef} from '@angular/core';
+import {extend} from '@jscrpt/common';
 
-import {DataResponse} from "../dataLoader.interface";
-import {DATA_LOADER_OPTIONS, DataLoaderState} from "../types";
-import {AsyncDataLoaderOptions, AsyncDataLoader} from "./asyncDataLoader.interface";
-import {GridPluginInstances} from "../../../components/grid";
-import {GRID_PLUGIN_INSTANCES} from "../../../components/grid/types";
-import {DataLoaderAbstractComponent} from "../dataLoaderAbstract.component";
+import {DataResponse} from '../dataLoader.interface';
+import {DATA_LOADER_OPTIONS, DataLoaderState} from '../types';
+import {AsyncDataLoaderOptions, AsyncDataLoader} from './asyncDataLoader.interface';
+import {GridPluginInstances} from '../../../components/grid';
+import {GRID_PLUGIN_INSTANCES} from '../../../components/grid/types';
+import {DataLoaderAbstractComponent} from '../dataLoaderAbstract.component';
 
 /**
  * Default options for async data loader
@@ -117,7 +117,7 @@ export class AsyncDataLoaderComponent<TData = any, TOrdering = any> extends Data
         this._state = (this._result && this._result.data && this._result.data.length) ? DataLoaderState.DataLoading : DataLoaderState.NoDataLoading;
         this.stateChange.emit();
 
-        let result = await this._options.dataCallback(this._paging.page, this._paging.itemsPerPage, this._contentRenderer.ordering);
+        const result = await this._options.dataCallback(this._paging.page, this._paging.itemsPerPage, this._contentRenderer.ordering);
 
         this._state = (result && result.data && result.data.length) ? DataLoaderState.Loaded : DataLoaderState.NoData;
         this.stateChange.emit();

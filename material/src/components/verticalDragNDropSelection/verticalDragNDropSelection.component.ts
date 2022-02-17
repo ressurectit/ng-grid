@@ -1,9 +1,9 @@
 import {Inject, Component, ChangeDetectionStrategy} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
-import {BasicTableMetadata, GridColumn} from "@anglr/grid";
+import {BasicTableMetadata, GridColumn} from '@anglr/grid';
 
-import {DialogMetadataSelectorContentComponent, DialogMetadataSelectorComponentData} from "../../plugins/metadataSelector";
+import {DialogMetadataSelectorContentComponent, DialogMetadataSelectorComponentData} from '../../plugins/metadataSelector';
 import {VerticalDragNDropSelectionTexts, CssClassesVerticalDragNDropSelection} from './verticalDragNDropSelection.interface';
 
 /**
