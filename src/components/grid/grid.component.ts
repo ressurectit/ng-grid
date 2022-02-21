@@ -75,15 +75,6 @@ const defaultOptions: GridOptions =
 };
 
 /**
- * Grid plugin instances factory method
- * @internal
- */
-export function gridPluginInstancesFactory()
-{
-    return {};
-}
-
-/**
  * Grid component used for rendering grid
  */
 @Component(
@@ -97,7 +88,7 @@ export function gridPluginInstancesFactory()
         <FactoryProvider>
         {
             provide: GRID_PLUGIN_INSTANCES,
-            useFactory: gridPluginInstancesFactory
+            useFactory: () => {return {};}
         }
     ]
 })

@@ -11,7 +11,6 @@ import {GRID_INITIALIZER} from '../../gridInitializer/types';
 
 /**
  * Items per page single item
- * @internal
  */
 export class ItemsPerPageItem
 {

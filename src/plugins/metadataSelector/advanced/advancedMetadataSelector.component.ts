@@ -18,7 +18,6 @@ const UNUSED_DRAG = 'UNUSED_DRAG';
 
 /**
  * Coordinates for spans for placements
- * @internal
  */
 export interface SpanCoordinates
 {
