@@ -5,7 +5,7 @@
     "type": "module",
     "sideEffects": false,
     "scripts": {
-        "build": "ngc --declaration --declarationDir . --declarationMap && ngc -t es2015 --outDir es2015 && npm run dts:rollup",
+        "build": "ngc --declaration --declarationDir . --declarationMap && ngc -t es2015 --outDir es2015",
         "dts:rollup": "npm run api -- api-extractor.json && npm run api -- extensions/api-extractor.json && npm run api -- material/api-extractor.json && npm run api -- scrollmagic/api-extractor.json",
         "api": "api-extractor run --local --verbose -c",
         "clean": "rimraf */temp temp es2015 es2020 **/tsdoc-metadata.json src/**/*.d.ts src/**/*.d.ts.map */src/**/*.d.ts */src/**/*.d.ts.map ./*.d.ts ./*.d.ts.map */*.d.ts",
@@ -33,7 +33,7 @@
         "doc:generate:extensions": "rimraf docs/content/api/ng-grid-extensions && npm run doc:json:extensions && npm run doc:md:extensions && npm run doc:api:extensions",
         "doc:json:extensions": "api-extractor run --local --verbose -c extensions/api-extractor.json",
         "doc:md:extensions": "api-documenter markdown -i extensions/temp -o docs/content/api/ng-grid-extensions",
-        "doc:api:extensions": "copyfiles -u 2 extensions/temp/common-extensions.api.md docs/content/api/ng-common-extensions && rimraf extensions/temp",
+        "doc:api:extensions": "copyfiles -u 2 extensions/temp/grid-extensions.api.md docs/content/api/ng-grid-extensions && rimraf extensions/temp",
         "doc:generate:material": "rimraf docs/content/api/ng-grid-material && npm run doc:json:material && npm run doc:md:material && npm run doc:api:material",
         "doc:json:material": "api-extractor run --local --verbose -c material/api-extractor.json",
         "doc:md:material": "api-documenter markdown -i material/temp -o docs/content/api/ng-grid-material",
@@ -41,7 +41,7 @@
         "doc:generate:scrollmagic": "rimraf docs/content/api/ng-grid-scrollmagic && npm run doc:json:scrollmagic && npm run doc:md:scrollmagic && npm run doc:api:scrollmagic",
         "doc:json:scrollmagic": "api-extractor run --local --verbose -c scrollmagic/api-extractor.json",
         "doc:md:scrollmagic": "api-documenter markdown -i scrollmagic/temp -o docs/content/api/ng-grid-scrollmagic",
-        "doc:api:scrollmagic": "copyfiles -u 2 scrollmagic/temp/common-scrollmagic.api.md docs/content/api/ng-common-scrollmagic && rimraf scrollmagic/temp"
+        "doc:api:scrollmagic": "copyfiles -u 2 scrollmagic/temp/grid-scrollmagic.api.md docs/content/api/ng-grid-scrollmagic && rimraf scrollmagic/temp"
     },
     "engines": {
         "node": "^12.20.0 || ^14.15.0 || >=16.10.0"
@@ -110,13 +110,13 @@
     "es2020": "./es2020/src/index.js",
     "es2015": "./es2015/src/index.js",
     "module": "./es2015/src/index.js",
-    "typings": "./grid.d.ts",
+    "typings": "./src/index.d.ts",
     "exports": {
         "./package.json": {
             "default": "./package.json"
         },
         ".": {
-            "types": "./grid.d.ts",
+            "types": "./src/index.d.ts",
             "esm2020": "./es2020/src/index.js",
             "es2020": "./es2020/src/index.js",
             "es2015": "./es2015/src/index.js",
@@ -124,7 +124,7 @@
             "default": "./es2020/src/index.js"
         },
         "./extensions": {
-            "types": "./extensions/grid-extensions.d.ts",
+            "types": "./extensions/src/index.d.ts",
             "esm2020": "./es2020/extensions/src/index.js",
             "es2020": "./es2020/extensions/src/index.js",
             "es2015": "./es2015/extensions/src/index.js",
@@ -132,7 +132,7 @@
             "default": "./es2020/extensions/src/index.js"
         },
         "./material": {
-            "types": "./material/grid-material.d.ts",
+            "types": "./material/src/index.d.ts",
             "esm2020": "./es2020/material/src/index.js",
             "es2020": "./es2020/material/src/index.js",
             "es2015": "./es2015/material/src/index.js",
@@ -140,7 +140,7 @@
             "default": "./es2020/material/src/index.js"
         },
         "./scrollmagic": {
-            "types": "./scrollmagic/grid-scrollmagic.d.ts",
+            "types": "./scrollmagic/src/index.d.ts",
             "esm2020": "./es2020/scrollmagic/src/index.js",
             "es2020": "./es2020/scrollmagic/src/index.js",
             "es2015": "./es2015/scrollmagic/src/index.js",

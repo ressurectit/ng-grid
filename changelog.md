@@ -1,6 +1,12 @@
 # Changelog
 
-## Version 9.0.0 (2022-02-17)
+## Version 9.0.1 (2022-02-22)
+
+### Bug Fixes
+
+- fixed typings, not using rolled up typings for now
+
+## Version 9.0.0 (2022-02-21)
 
 ### BREAKING CHANGES
 
@@ -11,7 +17,6 @@
 - removed support of *es5* target and using latest package.json features
 - removed dependency `@anglr/types`, all mising types used directly here
 - dropped support of `Node.js <= 12.20`
-
 
 ## Version 8.0.4 (2021-02-12)
 
