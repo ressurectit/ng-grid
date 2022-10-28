@@ -109,7 +109,7 @@ export class AsyncDataLoaderComponent<TData = any, TOrdering = any> extends Data
      */
     protected async _loadData(force?: boolean)
     {
-        if(!force && !this._checkChanges())
+        if(!this._checkChanges() && !force)
         {
             return;
         }

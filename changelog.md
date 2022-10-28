@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 9.0.3 (2022-02-28)
+
+### Bug Fixes
+
+- fixed check for changes in async loader
+
 ## Version 9.0.1 (2022-02-22)
 
 ### Bug Fixes
