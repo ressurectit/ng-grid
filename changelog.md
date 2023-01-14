@@ -1,5 +1,12 @@
 # Changelog
 
+
+## Version 9.0.3 (2023-01-14)
+
+### Bug Fixes
+
+- fixed typings for metadata selectors, now correctly generic type extends `GatheredMetadata`
+
 ## Version 9.0.2 (2022-02-28)
 
 ### Bug Fixes
@@ -117,7 +124,7 @@
 ## Version 6.2.0
 
 - `GridComponent` now renders without *wrapper* div around plugins
-- *subpackage* `@anglr/grid/material` 
+- *subpackage* `@anglr/grid/material`
    - added new `VirtualScrollTableContentRendererModule` that allows usage of *VirtualScrollContentRenderer* (experimental, needs optimalization)
    - added new `VirtualScrollTableContentRendererComponent` as `ContentRenderer` plugin (using angular cdk virtual scroll)
    - added new `VirtualScrollTableHeaderContentRendererComponent` as `HeaderContentRenderer` plugin (using angular cdk virtual scroll)

@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy, EventEmitter, OnDestroy, ElementRef}
 import {Subscription} from 'rxjs';
 
 import {NoMetadataSelector, NoMetadataSelectorOptions} from './noMetadataSelector.interface';
-import {MetadataGatherer} from '../../../components/metadata';
+import {GatheredMetadata, MetadataGatherer} from '../../../components/metadata';
 import {GridPluginInstances} from '../../../components/grid';
 import {GridPluginGeneric} from '../../../misc';
 
@@ -15,7 +15,7 @@ import {GridPluginGeneric} from '../../../misc';
     template: '',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NoMetadataSelectorComponent<TMetadata = any> implements NoMetadataSelector<TMetadata>, GridPluginGeneric<NoMetadataSelectorOptions>, OnDestroy
+export class NoMetadataSelectorComponent<TMetadata extends GatheredMetadata = any> implements NoMetadataSelector<TMetadata>, GridPluginGeneric<NoMetadataSelectorOptions>, OnDestroy
 {
     /**
      * Subscription for metadata changes

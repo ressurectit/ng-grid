@@ -1,7 +1,7 @@
 import {EventEmitter} from '@angular/core';
 
 import {PluginOptions, GridPlugin} from '../../misc';
-import {MetadataGatherer} from '../../components/metadata';
+import {GatheredMetadata, MetadataGatherer} from '../../components/metadata';
 
 /**
  * Metadata selector options
@@ -13,7 +13,7 @@ export interface MetadataSelectorOptions extends PluginOptions
 /**
  * Metadata selector plugin interface
  */
-export interface MetadataSelector<TMetadata = any> extends GridPlugin
+export interface MetadataSelector<TMetadata extends GatheredMetadata = any> extends GridPlugin
 {
     /**
      * Instance of metadata gatherer, which is used for getting initial metadata

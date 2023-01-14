@@ -1,3 +1,4 @@
+import {GatheredMetadata} from '../../../components/metadata';
 import {MetadataSelector, MetadataSelectorOptions} from '../metadataSelector.interface';
 
 /**
@@ -10,6 +11,6 @@ export interface NoMetadataSelectorOptions extends MetadataSelectorOptions
 /**
  * Public API for 'NoMetadataSelectorComponent'
  */
-export interface NoMetadataSelector<TMetadata = any> extends MetadataSelector<TMetadata>
+export interface NoMetadataSelector<TMetadata extends GatheredMetadata = any> extends MetadataSelector<TMetadata>
 {
 }
