@@ -1,5 +1,5 @@
 import {Type} from '@angular/core';
-import {MetadataSelector, MetadataSelectorOptions, VisualPluginOptions} from '@anglr/grid';
+import {GatheredMetadata, MetadataSelector, MetadataSelectorOptions, VisualPluginOptions} from '@anglr/grid';
 
 /**
  * Css classes for dialog metadata selector
@@ -50,7 +50,7 @@ export interface DialogMetadataSelectorOptions<TMetadata = any> extends Metadata
 /**
  * Public API for 'DialogMetadataSelector'
  */
-export interface DialogMetadataSelector<TMetadata = any> extends MetadataSelector<TMetadata>
+export interface DialogMetadataSelector<TMetadata extends GatheredMetadata = any> extends MetadataSelector<TMetadata>
 {
 }
 

@@ -1,6 +1,6 @@
 import {MetadataSelector, MetadataSelectorOptions} from '../metadataSelector.interface';
 import {VisualPluginOptions} from '../../../misc';
-import {GridColumn} from '../../../components/metadata';
+import {GatheredMetadata, GridColumn} from '../../../components/metadata';
 
 //TODO - resize columns
 //     - compute height of advanced metadata selector
@@ -73,7 +73,7 @@ export interface AdvancedMetadataSelectorOptions extends MetadataSelectorOptions
 /**
  * Public API for 'AdvancedMetadataSelector'
  */
-export interface AdvancedMetadataSelector<TMetadata = any> extends MetadataSelector<TMetadata>
+export interface AdvancedMetadataSelector<TMetadata extends GatheredMetadata = any> extends MetadataSelector<TMetadata>
 {
 }
 

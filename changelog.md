@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 9.0.4 (2023-01-14)
+
+### Bug Fixes
+
+- fixed typings for metadata selectors, now correctly generic type extends `GatheredMetadata` also for material subpackage
 
 ## Version 9.0.3 (2023-01-14)
 
