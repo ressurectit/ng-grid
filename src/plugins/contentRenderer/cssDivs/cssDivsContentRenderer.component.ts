@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy, Inject, Optional, OnDestroy, Element
 import {DomSanitizer, SafeStyle} from '@angular/platform-browser';
 import {extend, isArray} from '@jscrpt/common';
 
-import {BasicTableMetadata, BasicTableColumn} from '../../../components/metadata';
+import {BasicTableMetadata, BasicTableColumn, GatheredMetadata} from '../../../components/metadata';
 import {GridPluginInstances} from '../../../components/grid';
 import {GRID_PLUGIN_INSTANCES} from '../../../components/grid/types';
 import {PluginDescription} from '../../../misc';
@@ -51,7 +51,7 @@ const defaultOptions: CssDivsContentRendererOptions =
         }
     `]
 })
-export class CssDivsContentRendererComponent<TOrdering = any, TData = any, TMetadata = any> extends ContentRendererAbstractComponent<TOrdering, TData, TMetadata, CssDivsContentRendererOptions> implements OnDestroy
+export class CssDivsContentRendererComponent<TOrdering = any, TData = any, TMetadata extends GatheredMetadata = any> extends ContentRendererAbstractComponent<TOrdering, TData, TMetadata, CssDivsContentRendererOptions> implements OnDestroy
 {
     //######################### private properties #########################
 

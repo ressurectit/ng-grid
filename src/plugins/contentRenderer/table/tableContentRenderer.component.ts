@@ -10,6 +10,7 @@ import {TableBodyContentRendererComponent} from './body/basic/tableBodyContentRe
 import {TableHeaderContentRendererComponent} from './header/basic/tableHeaderContentRenderer.component';
 import {ContentRendererAbstractComponent} from '../contentRendererAbstract.component';
 import {BodyContentRenderer, HeaderContentRenderer} from '../contentRenderer.interface';
+import {GatheredMetadata} from '../../../components/metadata';
 
 /**
  * Default options for 'TableContentRendererComponent'
@@ -44,7 +45,7 @@ const defaultOptions: TableContentRendererOptions =
     templateUrl: 'tableContentRenderer.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TableContentRendererComponent<TOrdering = any, TData = any, TMetadata = any> extends ContentRendererAbstractComponent<TOrdering, TData, TMetadata, TableContentRendererOptions> implements OnDestroy
+export class TableContentRendererComponent<TOrdering = any, TData = any, TMetadata extends GatheredMetadata = any> extends ContentRendererAbstractComponent<TOrdering, TData, TMetadata, TableContentRendererOptions> implements OnDestroy
 {
     //######################### public properties - hosts #########################
 

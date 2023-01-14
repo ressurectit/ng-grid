@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, Inject, Optional, HostBinding, forwardRef, ElementRef, ViewChild} from '@angular/core';
 import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
-import {GridPluginInstances, GRID_PLUGIN_INSTANCES, CONTENT_RENDERER_OPTIONS, PluginDescription, ContentRendererAbstractComponent, BodyContentRenderer, HeaderContentRenderer} from '@anglr/grid';
+import {GridPluginInstances, GRID_PLUGIN_INSTANCES, CONTENT_RENDERER_OPTIONS, PluginDescription, ContentRendererAbstractComponent, BodyContentRenderer, HeaderContentRenderer, GatheredMetadata} from '@anglr/grid';
 import {extend} from '@jscrpt/common';
 
 import {VirtualScrollTableContentRendererOptions, VirtualScrollTableContentRenderer} from './virtualScrollTableContentRenderer.interface';
@@ -43,7 +43,7 @@ const defaultOptions: VirtualScrollTableContentRendererOptions =
     styleUrls: ['virtualScrollTableContentRenderer.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class VirtualScrollTableContentRendererComponent<TOrdering = any, TData = any, TMetadata = any> extends ContentRendererAbstractComponent<TOrdering, TData, TMetadata, VirtualScrollTableContentRendererOptions> implements VirtualScrollTableContentRenderer<TOrdering>
+export class VirtualScrollTableContentRendererComponent<TOrdering = any, TData = any, TMetadata extends GatheredMetadata = any> extends ContentRendererAbstractComponent<TOrdering, TData, TMetadata, VirtualScrollTableContentRendererOptions> implements VirtualScrollTableContentRenderer<TOrdering>
 {
     //######################### public properties - hosts #########################
 
