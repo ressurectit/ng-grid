@@ -1,7 +1,7 @@
 import {Inject, Component, ChangeDetectionStrategy} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
-import {BasicTableMetadata, GridColumn} from '@anglr/grid';
+import {TableGridMetadata, GridColumn} from '@anglr/grid';
 
 import {DialogMetadataSelectorContentComponent, DialogMetadataSelectorComponentData} from '../../plugins/metadataSelector';
 import {VerticalDragNDropSelectionTexts, CssClassesVerticalDragNDropSelection} from './verticalDragNDropSelection.interface';
@@ -16,7 +16,7 @@ import {VerticalDragNDropSelectionTexts, CssClassesVerticalDragNDropSelection} f
     styleUrls: ['verticalDragNDropSelection.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VerticalDragNDropSelectionComponent implements DialogMetadataSelectorContentComponent<BasicTableMetadata<GridColumn>>
+export class VerticalDragNDropSelectionComponent implements DialogMetadataSelectorContentComponent<TableGridMetadata<GridColumn>>
 {
     //######################### public properties - template bindings #########################
 
@@ -24,7 +24,7 @@ export class VerticalDragNDropSelectionComponent implements DialogMetadataSelect
      * Metadata that are rendered
      * @internal
      */
-    public metadata: BasicTableMetadata<GridColumn>;
+    public metadata: TableGridMetadata<GridColumn>;
 
     /**
      * Texts that are used withing vertical drag n drop
@@ -39,8 +39,8 @@ export class VerticalDragNDropSelectionComponent implements DialogMetadataSelect
     public cssClasses: CssClassesVerticalDragNDropSelection;
 
     //######################### constructor #########################
-    constructor(public dialog: MatDialogRef<VerticalDragNDropSelectionComponent, DialogMetadataSelectorComponentData<BasicTableMetadata<GridColumn>>>,
-                @Inject(MAT_DIALOG_DATA) public data: DialogMetadataSelectorComponentData<BasicTableMetadata<GridColumn>>)
+    constructor(public dialog: MatDialogRef<VerticalDragNDropSelectionComponent, DialogMetadataSelectorComponentData<TableGridMetadata<GridColumn>>>,
+                @Inject(MAT_DIALOG_DATA) public data: DialogMetadataSelectorComponentData<TableGridMetadata<GridColumn>>)
     {
         this.metadata = this.data.metadata;
         this.texts = this.data.texts;

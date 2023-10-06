@@ -5,11 +5,10 @@
     "type": "module",
     "sideEffects": false,
     "scripts": {
-        "build": "ngc --declaration --declarationDir . --declarationMap && ngc -t es2015 --outDir es2015",
-        "dts:rollup": "npm run api -- api-extractor.json && npm run api -- extensions/api-extractor.json && npm run api -- material/api-extractor.json && npm run api -- scrollmagic/api-extractor.json",
+        "build": "ngc --declaration --declarationDir . --declarationMap",
         "api": "api-extractor run --local --verbose -c",
-        "clean": "rimraf */temp temp es2015 es2020 **/tsdoc-metadata.json src/**/*.d.ts src/**/*.d.ts.map */src/**/*.d.ts */src/**/*.d.ts.map ./*.d.ts ./*.d.ts.map */*.d.ts",
-        "clean:deps": "rimraf package-lock.json node_modules",
+        "clean": "rimraf */temp temp es2022 **/tsdoc-metadata.json src/**/*.d.ts src/**/*.d.ts.map */src/**/*.d.ts */src/**/*.d.ts.map ./*.d.ts ./*.d.ts.map */*.d.ts",
+        "clean:deps": "rimraf package-lock.json node_modules || echo 'node_modules removed'",
         "clean:all": "npm run clean && npm run clean:deps",
         "ngc": "ngc",
         "version:placeholder": "replace-in-file /\\\"version\\\":\\s\\\".*?\\\"/g \"\\\"version\\\": \\\"0.0.0-placeholder\\\"\" package.json --isRegex",
@@ -44,7 +43,7 @@
         "doc:api:scrollmagic": "copyfiles -u 2 scrollmagic/temp/grid-scrollmagic.api.md docs/content/api/ng-grid-scrollmagic && rimraf scrollmagic/temp"
     },
     "engines": {
-        "node": "^12.20.0 || ^14.15.0 || >=16.10.0"
+        "node": ">=18.13.0"
     },
     "repository": {
         "type": "git",
@@ -62,90 +61,92 @@
     },
     "homepage": "https://github.com/ressurectit/ng-grid",
     "peerDependencies": {
-        "@angular/core": ">=13.1.0",
-        "@angular/common": ">=13.1.0",
-        "@angular/router": ">=13.1.0",
-        "@angular/platform-browser": ">=13.1.0",
-        "@angular/cdk": ">=13.1.0",
-        "@angular/material": ">=13.1.0",
-        "rxjs": ">=6.6.7",
-        "@jscrpt/common": ">=2.2.0",
-        "@anglr/common": ">=10.0.0",
+        "@angular/core": ">=17.0.0-next.7",
+        "@angular/common": ">=17.0.0-next.7",
+        "@angular/router": ">=17.0.0-next.7",
+        "@angular/platform-browser": ">=17.0.0-next.7",
+        "@angular/cdk": ">=17.0.0-next.6",
+        "@angular/material": ">=17.0.0-next.6",
+        "rxjs": ">=7.5.7",
+        "@jscrpt/common": ">=4.1.0",
+        "@anglr/common": ">=18.0.0",
         "scrollmagic": "^2.0.8",
-        "tslib": "^2.3.1"
+        "tslib": "^2.6.1"
     },
     "devDependencies": {
-        "@angular/core": "^13.1.0",
-        "@angular/common": "^13.1.0",
-        "@angular/router": "^13.1.0",
-        "@angular/platform-browser": ">=13.1.0",
-        "@angular/forms": "^13.1.0",
-        "@angular/cdk": "^13.1.0",
-        "@angular/animations": "^13.1.0",
-        "@angular/material": "^13.1.0",
-        "rxjs": "^6.6.7",
-        "@jscrpt/common": "^2.2.0",
-        "@anglr/common": "^10.0.0",
+        "@angular/core": "^17.0.0-next.7",
+        "@angular/common": "^17.0.0-next.7",
+        "@angular/router": "^17.0.0-next.7",
+        "@angular/platform-browser": ">=17.0.0-next.7",
+        "@angular/forms": "^17.0.0-next.7",
+        "@angular/animations": "^17.0.0-next.7",
+        "@angular/cdk": "^17.0.0-next.6",
+        "@angular/material": "^17.0.0-next.6",
+        "rxjs": "^7.5.7",
+        "@jscrpt/common": "^4.1.0",
+        "@anglr/common": "^18.0.0",
         "scrollmagic": "^2.0.8",
-        "@types/node": "^14.14.31",
-        "@types/scrollmagic": "^2.0.2",
-        "@angular/compiler-cli": "^13.1.0",
-        "@angular/compiler": "^13.1.0",
-        "@angular/language-service": "^13.1.0",
-        "@microsoft/api-extractor": "7.19.2",
-        "@microsoft/api-documenter": "7.13.77",
-        "tslib": "2.3.1",
+        "@types/node": "^18.11.9",
+        "@types/scrollmagic": "^2.0.5",
+        "@angular/compiler-cli": "^17.0.0-next.7",
+        "@angular/compiler": "^17.0.0-next.7",
+        "@angular/language-service": "^17.0.0-next.7",
+        "@microsoft/api-extractor": "7.36.1",
+        "@microsoft/api-documenter": "7.22.24",
+        "tslib": "2.6.1",
         "eslint": "7.32.0",
-        "@typescript-eslint/eslint-plugin": "4.33.0",
-        "@typescript-eslint/parser": "4.33.0",
+        "@typescript-eslint/eslint-plugin": "6.7.4",
+        "@typescript-eslint/parser": "6.7.4",
         "eslint-plugin-ressurectit": "0.1.0",
         "rimraf": "3.0.2",
         "copyfiles": "2.4.1",
-        "replace-in-file": "6.3.2",
+        "replace-in-file": "7.0.1",
         "path-exists-cli": "2.0.0",
-        "typescript": "4.5.4",
+        "typescript": "5.2.2",
         "npm-git-version": "2.0.0"
     },
-    "esm2020": "./es2020/src/index.js",
-    "es2020": "./es2020/src/index.js",
-    "es2015": "./es2015/src/index.js",
-    "module": "./es2015/src/index.js",
+    "module": "./es2022/src/index.js",
     "typings": "./src/index.d.ts",
     "exports": {
         "./package.json": {
             "default": "./package.json"
         },
+        "./styles": {
+            "sass": "./styles/index.scss"
+        },
+        "./styles/themes/*": {
+            "sass": "./styles/themes/*.scss"
+        },
+        "./typings/*": {
+            "types": "./typings/*/index.d.ts"
+        },
         ".": {
             "types": "./src/index.d.ts",
-            "esm2020": "./es2020/src/index.js",
-            "es2020": "./es2020/src/index.js",
-            "es2015": "./es2015/src/index.js",
-            "node": "./es2015/src/index.js",
-            "default": "./es2020/src/index.js"
+            "esm2022": "./es2022/src/index.js",
+            "es2022": "./es2022/src/index.js",
+            "node": "./es2022/src/index.js",
+            "default": "./es2022/src/index.js"
         },
         "./extensions": {
             "types": "./extensions/src/index.d.ts",
-            "esm2020": "./es2020/extensions/src/index.js",
-            "es2020": "./es2020/extensions/src/index.js",
-            "es2015": "./es2015/extensions/src/index.js",
-            "node": "./es2015/extensions/src/index.js",
-            "default": "./es2020/extensions/src/index.js"
+            "esm2022": "./es2022/extensions/src/index.js",
+            "es2022": "./es2022/extensions/src/index.js",
+            "node": "./es2022/extensions/src/index.js",
+            "default": "./es2022/extensions/src/index.js"
         },
         "./material": {
             "types": "./material/src/index.d.ts",
-            "esm2020": "./es2020/material/src/index.js",
-            "es2020": "./es2020/material/src/index.js",
-            "es2015": "./es2015/material/src/index.js",
-            "node": "./es2015/material/src/index.js",
-            "default": "./es2020/material/src/index.js"
+            "esm2022": "./es2022/material/src/index.js",
+            "es2022": "./es2022/material/src/index.js",
+            "node": "./es2022/material/src/index.js",
+            "default": "./es2022/material/src/index.js"
         },
         "./scrollmagic": {
             "types": "./scrollmagic/src/index.d.ts",
-            "esm2020": "./es2020/scrollmagic/src/index.js",
-            "es2020": "./es2020/scrollmagic/src/index.js",
-            "es2015": "./es2015/scrollmagic/src/index.js",
-            "node": "./es2015/scrollmagic/src/index.js",
-            "default": "./es2020/scrollmagic/src/index.js"
+            "esm2022": "./es2022/scrollmagic/src/index.js",
+            "es2022": "./es2022/scrollmagic/src/index.js",
+            "node": "./es2022/scrollmagic/src/index.js",
+            "default": "./es2022/scrollmagic/src/index.js"
         }
     }
 }

@@ -6,8 +6,8 @@ import {GridComponent} from '../components/grid/grid.component';
 import {BasicPagingComponent, LoadMorePagingComponent, PreviousNextPagingComponent, ContentVirtualScrollPagingComponent, PageVirtualScrollPagingComponent, NoPagingComponent} from '../plugins/paging/components';
 import {NoGridInitializerComponent, QueryPermanentStorageGridInitializerComponent, QueryGridInitializerComponent} from '../plugins/gridInitializer/components';
 import {AsyncDataLoaderComponent, SyncDataLoaderComponent} from '../plugins/dataLoader/components';
-import {BasicTableMetadataGathererComponent} from '../components/metadata/basicTable/basicTableMetadataGatherer.component';
-import {BasicTableColumnComponent} from '../components/metadata/basicTable/basicTableColumn.component';
+import {TableGridMetadataGathererSAComponent} from '../components/tableGridMetadataGatherer/tableGridMetadataGatherer.component';
+import {TableGridColumnSAComponent} from '../components/tableGridColumn/tableGridColumn.component';
 import {NoMetadataSelectorComponent, AdvancedMetadataSelectorComponent} from '../plugins/metadataSelector/components';
 import {AdvancedTableBodyContentRendererComponent, TableHeaderContentRendererComponent, TableBodyContentRendererComponent, TableContentRendererComponent} from '../plugins/contentRenderer/components';
 import {SimpleNoDataRendererComponent} from '../plugins/noDataRenderer/components';
@@ -26,8 +26,8 @@ import {BasicRowSelectorComponent, LimitedRowSelectorComponent} from '../plugins
     declarations:
     [
         GridComponent,
-        BasicTableColumnComponent,
-        BasicTableMetadataGathererComponent,
+        TableGridColumnSAComponent,
+        TableGridMetadataGathererSAComponent,
         BasicPagingComponent,
         LoadMorePagingComponent,
         ContentVirtualScrollPagingComponent,
@@ -52,8 +52,8 @@ import {BasicRowSelectorComponent, LimitedRowSelectorComponent} from '../plugins
     exports:
     [
         GridComponent,
-        BasicTableColumnComponent,
-        BasicTableMetadataGathererComponent,
+        TableGridColumnSAComponent,
+        TableGridMetadataGathererSAComponent,
         BasicPagingComponent,
         LoadMorePagingComponent,
         ContentVirtualScrollPagingComponent,

@@ -1,11 +1,11 @@
-import {BasicTableColumn} from '../../../../../components/metadata';
-import {BasicTableColumnContext} from '../../../../../components/metadata/types';
+import {BasicGridColumn} from '../../../../../components/metadata';
+import {TableGridColumnTemplateContext} from '../../../../../components/metadata/types';
 import {RowSelector} from '../../../../rowSelector';
 
 /**
  * Context for basic table column selectable template
  */
-export class BasicTableColumnSelectableContext<TData = any> extends BasicTableColumnContext<TData>
+export class BasicTableColumnSelectableContext<TData = any> extends TableGridColumnTemplateContext<TData>
 {
     //######################### public properties #########################
 
@@ -27,7 +27,7 @@ export class BasicTableColumnSelectableContext<TData = any> extends BasicTableCo
      * @param startingIndex - Starting index of currently displayed items
      */
     constructor(public override $implicit: TData,
-                public override column: BasicTableColumn<TData>,
+                public override column: BasicGridColumn<TData>,
                 public override index: number,
                 public override startingIndex: number,
                 public rowSelector: RowSelector<any, any, TData>)

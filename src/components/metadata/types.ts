@@ -5,5 +5,5 @@ export class METADATA_GATHERER
 {
 }
 
-export * from './basicTable/basicTableColumn.context';
+export * from '../tableGridColumn/tableGridColumn.context';
 export * from './groupedTable/headerTableGroup.context';

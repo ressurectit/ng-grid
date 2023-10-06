@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Optional, Inject, ElementRef} from '@angular/core';
 import {extend} from '@jscrpt/common';
 
-import {BasicTableColumn, BasicTableMetadata} from '../../../../../components/metadata';
+import {BasicGridColumn, TableGridMetadata} from '../../../../../components/metadata';
 import {TableBodyContentRendererOptions} from '../../tableContentRenderer.interface';
 import {GridPluginInstances} from '../../../../../components/grid';
 import {GRID_PLUGIN_INSTANCES} from '../../../../../components/grid/types';
@@ -25,7 +25,7 @@ const defaultOptions: TableBodyContentRendererOptions =
     templateUrl: 'tableBodyContentRenderer.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TableBodyContentRendererComponent<TData = any> extends BodyContentRendererAbstractComponent<TData, TableBodyContentRendererOptions, BasicTableMetadata<BasicTableColumn<TData>>, any>
+export class TableBodyContentRendererComponent<TData = any> extends BodyContentRendererAbstractComponent<TData, TableBodyContentRendererOptions, TableGridMetadata<BasicGridColumn<TData>>, any>
 {
     //######################### constructor #########################
     constructor(pluginElement: ElementRef,

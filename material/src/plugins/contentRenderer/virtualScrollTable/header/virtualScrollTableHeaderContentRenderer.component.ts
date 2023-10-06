@@ -1,6 +1,6 @@
 import {Component, ChangeDetectorRef, Inject, Optional, HostBinding, ElementRef} from '@angular/core';
 import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
-import {HEADER_CONTENT_RENDERER_OPTIONS, HeaderContentRendererAbstractComponent, SimpleOrdering, BasicTableMetadata, BasicOrderableColumn, CONTENT_RENDERER, GridPluginInstances, GRID_PLUGIN_INSTANCES} from '@anglr/grid';
+import {HEADER_CONTENT_RENDERER_OPTIONS, HeaderContentRendererAbstractComponent, SimpleOrdering, TableGridMetadata, BasicOrderableColumn, CONTENT_RENDERER, GridPluginInstances, GRID_PLUGIN_INSTANCES} from '@anglr/grid';
 import {extend} from '@jscrpt/common';
 
 import {VirtualScrollTableHeaderContentRendererOptions, VirtualScrollTableHeaderContentRenderer, VirtualScrollTableContentRenderer} from '../virtualScrollTableContentRenderer.interface';
@@ -36,7 +36,7 @@ const defaultOptions: VirtualScrollTableHeaderContentRendererOptions =
     templateUrl: 'virtualScrollTableHeaderContentRenderer.component.html',
     styleUrls: ['virtualScrollTableHeaderContentRenderer.component.css']
 })
-export class VirtualScrollTableHeaderContentRendererComponent<TData = any> extends HeaderContentRendererAbstractComponent<TData, VirtualScrollTableHeaderContentRendererOptions> implements VirtualScrollTableHeaderContentRenderer<SimpleOrdering, BasicTableMetadata<BasicOrderableColumn<TData>>>
+export class VirtualScrollTableHeaderContentRendererComponent<TData = any> extends HeaderContentRendererAbstractComponent<TData, VirtualScrollTableHeaderContentRendererOptions> implements VirtualScrollTableHeaderContentRenderer<SimpleOrdering, TableGridMetadata<BasicOrderableColumn<TData>>>
 {
     //######################### protected fields #########################
 

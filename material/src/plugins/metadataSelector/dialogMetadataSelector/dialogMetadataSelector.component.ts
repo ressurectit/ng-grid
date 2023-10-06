@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, ElementRef, EventEmitter, Inject, ChangeDetectorRef, Optional, OnDestroy, forwardRef, Type, resolveForwardRef} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {STRING_LOCALIZATION, StringLocalization, PermanentStorage, PERMANENT_STORAGE} from '@anglr/common';
-import {GridColumn, GridPluginGeneric, MetadataGatherer, BasicTableMetadata, GridPluginInstances, GRID_PLUGIN_INSTANCES, METADATA_SELECTOR_OPTIONS} from '@anglr/grid';
+import {GridColumn, GridPluginGeneric, MetadataGatherer, TableGridMetadata, GridPluginInstances, GRID_PLUGIN_INSTANCES, METADATA_SELECTOR_OPTIONS} from '@anglr/grid';
 import {extend, isPresent, Dictionary, isJsObject} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
@@ -58,14 +58,14 @@ const defaultOptions: DialogMetadataSelectorOptions =
     styleUrls: ['dialogMetadataSelector.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DialogMetadataSelectorComponent implements DialogMetadataSelector<BasicTableMetadata<GridColumn>>, GridPluginGeneric<DialogMetadataSelectorOptions<BasicTableMetadata<GridColumn>>>, OnDestroy
+export class DialogMetadataSelectorComponent implements DialogMetadataSelector<TableGridMetadata<GridColumn>>, GridPluginGeneric<DialogMetadataSelectorOptions<TableGridMetadata<GridColumn>>>, OnDestroy
 {
     //######################### protected fields #########################
 
     /**
      * Options for grid plugin
      */
-    protected _options: DialogMetadataSelectorOptions<BasicTableMetadata<GridColumn>>;
+    protected _options: DialogMetadataSelectorOptions<TableGridMetadata<GridColumn>>;
 
     /**
      * Last applied css class
@@ -90,22 +90,22 @@ export class DialogMetadataSelectorComponent implements DialogMetadataSelector<B
     /**
      * Instance of metadata gatherer, which is used for getting initial metadata
      */
-    protected _metadataGatherer: MetadataGatherer<BasicTableMetadata<GridColumn>>;
+    protected _metadataGatherer: MetadataGatherer<TableGridMetadata<GridColumn>>;
 
     /**
      * All metadata that are available
      */
-    protected _allMetadata: BasicTableMetadata<GridColumn>;
+    protected _allMetadata: TableGridMetadata<GridColumn>;
     
     /**
      * Component that is used for handling metadata selection itself
      */
-    protected _dialogComponent?: Type<DialogMetadataSelectorContentComponent<BasicTableMetadata<GridColumn>>>;
+    protected _dialogComponent?: Type<DialogMetadataSelectorContentComponent<TableGridMetadata<GridColumn>>>;
 
     /**
      * Metadata for selection, contains all metadata in correct order
      */
-    protected _metadataForSelection: BasicTableMetadata<GridColumn> =
+    protected _metadataForSelection: TableGridMetadata<GridColumn> =
     {
         columns: []
     };
@@ -115,11 +115,11 @@ export class DialogMetadataSelectorComponent implements DialogMetadataSelector<B
     /**
      * Options for grid plugin
      */
-    public get options(): DialogMetadataSelectorOptions<BasicTableMetadata<GridColumn>>
+    public get options(): DialogMetadataSelectorOptions<TableGridMetadata<GridColumn>>
     {
         return this._options;
     }
-    public set options(options: DialogMetadataSelectorOptions<BasicTableMetadata<GridColumn>>)
+    public set options(options: DialogMetadataSelectorOptions<TableGridMetadata<GridColumn>>)
     {
         this._options = extend(true, this._options, options);
     }
@@ -127,11 +127,11 @@ export class DialogMetadataSelectorComponent implements DialogMetadataSelector<B
     /**
      * Instance of metadata gatherer, which is used for getting initial metadata
      */
-    public get metadataGatherer(): MetadataGatherer<BasicTableMetadata<GridColumn>>
+    public get metadataGatherer(): MetadataGatherer<TableGridMetadata<GridColumn>>
     {
         return this._metadataGatherer;
     }
-    public set metadataGatherer(gatherer: MetadataGatherer<BasicTableMetadata<GridColumn>>)
+    public set metadataGatherer(gatherer: MetadataGatherer<TableGridMetadata<GridColumn>>)
     {
         if(this._metadataGatherer != gatherer)
         {
@@ -144,7 +144,7 @@ export class DialogMetadataSelectorComponent implements DialogMetadataSelector<B
     /**
      * Current metadata that are used for rendering
      */
-    public metadata: BasicTableMetadata<GridColumn> =
+    public metadata: TableGridMetadata<GridColumn> =
     {
         columns: []
     };
@@ -170,7 +170,7 @@ export class DialogMetadataSelectorComponent implements DialogMetadataSelector<B
                 @Inject(PERMANENT_STORAGE) protected _storage: PermanentStorage,
                 protected _dialog: MatDialog,
                 @Inject(STRING_LOCALIZATION) protected _stringLocalization: StringLocalization,
-                @Inject(METADATA_SELECTOR_OPTIONS) @Optional() options?: DialogMetadataSelectorOptions<BasicTableMetadata<GridColumn>>)
+                @Inject(METADATA_SELECTOR_OPTIONS) @Optional() options?: DialogMetadataSelectorOptions<TableGridMetadata<GridColumn>>)
     {
         this._options = extend(true, {}, defaultOptions, options);
     }
@@ -205,7 +205,7 @@ export class DialogMetadataSelectorComponent implements DialogMetadataSelector<B
         this._dialog.open(this._dialogComponent,
         {
             data:
-            <DialogMetadataSelectorComponentData<BasicTableMetadata<GridColumn>>>
+            <DialogMetadataSelectorComponentData<TableGridMetadata<GridColumn>>>
             {
                 metadata: this._metadataForSelection,
                 setMetadata: metadata =>

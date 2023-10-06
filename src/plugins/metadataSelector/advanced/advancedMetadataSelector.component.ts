@@ -4,7 +4,7 @@ import {extend, isBlank} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
 import {GridPluginGeneric} from '../../../misc';
-import {MetadataGatherer, BasicTableMetadata} from '../../../components/metadata';
+import {MetadataGatherer, TableGridMetadata} from '../../../components/metadata';
 import {GridPluginInstances} from '../../../components/grid';
 import {GRID_PLUGIN_INSTANCES} from '../../../components/grid/types';
 import {METADATA_SELECTOR_OPTIONS} from '../types';
@@ -101,7 +101,7 @@ const defaultOptions: AdvancedMetadataSelectorOptions =
     styleUrls: ['advancedMetadataSelector.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelector<BasicTableMetadata<AdvancedGridColumn>>, GridPluginGeneric<AdvancedMetadataSelectorOptions>, OnDestroy
+export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelector<TableGridMetadata<AdvancedGridColumn>>, GridPluginGeneric<AdvancedMetadataSelectorOptions>, OnDestroy
 {
     //######################### private fields #########################
 
@@ -128,7 +128,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
     /**
      * Instance of metadata gatherer, which is used for getting initial metadata
      */
-    private _metadataGatherer: MetadataGatherer<BasicTableMetadata<AdvancedGridColumn>>;
+    private _metadataGatherer: MetadataGatherer<TableGridMetadata<AdvancedGridColumn>>;
 
     /**
      * Div element that contains selection
@@ -138,7 +138,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
     /**
      * All metadata that are available
      */
-    private _allMetadata: BasicTableMetadata<AdvancedGridColumn>;
+    private _allMetadata: TableGridMetadata<AdvancedGridColumn>;
 
     /**
      * Html element that represents drop area
@@ -172,11 +172,11 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
     /**
      * Instance of metadata gatherer, which is used for getting initial metadata
      */
-    public get metadataGatherer(): MetadataGatherer<BasicTableMetadata<AdvancedGridColumn>>
+    public get metadataGatherer(): MetadataGatherer<TableGridMetadata<AdvancedGridColumn>>
     {
         return this._metadataGatherer;
     }
-    public set metadataGatherer(gatherer: MetadataGatherer<BasicTableMetadata<AdvancedGridColumn>>)
+    public set metadataGatherer(gatherer: MetadataGatherer<TableGridMetadata<AdvancedGridColumn>>)
     {
         if(this._metadataGatherer != gatherer)
         {
@@ -189,7 +189,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
     /**
      * Current metadata that are used for rendering
      */
-    public metadata: BasicTableMetadata<AdvancedGridColumn> =
+    public metadata: TableGridMetadata<AdvancedGridColumn> =
     {
         columns: []
     };

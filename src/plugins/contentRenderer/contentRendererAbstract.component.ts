@@ -11,13 +11,13 @@ import {METADATA_SELECTOR} from '../metadataSelector/types';
 import {DataResponse, DataLoader} from '../dataLoader';
 import {DATA_LOADER} from '../dataLoader/types';
 import {GridPluginGeneric} from '../../misc';
-import {GatheredMetadata} from '../../components/metadata';
+import {GridMetadata} from '../../components/metadata';
 
 /**
  * Abstract component for content renderers
  */
 @Directive()
-export class ContentRendererAbstractComponent<TOrdering = any, TData = any, TMetadata extends GatheredMetadata = any, TOptions extends ContentRendererOptions<CssClassesContentRenderer, ContentRendererPlugins> = any> implements ContentRenderer<TOrdering>, OnDestroy, GridPluginGeneric<TOptions>
+export class ContentRendererAbstractComponent<TOrdering = any, TData = any, TMetadata extends GridMetadata = any, TOptions extends ContentRendererOptions<CssClassesContentRenderer, ContentRendererPlugins> = any> implements ContentRenderer<TOrdering>, OnDestroy, GridPluginGeneric<TOptions>
 {
     //######################### protected fields #########################
 

@@ -2,7 +2,7 @@ import {EventEmitter} from '@angular/core';
 import {OrderByDirection} from '@jscrpt/common';
 
 import {VisualPluginOptions, GridPlugin, PluginDescription} from '../../misc';
-import {BasicTableColumn} from '../../components/metadata';
+import {BasicGridColumn} from '../../components/metadata';
 
 /**
  * Css classes for content renderer
@@ -128,7 +128,7 @@ export interface HeaderContentRenderer<TOrdering = any, TMetadata = any> extends
 /**
  * Metadata for column extended with orderable information
  */
-export interface BasicOrderableColumn<TData = any> extends BasicTableColumn<TData>
+export interface BasicOrderableColumn<TData = any> extends BasicGridColumn<TData>
 {
     orderingClass: string;
 }

@@ -1,27 +1,27 @@
 {
     "compilerOptions":
     {
-        "target": "es2020",
-        "module": "es2020",
+        "target": "ES2022",
+        "module": "ES2022",
         "moduleResolution": "node",
         "sourceMap": true,
         "inlineSources": true,
         "declaration": false,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "noImplicitAny": false,
-        "noImplicitReturns": false,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
         "noImplicitOverride": true,
         "noImplicitThis": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "strict": true,
-        "strictNullChecks": false,
+        "strictNullChecks": true,
         "esModuleInterop": true,
         "importHelpers": true,
         "newLine": "lf",
         "rootDir": ".",
-        "outDir": "es2020",
+        "outDir": "es2022",
         "baseUrl": "src",
         "paths": 
         {
@@ -29,7 +29,7 @@
         },
         "lib":
         [
-            "es2020",
+            "ES2022",
             "dom"
         ],
         "plugins":

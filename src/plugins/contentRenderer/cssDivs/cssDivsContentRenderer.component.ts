@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy, Inject, Optional, OnDestroy, Element
 import {DomSanitizer, SafeStyle} from '@angular/platform-browser';
 import {extend, isArray} from '@jscrpt/common';
 
-import {BasicTableMetadata, BasicTableColumn, GatheredMetadata} from '../../../components/metadata';
+import {TableGridMetadata, BasicGridColumn, GridMetadata} from '../../../components/metadata';
 import {GridPluginInstances} from '../../../components/grid';
 import {GRID_PLUGIN_INSTANCES} from '../../../components/grid/types';
 import {PluginDescription} from '../../../misc';
@@ -51,7 +51,7 @@ const defaultOptions: CssDivsContentRendererOptions =
         }
     `]
 })
-export class CssDivsContentRendererComponent<TOrdering = any, TData = any, TMetadata extends GatheredMetadata = any> extends ContentRendererAbstractComponent<TOrdering, TData, TMetadata, CssDivsContentRendererOptions> implements OnDestroy
+export class CssDivsContentRendererComponent<TOrdering = any, TData = any, TMetadata extends GridMetadata = any> extends ContentRendererAbstractComponent<TOrdering, TData, TMetadata, CssDivsContentRendererOptions> implements OnDestroy
 {
     //######################### private properties #########################
 
@@ -118,7 +118,7 @@ export class CssDivsContentRendererComponent<TOrdering = any, TData = any, TMeta
      */
     private _setGridColumnsWidth()
     {
-        const metadata: BasicTableMetadata<BasicTableColumn<TData>> = <any>this._metadataSelector.metadata;
+        const metadata: TableGridMetadata<BasicGridColumn<TData>> = <any>this._metadataSelector.metadata;
 
         if (isArray(metadata.columns))
         {

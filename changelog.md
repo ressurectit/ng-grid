@@ -1,5 +1,35 @@
 # Changelog
 
+## Version 10.0.0 (2023-10-06)
+
+### Features
+
+- new `GridPluginType` enum, that holds available plugin types
+   - **Values**
+      - `ContentRenderer` content renderer used for rendering content area of grid
+      - `DataLoader` data loader used for obtaining data for grid
+      - `GridInitializer` initializer that is used for obtaining stored initialization data for grid
+      - `MetadataSelector` allows selection of metadata that should be displayed
+      - `NoDataRenderer` renderer that is used for rendering content when no data are present
+      - `Paging` enables paging of data
+      - `RowSelector` handles selection of rows
+
+### BREAKING CHANGES
+
+- minimal supported version of `@angular` is `17.0.0`
+- minimal supported version of `@jscrpt/common` is `4.1.0`
+- minimal supported version of `@anglr/common` is `18.0.0`
+- minimal supported version of `@rxjs` is `7.5.7`
+- minimal supported version of `tslib` is `2.6.1`
+- dropped support of `NodeJs` lower than `18.13`
+- all `any` generic defaults changed to `unknown` or extended type
+- renamed `GatheredMetadata` to `GridMetadata`
+- renamed `BasicTableColumn` to `TableGridColumn`
+- renamed `BasicTableMetadata` to `TableGridMetadata`
+- renamed `BasicTableMetadataGathererComponent` to `TableGridMetadataGathererSAComponent`
+- renamed `BasicTableColumnComponent` to `TableGridColumnSAComponent`
+- renamed `BasicTableColumnContext` to `TableGridColumnTemplateContext` and changed to interface
+
 ## Version 9.0.4 (2023-01-14)
 
 ### Bug Fixes

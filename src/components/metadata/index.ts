@@ -1,3 +1,2 @@
-export * from './metadata.interface';
-export * from './basicTable/basicTable.interface';
+export * from '../tableGridMetadataGatherer/tableGridMetadataGatherer.interface';
 export * from './groupedTable/groupedTable.interface';

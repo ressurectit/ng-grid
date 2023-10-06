@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Optional, Inject,
 import {extend} from '@jscrpt/common';
 
 import {CssDivsBodyContentRendererOptions, CssClassesCssDivsBodyContentRenderer} from '../cssDivsContentRenderer.interface';
-import {BasicTableMetadata, BasicTableColumn} from '../../../../components/metadata';
+import {TableGridMetadata, BasicGridColumn} from '../../../../components/metadata';
 import {GridPluginInstances} from '../../../../components/grid';
 import {GRID_PLUGIN_INSTANCES} from '../../../../components/grid/types';
 import {BODY_CONTENT_RENDERER_OPTIONS} from '../../types';
@@ -62,7 +62,7 @@ const defaultOptions: CssDivsBodyContentRendererOptions =
         `
     ]
 })
-export class CssDivsBodyContentRendererComponent<TData = any> extends BodyContentRendererAbstractComponent<TData, CssDivsBodyContentRendererOptions, BasicTableMetadata<BasicTableColumn<TData>>, CssClassesCssDivsBodyContentRenderer>
+export class CssDivsBodyContentRendererComponent<TData = any> extends BodyContentRendererAbstractComponent<TData, CssDivsBodyContentRendererOptions, TableGridMetadata<BasicGridColumn<TData>>, CssClassesCssDivsBodyContentRenderer>
 {
     //######################### public properties - host bindings #########################
 

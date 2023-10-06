@@ -4,8 +4,8 @@ import {MetadataGatherer} from '../metadata.interface';
 import {METADATA_GATHERER} from '../types';
 import {GroupedTableMetadata} from './groupedTable.interface';
 import {HeaderTableGroupComponent} from './headerTableGroup.component';
-import {BasicTableColumn} from '../basicTable/basicTable.interface';
-import {BasicTableColumnComponent} from '../basicTable/basicTableColumn.component';
+import {BasicGridColumn} from '../../tableGridMetadataGatherer/tableGridMetadataGatherer.interface';
+import {TableGridColumnSAComponent} from '../../tableGridColumn/tableGridColumn.component';
 
 /**
  * Component that is used for gathering metadata for table with grouped header columns
@@ -14,7 +14,7 @@ import {BasicTableColumnComponent} from '../basicTable/basicTableColumn.componen
  */
 @Component(
 {
-    selector: 'ng-grid > grouped-table-metadata',
+    selector: 'grouped-table-metadata',
     template: '',
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers:
@@ -26,7 +26,7 @@ import {BasicTableColumnComponent} from '../basicTable/basicTableColumn.componen
         }
     ]
 })
-export class GroupedTableMetadataGathererComponent<TData = any> implements AfterContentInit, MetadataGatherer<GroupedTableMetadata<BasicTableColumn<TData>>>
+export class GroupedTableMetadataGathererComponent<TData = any> implements AfterContentInit, MetadataGatherer<GroupedTableMetadata<BasicGridColumn<TData>>>
 {
     //######################### public properties - implementation of MetadataGatherer<BasicTableColumn[]> #########################
 
@@ -41,8 +41,8 @@ export class GroupedTableMetadataGathererComponent<TData = any> implements After
      * Gets all columns defined in gatherer
      * @internal
      */
-    @ContentChildren(BasicTableColumnComponent)
-    public columns: QueryList<BasicTableColumn<TData>>;
+    @ContentChildren(TableGridColumnSAComponent)
+    public columns: QueryList<BasicGridColumn<TData>>;
 
     /**
      * Gets all groups defined in gatherer
@@ -56,7 +56,7 @@ export class GroupedTableMetadataGathererComponent<TData = any> implements After
     /**
      * Gets current metadata for grid
      */
-    public getMetadata(): GroupedTableMetadata<BasicTableColumn<TData>>
+    public getMetadata(): GroupedTableMetadata<BasicGridColumn<TData>>
     {
         return {
             columns: this.columns.toArray(),

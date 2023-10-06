@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Optional, Inject, ElementRef} from '@angular/core';
 import {extend} from '@jscrpt/common';
 
-import {BasicTableColumn, BasicTableMetadata} from '../../../../../components/metadata';
+import {BasicGridColumn, TableGridMetadata} from '../../../../../components/metadata';
 import {GridPluginInstances} from '../../../../../components/grid';
 import {GRID_PLUGIN_INSTANCES} from '../../../../../components/grid/types';
 import {BODY_CONTENT_RENDERER_OPTIONS} from '../../../types';
@@ -29,7 +29,7 @@ const defaultOptions: AdvancedTableBodyContentRendererOptions =
     templateUrl: 'advancedTableBodyContentRenderer.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdvancedTableBodyContentRendererComponent<TData = any> extends BodyContentRendererAbstractComponent<TData, AdvancedTableBodyContentRendererOptions<TData>, BasicTableMetadata<BasicTableColumn<TData>>>
+export class AdvancedTableBodyContentRendererComponent<TData = any> extends BodyContentRendererAbstractComponent<TData, AdvancedTableBodyContentRendererOptions<TData>, TableGridMetadata<BasicGridColumn<TData>>>
 {
     //######################### protected fields #########################
 
@@ -54,7 +54,7 @@ export class AdvancedTableBodyContentRendererComponent<TData = any> extends Body
     /**
      * Gets basic table column context
      */
-    public getColumnContext(data: TData, column: BasicTableColumn<TData>, index: number, startingIndex: number): BasicTableColumnSelectableContext<TData>
+    public getColumnContext(data: TData, column: BasicGridColumn<TData>, index: number, startingIndex: number): BasicTableColumnSelectableContext<TData>
     {
         return new BasicTableColumnSelectableContext(data, column, index, startingIndex, this._rowSelector);
     }

@@ -1,7 +1,7 @@
 import {TemplateRef} from '@angular/core';
 
 import {GridColumn} from '../metadata.interface';
-import {BasicTableMetadata} from '../basicTable/basicTable.interface';
+import {TableGridMetadata} from '../../tableGridMetadataGatherer/tableGridMetadataGatherer.interface';
 import {HeaderTableGroupContext} from '../types';
 
 /**
@@ -59,7 +59,7 @@ export interface HeaderTableGroup
 /**
  * Grouped table metadata, contains columns and metadata for column groups
  */
-export interface GroupedTableMetadata<TColumn extends GridColumn = any> extends BasicTableMetadata<TColumn>
+export interface GroupedTableMetadata<TColumn extends GridColumn = any> extends TableGridMetadata<TColumn>
 {
     /**
      * Definition of header groups that are displayed in header

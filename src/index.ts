@@ -4,6 +4,8 @@ export * from './components/grid/types';
 export * from './components/metadata';
 export * from './components/metadata/types';
 export * from './components/metadata/components';
+export * from './directives';
+export * from './interfaces';
 export * from './misc';
 export * from './misc/types';
 export * from './misc/enums';
