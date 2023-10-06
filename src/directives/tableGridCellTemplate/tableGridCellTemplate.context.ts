@@ -1,9 +1,9 @@
-import {TableGridColumn} from './tableGridColumn.interface';
+import {TableGridColumn} from '../../interfaces';
 
 /**
- * Context for table grid column template
+ * Context for table grid cell template
  */
-export interface TableGridColumnTemplateContext<TData = unknown>
+export interface TableGridCellTemplateContext<TData = unknown>
 {
     //######################### readonly properties #########################
 

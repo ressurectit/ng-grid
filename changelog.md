@@ -13,6 +13,15 @@
       - `NoDataRenderer` renderer that is used for rendering content when no data are present
       - `Paging` enables paging of data
       - `RowSelector` handles selection of rows
+- new `TableGridCellTemplateBaseDirective` directive, that is base directive that is used for obtaining template for table grid cell
+   - **properties**
+      - `template` template that is this structural directive used to
+- new `TableGridBodyCellTemplateSADirective` directive, that is used for obtaining template for table grid body cell
+   - **extends** `TableGridCellTemplateBaseDirective`
+- new `TableGridHeaderCellTemplateSADirective` directive, that is used for obtaining template for table grid header cell
+   - **extends** `TableGridCellTemplateBaseDirective`
+- updated `TableGridColumnSAComponent` component
+   - now supports also obtaining template using directives `TableGridBodyCellTemplateSADirective`, `TableGridHeaderCellTemplateSADirective`
 
 ### BREAKING CHANGES
 
@@ -28,7 +37,8 @@
 - renamed `BasicTableMetadata` to `TableGridMetadata`
 - renamed `BasicTableMetadataGathererComponent` to `TableGridMetadataGathererSAComponent`
 - renamed `BasicTableColumnComponent` to `TableGridColumnSAComponent`
-- renamed `BasicTableColumnContext` to `TableGridColumnTemplateContext` and changed to interface
+- renamed `BasicTableColumnContext` to `TableGridCellTemplateContext` and changed to interface
+- all components, directives, pipes are now standalone
 
 ## Version 9.0.4 (2023-01-14)
 

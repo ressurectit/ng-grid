@@ -1,6 +1,7 @@
 import {Component, ChangeDetectionStrategy, Input, TemplateRef, ContentChild} from '@angular/core';
 
-import {TableGridColumn, TableGridColumnTemplateContext} from '../../interfaces';
+import {TableGridColumn} from '../../interfaces';
+import {TableGridBodyCellTemplateSADirective, TableGridCellTemplateContext, TableGridHeaderCellTemplateSADirective} from '../../directives';
 
 /**
  * Component for gathering information about table grid column
@@ -14,78 +15,107 @@ import {TableGridColumn, TableGridColumnTemplateContext} from '../../interfaces'
 })
 export class TableGridColumnSAComponent<TData = unknown> implements TableGridColumn<TData>
 {
-    //######################### public properties - inputs #########################
+    //######################### public properties - implementation of TableGridColumn #########################
+
     /**
-     * Unique identifier of column
+     * @inheritdoc
      */
     @Input({required: true})
     public id!: string;
 
     /**
-     * Name of property which is assigned to this column
+     * @inheritdoc
      */
     @Input()
     public name: string|undefined|null;
 
     /**
-     * Title of column that is displayed in grid header
+     * @inheritdoc
      */
     @Input()
     public title: string|undefined|null;
 
     /**
-     * Text that is displayed in tooltip over grid header
+     * @inheritdoc
      */
     @Input()
     public headerTooltip: string|undefined|null;
 
     /**
-     * Indication whether should be title visible in header
+     * @inheritdoc
      */
     @Input()
     public titleVisible: boolean = true;
 
     /**
-     * Indication that this column can be used for ordering
+     * @inheritdoc
      */
     @Input()
     public ordering: boolean|undefined|null;
 
     /**
-     * Indication that this column is visible in grid
+     * @inheritdoc
      */
     @Input()
     public visible: boolean = true;
 
     /**
-     * Width as style string, value is exactly same (require units)
+     * @inheritdoc
      */
     @Input()
     public width: string|undefined|null;
 
     /**
-     * Css class that is applied to column header
+     * @inheritdoc
      */
     @Input()
     public headerClass: string|undefined|null;
 
     /**
-     * Css class that is applied to each column cell
+     * @inheritdoc
      */
     @Input()
     public cellClass: string|undefined|null;
 
-    //######################### public properties - children #########################
+    /**
+     * @inheritdoc
+     */
+    public get headerTemplate(): TemplateRef<TableGridCellTemplateContext<TData>>|undefined|null
+    {
+        return this.headerTemplateNew ?? this.headerTemplateLegacy;
+    }
 
     /**
-     * Template that is used for rendering of cell header
+     * @inheritdoc
+     */
+    public get bodyTemplate(): TemplateRef<TableGridCellTemplateContext<TData>>|undefined|null
+    {
+        return this.bodyTemplateNew ?? this.bodyTemplateLegacy;
+    }
+
+    //######################### protected properties - children #########################
+
+    /**
+     * Template that is used for rendering of cell header, legacy syntax
      */
     @ContentChild('headerTemplate')
-    public headerTemplate: TemplateRef<TableGridColumnTemplateContext<TData>>|undefined|null;
+    protected headerTemplateLegacy: TemplateRef<TableGridCellTemplateContext<TData>>|undefined|null;
 
     /**
-     * Template that is used for rendering of cell body
+     * Template that is used for rendering of cell body, legacy syntax
      */
     @ContentChild('bodyTemplate')
-    public bodyTemplate: TemplateRef<TableGridColumnTemplateContext<TData>>|undefined|null;
+    protected bodyTemplateLegacy: TemplateRef<TableGridCellTemplateContext<TData>>|undefined|null;
+
+    /**
+     * Template that is used for rendering of cell header, new syntax
+     */
+    @ContentChild(TableGridHeaderCellTemplateSADirective, {read: TemplateRef<TableGridCellTemplateContext<TData>>})
+    protected headerTemplateNew: TemplateRef<TableGridCellTemplateContext<TData>>|undefined|null;
+
+    /**
+     * Template that is used for rendering of cell body, new syntax
+     */
+    @ContentChild(TableGridBodyCellTemplateSADirective, {read: TemplateRef<TableGridCellTemplateContext<TData>>})
+    protected bodyTemplateNew: TemplateRef<TableGridCellTemplateContext<TData>>|undefined|null;
 }

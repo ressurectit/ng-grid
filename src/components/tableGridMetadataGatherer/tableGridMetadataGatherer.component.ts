@@ -19,6 +19,7 @@ import {TableGridColumn, MetadataGatherer} from '../../interfaces';
     [
         <ExistingProvider>
         {
+            //TODO: rework or injection token
             provide: METADATA_GATHERER,
             useExisting: forwardRef(() => TableGridMetadataGathererSAComponent)
         }
@@ -36,7 +37,7 @@ export class TableGridMetadataGathererSAComponent<TData = unknown> implements Af
     //######################### public properties - implementation of MetadataGatherer<TableGridMetadata> #########################
 
     /**
-     * Information that metadata for grid has changed
+     * @inheritdoc
      */
     public get metadataChange(): Observable<void>
     {
@@ -54,7 +55,7 @@ export class TableGridMetadataGathererSAComponent<TData = unknown> implements Af
     //######################### public methods - implementation of MetadataGatherer<TableGridMetadata> #########################
 
     /**
-     * Gets current metadata for grid
+     * @inheritdoc
      */
     public getMetadata(): TableGridMetadata<TableGridColumn<TData>>
     {
