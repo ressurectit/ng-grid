@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 10.0.0 (2023-10-06)
+## Version 10.0.0 (2023-10-07)
 
 ### Features
 
@@ -39,6 +39,14 @@
 - renamed `BasicTableColumnComponent` to `TableGridColumnSAComponent`
 - renamed `BasicTableColumnContext` to `TableGridCellTemplateContext` and changed to interface
 - all components, directives, pipes are now standalone
+- removed grouped table definition, use new syntax to achieve grouped header columns
+   - removed `HeaderTableGroupColumn` interface
+   - removed `HeaderTableGroup` interface
+   - removed `GroupedTableMetadata` interface
+   - removed `HeaderTableGroupContext` class
+   - removed `GroupedTableMetadataGathererComponent` component
+   - removed `HeaderTableGroupComponent` component
+   - removed `HeaderTableGroupColumnComponent` component
 
 ## Version 9.0.4 (2023-01-14)
 

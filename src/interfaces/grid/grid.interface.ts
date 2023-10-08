@@ -1,14 +1,6 @@
 import {Observable} from 'rxjs';
 
-import {GridOptions, GridPlugin} from '../../misc';
-
-/**
- * Interface describing object storing all existing plugin instances for grid
- */
-export interface GridPluginInstances
-{
-    [pluginName: string]: GridPlugin;
-}
+import {GridPlugin} from '../../misc';
 
 /**
  * Public API for grid
@@ -58,13 +50,3 @@ export interface Grid
      */
     invalidateVisuals(): void;
 }
-
-/**
- * Defintion of action that can be executed on grid
- */
-export type GridAction = (grid: Grid) => void;
-
-/**
- * Definition of function that can be executed on grid and returns some data
- */
-export type GridFunction<TResult = any> = (grid: Grid) => TResult;
