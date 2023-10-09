@@ -54,6 +54,7 @@
 - renamed `SimpleNoDataRendererComponent` to `SimpleNoDataRendererSAComponent`
 - renamed `BasicRowSelectorComponent` to `BasicRowSelectorSAComponent`
 - renamed `LimitedRowSelectorComponent` to `LimitedRowSelectorSAComponent`
+- renamed `NoMetadataSelectorComponent` to `NoMetadataSelectorSAComponent`
 - removed `GridPluginGeneric`, now `GridPlugin` is generic with default value
 - old `ContentRendererOptions` renamed to `HeaderBodyContentRendererOptions`
 - new `ContentRendererOptions` without `plugins`

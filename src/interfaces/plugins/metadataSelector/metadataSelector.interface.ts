@@ -17,14 +17,9 @@ export interface MetadataSelectorOptions extends PluginOptions
 export interface MetadataSelector<TMetadata extends GridMetadata = GridMetadata> extends GridPlugin
 {
     /**
-     * Instance of metadata gatherer, which is used for getting initial metadata
-     */
-    metadataGatherer: MetadataGatherer<TMetadata>;
-
-    /**
      * Current metadata that are used for rendering
      */
-    readonly metadata: TMetadata;
+    readonly metadata: TMetadata|undefined|null;
 
     /**
      * Occurs when metadata changed
@@ -35,4 +30,10 @@ export interface MetadataSelector<TMetadata extends GridMetadata = GridMetadata>
      * Shows metadata selector
      */
     show(): void;
+
+    /**
+     * Sets instance of metadata gatherer, which is used for getting metadata
+     * @param gatherer - Gatherer used for obtaining metadata
+     */
+    setMetadataGatherer(gatherer: MetadataGatherer<TMetadata>): void;
 }

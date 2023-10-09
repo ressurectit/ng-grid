@@ -1,10 +1,9 @@
-import {Component, ChangeDetectionStrategy, EventEmitter, OnDestroy, ElementRef} from '@angular/core';
-import {Subscription} from 'rxjs';
+import {Component, ChangeDetectionStrategy, OnDestroy, ElementRef} from '@angular/core';
+import {Observable, Subscription, Subject} from 'rxjs';
 
 import {NoMetadataSelector, NoMetadataSelectorOptions} from './noMetadataSelector.interface';
-import {GridMetadata, MetadataGatherer} from '../../../components/metadata';
-import {GridPluginInstances} from '../../../components/grid';
-import {GridPluginGeneric} from '../../../misc';
+import {GridMetadata, GridPlugin, MetadataGatherer} from '../../../interfaces';
+import {GridPluginInstances} from '../../../misc/types';
 
 /**
  * Plugin component for metadata selector, which does not allows selection of metadata
@@ -13,63 +12,57 @@ import {GridPluginGeneric} from '../../../misc';
 {
     selector: 'ng-no-metadata-selector',
     template: '',
+    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NoMetadataSelectorComponent<TMetadata extends GridMetadata = any> implements NoMetadataSelector<TMetadata>, GridPluginGeneric<NoMetadataSelectorOptions>, OnDestroy
+export class NoMetadataSelectorSAComponent<TMetadata extends GridMetadata = GridMetadata> implements NoMetadataSelector<TMetadata>, GridPlugin<NoMetadataSelectorOptions>, OnDestroy
 {
+    //######################### protected fields #########################
+
     /**
      * Subscription for metadata changes
      */
-    private _metadataChangedSubscription: Subscription;
+    protected metadataChangedSubscription: Subscription|undefined|null;
 
     /**
      * Indication whether gahterer has been initialized
      */
-    private _gathererInitialized: boolean = false;
+    protected gathererInitialized: boolean = false;
 
     /**
      * Instance of metadata gatherer, which is used for getting initial metadata
      */
-    private _metadataGatherer: MetadataGatherer<TMetadata>;
+    protected metadataGatherer: MetadataGatherer<TMetadata>|undefined|null;
+
+    /**
+     * Subject used for emitting changes in metadata
+     */
+    protected metadataChangeSubject: Subject<void> = new Subject<void>();
 
     //######################### public properties - implementation of NoMetadataSelector #########################
 
     /**
-     * Options for metadata selector
+     * @inheritdoc
      */
-    public options: NoMetadataSelectorOptions;
+    public options: NoMetadataSelectorOptions = {};
 
     /**
-     * Instance of metadata gatherer, which is used for getting initial metadata
+     * @inheritdoc
      */
-    public get metadataGatherer(): MetadataGatherer<TMetadata>
-    {
-        return this._metadataGatherer;
-    }
-    public set metadataGatherer(gatherer: MetadataGatherer<TMetadata>)
-    {
-        if(this._metadataGatherer != gatherer)
-        {
-            this._gathererInitialized = false;
-        }
+    public metadata: TMetadata|undefined|null;
 
-        this._metadataGatherer = gatherer;
+    /**
+     * @inheritdoc
+     */
+    public get metadataChange(): Observable<void>
+    {
+        return this.metadataChangeSubject.asObservable();
     }
 
     /**
-     * Current metadata that are used for rendering
+     * @inheritdoc
      */
-    public metadata: TMetadata;
-
-    /**
-     * Occurs when metadata changed
-     */
-    public metadataChange: EventEmitter<void> = new EventEmitter<void>();
-
-    /**
-     * Grid plugin instances available for this plugin
-     */
-    public gridPlugins: GridPluginInstances;
+    public gridPlugins: GridPluginInstances|undefined|null;
 
     //######################### constructor #########################
     constructor(public pluginElement: ElementRef)
@@ -79,61 +72,71 @@ export class NoMetadataSelectorComponent<TMetadata extends GridMetadata = any> i
     //######################### public methods - implementation of NoMetadataSelector #########################
 
     /**
-     * Shows metadata selector
+     * @inheritdoc
      */
     public show(): void
     {
     }
 
     /**
-     * Initialize plugin, to be ready to use, initialize communication with other plugins
+     * @inheritdoc
      */
-    public initialize()
+    public setMetadataGatherer(gatherer: MetadataGatherer<TMetadata>): void
     {
-        if(!this._gathererInitialized)
+        if(this.metadataGatherer != gatherer)
         {
-            if(this._metadataChangedSubscription)
+            this.gathererInitialized = false;
+        }
+
+        this.metadataGatherer = gatherer;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public initialize(): void
+    {
+        if(!this.gathererInitialized)
+        {
+            if(this.metadataChangedSubscription)
             {
-                this._metadataChangedSubscription.unsubscribe();
-                this._metadataChangedSubscription = null;
+                this.metadataChangedSubscription.unsubscribe();
+                this.metadataChangedSubscription = null;
             }
 
-            this._metadataChangedSubscription = this.metadataGatherer.metadataChange.subscribe(() =>
+            this.metadataChangedSubscription = this.metadataGatherer?.metadataChange.subscribe(() =>
             {
-                this.metadata = this.metadataGatherer.getMetadata();
+                this.metadata = this.metadataGatherer?.getMetadata();
 
-                this.metadataChange.emit();
+                this.metadataChangeSubject.next();
             });
         }
 
-        this.metadata = this.metadataGatherer.getMetadata();
+        this.metadata = this.metadataGatherer?.getMetadata();
     }
 
     /**
-     * Initialize plugin options, all operations required to be done with plugin options are handled here
+     * @inheritdoc
      */
-    public initOptions()
+    public initOptions(): void
     {
     }
 
     /**
-     * Explicitly runs invalidation of content (change detection)
+     * @inheritdoc
      */
-    public invalidateVisuals()
+    public invalidateVisuals(): void
     {
     }
 
     //######################### public methods - implementation of OnDestroy #########################
-    
+
     /**
      * Called when component is destroyed
      */
-    public ngOnDestroy()
+    public ngOnDestroy(): void
     {
-        if(this._metadataChangedSubscription)
-        {
-            this._metadataChangedSubscription.unsubscribe();
-            this._metadataChangedSubscription = null;
-        }
+        this.metadataChangedSubscription?.unsubscribe();
+        this.metadataChangedSubscription = null;
     }
 }

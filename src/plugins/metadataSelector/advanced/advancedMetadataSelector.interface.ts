@@ -1,6 +1,6 @@
-import {MetadataSelector, MetadataSelectorOptions} from '../metadataSelector.interface';
-import {VisualPluginOptions} from '../../../misc';
-import {GridMetadata, GridColumn} from '../../../components/metadata';
+import {Func1} from '@jscrpt/common';
+
+import {GridColumn, GridMetadata, MetadataSelector, MetadataSelectorOptions, VisualPluginOptions} from '../../../interfaces';
 
 //TODO - resize columns
 //     - compute height of advanced metadata selector
@@ -10,33 +10,33 @@ import {GridMetadata, GridColumn} from '../../../components/metadata';
  */
 export interface CssClassesAdvancedMetadataSelector
 {
-    button?:
+    button:
     {
-        topContainerDiv?: string;
-        containerDiv?: string;
-        selectionButton?: string;
-        selectionIconSpan?: string;
+        topContainerDiv: string;
+        containerDiv: string;
+        selectionButton: string;
+        selectionIconSpan: string;
     },
-    selectionDiv?:
+    selectionDiv:
     {
-        containerDiv?: string;
-        closeContainerDiv?: string;
-        closeButton?: string;
-        closeIconSpan?: string;
-        dropDiv?: string;
-        dropDraggingClass?: string;
-        dropDraggingOverClass?: string;
-        dropSplitSpanDiv?: string;
-        dropSplitSpanDraggingDiv?: string;
-        droppedColumnDiv?: string;
-        droppedColumnTitleDiv?: string;
-        droppedColumnRemoveDiv?: string;
-        droppedColumnRemoveButton?: string;
-        droppedColumnRemoveIconSpan?: string;
-        draggbleContainerDiv?: string;
-        draggableColumnDiv?: string;
-        draggableColumnSpan?: string;
-        draggableColumnIconSpan?: string;
+        containerDiv: string;
+        closeContainerDiv: string;
+        closeButton: string;
+        closeIconSpan: string;
+        dropDiv: string;
+        dropDraggingClass: string;
+        dropDraggingOverClass: string;
+        dropSplitSpanDiv: string;
+        dropSplitSpanDraggingDiv: string;
+        droppedColumnDiv: string;
+        droppedColumnTitleDiv: string;
+        droppedColumnRemoveDiv: string;
+        droppedColumnRemoveButton: string;
+        droppedColumnRemoveIconSpan: string;
+        draggbleContainerDiv: string;
+        draggableColumnDiv: string;
+        draggableColumnSpan: string;
+        draggableColumnIconSpan: string;
     }
 }
 
@@ -45,8 +45,15 @@ export interface CssClassesAdvancedMetadataSelector
  */
 export interface AdvancedMetadataSelectorTexts
 {
-    btnOpenSelection?: string;
-    titleAvailableColumns?: string;
+    /**
+     * Text for button 'open selection'
+     */
+    btnOpenSelection: string;
+
+    /**
+     * Text for 'available columns'
+     */
+    titleAvailableColumns: string;
 }
 
 /**
@@ -57,23 +64,23 @@ export interface AdvancedMetadataSelectorOptions extends MetadataSelectorOptions
     /**
      * Texts that are used within AdvancedMetadataSelector
      */
-    texts?: AdvancedMetadataSelectorTexts;
+    texts: AdvancedMetadataSelectorTexts;
 
     /**
      * Method that traverse through html and finds html elements that represents header columns
      */
-    headerColumnGetter?: (header: HTMLElement) => number[];
+    headerColumnGetter: Func1<number[], HTMLElement>|null;
 
     /**
      * Name of storage storing current metadata status
      */
-    storageName?: string;
+    storageName: string;
 }
 
 /**
  * Public API for 'AdvancedMetadataSelector'
  */
-export interface AdvancedMetadataSelector<TMetadata extends GridMetadata = any> extends MetadataSelector<TMetadata>
+export interface AdvancedMetadataSelector<TMetadata extends GridMetadata = GridMetadata> extends MetadataSelector<TMetadata>
 {
 }
 
@@ -85,5 +92,5 @@ export interface AdvancedGridColumn extends GridColumn
     /**
      * Real rendered width of column
      */
-    realWidth?: number;
+    realWidth: number;
 }
