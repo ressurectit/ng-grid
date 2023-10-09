@@ -23,7 +23,7 @@
         "doc": "path-exists docs && npm run doc:generate || echo \"No docs generated!\"",
         "predoc:generate": "cd docs && git pull && cd ..",
         "postdoc:generate": "npm run doc:save",
-        "doc:generate": "npm run doc:generate:grid && npm run doc:generate:extensions && npm run doc:generate:scrollmagic && npm run doc:generate:material",
+        "doc:generate": "npm run doc:generate:grid && npm run doc:generate:extensions && npm run doc:generate:material",
         "doc:save": "cd docs && git add . && git commit -m \"INT: updated API docs ng-grid\" && git push && cd ..",
         "doc:generate:grid": "rimraf docs/content/api/ng-grid && npm run doc:json:grid && npm run doc:md:grid && npm run doc:api:grid",
         "doc:json:grid": "api-extractor run --local --verbose -c api-extractor.json",
@@ -36,11 +36,7 @@
         "doc:generate:material": "rimraf docs/content/api/ng-grid-material && npm run doc:json:material && npm run doc:md:material && npm run doc:api:material",
         "doc:json:material": "api-extractor run --local --verbose -c material/api-extractor.json",
         "doc:md:material": "api-documenter markdown -i material/temp -o docs/content/api/ng-grid-material",
-        "doc:api:material": "copyfiles -u 2 material/temp/grid-material.api.md docs/content/api/ng-grid-material && rimraf material/temp",
-        "doc:generate:scrollmagic": "rimraf docs/content/api/ng-grid-scrollmagic && npm run doc:json:scrollmagic && npm run doc:md:scrollmagic && npm run doc:api:scrollmagic",
-        "doc:json:scrollmagic": "api-extractor run --local --verbose -c scrollmagic/api-extractor.json",
-        "doc:md:scrollmagic": "api-documenter markdown -i scrollmagic/temp -o docs/content/api/ng-grid-scrollmagic",
-        "doc:api:scrollmagic": "copyfiles -u 2 scrollmagic/temp/grid-scrollmagic.api.md docs/content/api/ng-grid-scrollmagic && rimraf scrollmagic/temp"
+        "doc:api:material": "copyfiles -u 2 material/temp/grid-material.api.md docs/content/api/ng-grid-material && rimraf material/temp"
     },
     "engines": {
         "node": ">=18.13.0"
@@ -70,7 +66,6 @@
         "rxjs": ">=7.5.7",
         "@jscrpt/common": ">=4.1.0",
         "@anglr/common": ">=18.0.0",
-        "scrollmagic": "^2.0.8",
         "tslib": "^2.6.1"
     },
     "devDependencies": {
@@ -85,9 +80,7 @@
         "rxjs": "^7.5.7",
         "@jscrpt/common": "^4.1.0",
         "@anglr/common": "^18.0.0",
-        "scrollmagic": "^2.0.8",
         "@types/node": "^18.11.9",
-        "@types/scrollmagic": "^2.0.5",
         "@angular/compiler-cli": "^17.0.0-next.7",
         "@angular/compiler": "^17.0.0-next.7",
         "@angular/language-service": "^17.0.0-next.7",
@@ -140,13 +133,6 @@
             "es2022": "./es2022/material/src/index.js",
             "node": "./es2022/material/src/index.js",
             "default": "./es2022/material/src/index.js"
-        },
-        "./scrollmagic": {
-            "types": "./scrollmagic/src/index.d.ts",
-            "esm2022": "./es2022/scrollmagic/src/index.js",
-            "es2022": "./es2022/scrollmagic/src/index.js",
-            "node": "./es2022/scrollmagic/src/index.js",
-            "default": "./es2022/scrollmagic/src/index.js"
         }
     }
 }

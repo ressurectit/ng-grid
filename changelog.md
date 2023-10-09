@@ -38,6 +38,8 @@
 - minimal supported version of `@anglr/common` is `18.0.0`
 - minimal supported version of `@rxjs` is `7.5.7`
 - minimal supported version of `tslib` is `2.6.1`
+- no longer depends on `scrollmagic`
+- removed `@anglr/grid/scrollmagic` subpackage, it was not used, can be implemented using pure css
 - dropped support of `NodeJs` lower than `18.13`
 - all `any` generic defaults changed to `unknown` or extended type
 - all components, directives, pipes are now standalone
