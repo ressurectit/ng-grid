@@ -1,12 +1,12 @@
-import {ChangeDetectionStrategy, Inject, Optional, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Inject, Optional, Component, ElementRef} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PermanentStorage, PERMANENT_STORAGE} from '@anglr/common';
 import {extend, isPresent} from '@jscrpt/common';
 
-import {GridPluginGeneric} from '../../../misc';
-import {GRID_INITIALIZER_OPTIONS} from '../types';
 import {QueryPermanentStorageGridInitializerOptions, QueryPermanentStorageGridInitializer} from './queryPermanentStorageGridInitializer.interface';
 import {QueryGridInitializerComponent} from '../query/queryGridInitializer.component';
+import {GridPlugin} from '../../../interfaces';
+import {GRID_INITIALIZER_OPTIONS} from '../../../misc/tokens';
 
 /**
  * Component used for rendering query, permanent storage grid initializer
@@ -15,10 +15,18 @@ import {QueryGridInitializerComponent} from '../query/queryGridInitializer.compo
 {
     selector: 'ng-query-permanent-storage-grid-initializer',
     template: '',
+    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class QueryPermanentStorageGridInitializerComponent extends QueryGridInitializerComponent implements QueryPermanentStorageGridInitializer, GridPluginGeneric<QueryPermanentStorageGridInitializerOptions>
+export class QueryPermanentStorageGridInitializerSAComponent extends QueryGridInitializerComponent implements QueryPermanentStorageGridInitializer, GridPlugin<QueryPermanentStorageGridInitializerOptions>
 {
+    //######################### protected fields - overrides #########################
+
+    /**
+     * @inheritdoc
+     */
+    protected override ɵoptions: QueryPermanentStorageGridInitializerOptions = super.ɵoptions as QueryPermanentStorageGridInitializerOptions;
+
     //######################### public properties - implementation of NoGridInitializer #########################
 
     /**
@@ -26,11 +34,11 @@ export class QueryPermanentStorageGridInitializerComponent extends QueryGridInit
      */
     public override get options(): QueryPermanentStorageGridInitializerOptions
     {
-        return this._options;
+        return this.ɵoptions;
     }
     public override set options(options: QueryPermanentStorageGridInitializerOptions)
     {
-        this._options = extend(true, this._options, options) as QueryPermanentStorageGridInitializerOptions;
+        this.ɵoptions = extend(true, this.ɵoptions, options) as QueryPermanentStorageGridInitializerOptions;
     }
 
     //######################### protected properties #########################
@@ -44,20 +52,21 @@ export class QueryPermanentStorageGridInitializerComponent extends QueryGridInit
     }
 
     //######################### constructor #########################
-    constructor(_router: Router,
-                _route: ActivatedRoute,
+    constructor(router: Router,
+                route: ActivatedRoute,
+                pluginElement: ElementRef<HTMLElement>,
                 @Inject(PERMANENT_STORAGE) @Optional() protected _permanentStorages: PermanentStorage,
                 @Inject(GRID_INITIALIZER_OPTIONS) @Optional() options?: QueryPermanentStorageGridInitializerOptions)
     {
-        super(_router, _route, options);
+        super(router, pluginElement, route, options);
     }
 
     //######################### public methods - implementation of NoGridInitializer #########################
 
     /**
-     * Gets initial items per page
+     * @inheritdoc
      */
-    public override getItemsPerPage(): number
+    public override getItemsPerPage(): number|undefined|null
     {
         let ipp = super.getItemsPerPage();
 
@@ -80,10 +89,9 @@ export class QueryPermanentStorageGridInitializerComponent extends QueryGridInit
     }
 
     /**
-     * Sets current items per page when changed
-     * @param itemsPerPage - Items per page to be set
+     * @inheritdoc
      */
-    public override setItemsPerPage(itemsPerPage: number)
+    public override setItemsPerPage(itemsPerPage: number): void
     {
         if(this._permanentStorages && this.itemsPerPagePermanentStorageName)
         {

@@ -1,19 +1,15 @@
-import {Component, ChangeDetectionStrategy, ElementRef, EventEmitter, Inject, ChangeDetectorRef, Optional, OnDestroy} from '@angular/core';
-import {STRING_LOCALIZATION, StringLocalization, PermanentStorage, PERMANENT_STORAGE} from '@anglr/common';
-import {extend, isBlank} from '@jscrpt/common';
-import {Subscription} from 'rxjs';
+import {Component, ChangeDetectionStrategy, ElementRef, Inject, ChangeDetectorRef, Optional, OnDestroy} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {PermanentStorage, PERMANENT_STORAGE, LocalizeSAPipe, FirstUppercaseLocalizeSAPipe} from '@anglr/common';
+import {RecursivePartial, extend, isBlank} from '@jscrpt/common';
+import {Observable, Subject, Subscription} from 'rxjs';
 
-import {GridPluginGeneric} from '../../../misc';
-import {MetadataGatherer, TableGridMetadata} from '../../../components/metadata';
-import {GridPluginInstances} from '../../../components/grid';
-import {GRID_PLUGIN_INSTANCES} from '../../../components/grid/types';
-import {METADATA_SELECTOR_OPTIONS} from '../types';
-import {AdvancedMetadataSelectorOptions, AdvancedMetadataSelector, AdvancedGridColumn, AdvancedMetadataSelectorTexts} from './advancedMetadataSelector.interface';
-import {HEADER_CONTENT_RENDERER} from '../../contentRenderer/types';
+import {AdvancedGridColumn, AdvancedMetadataSelector, AdvancedMetadataSelectorOptions} from './advancedMetadataSelector.interface';
+import {TableGridMetadata} from '../../../components';
+import {GridPlugin, MetadataGatherer} from '../../../interfaces';
+import {GRID_PLUGIN_INSTANCES, METADATA_SELECTOR_OPTIONS} from '../../../misc/tokens';
+import {GridPluginInstances} from '../../../misc/types';
 
-/**
- * @ignore
- */
 const UNUSED_DRAG = 'UNUSED_DRAG';
 
 /**
@@ -21,14 +17,13 @@ const UNUSED_DRAG = 'UNUSED_DRAG';
  */
 export interface SpanCoordinates
 {
-    startX?: number;
-    halfOffset?: number;
-    width?: number;
+    startX: number;
+    halfOffset: number;
+    width: number;
 }
 
 /**
  * Storage state
- * @internal
  */
 interface StorageState
 {
@@ -41,6 +36,7 @@ interface StorageState
  */
 const defaultOptions: AdvancedMetadataSelectorOptions =
 {
+    storageName: 'default-storage',
     cssClasses:
     {
         button:
@@ -74,17 +70,20 @@ const defaultOptions: AdvancedMetadataSelectorOptions =
     },
     texts:
     {
-        btnOpenSelection: 'COLUMN SELECTION',
-        titleAvailableColumns: 'Available columns'
+        btnOpenSelection: 'column selection',
+        titleAvailableColumns: 'available columns'
     },
     headerColumnGetter: (header: HTMLElement) =>
     {
-        const cols = header.firstElementChild.children;
+        const cols = header.firstElementChild?.children;
         const result = [];
 
-        for(let x = 0; x < cols.length; x++)
+        if(cols)
         {
-            result.push(cols[x].clientWidth);
+            for(let x = 0; x < cols.length; x++)
+            {
+                result.push(cols[x].clientWidth);
+            }
         }
 
         return result;
@@ -99,95 +98,93 @@ const defaultOptions: AdvancedMetadataSelectorOptions =
     selector: 'ng-advanced-metadata-selector',
     templateUrl: 'advancedMetadataSelector.component.html',
     styleUrls: ['advancedMetadataSelector.component.css'],
+    standalone: true,
+    imports:
+    [
+        CommonModule,
+        LocalizeSAPipe,
+        FirstUppercaseLocalizeSAPipe,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelector<TableGridMetadata<AdvancedGridColumn>>, GridPluginGeneric<AdvancedMetadataSelectorOptions>, OnDestroy
+export class AdvancedMetadataSelectorSAComponent implements AdvancedMetadataSelector<TableGridMetadata<AdvancedGridColumn>>, GridPlugin<AdvancedMetadataSelectorOptions>, OnDestroy
 {
-    //######################### private fields #########################
+    //######################### protected fields #########################
 
     /**
      * Options for grid plugin
      */
-    private _options: AdvancedMetadataSelectorOptions;
-
-    /**
-     * Subscription for changes in texts
-     */
-    private _textsChangedSubscription: Subscription;
+    protected ɵoptions: AdvancedMetadataSelectorOptions;
 
     /**
      * Subscription for metadata changes
      */
-    private _metadataChangedSubscription: Subscription;
+    protected metadataChangedSubscription: Subscription|undefined|null;
 
     /**
      * Indication whether gahterer has been initialized
      */
-    private _gathererInitialized: boolean = false;
+    protected gathererInitialized: boolean = false;
 
     /**
      * Instance of metadata gatherer, which is used for getting initial metadata
      */
-    private _metadataGatherer: MetadataGatherer<TableGridMetadata<AdvancedGridColumn>>;
+    protected metadataGatherer: MetadataGatherer<TableGridMetadata<AdvancedGridColumn>>|undefined|null;
 
     /**
      * Div element that contains selection
      */
-    private _selectionDiv: HTMLElement;
+    protected selectionDiv: HTMLElement|undefined|null;
 
     /**
      * All metadata that are available
      */
-    private _allMetadata: TableGridMetadata<AdvancedGridColumn>;
+    protected allMetadata: TableGridMetadata<AdvancedGridColumn>|undefined|null;
 
     /**
      * Html element that represents drop area
      */
-    private _dropItem: HTMLElement;
+    protected dropItem: HTMLElement|undefined|null;
 
     /**
      * Column that is being dragged
      */
-    private _draggedColumn: AdvancedGridColumn;
+    protected draggedColumn: AdvancedGridColumn|undefined|null;
 
     /**
      * Index of split span where should be new column added
      */
-    private _splitSpanIndex?: number = null;
+    protected splitSpanIndex: number|undefined|null = null;
+
+    /**
+     * Subject used for emitting changes in metadata
+     */
+    protected metadataChangeSubject: Subject<void> = new Subject<void>();
+
+    /**
+     * Gets header content renderer instance
+     */
+    protected get headerContentRenderer(): GridPlugin|undefined|null
+    {
+        return (this.gridPlugins as Record<string, GridPlugin>)?.['HEADER_CONTENT_RENDERER'];
+    }
 
     //######################### public properties - implementation of AdvancedMetadataSelector #########################
 
     /**
-     * Options for grid plugin
+     * @inheritdoc
      */
     public get options(): AdvancedMetadataSelectorOptions
     {
-        return this._options;
+        return this.ɵoptions;
     }
-    public set options(options: AdvancedMetadataSelectorOptions)
+    public set options(options: RecursivePartial<AdvancedMetadataSelectorOptions>)
     {
-        this._options = extend(true, this._options, options);
+        this.ɵoptions = extend(true, this.ɵoptions, options);
     }
 
     /**
-     * Instance of metadata gatherer, which is used for getting initial metadata
-     */
-    public get metadataGatherer(): MetadataGatherer<TableGridMetadata<AdvancedGridColumn>>
-    {
-        return this._metadataGatherer;
-    }
-    public set metadataGatherer(gatherer: MetadataGatherer<TableGridMetadata<AdvancedGridColumn>>)
-    {
-        if(this._metadataGatherer != gatherer)
-        {
-            this._gathererInitialized = false;
-        }
-
-        this._metadataGatherer = gatherer;
-    }
-
-    /**
-     * Current metadata that are used for rendering
+     * @inheritdoc
      */
     public metadata: TableGridMetadata<AdvancedGridColumn> =
     {
@@ -195,52 +192,45 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
     };
 
     /**
-     * Occurs when metadata changed
+     * @inheritdoc
      */
-    public metadataChange: EventEmitter<void> = new EventEmitter<void>();
+    public get metadataChange(): Observable<void>
+    {
+        return this.metadataChangeSubject.asObservable();
+    }
 
-    //######################### public properties - template bindings #########################
+    //######################### protected properties - template bindings #########################
 
     /**
      * Indication whether is selection visible
-     * @internal
      */
-    public selectionVisible: boolean = false;
+    protected selectionVisible: boolean = false;
 
     /**
      * Array of unused metadata
-     * @internal
      */
-    public unusedMetadata: AdvancedGridColumn[];
+    protected unusedMetadata: AdvancedGridColumn[] = [];
 
     /**
      * Span coordinates for identifying where should be new col placed
-     * @internal
      */
-    public splitCoordinates: SpanCoordinates[] = [];
+    protected splitCoordinates: SpanCoordinates[] = [];
 
     /**
      * Indication whether split coordinates are visible
-     * @internal
      */
-    public splitCoordinatesVisible: boolean = false;
-
-    /**
-     * Object containing available texts
-     */
-    public texts: AdvancedMetadataSelectorTexts = {};
+    protected splitCoordinatesVisible: boolean = false;
 
     //######################### constructor #########################
-    constructor(@Inject(GRID_PLUGIN_INSTANCES) @Optional() public gridPlugins: GridPluginInstances,
+    constructor(@Inject(GRID_PLUGIN_INSTANCES) @Optional() public gridPlugins: GridPluginInstances|undefined|null,
 
-                public pluginElement: ElementRef,
-                private _changeDetector: ChangeDetectorRef,
-                @Inject(PERMANENT_STORAGE) private _storage: PermanentStorage,
-                @Inject(STRING_LOCALIZATION) protected _stringLocalization: StringLocalization,
+                public pluginElement: ElementRef<HTMLElement>,
+                protected changeDetector: ChangeDetectorRef,
+                @Inject(PERMANENT_STORAGE) protected storage: PermanentStorage,
 
-                @Inject(METADATA_SELECTOR_OPTIONS) @Optional() options?: AdvancedMetadataSelectorOptions)
+                @Inject(METADATA_SELECTOR_OPTIONS) @Optional() options?: AdvancedMetadataSelectorOptions,)
     {
-        this._options = extend(true, {}, defaultOptions, options);
+        this.ɵoptions = extend(true, {}, defaultOptions, options);
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -248,38 +238,33 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
     /**
      * Called when component is destroyed
      */
-    public ngOnDestroy()
+    public ngOnDestroy(): void
     {
-        if(this._textsChangedSubscription)
-        {
-            this._textsChangedSubscription.unsubscribe();
-            this._textsChangedSubscription = null;
-        }
+        this.metadataChangedSubscription?.unsubscribe();
+        this.metadataChangedSubscription = null;
     }
 
-    //######################### public methods - template bindings #########################
+    //######################### protected methods - template bindings #########################
 
     /**
      * Shows column selection
-     * @internal
      */
-    public showColSelection()
+    protected showColSelection(): void
     {
-        this._setWidthOfUsedColumns();
+        this.setWidthOfUsedColumns();
 
         this.selectionVisible = true;
-        this._changeDetector.detectChanges();
+        this.changeDetector.detectChanges();
 
-        this._selectionDiv = (this.pluginElement.nativeElement as HTMLElement).querySelector(`.${this.options.cssClasses.selectionDiv.containerDiv}`);
-        this._selectionDiv.style.display = 'block';
-        this._dropItem = this._selectionDiv.querySelector(`.${this.options.cssClasses.selectionDiv.dropDiv}`);
+        this.selectionDiv = this.pluginElement.nativeElement.querySelector(`.${this.options.cssClasses.selectionDiv.containerDiv}`) as HTMLElement;
+        this.selectionDiv.style.display = 'block';
+        this.dropItem = this.selectionDiv.querySelector(`.${this.options.cssClasses.selectionDiv.dropDiv}`) as HTMLElement;
     }
 
     /**
      * Hides column selection
-     * @internal
      */
-    public hideColSelection()
+    protected hideColSelection(): void
     {
         this.selectionVisible = false;
     }
@@ -287,9 +272,8 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
     /**
      * Hides column
      * @param column - Metadata selected for hiding
-     * @internal
      */
-    public hideColumn(column: AdvancedGridColumn)
+    protected hideColumn(column: AdvancedGridColumn): void
     {
         const unused = this.metadata.columns.splice(this.metadata.columns.indexOf(column), 1);
         this.unusedMetadata.splice(this.unusedMetadata.length - 1, 0, unused[0]);
@@ -298,19 +282,18 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
             columns: [...this.metadata.columns]
         };
 
-        this._saveToStorage();
+        this.saveToStorage();
 
-        this.metadataChange.emit();
-        this._setWidthOfUsedColumns();
+        this.metadataChangeSubject.next();
+        this.setWidthOfUsedColumns();
     }
 
     /**
      * Shows column at selected index, or at the end
      * @param column - Metadata selected for hiding
      * @param index - Index where should be column displayed
-     * @internal
      */
-    public showColumn(column: AdvancedGridColumn, index?: number)
+    protected showColumn(column: AdvancedGridColumn, index?: number): void
     {
         if(isBlank(index))
         {
@@ -324,10 +307,10 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
             columns: [...this.metadata.columns]
         };
 
-        this._saveToStorage();
+        this.saveToStorage();
 
-        this.metadataChange.emit();
-        this._setWidthOfUsedColumns();
+        this.metadataChangeSubject.next();
+        this.setWidthOfUsedColumns();
     }
 
     /**
@@ -335,13 +318,13 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
      * @param event - Event for dragging
      * @param column - Column that is being dragged
      */
-    public dragStart(event: DragEvent, column: AdvancedGridColumn)
+    protected dragStart(event: DragEvent, column: AdvancedGridColumn): void
     {
-        event.dataTransfer.setData('text/plain', UNUSED_DRAG);
+        event.dataTransfer?.setData('text/plain', UNUSED_DRAG);
         (event.target as HTMLElement).style.opacity = '0.75';
 
-        this._draggedColumn = column;
-        this._dropItem.classList.toggle(this.options.cssClasses.selectionDiv.dropDraggingClass);
+        this.draggedColumn = column;
+        this.dropItem?.classList.toggle(this.options.cssClasses.selectionDiv.dropDraggingClass);
         this.splitCoordinatesVisible = true;
     }
 
@@ -349,11 +332,11 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
      * Event handler used for handling drag end
      * @param event - Event for dragging
      */
-    public dragEnd(event: DragEvent)
+    protected dragEnd(event: DragEvent): void
     {
         (event.target as HTMLElement).style.opacity = '1';
-        this._draggedColumn = null;
-        this._dropItem.classList.toggle(this.options.cssClasses.selectionDiv.dropDraggingClass);
+        this.draggedColumn = null;
+        this.dropItem?.classList.toggle(this.options.cssClasses.selectionDiv.dropDraggingClass);
         this.splitCoordinatesVisible = false;
     }
 
@@ -361,7 +344,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
      * Event handler used for handling drag enter
      * @param event - Event for dragging
      */
-    public dragEnterSplit(event: DragEvent)
+    protected dragEnterSplit(event: DragEvent): void
     {
         const firstElementChild = (event.target as HTMLElement).firstElementChild;
 
@@ -375,16 +358,16 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
      * Event handler used for handling drag enter
      * @param event - Event for dragging
      */
-    public dragEnter()
+    protected dragEnter(): void
     {
-        this._dropItem.classList.toggle(this.options.cssClasses.selectionDiv.dropDraggingOverClass);
+        this.dropItem?.classList.toggle(this.options.cssClasses.selectionDiv.dropDraggingOverClass);
     }
 
     /**
      * Event handler used for handling drag leave
      * @param event - Event for dragging
      */
-    public dragLeaveSplit(event: DragEvent)
+    protected dragLeaveSplit(event: DragEvent): void
     {
         const firstElementChild = (event.target as HTMLElement).firstElementChild;
 
@@ -398,9 +381,9 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
      * Event handler used for handling drag leave
      * @param event - Event for dragging
      */
-    public dragLeave()
+    protected dragLeave(): void
     {
-        this._dropItem.classList.toggle(this.options.cssClasses.selectionDiv.dropDraggingOverClass);
+        this.dropItem?.classList.toggle(this.options.cssClasses.selectionDiv.dropDraggingOverClass);
     }
 
     /**
@@ -408,51 +391,55 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
      * @param event - Event for dragging
      * @param index - Index of split span
      */
-    public dragOverSplit(event: DragEvent, index: number)
+    protected dragOverSplit(event: DragEvent, index: number): void
     {
         event.preventDefault();
         event.stopPropagation();
 
-        this._splitSpanIndex = index;
+        this.splitSpanIndex = index;
     }
 
     /**
      * Event handler used for handling drag over
      * @param event - Event for dragging
      */
-    public dragOver(event: DragEvent)
+    protected dragOver(event: DragEvent): void
     {
         event.preventDefault();
         event.stopPropagation();
 
-        this._splitSpanIndex = null;
+        this.splitSpanIndex = null;
     }
 
     /**
      * Event handler used for handling drop
      * @param event - Event for dragging
      */
-    public drop(event: DragEvent)
+    protected drop(event: DragEvent): void
     {
         event.preventDefault();
 
-        if(event.dataTransfer.getData('text/plain') != UNUSED_DRAG)
+        if(event.dataTransfer?.getData('text/plain') != UNUSED_DRAG)
         {
             return;
         }
 
-        this._dropItem.classList.toggle(this.options.cssClasses.selectionDiv.dropDraggingClass);
-        this._dropItem.classList.toggle(this.options.cssClasses.selectionDiv.dropDraggingOverClass);
+        this.dropItem?.classList.toggle(this.options.cssClasses.selectionDiv.dropDraggingClass);
+        this.dropItem?.classList.toggle(this.options.cssClasses.selectionDiv.dropDraggingOverClass);
         this.splitCoordinatesVisible = false;
 
-        this.showColumn(this._draggedColumn, this._splitSpanIndex);
-        this._splitSpanIndex = null;
+        if(this.draggedColumn && this.splitSpanIndex)
+        {
+            this.showColumn(this.draggedColumn, this.splitSpanIndex);
+        }
+
+        this.splitSpanIndex = null;
     }
 
     //######################### public methods - implementation of AdvancedMetadataSelector #########################
 
     /**
-     * Shows metadata selector
+     * @inheritdoc
      */
     public show(): void
     {
@@ -462,70 +449,67 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
     }
 
     /**
-     * Initialize plugin, to be ready to use, initialize communication with other plugins
+     * @inheritdoc
      */
-    public initialize()
+    public setMetadataGatherer(gatherer: MetadataGatherer<TableGridMetadata<AdvancedGridColumn>>): void
     {
-        if(!this._gathererInitialized)
+        if(this.metadataGatherer != gatherer)
         {
-            if(this._metadataChangedSubscription)
+            this.gathererInitialized = false;
+        }
+
+        this.metadataGatherer = gatherer;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public initialize(): void
+    {
+        if(!this.gathererInitialized)
+        {
+            if(this.metadataChangedSubscription)
             {
-                this._metadataChangedSubscription.unsubscribe();
-                this._metadataChangedSubscription = null;
+                this.metadataChangedSubscription.unsubscribe();
+                this.metadataChangedSubscription = null;
             }
 
-            this._metadataChangedSubscription = this.metadataGatherer.metadataChange.subscribe(() =>
+            this.metadataChangedSubscription = this.metadataGatherer?.metadataChange.subscribe(() =>
             {
-                this._allMetadata = this.metadataGatherer.getMetadata();
-                this._initMetadata();
+                this.allMetadata = this.metadataGatherer?.getMetadata();
+                this.initMetadata();
 
-                this.metadataChange.emit();
+                this.metadataChangeSubject.next();
             });
         }
 
-        this._textsChangedSubscription = this._stringLocalization.textsChange.subscribe(() => this._initTexts());
-
-        this._allMetadata = this.metadataGatherer.getMetadata();
-        this._initMetadata();
-        this._initTexts();
+        this.allMetadata = this.metadataGatherer?.getMetadata();
+        this.initMetadata();
     }
 
     /**
-     * Initialize plugin options, all operations required to be done with plugin options are handled here
+     * @inheritdoc
      */
-    public initOptions()
+    public initOptions(): void
     {
     }
 
     /**
-     * Explicitly runs invalidation of content (change detection)
+     * @inheritdoc
      */
     public invalidateVisuals(): void
     {
-        this._changeDetector.detectChanges();
+        this.changeDetector.detectChanges();
     }
 
-    //######################### private methods #########################
-
-    /**
-     * Initialize texts
-     */
-    private _initTexts()
-    {
-        Object.keys(this.options.texts).forEach(key =>
-        {
-            this.texts[key] = this._stringLocalization.get(this.options.texts[key]);
-        });
-
-        this._changeDetector.detectChanges();
-    }
+    //######################### protected methods #########################
 
     /**
      * Initialize metadata
      */
-    private _initMetadata()
+    protected initMetadata(): void
     {
-        const storageState: StorageState = this._loadFromStorage();
+        const storageState: StorageState = this.loadFromStorage();
 
         if(storageState)
         {
@@ -534,7 +518,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
                 columns: []
             };
 
-            this._allMetadata.columns.forEach(meta =>
+            this.allMetadata?.columns.forEach(meta =>
             {
                 if(!meta.id)
                 {
@@ -546,7 +530,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
 
             Object.keys(storageState).forEach(id =>
             {
-                const meta = this._allMetadata.columns.find(itm => itm.id == id);
+                const meta = this.allMetadata?.columns.find(itm => itm.id == id);
 
                 if(meta)
                 {
@@ -558,20 +542,25 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
         {
             this.metadata =
             {
-                columns: this._allMetadata.columns.filter(itm => itm.visible)
+                columns: this.allMetadata?.columns.filter(itm => itm.visible) ?? []
             };
         }
 
-        this.unusedMetadata = this._allMetadata.columns.filter(itm => !itm.visible);
+        this.unusedMetadata = this.allMetadata?.columns.filter(itm => !itm.visible) ?? [];
     }
 
     /**
      * Sets width of used columns
      */
-    private _setWidthOfUsedColumns()
+    protected setWidthOfUsedColumns(): void
     {
-        const headerElement: HTMLElement = this.gridPlugins[HEADER_CONTENT_RENDERER].pluginElement.nativeElement;
-        const colWidths = this.options.headerColumnGetter(headerElement);
+        if(!this.headerContentRenderer)
+        {
+            return;
+        }
+
+        const headerElement: HTMLElement = this.headerContentRenderer.pluginElement.nativeElement;
+        const colWidths = this.options.headerColumnGetter?.(headerElement) ?? [];
         this.metadata.columns.forEach((meta, index) => meta.realWidth = colWidths[index]);
 
         this.splitCoordinates = [];
@@ -603,7 +592,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
 
                 this.splitCoordinates.push(
                 {
-                    startX: this.splitCoordinates[index].startX + this.splitCoordinates[index].halfOffset + value - halfWidth,
+                    startX: this.splitCoordinates[index].startX  + this.splitCoordinates[index].halfOffset + value - halfWidth,
                     halfOffset: halfWidth,
                     width: halfWidth
                 });
@@ -614,7 +603,7 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
     /**
      * Saves current state to storage
      */
-    private _saveToStorage()
+    protected saveToStorage(): void
     {
         if(!this.options.storageName)
         {
@@ -632,23 +621,21 @@ export class AdvancedMetadataSelectorComponent implements AdvancedMetadataSelect
 
             state[meta.id] =
             {
-                visible: true
+                visible: true,
+                id: undefined,
+                realWidth: 0,
+                title: undefined
             };
         });
 
-        this._storage.set(this.options.storageName, state);
+        this.storage.set(this.options.storageName, state);
     }
 
     /**
      * Gets stored storage state
      */
-    private _loadFromStorage(): StorageState
+    protected loadFromStorage(): StorageState
     {
-        if(!this.options.storageName)
-        {
-            return null;
-        }
-
-        return this._storage.get<StorageState>(this.options.storageName);
+        return this.storage.get<StorageState>(this.options.storageName);
     }
 }

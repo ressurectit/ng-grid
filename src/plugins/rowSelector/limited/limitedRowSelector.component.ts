@@ -20,7 +20,7 @@ export class LimitedRowSelectorSAComponent<TSelectedData = unknown, TData = unkn
     //######################### protected fields - overrides #########################
 
     /**
-     * Options for grid plugin
+     * @inheritdoc
      */
     protected override ɵoptions: LimitedRowSelectorOptions<TSelectedData, TData, TId> = super.ɵoptions as LimitedRowSelectorOptions<TSelectedData, TData, TId>;
 

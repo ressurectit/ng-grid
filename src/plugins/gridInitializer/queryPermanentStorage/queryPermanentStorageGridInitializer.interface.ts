@@ -1,4 +1,4 @@
-import {GridInitializerOptions, GridInitializer} from '../gridInitializer.interface';
+import {GridInitializer, GridInitializerOptions} from '../../../interfaces';
 
 /**
  * Query permanentStorage grid initializer options
@@ -8,7 +8,7 @@ export interface QueryPermanentStorageGridInitializerOptions extends GridInitial
     /**
      * Name of storage used for storing items per page
      */
-    storageIppName?: string;
+    storageIppName: string;
 }
 
 /**

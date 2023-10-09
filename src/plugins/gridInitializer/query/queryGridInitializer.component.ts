@@ -1,15 +1,14 @@
 import {ChangeDetectionStrategy, Inject, Optional, ElementRef, Component} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {extend} from '@jscrpt/common';
+import {ActivatedRoute, Params, Router} from '@angular/router';
+import {RecursivePartial, deserializeFromUrlQuery, extend, serializeToUrlQuery} from '@jscrpt/common';
 
-import {GridPluginGeneric} from '../../../misc';
 import {QueryGridInitializer, QueryGridInitializerOptions} from './queryGridInitializer.interface';
-import {GRID_INITIALIZER_OPTIONS} from '../types';
-import {GridPluginInstances} from '../../../components/grid';
+import {GridPlugin} from '../../../interfaces';
+import {GridPluginInstances} from '../../../misc/types';
+import {GRID_INITIALIZER_OPTIONS} from '../../../misc/tokens';
 
 /**
  * Default options for query grid initializer
- * @internal
  */
 const defaultOptions: QueryGridInitializerOptions =
 {
@@ -23,39 +22,35 @@ const defaultOptions: QueryGridInitializerOptions =
 {
     selector: 'ng-query-grid-initializer',
     template: '',
+    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class QueryGridInitializerComponent implements QueryGridInitializer, GridPluginGeneric<QueryGridInitializerOptions>
+export class QueryGridInitializerComponent implements QueryGridInitializer, GridPlugin<QueryGridInitializerOptions>
 {
     //######################### protected fields #########################
 
     /**
      * Options for grid plugin
      */
-    protected _options: QueryGridInitializerOptions;
+    protected ɵoptions: QueryGridInitializerOptions;
 
     //######################### public properties - implementation of NoGridInitializer #########################
 
     /**
-     * Grid plugin instances available for this plugin
+     * @inheritdoc
      */
-    public gridPlugins: GridPluginInstances;
+    public gridPlugins: GridPluginInstances|undefined|null;
 
     /**
-     * Element that represents plugin
-     */
-    public pluginElement: ElementRef;
-
-    /**
-     * Options for grid plugin
+     * @inheritdoc
      */
     public get options(): QueryGridInitializerOptions
     {
-        return this._options;
+        return this.ɵoptions;
     }
-    public set options(options: QueryGridInitializerOptions)
+    public set options(options: RecursivePartial<QueryGridInitializerOptions>)
     {
-        this._options = extend(true, this._options, options) as QueryGridInitializerOptions;
+        this.ɵoptions = extend(true, this.ɵoptions, options) as QueryGridInitializerOptions;
     }
 
     //######################### protected properties #########################
@@ -65,7 +60,7 @@ export class QueryGridInitializerComponent implements QueryGridInitializer, Grid
      */
     protected get pageName(): string
     {
-        return this._options.prefix + 'p';
+        return this.ɵoptions.prefix + 'p';
     }
 
     /**
@@ -73,7 +68,7 @@ export class QueryGridInitializerComponent implements QueryGridInitializer, Grid
      */
     protected get itemsPerPageName(): string
     {
-        return this._options.prefix + 'ipp';
+        return this.ɵoptions.prefix + 'ipp';
     }
 
     /**
@@ -81,66 +76,66 @@ export class QueryGridInitializerComponent implements QueryGridInitializer, Grid
      */
     protected get orderingName(): string
     {
-        return this._options.prefix + 'o';
+        return this.ɵoptions.prefix + 'o';
     }
 
     //######################### constructor #########################
-    constructor(protected _router: Router, 
-                protected _route: ActivatedRoute,
+    constructor(protected router: Router,
+                public pluginElement: ElementRef<HTMLElement>,
+                protected route: ActivatedRoute,
                 @Inject(GRID_INITIALIZER_OPTIONS) @Optional() options?: QueryGridInitializerOptions)
     {
-        this._options = extend(true, {}, defaultOptions, options);
-    }    
+        this.ɵoptions = extend(true, {}, defaultOptions, options);
+    }
 
     //######################### public methods - implementation of NoGridInitializer #########################
 
     /**
-     * Initialize plugin, to be ready to use, initialize communication with other plugins
+     * @inheritdoc
      */
-    public initialize()
+    public initialize(): void
     {
     }
 
     /**
-     * Initialize plugin options, all operations required to be done with plugin options are handled here
+     * @inheritdoc
      */
-    public initOptions()
+    public initOptions(): void
     {
     }
 
     /**
-     * Explicitly runs invalidation of content (change detection)
+     * @inheritdoc
      */
     public invalidateVisuals(): void
     {
     }
 
     /**
-     * Gets stored page
+     * @inheritdoc
      */
-    public getPage(): number
+    public getPage(): number|undefined|null
     {
-        if(!this._route.snapshot.queryParamMap.has(this.pageName))
+        if(!this.route.snapshot.queryParamMap.has(this.pageName))
         {
             return null;
         }
 
-        return +this._route.snapshot.queryParamMap.get(this.pageName);
+        return +this.route.snapshot.queryParamMap.get(this.pageName)!;
     }
 
     /**
-     * Sets current page when changed
-     * @param page - Page to be stored
+     * @inheritdoc
      */
-    public setPage(page: number)
+    public setPage(page: number): void
     {
-        const pageParam = {};
+        const pageParam: Params = {};
 
         pageParam[this.pageName] = page;
 
-        this._router.navigate(['.'],
+        this.router.navigate(['.'],
         {
-            relativeTo: this._route,
+            relativeTo: this.route,
             queryParams: pageParam,
             queryParamsHandling: 'merge',
             replaceUrl: true
@@ -148,31 +143,30 @@ export class QueryGridInitializerComponent implements QueryGridInitializer, Grid
     }
 
     /**
-     * Gets stored items per page
+     * @inheritdoc
      */
-    public getItemsPerPage(): number
+    public getItemsPerPage(): number|undefined|null
     {
-        if(!this._route.snapshot.queryParamMap.has(this.itemsPerPageName))
+        if(!this.route.snapshot.queryParamMap.has(this.itemsPerPageName))
         {
             return null;
         }
 
-        return +this._route.snapshot.queryParamMap.get(this.itemsPerPageName);
+        return +this.route.snapshot.queryParamMap.get(this.itemsPerPageName)!;
     }
 
     /**
-     * Sets current items per page when changed
-     * @param itemsPerPage - Items per page to be stored
+     * @inheritdoc
      */
-    public setItemsPerPage(itemsPerPage: number)
+    public setItemsPerPage(itemsPerPage: number): void
     {
-        const pageParam = {};
+        const pageParam: Params = {};
 
         pageParam[this.itemsPerPageName] = itemsPerPage;
 
-        this._router.navigate(['.'],
+        this.router.navigate(['.'],
         {
-            relativeTo: this._route,
+            relativeTo: this.route,
             queryParams: pageParam,
             queryParamsHandling: 'merge',
             replaceUrl: true
@@ -180,31 +174,30 @@ export class QueryGridInitializerComponent implements QueryGridInitializer, Grid
     }
 
     /**
-     * Gets stored ordering
+     * @inheritdoc
      */
-    public getOrdering(): string
+    public getOrdering(): unknown|undefined|null
     {
-        if(!this._route.snapshot.queryParamMap.has(this.orderingName))
+        if(!this.route.snapshot.queryParamMap.has(this.orderingName))
         {
             return null;
         }
 
-        return this._route.snapshot.queryParamMap.get(this.orderingName);
+        return deserializeFromUrlQuery(this.route.snapshot.queryParamMap.get(this.orderingName)!);
     }
 
     /**
-     * Sets current ordering when changed
-     * @param ordering - Ordering as string to be stored
+     * @inheritdoc
      */
-    public setOrdering(ordering: string): void
+    public setOrdering(ordering: unknown): void
     {
-        const orderingParam = {};
+        const orderingParam: Params = {};
 
-        orderingParam[this.orderingName] = ordering;
+        orderingParam[this.orderingName] = serializeToUrlQuery(ordering);
 
-        this._router.navigate(['.'],
+        this.router.navigate(['.'],
         {
-            relativeTo: this._route,
+            relativeTo: this.route,
             queryParams: orderingParam,
             queryParamsHandling: 'merge',
             replaceUrl: true

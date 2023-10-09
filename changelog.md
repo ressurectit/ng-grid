@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 10.0.0 (2023-10-08)
+## Version 10.0.0 (2023-10-09)
 
 ### Features
 
@@ -55,6 +55,10 @@
 - renamed `BasicRowSelectorComponent` to `BasicRowSelectorSAComponent`
 - renamed `LimitedRowSelectorComponent` to `LimitedRowSelectorSAComponent`
 - renamed `NoMetadataSelectorComponent` to `NoMetadataSelectorSAComponent`
+- renamed `AdvancedMetadataSelectorComponent` to `AdvancedMetadataSelectorSAComponent`
+- renamed `NoGridInitializerComponent` to `NoGridInitializerSAComponent`
+- renamed `QueryGridInitializerComponent` to `QueryGridInitializerSAComponent`
+- renamed `QueryPermanentStorageGridInitializerComponent` to `QueryPermanentStorageGridInitializerSAComponent`
 - removed `GridPluginGeneric`, now `GridPlugin` is generic with default value
 - old `ContentRendererOptions` renamed to `HeaderBodyContentRendererOptions`
 - new `ContentRendererOptions` without `plugins`

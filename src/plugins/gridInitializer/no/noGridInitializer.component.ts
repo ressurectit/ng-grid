@@ -1,9 +1,8 @@
 import {ChangeDetectionStrategy, Component, ElementRef} from '@angular/core';
 
-import {GridPluginInstances} from '../../../components/grid';
-import {GridPluginGeneric} from '../../../misc';
 import {NoGridInitializer, NoGridInitializerOptions} from './noGridInitializer.interface';
-
+import {GridPlugin} from '../../../interfaces';
+import {GridPluginInstances} from '../../../misc/types';
 
 /**
  * Component used for rendering no grid initializer
@@ -12,93 +11,94 @@ import {NoGridInitializer, NoGridInitializerOptions} from './noGridInitializer.i
 {
     selector: 'ng-no-grid-initializer',
     template: '',
+    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NoGridInitializerComponent implements NoGridInitializer, GridPluginGeneric<NoGridInitializerOptions>
+export class NoGridInitializerSAComponent implements NoGridInitializer, GridPlugin<NoGridInitializerOptions>
 {
     //######################### public properties - implementation of NoGridInitializer #########################
 
     /**
-     * Element that represents plugin
+     * @inheritdoc
      */
-    public pluginElement: ElementRef;
+    public options: NoGridInitializerOptions =
+    {
+        prefix: '',
+    };
 
     /**
-     * Options for grid plugin
+     * @inheritdoc
      */
-    public options: NoGridInitializerOptions;
+    public gridPlugins: GridPluginInstances|undefined|null;
 
-    /**
-     * Grid plugin instances available for this plugin
-     */
-    public gridPlugins: GridPluginInstances;
+    //######################### constructor #########################
+    constructor(public pluginElement: ElementRef<HTMLElement>,)
+    {
+    }
 
     //######################### public methods - implementation of NoGridInitializer #########################
 
     /**
-     * Initialize plugin, to be ready to use, initialize communication with other plugins
+     * @inheritdoc
      */
-    public initialize()
+    public initialize(): void
     {
     }
 
     /**
-     * Initialize plugin options, all operations required to be done with plugin options are handled here
+     * @inheritdoc
      */
-    public initOptions()
+    public initOptions(): void
     {
     }
 
     /**
-     * Explicitly runs invalidation of content (change detection)
+     * @inheritdoc
      */
     public invalidateVisuals(): void
     {
     }
 
     /**
-     * Gets stored page
+     * @inheritdoc
      */
-    public getPage(): number
+    public getPage(): number|undefined|null
     {
         return null;
     }
 
     /**
-     * Sets current page when changed
-     * @param page - Page to be stored
+     * @inheritdoc
      */
-    public setPage()
+    public setPage(): void
     {
     }
 
     /**
-     * Gets stored items per page
+     * @inheritdoc
      */
-    public getItemsPerPage(): number
-    {
-        return null;
-    }
-
-    /**
-     * Sets current items per page when changed
-     * @param itemsPerPage - Items per page to be stored
-     */
-    public setItemsPerPage()
-    {
-    }
-
-    /**
-     * Gets stored ordering
-     */
-    public getOrdering(): string
+    public getItemsPerPage(): number|undefined|null
     {
         return null;
     }
 
     /**
-     * Sets current ordering when changed
-     * @param ordering - Ordering as string to be stored
+     * @inheritdoc
+     */
+    public setItemsPerPage(): void
+    {
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public getOrdering(): unknown|undefined|null
+    {
+        return null;
+    }
+
+    /**
+     * @inheritdoc
      */
     public setOrdering(): void
     {

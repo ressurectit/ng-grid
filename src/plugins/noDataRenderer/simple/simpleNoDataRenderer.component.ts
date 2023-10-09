@@ -1,5 +1,6 @@
 import {Inject, Component, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef, Optional, OnDestroy, signal, WritableSignal} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {LocalizeSAPipe} from '@anglr/common';
 import {RecursivePartial, extend} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
@@ -40,6 +41,7 @@ const defaultOptions: SimpleNoDataRendererOptions =
     imports:
     [
         CommonModule,
+        LocalizeSAPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

@@ -1,4 +1,4 @@
-import {GridInitializerOptions, GridInitializer} from '../gridInitializer.interface';
+import {GridInitializer, GridInitializerOptions} from '../../../interfaces';
 
 /**
  * Query grid initializer options

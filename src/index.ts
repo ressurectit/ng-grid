@@ -12,3 +12,4 @@ export * from './plugins';
 //TODO: add ordering plugin
 //TODO: use new syntax
 //TODO: new matrix grid
+//TODO: directive for attaching external plugins, new type that allows obtaining or using export as ref

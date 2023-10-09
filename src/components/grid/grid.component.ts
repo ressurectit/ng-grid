@@ -6,10 +6,8 @@ import {Observable, BehaviorSubject} from 'rxjs';
 import {GridPluginType, PagingPosition} from '../../misc/enums';
 import {ContentRenderer, DataLoader, Grid, GridInitializer, GridOptions, GridPlugin, MetadataGatherer, MetadataSelector, NoDataRenderer, Paging, RowSelector} from '../../interfaces';
 import {CONTENT_RENDERER_TYPE, DATA_LOADER_TYPE, GRID_INITIALIZER_TYPE, GRID_OPTIONS, GRID_PLUGIN_INSTANCES, METADATA_GATHERER, METADATA_SELECTOR_TYPE, NO_DATA_RENDERER_TYPE, PAGING_TYPE, ROW_SELECTOR_TYPE} from '../../misc/tokens';
-import {BasicRowSelectorSAComponent, SimpleNoDataRendererSAComponent} from '../../plugins';
+import {BasicRowSelectorSAComponent, NoGridInitializerSAComponent, NoMetadataSelectorSAComponent, SimpleNoDataRendererSAComponent} from '../../plugins';
 import {GridAction, GridFunction, GridPluginInstances} from '../../misc/types';
-
-//TODO - make grid css class customizable
 
 /**
  * Default 'GridOptions'
@@ -29,7 +27,7 @@ const defaultOptions: GridOptions =
         },
         metadataSelector:
         {
-            type: forwardRef(() => NoMetadataSelectorComponent),
+            type: forwardRef(() => NoMetadataSelectorSAComponent),
             instance: null,
             instanceCallback: null,
             options: null,
@@ -64,7 +62,7 @@ const defaultOptions: GridOptions =
         },
         gridInitializer:
         {
-            type: forwardRef(() => NoGridInitializerComponent),
+            type: forwardRef(() => NoGridInitializerSAComponent),
             instance: null,
             instanceCallback: null,
             options: null,
@@ -265,7 +263,7 @@ export class GridSAComponent implements OnInit, AfterViewInit, Grid
      * @param paging - Created paging that is rendered
      * @internal
      */
-    public setPagingComponent(paging: Paging)
+    public setPagingComponent(paging: Paging|null): void
     {
         if(!paging)
         {
@@ -292,7 +290,7 @@ export class GridSAComponent implements OnInit, AfterViewInit, Grid
      * @param gridInitializer - Created grid initializer that is used
      * @internal
      */
-    public setGridInitializerComponent(gridInitializer: GridInitializer)
+    public setGridInitializerComponent(gridInitializer: GridInitializer|null): void
     {
         if(!gridInitializer)
         {
@@ -319,7 +317,7 @@ export class GridSAComponent implements OnInit, AfterViewInit, Grid
      * @param metadataSelector - Created metadata selector that is used
      * @internal
      */
-    public setMetadataSelectorComponent(metadataSelector: MetadataSelector)
+    public setMetadataSelectorComponent(metadataSelector: MetadataSelector|null): void
     {
         if(!metadataSelector)
         {
@@ -348,7 +346,7 @@ export class GridSAComponent implements OnInit, AfterViewInit, Grid
      * @param dataLoader - Created data loader that is used
      * @internal
      */
-    public setDataLoaderComponent(dataLoader: DataLoader)
+    public setDataLoaderComponent(dataLoader: DataLoader|null): void
     {
         if(!dataLoader)
         {
@@ -375,7 +373,7 @@ export class GridSAComponent implements OnInit, AfterViewInit, Grid
      * @param contentRenderer - Created content renderer that is rendered
      * @internal
      */
-    public setContentRendererComponent(contentRenderer: ContentRenderer)
+    public setContentRendererComponent(contentRenderer: ContentRenderer|null): void
     {
         if(!contentRenderer)
         {
@@ -402,7 +400,7 @@ export class GridSAComponent implements OnInit, AfterViewInit, Grid
      * @param noDataRenderer - Created no data renderer that is rendered
      * @internal
      */
-    public setNoDataRendererComponent(noDataRenderer: NoDataRenderer)
+    public setNoDataRendererComponent(noDataRenderer: NoDataRenderer|null): void
     {
         if(!noDataRenderer)
         {
@@ -429,7 +427,7 @@ export class GridSAComponent implements OnInit, AfterViewInit, Grid
      * @param rowSelector - Created row selector that is rendered
      * @internal
      */
-    public setRowSelectorComponent(rowSelector: RowSelector)
+    public setRowSelectorComponent(rowSelector: RowSelector|null): void
     {
         if(!rowSelector)
         {

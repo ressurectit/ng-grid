@@ -1,59 +1,59 @@
-<div [ngClass]="options?.cssClasses?.button?.topContainerDiv">
-    <div [ngClass]="options?.cssClasses?.button?.containerDiv">
-        <button [ngClass]="options?.cssClasses?.button?.selectionButton" (click)="showColSelection()">
-            <span [ngClass]="options?.cssClasses?.button?.selectionIconSpan"></span>
-            <span>{{texts?.btnOpenSelection}}</span>
+<div [ngClass]="options.cssClasses.button.topContainerDiv">
+    <div [ngClass]="options.cssClasses.button.containerDiv">
+        <button [ngClass]="options.cssClasses.button.selectionButton" (click)="showColSelection()">
+            <span [ngClass]="options.cssClasses.button.selectionIconSpan"></span>
+            <span>{{options.texts.btnOpenSelection | localize}}</span>
         </button>
     </div>
 </div>
 
 <div style="position: relative;" *ngIf="selectionVisible">
-    <div [ngClass]="options?.cssClasses?.selectionDiv?.containerDiv">
-        <div [ngClass]="options?.cssClasses?.selectionDiv?.closeContainerDiv">
-            <button [ngClass]="options?.cssClasses?.selectionDiv?.closeButton" (click)="hideColSelection()">
-                <span [ngClass]="options?.cssClasses?.selectionDiv?.closeIconSpan"></span>
+    <div [ngClass]="options.cssClasses.selectionDiv.containerDiv">
+        <div [ngClass]="options.cssClasses.selectionDiv.closeContainerDiv">
+            <button type="button" [ngClass]="options.cssClasses.selectionDiv.closeButton" (click)="hideColSelection()">
+                <span [ngClass]="options.cssClasses.selectionDiv.closeIconSpan"></span>
             </button>
         </div>
 
-        <div [ngClass]="options?.cssClasses?.selectionDiv?.draggbleContainerDiv">
-            <div [ngClass]="options?.cssClasses?.selectionDiv?.draggableColumnDiv">{{texts?.titleAvailableColumns}}</div>
+        <div [ngClass]="options.cssClasses.selectionDiv.draggbleContainerDiv">
+            <div [ngClass]="options.cssClasses.selectionDiv.draggableColumnDiv">{{options.texts.titleAvailableColumns | firstUppercaseLocalize}}</div>
 
-            <span [ngClass]="options?.cssClasses?.selectionDiv?.draggableColumnSpan"
+            <span [ngClass]="options.cssClasses.selectionDiv.draggableColumnSpan"
                   draggable="true"
                   *ngFor="let meta of unusedMetadata"
                   (dragstart)="dragStart($event, meta)"
                   (dragend)="dragEnd($event)">
-                <span [ngClass]="options?.cssClasses?.selectionDiv?.draggableColumnIconSpan" (click)="showColumn(meta)"></span>
+                <span [ngClass]="options.cssClasses.selectionDiv.draggableColumnIconSpan" (click)="showColumn(meta)"></span>
                 <span>{{meta?.title}}</span>
             </span>
         </div>
 
-        <div [ngClass]="options?.cssClasses?.selectionDiv?.dropDiv"
+        <div [ngClass]="options.cssClasses.selectionDiv.dropDiv"
              (dragenter)="dragEnter()"
              (dragover)="dragOver($event)"
              (dragleave)="dragLeave()"
              (drop)="drop($event)">
-            <div [ngClass]="options?.cssClasses?.selectionDiv?.droppedColumnDiv"
+            <div [ngClass]="options.cssClasses.selectionDiv.droppedColumnDiv"
                  *ngFor="let meta of metadata?.columns"
-                 [style.width]="(!!meta?.realWidth ? meta?.realWidth : 0) + 'px'">
-                 <div [ngClass]="options?.cssClasses?.selectionDiv?.droppedColumnTitleDiv" [title]="meta?.title">{{meta?.title}}</div>
+                 [style.width.px]="(!!meta?.realWidth ? meta?.realWidth : 0)">
+                 <div [ngClass]="options.cssClasses.selectionDiv.droppedColumnTitleDiv" [title]="meta?.title">{{meta?.title}}</div>
 
-                 <div [ngClass]="options?.cssClasses?.selectionDiv?.droppedColumnRemoveDiv">
-                    <button [ngClass]="options?.cssClasses?.selectionDiv?.droppedColumnRemoveButton" (click)="hideColumn(meta)">
-                        <span [ngClass]="options?.cssClasses?.selectionDiv?.droppedColumnRemoveIconSpan"></span>
+                 <div [ngClass]="options.cssClasses.selectionDiv.droppedColumnRemoveDiv">
+                    <button [ngClass]="options.cssClasses.selectionDiv.droppedColumnRemoveButton" (click)="hideColumn(meta)">
+                        <span [ngClass]="options.cssClasses.selectionDiv.droppedColumnRemoveIconSpan"></span>
                     </button>
                  </div>
             </div>
 
             <ng-template [ngIf]="splitCoordinatesVisible">
                 <div *ngFor="let span of splitCoordinates; let index=index" 
-                    [ngClass]="options?.cssClasses?.selectionDiv?.dropSplitSpanDiv"
+                    [ngClass]="options.cssClasses.selectionDiv.dropSplitSpanDiv"
                     (dragover)="dragOverSplit($event, index)"
                     (dragenter)="dragEnterSplit($event)"
                     (dragleave)="dragLeaveSplit($event)"
-                    [style.left]="span?.startX + 'px'"
-                    [style.width]="span?.width + 'px'">
-                    <div [style.left]="span?.halfOffset + 'px'"></div>
+                    [style.left.px]="span?.startX"
+                    [style.width.px]="span?.width">
+                    <div [style.left.px]="span?.halfOffset"></div>
                 </div>
             </ng-template>
         </div>
