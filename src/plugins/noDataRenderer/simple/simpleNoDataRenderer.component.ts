@@ -97,13 +97,10 @@ export class SimpleNoDataRendererSAComponent implements SimpleNoDataRenderer, Gr
     /**
      * Called when component is destroyed
      */
-    public ngOnDestroy()
+    public ngOnDestroy(): void
     {
-        if(this.stateChangedSubscription)
-        {
-            this.stateChangedSubscription.unsubscribe();
-            this.stateChangedSubscription = null;
-        }
+        this.stateChangedSubscription?.unsubscribe();
+        this.stateChangedSubscription = null;
     }
 
     //######################### public methods - implementation of NoDataRenderer #########################
@@ -115,7 +112,7 @@ export class SimpleNoDataRendererSAComponent implements SimpleNoDataRenderer, Gr
     {
         if(!this.gridPlugins)
         {
-            throw new Error('SimpleNoDataRendererComponent: missing gridPlugins!');
+            throw new Error('SimpleNoDataRendererSAComponent: missing gridPlugins!');
         }
 
         const dataLoader: DataLoader = this.gridPlugins[GridPluginType.DataLoader] as DataLoader;

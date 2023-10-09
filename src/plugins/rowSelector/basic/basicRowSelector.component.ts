@@ -1,25 +1,22 @@
-import {Component, ChangeDetectionStrategy, ElementRef, EventEmitter, Inject, Optional, OnDestroy} from '@angular/core';
-import {extend, isBlank} from '@jscrpt/common';
-import {Subscription} from 'rxjs';
+import {Component, ChangeDetectionStrategy, ElementRef, Inject, Optional, OnDestroy} from '@angular/core';
+import {RecursivePartial, extend, isBlank} from '@jscrpt/common';
+import {Subscription, Observable, Subject} from 'rxjs';
 
-import {GridPluginInstances} from '../../../components/grid';
-import {GRID_PLUGIN_INSTANCES} from '../../../components/grid/types';
-import {GridPluginGeneric} from '../../../misc';
-import {DataLoader} from '../../dataLoader';
-import {DATA_LOADER} from '../../dataLoader/types';
-import {ROW_SELECTOR_OPTIONS} from '../types';
 import {BasicRowSelectorOptions, BasicRowSelector} from './basicRowSelector.interface';
+import {DataLoader, GridPlugin} from '../../../interfaces';
+import {GRID_PLUGIN_INSTANCES, ROW_SELECTOR_OPTIONS} from '../../../misc/tokens';
+import {GridPluginInstances} from '../../../misc/types';
+import {GridPluginType} from '../../../misc/enums';
 
 /**
  * Default options for row selector
- * @internal
  */
 const defaultOptions: BasicRowSelectorOptions =
 {
     getRowId: null,
     autoResetOnDataChange: false,
     multiSelection: true,
-    getRowData: null
+    getRowData: data => data
 };
 
 /**
@@ -29,142 +26,50 @@ const defaultOptions: BasicRowSelectorOptions =
  * other `ContentRenderer` that supports row selection can be used
  *
  * Working with `BasicRowSelectorComponent` from code should be done using extensions methods
- *
- * @example
- * If you want to use row selection you must provide at least `getRowId`, you can use `getRowData` for obtaining selected data in requested format see below example:
- * 
- * ``` typescript
- * var gridOptions =
- * {
- *     plugins:
- *     {
- *         contentRenderer:
- *         {
- *             options: <TableContentRendererOptions>
- *             {
- *                 plugins:
- *                 {
- *                     bodyRenderer:
- *                     {
- *                         type: AdvancedTableBodyContentRendererComponent
- *                     }
- *                 }
- *             }
- *         },
- *         rowSelector:
- *         {
- *             options: <RowSelectorOptions<SelectedDataType, DataType, string>>
- *             {
- *                 getRowId: item => item.uuid,
- *                 getRowData: item =>
- *                 {
- *                     return {
- *                         uuid: item.uuid,
- *                         myNumber: item.myNumber,
- *                         myString: item.myString
- *                     };
- *                 }
- *             }
- *         }
- *     }
- * };
- * ```
- *
- * @example
- * Example usage with `AdvancedTableBodyContentRendererComponent`
- * 
- * ``` html
- * <ng-grid #grid [gridOptions]="gridOptions">
- *     <basic-table-metadata>
- *         <basic-table-column id="uuid" name="uuid" title="Id"></basic-table-column>
- *         <basic-table-column id="myNumber" name="myNumber" title="Number value"></basic-table-column>
- *         <basic-table-column id="myString" name="myString" title="String value"></basic-table-column>
- *
- *         <basic-table-column id="rowSelection" name="rowSelection" title="Row selection">
- *             <!-- selection of all rows in header -->
- *             <ng-template #headerTemplate>
- *                 <input type="checkbox" (click)="toggleAllSelected($event.target.checked, $event)" [checked]="selectedAll">
- *             </ng-template>
- *
- *             <!-- selection of single row -->
- *             <ng-template #bodyTemplate let-item let-rowSelector="rowSelector" let-isSelected="isSelected">
- *                 <input type="checkbox" (click)="rowSelector.selectItem(item, $event.target.checked)" [checked]="isSelected">
- *             </ng-template>
- *         </basic-table-column>
- *     </basic-table-metadata>
- * </ng-grid>
- * ```
- *
- * @example
- * Selecting all items in code
- * 
- * ``` typescript
- * public selectedAll: boolean = false;
- * 
- * (at)ViewChild('grid')
- * public grid: GridComponent;
- * 
- * public ngAfterViewInit()
- * {
- *     this._setSelectedFlags();
- *
- *     let dataLoader = this.grid.getPlugin<DataLoader<DataResponse>>(DATA_LOADER);
- *     let rowSelector = this.grid.getPlugin<RowSelector>(ROW_SELECTOR);
- *
- *     rowSelector.selectedChange.subscribe(() => this._setSelectedFlags());
- *     dataLoader.resultChange.subscribe(() => this._setSelectedFlags());
- * }
- *
- * public toggleAllSelected(value: boolean)
- * {
- *     this.grid.execute(selectAllOnPage(value));
- * }
- *
- * private _setSelectedFlags()
- * {
- *     this.selectedAll = this.grid.executeAndReturn(areSelectedAllOnPage());
- *
- *     this._changeDetector.detectChanges();
- * }
- * ```
  */
 @Component(
 {
     selector: 'ng-basic-row-selector',
     template: '',
+    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BasicRowSelectorComponent<TSelectedData = any, TData = any, TId = any> implements BasicRowSelector<TSelectedData, TData, TId>, GridPluginGeneric<BasicRowSelectorOptions<TSelectedData, TData, TId>>, OnDestroy
+export class BasicRowSelectorSAComponent<TSelectedData = unknown, TData = unknown, TId = unknown> implements BasicRowSelector<TSelectedData, TData, TId>, GridPlugin<BasicRowSelectorOptions<TSelectedData, TData, TId>>, OnDestroy
 {
     //######################### protected fields #########################
 
     /**
      * Options for grid plugin
      */
-    protected _options: BasicRowSelectorOptions<TSelectedData, TData, TId>;
+    protected ɵoptions: BasicRowSelectorOptions<TSelectedData, TData, TId>;
 
     /**
      * Data loader used for loading data
      */
-    protected _dataLoader: DataLoader;
+    protected dataLoader: DataLoader|undefined|null;
 
     /**
      * Subscription for data changes
      */
-    protected _dataChangedSubscription: Subscription;
+    protected dataChangedSubscription: Subscription|undefined|null;
+
+    /**
+     * Subject used for emitting selected change
+     */
+    protected selectedChangeSubject: Subject<void> = new Subject<void>();
 
     //######################### public properties - implementation of RowSelector #########################
 
     /**
-     * Options for grid plugin
+     * @inheritdoc
      */
     public get options(): BasicRowSelectorOptions<TSelectedData, TData, TId>
     {
-        return this._options;
+        return this.ɵoptions;
     }
-    public set options(options: BasicRowSelectorOptions<TSelectedData, TData, TId>)
+    public set options(options: RecursivePartial<BasicRowSelectorOptions<TSelectedData, TData, TId>>)
     {
-        this._options = extend(true, this._options, options) as BasicRowSelectorOptions<TSelectedData, TData, TId>;
+        this.ɵoptions = extend(true, this.ɵoptions, options) as BasicRowSelectorOptions<TSelectedData, TData, TId>;
     }
 
     /**
@@ -180,14 +85,17 @@ export class BasicRowSelectorComponent<TSelectedData = any, TData = any, TId = a
     /**
      * Occurs when selection has changed
      */
-    public selectedChange?: EventEmitter<void> = new EventEmitter<void>();
+    public get selectedChange(): Observable<void>
+    {
+        return this.selectedChangeSubject.asObservable();
+    }
 
     //######################### constructor #########################
-    constructor(@Inject(GRID_PLUGIN_INSTANCES) @Optional() public gridPlugins: GridPluginInstances,
+    constructor(@Inject(GRID_PLUGIN_INSTANCES) @Optional() public gridPlugins: GridPluginInstances|undefined|null,
                 public pluginElement: ElementRef,
                 @Inject(ROW_SELECTOR_OPTIONS) @Optional() options?: BasicRowSelectorOptions<TSelectedData, TData, TId>)
     {
-        this._options = extend(true, {}, defaultOptions, options) as BasicRowSelectorOptions<TSelectedData, TData, TId>;
+        this.ɵoptions = extend(true, {}, defaultOptions, options);
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -195,42 +103,36 @@ export class BasicRowSelectorComponent<TSelectedData = any, TData = any, TId = a
     /**
      * Called when component is destroyed
      */
-    public ngOnDestroy()
+    public ngOnDestroy(): void
     {
-        if(this._dataChangedSubscription)
-        {
-            this._dataChangedSubscription.unsubscribe();
-            this._dataChangedSubscription = null;
-        }
+        this.dataChangedSubscription?.unsubscribe();
+        this.dataChangedSubscription = null;
     }
 
     //######################### public methods - implementation of RowSelector #########################
 
     /**
-     * Resets current selection
-     * @param emit - Indication whether emit selection change
+     * @inheritdoc
      */
-    public resetSelection(emit: boolean = true)
+    public resetSelection(emit: boolean = true): void
     {
         this.selectedIds = [];
         this.selectedData = [];
 
         if(emit)
         {
-            this.selectedChange.emit();
+            this.selectedChangeSubject.next();
         }
     }
 
     /**
-     * Adds item to selection (or remove it from selection if deselect is true)
-     * @param item - Item that is going to be selected
-     * @param select - Indication whether select specified item, defaults to true
+     * @inheritdoc
      */
-    public selectItem(item: TData, select: boolean = true)
+    public selectItem(item: TData, select: boolean = true): void
     {
         if(isBlank(this.options.getRowId))
         {
-            throw new Error('Missing "getRowId" method in options before first use!');
+            throw new Error('BasicRowSelectorSAComponent: Missing "getRowId" method in options before first use!');
         }
 
         if(!this.options.multiSelection)
@@ -247,7 +149,7 @@ export class BasicRowSelectorComponent<TSelectedData = any, TData = any, TId = a
             this.selectedIds.push(id);
             this.selectedData.push(this.options.getRowData(item));
 
-            this.selectedChange.emit();
+            this.selectedChangeSubject.next();
         }
         //remove from selection if selected
         else if(!select && index >= 0)
@@ -257,19 +159,18 @@ export class BasicRowSelectorComponent<TSelectedData = any, TData = any, TId = a
             this.selectedIds = [...this.selectedIds];
             this.selectedData = [...this.selectedData];
 
-            this.selectedChange.emit();
+            this.selectedChangeSubject.next();
         }
     }
 
     /**
-     * Gets indication whether item is currently selected
-     * @param item - Item that is tested for current selection
+     * @inheritdoc
      */
     public isSelected(item: TData): boolean
     {
         if(isBlank(this.options.getRowId))
         {
-            throw new Error('Missing "getRowId" method in options before first use!');
+            throw new Error('BasicRowSelectorSAComponent: Missing "getRowId" method in options before first use!');
         }
 
         const id = this.options.getRowId(item);
@@ -278,25 +179,32 @@ export class BasicRowSelectorComponent<TSelectedData = any, TData = any, TId = a
     }
 
     /**
-     * Initialize plugin, to be ready to use, initialize communication with other plugins
+     * @inheritdoc
      */
-    public initialize()
+    public initialize(): void
     {
-        const dataLoader: DataLoader = this.gridPlugins[DATA_LOADER] as DataLoader;
-
-        if(this._dataLoader && this._dataLoader != dataLoader)
+        if(!this.gridPlugins)
         {
-            this._dataChangedSubscription.unsubscribe();
-            this._dataChangedSubscription = null;
-
-            this._dataLoader = null;
+            throw new Error('BasicRowSelectorSAComponent: missing gridPlugins!');
         }
 
-        if(!this._dataLoader)
-        {
-            this._dataLoader = dataLoader;
+        const dataLoader: DataLoader = this.gridPlugins[GridPluginType.DataLoader] as DataLoader;
 
-            this._dataChangedSubscription = this._dataLoader.resultChange.subscribe(() =>
+        //data loader obtained and its different instance
+        if(this.dataLoader && this.dataLoader != dataLoader)
+        {
+            this.dataChangedSubscription?.unsubscribe();
+            this.dataChangedSubscription = null;
+
+            this.dataLoader = null;
+        }
+
+        //no data loader obtained
+        if(!this.dataLoader)
+        {
+            this.dataLoader = dataLoader;
+
+            this.dataChangedSubscription = this.dataLoader.resultChange.subscribe(() =>
             {
                 if(this.options.autoResetOnDataChange)
                 {
@@ -307,18 +215,14 @@ export class BasicRowSelectorComponent<TSelectedData = any, TData = any, TId = a
     }
 
     /**
-     * Initialize plugin options, all operations required to be done with plugin options are handled here
+     * @inheritdoc
      */
-    public initOptions()
+    public initOptions(): void
     {
-        if(!this.options.getRowData)
-        {
-            this.options.getRowData = this.options.getRowId as any;
-        }
     }
 
     /**
-     * Explicitly runs invalidation of content (change detection)
+     * @inheritdoc
      */
     public invalidateVisuals(): void
     {

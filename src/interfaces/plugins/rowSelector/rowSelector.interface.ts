@@ -1,3 +1,4 @@
+import {Func1} from '@jscrpt/common';
 import {Observable} from 'rxjs';
 
 import {PluginOptions} from '../../pluginOptions/pluginOptions.interface';
@@ -11,7 +12,7 @@ export interface RowSelectorOptions<TSelectedData = unknown, TData = unknown, TI
     /**
      * Method used for obtaining row id, without this row selector cant work
      */
-    getRowId: (data: TData) => TId;
+    getRowId: Func1<TId, TData>|null;
 
     /**
      * Indication whether row selection is enabled
@@ -26,7 +27,7 @@ export interface RowSelectorOptions<TSelectedData = unknown, TData = unknown, TI
     /**
      * Method which if is not specified uses getRowId, but normaly can store specific data for selected rows
      */
-    getRowData: (data: TData) => TSelectedData;
+    getRowData: Func1<TSelectedData, TData>;
 }
 
 /**

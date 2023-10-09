@@ -40,6 +40,12 @@ export interface Grid extends Invalidatable
     getPlugin<PluginInstance extends GridPlugin>(pluginId: GridPluginType): PluginInstance;
 
     /**
+     * Sets GridPluginInstances into GridPlugin
+     * @param plugin - Grid plugin to be filled with grid GridPluginInstances
+     */
+    setGridPluginInstances(plugin: GridPlugin): void;
+
+    /**
      * Executes actions on grid
      * @param actions - Array of actions that are executed over grid
      */

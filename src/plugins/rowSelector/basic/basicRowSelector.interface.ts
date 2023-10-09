@@ -1,15 +1,15 @@
-import {RowSelectorOptions, RowSelector} from '../rowSelector.interface';
+import {RowSelector, RowSelectorOptions} from '../../../interfaces';
 
 /**
  * Basic row selector options
  */
-export interface BasicRowSelectorOptions<TSelectedData = any, TData = any, TId = any> extends RowSelectorOptions<TSelectedData, TData, TId>
+export interface BasicRowSelectorOptions<TSelectedData = unknown, TData = unknown, TId = unknown> extends RowSelectorOptions<TSelectedData, TData, TId>
 {
 }
 
 /**
  * Public API for basic row selector
  */
-export interface BasicRowSelector<TSelectedData = any, TData = any, TId = any> extends RowSelector<TSelectedData, TData, TId>
+export interface BasicRowSelector<TSelectedData = unknown, TData = unknown, TId = unknown> extends RowSelector<TSelectedData, TData, TId>
 {
 }

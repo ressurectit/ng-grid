@@ -7,7 +7,7 @@ import {GridPluginType} from './enums';
  * @param itm - Data item for row
  * @param event - Mouse event that occured
  */
-export function applyRowSelectionBlock<TItem>(grid: Grid, itm: TItem, event: MouseEvent)
+export function applyRowSelectionBlock<TItem>(grid: Grid, itm: TItem, event: MouseEvent): void
 {
     const rowSelector = grid.getPlugin<RowSelector>(GridPluginType.RowSelector);
 

@@ -1,19 +1,19 @@
-import {RowSelectorOptions, RowSelector} from '../rowSelector.interface';
+import {BasicRowSelector, BasicRowSelectorOptions} from '../basic/basicRowSelector.interface';
 
 /**
  * Limited row selector options
  */
-export interface LimitedRowSelectorOptions<TSelectedData = any, TData = any, TId = any> extends RowSelectorOptions<TSelectedData, TData, TId>
+export interface LimitedRowSelectorOptions<TSelectedData = unknown, TData = unknown, TId = unknown> extends BasicRowSelectorOptions<TSelectedData, TData, TId>
 {
     /**
      * Count of items that can be selected
      */
-    limit?: number;
+    limit: number;
 }
 
 /**
  * Public API for limited row selector
  */
-export interface LimitedRowSelector<TSelectedData = any, TData = any, TId = any> extends RowSelector<TSelectedData, TData, TId>
+export interface LimitedRowSelector<TSelectedData = unknown, TData = unknown, TId = unknown> extends BasicRowSelector<TSelectedData, TData, TId>
 {
 }

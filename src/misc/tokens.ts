@@ -1,7 +1,9 @@
 import {InjectionToken} from '@angular/core';
+import {RecursivePartial} from '@jscrpt/common';
 
-import {ContentRenderer, ContentRendererOptions, DataLoader, DataLoaderOptions, GridInitializer, GridInitializerOptions, GridOptions, MetadataGatherer, MetadataSelector, MetadataSelectorOptions, NoDataRenderer, NoDataRendererOptions, Paging, PagingOptions, RowSelector, RowSelectorOptions, VisualPluginOptions} from '../interfaces';
+import {ContentRenderer, ContentRendererOptions, DataLoader, DataLoaderOptions, GridInitializer, GridInitializerOptions, GridOptions, MetadataGatherer, MetadataSelector, MetadataSelectorOptions, NoDataRenderer, NoDataRendererOptions, Paging, PagingOptions, RowSelector, RowSelectorOptions} from '../interfaces';
 import {GridPluginInstances} from './types';
+import {VisualPluginOptions} from '../interfaces';
 
 /**
  * Injection token for obtaining metadata gatherer
@@ -16,7 +18,7 @@ export const GRID_PLUGIN_INSTANCES: InjectionToken<GridPluginInstances> = new In
 /**
  * Injection token for 'GridOptions'
  */
-export const GRID_OPTIONS: InjectionToken<GridOptions> = new InjectionToken<GridOptions>('GRID_OPTIONS');
+export const GRID_OPTIONS: InjectionToken<RecursivePartial<GridOptions>> = new InjectionToken<RecursivePartial<GridOptions>>('GRID_OPTIONS');
 
 /**
  * Injection token for 'Paging' implementation
@@ -56,44 +58,44 @@ export const ROW_SELECTOR_TYPE: InjectionToken<RowSelector> = new InjectionToken
 /**
  * Token for injecting options for content renderer
  */
-export const CONTENT_RENDERER_OPTIONS: InjectionToken<ContentRendererOptions> = new InjectionToken<ContentRendererOptions>('CONTENT_RENDERER_OPTIONS');
+export const CONTENT_RENDERER_OPTIONS: InjectionToken<RecursivePartial<ContentRendererOptions>> = new InjectionToken<RecursivePartial<ContentRendererOptions>>('CONTENT_RENDERER_OPTIONS');
 
 /**
  * Token for injecting options for content body renderer
  */
-export const BODY_CONTENT_RENDERER_OPTIONS: InjectionToken<VisualPluginOptions> = new InjectionToken<VisualPluginOptions>('BODY_CONTENT_RENDERER_OPTIONS');
+export const BODY_CONTENT_RENDERER_OPTIONS: InjectionToken<RecursivePartial<VisualPluginOptions>> = new InjectionToken<RecursivePartial<VisualPluginOptions>>('BODY_CONTENT_RENDERER_OPTIONS');
 
 /**
  * Token for injecting options for content header renderer
  */
-export const HEADER_CONTENT_RENDERER_OPTIONS: InjectionToken<VisualPluginOptions> = new InjectionToken<VisualPluginOptions>('HEADER_CONTENT_RENDERER_OPTIONS');
+export const HEADER_CONTENT_RENDERER_OPTIONS: InjectionToken<RecursivePartial<VisualPluginOptions>> = new InjectionToken<RecursivePartial<VisualPluginOptions>>('HEADER_CONTENT_RENDERER_OPTIONS');
 
 /**
  * Token for injecting options for data loader
  */
-export const DATA_LOADER_OPTIONS: InjectionToken<DataLoaderOptions> = new InjectionToken<DataLoaderOptions>('DATA_LOADER_OPTIONS');
+export const DATA_LOADER_OPTIONS: InjectionToken<RecursivePartial<DataLoaderOptions>> = new InjectionToken<RecursivePartial<DataLoaderOptions>>('DATA_LOADER_OPTIONS');
 
 /**
  * Token for injecting options for grid initializer
  */
-export const GRID_INITIALIZER_OPTIONS: InjectionToken<GridInitializerOptions> = new InjectionToken<GridInitializerOptions>('GRID_INITIALIZER_OPTIONS');
+export const GRID_INITIALIZER_OPTIONS: InjectionToken<RecursivePartial<GridInitializerOptions>> = new InjectionToken<RecursivePartial<GridInitializerOptions>>('GRID_INITIALIZER_OPTIONS');
 
 /**
  * Token for injecting options for metadata selector
  */
-export const METADATA_SELECTOR_OPTIONS: InjectionToken<MetadataSelectorOptions> = new InjectionToken<MetadataSelectorOptions>('METADATA_SELECTOR_OPTIONS');
+export const METADATA_SELECTOR_OPTIONS: InjectionToken<RecursivePartial<MetadataSelectorOptions>> = new InjectionToken<RecursivePartial<MetadataSelectorOptions>>('METADATA_SELECTOR_OPTIONS');
 
 /**
  * Token for injecting options for no data renderer
  */
-export const NO_DATA_RENDERER_OPTIONS: InjectionToken<NoDataRendererOptions> = new InjectionToken<NoDataRendererOptions>('NO_DATA_RENDERER_OPTIONS');
+export const NO_DATA_RENDERER_OPTIONS: InjectionToken<RecursivePartial<NoDataRendererOptions>> = new InjectionToken<RecursivePartial<NoDataRendererOptions>>('NO_DATA_RENDERER_OPTIONS');
 
 /**
  * Token for injecting options for paging
  */
-export const PAGING_OPTIONS: InjectionToken<PagingOptions> = new InjectionToken<PagingOptions>('PAGING_OPTIONS');
+export const PAGING_OPTIONS: InjectionToken<RecursivePartial<PagingOptions>> = new InjectionToken<RecursivePartial<PagingOptions>>('PAGING_OPTIONS');
 
 /**
  * Token for injecting options for row selector
  */
-export const ROW_SELECTOR_OPTIONS: InjectionToken<RowSelectorOptions> = new InjectionToken<RowSelectorOptions>('ROW_SELECTOR_OPTIONS');
+export const ROW_SELECTOR_OPTIONS: InjectionToken<RecursivePartial<RowSelectorOptions>> = new InjectionToken<RecursivePartial<RowSelectorOptions>>('ROW_SELECTOR_OPTIONS');
