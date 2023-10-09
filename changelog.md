@@ -51,6 +51,8 @@
 - renamed `BasicTableColumnComponent` to `TableGridColumnSAComponent`
 - renamed `BasicTableColumnContext` to `TableGridCellTemplateContext` and changed to interface
 - renamed `GridComponent` to `GridSAComponent`
+- renamed `SimpleNoDataRendererComponent` to `SimpleNoDataRendererSAComponent`
+- removed `GridPluginGeneric`, now `GridPlugin` is generic with default value
 - old `ContentRendererOptions` renamed to `HeaderBodyContentRendererOptions`
 - new `ContentRendererOptions` without `plugins`
 - removed grouped table definition, use new syntax to achieve grouped header columns

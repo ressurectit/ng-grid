@@ -1,23 +1,23 @@
-import {NoDataRenderer, NoDataRendererOptions} from '../noDataRenderer.interface';
+import {NoDataRenderer, NoDataRendererOptions} from '../../../interfaces';
 
 /**
  * Css classes for simple no data renderer
  */
 export interface CssClassesSimpleNoDataRenderer
 {
-    wrapperDiv?: string;
-    textSpan?: string;
+    wrapperDiv: string;
+    textSpan: string;
 }
 
 /**
  * Base simple no data renderer options
  */
-export interface SimpleNoDataRendererOptions<TCssClasses = any> extends NoDataRendererOptions<TCssClasses>
+export interface SimpleNoDataRendererOptions extends NoDataRendererOptions<CssClassesSimpleNoDataRenderer>
 {
 }
 
 /**
- * public API for simple no data renderer
+ * Public API for simple no data renderer
  */
 export interface SimpleNoDataRenderer extends NoDataRenderer
 {

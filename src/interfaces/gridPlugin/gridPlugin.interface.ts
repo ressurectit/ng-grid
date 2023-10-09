@@ -11,7 +11,7 @@ export interface GridPlugin<TOptions = unknown> extends Invalidatable
     /**
      * Grid plugin instances available for this plugin
      */
-    readonly gridPlugins: GridPluginInstances;
+    gridPlugins: GridPluginInstances|undefined|null;
 
     /**
      * Element that represents plugin

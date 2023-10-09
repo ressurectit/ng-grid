@@ -3,28 +3,7 @@ import {extend} from '@jscrpt/common';
 import {Observable, BehaviorSubject} from 'rxjs';
 
 import {PagingPosition} from '../../misc/enums';
-import {Paging} from '../../plugins/paging';
-import {BasicPagingComponent} from '../../plugins/paging/components';
-import {PAGING} from '../../plugins/paging/types';
-import {DataLoader} from '../../plugins/dataLoader';
-import {AsyncDataLoaderComponent} from '../../plugins/dataLoader/components';
-import {DATA_LOADER} from '../../plugins/dataLoader/types';
-import {ContentRenderer} from '../../plugins/contentRenderer';
-import {TableContentRendererComponent} from '../../plugins/contentRenderer/components';
-import {CONTENT_RENDERER} from '../../plugins/contentRenderer/types';
-import {MetadataSelector} from '../../plugins/metadataSelector';
-import {NoMetadataSelectorComponent} from '../../plugins/metadataSelector/components';
-import {METADATA_SELECTOR} from '../../plugins/metadataSelector/types';
-import {NoDataRenderer} from '../../plugins/noDataRenderer';
-import {SimpleNoDataRendererComponent} from '../../plugins/noDataRenderer/components';
-import {NO_DATA_RENDERER} from '../../plugins/noDataRenderer/types';
-import {RowSelector} from '../../plugins/rowSelector';
-import {BasicRowSelectorComponent} from '../../plugins/rowSelector/components';
-import {ROW_SELECTOR} from '../../plugins/rowSelector/types';
-import {GridInitializer} from '../../plugins/gridInitializer';
-import {NoGridInitializerComponent} from '../../plugins/gridInitializer/components';
-import {GRID_INITIALIZER} from '../../plugins/gridInitializer/types';
-import {Grid, GridOptions, PluginDescription} from '../../interfaces';
+import {Grid, GridOptions, MetadataGatherer} from '../../interfaces';
 import {GRID_PLUGIN_INSTANCES} from '../../misc/tokens';
 
 //TODO - make grid css class customizable
@@ -38,33 +17,54 @@ const defaultOptions: GridOptions =
     pagingPosition: PagingPosition.Bottom,
     plugins:
     {
-        paging: <PluginDescription<Paging>>
+        paging:
         {
-            type: forwardRef(() => BasicPagingComponent)
+            type: forwardRef(() => BasicPagingComponent),
+            instance: null,
+            instanceCallback: null,
+            options: null,
         },
-        metadataSelector: <PluginDescription<MetadataSelector>>
+        metadataSelector:
         {
-            type: forwardRef(() => NoMetadataSelectorComponent)
+            type: forwardRef(() => NoMetadataSelectorComponent),
+            instance: null,
+            instanceCallback: null,
+            options: null,
         },
-        dataLoader: <PluginDescription<DataLoader>>
+        dataLoader:
         {
-            type: forwardRef(() => AsyncDataLoaderComponent)
+            type: forwardRef(() => AsyncDataLoaderComponent),
+            instance: null,
+            instanceCallback: null,
+            options: null,
         },
-        contentRenderer: <PluginDescription<ContentRenderer>>
+        contentRenderer:
         {
-            type: forwardRef(() => TableContentRendererComponent)
+            type: forwardRef(() => TableContentRendererComponent),
+            instance: null,
+            instanceCallback: null,
+            options: null,
         },
-        noDataRenderer: <PluginDescription<NoDataRenderer>>
+        noDataRenderer:
         {
-            type: forwardRef(() => SimpleNoDataRendererComponent)
+            type: forwardRef(() => SimpleNoDataRendererComponent),
+            instance: null,
+            instanceCallback: null,
+            options: null,
         },
-        rowSelector: <PluginDescription<RowSelector>>
+        rowSelector:
         {
-            type: forwardRef(() => BasicRowSelectorComponent)
+            type: forwardRef(() => BasicRowSelectorComponent),
+            instance: null,
+            instanceCallback: null,
+            options: null,
         },
-        gridInitializer: <PluginDescription<GridInitializer>>
+        gridInitializer:
         {
-            type: forwardRef(() => NoGridInitializerComponent)
+            type: forwardRef(() => NoGridInitializerComponent),
+            instance: null,
+            instanceCallback: null,
+            options: null,
         }
     }
 };
@@ -134,7 +134,7 @@ export class GridSAComponent implements OnInit, AfterViewInit, Grid
      * @internal
      */
     @ContentChild(METADATA_GATHERER)
-    public metadataGatherer: MetadataGatherer;
+    public metadataGatherer: MetadataGatherer|undefined|null;
 
     //######################### constructors #########################
     constructor(protected _changeDetector: ChangeDetectorRef,

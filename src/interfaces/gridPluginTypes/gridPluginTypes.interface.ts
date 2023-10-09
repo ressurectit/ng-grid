@@ -1,11 +1,5 @@
-import {ContentRenderer} from '../../plugins/contentRenderer';
-import {DataLoader} from '../../plugins/dataLoader';
-import {GridInitializer} from '../../plugins/gridInitializer';
-import {MetadataSelector} from '../../plugins/metadataSelector';
-import {NoDataRenderer} from '../../plugins/noDataRenderer';
-import {Paging} from '../../plugins/paging';
-import {RowSelector} from '../../plugins/rowSelector';
 import {PluginDescription} from '../pluginDescription/pluginDescription.interface';
+import {ContentRenderer, ContentRendererOptions, DataLoader, DataLoaderOptions, GridInitializer, GridInitializerOptions, MetadataSelector, MetadataSelectorOptions, NoDataRenderer, NoDataRendererOptions, Paging, PagingOptions, RowSelector, RowSelectorOptions} from '../plugins';
 
 /**
  * All available types of plugins for grid
@@ -15,35 +9,35 @@ export interface GridPluginTypes
     /**
      * Loader that is used for obtaining data that will be displayed
      */
-    dataLoader: PluginDescription<DataLoader>;
+    dataLoader: PluginDescription<DataLoader, DataLoaderOptions>;
 
     /**
      * Paging component used for applying paging to data
      */
-    paging: PluginDescription<Paging>;
+    paging: PluginDescription<Paging, PagingOptions>;
 
     /**
      * Grid initializer component used for obtaining stored grid data
      */
-    gridInitializer: PluginDescription<GridInitializer>;
+    gridInitializer: PluginDescription<GridInitializer, GridInitializerOptions>;
 
     /**
      * Metadata selector used for gathering and manipulation with metadata
      */
-    metadataSelector: PluginDescription<MetadataSelector>;
+    metadataSelector: PluginDescription<MetadataSelector, MetadataSelectorOptions>;
 
     /**
      * Renderer that renders obtained data
      */
-    contentRenderer: PluginDescription<ContentRenderer>;
+    contentRenderer: PluginDescription<ContentRenderer, ContentRendererOptions>;
 
     /**
      * Renderer used for rendering information that there are no data currently
      */
-    noDataRenderer: PluginDescription<NoDataRenderer>;
+    noDataRenderer: PluginDescription<NoDataRenderer, NoDataRendererOptions>;
 
     /**
      * Row selector used for handling row selection
      */
-    rowSelector: PluginDescription<RowSelector>;
+    rowSelector: PluginDescription<RowSelector, RowSelectorOptions>;
 }

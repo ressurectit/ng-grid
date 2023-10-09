@@ -29,3 +29,8 @@ export * from './plugins/rowSelector/components';
 export * from './plugins/gridInitializer';
 export * from './plugins/gridInitializer/types';
 export * from './plugins/gridInitializer/components';
+
+//TODO: use signals
+//TODO: add ordering plugin
+//TODO: use new syntax
+//TODO: new matrix grid

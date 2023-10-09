@@ -8,4 +8,5 @@ export * from './metadata/metadataGatherer.interface';
 export * from './pluginDescription/pluginDescription.interface';
 export * from './pluginOptions/pluginOptions.interface';
 export * from './plugins';
+export * from './simpleOrdering/simpleOrdering.interface';
 export * from './visualPluginOptions/visualPluginOptions.interface';

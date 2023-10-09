@@ -1,25 +1,20 @@
-import {Inject, Component, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef, Optional, OnDestroy} from '@angular/core';
-import {STRING_LOCALIZATION, StringLocalization} from '@anglr/common';
-import {extend} from '@jscrpt/common';
+import {Inject, Component, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef, Optional, OnDestroy, signal, WritableSignal} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {RecursivePartial, extend} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
-import {NO_DATA_RENDERER_OPTIONS} from '../types';
-import {GridPluginGeneric} from '../../../misc';
-import {GridPluginInstances} from '../../../components/grid';
-import {GRID_PLUGIN_INSTANCES} from '../../../components/grid/types';
-import {DataLoader, DataResponse} from '../../dataLoader';
-import {DATA_LOADER, DataLoaderState} from '../../dataLoader/types';
-import {SimpleNoDataRenderer, CssClassesSimpleNoDataRenderer, SimpleNoDataRendererOptions} from './simpleNoDataRenderer.interface';
-import {NoDataRendererTexts} from '../noDataRenderer.interface';
-
-//TODO - change texts for texts options with localizations
+import {DataLoader, GridPlugin} from '../../../interfaces';
+import {SimpleNoDataRenderer, SimpleNoDataRendererOptions} from './simpleNoDataRenderer.interface';
+import {DataLoaderState, GridPluginType} from '../../../misc/enums';
+import {GRID_PLUGIN_INSTANCES, NO_DATA_RENDERER_OPTIONS} from '../../../misc/tokens';
+import {GridPluginInstances} from '../../../misc/types';
 
 /**
  * Default options for no data renderer
- * @internal
  */
-const defaultOptions: SimpleNoDataRendererOptions<CssClassesSimpleNoDataRenderer> =
+const defaultOptions: SimpleNoDataRendererOptions =
 {
+    template: null,
     texts:
     {
         loading: 'Loading ...',
@@ -41,66 +36,60 @@ const defaultOptions: SimpleNoDataRendererOptions<CssClassesSimpleNoDataRenderer
     selector: 'ng-simple-no-data',
     templateUrl: 'simpleNoDataRenderer.component.html',
     styleUrls: ['simpleNoDataRenderer.component.css'],
+    standalone: true,
+    imports:
+    [
+        CommonModule,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SimpleNoDataRendererComponent implements SimpleNoDataRenderer, GridPluginGeneric<SimpleNoDataRendererOptions<CssClassesSimpleNoDataRenderer>>, OnDestroy
+export class SimpleNoDataRendererSAComponent implements SimpleNoDataRenderer, GridPlugin<SimpleNoDataRendererOptions>, OnDestroy
 {
     //######################### protected fields #########################
 
     /**
-     * Options for grid plugin
-     */
-    protected _options: SimpleNoDataRendererOptions<CssClassesSimpleNoDataRenderer>;
-
-    /**
      * Data loader currently used
      */
-    protected _dataLoader: DataLoader<DataResponse>;
+    protected dataLoader: DataLoader|undefined|null;
 
     /**
      * Subscription for changes in state of data loader
      */
-    protected _stateChangedSubscription: Subscription;
+    protected stateChangedSubscription: Subscription|undefined|null;
 
-    /**
-     * Subscription for changes in texts
-     */
-    protected _textsChangedSubscription: Subscription;
-
-    /**
-     * Object containing available texts
-     */
-    protected _texts: NoDataRendererTexts = {};
-
-    //######################### public properties - template bindings #########################
+    //######################### protected properties - template bindings #########################
 
     /**
      * Currently displayed text
      */
-    public text: string;
-
-    //######################### public properties - implementation of NoDataRenderer #########################
+    protected text: WritableSignal<string> = signal('');
 
     /**
      * Options for grid plugin
      */
-    public get options(): SimpleNoDataRendererOptions<CssClassesSimpleNoDataRenderer>
+    protected optionsValue: WritableSignal<SimpleNoDataRendererOptions>;
+
+    //######################### public properties - implementation of NoDataRenderer #########################
+
+    /**
+     * @inheritdoc
+     */
+    public get options(): SimpleNoDataRendererOptions
     {
-        return this._options;
+        return this.optionsValue();
     }
-    public set options(options: SimpleNoDataRendererOptions<CssClassesSimpleNoDataRenderer>)
+    public set options(options: RecursivePartial<SimpleNoDataRendererOptions>)
     {
-        this._options = extend(true, this._options, options);
+        this.optionsValue.update(opts => extend(true, opts, options));
     }
 
     //######################### constructor #########################
-    constructor(@Inject(GRID_PLUGIN_INSTANCES) @Optional() public gridPlugins: GridPluginInstances,
-                @Inject(STRING_LOCALIZATION) protected _stringLocalization: StringLocalization,
-                public pluginElement: ElementRef,
-                protected _changeDetector: ChangeDetectorRef,
-                @Inject(NO_DATA_RENDERER_OPTIONS) @Optional() options?: SimpleNoDataRendererOptions<CssClassesSimpleNoDataRenderer>)
+    constructor(public pluginElement: ElementRef,
+                protected changeDetector: ChangeDetectorRef,
+                @Inject(GRID_PLUGIN_INSTANCES) @Optional() public gridPlugins: GridPluginInstances|undefined|null,
+                @Inject(NO_DATA_RENDERER_OPTIONS) @Optional() options?: SimpleNoDataRendererOptions,)
     {
-        this._options = extend(true, {}, defaultOptions, options);
+        this.optionsValue = signal(extend(true, {}, defaultOptions, options));
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -110,62 +99,61 @@ export class SimpleNoDataRendererComponent implements SimpleNoDataRenderer, Grid
      */
     public ngOnDestroy()
     {
-        if(this._stateChangedSubscription)
+        if(this.stateChangedSubscription)
         {
-            this._stateChangedSubscription.unsubscribe();
-            this._stateChangedSubscription = null;
-        }
-
-        if(this._textsChangedSubscription)
-        {
-            this._textsChangedSubscription.unsubscribe();
-            this._textsChangedSubscription = null;
+            this.stateChangedSubscription.unsubscribe();
+            this.stateChangedSubscription = null;
         }
     }
 
     //######################### public methods - implementation of NoDataRenderer #########################
 
     /**
-     * Initialize plugin, to be ready to use, initialize communication with other plugins
+     * @inheritdoc
      */
-    public initialize()
+    public initialize(): void
     {
-        const dataLoader: DataLoader<DataResponse> = this.gridPlugins[DATA_LOADER] as DataLoader<DataResponse>;
-
-        if(this._dataLoader && this._dataLoader != dataLoader)
+        if(!this.gridPlugins)
         {
-            this._stateChangedSubscription.unsubscribe();
-            this._stateChangedSubscription = null;
-
-            this._dataLoader = null;
+            throw new Error('SimpleNoDataRendererComponent: missing gridPlugins!');
         }
 
-        if(!this._dataLoader)
-        {
-            this._dataLoader = dataLoader;
+        const dataLoader: DataLoader = this.gridPlugins[GridPluginType.DataLoader] as DataLoader;
 
-            this._stateChangedSubscription = this._dataLoader.stateChange.subscribe(() => this._processLoaderState());
+        //data loader obtained and its different instance
+        if(this.dataLoader && this.dataLoader != dataLoader)
+        {
+            this.stateChangedSubscription?.unsubscribe();
+            this.stateChangedSubscription = null;
+
+            this.dataLoader = null;
         }
 
-        this._textsChangedSubscription = this._stringLocalization.textsChange.subscribe(() => this._initTexts());
-        this._initTexts();
-        
+        //no data loader obtained
+        if(!this.dataLoader)
+        {
+            this.dataLoader = dataLoader;
+
+            this.stateChangedSubscription = this.dataLoader.stateChange.subscribe(() => this.processLoaderState());
+        }
+
+        this.processLoaderState();
         this.invalidateVisuals();
     }
 
     /**
-     * Initialize plugin options, all operations required to be done with plugin options are handled here
+     * @inheritdoc
      */
-    public initOptions()
+    public initOptions(): void
     {
     }
 
     /**
-     * Explicitly runs invalidation of content (change detection)
+     * @inheritdoc
      */
     public invalidateVisuals(): void
     {
-        this._changeDetector.detectChanges();
+        this.changeDetector.detectChanges();
     }
 
     //######################### protected methods #########################
@@ -173,30 +161,30 @@ export class SimpleNoDataRendererComponent implements SimpleNoDataRenderer, Grid
     /**
      * Process current loader state
      */
-    protected _processLoaderState()
+    protected processLoaderState(): void
     {
-        if(!this._dataLoader)
+        if(!this.dataLoader)
         {
             return;
         }
 
-        switch(this._dataLoader.state)
+        switch(this.dataLoader.state)
         {
             case DataLoaderState.NoDataLoading:
             {
-                this.text = this._texts.loading;
+                this.text.set(this.optionsValue().texts.loading);
 
                 break;
             }
             case DataLoaderState.NoData:
             {
-                this.text = this._texts.noData;
+                this.text.set(this.optionsValue().texts.noData);
 
                 break;
             }
             case DataLoaderState.NotLoadedYet:
             {
-                this.text = this._texts.notLoaded;
+                this.text.set(this.optionsValue().texts.notLoaded);
 
                 break;
             }
@@ -204,25 +192,12 @@ export class SimpleNoDataRendererComponent implements SimpleNoDataRenderer, Grid
             //case DataLoaderState.Loaded:
             //case DataLoaderState.DataLoading:
             {
-                this.text = null;
+                this.text.set('');
 
                 break;
             }
         }
 
-        this._changeDetector.detectChanges();
-    }
-
-    /**
-     * Initialize texts
-     */
-    protected _initTexts()
-    {
-        Object.keys(this.options.texts).forEach(key =>
-        {
-            this._texts[key] = this._stringLocalization.get(this.options.texts[key]);
-        });
-
-        this._processLoaderState();
+        this.changeDetector.detectChanges();
     }
 }

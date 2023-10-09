@@ -17,7 +17,7 @@ export interface PluginDescription<TPluginType extends GridPlugin = GridPlugin, 
     /**
      * Options that will be passed to dynamically instantiated plugin
      */
-    options: TPluginOptions;
+    options: TPluginOptions|null;
 
     /**
      * Optional callback used for obtaining dynamic instance of plugin (allows direct communication with plugin)

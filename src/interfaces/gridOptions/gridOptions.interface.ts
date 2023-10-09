@@ -18,11 +18,6 @@ export interface GridOptions
     pagingPosition: PagingPosition;
 
     /**
-     * Css classes applied to grid component, possible to override only part of classes
-     */
-    cssClasses: Record<string, unknown>;
-
-    /**
      * Object defining overrides for default plugins, default plugins can be also specified using DI
      */
     plugins: GridPluginTypes;
