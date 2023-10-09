@@ -1,4 +1,4 @@
-import {GridAction, DataLoader, DATA_LOADER} from '@anglr/grid';
+import {GridAction, DataLoader, GridPluginType} from '@anglr/grid';
 
 /**
  * Refresh data
@@ -8,7 +8,7 @@ export function refreshData(force?: boolean): GridAction
 {
     return grid =>
     {
-        const dataLoader = grid.getPlugin<DataLoader>(DATA_LOADER);
+        const dataLoader = grid.getPlugin<DataLoader>(GridPluginType.DataLoader);
 
         dataLoader.loadData(force);
     };

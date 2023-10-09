@@ -1,4 +1,4 @@
-import {GridAction, RowSelector, ROW_SELECTOR, DataLoader, DataResponse, DATA_LOADER} from '@anglr/grid';
+import {GridAction, RowSelector, DataLoader, DataResponse, GridPluginType} from '@anglr/grid';
 
 /**
  * Selects or deselects all items on current page
@@ -9,8 +9,8 @@ export function selectAllOnPage<TItem>(select: boolean = true, predicate: (item:
 {
     return grid =>
     {
-        const dataLoader = grid.getPlugin<DataLoader<DataResponse<TItem>>>(DATA_LOADER);
-        const rowSelector = grid.getPlugin<RowSelector>(ROW_SELECTOR);
+        const dataLoader = grid.getPlugin<DataLoader<DataResponse<TItem>>>(GridPluginType.DataLoader);
+        const rowSelector = grid.getPlugin<RowSelector>(GridPluginType.RowSelector);
 
         dataLoader.result.data.forEach(datum =>
         {

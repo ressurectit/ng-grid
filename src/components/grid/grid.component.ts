@@ -6,7 +6,7 @@ import {Observable, BehaviorSubject} from 'rxjs';
 import {GridPluginType, PagingPosition} from '../../misc/enums';
 import {ContentRenderer, DataLoader, Grid, GridInitializer, GridOptions, GridPlugin, MetadataGatherer, MetadataSelector, NoDataRenderer, Paging, RowSelector} from '../../interfaces';
 import {CONTENT_RENDERER_TYPE, DATA_LOADER_TYPE, GRID_INITIALIZER_TYPE, GRID_OPTIONS, GRID_PLUGIN_INSTANCES, METADATA_GATHERER, METADATA_SELECTOR_TYPE, NO_DATA_RENDERER_TYPE, PAGING_TYPE, ROW_SELECTOR_TYPE} from '../../misc/tokens';
-import {BasicRowSelectorSAComponent, NoGridInitializerSAComponent, NoMetadataSelectorSAComponent, SimpleNoDataRendererSAComponent} from '../../plugins';
+import {AsyncDataLoaderSAComponent, BasicRowSelectorSAComponent, NoGridInitializerSAComponent, NoMetadataSelectorSAComponent, SimpleNoDataRendererSAComponent} from '../../plugins';
 import {GridAction, GridFunction, GridPluginInstances} from '../../misc/types';
 
 /**
@@ -34,7 +34,7 @@ const defaultOptions: GridOptions =
         },
         dataLoader:
         {
-            type: forwardRef(() => AsyncDataLoaderComponent),
+            type: forwardRef(() => AsyncDataLoaderSAComponent),
             instance: null,
             instanceCallback: null,
             options: null,
@@ -326,7 +326,10 @@ export class GridSAComponent implements OnInit, AfterViewInit, Grid
 
         this.pluginInstances[GridPluginType.MetadataSelector] = metadataSelector;
 
-        metadataSelector.metadataGatherer = this.metadataGatherer;
+        if(this.metadataGatherer)
+        {
+            metadataSelector.setMetadataGatherer(this.metadataGatherer);
+        }
 
         if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.metadataSelector && this.ɵgridOptions.plugins.metadataSelector.options)
         {
@@ -571,7 +574,11 @@ export class GridSAComponent implements OnInit, AfterViewInit, Grid
                 {
                     this.pluginInstances[GridPluginType.MetadataSelector] = this.ɵgridOptions.plugins.metadataSelector.instance;
                     this.ɵgridOptions.plugins.metadataSelector.instance.gridPlugins = this.pluginInstances;
-                    this.ɵgridOptions.plugins.metadataSelector.instance.metadataGatherer = this.metadataGatherer;
+
+                    if(this.metadataGatherer)
+                    {
+                        this.ɵgridOptions.plugins.metadataSelector.instance.setMetadataGatherer(this.metadataGatherer);
+                    }
                 }
 
                 if(this.pluginInstances[GridPluginType.MetadataSelector])

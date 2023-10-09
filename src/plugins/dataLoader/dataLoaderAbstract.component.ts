@@ -1,129 +1,140 @@
-import {Injectable, Inject, Optional, OnDestroy, EventEmitter, ElementRef} from '@angular/core';
+import {Injectable, OnDestroy, ElementRef} from '@angular/core';
 import {extend} from '@jscrpt/common';
-import {Subscription, Subject} from 'rxjs';
+import {Subscription, Subject, Observable} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
 
-import {DataLoader, DataLoaderOptions} from './dataLoader.interface';
-import {Paging} from '../paging';
-import {PAGING} from '../paging/types';
-import {ContentRenderer} from '../contentRenderer';
-import {CONTENT_RENDERER} from '../contentRenderer/types';
-import {GridPluginInstances} from '../../components/grid';
-import {GRID_PLUGIN_INSTANCES} from '../../components/grid/types';
-import {GridPluginGeneric} from '../../misc';
-import {DataLoaderState} from './types';
+import {ContentRenderer, DataLoader, DataLoaderOptions, GridPlugin, Paging} from '../../interfaces';
+import {DataLoaderState, GridPluginType} from '../../misc/enums';
+import {GridPluginInstances} from '../../misc/types';
 
 /**
  * Abstract class that represents any data loader component
  */
 @Injectable()
-export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOptions = any, TOrdering = any, TResult = any> implements DataLoader<TResult>, GridPluginGeneric<TOptions>, OnDestroy
+export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOptions = DataLoaderOptions, TOrdering = unknown, TResult = unknown> implements DataLoader<TResult>, GridPlugin<TOptions>, OnDestroy
 {
-    //######################### private fields #########################
+    //######################### protected fields #########################
 
     /**
      * Last page used for loading data
      */
-    private _lastPage: number;
+    protected lastPage: number|undefined|null;
 
     /**
      * Last items per page used for loading data
      */
-    private _lastItemsPerPage: number;
+    protected lastItemsPerPage: number|undefined|null;
 
     /**
      * Last ordering used for loading data
      */
-    private _lastOrdering: TOrdering;
-
-    //######################### protected fields #########################
+    protected lastOrdering: TOrdering|undefined|null;
 
     /**
      * Options for 'AsyncDataLoader'
      */
-    protected _options: TOptions;
+    protected ɵoptions: TOptions;
 
     /**
      * Paging used in grid
      */
-    protected _paging: Paging;
+    protected paging: Paging|undefined|null;
 
     /**
      * Current state of data loader
      */
-    protected _state: DataLoaderState = DataLoaderState.NotLoadedYet;
+    protected ɵstate: DataLoaderState = DataLoaderState.NotLoadedYet;
 
     /**
      * Subscription for page change in paging
      */
-    protected _pageChangedSubscription: Subscription;
+    protected pageChangedSubscription: Subscription|undefined|null;
 
     /**
      * Subscription for items per page change in paging
      */
-    protected _itemsPerPageChangedSubscription: Subscription;
+    protected itemsPerPageChangedSubscription: Subscription|undefined|null;
 
     /**
      * Subscription for ordering change in content renderer
      */
-    protected _orderingChangedSubscription: Subscription;
+    protected orderingChangedSubscription: Subscription|undefined|null;
 
     /**
      * Content renderer used for rendering data
      */
-    protected _contentRenderer: ContentRenderer<TOrdering>;
+    protected contentRenderer: ContentRenderer<TOrdering>|undefined|null;
 
     /**
      * Subject for debounce dataCallback
      */
-    protected _debounceSubject: Subject<boolean> = new Subject<boolean>();
+    protected debounceSubject: Subject<boolean> = new Subject<boolean>();
+
+    /**
+     * Subject used for emitting changes in result
+     */
+    protected resultChangeSubject: Subject<void> = new Subject<void>();
+
+    /**
+     * Subject used for emitting changes in state
+     */
+    protected stateChangeSubject: Subject<void> =  new Subject<void>();
 
     /**
      * Subscription for debounce dataCallback
      */
-    protected _debounceSubscription: Subscription = null;
+    protected debounceSubscription: Subscription|undefined|null;
 
     //######################### public properties #########################
 
     /**
-     * Current state of data loader
+     * @inheritdoc
      */
     public get state(): DataLoaderState
     {
-        return this._state;
+        return this.ɵstate;
     }
 
     /**
-     * Gets or sets options for 'DataLoader'
+     * @inheritdoc
      */
     public get options(): TOptions
     {
-        return this._options;
+        return this.ɵoptions;
     }
     public set options(options: TOptions)
     {
-        this._options = extend(true, this._options, options) as TOptions;
+        this.ɵoptions = extend(true, this.ɵoptions, options);
     }
 
     /**
-     * Current result of data loader
+     * @inheritdoc
      */
     public abstract get result(): TResult;
 
     /**
-     * Indication that data has changed
+     * @inheritdoc
      */
-    public resultChange: EventEmitter<void> = new EventEmitter<void>();
+    public get resultChange(): Observable<void>
+    {
+        return this.resultChangeSubject.asObservable();
+    }
 
     /**
-     * Indication that data loader state has changed
+     * @inheritdoc
      */
-    public stateChange: EventEmitter<void> =  new EventEmitter<void>();
+    public get stateChange(): Observable<void>
+    {
+        return this.stateChangeSubject.asObservable();
+    }
 
     //######################### constructor #########################
-    constructor(public pluginElement: ElementRef,
-                @Inject(GRID_PLUGIN_INSTANCES) @Optional() public gridPlugins: GridPluginInstances)
+    constructor(public pluginElement: ElementRef<HTMLElement>,
+                public gridPlugins: GridPluginInstances|undefined|null,
+                defaultOptions: TOptions,
+                options?: TOptions,)
     {
+        this.ɵoptions = extend(true, {}, defaultOptions, options);
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -131,107 +142,103 @@ export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOpt
     /**
      * Called when component is destroyed
      */
-    public ngOnDestroy()
+    public ngOnDestroy(): void
     {
-        if(this._debounceSubscription)
-        {
-            this._debounceSubscription.unsubscribe();
-            this._debounceSubscription = null;
-        }
+        this.debounceSubscription?.unsubscribe();
+        this.debounceSubscription = null;
 
-        if(this._pageChangedSubscription)
-        {
-            this._pageChangedSubscription.unsubscribe();
-            this._pageChangedSubscription = null;
-        }
+        this.pageChangedSubscription?.unsubscribe();
+        this.pageChangedSubscription = null;
 
-        if(this._itemsPerPageChangedSubscription)
-        {
-            this._itemsPerPageChangedSubscription.unsubscribe();
-            this._itemsPerPageChangedSubscription = null;
-        }
+        this.itemsPerPageChangedSubscription?.unsubscribe();
+        this.itemsPerPageChangedSubscription = null;
 
-        if(this._orderingChangedSubscription)
-        {
-            this._orderingChangedSubscription.unsubscribe();
-            this._orderingChangedSubscription = null;
-        }
+        this.orderingChangedSubscription?.unsubscribe();
+        this.orderingChangedSubscription = null;
     }
 
     //######################### public methodes - implements DataLoader #########################
 
     /**
-     * Initialize plugin, to be ready to use, initialize communication with other plugins
+     * @inheritdoc
      */
-    public initialize()
+    public initialize(): void
     {
-        this._registerDebounce();
-
-        const paging: Paging = this.gridPlugins[PAGING] as Paging;
-
-        if(this._paging && this._paging != paging)
+        if(!this.gridPlugins)
         {
-            this._pageChangedSubscription.unsubscribe();
-            this._pageChangedSubscription = null;
-            this._itemsPerPageChangedSubscription.unsubscribe();
-            this._itemsPerPageChangedSubscription = null;
-
-            this._paging = null;
+            throw new Error('DataLoaderAbstractComponent: missing gridPlugins!');
         }
 
-        if(!this._paging)
-        {
-            this._paging = paging;
+        this.registerDebounce();
 
-            this._pageChangedSubscription = this._paging.pageChange.subscribe(() => this._debounceSubject.next());
-            this._itemsPerPageChangedSubscription = this._paging.itemsPerPageChange.subscribe(() => this._debounceSubject.next());
+        const paging: Paging = this.gridPlugins[GridPluginType.Paging] as Paging;
+
+        //paging obtained and its different instance
+        if(this.paging && this.paging != paging)
+        {
+            this.pageChangedSubscription?.unsubscribe();
+            this.pageChangedSubscription = null;
+            this.itemsPerPageChangedSubscription?.unsubscribe();
+            this.itemsPerPageChangedSubscription = null;
+
+            this.paging = null;
         }
 
-        const contentRenderer: ContentRenderer<TOrdering> = this.gridPlugins[CONTENT_RENDERER] as ContentRenderer<TOrdering>;
-
-        if(this._contentRenderer && this._contentRenderer != contentRenderer)
+        //no paging obtained
+        if(!this.paging)
         {
-            this._orderingChangedSubscription.unsubscribe();
-            this._orderingChangedSubscription = null;
+            this.paging = paging;
 
-            this._contentRenderer = null;
+            this.pageChangedSubscription = this.paging.pageChange.subscribe(() => this.debounceSubject.next(false));
+            this.itemsPerPageChangedSubscription = this.paging.itemsPerPageChange.subscribe(() => this.debounceSubject.next(false));
         }
 
-        if(!this._contentRenderer)
-        {
-            this._contentRenderer = contentRenderer;
+        const contentRenderer: ContentRenderer<TOrdering> = this.gridPlugins[GridPluginType.ContentRenderer] as ContentRenderer<TOrdering>;
 
-            this._orderingChangedSubscription = this._contentRenderer.orderingChange.subscribe(() => this._debounceSubject.next());
+        //content renderer obtained and its different instance
+        if(this.contentRenderer && this.contentRenderer != contentRenderer)
+        {
+            this.orderingChangedSubscription?.unsubscribe();
+            this.orderingChangedSubscription = null;
+
+            this.contentRenderer = null;
         }
 
-        if(this._options.autoLoadData)
+        //no content renderer obtained
+        if(!this.contentRenderer)
+        {
+            this.contentRenderer = contentRenderer;
+
+            this.orderingChangedSubscription = this.contentRenderer.orderingChange.subscribe(() => this.debounceSubject.next(false));
+        }
+
+        if(this.options.autoLoadData)
         {
             this.loadData();
         }
     }
 
     /**
-     * Initialize plugin options, all operations required to be done with plugin options are handled here
+     * @inheritdoc
      */
-    public initOptions()
+    public initOptions(): void
     {
 
     }
 
     /**
-     * Explicitly runs invalidation of content (change detection)
+     * @inheritdoc
      */
-    public invalidateVisuals()
+    public invalidateVisuals(): void
     {
     }
 
     /**
-     * Loads data from 'source'
-     * @param force - Indication that data should be reloaded even if nothing changed
+     * @inheritdoc
      */
-    public loadData(force?: boolean)
+    public loadData(force?: boolean): void
     {
-        this._debounceSubject.next(force);
+        this.debounceSubject.next(!!force);
     }
 
     //######################### protected methods #########################
@@ -240,20 +247,20 @@ export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOpt
      * Loads data from 'source'
      * @param force - Indication that data should be reloaded even if nothing changed
      */
-    protected abstract _loadData(force?: boolean);
+    protected abstract loadGridData(force?: boolean): void;
 
     /**
      * Check for changes on input
      */
-    protected _checkChanges(): boolean
+    protected checkChanges(): boolean
     {
-        if(this._paging.page != this._lastPage ||
-           this._paging.itemsPerPage != this._lastItemsPerPage ||
-           this._contentRenderer.ordering != this._lastOrdering)
+        if(this.paging?.page != this.lastPage ||
+           this.paging?.itemsPerPage != this.lastItemsPerPage ||
+           this.contentRenderer?.ordering != this.lastOrdering)
         {
-            this._lastPage = this._paging.page;
-            this._lastItemsPerPage = this._paging.itemsPerPage;
-            this._lastOrdering = this._contentRenderer.ordering;
+            this.lastPage = this.paging?.page;
+            this.lastItemsPerPage = this.paging?.itemsPerPage;
+            this.lastOrdering = this.contentRenderer?.ordering;
 
             return true;
         }
@@ -261,22 +268,19 @@ export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOpt
         return false;
     }
 
-    //######################### private methods #########################
+    //######################### protected methods #########################
 
     /**
      * Registers debounce subject
      */
-    private _registerDebounce()
+    protected registerDebounce(): void
     {
-        if(this._debounceSubscription)
-        {
-            this._debounceSubscription.unsubscribe();
-            this._debounceSubscription = null;
-        }
+        this.debounceSubscription?.unsubscribe();
+        this.debounceSubscription = null;
 
-        this._debounceSubscription = this._debounceSubject
+        this.debounceSubscription = this.debounceSubject
             .asObservable()
-            .pipe(debounceTime(this._options.debounceDataCallback))
-            .subscribe(force => this._loadData(force));
+            .pipe(debounceTime(this.options.debounceDataCallback))
+            .subscribe(force => this.loadGridData(force));
     }
 }

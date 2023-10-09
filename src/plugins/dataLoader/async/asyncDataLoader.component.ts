@@ -1,81 +1,40 @@
 import {Component, ChangeDetectionStrategy, Inject, Optional, ElementRef} from '@angular/core';
-import {extend} from '@jscrpt/common';
 
-import {DataResponse} from '../dataLoader.interface';
-import {DATA_LOADER_OPTIONS, DataLoaderState} from '../types';
 import {AsyncDataLoaderOptions, AsyncDataLoader} from './asyncDataLoader.interface';
-import {GridPluginInstances} from '../../../components/grid';
-import {GRID_PLUGIN_INSTANCES} from '../../../components/grid/types';
 import {DataLoaderAbstractComponent} from '../dataLoaderAbstract.component';
+import {DataResponse} from '../../../interfaces';
+import {GridPluginInstances} from '../../../misc/types';
+import {DATA_LOADER_OPTIONS, GRID_PLUGIN_INSTANCES} from '../../../misc/tokens';
+import {DataLoaderState} from '../../../misc/enums';
 
 /**
  * Default options for async data loader
- * @internal
  */
 const defaultOptions: AsyncDataLoaderOptions =
 {
     autoLoadData: true,
     debounceDataCallback: 30,
-    dataCallback: () => new Promise<any>(() => {})
+    dataCallback: () => new Promise<DataResponse<unknown>>(() => {return {data: [], totalCount: 0};}),
 };
 
 /**
  * Data loader that allows asynchronous data loading
- * 
- * @example
- * If you want to use async data loader you have to provide at least `dataCallback`.
- * 
- * Sample grid options
- * ``` typescript
- * var gridOptions =
- * {
- *     plugins:
- *     {
- *         dataLoader:
- *         {
- *             type: AsyncDataLoaderComponent, //this is default value could be omitted
- *             options: <AsyncDataLoaderOptions<DataType, SimpleOrdering>>
- *             {
- *                 dataCallback: this._getData.bind(this)
- *             }
- *         }
- *     }
- * };
- * ```
- * 
- * @example
- * data callback should look like this
- * ``` typescript
- * private async _getData(page: number, itemsPerPage: number, ordering: SimpleOrdering): Promise<DataResponse<DataType>>
- * {
- *     let result = await this._dataSvc
- *         .getData(
- *         {
- *             page: (page - 1),
- *             size: itemsPerPage
- *         }).toPromise();
- * 
- *     return {
- *         data: result.content,
- *         totalCount: result.totalElements
- *     };
- * }
- * ```
  */
 @Component(
 {
     selector: 'ng-async-data-loader',
     template: '',
+    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AsyncDataLoaderComponent<TData = any, TOrdering = any> extends DataLoaderAbstractComponent<AsyncDataLoaderOptions<TData, TOrdering>, TOrdering, DataResponse<TData>> implements AsyncDataLoader<TData>
+export class AsyncDataLoaderSAComponent<TData = unknown, TOrdering = unknown> extends DataLoaderAbstractComponent<AsyncDataLoaderOptions<TData, TOrdering>, TOrdering, DataResponse<TData>> implements AsyncDataLoader<TData>
 {
     //######################### private fields #########################
 
     /**
      * Current result of data loader
      */
-    private _result?: DataResponse<TData> =
+    private ɵresult: DataResponse<TData> =
     {
         data: [],
         totalCount: 0
@@ -84,47 +43,48 @@ export class AsyncDataLoaderComponent<TData = any, TOrdering = any> extends Data
     //######################### public properties #########################
 
     /**
-     * Current result of data loader
+     * @inheritdoc
      */
     public get result(): DataResponse<TData>
     {
-        return this._result;
+        return this.ɵresult;
     }
 
     //######################### constructor #########################
     constructor(pluginElement: ElementRef,
-                @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins?: GridPluginInstances,
-                @Inject(DATA_LOADER_OPTIONS) @Optional() options?: AsyncDataLoaderOptions<TData, TOrdering>)
+                @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins: GridPluginInstances|undefined|null,
+                @Inject(DATA_LOADER_OPTIONS) @Optional() options?: AsyncDataLoaderOptions<TData, TOrdering>,)
     {
-        super(pluginElement, gridPlugins);
-
-        this._options = extend(true, {}, defaultOptions, options);
+        super(pluginElement, gridPlugins, defaultOptions as unknown as AsyncDataLoaderOptions<TData, TOrdering>, options);
     }
 
     //######################### protected methodes - implements DataLoaderAbstractComponent #########################
     
     /**
-     * Loads data from 'source'
-     * @param force - Indication that data should be reloaded even if nothing changed
+     * @inheritdoc
      */
-    protected async _loadData(force?: boolean)
+    protected async loadGridData(force?: boolean): Promise<void>
     {
-        if(!this._checkChanges() && !force)
+        if(!this.checkChanges() && !force)
         {
             return;
         }
 
-        this._state = (this._result && this._result.data && this._result.data.length) ? DataLoaderState.DataLoading : DataLoaderState.NoDataLoading;
-        this.stateChange.emit();
+        this.ɵstate = (this.ɵresult && this.ɵresult.data && this.ɵresult.data.length) ? DataLoaderState.DataLoading : DataLoaderState.NoDataLoading;
+        this.stateChangeSubject.next();
 
-        const result = await this._options.dataCallback(this._paging.page, this._paging.itemsPerPage, this._contentRenderer.ordering);
+        const result = await this.ɵoptions.dataCallback(this.paging?.page ?? 1, this.paging?.itemsPerPage ?? 0, this.contentRenderer?.ordering);
 
-        this._state = (result && result.data && result.data.length) ? DataLoaderState.Loaded : DataLoaderState.NoData;
-        this.stateChange.emit();
+        this.ɵstate = (result && result.data && result.data.length) ? DataLoaderState.Loaded : DataLoaderState.NoData;
+        this.stateChangeSubject.next();
 
-        this._paging.totalCount = result.totalCount;
-        this._paging.invalidateVisuals();
-        this._result = result;
-        this.resultChange.emit();
+        if(this.paging)
+        {
+            this.paging.totalCount = result.totalCount;
+            this.paging.invalidateVisuals();
+        }
+
+        this.ɵresult = result;
+        this.resultChangeSubject.next();
     }
 }

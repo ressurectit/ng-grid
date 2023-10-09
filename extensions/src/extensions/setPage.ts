@@ -1,4 +1,4 @@
-import {GridAction, Paging, PAGING, DataLoader, DATA_LOADER} from '@anglr/grid';
+import {GridAction, Paging, DataLoader, GridPluginType} from '@anglr/grid';
 
 /**
  * Sets page for grid
@@ -8,8 +8,8 @@ export function setPage(page: number): GridAction
 {
     return grid =>
     {
-        const paging = grid.getPlugin<Paging>(PAGING);
-        const dataLoader = grid.getPlugin<DataLoader>(DATA_LOADER);
+        const paging = grid.getPlugin<Paging>(GridPluginType.Paging);
+        const dataLoader = grid.getPlugin<DataLoader>(GridPluginType.DataLoader);
 
         paging.page = page;
         paging.invalidateVisuals();

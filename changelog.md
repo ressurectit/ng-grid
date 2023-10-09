@@ -58,6 +58,8 @@
 - renamed `AdvancedMetadataSelectorComponent` to `AdvancedMetadataSelectorSAComponent`
 - renamed `NoGridInitializerComponent` to `NoGridInitializerSAComponent`
 - renamed `QueryGridInitializerComponent` to `QueryGridInitializerSAComponent`
+- renamed `SyncDataLoaderComponent` to `SyncDataLoaderSAComponent`
+- renamed `AsyncDataLoaderComponent` to `AsyncDataLoaderSAComponent`
 - renamed `QueryPermanentStorageGridInitializerComponent` to `QueryPermanentStorageGridInitializerSAComponent`
 - removed `GridPluginGeneric`, now `GridPlugin` is generic with default value
 - old `ContentRendererOptions` renamed to `HeaderBodyContentRendererOptions`

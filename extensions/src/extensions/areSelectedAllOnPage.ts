@@ -1,4 +1,4 @@
-import {GridFunction, RowSelector, ROW_SELECTOR, DataLoader, DataResponse, DATA_LOADER} from '@anglr/grid';
+import {GridFunction, RowSelector, DataLoader, DataResponse, GridPluginType} from '@anglr/grid';
 
 /**
  * Gets indication whether are all currently displayed items on page selected or not, works with DataResponse DataLoader
@@ -8,8 +8,8 @@ export function areSelectedAllOnPage<TItem>(predicate: (item: TItem) => boolean 
 {
     return grid =>
     {
-        const dataLoader = grid.getPlugin<DataLoader<DataResponse<TItem>>>(DATA_LOADER);
-        const rowSelector = grid.getPlugin<RowSelector>(ROW_SELECTOR);
+        const dataLoader = grid.getPlugin<DataLoader<DataResponse<TItem>>>(GridPluginType.DataLoader);
+        const rowSelector = grid.getPlugin<RowSelector>(GridPluginType.RowSelector);
 
         if(dataLoader.result.data.length == 0)
         {
