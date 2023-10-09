@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 10.0.0 (2023-10-07)
+## Version 10.0.0 (2023-10-08)
 
 ### Features
 
@@ -20,6 +20,14 @@
    - **extends** `TableGridCellTemplateBaseDirective`
 - new `TableGridHeaderCellTemplateSADirective` directive, that is used for obtaining template for table grid header cell
    - **extends** `TableGridCellTemplateBaseDirective`
+- new `GridPluginType` enum, that represents available plugin types
+   - `ContentRenderer` content renderer used for rendering content area of grid
+   - `DataLoader` data loader used for obtaining data for grid
+   - `GridInitializer` initializer that is used for obtaining stored initialization data for grid
+   - `MetadataSelector` allows selection of metadata that should be displayed
+   - `NoDataRenderer` renderer that is used for rendering content when no data are present
+   - `Paging` enables paging of data
+   - `RowSelector` handles selection of rows
 - updated `TableGridColumnSAComponent` component
    - now supports also obtaining template using directives `TableGridBodyCellTemplateSADirective`, `TableGridHeaderCellTemplateSADirective`
 
@@ -32,13 +40,17 @@
 - minimal supported version of `tslib` is `2.6.1`
 - dropped support of `NodeJs` lower than `18.13`
 - all `any` generic defaults changed to `unknown` or extended type
+- all components, directives, pipes are now standalone
+- strict null checks and types
 - renamed `GatheredMetadata` to `GridMetadata`
 - renamed `BasicTableColumn` to `TableGridColumn`
 - renamed `BasicTableMetadata` to `TableGridMetadata`
 - renamed `BasicTableMetadataGathererComponent` to `TableGridMetadataGathererSAComponent`
 - renamed `BasicTableColumnComponent` to `TableGridColumnSAComponent`
 - renamed `BasicTableColumnContext` to `TableGridCellTemplateContext` and changed to interface
-- all components, directives, pipes are now standalone
+- renamed `GridComponent` to `GridSAComponent`
+- old `ContentRendererOptions` renamed to `HeaderBodyContentRendererOptions`
+- new `ContentRendererOptions` without `plugins`
 - removed grouped table definition, use new syntax to achieve grouped header columns
    - removed `HeaderTableGroupColumn` interface
    - removed `HeaderTableGroup` interface
@@ -47,6 +59,8 @@
    - removed `GroupedTableMetadataGathererComponent` component
    - removed `HeaderTableGroupComponent` component
    - removed `HeaderTableGroupColumnComponent` component
+   - removed `GroupedGridModule` module
+- removed all plugin identifier contants, use `GridPluginType` enum instead
 
 ## Version 9.0.4 (2023-01-14)
 

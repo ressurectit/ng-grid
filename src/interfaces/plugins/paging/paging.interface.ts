@@ -1,21 +1,22 @@
-import {EventEmitter} from '@angular/core';
+import {Observable} from 'rxjs';
 
-import {VisualPluginOptions, GridPlugin} from '../../misc';
+import {VisualPluginOptions} from '../../visualPluginOptions/visualPluginOptions.interface';
+import {GridPlugin} from '../../gridPlugin/gridPlugin.interface';
 
 /**
  * Base paging options for every paging
  */
-export interface PagingOptions<TCssClasses = any> extends VisualPluginOptions<TCssClasses>
+export interface PagingOptions<TCssClasses = unknown> extends VisualPluginOptions<TCssClasses>
 {
     /**
      * Initial page index that will be rendered, 1 based
      */
-    initialPage?: number;
+    initialPage: number;
 
     /**
      * Initial number of items per page that will be rendered
      */
-    initialItemsPerPage?: number;
+    initialItemsPerPage: number;
 }
 
 /**
@@ -46,10 +47,10 @@ export interface Paging extends GridPlugin
     /**
      * Occurs when index of currently selected page has been changed
      */
-    pageChange: EventEmitter<number>;
+    pageChange: Observable<number>;
 
     /**
      * Occurs when number of items per page currently selected has been changed
      */
-    itemsPerPageChange: EventEmitter<number>;
+    itemsPerPageChange: Observable<number>;
 }

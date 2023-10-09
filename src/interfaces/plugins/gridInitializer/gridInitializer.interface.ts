@@ -1,4 +1,7 @@
-import {GridPlugin, PluginOptions} from '../../misc';
+import {PromiseOr} from '@jscrpt/common';
+
+import {GridPlugin} from '../../gridPlugin/gridPlugin.interface';
+import {PluginOptions} from '../../pluginOptions/pluginOptions.interface';
 
 /**
  * Base grid initializer options for every grid initializer
@@ -8,44 +11,44 @@ export interface GridInitializerOptions extends PluginOptions
     /**
      * Prefix that is applied to stored data
      */
-    prefix?: string;
+    prefix: string;
 }
 
 /**
  * Initializer that is used for initialization (restoring) of grid data and grid plugins data
  */
-export interface GridInitializer extends GridPlugin
+export interface GridInitializer<TOrdering = unknown> extends GridPlugin
 {
     /**
      * Gets stored page
      */
-    getPage(): number;
+    getPage(): PromiseOr<number>;
 
     /**
      * Sets current page when changed
      * @param page - Page to be stored
      */
-    setPage(page: number);
+    setPage(page: number): PromiseOr<void>;
 
     /**
      * Gets stored items per page
      */
-    getItemsPerPage(): number;
+    getItemsPerPage(): PromiseOr<number>;
 
     /**
      * Sets current items per page when changed
      * @param itemsPerPage - Items per page to be stored
      */
-    setItemsPerPage(itemsPerPage: number);
+    setItemsPerPage(itemsPerPage: number): PromiseOr<void>;
 
     /**
      * Gets stored ordering
      */
-    getOrdering(): string;
+    getOrdering(): PromiseOr<TOrdering>;
 
     /**
      * Sets current ordering when changed
      * @param ordering - Ordering as string to be stored
      */
-    setOrdering(ordering: string): void;
+    setOrdering(ordering: TOrdering): PromiseOr<void>;
 }

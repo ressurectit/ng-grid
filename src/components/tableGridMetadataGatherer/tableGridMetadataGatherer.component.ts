@@ -1,10 +1,10 @@
 import {ExistingProvider, Component, ChangeDetectionStrategy, forwardRef, ContentChildren, QueryList, AfterContentInit} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 
-import {METADATA_GATHERER} from '../metadata/types';
 import {TableGridMetadata} from './tableGridMetadataGatherer.interface';
 import {TableGridColumnSAComponent} from '../tableGridColumn/tableGridColumn.component';
 import {TableGridColumn, MetadataGatherer} from '../../interfaces';
+import {METADATA_GATHERER} from '../../misc/tokens';
 
 /**
  * Component that is used for gathering metadata for table
@@ -19,7 +19,6 @@ import {TableGridColumn, MetadataGatherer} from '../../interfaces';
     [
         <ExistingProvider>
         {
-            //TODO: rework or injection token
             provide: METADATA_GATHERER,
             useExisting: forwardRef(() => TableGridMetadataGathererSAComponent)
         }

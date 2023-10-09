@@ -12,6 +12,7 @@ export interface GridMetadata
  */
 export interface MetadataGatherer<TMetadata extends GridMetadata = GridMetadata>
 {
+    //TODO: maybe use signals
     /**
      * Information that metadata for grid has changed
      */

@@ -1,4 +1,4 @@
-import {ContentRendererOptions, ContentRendererPlugins, ContentRenderer, BodyContentRendererOptions, BodyContentRenderer, CssClassesHeaderContentRenderer, HeaderContentRendererOptions, HeaderContentRenderer, CssClassesContentRenderer} from '../contentRenderer.interface';
+import {HeaderBodyContentRendererOptions, ContentRendererPlugins, ContentRenderer, BodyContentRendererOptions, BodyContentRenderer, CssClassesHeaderContentRenderer, HeaderContentRendererOptions, HeaderContentRenderer, CssClassesContentRenderer} from '../contentRenderer.interface';
 
 /**
  * Css classes for css grid content renderer
@@ -10,7 +10,7 @@ export interface CssClassesCssDivsContentRenderer extends CssClassesContentRende
 /**
  * Options for css grid content renderer
  */
-export interface CssDivsContentRendererOptions extends ContentRendererOptions<CssClassesCssDivsContentRenderer, ContentRendererPlugins>
+export interface CssDivsContentRendererOptions extends HeaderBodyContentRendererOptions<CssClassesCssDivsContentRenderer, ContentRendererPlugins>
 {
 }
 

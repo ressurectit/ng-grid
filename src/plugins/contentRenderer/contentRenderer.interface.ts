@@ -1,16 +1,7 @@
 import {EventEmitter} from '@angular/core';
 import {OrderByDirection} from '@jscrpt/common';
 
-import {VisualPluginOptions, GridPlugin, PluginDescription} from '../../misc';
-import {BasicGridColumn} from '../../components/metadata';
-
-/**
- * Css classes for content renderer
- */
-export interface CssClassesContentRenderer
-{
-    containerDiv?: string;
-}
+import {PluginDescription} from '../../interfaces';
 
 /**
  * Definition of plugins for ContentRenderer
@@ -20,39 +11,23 @@ export interface ContentRendererPlugins
     /**
      * Plugin used for rendering of header
      */
-    headerRenderer?: PluginDescription<HeaderContentRenderer>;
+    headerRenderer: PluginDescription<HeaderContentRenderer>;
 
     /**
      * Plugin used for rendering of body
      */
-    bodyRenderer?: PluginDescription<BodyContentRenderer>;
+    bodyRenderer: PluginDescription<BodyContentRenderer>;
 }
 
 /**
  * Options for content renderer
  */
-export interface ContentRendererOptions<TCssClasses extends CssClassesContentRenderer = any, TPlugins extends ContentRendererPlugins = any> extends VisualPluginOptions<TCssClasses>
+export interface HeaderBodyContentRendererOptions<TCssClasses extends CssClassesContentRenderer = any, TPlugins extends ContentRendererPlugins = any> extends VisualPluginOptions<TCssClasses>
 {
     /**
      * Object containing plugins for TableContentRenderer
      */
     plugins?: TPlugins;
-}
-
-/**
- * Renderer used for rendering (data) content
- */
-export interface ContentRenderer<TOrdering = any> extends GridPlugin
-{
-    /**
-     * Information about current ordering state
-     */
-    ordering: TOrdering;
-
-    /**
-     * Indication that ordering has changed
-     */
-    orderingChange: EventEmitter<void>;
 }
 
 /**

@@ -1,5 +1,5 @@
 import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
-import {ContentRenderer, HeaderContentRenderer, BodyContentRenderer, BodyContentRendererOptions, ContentRendererOptions, ContentRendererPlugins, CssClassesHeaderContentRenderer, HeaderContentRendererOptions} from '@anglr/grid';
+import {ContentRenderer, HeaderContentRenderer, BodyContentRenderer, BodyContentRendererOptions, HeaderBodyContentRendererOptions, ContentRendererPlugins, CssClassesHeaderContentRenderer, HeaderContentRendererOptions} from '@anglr/grid';
 
 /**
  * Css classes for virtual scroll table content renderer
@@ -14,7 +14,7 @@ export interface CssClassesVirtualScrollTableContentRenderer
 /**
  * Options for virtual scroll table content renderer
  */
-export interface VirtualScrollTableContentRendererOptions extends ContentRendererOptions<CssClassesVirtualScrollTableContentRenderer, ContentRendererPlugins>
+export interface VirtualScrollTableContentRendererOptions extends HeaderBodyContentRendererOptions<CssClassesVirtualScrollTableContentRenderer, ContentRendererPlugins>
 {
     /**
      * Size of item (height), fixed height has to be set, otherwise computation will not work

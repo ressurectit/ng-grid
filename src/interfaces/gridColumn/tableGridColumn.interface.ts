@@ -21,7 +21,7 @@ export interface TableGridColumn<TData = unknown> extends GridColumn
     /**
      * Indication whether should be title visible in header
      */
-    readonly titleVisible: boolean|undefined|null;
+    readonly titleVisible: boolean;
 
     /**
      * Width as style string, value is exactly same (require units)

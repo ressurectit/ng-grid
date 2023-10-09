@@ -4,7 +4,7 @@ import {Subscription} from 'rxjs';
 
 import {GridPluginInstances} from '../../components/grid';
 import {GRID_PLUGIN_INSTANCES} from '../../components/grid/types';
-import {ContentRendererPlugins, ContentRendererOptions, ContentRenderer, HeaderContentRenderer, BodyContentRenderer, CssClassesContentRenderer} from './contentRenderer.interface';
+import {ContentRendererPlugins, HeaderBodyContentRendererOptions, ContentRenderer, HeaderContentRenderer, BodyContentRenderer, CssClassesContentRenderer} from './contentRenderer.interface';
 import {BODY_CONTENT_RENDERER, HEADER_CONTENT_RENDERER} from './types';
 import {MetadataSelector} from '../metadataSelector';
 import {METADATA_SELECTOR} from '../metadataSelector/types';
@@ -17,7 +17,7 @@ import {GridMetadata} from '../../components/metadata';
  * Abstract component for content renderers
  */
 @Directive()
-export class ContentRendererAbstractComponent<TOrdering = any, TData = any, TMetadata extends GridMetadata = any, TOptions extends ContentRendererOptions<CssClassesContentRenderer, ContentRendererPlugins> = any> implements ContentRenderer<TOrdering>, OnDestroy, GridPluginGeneric<TOptions>
+export class ContentRendererAbstractComponent<TOrdering = any, TData = any, TMetadata extends GridMetadata = any, TOptions extends HeaderBodyContentRendererOptions<CssClassesContentRenderer, ContentRendererPlugins> = any> implements ContentRenderer<TOrdering>, OnDestroy, GridPluginGeneric<TOptions>
 {
     //######################### protected fields #########################
 

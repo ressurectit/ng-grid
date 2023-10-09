@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule as AngularCommonModule} from '@angular/common';
 import {CommonDynamicModule} from '@anglr/common';
 
-import {GridComponent} from '../components/grid/grid.component';
+import {GridSAComponent} from '../components/grid/grid.component';
 import {BasicPagingComponent, LoadMorePagingComponent, PreviousNextPagingComponent, ContentVirtualScrollPagingComponent, PageVirtualScrollPagingComponent, NoPagingComponent} from '../plugins/paging/components';
 import {NoGridInitializerComponent, QueryPermanentStorageGridInitializerComponent, QueryGridInitializerComponent} from '../plugins/gridInitializer/components';
 import {AsyncDataLoaderComponent, SyncDataLoaderComponent} from '../plugins/dataLoader/components';
@@ -25,7 +25,7 @@ import {BasicRowSelectorComponent, LimitedRowSelectorComponent} from '../plugins
     ],
     declarations:
     [
-        GridComponent,
+        GridSAComponent,
         TableGridColumnSAComponent,
         TableGridMetadataGathererSAComponent,
         BasicPagingComponent,
@@ -51,7 +51,7 @@ import {BasicRowSelectorComponent, LimitedRowSelectorComponent} from '../plugins
     ],
     exports:
     [
-        GridComponent,
+        GridSAComponent,
         TableGridColumnSAComponent,
         TableGridMetadataGathererSAComponent,
         BasicPagingComponent,

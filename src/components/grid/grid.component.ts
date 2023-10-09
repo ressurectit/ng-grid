@@ -2,16 +2,10 @@ import {Component, ChangeDetectionStrategy, Inject, Optional, Type, Input, OnIni
 import {extend} from '@jscrpt/common';
 import {Observable, BehaviorSubject} from 'rxjs';
 
-import {GridPluginInstances, Grid, GridFunction} from './grid.interface';
-import {GRID_PLUGIN_INSTANCES} from './types';
-import {GridOptions, PluginDescription, GridPlugin} from '../../misc';
-import {GRID_OPTIONS, PAGING_TYPE, DATA_LOADER_TYPE, CONTENT_RENDERER_TYPE, METADATA_SELECTOR_TYPE, NO_DATA_RENDERER_TYPE, ROW_SELECTOR_TYPE, GRID_INITIALIZER_TYPE} from '../../misc/types';
 import {PagingPosition} from '../../misc/enums';
 import {Paging} from '../../plugins/paging';
 import {BasicPagingComponent} from '../../plugins/paging/components';
 import {PAGING} from '../../plugins/paging/types';
-import {MetadataGatherer} from '../metadata';
-import {METADATA_GATHERER} from '../metadata/types';
 import {DataLoader} from '../../plugins/dataLoader';
 import {AsyncDataLoaderComponent} from '../../plugins/dataLoader/components';
 import {DATA_LOADER} from '../../plugins/dataLoader/types';
@@ -30,12 +24,13 @@ import {ROW_SELECTOR} from '../../plugins/rowSelector/types';
 import {GridInitializer} from '../../plugins/gridInitializer';
 import {NoGridInitializerComponent} from '../../plugins/gridInitializer/components';
 import {GRID_INITIALIZER} from '../../plugins/gridInitializer/types';
+import {Grid, GridOptions, PluginDescription} from '../../interfaces';
+import {GRID_PLUGIN_INSTANCES} from '../../misc/tokens';
 
 //TODO - make grid css class customizable
 
 /**
  * Default 'GridOptions'
- * @internal
  */
 const defaultOptions: GridOptions =
 {
@@ -83,6 +78,7 @@ const defaultOptions: GridOptions =
     templateUrl: 'grid.component.html',
     styleUrls: ['grid.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
     providers:
     [
         <FactoryProvider>
@@ -92,19 +88,19 @@ const defaultOptions: GridOptions =
         }
     ]
 })
-export class GridComponent implements OnInit, AfterViewInit, Grid
+export class GridSAComponent implements OnInit, AfterViewInit, Grid
 {
-    //######################### private fields #########################
+    //######################### protected fields #########################
 
     /**
      * Grid options
      */
-    private _gridOptions: GridOptions;
+    protected ɵgridOptions: GridOptions;
 
     /**
      * Subject used for indication that grid was initialized
      */
-    private _initializedSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    protected initializedSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
     //######################### public properties - inputs #########################
 
@@ -114,11 +110,11 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
     @Input()
     public get gridOptions(): GridOptions
     {
-        return this._gridOptions;
+        return this.ɵgridOptions;
     }
     public set gridOptions(options: GridOptions)
     {
-        this._gridOptions = extend(true, this._gridOptions, options);
+        this.ɵgridOptions = extend(true, this.ɵgridOptions, options);
     }
 
     //######################### public properties - outputs #########################
@@ -128,7 +124,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
      */
     public get initialized(): Observable<boolean>
     {
-        return this._initializedSubject.asObservable();
+        return this.initializedSubject.asObservable();
     }
 
     //######################### public properties - children #########################
@@ -141,8 +137,8 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
     public metadataGatherer: MetadataGatherer;
 
     //######################### constructors #########################
-    constructor(private _changeDetector: ChangeDetectorRef,
-                @Inject(GRID_PLUGIN_INSTANCES) private _pluginInstances: GridPluginInstances,
+    constructor(protected _changeDetector: ChangeDetectorRef,
+                @Inject(GRID_PLUGIN_INSTANCES) protected _pluginInstances: GridPluginInstances,
                 @Inject(GRID_OPTIONS) @Optional() options?: GridOptions,
                 @Inject(PAGING_TYPE) @Optional() pagingType?: Type<Paging>,
                 @Inject(GRID_INITIALIZER_TYPE) @Optional() gridInitializerType?: Type<GridInitializer>,
@@ -229,7 +225,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
             opts.plugins.rowSelector.type = rowSelectorType;
         }
 
-        this._gridOptions = extend(true, {}, defaultOptions, opts);
+        this.ɵgridOptions = extend(true, {}, defaultOptions, opts);
     }
 
     //######################### public methods - implementation of OnInit #########################
@@ -249,7 +245,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
      */
     public ngAfterViewInit()
     {
-        if(this._gridOptions.autoInitialize)
+        if(this.ɵgridOptions.autoInitialize)
         {
             this.initialize();
         }
@@ -271,16 +267,16 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
 
         this._pluginInstances[PAGING] = paging;
 
-        if(this._gridOptions.plugins && this._gridOptions.plugins.paging && this._gridOptions.plugins.paging.options)
+        if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.paging && this.ɵgridOptions.plugins.paging.options)
         {
-            paging.options = this._gridOptions.plugins.paging.options;
+            paging.options = this.ɵgridOptions.plugins.paging.options;
         }
 
         paging.initOptions();
         
-        if(this._gridOptions.plugins && this._gridOptions.plugins.paging && this._gridOptions.plugins.paging.instanceCallback)
+        if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.paging && this.ɵgridOptions.plugins.paging.instanceCallback)
         {
-            this._gridOptions.plugins.paging.instanceCallback(paging);
+            this.ɵgridOptions.plugins.paging.instanceCallback(paging);
         }
     }
 
@@ -298,16 +294,16 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
 
         this._pluginInstances[GRID_INITIALIZER] = gridInitializer;
 
-        if(this._gridOptions.plugins && this._gridOptions.plugins.gridInitializer && this._gridOptions.plugins.gridInitializer.options)
+        if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.gridInitializer && this.ɵgridOptions.plugins.gridInitializer.options)
         {
-            gridInitializer.options = this._gridOptions.plugins.gridInitializer.options;
+            gridInitializer.options = this.ɵgridOptions.plugins.gridInitializer.options;
         }
 
         gridInitializer.initOptions();
         
-        if(this._gridOptions.plugins && this._gridOptions.plugins.gridInitializer && this._gridOptions.plugins.gridInitializer.instanceCallback)
+        if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.gridInitializer && this.ɵgridOptions.plugins.gridInitializer.instanceCallback)
         {
-            this._gridOptions.plugins.gridInitializer.instanceCallback(gridInitializer);
+            this.ɵgridOptions.plugins.gridInitializer.instanceCallback(gridInitializer);
         }
     }
 
@@ -327,16 +323,16 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
 
         metadataSelector.metadataGatherer = this.metadataGatherer;
 
-        if(this._gridOptions.plugins && this._gridOptions.plugins.metadataSelector && this._gridOptions.plugins.metadataSelector.options)
+        if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.metadataSelector && this.ɵgridOptions.plugins.metadataSelector.options)
         {
-            metadataSelector.options = this._gridOptions.plugins.metadataSelector.options;
+            metadataSelector.options = this.ɵgridOptions.plugins.metadataSelector.options;
         }
 
         metadataSelector.initOptions();
         
-        if(this._gridOptions.plugins && this._gridOptions.plugins.metadataSelector && this._gridOptions.plugins.metadataSelector.instanceCallback)
+        if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.metadataSelector && this.ɵgridOptions.plugins.metadataSelector.instanceCallback)
         {
-            this._gridOptions.plugins.metadataSelector.instanceCallback(metadataSelector);
+            this.ɵgridOptions.plugins.metadataSelector.instanceCallback(metadataSelector);
         }
     }
 
@@ -354,16 +350,16 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
 
         this._pluginInstances[DATA_LOADER] = dataLoader;
 
-        if(this._gridOptions.plugins && this._gridOptions.plugins.dataLoader && this._gridOptions.plugins.dataLoader.options)
+        if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.dataLoader && this.ɵgridOptions.plugins.dataLoader.options)
         {
-            dataLoader.options = this._gridOptions.plugins.dataLoader.options;
+            dataLoader.options = this.ɵgridOptions.plugins.dataLoader.options;
         }
 
         dataLoader.initOptions();
         
-        if(this._gridOptions.plugins && this._gridOptions.plugins.dataLoader && this._gridOptions.plugins.dataLoader.instanceCallback)
+        if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.dataLoader && this.ɵgridOptions.plugins.dataLoader.instanceCallback)
         {
-            this._gridOptions.plugins.dataLoader.instanceCallback(dataLoader);
+            this.ɵgridOptions.plugins.dataLoader.instanceCallback(dataLoader);
         }
     }
 
@@ -381,16 +377,16 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
 
         this._pluginInstances[CONTENT_RENDERER] = contentRenderer;
 
-        if(this._gridOptions.plugins && this._gridOptions.plugins.contentRenderer && this._gridOptions.plugins.contentRenderer.options)
+        if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.contentRenderer && this.ɵgridOptions.plugins.contentRenderer.options)
         {
-            contentRenderer.options = this._gridOptions.plugins.contentRenderer.options;
+            contentRenderer.options = this.ɵgridOptions.plugins.contentRenderer.options;
         }
 
         contentRenderer.initOptions();
         
-        if(this._gridOptions.plugins && this._gridOptions.plugins.contentRenderer && this._gridOptions.plugins.contentRenderer.instanceCallback)
+        if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.contentRenderer && this.ɵgridOptions.plugins.contentRenderer.instanceCallback)
         {
-            this._gridOptions.plugins.contentRenderer.instanceCallback(contentRenderer);
+            this.ɵgridOptions.plugins.contentRenderer.instanceCallback(contentRenderer);
         }
     }
 
@@ -408,16 +404,16 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
 
         this._pluginInstances[NO_DATA_RENDERER] = noDataRenderer;
 
-        if(this._gridOptions.plugins && this._gridOptions.plugins.noDataRenderer && this._gridOptions.plugins.noDataRenderer.options)
+        if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.noDataRenderer && this.ɵgridOptions.plugins.noDataRenderer.options)
         {
-            noDataRenderer.options = this._gridOptions.plugins.noDataRenderer.options;
+            noDataRenderer.options = this.ɵgridOptions.plugins.noDataRenderer.options;
         }
 
         noDataRenderer.initOptions();
         
-        if(this._gridOptions.plugins && this._gridOptions.plugins.noDataRenderer && this._gridOptions.plugins.noDataRenderer.instanceCallback)
+        if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.noDataRenderer && this.ɵgridOptions.plugins.noDataRenderer.instanceCallback)
         {
-            this._gridOptions.plugins.noDataRenderer.instanceCallback(noDataRenderer);
+            this.ɵgridOptions.plugins.noDataRenderer.instanceCallback(noDataRenderer);
         }
     }
 
@@ -435,16 +431,16 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
 
         this._pluginInstances[ROW_SELECTOR] = rowSelector;
 
-        if(this._gridOptions.plugins && this._gridOptions.plugins.rowSelector && this._gridOptions.plugins.rowSelector.options)
+        if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.rowSelector && this.ɵgridOptions.plugins.rowSelector.options)
         {
-            rowSelector.options = this._gridOptions.plugins.rowSelector.options;
+            rowSelector.options = this.ɵgridOptions.plugins.rowSelector.options;
         }
 
         rowSelector.initOptions();
         
-        if(this._gridOptions.plugins && this._gridOptions.plugins.rowSelector && this._gridOptions.plugins.rowSelector.instanceCallback)
+        if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.rowSelector && this.ɵgridOptions.plugins.rowSelector.instanceCallback)
         {
-            this._gridOptions.plugins.rowSelector.instanceCallback(rowSelector);
+            this.ɵgridOptions.plugins.rowSelector.instanceCallback(rowSelector);
         }
     }
 
@@ -463,7 +459,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
         this._pluginInstances[NO_DATA_RENDERER].initialize();
         this._pluginInstances[DATA_LOADER].initialize();
 
-        this._initializedSubject.next(true);
+        this.initializedSubject.next(true);
     }
 
     /**
@@ -471,157 +467,157 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
      */
     public initOptions()
     {
-        if(this._gridOptions.plugins)
+        if(this.ɵgridOptions.plugins)
         {
-            if(this._gridOptions.plugins.paging)
+            if(this.ɵgridOptions.plugins.paging)
             {
-                this._gridOptions.plugins.paging.type = resolveForwardRef(this._gridOptions.plugins.paging.type);
+                this.ɵgridOptions.plugins.paging.type = resolveForwardRef(this.ɵgridOptions.plugins.paging.type);
 
-                if(this._gridOptions.plugins.paging.instance &&
-                   this._gridOptions.plugins.paging.instance != this._pluginInstances[PAGING])
+                if(this.ɵgridOptions.plugins.paging.instance &&
+                   this.ɵgridOptions.plugins.paging.instance != this._pluginInstances[PAGING])
                 {
-                    this._pluginInstances[PAGING] = this._gridOptions.plugins.paging.instance;
-                    this._gridOptions.plugins.paging.instance.gridPlugins = this._pluginInstances;
+                    this._pluginInstances[PAGING] = this.ɵgridOptions.plugins.paging.instance;
+                    this.ɵgridOptions.plugins.paging.instance.gridPlugins = this._pluginInstances;
                 }
 
                 if(this._pluginInstances[PAGING])
                 {
-                    if(this._gridOptions.plugins && this._gridOptions.plugins.paging && this._gridOptions.plugins.paging.options)
+                    if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.paging && this.ɵgridOptions.plugins.paging.options)
                     {
-                        this._pluginInstances[PAGING].options = this._gridOptions.plugins.paging.options;
+                        this._pluginInstances[PAGING].options = this.ɵgridOptions.plugins.paging.options;
                     }
 
                     this._pluginInstances[PAGING].initOptions();
                 }
             }
 
-            if(this._gridOptions.plugins.gridInitializer)
+            if(this.ɵgridOptions.plugins.gridInitializer)
             {
-                this._gridOptions.plugins.gridInitializer.type = resolveForwardRef(this._gridOptions.plugins.gridInitializer.type);
+                this.ɵgridOptions.plugins.gridInitializer.type = resolveForwardRef(this.ɵgridOptions.plugins.gridInitializer.type);
 
-                if(this._gridOptions.plugins.gridInitializer.instance &&
-                   this._gridOptions.plugins.gridInitializer.instance != this._pluginInstances[GRID_INITIALIZER])
+                if(this.ɵgridOptions.plugins.gridInitializer.instance &&
+                   this.ɵgridOptions.plugins.gridInitializer.instance != this._pluginInstances[GRID_INITIALIZER])
                 {
-                    this._pluginInstances[GRID_INITIALIZER] = this._gridOptions.plugins.gridInitializer.instance;
-                    this._gridOptions.plugins.gridInitializer.instance.gridPlugins = this._pluginInstances;
+                    this._pluginInstances[GRID_INITIALIZER] = this.ɵgridOptions.plugins.gridInitializer.instance;
+                    this.ɵgridOptions.plugins.gridInitializer.instance.gridPlugins = this._pluginInstances;
                 }
 
                 if(this._pluginInstances[GRID_INITIALIZER])
                 {
-                    if(this._gridOptions.plugins && this._gridOptions.plugins.gridInitializer && this._gridOptions.plugins.gridInitializer.options)
+                    if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.gridInitializer && this.ɵgridOptions.plugins.gridInitializer.options)
                     {
-                        this._pluginInstances[GRID_INITIALIZER].options = this._gridOptions.plugins.gridInitializer.options;
+                        this._pluginInstances[GRID_INITIALIZER].options = this.ɵgridOptions.plugins.gridInitializer.options;
                     }
 
                     this._pluginInstances[GRID_INITIALIZER].initOptions();
                 }
             }
 
-            if(this._gridOptions.plugins.dataLoader)
+            if(this.ɵgridOptions.plugins.dataLoader)
             {
-                this._gridOptions.plugins.dataLoader.type = resolveForwardRef(this._gridOptions.plugins.dataLoader.type);
+                this.ɵgridOptions.plugins.dataLoader.type = resolveForwardRef(this.ɵgridOptions.plugins.dataLoader.type);
 
-                if(this._gridOptions.plugins.dataLoader.instance &&
-                   this._gridOptions.plugins.dataLoader.instance != this._pluginInstances[DATA_LOADER])
+                if(this.ɵgridOptions.plugins.dataLoader.instance &&
+                   this.ɵgridOptions.plugins.dataLoader.instance != this._pluginInstances[DATA_LOADER])
                 {
-                    this._pluginInstances[DATA_LOADER] = this._gridOptions.plugins.dataLoader.instance;
-                    this._gridOptions.plugins.dataLoader.instance.gridPlugins = this._pluginInstances;
+                    this._pluginInstances[DATA_LOADER] = this.ɵgridOptions.plugins.dataLoader.instance;
+                    this.ɵgridOptions.plugins.dataLoader.instance.gridPlugins = this._pluginInstances;
                 }
 
                 if(this._pluginInstances[DATA_LOADER])
                 {
-                    if(this._gridOptions.plugins && this._gridOptions.plugins.dataLoader && this._gridOptions.plugins.dataLoader.options)
+                    if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.dataLoader && this.ɵgridOptions.plugins.dataLoader.options)
                     {
-                        this._pluginInstances[DATA_LOADER].options = this._gridOptions.plugins.dataLoader.options;
+                        this._pluginInstances[DATA_LOADER].options = this.ɵgridOptions.plugins.dataLoader.options;
                     }
 
                     this._pluginInstances[DATA_LOADER].initOptions();
                 }
             }
 
-            if(this._gridOptions.plugins.contentRenderer)
+            if(this.ɵgridOptions.plugins.contentRenderer)
             {
-                this._gridOptions.plugins.contentRenderer.type = resolveForwardRef(this._gridOptions.plugins.contentRenderer.type);
+                this.ɵgridOptions.plugins.contentRenderer.type = resolveForwardRef(this.ɵgridOptions.plugins.contentRenderer.type);
 
-                if(this._gridOptions.plugins.contentRenderer.instance &&
-                   this._gridOptions.plugins.contentRenderer.instance != this._pluginInstances[CONTENT_RENDERER])
+                if(this.ɵgridOptions.plugins.contentRenderer.instance &&
+                   this.ɵgridOptions.plugins.contentRenderer.instance != this._pluginInstances[CONTENT_RENDERER])
                 {
-                    this._pluginInstances[CONTENT_RENDERER] = this._gridOptions.plugins.contentRenderer.instance;
-                    this._gridOptions.plugins.contentRenderer.instance.gridPlugins = this._pluginInstances;
+                    this._pluginInstances[CONTENT_RENDERER] = this.ɵgridOptions.plugins.contentRenderer.instance;
+                    this.ɵgridOptions.plugins.contentRenderer.instance.gridPlugins = this._pluginInstances;
                 }
 
                 if(this._pluginInstances[CONTENT_RENDERER])
                 {
-                    if(this._gridOptions.plugins && this._gridOptions.plugins.contentRenderer && this._gridOptions.plugins.contentRenderer.options)
+                    if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.contentRenderer && this.ɵgridOptions.plugins.contentRenderer.options)
                     {
-                        this._pluginInstances[CONTENT_RENDERER].options = this._gridOptions.plugins.contentRenderer.options;
+                        this._pluginInstances[CONTENT_RENDERER].options = this.ɵgridOptions.plugins.contentRenderer.options;
                     }
 
                     this._pluginInstances[CONTENT_RENDERER].initOptions();
                 }
             }
 
-            if(this._gridOptions.plugins.metadataSelector)
+            if(this.ɵgridOptions.plugins.metadataSelector)
             {
-                this._gridOptions.plugins.metadataSelector.type = resolveForwardRef(this._gridOptions.plugins.metadataSelector.type);
+                this.ɵgridOptions.plugins.metadataSelector.type = resolveForwardRef(this.ɵgridOptions.plugins.metadataSelector.type);
 
-                if(this._gridOptions.plugins.metadataSelector.instance &&
-                   this._gridOptions.plugins.metadataSelector.instance != this._pluginInstances[METADATA_SELECTOR])
+                if(this.ɵgridOptions.plugins.metadataSelector.instance &&
+                   this.ɵgridOptions.plugins.metadataSelector.instance != this._pluginInstances[METADATA_SELECTOR])
                 {
-                    this._pluginInstances[METADATA_SELECTOR] = this._gridOptions.plugins.metadataSelector.instance;
-                    this._gridOptions.plugins.metadataSelector.instance.gridPlugins = this._pluginInstances;
-                    this._gridOptions.plugins.metadataSelector.instance.metadataGatherer = this.metadataGatherer;
+                    this._pluginInstances[METADATA_SELECTOR] = this.ɵgridOptions.plugins.metadataSelector.instance;
+                    this.ɵgridOptions.plugins.metadataSelector.instance.gridPlugins = this._pluginInstances;
+                    this.ɵgridOptions.plugins.metadataSelector.instance.metadataGatherer = this.metadataGatherer;
                 }
 
                 if(this._pluginInstances[METADATA_SELECTOR])
                 {
-                    if(this._gridOptions.plugins && this._gridOptions.plugins.metadataSelector && this._gridOptions.plugins.metadataSelector.options)
+                    if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.metadataSelector && this.ɵgridOptions.plugins.metadataSelector.options)
                     {
-                        this._pluginInstances[METADATA_SELECTOR].options = this._gridOptions.plugins.metadataSelector.options;
+                        this._pluginInstances[METADATA_SELECTOR].options = this.ɵgridOptions.plugins.metadataSelector.options;
                     }
 
                     this._pluginInstances[METADATA_SELECTOR].initOptions();
                 }
             }
 
-            if(this._gridOptions.plugins.noDataRenderer)
+            if(this.ɵgridOptions.plugins.noDataRenderer)
             {
-                this._gridOptions.plugins.noDataRenderer.type = resolveForwardRef(this._gridOptions.plugins.noDataRenderer.type);
+                this.ɵgridOptions.plugins.noDataRenderer.type = resolveForwardRef(this.ɵgridOptions.plugins.noDataRenderer.type);
 
-                if(this._gridOptions.plugins.noDataRenderer.instance &&
-                   this._gridOptions.plugins.noDataRenderer.instance != this._pluginInstances[NO_DATA_RENDERER])
+                if(this.ɵgridOptions.plugins.noDataRenderer.instance &&
+                   this.ɵgridOptions.plugins.noDataRenderer.instance != this._pluginInstances[NO_DATA_RENDERER])
                 {
-                    this._pluginInstances[NO_DATA_RENDERER] = this._gridOptions.plugins.noDataRenderer.instance;
-                    this._gridOptions.plugins.noDataRenderer.instance.gridPlugins = this._pluginInstances;
+                    this._pluginInstances[NO_DATA_RENDERER] = this.ɵgridOptions.plugins.noDataRenderer.instance;
+                    this.ɵgridOptions.plugins.noDataRenderer.instance.gridPlugins = this._pluginInstances;
                 }
 
                 if(this._pluginInstances[NO_DATA_RENDERER])
                 {
-                    if(this._gridOptions.plugins && this._gridOptions.plugins.noDataRenderer && this._gridOptions.plugins.noDataRenderer.options)
+                    if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.noDataRenderer && this.ɵgridOptions.plugins.noDataRenderer.options)
                     {
-                        this._pluginInstances[NO_DATA_RENDERER].options = this._gridOptions.plugins.noDataRenderer.options;
+                        this._pluginInstances[NO_DATA_RENDERER].options = this.ɵgridOptions.plugins.noDataRenderer.options;
                     }
 
                     this._pluginInstances[NO_DATA_RENDERER].initOptions();
                 }
             }
 
-            if(this._gridOptions.plugins.rowSelector)
+            if(this.ɵgridOptions.plugins.rowSelector)
             {
-                this._gridOptions.plugins.rowSelector.type = resolveForwardRef(this._gridOptions.plugins.rowSelector.type);
+                this.ɵgridOptions.plugins.rowSelector.type = resolveForwardRef(this.ɵgridOptions.plugins.rowSelector.type);
 
-                if(this._gridOptions.plugins.rowSelector.instance &&
-                   this._gridOptions.plugins.rowSelector.instance != this._pluginInstances[ROW_SELECTOR])
+                if(this.ɵgridOptions.plugins.rowSelector.instance &&
+                   this.ɵgridOptions.plugins.rowSelector.instance != this._pluginInstances[ROW_SELECTOR])
                 {
-                    this._pluginInstances[ROW_SELECTOR] = this._gridOptions.plugins.rowSelector.instance;
-                    this._gridOptions.plugins.rowSelector.instance.gridPlugins = this._pluginInstances;
+                    this._pluginInstances[ROW_SELECTOR] = this.ɵgridOptions.plugins.rowSelector.instance;
+                    this.ɵgridOptions.plugins.rowSelector.instance.gridPlugins = this._pluginInstances;
                 }
 
                 if(this._pluginInstances[ROW_SELECTOR])
                 {
-                    if(this._gridOptions.plugins && this._gridOptions.plugins.rowSelector && this._gridOptions.plugins.rowSelector.options)
+                    if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.rowSelector && this.ɵgridOptions.plugins.rowSelector.options)
                     {
-                        this._pluginInstances[ROW_SELECTOR].options = this._gridOptions.plugins.rowSelector.options;
+                        this._pluginInstances[ROW_SELECTOR].options = this.ɵgridOptions.plugins.rowSelector.options;
                     }
 
                     this._pluginInstances[ROW_SELECTOR].initOptions();
@@ -660,7 +656,7 @@ export class GridComponent implements OnInit, AfterViewInit, Grid
      * Executes actions on grid
      * @param actions - Array of actions that are executed over grid
      */
-    public execute(...actions: ((grid: GridComponent) => void)[])
+    public execute(...actions: ((grid: GridSAComponent) => void)[])
     {
         if(!actions)
         {

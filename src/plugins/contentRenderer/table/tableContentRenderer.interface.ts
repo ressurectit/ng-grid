@@ -1,4 +1,4 @@
-import {ContentRenderer, HeaderContentRenderer, BodyContentRenderer, BodyContentRendererOptions, ContentRendererOptions, ContentRendererPlugins, CssClassesHeaderContentRenderer, HeaderContentRendererOptions, CssClassesContentRenderer} from '../contentRenderer.interface';
+import {ContentRenderer, HeaderContentRenderer, BodyContentRenderer, BodyContentRendererOptions, HeaderBodyContentRendererOptions, ContentRendererPlugins, CssClassesHeaderContentRenderer, HeaderContentRendererOptions, CssClassesContentRenderer} from '../contentRenderer.interface';
 
 /**
  * Css classes for table content renderer
@@ -11,7 +11,7 @@ export interface CssClassesTableContentRenderer extends CssClassesContentRendere
 /**
  * Options for table content renderer
  */
-export interface TableContentRendererOptions extends ContentRendererOptions<CssClassesTableContentRenderer, ContentRendererPlugins>
+export interface TableContentRendererOptions extends HeaderBodyContentRendererOptions<CssClassesTableContentRenderer, ContentRendererPlugins>
 {
 }
 

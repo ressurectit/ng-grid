@@ -21,7 +21,7 @@ export class TableGridColumnSAComponent<TData = unknown> implements TableGridCol
      * @inheritdoc
      */
     @Input({required: true})
-    public id!: string;
+    public id!: string|undefined|null;
 
     /**
      * @inheritdoc

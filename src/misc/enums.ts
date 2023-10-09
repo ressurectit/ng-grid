@@ -11,7 +11,7 @@ export enum PagingPosition
     /**
      * Paging will be rendered below grid content
      */
-    Bottom
+    Bottom,
 }
 
 /**
@@ -53,4 +53,35 @@ export enum GridPluginType
      * Handles selection of rows
      */
     RowSelector = 'RowSelector',
+}
+
+/**
+ * Possible states of data loader
+ */
+export enum DataLoaderState
+{
+    /**
+     * Loader has not loaded any data yet, this is initial state before first try for loading data
+     */
+    NotLoadedYet,
+
+    /**
+     * This state is present during loading of data when there are no data present
+     */
+    NoDataLoading,
+
+    /**
+     * This state is present any time loader is loading new data, while some data were already loaded
+     */
+    DataLoading,
+
+    /**
+     * This state is present when there are no data available after loading of data
+     */
+    NoData,
+
+    /**
+     * Loader loaded and have some data to be displayed
+     */
+    Loaded,
 }

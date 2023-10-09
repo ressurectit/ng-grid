@@ -1,5 +1,5 @@
 import {Directive, OnInit, Renderer2, Inject, Input, Injector, InjectionToken} from '@angular/core';
-import {GridComponent, BODY_CONTENT_RENDERER, HEADER_CONTENT_RENDERER, Grid} from '@anglr/grid';
+import {GridSAComponent, BODY_CONTENT_RENDERER, HEADER_CONTENT_RENDERER, Grid} from '@anglr/grid';
 import {APP_STABLE} from '@anglr/common';
 import {Subscription} from 'rxjs';
 import * as scrollmagic from 'scrollmagic';
@@ -59,7 +59,7 @@ export class FixedGridHeaderDirective implements OnInit
     public fixedCssClass: string = 'fixed-header';
 
     //######################### constructor #########################
-    constructor(@Inject(GridComponent) private _grid: Grid,
+    constructor(@Inject(GridSAComponent) private _grid: Grid,
                 @Inject(APP_STABLE) private _appStable: any,
                 private _injector: Injector,
                 private _renderer: Renderer2)

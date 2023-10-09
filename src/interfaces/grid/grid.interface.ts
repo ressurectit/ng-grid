@@ -1,12 +1,17 @@
+import {Invalidatable, PromiseOr, RecursivePartial} from '@jscrpt/common';
 import {Observable} from 'rxjs';
 
-import {GridPlugin} from '../../misc';
+import {GridOptions} from '../gridOptions/gridOptions.interface';
+import {GridPlugin} from '../gridPlugin/gridPlugin.interface';
+import {GridAction, GridFunction} from '../../misc/types';
+import {GridPluginType} from '../../misc/enums';
 
 /**
  * Public API for grid
  */
-export interface Grid
+export interface Grid extends Invalidatable
 {
+    //TODO: maybe use signals
     /**
      * Occurs every time when grid is initialized or reinitialized, if value is false grid was not initialized yet
      */
@@ -15,38 +20,34 @@ export interface Grid
     /**
      * Gets or sets grid options
      */
-    gridOptions: GridOptions;
+    get gridOptions(): GridOptions;
+    set gridOptions(value: RecursivePartial<GridOptions>);
 
     /**
      * Initialize component, automatically called once if not blocked by options
      */
-    initialize();
+    initialize(): PromiseOr<void>;
 
     /**
      * Initialize options, automaticaly called during init phase, but can be used to reinitialize GridOptions
      */
-    initOptions();
+    initOptions(): PromiseOr<void>;
 
     /**
      * Gets instance of plugin by its id
      * @param pluginId - Id of plugin, use constants
      */
-    getPlugin<PluginType extends GridPlugin>(pluginId: string): PluginType;
+    getPlugin<PluginInstance extends GridPlugin>(pluginId: GridPluginType): PluginInstance;
 
     /**
      * Executes actions on grid
      * @param actions - Array of actions that are executed over grid
      */
-    execute(...actions: GridAction[]);
+    execute(...actions: GridAction[]): PromiseOr<void>;
 
     /**
      * Executes function on grid and returns result
      * @param func - Function that is executed and its result is returned
      */
     executeAndReturn<TResult>(func: GridFunction<TResult>): TResult;
-
-    /**
-     * Explicitly runs invalidation of content (change detection)
-     */
-    invalidateVisuals(): void;
 }

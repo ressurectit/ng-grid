@@ -6,7 +6,7 @@ export interface GridColumn
     /**
      * Unique identifier of column
      */
-    readonly id: string;
+    readonly id: string|undefined|null;
 
     /**
      * Title of column that is displayed in grid header

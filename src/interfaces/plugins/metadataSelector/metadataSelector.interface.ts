@@ -1,7 +1,8 @@
-import {EventEmitter} from '@angular/core';
+import {Observable} from 'rxjs';
 
-import {PluginOptions, GridPlugin} from '../../misc';
-import {GridMetadata, MetadataGatherer} from '../../components/metadata';
+import {GridPlugin} from '../../gridPlugin/gridPlugin.interface';
+import {GridMetadata, MetadataGatherer} from '../../metadata/metadataGatherer.interface';
+import {PluginOptions} from '../../pluginOptions/pluginOptions.interface';
 
 /**
  * Metadata selector options
@@ -23,12 +24,12 @@ export interface MetadataSelector<TMetadata extends GridMetadata = GridMetadata>
     /**
      * Current metadata that are used for rendering
      */
-    metadata: TMetadata;
+    readonly metadata: TMetadata;
 
     /**
      * Occurs when metadata changed
      */
-    metadataChange: EventEmitter<void>;
+    readonly metadataChange: Observable<void>;
 
     /**
      * Shows metadata selector
