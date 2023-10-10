@@ -7,7 +7,7 @@ import {GRID_PLUGIN_INSTANCES, PAGING_OPTIONS} from '../../../../misc/tokens';
 import {GridPluginInstances} from '../../../../misc/types';
 import {GridPluginType} from '../../../../misc/enums';
 import {ContentRenderer} from '../../../../interfaces';
-import {BodyContentRenderer} from '../../../contentRenderer/contentRenderer.interface';
+import {BodyContentRenderer} from '../../../contentRenderer/bodyHeader/bodyHeaderContentRenderer.interface';
 
 /**
  * Default options for paging

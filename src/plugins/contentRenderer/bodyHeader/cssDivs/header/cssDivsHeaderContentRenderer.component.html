@@ -1,15 +1,15 @@
 <div *ngFor="let meta of metadata?.columns; let index=index" 
      [style.width]="meta?.width"
-     [ngClass]="mergeStringClasses(options?.cssClasses?.headerCellDiv, meta?.headerClass, meta?.ordering ? options?.cssClasses?.headerCellOrderableDiv : null)"
+     [ngClass]="mergeStringClasses(options.cssClasses.headerCellDiv, meta?.headerClass ?? '', meta?.ordering ? options.cssClasses.headerCellOrderableDiv : '')"
      (click)="orderBy(meta)">
     <ng-template [ngIf]="meta?.titleVisible">
         <ng-template [ngIf]="!meta?.headerTemplate" [ngIfElse]="headerTemplate">
-            <span [ngClass]="options?.cssClasses?.spanContent">{{meta?.title}}</span>
+            <span [ngClass]="options.cssClasses.spanContent">{{meta?.title}}</span>
         </ng-template>
 
-        <ng-template #headerTemplate [ngTemplateOutlet]="meta?.headerTemplate" [ngTemplateOutletContext]="meta?.getColumnContext(null, meta, index, 0)">
+        <ng-template #headerTemplate [ngTemplateOutlet]="meta?.headerTemplate ?? null" [ngTemplateOutletContext]="{$implicit: $any(null), column: meta, index, startingIndex: 0, rowIndex: 0}">
         </ng-template>
 
-        <span *ngIf="meta?.ordering" [ngClass]="mergeStringClasses(options?.cssClasses?.spanOrdering, meta?.orderingClass)"></span>
+        <span *ngIf="meta?.ordering" [ngClass]="mergeStringClasses(options.cssClasses.spanOrdering, meta?.orderingClass ?? '')"></span>
     </ng-template>
 </div>

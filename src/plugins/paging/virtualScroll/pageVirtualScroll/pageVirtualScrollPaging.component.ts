@@ -5,8 +5,8 @@ import {VirtualScrollPagingAbstractComponent} from '../virtualScrollPagingAbstra
 import {PageVirtualScrollPagingOptions, PageVirtualScrollPaging} from './pageVirtualScrollPaging.interface';
 import {GridPluginInstances} from '../../../../misc/types';
 import {GRID_PLUGIN_INSTANCES, PAGING_OPTIONS} from '../../../../misc/tokens';
-import {BodyContentRenderer} from '../../../contentRenderer/contentRenderer.interface';
 import {GridPluginType} from '../../../../misc/enums';
+import {BodyContentRenderer} from '../../../contentRenderer/bodyHeader/bodyHeaderContentRenderer.interface';
 
 /**
  * Default options for paging

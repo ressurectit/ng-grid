@@ -3,12 +3,12 @@ import {CommonModule} from '@angular/common';
 import {CommonDynamicModule} from '@anglr/common';
 
 import {TableContentRendererOptions} from './tableContentRenderer.interface';
-import {TableBodyContentRendererComponent} from './body/basic/tableBodyContentRenderer.component';
-import {TableHeaderContentRendererComponent} from './header/basic/tableHeaderContentRenderer.component';
 import {BodyHeaderContentRendererAbstractComponent} from '../bodyHeaderContentRendererAbstract.component';
 import {GridMetadata} from '../../../../interfaces';
 import {CONTENT_RENDERER_OPTIONS, GRID_PLUGIN_INSTANCES} from '../../../../misc/tokens';
 import {GridPluginInstances} from '../../../../misc/types';
+import {TableBodyContentRendererSAComponent} from './body/basic/tableBodyContentRenderer.component';
+import {TableHeaderContentRendererSAComponent} from './header/basic/tableHeaderContentRenderer.component';
 
 /**
  * Default options for 'TableContentRendererComponent'
@@ -24,14 +24,14 @@ const defaultOptions: TableContentRendererOptions =
     {
         bodyRenderer:
         {
-            type: forwardRef(() => TableBodyContentRendererComponent),
+            type: forwardRef(() => TableBodyContentRendererSAComponent),
             instance: null,
             instanceCallback: null,
             options: null,
         },
         headerRenderer:
         {
-            type: forwardRef(() => TableHeaderContentRendererComponent),
+            type: forwardRef(() => TableHeaderContentRendererSAComponent),
             instance: null,
             instanceCallback: null,
             options: null,
