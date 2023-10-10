@@ -1,0 +1,15 @@
+<div *ngFor="let datum of data; let index=index" [ngClass]="options.cssClasses.rowDiv">
+    <ng-template ngFor [ngForOf]="metadata?.columns" let-meta>
+        <div [ngClass]="mergeStringClasses(options.cssClasses.cellDiv, meta.cellClass ?? '')"
+             [attr.data-header-title]="meta?.title"
+             [style.width]="meta?.width">
+            <ng-template [ngIf]="!meta?.bodyTemplate" [ngIfElse]="bodyTemplate">
+                {{($any(datum))[(meta?.name ?? '')]}}
+            </ng-template>
+
+            <ng-template #bodyTemplate [ngTemplateOutlet]="meta?.bodyTemplate ?? null" [ngTemplateOutletContext]="{$implicit: datum, column: meta, index, startingIndex, rowIndex: 0}">
+            </ng-template>
+        </div>
+    </ng-template>
+</div>
+

@@ -66,6 +66,11 @@
 - renamed `PreviousNextPagingComponent` to `PreviousNextPagingSAComponent`
 - renamed `PageVirtualScrollPagingComponent` to `PageVirtualScrollPagingSAComponent`
 - renamed `ContentVirtualScrollPagingComponent` to `ContentVirtualScrollPagingSAComponent`
+- renamed `TableContentRendererComponent` to `TableContentRendererSAComponent`
+- renamed `AdvancedTableBodyContentRendererComponent` to `AdvancedTableBodyContentRendererSAComponent`
+- renamed `TableBodyContentRendererComponent` to `TableBodyContentRendererSAComponent`
+- renamed `CssDivsContentRendererComponent` to `CssDivsContentRendererSAComponent`
+- renamed `CssDivsBodyContentRendererComponent` to `CssDivsBodyContentRendererSAComponent`
 - renamed `QueryPermanentStorageGridInitializerComponent` to `QueryPermanentStorageGridInitializerSAComponent`
 - removed `GridPluginGeneric`, now `GridPlugin` is generic with default value
 - old `ContentRendererOptions` renamed to `HeaderBodyContentRendererOptions`

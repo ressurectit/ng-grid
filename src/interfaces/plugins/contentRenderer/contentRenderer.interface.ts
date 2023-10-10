@@ -26,7 +26,7 @@ export interface ContentRenderer<TOrdering = unknown> extends GridPlugin
     /**
      * Information about current ordering state
      */
-    ordering: TOrdering;
+    ordering: TOrdering|undefined|null;
 
     /**
      * Indication that ordering has changed
