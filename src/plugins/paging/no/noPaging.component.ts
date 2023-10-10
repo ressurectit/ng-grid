@@ -1,20 +1,18 @@
 import {ChangeDetectionStrategy, Component, ElementRef, ChangeDetectorRef, Optional, Inject} from '@angular/core';
-import {extend} from '@jscrpt/common';
 
 import {PagingAbstractComponent} from '../pagingAbstract.component';
 import {NoPagingOptions, NoPaging} from './noPaging.interface';
-import {GridPluginInstances} from '../../../components/grid';
-import {GRID_PLUGIN_INSTANCES} from '../../../components/grid/types';
-import {PAGING_OPTIONS} from '../types';
+import {GRID_PLUGIN_INSTANCES, PAGING_OPTIONS} from '../../../misc/tokens';
+import {GridPluginInstances} from '../../../misc/types';
 
 /**
  * Default options for paging
- * @internal
  */
 const defaultOptions: NoPagingOptions =
 {
     initialItemsPerPage: NaN,
-    initialPage: 1
+    initialPage: 1,
+    cssClasses: {},
 };
 
 /**
@@ -24,38 +22,39 @@ const defaultOptions: NoPagingOptions =
 {
     selector: 'ng-no-paging',
     template: '',
+    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NoPagingComponent extends PagingAbstractComponent<any, NoPagingOptions> implements NoPaging
+export class NoPagingSAComponent extends PagingAbstractComponent<unknown, NoPagingOptions> implements NoPaging
 {
+    //######################### public properties - implementation of NoPaging #########################
+
     /**
-     * Zero based index of first displayed item on page
+     * @inheritdoc
      */
     public firstItemIndex: number = 0;
 
     /**
-     * Gets or sets index of currently selected page
+     * @inheritdoc
      */
     public page: number = 1;
 
     /**
-     * Gets or sets number of items currently used for paging
+     * @inheritdoc
      */
     public itemsPerPage: number = NaN;
 
     /**
-     * Gets or sets number of all items that are paged with current filter criteria
+     * @inheritdoc
      */
-    public totalCount: number = null;
+    public totalCount: number = 0;
 
     //######################### constructor #########################
     constructor(pluginElement: ElementRef,
                 changeDetector: ChangeDetectorRef,
-                @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins?: GridPluginInstances,
-                @Inject(PAGING_OPTIONS) @Optional() options?: NoPagingOptions)
+                @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins: GridPluginInstances|undefined|null,
+                @Inject(PAGING_OPTIONS) @Optional() options?: NoPagingOptions,)
     {
-        super(pluginElement, changeDetector, gridPlugins);
-
-        this._options = extend(true, {}, defaultOptions, options);
+        super(pluginElement, changeDetector, gridPlugins, defaultOptions, options);
     }
 }

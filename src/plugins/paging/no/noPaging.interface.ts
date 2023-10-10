@@ -1,9 +1,9 @@
-import {PagingOptions, Paging} from '../paging.interface';
+import {Paging, PagingOptions} from '../../../interfaces';
 
 /**
  * No paging options for paging
  */
-export interface NoPagingOptions<TCssClasses = any> extends PagingOptions<TCssClasses>
+export interface NoPagingOptions<TCssClasses = unknown> extends PagingOptions<TCssClasses>
 {
 }
 

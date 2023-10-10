@@ -115,7 +115,7 @@ export class LoadMorePagingComponent  extends PagingAbstractComponent<CssClasses
     {
         super(pluginElement, changeDetector, gridPlugins);
 
-        this._options = extend(true, {}, defaultOptions, options);
+        this.ɵoptions = extend(true, {}, defaultOptions, options);
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -171,6 +171,6 @@ export class LoadMorePagingComponent  extends PagingAbstractComponent<CssClasses
             this.texts[key] = this._stringLocalization.get(this.options.texts[key]);
         });
 
-        this._changeDetector.detectChanges();
+        this.changeDetector.detectChanges();
     }
 }

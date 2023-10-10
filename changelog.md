@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 10.0.0 (2023-10-09)
+## Version 10.0.0 (2023-10-11)
 
 ### Features
 
@@ -60,6 +60,8 @@
 - renamed `QueryGridInitializerComponent` to `QueryGridInitializerSAComponent`
 - renamed `SyncDataLoaderComponent` to `SyncDataLoaderSAComponent`
 - renamed `AsyncDataLoaderComponent` to `AsyncDataLoaderSAComponent`
+- renamed `NoPagingComponent` to `NoPagingSAComponent`
+- renamed `BasicPagingComponent` to `BasicPagingSAComponent`
 - renamed `QueryPermanentStorageGridInitializerComponent` to `QueryPermanentStorageGridInitializerSAComponent`
 - removed `GridPluginGeneric`, now `GridPlugin` is generic with default value
 - old `ContentRendererOptions` renamed to `HeaderBodyContentRendererOptions`

@@ -1,5 +1,5 @@
 <div>
-    <ul [ngClass]="options?.cssClasses?.pagingUl">
+    <ul [ngClass]="options.cssClasses.pagingUl">
         <li *ngFor="let page of pages" [ngClass]="{disabled: page.isDisabled, active: page.isActive, 'pointer-cursor': !page.isDisabled && !page.isActive}">
             <a (click)="setPage(page)">
                 <span [innerHtml]="page.title"></span>
@@ -7,10 +7,10 @@
         </li>
     </ul>
 
-    <div [ngClass]="options?.cssClasses?.itemsPerPageDiv" *ngIf="initialized && !!itemsPerPageItems && itemsPerPageItems.length > 0">
-        <span [ngClass]="options?.cssClasses?.displayedItemsCountSpan">{{displayedItemsCount}}</span>
+    <div [ngClass]="options.cssClasses.itemsPerPageDiv" *ngIf="initialized && !!itemsPerPageItems && itemsPerPageItems.length > 0">
+        <span [ngClass]="options.cssClasses.displayedItemsCountSpan">{{displayedItemsCount}}</span>
 
-        <ul [ngClass]="options?.cssClasses?.itemsPerPageUl">
+        <ul [ngClass]="options.cssClasses.itemsPerPageUl">
             <li *ngFor="let itemsPerPage of itemsPerPageItems" [ngClass]="{active: itemsPerPage.isActive, 'pointer-cursor': !itemsPerPage.isActive}">
                 <a (click)="setItemsPerPage(itemsPerPage)">
                     <span [innerHtml]="renderItemsPerPageText(itemsPerPage.value)"></span>

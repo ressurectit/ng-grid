@@ -44,7 +44,7 @@ export class PageVirtualScrollPagingComponent extends VirtualScrollPagingAbstrac
     {
         super(pluginElement, changeDetector, gridPlugins);
 
-        this._options = extend(true, {}, defaultOptions, options);
+        this.ɵoptions = extend(true, {}, defaultOptions, options);
     }
 
     //######################### public methods #########################

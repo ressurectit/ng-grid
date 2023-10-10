@@ -1,33 +1,32 @@
 import {Component, Input, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, ElementRef} from '@angular/core';
-import {Paginator, isPresent, extend} from '@jscrpt/common';
+import {CommonModule} from '@angular/common';
+import {Paginator, isPresent} from '@jscrpt/common';
 
-import {GridPluginInstances} from '../../../components/grid';
-import {GRID_PLUGIN_INSTANCES} from '../../../components/grid/types';
 import {PagingAbstractComponent} from '../pagingAbstract.component';
 import {BasicPagingOptions, BasicPaging, CssClassesBasicPaging} from './basicPaging.interface';
-import {PAGING_OPTIONS} from '../types';
-import {GridInitializer} from '../../gridInitializer';
-import {GRID_INITIALIZER} from '../../gridInitializer/types';
+import {GridPluginType} from '../../../misc/enums';
+import {GridInitializer} from '../../../interfaces';
+import {GRID_PLUGIN_INSTANCES, PAGING_OPTIONS} from '../../../misc/tokens';
+import {GridPluginInstances} from '../../../misc/types';
 
 /**
  * Items per page single item
  */
-export class ItemsPerPageItem
+export interface ItemsPerPageItem
 {
     /**
      * Indication that item is active
      */
-    public isActive: boolean;
+    isActive: boolean;
 
     /**
      * Value of item
      */
-    public value: number;
+    value: number;
 }
 
 /**
  * Default options for paging
- * @internal
  */
 const defaultOptions: BasicPagingOptions =
 {
@@ -41,7 +40,7 @@ const defaultOptions: BasicPagingOptions =
         itemsPerPageDiv: 'pull-right',
         displayedItemsCountSpan: 'items-count',
         itemsPerPageUl: 'pagination pagination-sm margin-sm-vertical'
-    }
+    },
 };
 
 /**
@@ -51,19 +50,13 @@ const defaultOptions: BasicPagingOptions =
 {
     selector: 'ng-basic-paging',
     templateUrl: 'basicPaging.component.html',
+    styleUrls: ['basicPaging.component.css'],
+    standalone: true,
+    imports:
+    [
+        CommonModule,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    styles: [
-        `.items-count
-        {
-            float: left;
-            margin-right: 8px;
-            line-height: 42px;
-        }
-        .pointer-cursor
-        {
-            cursor: pointer;
-        }`
-    ]
 })
 export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasicPaging, BasicPagingOptions> implements BasicPaging
 {
@@ -72,136 +65,123 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
     /**
      * Paginator used for getting page numbers
      */
-    protected _paginator: Paginator = new Paginator();
+    protected paginator: Paginator = new Paginator();
 
     /**
      * Index of currently selected page
      */
-    protected _page: number;
+    protected ɵpage: number = 0;
 
     /**
      * Number of items currently used for paging
      */
-    protected _itemsPerPage: number;
+    protected ɵitemsPerPage: number = NaN;
 
     /**
      * Number of all items that are paged with current filter criteria
      */
-    protected _totalCount: number;
+    protected ɵtotalCount: number = 0;
 
-    //######################### public properties - template bindings #########################
+    //######################### protected properties - template bindings #########################
 
     /**
      * Text displaying items count
-     * @internal
      */
-    public displayedItemsCount: string = '';
+    protected displayedItemsCount: string = '';
 
     /**
      * Array of pages that are rendered
-     * @internal
      */
-    public pages: {isActive: boolean; isDisabled: boolean; title: string; page: number}[] = [];
+    protected pages: {isActive: boolean; isDisabled: boolean; title: string; page: number}[] = [];
 
     /**
      * Array of items per page that are rendered
-     * @internal
      */
-    public itemsPerPageItems: ItemsPerPageItem[] = [];
+    protected itemsPerPageItems: ItemsPerPageItem[] = [];
 
     //######################### public properties #########################
 
     /**
-     * Zero based index of first displayed item on page
+     * @inheritdoc
      */
     public get firstItemIndex(): number
     {
-        const offset = this._paginator.getOffset();
+        const offset = this.paginator.getOffset();
 
         return isNaN(offset) ? 0 : offset;
-    }
-
-    /**
-     * Indication whether plugin is already initialized
-     */
-    public get initialized(): boolean
-    {
-        return this._initialized;
     }
 
     //######################### public properties - inputs #########################
 
     /**
-     * Gets or sets index of currently selected page
+     * @inheritdoc
      */
     @Input()
     public get page(): number
     {
-        return this._page;
+        return this.ɵpage;
     }
     public set page(page: number)
     {
-        this._page = page;
-        this._paginator.setPage(page);
-        this._generatePages();
-        this._setDisplayedItemsCount();
-        (this.gridPlugins[GRID_INITIALIZER] as GridInitializer).setPage(this._page);
+        this.ɵpage = page;
+        this.paginator.setPage(page);
+        this.generatePages();
+        this.setDisplayedItemsCount();
+        (this.gridPlugins?.[GridPluginType.GridInitializer] as GridInitializer).setPage(this.ɵpage);
     }
 
     /**
-     * Gets or sets number of items currently used for paging
+     * @inheritdoc
      */
     @Input()
     public get itemsPerPage(): number
     {
-        return this._itemsPerPage;
+        return this.ɵitemsPerPage;
     }
     public set itemsPerPage(itemsPerPage: number)
     {
-        this._itemsPerPage = itemsPerPage;
-        this._paginator.setItemsPerPage(itemsPerPage);
-        this._generatePages();
-        this._generateItemsPerPage();
-        this._setDisplayedItemsCount();
-        (this.gridPlugins[GRID_INITIALIZER] as GridInitializer).setItemsPerPage(this._itemsPerPage);
+        this.ɵitemsPerPage = itemsPerPage;
+        this.paginator.setItemsPerPage(itemsPerPage);
+        this.generatePages();
+        this.generateItemsPerPage();
+        this.setDisplayedItemsCount();
+        (this.gridPlugins?.[GridPluginType.GridInitializer] as GridInitializer).setItemsPerPage(this.ɵitemsPerPage);
     }
 
     /**
-     * Gets or sets number of all items that are paged with current filter criteria
+     * @inheritdoc
      */
     @Input()
     public get totalCount(): number
     {
-        return this._totalCount;
+        return this.ɵtotalCount;
     }
     public set totalCount(totalCount: number)
     {
-        this._totalCount = totalCount;
-        this._paginator.setItemCount(totalCount);
-        this._generatePages();
-        this._setDisplayedItemsCount();
+        this.ɵtotalCount = totalCount;
+        this.paginator.setItemCount(totalCount);
+        this.generatePages();
+        this.setDisplayedItemsCount();
     }
 
     //######################### constructor #########################
     constructor(pluginElement: ElementRef,
                 changeDetector: ChangeDetectorRef,
-                @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins?: GridPluginInstances,
+                @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins: GridPluginInstances|undefined|null,
                 @Inject(PAGING_OPTIONS) @Optional() options?: BasicPagingOptions)
     {
-        super(pluginElement, changeDetector, gridPlugins);
+        super(pluginElement, changeDetector, gridPlugins, defaultOptions, options);
 
-        this._options = extend(true, {}, defaultOptions, options);
         this.optionsSet();
     }
 
-    //######################### public methods - template bindings #########################
+    //######################### protected methods - template bindings #########################
 
     /**
      * Sets page for current paging
      * @param page - Page index to be set
-     * @internal
      */
-    public setPage(page: {isActive: boolean; isDisabled: boolean; page: number})
+    protected setPage(page: {isActive: boolean; isDisabled: boolean; page: number}): void
     {
         if(page.isActive || page.isDisabled)
         {
@@ -209,15 +189,14 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
         }
 
         this.page = page.page;
-        this.pageChange.emit(this.page);
+        this.pageChangeSubject.next(this.page);
     }
 
     /**
      * Sets items per page for current paging
      * @param itemsPerPage - Number of items per page
-     * @internal
      */
-    public setItemsPerPage(itemsPerPage: ItemsPerPageItem)
+    protected setItemsPerPage(itemsPerPage: ItemsPerPageItem): void
     {
         if(itemsPerPage.isActive)
         {
@@ -225,7 +204,7 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
         }
 
         this.itemsPerPage = itemsPerPage.value;
-        this.itemsPerPageChange.emit(this.itemsPerPage);
+        this.itemsPerPageChangeSubject.next(this.itemsPerPage);
     }
 
     /**
@@ -233,7 +212,7 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
      * @param value - Text that is returned for items per page
      * @internal
      */
-    public renderItemsPerPageText(value: number): string
+    protected renderItemsPerPageText(value: number): string
     {
         return isNaN(value) ? '&infin;' : value.toString();
     }
@@ -241,14 +220,14 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
     //######################### public methods #########################
 
     /**
-     * Method that initialize paging component, this method can be used for initialization if paging used dynamicaly
+     * @inheritdoc
      */
-    public override initialize()
+    public override async initialize(): Promise<void>
     {
-        super.initialize();
+        await super.initialize();
 
-        this._paginator.setPage(this._page);
-        this._paginator.setItemsPerPage(this._itemsPerPage);
+        this.paginator.setPage(this.ɵpage);
+        this.paginator.setItemsPerPage(this.ɵitemsPerPage);
     }
 
     //######################### protected methods #########################
@@ -256,23 +235,23 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
     /**
      * Generates rendered pages
      */
-    protected _generatePages()
+    protected generatePages(): void
     {
-        if(!this._initialized)
+        if(!this.initialized)
         {
             return;
         }
 
-        const pageCount = this._paginator.getPageCount() || 1;
+        const pageCount = this.paginator.getPageCount() || 1;
 
         //Applied when displaying all items
         if(isNaN(pageCount))
         {
-            if(this._page != 1)
+            if(this.ɵpage != 1)
             {
-                this._page = 1;
-                this._paginator.setPage(1);
-                this.pageChange.emit(1);
+                this.ɵpage = 1;
+                this.paginator.setPage(1);
+                this.pageChangeSubject.next(1);
             }
 
             this.pages = [];
@@ -280,7 +259,7 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
             return;
         }
 
-        if(!isNaN(pageCount) && pageCount < this._page)
+        if(!isNaN(pageCount) && pageCount < this.ɵpage)
         {
             this.setPage(
             {
@@ -295,16 +274,16 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
         this.pages.push(
         {
             isActive: false,
-            isDisabled: this._paginator.isFirst(),
+            isDisabled: this.paginator.isFirst(),
             title: '&laquo;',
-            page: this._paginator.GetFirstPage()
+            page: this.paginator.GetFirstPage()
         });
 
-        this._paginator.getPagesWithTrimDispersion(this.options.pagesDispersion).forEach(page =>
+        this.paginator.getPagesWithTrimDispersion(this.options.pagesDispersion).forEach(page =>
         {
             this.pages.push(
             {
-                isActive: this._paginator.getPage() == page,
+                isActive: this.paginator.getPage() == page,
                 isDisabled: false,
                 title: page.toString(),
                 page: page
@@ -314,16 +293,16 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
         this.pages.push(
         {
             isActive: false,
-            isDisabled: this._paginator.isLast(),
+            isDisabled: this.paginator.isLast(),
             title: '&raquo;',
-            page: this._paginator.getLastPage()
+            page: this.paginator.getLastPage()
         });
     }
 
     /**
      * Generates rendered items per page
      */
-    protected _generateItemsPerPage()
+    protected generateItemsPerPage(): void
     {
         this.itemsPerPageItems.forEach(itm => itm.isActive = itm.value == this.itemsPerPage || (isNaN(itm.value) && isNaN(this.itemsPerPage)));
     }
@@ -331,33 +310,33 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
     /**
      * Sets displayed items count
      */
-    protected _setDisplayedItemsCount()
+    protected setDisplayedItemsCount(): void
     {
-        if(!this._initialized)
+        if(!this.initialized)
         {
             return;
         }
 
-        const displayedItems = this._paginator.getOffset() + this._paginator.getLength();
+        const displayedItems = this.paginator.getOffset() + this.paginator.getLength();
 
         this.displayedItemsCount = '';
 
-        if(isNaN(displayedItems) && isPresent(this._totalCount))
+        if(isNaN(displayedItems) && isPresent(this.ɵtotalCount))
         {
-            this.displayedItemsCount = this._totalCount.toString();
+            this.displayedItemsCount = this.ɵtotalCount.toString();
         }
-        else if(!isNaN(displayedItems) && isPresent(this._totalCount))
+        else if(!isNaN(displayedItems) && isPresent(this.ɵtotalCount))
         {
-            this.displayedItemsCount = `${displayedItems}/${this._totalCount}`;
+            this.displayedItemsCount = `${displayedItems}/${this.ɵtotalCount}`;
         }
     }
 
     //######################### protected methods - overrides #########################
 
     /**
-     * Method called when options are set, allowing to do something after that when overriden
+     * @inheritdoc
      */
-    protected override optionsSet()
+    protected override optionsSet(): void
     {
         this.itemsPerPageItems = this.options.itemsPerPageValues.map(itm =>
         {
@@ -367,6 +346,6 @@ export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasi
             };
         });
 
-        this._generateItemsPerPage();
+        this.generateItemsPerPage();
     }
 }

@@ -1,109 +1,117 @@
-import {EventEmitter, ChangeDetectorRef, Injectable, Inject, Optional, Input, Output, OnDestroy, ElementRef} from '@angular/core';
-import {extend, isPresent} from '@jscrpt/common';
-import {Subscription} from 'rxjs';
+import {ChangeDetectorRef, Injectable, Input, Output, OnDestroy, ElementRef} from '@angular/core';
+import {RecursivePartial, extend, isPresent} from '@jscrpt/common';
+import {Observable, Subject, Subscription} from 'rxjs';
 
-import {PagingOptions, Paging} from './paging.interface';
-import {GridPluginInstances} from '../../components/grid';
-import {GRID_PLUGIN_INSTANCES} from '../../components/grid/types';
-import {GridPluginGeneric} from '../../misc';
-import {DataLoader, DataResponse} from '../dataLoader';
-import {DATA_LOADER} from '../dataLoader/types';
-import {GridInitializer} from '../gridInitializer';
-import {GRID_INITIALIZER} from '../gridInitializer/types';
+import {DataLoader, DataResponse, GridInitializer, GridPlugin, Paging, PagingOptions} from '../../interfaces';
+import {GridPluginInstances} from '../../misc/types';
+import {GridPluginType} from '../../misc/enums';
 
 /**
  * Abstract class that represents any paging component
  */
 @Injectable()
-export abstract class PagingAbstractComponent<TCssClasses = any, TOptions extends PagingOptions<TCssClasses> = any> implements Paging, GridPluginGeneric<TOptions>, OnDestroy
+export abstract class PagingAbstractComponent<TCssClasses = unknown, TOptions extends PagingOptions<TCssClasses> = PagingOptions<TCssClasses>> implements Paging, GridPlugin<TOptions>, OnDestroy
 {
     //######################### protected fields #########################
 
     /**
      * Subscription for changes in data
      */
-    protected _dataChangedSubscription: Subscription;
+    protected dataChangedSubscription: Subscription|undefined|null;
 
     /**
      * Indication whether is component initialized
      */
-    protected _initialized: boolean = false;
+    protected initialized: boolean = false;
 
     /**
      * Options specific to paging implementation
      */
-    protected _options?: TOptions;
+    protected ɵoptions: TOptions;
 
     /**
      * Data loader used within grid
      */
-    protected _dataLoader?: DataLoader<DataResponse>;
-
-    //######################### public properties #########################
+    protected dataLoader?: DataLoader<DataResponse>|undefined|null;
 
     /**
-     * Zero based index of first displayed item on page
+     * Subject used for emitting changes in page
+     */
+    protected pageChangeSubject: Subject<number> = new Subject<number>();
+
+    /**
+     * Subject used for emitting changes in items per page
+     */
+    protected itemsPerPageChangeSubject: Subject<number> = new Subject<number>();
+
+    //######################### public properties - implementation of Paging #########################
+
+    /**
+     * @inheritdoc
      */
     public abstract get firstItemIndex(): number;
 
     /**
-     * Gets or sets options specific to paging implementation
+     * @inheritdoc
      */
     @Input()
     public get options(): TOptions
     {
-        return this._options;
+        return this.ɵoptions;
     }
-    public set options(options: TOptions)
+    public set options(options: RecursivePartial<TOptions>)
     {
-        this._options = extend(true, this._options, options) as TOptions;
+        this.ɵoptions = extend(true, this.ɵoptions, options);
 
         this.optionsSet();
     }
 
     /**
-     * Gets or sets index of currently selected page
+     * @inheritdoc
      */
     public abstract get page(): number;
     public abstract set page(page: number);
 
     /**
-     * Gets or sets number of items currently used for paging
+     * @inheritdoc
      */
     public abstract get itemsPerPage(): number;
     public abstract set itemsPerPage(itemsPerPage: number);
 
     /**
-     * Gets or sets number of all items that are paged with current filter criteria
+     * @inheritdoc
      */
     public abstract get totalCount(): number;
     public abstract set totalCount(totalCount: number);
 
-    /**
-     * Grid plugin instances available for this plugin
-     */
-    public gridPlugins: GridPluginInstances;
-
     //######################### public properties - events #########################
 
     /**
-     * Occurs when index of currently selected page has been changed
+     * @inheritdoc
      */
     @Output()
-    public pageChange: EventEmitter<number> = new EventEmitter<number>();
+    public get pageChange(): Observable<number>
+    {
+        return this.pageChangeSubject.asObservable();
+    }
 
     /**
-     * Occurs when number of items per page currently selected has been changed
+     * @inheritdoc
      */
     @Output()
-    public itemsPerPageChange: EventEmitter<number> = new EventEmitter<number>();
+    public get itemsPerPageChange(): Observable<number>
+    {
+        return this.itemsPerPageChangeSubject.asObservable();
+    }
 
     //######################### constructor #########################
     constructor(public pluginElement: ElementRef,
-                protected _changeDetector: ChangeDetectorRef,
-                @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins?: GridPluginInstances)
+                protected changeDetector: ChangeDetectorRef,
+                public gridPlugins: GridPluginInstances|undefined|null,
+                defaultOptions: TOptions,
+                options?: TOptions,)
     {
-        this.gridPlugins = gridPlugins;
+        this.ɵoptions = extend(true, {}, defaultOptions, options);
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -111,46 +119,48 @@ export abstract class PagingAbstractComponent<TCssClasses = any, TOptions extend
     /**
      * Called when component is destroyed
      */
-    public ngOnDestroy()
+    public ngOnDestroy(): void
     {
-        if(this._dataChangedSubscription)
-        {
-            this._dataChangedSubscription.unsubscribe();
-            this._dataChangedSubscription = null;
-        }
+        this.dataChangedSubscription?.unsubscribe();
+        this.dataChangedSubscription = null;
     }
 
     //######################### public methods #########################
 
     /**
-     * Explicitly runs invalidation of content (change detection)
+     * @inheritdoc
      */
     public invalidateVisuals(): void
     {
-        this._changeDetector.detectChanges();
+        this.changeDetector.detectChanges();
     }
 
     /**
-     * Method that initialize paging component, this method can be used for initialization if paging used dynamicaly
+     * @inheritdoc
      */
-    public initialize(): void
+    public async initialize(): Promise<void>
     {
-        const gridInitializer = this.gridPlugins[GRID_INITIALIZER] as GridInitializer;
-        let initialPage = this._options.initialPage;
-        let initialItemsPerPage = this._options.initialItemsPerPage;
+        if(!this.gridPlugins)
+        {
+            throw new Error('PagingAbstractComponent: missing gridPlugins!');
+        }
+
+        const gridInitializer = this.gridPlugins[GridPluginType.GridInitializer] as GridInitializer;
+        let initialPage = this.ɵoptions.initialPage;
+        let initialItemsPerPage = this.ɵoptions.initialItemsPerPage;
 
         if(gridInitializer)
         {
-            gridInitializer.initialize();
+            await gridInitializer.initialize();
 
-            const page = gridInitializer.getPage();
+            const page = await gridInitializer.getPage();
 
             if(isPresent(page))
             {
                 initialPage = page;
             }
 
-            const itemsPerPage = gridInitializer.getItemsPerPage();
+            const itemsPerPage = await gridInitializer.getItemsPerPage();
 
             if(isPresent(itemsPerPage))
             {
@@ -161,35 +171,37 @@ export abstract class PagingAbstractComponent<TCssClasses = any, TOptions extend
         this.page = initialPage;
         this.itemsPerPage = initialItemsPerPage;
 
-        const dataLoader: DataLoader<DataResponse> = this.gridPlugins[DATA_LOADER] as DataLoader<DataResponse>;
+        const dataLoader: DataLoader<DataResponse> = this.gridPlugins[GridPluginType.DataLoader] as DataLoader<DataResponse>;
 
-        if(this._dataLoader && this._dataLoader != dataLoader)
+        //data loader obtained and its different instance
+        if(this.dataLoader && this.dataLoader != dataLoader)
         {
-            this._dataChangedSubscription.unsubscribe();
-            this._dataChangedSubscription = null;
+            this.dataChangedSubscription?.unsubscribe();
+            this.dataChangedSubscription = null;
 
-            this._dataLoader = null;
+            this.dataLoader = null;
         }
 
-        if(!this._dataLoader && dataLoader)
+        //no data loader obtained
+        if(!this.dataLoader && dataLoader)
         {
-            this._dataLoader = dataLoader;
-            this.totalCount = this._dataLoader.result.totalCount;
+            this.dataLoader = dataLoader;
+            this.totalCount = this.dataLoader.result.totalCount;
 
-            this._dataChangedSubscription = this._dataLoader.resultChange.subscribe(() =>
+            this.dataChangedSubscription = this.dataLoader.resultChange.subscribe(() =>
             {
-                this.totalCount = this._dataLoader.result.totalCount;
+                this.totalCount = this.dataLoader?.result.totalCount ?? 0;
                 this.invalidateVisuals();
             });
         }
 
-        this._initialized = true;
+        this.initialized = true;
     }
 
     /**
-     * Initialize options
+     * @inheritdoc
      */
-    public initOptions()
+    public initOptions(): void
     {
     }
 
@@ -198,7 +210,7 @@ export abstract class PagingAbstractComponent<TCssClasses = any, TOptions extend
     /**
      * Method called when options are set, allowing to do something after that when overriden
      */
-    protected optionsSet()
+    protected optionsSet(): void
     {
     }
 }

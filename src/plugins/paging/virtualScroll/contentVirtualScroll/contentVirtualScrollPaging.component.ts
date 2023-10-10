@@ -49,7 +49,7 @@ export class ContentVirtualScrollPagingComponent extends VirtualScrollPagingAbst
     {
         super(pluginElement, changeDetector, gridPlugins);
 
-        this._options = extend(true, {}, defaultOptions, options);
+        this.ɵoptions = extend(true, {}, defaultOptions, options);
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -92,9 +92,9 @@ export class ContentVirtualScrollPagingComponent extends VirtualScrollPagingAbst
 
         element.style.overflowY = 'auto';
         
-        if(isPresent(this._options.maxHeight))
+        if(isPresent(this.ɵoptions.maxHeight))
         {
-            element.style.maxHeight = this._options.maxHeight;
+            element.style.maxHeight = this.ɵoptions.maxHeight;
         }
 
         this._initEvents(element, bodyRenderer.pluginElement.nativeElement);
