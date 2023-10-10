@@ -1,20 +1,20 @@
 import {Component, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef, Inject, Optional, OnDestroy} from '@angular/core';
-import {extend, isPresent} from '@jscrpt/common';
+import {isPresent} from '@jscrpt/common';
 
-import {GridPluginInstances} from '../../../../components/grid';
-import {GRID_PLUGIN_INSTANCES} from '../../../../components/grid/types';
-import {ContentRenderer, BodyContentRenderer} from '../../../contentRenderer';
-import {CONTENT_RENDERER, BODY_CONTENT_RENDERER} from '../../../contentRenderer/types';
-import {PAGING_OPTIONS} from '../../types';
 import {VirtualScrollPagingAbstractComponent} from '../virtualScrollPagingAbstract.component';
 import {ContentVirtualScrollPagingOptions, ContentVirtualScrollPaging} from './contentVirtualScrollPaging.interface';
+import {GRID_PLUGIN_INSTANCES, PAGING_OPTIONS} from '../../../../misc/tokens';
+import {GridPluginInstances} from '../../../../misc/types';
+import {GridPluginType} from '../../../../misc/enums';
+import {ContentRenderer} from '../../../../interfaces';
+import {BodyContentRenderer} from '../../../contentRenderer/contentRenderer.interface';
 
 /**
  * Default options for paging
- * @internal
  */
 const defaultOptions: ContentVirtualScrollPagingOptions =
 {
+    maxHeight: '70vh',
     initialItemsPerPage: 10,
     initialPage: 1,
     loadOffsetTreshold: 0.75,
@@ -30,26 +30,25 @@ const defaultOptions: ContentVirtualScrollPagingOptions =
 {
     selector: 'content-virtual-scroll-paging',
     template: '',
+    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ContentVirtualScrollPagingComponent extends VirtualScrollPagingAbstractComponent<ContentVirtualScrollPagingOptions> implements ContentVirtualScrollPaging, OnDestroy
+export class ContentVirtualScrollPagingSAComponent extends VirtualScrollPagingAbstractComponent<ContentVirtualScrollPagingOptions> implements ContentVirtualScrollPaging, OnDestroy
 {
     //######################### protected fields #########################
 
     /**
      * Original style that is restored when paging is destroyed
      */
-    protected _originalStyle: {overflowY: string, maxHeight: string};
+    protected originalStyle: {overflowY: string, maxHeight: string}|undefined|null;
 
     //######################### constructor #########################
     constructor(pluginElement: ElementRef,
                 changeDetector: ChangeDetectorRef,
-                @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins?: GridPluginInstances,
+                @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins: GridPluginInstances|undefined|null,
                 @Inject(PAGING_OPTIONS) @Optional() options?: ContentVirtualScrollPagingOptions)
     {
-        super(pluginElement, changeDetector, gridPlugins);
-
-        this.ɵoptions = extend(true, {}, defaultOptions, options);
+        super(pluginElement, changeDetector, gridPlugins, defaultOptions, options);
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -57,15 +56,20 @@ export class ContentVirtualScrollPagingComponent extends VirtualScrollPagingAbst
     /**
      * Called when component is destroyed
      */
-    public override ngOnDestroy()
+    public override ngOnDestroy(): void
     {
-        if(this._originalStyle)
+        if(!this.gridPlugins)
         {
-            const contentRenderer: ContentRenderer = this.gridPlugins[CONTENT_RENDERER] as ContentRenderer;
+            throw new Error('ContentVirtualScrollPagingSAComponent: missing gridPlugins!');
+        }
+
+        if(this.originalStyle)
+        {
+            const contentRenderer: ContentRenderer = this.gridPlugins[GridPluginType.ContentRenderer] as ContentRenderer;
             const element: HTMLElement = contentRenderer.pluginElement.nativeElement;
 
-            element.style.maxHeight = this._originalStyle.maxHeight;
-            element.style.overflowY = this._originalStyle.overflowY;
+            element.style.maxHeight = this.originalStyle.maxHeight;
+            element.style.overflowY = this.originalStyle.overflowY;
         }
 
         super.ngOnDestroy();
@@ -76,15 +80,20 @@ export class ContentVirtualScrollPagingComponent extends VirtualScrollPagingAbst
     /**
      * Method that initialize paging component, this method can be used for initialization if paging used dynamicaly
      */
-    public override initialize()
+    public override async initialize(): Promise<void>
     {
-        super.initialize();
+        if(!this.gridPlugins)
+        {
+            throw new Error('ContentVirtualScrollPagingSAComponent: missing gridPlugins!');
+        }
 
-        const contentRenderer: ContentRenderer = this.gridPlugins[CONTENT_RENDERER] as ContentRenderer;
-        const bodyRenderer: BodyContentRenderer = this.gridPlugins[BODY_CONTENT_RENDERER] as BodyContentRenderer;
+        await super.initialize();
+
+        const contentRenderer: ContentRenderer = this.gridPlugins[GridPluginType.ContentRenderer] as ContentRenderer;
+        const bodyRenderer: BodyContentRenderer = this.gridPlugins['BODY_CONTENT_RENDERER' as unknown as GridPluginType] as BodyContentRenderer;
         const element: HTMLElement = contentRenderer.pluginElement.nativeElement;
 
-        this._originalStyle =
+        this.originalStyle =
         {
             maxHeight: element.style.maxHeight,
             overflowY: element.style.overflowY
@@ -97,6 +106,6 @@ export class ContentVirtualScrollPagingComponent extends VirtualScrollPagingAbst
             element.style.maxHeight = this.ɵoptions.maxHeight;
         }
 
-        this._initEvents(element, bodyRenderer.pluginElement.nativeElement);
+        this.initEvents(element, bodyRenderer.pluginElement.nativeElement);
     }
 }

@@ -1,16 +1,16 @@
-import {PagingOptions, Paging} from '../paging.interface';
+import {Paging, PagingOptions} from '../../../interfaces';
 
 /**
  * Css classes for previous next paging
  */
 export interface CssClassesPreviousNextPaging
 {
-    previousNextContainerUl?: string;
-    firstItemSpan?: string;
-    previousItemSpan?: string;
-    nextItemSpan?: string;
-    displayedItemsCountDiv?: string;
-    itemsPerPageUl?: string;
+    previousNextContainerUl: string;
+    firstItemSpan: string;
+    previousItemSpan: string;
+    nextItemSpan: string;
+    displayedItemsCountDiv: string;
+    itemsPerPageUl: string;
 }
 
 /**
@@ -21,7 +21,7 @@ export interface PreviousNextPagingOptions extends PagingOptions<CssClassesPrevi
     /**
      * Gets or sets array of available values for itemsPerPage, NaN represents infinity (all data)
      */
-    itemsPerPageValues?: number[];
+    itemsPerPageValues: number[];
 }
 
 /**

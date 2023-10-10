@@ -1,9 +1,9 @@
 import {Injectable, OnDestroy, Input} from '@angular/core';
 
-import {DataLoader, DataResponse} from '../../dataLoader';
-import {DATA_LOADER} from '../../dataLoader/types';
 import {PagingAbstractComponent} from '../pagingAbstract.component';
 import {VirtualScrollPagingOptions, CssClassesVirtualScrollPaging, VirtualScrollPaging} from './virtualScrollPaging.interface';
+import {DataLoader, DataResponse} from '../../../interfaces';
+import {GridPluginType} from '../../../misc/enums';
 
 /**
  * Abstract class that represents virtual scroll paging component base
@@ -16,22 +16,22 @@ export abstract class VirtualScrollPagingAbstractComponent<TOptions extends Virt
     /**
      * Currently displayed pages
      */
-    protected _displayedPages: number = 1;
+    protected displayedPages: number = 1;
 
     /**
      * Indication that data are loading
      */
-    protected _loading: boolean = false;
+    protected loading: boolean = false;
 
     /**
      * Mutation observer for checking for changes in body
      */
-    protected _bodyObserver: MutationObserver;
+    protected bodyObserver: MutationObserver|undefined|null;
 
     //######################### public properties #########################
 
     /**
-     * Zero based index of first displayed item on page
+     * @inheritdoc
      */
     public get firstItemIndex(): number
     {
@@ -41,34 +41,31 @@ export abstract class VirtualScrollPagingAbstractComponent<TOptions extends Virt
     //######################### public properties - inputs #########################
 
     /**
-     * Gets or sets index of currently selected page - NOT USED
+     * @inheritdoc
      */
-    public page: number;
+    public page: number = 0;
 
     /**
-     * Gets or sets number of items currently used for paging
+     * @inheritdoc
      */
     @Input()
-    public itemsPerPage: number;
+    public itemsPerPage: number = 0;
 
     /**
-     * Gets or sets number of all items that are paged with current filter criteria
+     * @inheritdoc
      */
     @Input()
-    public totalCount: number;
+    public totalCount: number = 0;
 
     //######################### public methods - implementation of OnDestroy #########################
     
     /**
      * Called when component is destroyed
      */
-    public override ngOnDestroy()
+    public override ngOnDestroy(): void
     {
-        if(this._bodyObserver)
-        {
-            this._bodyObserver.disconnect();
-            this._bodyObserver = null;
-        }
+        this.bodyObserver?.disconnect();
+        this.bodyObserver = null;
     }
 
     //######################### protected methods #########################
@@ -79,28 +76,33 @@ export abstract class VirtualScrollPagingAbstractComponent<TOptions extends Virt
      * @param bodyElement - Element that changes when new data are loaded
      * @param document - Html document
      */
-    protected _initEvents(element: Element, bodyElement: HTMLElement, document?: HTMLDocument)
+    protected initEvents(element: Element, bodyElement: HTMLElement, document?: Document): void
     {
-        const dataLoader: DataLoader<DataResponse<any>> = this.gridPlugins[DATA_LOADER] as DataLoader<DataResponse<any>>;
+        if(!this.gridPlugins)
+        {
+            throw new Error('VirtualScrollPagingAbstractComponent: missing gridPlugins!');
+        }
+
+        const dataLoader: DataLoader<DataResponse> = this.gridPlugins[GridPluginType.DataLoader] as DataLoader<DataResponse>;
 
         if(dataLoader.result.data.length)
         {
-            this._loadData(element);
+            this.loadData(element);
         }
 
         (document || element).addEventListener('scroll', () =>
         {
-            this._loadData(element);
+            this.loadData(element);
         });
 
-        this._bodyObserver = new MutationObserver(() =>
+        this.bodyObserver = new MutationObserver(() =>
         {
-            this._loading = false;
+            this.loading = false;
 
-            this._loadData(element);
+            this.loadData(element);
         });
 
-        this._bodyObserver.observe(bodyElement,
+        this.bodyObserver.observe(bodyElement,
         {
             childList: true
         });
@@ -109,21 +111,21 @@ export abstract class VirtualScrollPagingAbstractComponent<TOptions extends Virt
     /**
      * Loads more data
      */
-    protected _load()
+    protected load(): void
     {
-        this._loading = true;
-        this._displayedPages++;
+        this.loading = true;
+        this.displayedPages++;
 
-        this.page = this._displayedPages;
-        this.pageChange.emit(this._displayedPages);
+        this.page = this.displayedPages;
+        this.pageChangeSubject.next(this.displayedPages);
     }
 
     /**
      * Performs loading data if needed
      */
-    protected _loadData(element: Element)
+    protected loadData(element: Element): void
     {
-        if(this._loading)
+        if(this.loading)
         {
             return;
         }
@@ -132,7 +134,7 @@ export abstract class VirtualScrollPagingAbstractComponent<TOptions extends Virt
 
         if(isNaN(offset) || offset >= this.ɵoptions.loadOffsetTreshold)
         {
-            this._load();
+            this.load();
         }
     }
 }

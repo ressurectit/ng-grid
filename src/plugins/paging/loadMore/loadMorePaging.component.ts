@@ -1,17 +1,14 @@
-import {Component, Input, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef, Inject, Optional, OnDestroy} from '@angular/core';
-import {STRING_LOCALIZATION, StringLocalization} from '@anglr/common';
-import {extend} from '@jscrpt/common';
-import {Subscription} from 'rxjs';
+import {Component, Input, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef, Inject, Optional} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {LocalizeSAPipe} from '@anglr/common';
 
-import {GridPluginInstances} from '../../../components/grid';
-import {GRID_PLUGIN_INSTANCES} from '../../../components/grid/types';
 import {PagingAbstractComponent} from '../pagingAbstract.component';
-import {PAGING_OPTIONS} from '../types';
-import {LoadMorePaging, CssClassesLoadMorePaging, LoadMorePagingOptions, LoadMorePagingTexts} from './loadMorePaging.interface';
+import {LoadMorePaging, CssClassesLoadMorePaging, LoadMorePagingOptions} from './loadMorePaging.interface';
+import {GRID_PLUGIN_INSTANCES, PAGING_OPTIONS} from '../../../misc/tokens';
+import {GridPluginInstances} from '../../../misc/types';
 
 /**
  * Default options for paging
- * @internal
  */
 const defaultOptions: LoadMorePagingOptions =
 {
@@ -35,44 +32,39 @@ const defaultOptions: LoadMorePagingOptions =
 {
     selector: 'load-more-paging',
     templateUrl: 'loadMorePaging.component.html',
+    standalone: true,
+    imports:
+    [
+        CommonModule,
+        LocalizeSAPipe,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoadMorePagingComponent  extends PagingAbstractComponent<CssClassesLoadMorePaging, LoadMorePagingOptions> implements LoadMorePaging, OnDestroy
+export class LoadMorePagingSAComponent  extends PagingAbstractComponent<CssClassesLoadMorePaging, LoadMorePagingOptions> implements LoadMorePaging
 {
     //######################### protected fields #########################
 
     /**
      * Currently displayed pages
      */
-    protected _displayedPages: number = 1;
+    protected displayedPages: number = 1;
 
     /**
      * Number of all items that are paged with current filter criteria
      */
-    protected _totalCount: number = 0;
+    protected ɵtotalCount: number = 0;
 
-    /**
-     * Subscription for changes in texts
-     */
-    protected _textsChangedSubscription: Subscription;
-
-    //######################### public properties - template bindings #########################
+    //######################### protected properties - template bindings #########################
 
     /**
      * Indication that more items are available
-     * @internal
      */
-    public moreAvailable: boolean = true;
-
-    /**
-     * Object containing available texts
-     */
-    public texts: LoadMorePagingTexts = {};
+    protected moreAvailable: boolean = true;
 
     //######################### public properties #########################
 
     /**
-     * Zero based index of first displayed item on page
+     * @inheritdoc
      */
     public get firstItemIndex(): number
     {
@@ -82,95 +74,49 @@ export class LoadMorePagingComponent  extends PagingAbstractComponent<CssClasses
     //######################### public properties - inputs #########################
 
     /**
-     * Gets or sets index of currently selected page - NOT USED
+     * @inheritdoc
      */
-    public page: number;
+    public page: number = 0;
 
     /**
-     * Gets or sets number of items currently used for paging
+     * @inheritdoc
      */
     @Input()
-    public itemsPerPage: number;
+    public itemsPerPage: number = 0;
 
     /**
-     * Gets or sets number of all items that are paged with current filter criteria
+     * @inheritdoc
      */
     @Input()
     public get totalCount(): number
     {
-        return this._totalCount;
+        return this.ɵtotalCount;
     }
     public set totalCount(value: number)
     {
-        this._totalCount = value;
-        this.moreAvailable = (this._displayedPages * this.itemsPerPage) < this._totalCount;
+        this.ɵtotalCount = value;
+        this.moreAvailable = (this.displayedPages * this.itemsPerPage) < this.ɵtotalCount;
     }
 
     //######################### constructor #########################
     constructor(pluginElement: ElementRef,
                 changeDetector: ChangeDetectorRef,
-                @Inject(STRING_LOCALIZATION) protected _stringLocalization: StringLocalization,
-                @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins?: GridPluginInstances,
+                @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins: GridPluginInstances|undefined|null,
                 @Inject(PAGING_OPTIONS) @Optional() options?: LoadMorePagingOptions)
     {
-        super(pluginElement, changeDetector, gridPlugins);
-
-        this.ɵoptions = extend(true, {}, defaultOptions, options);
+        super(pluginElement, changeDetector, gridPlugins, defaultOptions, options);
     }
 
-    //######################### public methods - implementation of OnDestroy #########################
-    
-    /**
-     * Called when component is destroyed
-     */
-    public override ngOnDestroy()
-    {
-        if(this._textsChangedSubscription)
-        {
-            this._textsChangedSubscription.unsubscribe();
-            this._textsChangedSubscription = null;
-        }
-    }
-
-    //######################### public methods #########################
-
-    /**
-     * Method that initialize paging component, this method can be used for initialization if paging used dynamicaly
-     */
-    public override initialize()
-    {
-        this._textsChangedSubscription = this._stringLocalization.textsChange.subscribe(() => this._initTexts());
-
-        this._initTexts();
-        super.initialize();
-    }
-
-    //######################### public methods - template bindings #########################
+    //######################### protected methods - template bindings #########################
 
     /**
      * Loads more data
-     * @internal
      */
-    public loadMore()
+    protected loadMore(): void
     {
-        this._displayedPages++;
+        this.displayedPages++;
 
-        this.page = this._displayedPages;
-        this.pageChange.emit(this._displayedPages);
-    }
-
-    //######################### protected methods #########################
-
-    /**
-     * Initialize texts
-     */
-    protected _initTexts()
-    {
-        Object.keys(this.options.texts).forEach(key =>
-        {
-            this.texts[key] = this._stringLocalization.get(this.options.texts[key]);
-        });
-
-        this.changeDetector.detectChanges();
+        this.page = this.displayedPages;
+        this.pageChangeSubject.next(this.displayedPages);
     }
 }

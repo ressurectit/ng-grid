@@ -1,26 +1,26 @@
 <div *ngIf="initialized">
-    <ul [ngClass]="options?.cssClasses?.previousNextContainerUl">
+    <ul [ngClass]="options.cssClasses.previousNextContainerUl">
         <li [ngClass]="{disabled: isFirst, 'pointer-cursor': !isFirst}">
             <a (click)="setPage(1)">
-                <span [ngClass]="options?.cssClasses?.firstItemSpan"></span>
+                <span [ngClass]="options.cssClasses.firstItemSpan"></span>
             </a>
         </li>
 
         <li [ngClass]="{disabled: isFirst, 'pointer-cursor': !isFirst}">
             <a (click)="setPage(page - 1)">
-                <span [ngClass]="options?.cssClasses?.previousItemSpan"></span>
+                <span [ngClass]="options.cssClasses.previousItemSpan"></span>
             </a>
         </li>
 
         <li [ngClass]="{disabled: isLast, 'pointer-cursor': !isLast}">
             <a (click)="setPage(page + 1)">
-                <span [ngClass]="options?.cssClasses?.nextItemSpan"></span>
+                <span [ngClass]="options.cssClasses.nextItemSpan"></span>
             </a>
         </li>
     </ul>
 
-    <div [ngClass]="options?.cssClasses?.displayedItemsCountDiv" *ngIf="!!itemsPerPageItems && itemsPerPageItems.length > 0">
-        <ul [ngClass]="options?.cssClasses?.itemsPerPageUl">
+    <div [ngClass]="options.cssClasses.displayedItemsCountDiv" *ngIf="!!itemsPerPageItems && itemsPerPageItems.length > 0">
+        <ul [ngClass]="options.cssClasses.itemsPerPageUl">
             <li *ngFor="let itemsPerPage of itemsPerPageItems" [ngClass]="{active: itemsPerPage.isActive, 'pointer-cursor': !itemsPerPage.isActive}">
                 <a (click)="setItemsPerPage(itemsPerPage)">
                     <span [innerHtml]="renderItemsPerPageText(itemsPerPage.value)"></span>

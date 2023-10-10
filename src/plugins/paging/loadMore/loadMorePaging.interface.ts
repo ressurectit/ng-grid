@@ -1,12 +1,12 @@
-import {PagingOptions, Paging} from '../paging.interface';
+import {Paging, PagingOptions} from '../../../interfaces';
 
 /**
  * Css classes for load more paging
  */
 export interface CssClassesLoadMorePaging
 {
-    containerDiv?: string;
-    loadMoreBtn?: string;
+    containerDiv: string;
+    loadMoreBtn: string;
 }
 
 /**
@@ -14,7 +14,7 @@ export interface CssClassesLoadMorePaging
  */
 export interface LoadMorePagingTexts
 {
-    loadMoreBtn?: string;
+    loadMoreBtn: string;
 }
 
 /**
@@ -25,7 +25,7 @@ export interface LoadMorePagingOptions extends PagingOptions<CssClassesLoadMoreP
     /**
      * Texts that are used within LoadMorePaging
      */
-    texts?: LoadMorePagingTexts;
+    texts: LoadMorePagingTexts;
 }
 
 /**

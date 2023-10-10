@@ -1,18 +1,15 @@
 import {Component, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef, Inject, Optional} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
-import {extend} from '@jscrpt/common';
 
-import {GridPluginInstances} from '../../../../components/grid';
-import {GRID_PLUGIN_INSTANCES} from '../../../../components/grid/types';
-import {BodyContentRenderer} from '../../../contentRenderer';
-import {BODY_CONTENT_RENDERER} from '../../../contentRenderer/types';
-import {PAGING_OPTIONS} from '../../types';
 import {VirtualScrollPagingAbstractComponent} from '../virtualScrollPagingAbstract.component';
 import {PageVirtualScrollPagingOptions, PageVirtualScrollPaging} from './pageVirtualScrollPaging.interface';
+import {GridPluginInstances} from '../../../../misc/types';
+import {GRID_PLUGIN_INSTANCES, PAGING_OPTIONS} from '../../../../misc/tokens';
+import {BodyContentRenderer} from '../../../contentRenderer/contentRenderer.interface';
+import {GridPluginType} from '../../../../misc/enums';
 
 /**
  * Default options for paging
- * @internal
  */
 const defaultOptions: PageVirtualScrollPagingOptions =
 {
@@ -31,20 +28,19 @@ const defaultOptions: PageVirtualScrollPagingOptions =
 {
     selector: 'page-virtual-scroll-paging',
     template: '',
+    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PageVirtualScrollPagingComponent extends VirtualScrollPagingAbstractComponent<PageVirtualScrollPagingOptions> implements PageVirtualScrollPaging
+export class PageVirtualScrollPagingSAComponent extends VirtualScrollPagingAbstractComponent<PageVirtualScrollPagingOptions> implements PageVirtualScrollPaging
 {
     //######################### constructor #########################
     constructor(pluginElement: ElementRef,
                 changeDetector: ChangeDetectorRef,
-                @Inject(DOCUMENT) private _document: any,
-                @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins?: GridPluginInstances,
+                @Inject(DOCUMENT) protected document: Document,
+                @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins: GridPluginInstances|undefined|null,
                 @Inject(PAGING_OPTIONS) @Optional() options?: PageVirtualScrollPagingOptions)
     {
-        super(pluginElement, changeDetector, gridPlugins);
-
-        this.ɵoptions = extend(true, {}, defaultOptions, options);
+        super(pluginElement, changeDetector, gridPlugins, defaultOptions, options);
     }
 
     //######################### public methods #########################
@@ -52,12 +48,22 @@ export class PageVirtualScrollPagingComponent extends VirtualScrollPagingAbstrac
     /**
      * Method that initialize paging component, this method can be used for initialization if paging used dynamicaly
      */
-    public override initialize()
+    public override async initialize(): Promise<void>
     {
-        super.initialize();
+        if(!this.gridPlugins)
+        {
+            throw new Error('PageVirtualScrollPagingSAComponent: missing gridPlugins!');
+        }
 
-        const bodyRenderer: BodyContentRenderer = this.gridPlugins[BODY_CONTENT_RENDERER] as BodyContentRenderer;
+        await super.initialize();
 
-        this._initEvents(<any>this._document.scrollingElement, bodyRenderer.pluginElement.nativeElement, this._document);
+        const bodyRenderer: BodyContentRenderer = this.gridPlugins['BODY_CONTENT_RENDERER' as unknown as GridPluginType] as BodyContentRenderer;
+
+        if(!this.document.scrollingElement)
+        {
+            throw new Error('PageVirtualScrollPagingSAComponent: missing scrolling element!');
+        }
+
+        this.initEvents(this.document.scrollingElement, bodyRenderer.pluginElement.nativeElement, this.document);
     }
 }

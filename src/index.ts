@@ -13,3 +13,5 @@ export * from './plugins';
 //TODO: use new syntax
 //TODO: new matrix grid
 //TODO: directive for attaching external plugins, new type that allows obtaining or using export as ref
+//TODO: rework all pagings, styles and use it as component itself
+//TODO: styles in datetime style

@@ -62,6 +62,10 @@
 - renamed `AsyncDataLoaderComponent` to `AsyncDataLoaderSAComponent`
 - renamed `NoPagingComponent` to `NoPagingSAComponent`
 - renamed `BasicPagingComponent` to `BasicPagingSAComponent`
+- renamed `LoadMorePagingComponent` to `LoadMorePagingSAComponent`
+- renamed `PreviousNextPagingComponent` to `PreviousNextPagingSAComponent`
+- renamed `PageVirtualScrollPagingComponent` to `PageVirtualScrollPagingSAComponent`
+- renamed `ContentVirtualScrollPagingComponent` to `ContentVirtualScrollPagingSAComponent`
 - renamed `QueryPermanentStorageGridInitializerComponent` to `QueryPermanentStorageGridInitializerSAComponent`
 - removed `GridPluginGeneric`, now `GridPlugin` is generic with default value
 - old `ContentRendererOptions` renamed to `HeaderBodyContentRendererOptions`

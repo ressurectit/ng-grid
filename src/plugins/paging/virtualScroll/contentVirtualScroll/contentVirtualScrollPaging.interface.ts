@@ -8,7 +8,7 @@ export interface ContentVirtualScrollPagingOptions extends VirtualScrollPagingOp
     /**
      * Css max height that is applied to table
      */
-    maxHeight?: string;
+    maxHeight: string;
 }
 
 /**

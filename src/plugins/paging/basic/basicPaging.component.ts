@@ -58,7 +58,7 @@ const defaultOptions: BasicPagingOptions =
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasicPaging, BasicPagingOptions> implements BasicPaging
+export class BasicPagingSAComponent extends PagingAbstractComponent<CssClassesBasicPaging, BasicPagingOptions> implements BasicPaging
 {
     //######################### protected fields #########################
 
