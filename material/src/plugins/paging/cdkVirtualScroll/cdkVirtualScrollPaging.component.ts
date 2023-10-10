@@ -1,180 +1,180 @@
-import {Component, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef, Inject, Optional, OnDestroy} from '@angular/core';
-import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
-import {GridPluginInstances, GRID_PLUGIN_INSTANCES, PagingAbstractComponent, PAGING_OPTIONS, CONTENT_RENDERER} from '@anglr/grid';
-import {extend} from '@jscrpt/common';
-import {Subscription} from 'rxjs';
+// import {Component, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef, Inject, Optional, OnDestroy} from '@angular/core';
+// import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
+// import {GridPluginInstances, GRID_PLUGIN_INSTANCES, PagingAbstractComponent, PAGING_OPTIONS, CONTENT_RENDERER} from '@anglr/grid';
+// import {extend} from '@jscrpt/common';
+// import {Subscription} from 'rxjs';
 
-import {CdkVirtualScrollPagingOptions, CssClassesCdkVirtualScrollPaging, CdkVirtualScrollPaging} from './cdkVirtualScrollPaging.interface';
-import {VirtualScrollTableContentRenderer} from '../../contentRenderer';
+// import {CdkVirtualScrollPagingOptions, CssClassesCdkVirtualScrollPaging, CdkVirtualScrollPaging} from './cdkVirtualScrollPaging.interface';
+// import {VirtualScrollTableContentRenderer} from '../../contentRenderer';
 
-/**
- * Default options for paging
- * @internal
- */
-const defaultOptions: CdkVirtualScrollPagingOptions =
-{
-    initialItemsPerPage: 25,
-    initialPage: 1,
-    loadPageTreshold: 0.8
-};
+// /**
+//  * Default options for paging
+//  * @internal
+//  */
+// const defaultOptions: CdkVirtualScrollPagingOptions =
+// {
+//     initialItemsPerPage: 25,
+//     initialPage: 1,
+//     loadPageTreshold: 0.8
+// };
 
-/**
- * Paging that Angular CDK virtual scroll to load more content
- */
-@Component(
-{
-    selector: 'cdk-virtual-scroll-paging',
-    template: '',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class CdkVirtualScrollPagingComponent  extends PagingAbstractComponent<CssClassesCdkVirtualScrollPaging, CdkVirtualScrollPagingOptions> implements CdkVirtualScrollPaging, OnDestroy
-{
-    //######################### protected fields #########################
+// /**
+//  * Paging that Angular CDK virtual scroll to load more content
+//  */
+// @Component(
+// {
+//     selector: 'cdk-virtual-scroll-paging',
+//     template: '',
+//     changeDetection: ChangeDetectionStrategy.OnPush,
+// })
+// export class CdkVirtualScrollPagingComponent  extends PagingAbstractComponent<CssClassesCdkVirtualScrollPaging, CdkVirtualScrollPagingOptions> implements CdkVirtualScrollPaging, OnDestroy
+// {
+//     //######################### protected fields #########################
 
-    /**
-     * Currently displayed pages
-     */
-    protected _displayedPages: number = 1;
+//     /**
+//      * Currently displayed pages
+//      */
+//     protected _displayedPages: number = 1;
 
-    /**
-     * Number of all items that are paged with current filter criteria
-     */
-    protected _totalCount: number = 0;
+//     /**
+//      * Number of all items that are paged with current filter criteria
+//      */
+//     protected _totalCount: number = 0;
 
-    /**
-     * Instance of angular CDK virtual scroll viewport assigned to parent content renderer
-     */
-    protected _scrollViewport: CdkVirtualScrollViewport;
+//     /**
+//      * Instance of angular CDK virtual scroll viewport assigned to parent content renderer
+//      */
+//     protected _scrollViewport: CdkVirtualScrollViewport;
 
-    /**
-     * Subscription for changes of displayed range in cdk virtual scroll viewport
-     */
-    protected _scrollRangeChangeSubscription: Subscription;
+//     /**
+//      * Subscription for changes of displayed range in cdk virtual scroll viewport
+//      */
+//     protected _scrollRangeChangeSubscription: Subscription;
 
-    //######################### public properties - template bindings #########################
+//     //######################### public properties - template bindings #########################
 
-    /**
-     * Indication that more items are available
-     * @internal
-     */
-    public moreAvailable: boolean = true;
+//     /**
+//      * Indication that more items are available
+//      * @internal
+//      */
+//     public moreAvailable: boolean = true;
 
-    //######################### public properties #########################
+//     //######################### public properties #########################
 
-    /**
-     * Zero based index of first displayed item on page
-     */
-    public get firstItemIndex(): number
-    {
-        return 0;
-    }
+//     /**
+//      * Zero based index of first displayed item on page
+//      */
+//     public get firstItemIndex(): number
+//     {
+//         return 0;
+//     }
 
-    /**
-     * Gets or sets index of currently selected page - NOT USED
-     */
-    public page: number;
+//     /**
+//      * Gets or sets index of currently selected page - NOT USED
+//      */
+//     public page: number;
 
-    /**
-     * Gets or sets number of items currently used for paging
-     */
-    public itemsPerPage: number;
+//     /**
+//      * Gets or sets number of items currently used for paging
+//      */
+//     public itemsPerPage: number;
 
-    /**
-     * Gets or sets number of all items that are paged with current filter criteria
-     */
-    public get totalCount(): number
-    {
-        return this._totalCount;
-    }
-    public set totalCount(value: number)
-    {
-        this._totalCount = value;
-        this.moreAvailable = (this._displayedPages * this.itemsPerPage) < this._totalCount;
-    }
+//     /**
+//      * Gets or sets number of all items that are paged with current filter criteria
+//      */
+//     public get totalCount(): number
+//     {
+//         return this._totalCount;
+//     }
+//     public set totalCount(value: number)
+//     {
+//         this._totalCount = value;
+//         this.moreAvailable = (this._displayedPages * this.itemsPerPage) < this._totalCount;
+//     }
 
-    //######################### constructor #########################
-    constructor(pluginElement: ElementRef,
-                changeDetector: ChangeDetectorRef,
-                @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins?: GridPluginInstances,
-                @Inject(PAGING_OPTIONS) @Optional() options?: CdkVirtualScrollPagingOptions)
-    {
-        super(pluginElement, changeDetector, gridPlugins);
+//     //######################### constructor #########################
+//     constructor(pluginElement: ElementRef,
+//                 changeDetector: ChangeDetectorRef,
+//                 @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins?: GridPluginInstances,
+//                 @Inject(PAGING_OPTIONS) @Optional() options?: CdkVirtualScrollPagingOptions)
+//     {
+//         super(pluginElement, changeDetector, gridPlugins);
 
-        this._options = extend(true, {}, defaultOptions, options);
-    }
+//         this._options = extend(true, {}, defaultOptions, options);
+//     }
 
-    //######################### public methods - implementation of OnDestroy #########################
+//     //######################### public methods - implementation of OnDestroy #########################
     
-    /**
-     * Called when component is destroyed
-     */
-    public override ngOnDestroy()
-    {
-        super.ngOnDestroy();
+//     /**
+//      * Called when component is destroyed
+//      */
+//     public override ngOnDestroy()
+//     {
+//         super.ngOnDestroy();
 
-        if(this._scrollRangeChangeSubscription)
-        {
-            this._scrollRangeChangeSubscription.unsubscribe();
-            this._scrollRangeChangeSubscription = null;
-        }
-    }
+//         if(this._scrollRangeChangeSubscription)
+//         {
+//             this._scrollRangeChangeSubscription.unsubscribe();
+//             this._scrollRangeChangeSubscription = null;
+//         }
+//     }
 
-    //######################### public methods #########################
+//     //######################### public methods #########################
 
-    /**
-     * Method that initialize paging component, this method can be used for initialization if paging used dynamicaly
-     */
-    public override initialize()
-    {
-        super.initialize();
+//     /**
+//      * Method that initialize paging component, this method can be used for initialization if paging used dynamicaly
+//      */
+//     public override initialize()
+//     {
+//         super.initialize();
 
-        const contentRenderer = this.gridPlugins[CONTENT_RENDERER] as VirtualScrollTableContentRenderer;
+//         const contentRenderer = this.gridPlugins[CONTENT_RENDERER] as VirtualScrollTableContentRenderer;
 
-        if(!contentRenderer || !contentRenderer.scrollViewport)
-        {
-            throw new Error('It is not possible to use "CdkVirtualScrollPagingComponent" without "VirtualScrollTableContentRenderer"');
-        }
+//         if(!contentRenderer || !contentRenderer.scrollViewport)
+//         {
+//             throw new Error('It is not possible to use "CdkVirtualScrollPagingComponent" without "VirtualScrollTableContentRenderer"');
+//         }
 
-        this._scrollViewport = contentRenderer.scrollViewport;
+//         this._scrollViewport = contentRenderer.scrollViewport;
 
-        if(this._scrollRangeChangeSubscription)
-        {
-            this._scrollRangeChangeSubscription.unsubscribe();
-            this._scrollRangeChangeSubscription = null;
-        }
+//         if(this._scrollRangeChangeSubscription)
+//         {
+//             this._scrollRangeChangeSubscription.unsubscribe();
+//             this._scrollRangeChangeSubscription = null;
+//         }
 
-        this._scrollRangeChangeSubscription = this._scrollViewport.renderedRangeStream.subscribe(range =>
-        {
-            const loadedItems = this._scrollViewport.getDataLength();
-            const lastDisplayedItem = range.end;
+//         this._scrollRangeChangeSubscription = this._scrollViewport.renderedRangeStream.subscribe(range =>
+//         {
+//             const loadedItems = this._scrollViewport.getDataLength();
+//             const lastDisplayedItem = range.end;
 
-            if(loadedItems === 0)
-            {
-                return;
-            }
+//             if(loadedItems === 0)
+//             {
+//                 return;
+//             }
 
-            if((lastDisplayedItem / loadedItems) > this._options.loadPageTreshold)
-            {
-                this._loadMore();
-            }
-        });
-    }
+//             if((lastDisplayedItem / loadedItems) > this._options.loadPageTreshold)
+//             {
+//                 this._loadMore();
+//             }
+//         });
+//     }
 
-    //######################### protected methods #########################
+//     //######################### protected methods #########################
 
-    /**
-     * Loads more data
-     */
-    protected _loadMore()
-    {
-        if(!this.moreAvailable)
-        {
-            return;
-        }
+//     /**
+//      * Loads more data
+//      */
+//     protected _loadMore()
+//     {
+//         if(!this.moreAvailable)
+//         {
+//             return;
+//         }
 
-        this._displayedPages++;
+//         this._displayedPages++;
 
-        this.page = this._displayedPages;
-        this.pageChange.emit(this._displayedPages);
-    }
-}
+//         this.page = this._displayedPages;
+//         this.pageChange.emit(this._displayedPages);
+//     }
+// }

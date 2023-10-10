@@ -1,1 +1,1 @@
-export * from './virtualScrollTable/virtualScrollTableContentRenderer.interface';
+// export * from './virtualScrollTable/virtualScrollTableContentRenderer.interface';

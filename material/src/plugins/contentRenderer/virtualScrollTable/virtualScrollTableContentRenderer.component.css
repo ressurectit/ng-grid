@@ -1,4 +1,4 @@
-:host(.table-container)
+/* :host(.table-container)
 {
     display: flex;
     flex-direction: column;
@@ -10,4 +10,4 @@
 {
     flex: 1;
     min-height: 0;
-}
+} */

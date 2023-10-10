@@ -3,10 +3,10 @@
  */
 export interface CssClassesVerticalDragNDropSelection
 {
-    titleClass?: string;
-    containerClass?: string;
-    itemClass?: string;
-    dragIconClass?: string;
+    titleClass: string;
+    containerClass: string;
+    itemClass: string;
+    dragIconClass: string;
 }
 
 /**
@@ -14,5 +14,5 @@ export interface CssClassesVerticalDragNDropSelection
  */
 export interface VerticalDragNDropSelectionTexts
 {
-    selectionTitle?: string;
+    selectionTitle: string;
 }

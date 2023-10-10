@@ -1,15 +1,13 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, HostBinding, ElementRef} from '@angular/core';
-import {extend} from '@jscrpt/common';
+import {CommonModule} from '@angular/common';
 
 import {TableHeaderContentRendererOptions} from '../../tableContentRenderer.interface';
-import {HEADER_CONTENT_RENDERER_OPTIONS} from '../../../types';
 import {HeaderContentRendererAbstractComponent} from '../../../headerContentRendererAbstract.component';
-import {GRID_PLUGIN_INSTANCES} from '../../../../../components/grid/types';
-import {GridPluginInstances} from '../../../../../components/grid';
+import {GRID_PLUGIN_INSTANCES, HEADER_CONTENT_RENDERER_OPTIONS} from '../../../../../../misc/tokens';
+import {GridPluginInstances} from '../../../../../../misc/types';
 
 /**
  * Default options for 'TableHeaderContentRendererComponent'
- * @internal
  */
 const defaultOptions: TableHeaderContentRendererOptions =
 {
@@ -37,9 +35,14 @@ const defaultOptions: TableHeaderContentRendererOptions =
     selector: 'thead.content-renderer',
     templateUrl: 'tableHeaderContentRenderer.component.html',
     styleUrls: ['tableHeaderContentRenderer.component.css'],
+    standalone: true,
+    imports:
+    [
+        CommonModule,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TableHeaderContentRendererComponent<TData = any> extends HeaderContentRendererAbstractComponent<TData, TableHeaderContentRendererOptions>
+export class TableHeaderContentRendererSAComponent<TData = unknown> extends HeaderContentRendererAbstractComponent<TData, TableHeaderContentRendererOptions>
 {
     //######################### public properties - host #########################
 
@@ -55,11 +58,10 @@ export class TableHeaderContentRendererComponent<TData = any> extends HeaderCont
     //######################### constructor #########################
     constructor(pluginElement: ElementRef,
                 changeDetector: ChangeDetectorRef,
-                @Inject(HEADER_CONTENT_RENDERER_OPTIONS) @Optional() options: TableHeaderContentRendererOptions,
-                @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins: GridPluginInstances)
+                
+                @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins: GridPluginInstances|undefined|null,
+                @Inject(HEADER_CONTENT_RENDERER_OPTIONS) @Optional() options?: TableHeaderContentRendererOptions,)
     {
-        super(pluginElement, gridPlugins, changeDetector);
-
-        this.ɵoptions = extend(true, {}, defaultOptions, options);
+        super(pluginElement, gridPlugins, changeDetector, defaultOptions, options);
     }
 }

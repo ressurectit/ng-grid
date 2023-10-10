@@ -6,7 +6,7 @@ import {Observable, BehaviorSubject} from 'rxjs';
 import {GridPluginType, PagingPosition} from '../../misc/enums';
 import {ContentRenderer, DataLoader, Grid, GridInitializer, GridOptions, GridPlugin, MetadataGatherer, MetadataSelector, NoDataRenderer, Paging, RowSelector} from '../../interfaces';
 import {CONTENT_RENDERER_TYPE, DATA_LOADER_TYPE, GRID_INITIALIZER_TYPE, GRID_OPTIONS, GRID_PLUGIN_INSTANCES, METADATA_GATHERER, METADATA_SELECTOR_TYPE, NO_DATA_RENDERER_TYPE, PAGING_TYPE, ROW_SELECTOR_TYPE} from '../../misc/tokens';
-import {AsyncDataLoaderSAComponent, BasicPagingSAComponent, BasicRowSelectorSAComponent, NoGridInitializerSAComponent, NoMetadataSelectorSAComponent, SimpleNoDataRendererSAComponent} from '../../plugins';
+import {AsyncDataLoaderSAComponent, BasicPagingSAComponent, BasicRowSelectorSAComponent, NoGridInitializerSAComponent, NoMetadataSelectorSAComponent, SimpleNoDataRendererSAComponent, TableContentRendererSAComponent} from '../../plugins';
 import {GridAction, GridFunction, GridPluginInstances} from '../../misc/types';
 
 /**
@@ -41,7 +41,7 @@ const defaultOptions: GridOptions =
         },
         contentRenderer:
         {
-            type: forwardRef(() => TableContentRendererComponent),
+            type: forwardRef(() => TableContentRendererSAComponent),
             instance: null,
             instanceCallback: null,
             options: null,

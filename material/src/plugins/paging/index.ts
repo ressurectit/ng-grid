@@ -1,1 +1,1 @@
-export * from './cdkVirtualScroll/cdkVirtualScrollPaging.interface';
+// export * from './cdkVirtualScroll/cdkVirtualScrollPaging.interface';

@@ -1,9 +1,9 @@
-<div [ngClass]="cssClasses?.titleClass">{{texts?.selectionTitle}}</div>
+<div [ngClass]="cssClasses.titleClass">{{texts.selectionTitle | localize}}</div>
 
-<div [ngClass]="cssClasses?.containerClass" cdkDropList (cdkDropListDropped)="drop($event)">
-    <div *ngFor="let column of metadata?.columns" cdkDrag [ngClass]="cssClasses?.itemClass">
+<div [ngClass]="cssClasses.containerClass" cdkDropList (cdkDropListDropped)="drop($any($event))">
+    <div *ngFor="let column of metadata?.columns" cdkDrag [ngClass]="cssClasses.itemClass">
         <label>
-            <span [ngClass]="cssClasses?.dragIconClass"></span>
+            <span [ngClass]="cssClasses.dragIconClass"></span>
             <input type="checkbox" [checked]="column?.visible" (change)="toggleVisibility(column, $any($event.target))">
             <span>{{column?.title}}</span>
         </label>

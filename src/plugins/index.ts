@@ -1,3 +1,4 @@
+export * from './contentRenderer';
 export * from './dataLoader';
 export * from './gridInitializer';
 export * from './metadataSelector';

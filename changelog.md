@@ -71,6 +71,8 @@
 - renamed `TableBodyContentRendererComponent` to `TableBodyContentRendererSAComponent`
 - renamed `CssDivsContentRendererComponent` to `CssDivsContentRendererSAComponent`
 - renamed `CssDivsBodyContentRendererComponent` to `CssDivsBodyContentRendererSAComponent`
+- renamed `CssDivsHeaderContentRendererComponent` to `CssDivsHeaderContentRendererSAComponent`
+- renamed `TableHeaderContentRendererComponent` to `TableHeaderContentRendererSAComponent`
 - renamed `QueryPermanentStorageGridInitializerComponent` to `QueryPermanentStorageGridInitializerSAComponent`
 - removed `GridPluginGeneric`, now `GridPlugin` is generic with default value
 - old `ContentRendererOptions` renamed to `HeaderBodyContentRendererOptions`
@@ -83,8 +85,12 @@
    - removed `GroupedTableMetadataGathererComponent` component
    - removed `HeaderTableGroupComponent` component
    - removed `HeaderTableGroupColumnComponent` component
+   - removed `GroupedTableHeaderContentRendererComponent` component
    - removed `GroupedGridModule` module
 - removed all plugin identifier contants, use `GridPluginType` enum instead
+- *subpackage* `@anglr/grid/material`
+   - renamed `VerticalDragNDropSelectionComponent` to `VerticalDragNDropSelectionSAComponent`
+   - renamed `DialogMetadataSelectorComponent` to `DialogMetadataSelectorSAComponent`
 
 ## Version 9.0.4 (2023-01-14)
 

@@ -1,15 +1,13 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, HostBinding, ElementRef} from '@angular/core';
-import {extend} from '@jscrpt/common';
+import {CommonModule} from '@angular/common';
 
-import {HEADER_CONTENT_RENDERER_OPTIONS} from '../../types';
 import {CssDivsHeaderContentRendererOptions} from '../cssDivsContentRenderer.interface';
 import {HeaderContentRendererAbstractComponent} from '../../headerContentRendererAbstract.component';
-import {GRID_PLUGIN_INSTANCES} from '../../../../components/grid/types';
-import {GridPluginInstances} from '../../../../components/grid';
+import {GRID_PLUGIN_INSTANCES, HEADER_CONTENT_RENDERER_OPTIONS} from '../../../../../misc/tokens';
+import {GridPluginInstances} from '../../../../../misc/types';
 
 /**
  * Default options for 'CssDivsHeaderContentRendererComponent'
- * @internal
  */
 const defaultOptions: CssDivsHeaderContentRendererOptions =
 {
@@ -24,8 +22,9 @@ const defaultOptions: CssDivsHeaderContentRendererOptions =
         {
             none: 'fa fa-sort',
             asc: 'fa fa-sort-up',
-            desc: 'fa fa-sort-down'
-        }
+            desc: 'fa fa-sort-down',
+        },
+        headerRowDiv: '',
     }
 };
 
@@ -37,9 +36,14 @@ const defaultOptions: CssDivsHeaderContentRendererOptions =
     selector: 'div.content-renderer-header',
     templateUrl: 'CssDivsHeaderContentRenderer.component.html',
     styleUrls: ['CssDivsHeaderContentRenderer.component.css'],
+    standalone: true,
+    imports:
+    [
+        CommonModule,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CssDivsHeaderContentRendererComponent<TData = any> extends HeaderContentRendererAbstractComponent<TData, CssDivsHeaderContentRendererOptions>
+export class CssDivsHeaderContentRendererSAComponent<TData = unknown> extends HeaderContentRendererAbstractComponent<TData, CssDivsHeaderContentRendererOptions>
 {
     //######################### public properties - hosts #########################
 
@@ -55,11 +59,9 @@ export class CssDivsHeaderContentRendererComponent<TData = any> extends HeaderCo
     //######################### constructor #########################
     constructor(pluginElement: ElementRef,
                 changeDetector: ChangeDetectorRef,
-                @Inject(HEADER_CONTENT_RENDERER_OPTIONS) @Optional() options: CssDivsHeaderContentRendererOptions,
-                @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins: GridPluginInstances)
+                @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins: GridPluginInstances|undefined|null,
+                @Inject(HEADER_CONTENT_RENDERER_OPTIONS) @Optional() options: CssDivsHeaderContentRendererOptions,)
     {
-        super(pluginElement, gridPlugins, changeDetector);
-
-        this.ɵoptions = extend(true, {}, defaultOptions, options);
+        super(pluginElement, gridPlugins, changeDetector, defaultOptions, options);
     }
 }
