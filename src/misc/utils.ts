@@ -1,4 +1,5 @@
 import {Func0, Func1, PromiseOr} from '@jscrpt/common';
+import {Subject} from 'rxjs';
 
 import {Grid, GridPlugin, PluginDescription, RowSelector, SimpleOrdering} from '../interfaces';
 import {GridPluginType} from './enums';
@@ -61,10 +62,13 @@ export function deserializeSimpleOrdering(ordering: string): SimpleOrdering|null
  */
 export function setPluginFactory<TPlugin extends GridPlugin = GridPlugin>(pluginType: GridPluginType,
                                                                           getPluginDescription: Func0<PluginDescription<TPlugin>>,
-                                                                          beforeOptionsSet?: (plugin: TPlugin) => PromiseOr<void>): Func1<Promise<void>, TPlugin|null>
+                                                                          getInitOptionsSubject: Func0<Subject<boolean>>,
+                                                                          beforeOptionsSet?: Func1<PromiseOr<void>, TPlugin>): Func1<Promise<void>, TPlugin|null>
 {
     return async function(this: GridSAComponent, plugin: TPlugin|null): Promise<void>
     {
+        getInitOptionsSubject().next(false);
+
         if(!plugin)
         {
             return;
@@ -90,5 +94,7 @@ export function setPluginFactory<TPlugin extends GridPlugin = GridPlugin>(plugin
         {
             instanceCallback(plugin);
         }
+
+        getInitOptionsSubject().next(true);
     };
 }
