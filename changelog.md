@@ -55,6 +55,11 @@
 - new `ResolveForwardRefSAPipe` pipe, that resolves forwardRef type into type
 - updated `TableGridColumnSAComponent` component
    - now supports also obtaining template using directives `TableGridBodyCellTemplateSADirective`, `TableGridHeaderCellTemplateSADirective`
+- updated `Grid` interface
+   - **new properties**
+      - `pluginsOptionsInitialized` occurs everytime when plugins options initialization changes, if value is false plugins options were not initialized yet, or are being reinitialized
+- updated `GridSAComponent` component
+   - updated implementation to correspond with new interface
 
 ### BREAKING CHANGES
 

@@ -58,6 +58,7 @@ export function deserializeSimpleOrdering(ordering: string): SimpleOrdering|null
  * Factory function that creates set plugin function
  * @param pluginType - Type of plugin that is being set
  * @param getPluginDescription - Function that obtains plugin description object
+ * @param getInitOptionsSubject - Subject for emitting init options initialization state
  * @param beforeOptionsSet - Optional code that is code before options are set
  */
 export function setPluginFactory<TPlugin extends GridPlugin = GridPlugin>(pluginType: GridPluginType,
@@ -67,17 +68,13 @@ export function setPluginFactory<TPlugin extends GridPlugin = GridPlugin>(plugin
 {
     return async function(this: GridSAComponent, plugin: TPlugin|null): Promise<void>
     {
-        getInitOptionsSubject().next(false);
-
         if(!plugin)
         {
             return;
         }
 
         this.pluginInstances[pluginType] = plugin;
-
         await beforeOptionsSet?.bind(this)(plugin);
-
         const options = getPluginDescription().options;
 
         //sets options if they are present
@@ -87,7 +84,6 @@ export function setPluginFactory<TPlugin extends GridPlugin = GridPlugin>(plugin
         }
 
         await plugin.initOptions();
-
         const instanceCallback = getPluginDescription().instanceCallback;
         
         if(instanceCallback)

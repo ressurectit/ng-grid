@@ -13,9 +13,14 @@ export interface Grid extends Invalidatable
 {
     //TODO: maybe use signals
     /**
-     * Occurs every time when grid is initialized or reinitialized, if value is false grid was not initialized yet
+     * Occurs every time when grid is initialized or reinitialized, if value is false grid was not initialized yet or is being reinitialized
      */
     readonly initialized: Observable<boolean>;
+
+    /**
+     * Occurs everytime when plugins options initialization changes, if value is false plugins options were not initialized yet, or are being reinitialized
+     */
+    readonly pluginsOptionsInitialized: Observable<boolean>;
 
     /**
      * Gets or sets grid options
