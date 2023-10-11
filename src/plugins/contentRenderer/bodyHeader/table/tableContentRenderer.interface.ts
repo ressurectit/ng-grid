@@ -1,5 +1,5 @@
 import {ContentRenderer, CssClassesContentRenderer} from '../../../../interfaces';
-import {HeaderContentRenderer, BodyContentRenderer, BodyContentRendererOptions, HeaderBodyContentRendererOptions, ContentRendererPlugins, CssClassesHeaderContentRenderer, HeaderContentRendererOptions} from '../bodyHeaderContentRenderer.interface';
+import {HeaderContentRenderer, BodyContentRenderer, BodyContentRendererOptions, HeaderBodyContentRendererOptions, CssClassesHeaderContentRenderer, HeaderContentRendererOptions} from '../bodyHeaderContentRenderer.interface';
 
 /**
  * Css classes for table content renderer
@@ -12,14 +12,14 @@ export interface CssClassesTableContentRenderer extends CssClassesContentRendere
 /**
  * Options for table content renderer
  */
-export interface TableContentRendererOptions extends HeaderBodyContentRendererOptions<CssClassesTableContentRenderer, ContentRendererPlugins>
+export interface TableContentRendererOptions extends HeaderBodyContentRendererOptions<CssClassesTableContentRenderer>
 {
 }
 
 /**
  * Public API for TableContentRenderer
  */
-export interface TableContentRenderer<TOrdering = unknown> extends ContentRenderer<TOrdering>
+export interface TableContentRenderer extends ContentRenderer
 {
 }
 
@@ -59,6 +59,6 @@ export interface TableHeaderContentRendererOptions extends HeaderContentRenderer
 /**
  * Public API for TableHeaderContentRenderer
  */
-export interface TableHeaderContentRenderer<TOrdering = unknown, TMetadata = unknown> extends HeaderContentRenderer<TOrdering, TMetadata>
+export interface TableHeaderContentRenderer<TMetadata = unknown> extends HeaderContentRenderer<TMetadata>
 {
 }

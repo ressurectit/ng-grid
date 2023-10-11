@@ -18,12 +18,6 @@ const defaultOptions: CssDivsHeaderContentRendererOptions =
         headerCellOrderableDiv: 'header-orderable',
         spanContent: 'header-content',
         spanOrdering: 'header-ordering',
-        spanOrderingDirection:
-        {
-            none: 'fa fa-sort',
-            asc: 'fa fa-sort-up',
-            desc: 'fa fa-sort-down',
-        },
         headerRowDiv: '',
     }
 };

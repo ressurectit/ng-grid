@@ -1,9 +1,9 @@
 import {Injectable, OnDestroy, ElementRef} from '@angular/core';
-import {extend} from '@jscrpt/common';
+import {RecursivePartial, extend} from '@jscrpt/common';
 import {Subscription, Subject, Observable} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
 
-import {ContentRenderer, DataLoader, DataLoaderOptions, GridPlugin, Paging} from '../../interfaces';
+import {Ordering, DataLoader, DataLoaderOptions, GridPlugin, Paging} from '../../interfaces';
 import {DataLoaderState, GridPluginType} from '../../misc/enums';
 import {GridPluginInstances} from '../../misc/types';
 
@@ -61,9 +61,9 @@ export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOpt
     protected orderingChangedSubscription: Subscription|undefined|null;
 
     /**
-     * Content renderer used for rendering data
+     * Ordering plugin storing current ordering
      */
-    protected contentRenderer: ContentRenderer<TOrdering>|undefined|null;
+    protected ordering: Ordering<TOrdering>|undefined|null;
 
     /**
      * Subject for debounce dataCallback
@@ -102,7 +102,7 @@ export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOpt
     {
         return this.ɵoptions;
     }
-    public set options(options: TOptions)
+    public set options(options: RecursivePartial<TOptions>)
     {
         this.ɵoptions = extend(true, this.ɵoptions, options);
     }
@@ -193,23 +193,23 @@ export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOpt
             this.itemsPerPageChangedSubscription = this.paging.itemsPerPageChange.subscribe(() => this.debounceSubject.next(false));
         }
 
-        const contentRenderer: ContentRenderer<TOrdering> = this.gridPlugins[GridPluginType.ContentRenderer] as ContentRenderer<TOrdering>;
+        const ordering: Ordering<TOrdering> = this.gridPlugins[GridPluginType.Ordering] as Ordering<TOrdering>;
 
-        //content renderer obtained and its different instance
-        if(this.contentRenderer && this.contentRenderer != contentRenderer)
+        //ordering obtained and its different instance
+        if(this.ordering && this.ordering != ordering)
         {
             this.orderingChangedSubscription?.unsubscribe();
             this.orderingChangedSubscription = null;
 
-            this.contentRenderer = null;
+            this.ordering = null;
         }
 
-        //no content renderer obtained
-        if(!this.contentRenderer)
+        //no ordering obtained
+        if(!this.ordering)
         {
-            this.contentRenderer = contentRenderer;
+            this.ordering = ordering;
 
-            this.orderingChangedSubscription = this.contentRenderer.orderingChange.subscribe(() => this.debounceSubject.next(false));
+            this.orderingChangedSubscription = this.ordering.orderingChange.subscribe(() => this.debounceSubject.next(false));
         }
 
         if(this.options.autoLoadData)
@@ -256,11 +256,11 @@ export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOpt
     {
         if(this.paging?.page != this.lastPage ||
            this.paging?.itemsPerPage != this.lastItemsPerPage ||
-           this.contentRenderer?.ordering != this.lastOrdering)
+           this.ordering?.ordering != this.lastOrdering)
         {
             this.lastPage = this.paging?.page;
             this.lastItemsPerPage = this.paging?.itemsPerPage;
-            this.lastOrdering = this.contentRenderer?.ordering;
+            this.lastOrdering = this.ordering?.ordering;
 
             return true;
         }

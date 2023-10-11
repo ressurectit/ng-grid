@@ -1,13 +1,16 @@
-import {Component, ChangeDetectionStrategy, Inject, Optional, Type, Input, OnInit, AfterViewInit, ContentChild, forwardRef, resolveForwardRef, ChangeDetectorRef, FactoryProvider} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Inject, Optional, Type, Input, OnInit, AfterViewInit, ContentChild, forwardRef, ChangeDetectorRef, FactoryProvider} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {CommonDynamicModule} from '@anglr/common';
 import {RecursivePartial, extend} from '@jscrpt/common';
 import {Observable, BehaviorSubject} from 'rxjs';
 
 import {GridPluginType, PagingPosition} from '../../misc/enums';
-import {ContentRenderer, DataLoader, Grid, GridInitializer, GridOptions, GridPlugin, MetadataGatherer, MetadataSelector, NoDataRenderer, Paging, RowSelector} from '../../interfaces';
-import {CONTENT_RENDERER_TYPE, DATA_LOADER_TYPE, GRID_INITIALIZER_TYPE, GRID_OPTIONS, GRID_PLUGIN_INSTANCES, METADATA_GATHERER, METADATA_SELECTOR_TYPE, NO_DATA_RENDERER_TYPE, PAGING_TYPE, ROW_SELECTOR_TYPE} from '../../misc/tokens';
-import {AsyncDataLoaderSAComponent, BasicPagingSAComponent, BasicRowSelectorSAComponent, NoGridInitializerSAComponent, NoMetadataSelectorSAComponent, SimpleNoDataRendererSAComponent, TableContentRendererSAComponent} from '../../plugins';
+import {ContentRenderer, DataLoader, Grid, GridInitializer, GridOptions, GridPlugin, MetadataGatherer, MetadataSelector, NoDataRenderer, Ordering, Paging, RowSelector} from '../../interfaces';
+import {CONTENT_RENDERER_TYPE, DATA_LOADER_TYPE, GRID_INITIALIZER_TYPE, GRID_OPTIONS, GRID_PLUGIN_INSTANCES, METADATA_GATHERER, METADATA_SELECTOR_TYPE, NO_DATA_RENDERER_TYPE, ORDERING_TYPE, PAGING_TYPE, ROW_SELECTOR_TYPE} from '../../misc/tokens';
+import {AsyncDataLoaderSAComponent, BasicPagingSAComponent, BasicRowSelectorSAComponent, NoGridInitializerSAComponent, NoMetadataSelectorSAComponent, NoOrderingSAComponent, SimpleNoDataRendererSAComponent, TableContentRendererSAComponent} from '../../plugins';
 import {GridAction, GridFunction, GridPluginInstances} from '../../misc/types';
+import {setPluginFactory} from '../../misc/utils';
+import {ResolveForwardRefSAPipe} from '../../pipes';
 
 /**
  * Default 'GridOptions'
@@ -18,16 +21,9 @@ const defaultOptions: GridOptions =
     pagingPosition: PagingPosition.Bottom,
     plugins:
     {
-        paging:
+        contentRenderer:
         {
-            type: forwardRef(() => BasicPagingSAComponent),
-            instance: null,
-            instanceCallback: null,
-            options: null,
-        },
-        metadataSelector:
-        {
-            type: forwardRef(() => NoMetadataSelectorSAComponent),
+            type: forwardRef(() => TableContentRendererSAComponent),
             instance: null,
             instanceCallback: null,
             options: null,
@@ -39,9 +35,16 @@ const defaultOptions: GridOptions =
             instanceCallback: null,
             options: null,
         },
-        contentRenderer:
+        gridInitializer:
         {
-            type: forwardRef(() => TableContentRendererSAComponent),
+            type: forwardRef(() => NoGridInitializerSAComponent),
+            instance: null,
+            instanceCallback: null,
+            options: null,
+        },
+        metadataSelector:
+        {
+            type: forwardRef(() => NoMetadataSelectorSAComponent),
             instance: null,
             instanceCallback: null,
             options: null,
@@ -53,6 +56,20 @@ const defaultOptions: GridOptions =
             instanceCallback: null,
             options: null,
         },
+        ordering:
+        {
+            type: forwardRef(() => NoOrderingSAComponent),
+            instance: null,
+            instanceCallback: null,
+            options: null,
+        },
+        paging:
+        {
+            type: forwardRef(() => BasicPagingSAComponent),
+            instance: null,
+            instanceCallback: null,
+            options: null,
+        },
         rowSelector:
         {
             type: forwardRef(() => BasicRowSelectorSAComponent),
@@ -60,13 +77,6 @@ const defaultOptions: GridOptions =
             instanceCallback: null,
             options: null,
         },
-        gridInitializer:
-        {
-            type: forwardRef(() => NoGridInitializerSAComponent),
-            instance: null,
-            instanceCallback: null,
-            options: null,
-        }
     }
 };
 
@@ -82,7 +92,9 @@ const defaultOptions: GridOptions =
     standalone: true,
     imports:
     [
+        CommonModule,
         CommonDynamicModule,
+        ResolveForwardRefSAPipe,
     ],
     providers:
     [
@@ -146,6 +158,7 @@ export class GridSAComponent implements OnInit, AfterViewInit, Grid
                 @Inject(GRID_PLUGIN_INSTANCES) protected pluginInstances: GridPluginInstances,
                 @Inject(GRID_OPTIONS) @Optional() options?: RecursivePartial<GridOptions>,
                 @Inject(PAGING_TYPE) @Optional() pagingType?: Type<Paging>,
+                @Inject(ORDERING_TYPE) @Optional() orderingType?: Type<Ordering>,
                 @Inject(GRID_INITIALIZER_TYPE) @Optional() gridInitializerType?: Type<GridInitializer>,
                 @Inject(DATA_LOADER_TYPE) @Optional() dataLoaderType?: Type<DataLoader>,
                 @Inject(CONTENT_RENDERER_TYPE) @Optional() contentRendererType?: Type<ContentRenderer>,
@@ -162,71 +175,49 @@ export class GridSAComponent implements OnInit, AfterViewInit, Grid
 
         if(pagingType)
         {
-            if(!opts.plugins.paging)
-            {
-                opts.plugins.paging = {};
-            }
-
+            opts.plugins.paging ??= {};
             opts.plugins.paging.type = pagingType;
+        }
+
+        if(orderingType)
+        {
+            opts.plugins.ordering ??= {};
+            opts.plugins.ordering.type = orderingType;
         }
 
         if(gridInitializerType)
         {
-            if(!opts.plugins.gridInitializer)
-            {
-                opts.plugins.gridInitializer = {};
-            }
-
+            opts.plugins.gridInitializer ??= {};
             opts.plugins.gridInitializer.type = gridInitializerType;
         }
 
         if(dataLoaderType)
         {
-            if(!opts.plugins.dataLoader)
-            {
-                opts.plugins.dataLoader = {};
-            }
-
+            opts.plugins.dataLoader ??= {};
             opts.plugins.dataLoader.type = dataLoaderType;
         }
         
         if(contentRendererType)
         {
-            if(!opts.plugins.contentRenderer)
-            {
-                opts.plugins.contentRenderer = {};
-            }
-
+            opts.plugins.contentRenderer ??= {};
             opts.plugins.contentRenderer.type = contentRendererType;
         }
 
         if(metadataSelectorType)
         {
-            if(!opts.plugins.metadataSelector)
-            {
-                opts.plugins.metadataSelector = {};
-            }
-
+            opts.plugins.metadataSelector ??= {};
             opts.plugins.metadataSelector.type = metadataSelectorType;
         }
 
         if(noDataRendererType)
         {
-            if(!opts.plugins.noDataRenderer)
-            {
-                opts.plugins.noDataRenderer = {};
-            }
-
+            opts.plugins.noDataRenderer ??= {};
             opts.plugins.noDataRenderer.type = noDataRendererType;
         }
 
         if(rowSelectorType)
         {
-            if(!opts.plugins.rowSelector)
-            {
-                opts.plugins.rowSelector = {};
-            }
-
+            opts.plugins.rowSelector ??= {};
             opts.plugins.rowSelector.type = rowSelectorType;
         }
 
@@ -256,201 +247,61 @@ export class GridSAComponent implements OnInit, AfterViewInit, Grid
         }
     }
 
-    //######################### public methods - template bindings #########################
+    //######################### protected methods - template bindings #########################
 
     /**
      * Sets paging component
      * @param paging - Created paging that is rendered
-     * @internal
      */
-    public setPagingComponent(paging: Paging|null): void
-    {
-        if(!paging)
-        {
-            return;
-        }
-
-        this.pluginInstances[GridPluginType.Paging] = paging;
-
-        if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.paging && this.ɵgridOptions.plugins.paging.options)
-        {
-            paging.options = this.ɵgridOptions.plugins.paging.options;
-        }
-
-        paging.initOptions();
-        
-        if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.paging && this.ɵgridOptions.plugins.paging.instanceCallback)
-        {
-            this.ɵgridOptions.plugins.paging.instanceCallback(paging);
-        }
-    }
+    protected setPagingComponent = setPluginFactory(GridPluginType.Paging, () => this.ɵgridOptions.plugins.paging).bind(this);
 
     /**
      * Sets grid initializer component
      * @param gridInitializer - Created grid initializer that is used
-     * @internal
      */
-    public setGridInitializerComponent(gridInitializer: GridInitializer|null): void
-    {
-        if(!gridInitializer)
-        {
-            return;
-        }
-
-        this.pluginInstances[GridPluginType.GridInitializer] = gridInitializer;
-
-        if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.gridInitializer && this.ɵgridOptions.plugins.gridInitializer.options)
-        {
-            gridInitializer.options = this.ɵgridOptions.plugins.gridInitializer.options;
-        }
-
-        gridInitializer.initOptions();
-        
-        if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.gridInitializer && this.ɵgridOptions.plugins.gridInitializer.instanceCallback)
-        {
-            this.ɵgridOptions.plugins.gridInitializer.instanceCallback(gridInitializer);
-        }
-    }
+    protected setGridInitializerComponent = setPluginFactory(GridPluginType.GridInitializer, () => this.ɵgridOptions.plugins.gridInitializer).bind(this);
 
     /**
      * Sets metadata selector component
      * @param metadataSelector - Created metadata selector that is used
-     * @internal
      */
-    public setMetadataSelectorComponent(metadataSelector: MetadataSelector|null): void
+    protected setMetadataSelectorComponent = setPluginFactory(GridPluginType.MetadataSelector, () => this.ɵgridOptions.plugins.metadataSelector, metadataSelector =>
     {
-        if(!metadataSelector)
-        {
-            return;
-        }
-
-        this.pluginInstances[GridPluginType.MetadataSelector] = metadataSelector;
-
         if(this.metadataGatherer)
         {
             metadataSelector.setMetadataGatherer(this.metadataGatherer);
         }
-
-        if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.metadataSelector && this.ɵgridOptions.plugins.metadataSelector.options)
-        {
-            metadataSelector.options = this.ɵgridOptions.plugins.metadataSelector.options;
-        }
-
-        metadataSelector.initOptions();
-        
-        if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.metadataSelector && this.ɵgridOptions.plugins.metadataSelector.instanceCallback)
-        {
-            this.ɵgridOptions.plugins.metadataSelector.instanceCallback(metadataSelector);
-        }
-    }
+    }).bind(this);
 
     /**
      * Sets data loader component
      * @param dataLoader - Created data loader that is used
-     * @internal
      */
-    public setDataLoaderComponent(dataLoader: DataLoader|null): void
-    {
-        if(!dataLoader)
-        {
-            return;
-        }
-
-        this.pluginInstances[GridPluginType.DataLoader] = dataLoader;
-
-        if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.dataLoader && this.ɵgridOptions.plugins.dataLoader.options)
-        {
-            dataLoader.options = this.ɵgridOptions.plugins.dataLoader.options;
-        }
-
-        dataLoader.initOptions();
-        
-        if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.dataLoader && this.ɵgridOptions.plugins.dataLoader.instanceCallback)
-        {
-            this.ɵgridOptions.plugins.dataLoader.instanceCallback(dataLoader);
-        }
-    }
+    protected setDataLoaderComponent = setPluginFactory(GridPluginType.DataLoader, () => this.ɵgridOptions.plugins.dataLoader).bind(this);
 
     /**
      * Sets content renderer component
      * @param contentRenderer - Created content renderer that is rendered
-     * @internal
      */
-    public setContentRendererComponent(contentRenderer: ContentRenderer|null): void
-    {
-        if(!contentRenderer)
-        {
-            return;
-        }
-
-        this.pluginInstances[GridPluginType.ContentRenderer] = contentRenderer;
-
-        if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.contentRenderer && this.ɵgridOptions.plugins.contentRenderer.options)
-        {
-            contentRenderer.options = this.ɵgridOptions.plugins.contentRenderer.options;
-        }
-
-        contentRenderer.initOptions();
-        
-        if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.contentRenderer && this.ɵgridOptions.plugins.contentRenderer.instanceCallback)
-        {
-            this.ɵgridOptions.plugins.contentRenderer.instanceCallback(contentRenderer);
-        }
-    }
+    protected setContentRendererComponent = setPluginFactory(GridPluginType.ContentRenderer, () => this.ɵgridOptions.plugins.contentRenderer).bind(this);
 
     /**
      * Sets no data renderer component
      * @param noDataRenderer - Created no data renderer that is rendered
-     * @internal
      */
-    public setNoDataRendererComponent(noDataRenderer: NoDataRenderer|null): void
-    {
-        if(!noDataRenderer)
-        {
-            return;
-        }
-
-        this.pluginInstances[GridPluginType.NoDataRenderer] = noDataRenderer;
-
-        if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.noDataRenderer && this.ɵgridOptions.plugins.noDataRenderer.options)
-        {
-            noDataRenderer.options = this.ɵgridOptions.plugins.noDataRenderer.options;
-        }
-
-        noDataRenderer.initOptions();
-        
-        if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.noDataRenderer && this.ɵgridOptions.plugins.noDataRenderer.instanceCallback)
-        {
-            this.ɵgridOptions.plugins.noDataRenderer.instanceCallback(noDataRenderer);
-        }
-    }
+    protected setNoDataRendererComponent = setPluginFactory(GridPluginType.NoDataRenderer, () => this.ɵgridOptions.plugins.noDataRenderer).bind(this);
 
     /**
      * Sets row selector component
      * @param rowSelector - Created row selector that is rendered
-     * @internal
      */
-    public setRowSelectorComponent(rowSelector: RowSelector|null): void
-    {
-        if(!rowSelector)
-        {
-            return;
-        }
+    protected setRowSelectorComponent = setPluginFactory(GridPluginType.RowSelector, () => this.ɵgridOptions.plugins.rowSelector).bind(this);
 
-        this.pluginInstances[GridPluginType.RowSelector] = rowSelector;
-
-        if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.rowSelector && this.ɵgridOptions.plugins.rowSelector.options)
-        {
-            rowSelector.options = this.ɵgridOptions.plugins.rowSelector.options;
-        }
-
-        rowSelector.initOptions();
-        
-        if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.rowSelector && this.ɵgridOptions.plugins.rowSelector.instanceCallback)
-        {
-            this.ɵgridOptions.plugins.rowSelector.instanceCallback(rowSelector);
-        }
-    }
+    /**
+     * Sets ordering component
+     * @param ordering - Created ordering that is rendered
+     */
+    protected setOrderingComponent = setPluginFactory(GridPluginType.Ordering, () => this.ɵgridOptions.plugins.ordering).bind(this);
 
     //######################### public methods #########################
 
@@ -479,8 +330,6 @@ export class GridSAComponent implements OnInit, AfterViewInit, Grid
         {
             if(this.ɵgridOptions.plugins.paging)
             {
-                this.ɵgridOptions.plugins.paging.type = resolveForwardRef(this.ɵgridOptions.plugins.paging.type);
-
                 if(this.ɵgridOptions.plugins.paging.instance &&
                    this.ɵgridOptions.plugins.paging.instance != this.pluginInstances[GridPluginType.Paging])
                 {
@@ -499,10 +348,28 @@ export class GridSAComponent implements OnInit, AfterViewInit, Grid
                 }
             }
 
+            if(this.ɵgridOptions.plugins.ordering)
+            {
+                if(this.ɵgridOptions.plugins.ordering.instance &&
+                   this.ɵgridOptions.plugins.ordering.instance != this.pluginInstances[GridPluginType.Ordering])
+                {
+                    this.pluginInstances[GridPluginType.Ordering] = this.ɵgridOptions.plugins.ordering.instance;
+                    this.ɵgridOptions.plugins.ordering.instance.gridPlugins = this.pluginInstances;
+                }
+
+                if(this.pluginInstances[GridPluginType.Ordering])
+                {
+                    if(this.ɵgridOptions.plugins && this.ɵgridOptions.plugins.ordering && this.ɵgridOptions.plugins.ordering.options)
+                    {
+                        this.pluginInstances[GridPluginType.Ordering].options = this.ɵgridOptions.plugins.ordering.options;
+                    }
+
+                    this.pluginInstances[GridPluginType.Ordering].initOptions();
+                }
+            }
+
             if(this.ɵgridOptions.plugins.gridInitializer)
             {
-                this.ɵgridOptions.plugins.gridInitializer.type = resolveForwardRef(this.ɵgridOptions.plugins.gridInitializer.type);
-
                 if(this.ɵgridOptions.plugins.gridInitializer.instance &&
                    this.ɵgridOptions.plugins.gridInitializer.instance != this.pluginInstances[GridPluginType.GridInitializer])
                 {
@@ -523,8 +390,6 @@ export class GridSAComponent implements OnInit, AfterViewInit, Grid
 
             if(this.ɵgridOptions.plugins.dataLoader)
             {
-                this.ɵgridOptions.plugins.dataLoader.type = resolveForwardRef(this.ɵgridOptions.plugins.dataLoader.type);
-
                 if(this.ɵgridOptions.plugins.dataLoader.instance &&
                    this.ɵgridOptions.plugins.dataLoader.instance != this.pluginInstances[GridPluginType.DataLoader])
                 {
@@ -545,8 +410,6 @@ export class GridSAComponent implements OnInit, AfterViewInit, Grid
 
             if(this.ɵgridOptions.plugins.contentRenderer)
             {
-                this.ɵgridOptions.plugins.contentRenderer.type = resolveForwardRef(this.ɵgridOptions.plugins.contentRenderer.type);
-
                 if(this.ɵgridOptions.plugins.contentRenderer.instance &&
                    this.ɵgridOptions.plugins.contentRenderer.instance != this.pluginInstances[GridPluginType.ContentRenderer])
                 {
@@ -567,8 +430,6 @@ export class GridSAComponent implements OnInit, AfterViewInit, Grid
 
             if(this.ɵgridOptions.plugins.metadataSelector)
             {
-                this.ɵgridOptions.plugins.metadataSelector.type = resolveForwardRef(this.ɵgridOptions.plugins.metadataSelector.type);
-
                 if(this.ɵgridOptions.plugins.metadataSelector.instance &&
                    this.ɵgridOptions.plugins.metadataSelector.instance != this.pluginInstances[GridPluginType.MetadataSelector])
                 {
@@ -594,8 +455,6 @@ export class GridSAComponent implements OnInit, AfterViewInit, Grid
 
             if(this.ɵgridOptions.plugins.noDataRenderer)
             {
-                this.ɵgridOptions.plugins.noDataRenderer.type = resolveForwardRef(this.ɵgridOptions.plugins.noDataRenderer.type);
-
                 if(this.ɵgridOptions.plugins.noDataRenderer.instance &&
                    this.ɵgridOptions.plugins.noDataRenderer.instance != this.pluginInstances[GridPluginType.NoDataRenderer])
                 {
@@ -616,8 +475,6 @@ export class GridSAComponent implements OnInit, AfterViewInit, Grid
 
             if(this.ɵgridOptions.plugins.rowSelector)
             {
-                this.ɵgridOptions.plugins.rowSelector.type = resolveForwardRef(this.ɵgridOptions.plugins.rowSelector.type);
-
                 if(this.ɵgridOptions.plugins.rowSelector.instance &&
                    this.ɵgridOptions.plugins.rowSelector.instance != this.pluginInstances[GridPluginType.RowSelector])
                 {

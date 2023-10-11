@@ -11,7 +11,8 @@
       - `GridInitializer` initializer that is used for obtaining stored initialization data for grid
       - `MetadataSelector` allows selection of metadata that should be displayed
       - `NoDataRenderer` renderer that is used for rendering content when no data are present
-      - `Paging` enables paging of data
+      - `Ordering` enables and handles ordering of data
+      - `Paging` enables and handles paging of data
       - `RowSelector` handles selection of rows
 - new `TableGridCellTemplateBaseDirective` directive, that is base directive that is used for obtaining template for table grid cell
    - **properties**
@@ -28,6 +29,30 @@
    - `NoDataRenderer` renderer that is used for rendering content when no data are present
    - `Paging` enables paging of data
    - `RowSelector` handles selection of rows
+- new `Ordering` interface, that is public API for ordering
+   - **properties**
+      - `ordering` current ordering value
+      - `orderingChange` occurs when current ordering has changed
+   - **method**
+      - `orderByColumn` marks column for odering
+      - `resetOrdering` resets ordering to default state (without ordering)
+      - `setOrdering` sets ordering to ordering plugin
+- new `OrderingOptions` interface, that represents ordering options allow configuring ordering plugin
+- new `CssClassesOrdering` interface, that represents css classes that are used for ordering
+   - **properties**
+      - `orderable` indication that column is orderable
+      - `none` no ordering
+      - `asc` ordering is ascending
+      - `desc` ordering is descending
+- new `NoOrderingOptions` interface, that is no ordering options for ordering
+- new `NoOrdering` interface, that is public API for no ordering
+- new `NoOrderingSAComponent` component, that is component used for no ordering
+   - **implements**
+      - `NoOrdering`
+- new `setPluginFactory` function, that is factory function that creates set plugin function
+- new `ORDERING_TYPE` injection token for 'Ordering' implementation
+- new `ORDERING_OPTIONS` injection token for injecting options for ordering
+- new `ResolveForwardRefSAPipe` pipe, that resolves forwardRef type into type
 - updated `TableGridColumnSAComponent` component
    - now supports also obtaining template using directives `TableGridBodyCellTemplateSADirective`, `TableGridHeaderCellTemplateSADirective`
 
@@ -35,7 +60,7 @@
 
 - minimal supported version of `@angular` is `17.0.0`
 - minimal supported version of `@jscrpt/common` is `4.1.0`
-- minimal supported version of `@anglr/common` is `18.0.0`
+- minimal supported version of `@anglr/common` is `18.1.0`
 - minimal supported version of `@rxjs` is `7.5.7`
 - minimal supported version of `tslib` is `2.6.1`
 - no longer depends on `scrollmagic`
@@ -88,6 +113,7 @@
    - removed `GroupedTableHeaderContentRendererComponent` component
    - removed `GroupedGridModule` module
 - removed all plugin identifier contants, use `GridPluginType` enum instead
+- ordering was completely refactored and moved into new plugin, removed from content renderer
 - *subpackage* `@anglr/grid/material`
    - renamed `VerticalDragNDropSelectionComponent` to `VerticalDragNDropSelectionSAComponent`
    - renamed `DialogMetadataSelectorComponent` to `DialogMetadataSelectorSAComponent`

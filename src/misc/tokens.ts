@@ -1,7 +1,7 @@
 import {InjectionToken} from '@angular/core';
 import {RecursivePartial} from '@jscrpt/common';
 
-import {ContentRenderer, ContentRendererOptions, DataLoader, DataLoaderOptions, GridInitializer, GridInitializerOptions, GridOptions, MetadataGatherer, MetadataSelector, MetadataSelectorOptions, NoDataRenderer, NoDataRendererOptions, Paging, PagingOptions, RowSelector, RowSelectorOptions} from '../interfaces';
+import {ContentRenderer, ContentRendererOptions, DataLoader, DataLoaderOptions, GridInitializer, GridInitializerOptions, GridOptions, MetadataGatherer, MetadataSelector, MetadataSelectorOptions, NoDataRenderer, NoDataRendererOptions, Ordering, OrderingOptions, Paging, PagingOptions, RowSelector, RowSelectorOptions} from '../interfaces';
 import {GridPluginInstances} from './types';
 import {VisualPluginOptions} from '../interfaces';
 
@@ -24,6 +24,11 @@ export const GRID_OPTIONS: InjectionToken<RecursivePartial<GridOptions>> = new I
  * Injection token for 'Paging' implementation
  */
 export const PAGING_TYPE: InjectionToken<Paging> = new InjectionToken<Paging>('PAGING_TYPE');
+
+/**
+ * Injection token for 'Ordering' implementation
+ */
+export const ORDERING_TYPE: InjectionToken<Ordering> = new InjectionToken<Ordering>('ORDERING');
 
 /**
  * Injection token for 'GridInitializer' implementation
@@ -94,6 +99,11 @@ export const NO_DATA_RENDERER_OPTIONS: InjectionToken<RecursivePartial<NoDataRen
  * Token for injecting options for paging
  */
 export const PAGING_OPTIONS: InjectionToken<RecursivePartial<PagingOptions>> = new InjectionToken<RecursivePartial<PagingOptions>>('PAGING_OPTIONS');
+
+/**
+ * Token for injecting options for ordering
+ */
+export const ORDERING_OPTIONS: InjectionToken<RecursivePartial<OrderingOptions>> = new InjectionToken<RecursivePartial<OrderingOptions>>('ORDERING_OPTIONS');
 
 /**
  * Token for injecting options for row selector

@@ -1,5 +1,3 @@
-import {EventEmitter} from '@angular/core';
-
 import {CssClassesContentRenderer, GridPlugin, PluginDescription, TableGridColumn, VisualPluginOptions} from '../../../interfaces';
 
 /**
@@ -21,12 +19,12 @@ export interface ContentRendererPlugins
 /**
  * Options for content renderer
  */
-export interface HeaderBodyContentRendererOptions<TCssClasses extends CssClassesContentRenderer = CssClassesContentRenderer, TPlugins extends ContentRendererPlugins = ContentRendererPlugins> extends VisualPluginOptions<TCssClasses>
+export interface HeaderBodyContentRendererOptions<TCssClasses extends CssClassesContentRenderer = CssClassesContentRenderer> extends VisualPluginOptions<TCssClasses>
 {
     /**
      * Object containing plugins for TableContentRenderer
      */
-    plugins: TPlugins;
+    plugins: ContentRendererPlugins;
 }
 
 /**
@@ -39,7 +37,7 @@ export interface BodyContentRendererOptions<TCssClasses = unknown> extends Visua
 /**
  * Definition of renderer for body for ContentRenderer
  */
-export interface BodyContentRenderer<TData = unknown, TMetadata = unknown> extends GridPlugin
+export interface BodyContentRenderer<TData = unknown, TMetadata = unknown> extends GridPlugin<BodyContentRendererOptions>
 {
     /**
      * Data that are rendered
@@ -57,12 +55,6 @@ export interface BodyContentRenderer<TData = unknown, TMetadata = unknown> exten
  */
 export interface CssClassesHeaderContentRenderer
 {
-    spanOrderingDirection:
-    {
-        none: string;
-        asc: string;
-        desc: string;
-    }
 }
 
 /**
@@ -75,28 +67,12 @@ export interface HeaderContentRendererOptions<TCssClasses extends CssClassesHead
 /**
  * Definition of renderer for header for ContentRenderer
  */
-export interface HeaderContentRenderer<TOrdering = unknown, TMetadata = unknown> extends GridPlugin
+export interface HeaderContentRenderer<TMetadata = unknown> extends GridPlugin<HeaderContentRendererOptions>
 {
     /**
      * Metadata used for rendering
      */
     metadata: TMetadata|undefined|null;
-
-    /**
-     * Current ordering state
-     */
-    ordering: TOrdering|undefined|null;
-
-    /**
-     * Occurs when ordering has changed
-     */
-    orderingChange: EventEmitter<void>;
-
-    /**
-     * Resets metadata to defaults
-     * @param force - Indication whether forcibly reset ordering, otherwise it is reset only if column is not present in displayed metadata
-     */
-    resetMetadata(force?: boolean): void;
 }
 
 /**
@@ -104,6 +80,7 @@ export interface HeaderContentRenderer<TOrdering = unknown, TMetadata = unknown>
  */
 export interface BasicOrderableColumn<TData = unknown> extends TableGridColumn<TData>
 {
+    //TODO: maybe remove
     orderingClass: string;
 }
 

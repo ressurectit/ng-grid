@@ -1,15 +1,16 @@
-<ng-template [ngComponentOutletEx]="$any(gridOptions.plugins.metadataSelector.type)" (ngComponentOutletExCreated)="setMetadataSelectorComponent($event)"></ng-template>
-<ng-template [ngComponentOutletEx]="$any(gridOptions.plugins.dataLoader.type)" (ngComponentOutletExCreated)="setDataLoaderComponent($event)"></ng-template>
-<ng-template [ngComponentOutletEx]="$any(gridOptions.plugins.rowSelector.type)" (ngComponentOutletExCreated)="setRowSelectorComponent($event)"></ng-template>
-<ng-template [ngComponentOutletEx]="$any(gridOptions.plugins.gridInitializer.type)" (ngComponentOutletExCreated)="setGridInitializerComponent($event)"></ng-template>
+<ng-template [ngComponentOutletEx]="gridOptions.plugins.metadataSelector.type | resolveForwardRef" (ngComponentOutletExCreated)="setMetadataSelectorComponent($event)"></ng-template>
+<ng-template [ngComponentOutletEx]="gridOptions.plugins.dataLoader.type | resolveForwardRef" (ngComponentOutletExCreated)="setDataLoaderComponent($event)"></ng-template>
+<ng-template [ngComponentOutletEx]="gridOptions.plugins.rowSelector.type | resolveForwardRef" (ngComponentOutletExCreated)="setRowSelectorComponent($event)"></ng-template>
+<ng-template [ngComponentOutletEx]="gridOptions.plugins.gridInitializer.type | resolveForwardRef" (ngComponentOutletExCreated)="setGridInitializerComponent($event)"></ng-template>
+<ng-template [ngComponentOutletEx]="gridOptions.plugins.ordering.type | resolveForwardRef" (ngComponentOutletExCreated)="setOrderingComponent($event)"></ng-template>
 
 <ng-template [ngIf]="gridOptions.pagingPosition == 0">
-    <ng-template [ngComponentOutletEx]="$any(gridOptions.plugins.paging.type)" (ngComponentOutletExCreated)="setPagingComponent($event)"></ng-template>
+    <ng-template [ngComponentOutletEx]="gridOptions.plugins.paging.type | resolveForwardRef" (ngComponentOutletExCreated)="setPagingComponent($event)"></ng-template>
 </ng-template>
 
-<ng-template [ngComponentOutletEx]="$any(gridOptions.plugins.contentRenderer.type)" (ngComponentOutletExCreated)="setContentRendererComponent($event)"></ng-template>
-<ng-template [ngComponentOutletEx]="$any(gridOptions.plugins.noDataRenderer.type)" (ngComponentOutletExCreated)="setNoDataRendererComponent($event)"></ng-template>
+<ng-template [ngComponentOutletEx]="gridOptions.plugins.contentRenderer.type | resolveForwardRef" (ngComponentOutletExCreated)="setContentRendererComponent($event)"></ng-template>
+<ng-template [ngComponentOutletEx]="gridOptions.plugins.noDataRenderer.type | resolveForwardRef" (ngComponentOutletExCreated)="setNoDataRendererComponent($event)"></ng-template>
 
 <ng-template [ngIf]="gridOptions.pagingPosition == 1">
-    <ng-template [ngComponentOutletEx]="$any(gridOptions.plugins.paging.type)" (ngComponentOutletExCreated)="setPagingComponent($event)"></ng-template>
+    <ng-template [ngComponentOutletEx]="gridOptions.plugins.paging.type | resolveForwardRef" (ngComponentOutletExCreated)="setPagingComponent($event)"></ng-template>
 </ng-template>

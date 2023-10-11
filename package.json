@@ -65,7 +65,7 @@
         "@angular/material": ">=17.0.0-next.6",
         "rxjs": ">=7.5.7",
         "@jscrpt/common": ">=4.1.0",
-        "@anglr/common": ">=18.0.0",
+        "@anglr/common": ">=18.1.0",
         "tslib": "^2.6.1"
     },
     "devDependencies": {
@@ -79,7 +79,7 @@
         "@angular/material": "^17.0.0-next.6",
         "rxjs": "^7.5.7",
         "@jscrpt/common": "^4.1.0",
-        "@anglr/common": "^18.0.0",
+        "@anglr/common": "^18.1.0",
         "@types/node": "^18.11.9",
         "@angular/compiler-cli": "^17.0.0-next.7",
         "@angular/compiler": "^17.0.0-next.7",

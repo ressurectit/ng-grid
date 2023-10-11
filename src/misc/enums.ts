@@ -45,7 +45,12 @@ export enum GridPluginType
     NoDataRenderer = 'NoDataRenderer',
 
     /**
-     * Enables paging of data
+     * Enables and handles ordering of data
+     */
+    Ordering = 'Ordering',
+
+    /**
+     * Enables and handles paging of data
      */
     Paging = 'Paging',
 

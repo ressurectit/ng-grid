@@ -1,4 +1,4 @@
-import {ContentRenderer, DataLoader, GridAction, GridPluginType} from '@anglr/grid';
+import {DataLoader, GridAction, GridPluginType, Ordering} from '@anglr/grid';
 
 /**
  * Sets ordering for grid
@@ -8,10 +8,10 @@ export function setOrdering<TOrdering>(ordering: TOrdering): GridAction
 {
     return grid =>
     {
-        const contentRenderer = grid.getPlugin<ContentRenderer<TOrdering>>(GridPluginType.ContentRenderer);
+        const contentRenderer = grid.getPlugin<Ordering<TOrdering>>(GridPluginType.Ordering);
         const dataLoader = grid.getPlugin<DataLoader>(GridPluginType.DataLoader);
 
-        contentRenderer.ordering = ordering as TOrdering;
+        contentRenderer.setOrdering(ordering);
         dataLoader.loadData();
     };
 }

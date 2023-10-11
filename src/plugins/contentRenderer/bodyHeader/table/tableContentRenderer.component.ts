@@ -9,6 +9,7 @@ import {CONTENT_RENDERER_OPTIONS, GRID_PLUGIN_INSTANCES} from '../../../../misc/
 import {GridPluginInstances} from '../../../../misc/types';
 import {TableBodyContentRendererSAComponent} from './body/basic/tableBodyContentRenderer.component';
 import {TableHeaderContentRendererSAComponent} from './header/basic/tableHeaderContentRenderer.component';
+import {ResolveForwardRefSAPipe} from '../../../../pipes';
 
 /**
  * Default options for 'TableContentRendererComponent'
@@ -51,10 +52,11 @@ const defaultOptions: TableContentRendererOptions =
     [
         CommonModule,
         CommonDynamicModule,
+        ResolveForwardRefSAPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TableContentRendererSAComponent<TOrdering = unknown, TData = unknown, TMetadata extends GridMetadata = GridMetadata> extends BodyHeaderContentRendererAbstractComponent<TOrdering, TData, TMetadata, TableContentRendererOptions> implements OnDestroy
+export class TableContentRendererSAComponent<TData = unknown, TMetadata extends GridMetadata = GridMetadata> extends BodyHeaderContentRendererAbstractComponent<TData, TMetadata, TableContentRendererOptions> implements OnDestroy
 {
     //######################### public properties - hosts #########################
 

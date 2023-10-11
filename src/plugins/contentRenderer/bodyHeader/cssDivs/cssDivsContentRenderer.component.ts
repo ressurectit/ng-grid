@@ -11,6 +11,7 @@ import {GridPluginInstances} from '../../../../misc/types';
 import {TableGridMetadata} from '../../../../components/tableGridMetadataGatherer/tableGridMetadataGatherer.interface';
 import {CssDivsBodyContentRendererSAComponent} from './body/cssDivsBodyContentRenderer.component';
 import {CssDivsHeaderContentRendererSAComponent} from './header/cssDivsHeaderContentRenderer.component';
+import {ResolveForwardRefSAPipe} from '../../../../pipes';
 
 /**
  * Default options for 'CssDivsContentRendererComponent'
@@ -52,10 +53,11 @@ const defaultOptions: CssDivsContentRendererOptions =
     imports:
     [
         CommonDynamicModule,
+        ResolveForwardRefSAPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CssDivsContentRendererSAComponent<TOrdering = unknown, TData = unknown, TMetadata extends GridMetadata = GridMetadata> extends BodyHeaderContentRendererAbstractComponent<TOrdering, TData, TMetadata, CssDivsContentRendererOptions> implements OnDestroy
+export class CssDivsContentRendererSAComponent<TData = unknown, TMetadata extends GridMetadata = GridMetadata> extends BodyHeaderContentRendererAbstractComponent<TData, TMetadata, CssDivsContentRendererOptions> implements OnDestroy
 {
     //######################### protected properties #########################
 
@@ -103,13 +105,13 @@ export class CssDivsContentRendererSAComponent<TOrdering = unknown, TData = unkn
     {
         super.initialize();
 
-        this._setGridColumnsWidth();
+        this.setGridColumnsWidth();
 
         this.metadataSelector
             ?.metadataChange
             .subscribe(() =>
                 {
-                    this._setGridColumnsWidth();
+                    this.setGridColumnsWidth();
                 }
             );
     }
@@ -119,7 +121,7 @@ export class CssDivsContentRendererSAComponent<TOrdering = unknown, TData = unkn
     /**
      * Set grid template column value for visible columns
      */
-    protected _setGridColumnsWidth()
+    protected setGridColumnsWidth(): void
     {
         const metadata: TableGridMetadata<TableGridColumn<TData>> = <unknown>this.metadataSelector?.metadata as TableGridMetadata<TableGridColumn<TData>>;
 

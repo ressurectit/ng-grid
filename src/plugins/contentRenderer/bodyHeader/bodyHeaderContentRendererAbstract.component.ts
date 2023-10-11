@@ -1,9 +1,9 @@
-import {OnDestroy, resolveForwardRef, Directive, ElementRef, HostBinding} from '@angular/core';
+import {OnDestroy, Directive, ElementRef, HostBinding} from '@angular/core';
 import {RecursivePartial, extend} from '@jscrpt/common';
-import {Observable, Subject, Subscription} from 'rxjs';
+import {Subscription} from 'rxjs';
 
 import {ContentRenderer, CssClassesContentRenderer, DataLoader, DataResponse, GridMetadata, GridPlugin, MetadataSelector} from '../../../interfaces';
-import {BodyContentRenderer, ContentRendererPlugins, HeaderBodyContentRendererOptions, HeaderContentRenderer} from './bodyHeaderContentRenderer.interface';
+import {BodyContentRenderer, HeaderBodyContentRendererOptions, HeaderContentRenderer} from './bodyHeaderContentRenderer.interface';
 import {GridPluginInstances} from '../../../misc/types';
 import {GridPluginType} from '../../../misc/enums';
 
@@ -11,7 +11,7 @@ import {GridPluginType} from '../../../misc/enums';
  * Abstract component for content renderers
  */
 @Directive()
-export abstract class BodyHeaderContentRendererAbstractComponent<TOrdering = unknown, TData = unknown, TMetadata extends GridMetadata = GridMetadata, TOptions extends HeaderBodyContentRendererOptions<CssClassesContentRenderer, ContentRendererPlugins> = HeaderBodyContentRendererOptions<CssClassesContentRenderer, ContentRendererPlugins>> implements ContentRenderer<TOrdering>, OnDestroy, GridPlugin<TOptions>
+export abstract class BodyHeaderContentRendererAbstractComponent<TData = unknown, TMetadata extends GridMetadata = GridMetadata, TOptions extends HeaderBodyContentRendererOptions<CssClassesContentRenderer> = HeaderBodyContentRendererOptions<CssClassesContentRenderer>> implements ContentRenderer, OnDestroy, GridPlugin<TOptions>
 {
     //######################### protected fields #########################
 
@@ -41,16 +41,6 @@ export abstract class BodyHeaderContentRendererAbstractComponent<TOrdering = unk
     protected dataChangedSubscription: Subscription|undefined|null;
 
     /**
-     * Subscription listening for ordering changes
-     */
-    protected orderingChangedSubscription: Subscription|undefined|null;
-
-    /**
-     * Subject used for emitting changes in ordering
-     */
-    protected orderingChangeSubject: Subject<void> = new Subject<void>();
-
-    /**
      * Null safe grid plugin instances
      */
     protected get gridPluginsInstance(): GridPluginInstances
@@ -75,35 +65,6 @@ export abstract class BodyHeaderContentRendererAbstractComponent<TOrdering = unk
     public set options(options: RecursivePartial<TOptions>)
     {
         this.ɵoptions = extend(true, this.ɵoptions, options);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public get ordering(): TOrdering|undefined|null
-    {
-        const headerRenderer: HeaderContentRenderer<TOrdering, TMetadata> = this.gridPluginsInstance['HEADER_CONTENT_RENDERER' as unknown as GridPluginType] as HeaderContentRenderer<TOrdering, TMetadata>;
-
-        return headerRenderer ? headerRenderer.ordering : null;
-    }
-    public set ordering(ordering: TOrdering)
-    {
-        const headerRenderer: HeaderContentRenderer<TOrdering, TMetadata> = this.gridPluginsInstance['HEADER_CONTENT_RENDERER' as unknown as GridPluginType] as HeaderContentRenderer<TOrdering, TMetadata>;
-
-        if(headerRenderer)
-        {
-            headerRenderer.ordering = ordering;
-        }
-
-        headerRenderer.invalidateVisuals();
-    }
-
-    /**
-     * Indication that ordering has changed
-     */
-    public get orderingChange(): Observable<void>
-    {
-        return this.orderingChangeSubject.asObservable();
     }
 
     //######################### public properties - hosts #########################
@@ -135,9 +96,6 @@ export abstract class BodyHeaderContentRendererAbstractComponent<TOrdering = unk
     {
         this.metadataChangedSubscription?.unsubscribe();
         this.metadataChangedSubscription = null;
-
-        this.orderingChangedSubscription?.unsubscribe();
-        this.orderingChangedSubscription = null;
 
         this.dataChangedSubscription?.unsubscribe();
         this.dataChangedSubscription = null;
@@ -205,8 +163,6 @@ export abstract class BodyHeaderContentRendererAbstractComponent<TOrdering = unk
         {
             if(this.ɵoptions.plugins.bodyRenderer)
             {
-                this.ɵoptions.plugins.bodyRenderer.type = resolveForwardRef(this.ɵoptions.plugins.bodyRenderer.type);
-
                 if(this.ɵoptions.plugins.bodyRenderer.instance &&
                    this.ɵoptions.plugins.bodyRenderer.instance != this.gridPluginsInstance['BODY_CONTENT_RENDERER' as unknown as GridPluginType])
                 {
@@ -227,21 +183,11 @@ export abstract class BodyHeaderContentRendererAbstractComponent<TOrdering = unk
 
             if(this.ɵoptions.plugins.headerRenderer)
             {
-                this.ɵoptions.plugins.headerRenderer.type = resolveForwardRef(this.ɵoptions.plugins.headerRenderer.type);
-
                 if(this.ɵoptions.plugins.headerRenderer.instance &&
                    this.ɵoptions.plugins.headerRenderer.instance != this.gridPluginsInstance['HEADER_CONTENT_RENDERER' as unknown as GridPluginType])
                 {
                     this.gridPluginsInstance['HEADER_CONTENT_RENDERER' as unknown as GridPluginType] = this.ɵoptions.plugins.headerRenderer.instance;
                     this.ɵoptions.plugins.headerRenderer.instance.gridPlugins = this.gridPlugins;
-
-                    if(this.orderingChangedSubscription)
-                    {
-                        this.orderingChangedSubscription.unsubscribe();
-                        this.orderingChangedSubscription = null;
-                    }
-
-                    this.orderingChangedSubscription = this.ɵoptions.plugins.headerRenderer.instance.orderingChange.subscribe(() => this.orderingChangeSubject.next());
                 }
 
                 if(this.gridPluginsInstance['HEADER_CONTENT_RENDERER' as unknown as GridPluginType])
@@ -289,7 +235,7 @@ export abstract class BodyHeaderContentRendererAbstractComponent<TOrdering = unk
      * Sets header renderer component
      * @param headerRenderer - Created header renderer that is rendered
      */
-    protected setHeaderRendererComponent(headerRenderer: HeaderContentRenderer<TOrdering, TMetadata>|undefined|null): void
+    protected setHeaderRendererComponent(headerRenderer: HeaderContentRenderer<TMetadata>|undefined|null): void
     {
         if(!headerRenderer)
         {
@@ -309,14 +255,6 @@ export abstract class BodyHeaderContentRendererAbstractComponent<TOrdering = unk
         {
             this.ɵoptions.plugins.headerRenderer.instanceCallback(headerRenderer);
         }
-
-        if(this.orderingChangedSubscription)
-        {
-            this.orderingChangedSubscription.unsubscribe();
-            this.orderingChangedSubscription = null;
-        }
-
-        this.orderingChangedSubscription = headerRenderer.orderingChange.subscribe(() => this.orderingChangeSubject.next());
     }
 
     //######################### protected methods #########################
@@ -327,12 +265,11 @@ export abstract class BodyHeaderContentRendererAbstractComponent<TOrdering = unk
     protected ɵinvalidateVisuals(): void
     {
         const bodyRenderer: BodyContentRenderer<TData, TMetadata> = this.gridPluginsInstance['BODY_CONTENT_RENDERER' as unknown as GridPluginType] as BodyContentRenderer<TData, TMetadata>;
-        const headerRenderer: HeaderContentRenderer<TOrdering, TMetadata> = this.gridPluginsInstance['HEADER_CONTENT_RENDERER' as unknown as GridPluginType] as HeaderContentRenderer<TOrdering, TMetadata>;
+        const headerRenderer: HeaderContentRenderer<TMetadata> = this.gridPluginsInstance['HEADER_CONTENT_RENDERER' as unknown as GridPluginType] as HeaderContentRenderer<TMetadata>;
 
         if(headerRenderer.metadata != this.metadataSelector?.metadata)
         {
             headerRenderer.metadata = this.metadataSelector?.metadata;
-            headerRenderer.resetMetadata();
             headerRenderer.invalidateVisuals();
         }
 

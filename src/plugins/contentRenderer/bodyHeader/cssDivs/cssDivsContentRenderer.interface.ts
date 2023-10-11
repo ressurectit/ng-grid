@@ -1,5 +1,5 @@
 import {ContentRenderer, CssClassesContentRenderer} from '../../../../interfaces';
-import {HeaderBodyContentRendererOptions, ContentRendererPlugins, BodyContentRendererOptions, BodyContentRenderer, CssClassesHeaderContentRenderer, HeaderContentRendererOptions, HeaderContentRenderer} from '../bodyHeaderContentRenderer.interface';
+import {HeaderBodyContentRendererOptions, BodyContentRendererOptions, BodyContentRenderer, CssClassesHeaderContentRenderer, HeaderContentRendererOptions, HeaderContentRenderer} from '../bodyHeaderContentRenderer.interface';
 
 /**
  * Css classes for css grid content renderer
@@ -11,14 +11,14 @@ export interface CssClassesCssDivsContentRenderer extends CssClassesContentRende
 /**
  * Options for css grid content renderer
  */
-export interface CssDivsContentRendererOptions extends HeaderBodyContentRendererOptions<CssClassesCssDivsContentRenderer, ContentRendererPlugins>
+export interface CssDivsContentRendererOptions extends HeaderBodyContentRendererOptions<CssClassesCssDivsContentRenderer>
 {
 }
 
 /**
  * Public API for CssDivsContentRenderer
  */
-export interface CssDivsContentRenderer<TOrdering = unknown> extends ContentRenderer<TOrdering>
+export interface CssDivsContentRenderer extends ContentRenderer
 {
 }
 
@@ -69,6 +69,6 @@ export interface CssDivsHeaderContentRendererOptions extends HeaderContentRender
 /**
  * Public API for CssDivsHeaderContentRenderer
  */
-export interface CssDivsHeaderContentRenderer<TOrdering = unknown, TMetadata = unknown> extends HeaderContentRenderer<TOrdering, TMetadata>
+export interface CssDivsHeaderContentRenderer<TMetadata = unknown> extends HeaderContentRenderer<TMetadata>
 {
 }

@@ -2,7 +2,6 @@
     <th *ngFor="let meta of metadata?.columns; let index=index" 
         [ngClass]="mergeStringClasses(options.cssClasses.thDefault, meta?.headerClass ?? '', meta?.ordering ? options.cssClasses.thOrderable : '')" 
         [style.width]="meta?.width"
-        (click)="orderBy(meta)"
         [title]="meta?.headerTooltip || meta?.title">
         <ng-template [ngIf]="meta?.titleVisible">
             <ng-template [ngIf]="!meta?.headerTemplate" [ngIfElse]="headerTemplate">
