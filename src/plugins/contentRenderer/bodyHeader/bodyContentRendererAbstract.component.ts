@@ -2,9 +2,8 @@ import {ChangeDetectorRef, ElementRef, Directive} from '@angular/core';
 import {RecursivePartial, extend} from '@jscrpt/common';
 
 import {BodyContentRenderer, BodyContentRendererOptions} from './bodyHeaderContentRenderer.interface';
-import {GridPlugin, Paging} from '../../../interfaces';
+import {GridPlugin} from '../../../interfaces';
 import {GridPluginInstances} from '../../../misc/types';
-import {GridPluginType} from '../../../misc/enums';
 
 //TODO - compute classes before rendering
 //TOOD - mergeClasses as pipe
@@ -21,13 +20,6 @@ export class BodyContentRendererAbstractComponent<TData = unknown, TCssClasses =
      * Options for body content renderer
      */
     protected ɵoptions: TOptions;
-
-    //######################### public properties - template bindings #########################
-
-    /**
-     * Starting index of currently displayed items
-     */
-    public startingIndex: number = 0;
 
     //######################### public properties - implementation of BodyContentRenderer #########################
 
@@ -84,12 +76,6 @@ export class BodyContentRendererAbstractComponent<TData = unknown, TCssClasses =
      */
     public invalidateVisuals(): void
     {
-        if(!this.gridPlugins)
-        {
-            throw new Error('BodyContentRendererAbstractComponent: missing gridPlugins!');
-        }
-
-        this.startingIndex = (this.gridPlugins[GridPluginType.Paging] as Paging).firstItemIndex;
         this._changeDetector.detectChanges();
     }
 

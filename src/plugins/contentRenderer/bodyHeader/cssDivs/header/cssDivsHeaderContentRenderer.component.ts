@@ -5,6 +5,7 @@ import {CssDivsHeaderContentRendererOptions} from '../cssDivsContentRenderer.int
 import {HeaderContentRendererAbstractComponent} from '../../headerContentRendererAbstract.component';
 import {GRID_PLUGIN_INSTANCES, HEADER_CONTENT_RENDERER_OPTIONS} from '../../../../../misc/tokens';
 import {GridPluginInstances} from '../../../../../misc/types';
+import {CellContextSAPipe} from '../../../../../pipes';
 
 /**
  * Default options for 'CssDivsHeaderContentRendererComponent'
@@ -34,6 +35,7 @@ const defaultOptions: CssDivsHeaderContentRendererOptions =
     imports:
     [
         CommonModule,
+        CellContextSAPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

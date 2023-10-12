@@ -1,15 +1,15 @@
-import {Component, ChangeDetectionStrategy, Inject, Optional, Type, Input, OnInit, ContentChild, forwardRef, ChangeDetectorRef, FactoryProvider} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Inject, Optional, Type, Input, OnInit, ContentChild, forwardRef, ChangeDetectorRef, FactoryProvider, ExistingProvider} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CommonDynamicModule} from '@anglr/common';
 import {Func1, PromiseOr, RecursivePartial, extend} from '@jscrpt/common';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
 import {Observable, BehaviorSubject, map, combineLatest, distinctUntilChanged, Subject, take} from 'rxjs';
 
-import {GridPluginType, PagingPosition} from '../../misc/enums';
 import {ContentRenderer, DataLoader, Grid, GridInitializer, GridOptions, GridPlugin, MetadataGatherer, MetadataSelector, NoDataRenderer, Ordering, Paging, PluginDescription, RowSelector} from '../../interfaces';
-import {CONTENT_RENDERER_TYPE, DATA_LOADER_TYPE, GRID_INITIALIZER_TYPE, GRID_OPTIONS, GRID_PLUGIN_INSTANCES, METADATA_GATHERER, METADATA_SELECTOR_TYPE, NO_DATA_RENDERER_TYPE, ORDERING_TYPE, PAGING_TYPE, ROW_SELECTOR_TYPE} from '../../misc/tokens';
+import {CONTENT_RENDERER_TYPE, DATA_LOADER_TYPE, GRID_INITIALIZER_TYPE, GRID_INSTANCE, GRID_OPTIONS, GRID_PLUGIN_INSTANCES, METADATA_GATHERER, METADATA_SELECTOR_TYPE, NO_DATA_RENDERER_TYPE, ORDERING_TYPE, PAGING_TYPE, ROW_SELECTOR_TYPE} from '../../misc/tokens';
 import {AsyncDataLoaderSAComponent, BasicPagingSAComponent, BasicRowSelectorSAComponent, NoGridInitializerSAComponent, NoMetadataSelectorSAComponent, NoOrderingSAComponent, SimpleNoDataRendererSAComponent, TableContentRendererSAComponent} from '../../plugins';
 import {GridAction, GridFunction, GridPluginInstances} from '../../misc/types';
+import {GridPluginType, PagingPosition} from '../../misc/enums';
 import {setPluginFactory} from '../../misc/utils';
 import {ResolveForwardRefSAPipe} from '../../pipes';
 
@@ -99,6 +99,11 @@ const defaultOptions: GridOptions =
     ],
     providers:
     [
+        <ExistingProvider>
+        {
+            provide: GRID_INSTANCE,
+            useExisting: forwardRef(() => GridSAComponent),
+        },
         <FactoryProvider>
         {
             provide: GRID_PLUGIN_INSTANCES,

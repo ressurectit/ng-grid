@@ -1,7 +1,8 @@
 import {TemplateRef} from '@angular/core';
 
 import {GridColumn} from './gridColumn.interface';
-import {TableGridCellTemplateContext} from '../../directives/tableGridCellTemplate/tableGridCellTemplate.context';
+import {DataCellTemplateContext} from '../dataCellTemplateContext/dataCellTemplate.context';
+import {CellTemplateContext} from '../cellTemplateContext/cellTemplate.context';
 
 /**
  * Table grid column definition
@@ -46,10 +47,10 @@ export interface TableGridColumn<TData = unknown> extends GridColumn
     /**
      * Template that is used for rendering of cell header
      */
-    readonly headerTemplate: TemplateRef<TableGridCellTemplateContext<TData>>|undefined|null;
+    readonly headerTemplate: TemplateRef<CellTemplateContext<TableGridColumn<TData>>>|undefined|null;
 
     /**
      * Template that is used for rendering of cell body
      */
-    readonly bodyTemplate: TemplateRef<TableGridCellTemplateContext<TData>>|undefined|null;
+    readonly bodyTemplate: TemplateRef<DataCellTemplateContext<TableGridColumn<TData>>>|undefined|null;
 }

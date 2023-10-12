@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, Input, TemplateRef, ContentChild} from '@angular/core';
 
-import {TableGridColumn} from '../../interfaces';
-import {TableGridBodyCellTemplateSADirective, TableGridCellTemplateContext, TableGridHeaderCellTemplateSADirective} from '../../directives';
+import {DataCellTemplateContext, TableGridColumn, CellTemplateContext} from '../../interfaces';
+import {TableGridBodyCellTemplateSADirective, TableGridHeaderCellTemplateSADirective} from '../../directives';
 
 /**
  * Component for gathering information about table grid column
@@ -21,7 +21,7 @@ export class TableGridColumnSAComponent<TData = unknown> implements TableGridCol
      * @inheritdoc
      */
     @Input({required: true})
-    public id!: string|undefined|null;
+    public id: string|undefined|null;
 
     /**
      * @inheritdoc
@@ -80,7 +80,7 @@ export class TableGridColumnSAComponent<TData = unknown> implements TableGridCol
     /**
      * @inheritdoc
      */
-    public get headerTemplate(): TemplateRef<TableGridCellTemplateContext<TData>>|undefined|null
+    public get headerTemplate(): TemplateRef<CellTemplateContext<TableGridColumn<TData>>>|undefined|null
     {
         return this.headerTemplateNew ?? this.headerTemplateLegacy;
     }
@@ -88,7 +88,7 @@ export class TableGridColumnSAComponent<TData = unknown> implements TableGridCol
     /**
      * @inheritdoc
      */
-    public get bodyTemplate(): TemplateRef<TableGridCellTemplateContext<TData>>|undefined|null
+    public get bodyTemplate(): TemplateRef<DataCellTemplateContext<TableGridColumn<TData>>>|undefined|null
     {
         return this.bodyTemplateNew ?? this.bodyTemplateLegacy;
     }
@@ -99,23 +99,23 @@ export class TableGridColumnSAComponent<TData = unknown> implements TableGridCol
      * Template that is used for rendering of cell header, legacy syntax
      */
     @ContentChild('headerTemplate')
-    protected headerTemplateLegacy: TemplateRef<TableGridCellTemplateContext<TData>>|undefined|null;
+    protected headerTemplateLegacy: TemplateRef<CellTemplateContext<TableGridColumn<TData>>>|undefined|null;
 
     /**
      * Template that is used for rendering of cell body, legacy syntax
      */
     @ContentChild('bodyTemplate')
-    protected bodyTemplateLegacy: TemplateRef<TableGridCellTemplateContext<TData>>|undefined|null;
+    protected bodyTemplateLegacy: TemplateRef<DataCellTemplateContext<TableGridColumn<TableGridColumn<TData>>>>|undefined|null;
 
     /**
      * Template that is used for rendering of cell header, new syntax
      */
-    @ContentChild(TableGridHeaderCellTemplateSADirective, {read: TemplateRef<TableGridCellTemplateContext<TData>>})
-    protected headerTemplateNew: TemplateRef<TableGridCellTemplateContext<TData>>|undefined|null;
+    @ContentChild(TableGridHeaderCellTemplateSADirective, {read: TemplateRef<CellTemplateContext<TableGridColumn<TData>>>})
+    protected headerTemplateNew: TemplateRef<CellTemplateContext<TableGridColumn<TData>>>|undefined|null;
 
     /**
      * Template that is used for rendering of cell body, new syntax
      */
-    @ContentChild(TableGridBodyCellTemplateSADirective, {read: TemplateRef<TableGridCellTemplateContext<TData>>})
-    protected bodyTemplateNew: TemplateRef<TableGridCellTemplateContext<TData>>|undefined|null;
+    @ContentChild(TableGridBodyCellTemplateSADirective, {read: TemplateRef<DataCellTemplateContext<TableGridColumn<TData>>>})
+    protected bodyTemplateNew: TemplateRef<DataCellTemplateContext<TableGridColumn<TData>>>|undefined|null;
 }

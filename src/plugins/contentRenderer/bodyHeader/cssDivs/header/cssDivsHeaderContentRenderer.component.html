@@ -1,14 +1,13 @@
 <div *ngFor="let meta of metadata?.columns; let index=index" 
      [style.width]="meta?.width"
      [ngClass]="mergeStringClasses(options.cssClasses.headerCellDiv, meta?.headerClass ?? '', meta?.ordering ? options.cssClasses.headerCellOrderableDiv : '')">
-    <ng-template [ngIf]="meta?.titleVisible">
-        <ng-template [ngIf]="!meta?.headerTemplate" [ngIfElse]="headerTemplate">
+    <ng-container *ngIf="meta?.titleVisible">
+        <ng-container *ngIf="!meta?.headerTemplate; else headerTemplate">
             <span [ngClass]="options.cssClasses.spanContent">{{meta?.title}}</span>
-        </ng-template>
+        </ng-container>
 
-        <ng-template #headerTemplate [ngTemplateOutlet]="meta?.headerTemplate ?? null" [ngTemplateOutletContext]="{$implicit: $any(null), column: meta, index, startingIndex: 0, rowIndex: 0}">
-        </ng-template>
+        <ng-template #headerTemplate [ngTemplateOutlet]="meta?.headerTemplate ?? null" [ngTemplateOutletContext]="meta | cellContext: index"/>
 
         <span *ngIf="meta?.ordering" [ngClass]="mergeStringClasses(options.cssClasses.spanOrdering, meta?.orderingClass ?? '')"></span>
-    </ng-template>
+    </ng-container>
 </div>

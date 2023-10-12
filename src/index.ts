@@ -2,6 +2,7 @@ export * from './components';
 export * from './directives';
 export * from './interfaces';
 export * from './misc/enums';
+export * from './misc/providers';
 export * from './misc/tokens';
 export * from './misc/types';
 export * from './misc/utils';
@@ -18,3 +19,5 @@ export * from './plugins';
 //TODO: styles in datetime style
 //TODO: items per page overwrite, not merge
 //TODO: remove $any when possible
+//TODO: maybe rewrite GridPluginInstances to more "specific" types
+//TODO: add specific context for template directives

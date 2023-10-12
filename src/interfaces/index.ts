@@ -1,3 +1,5 @@
+export * from './cellTemplateContext/cellTemplate.context';
+export * from './dataCellTemplateContext/dataCellTemplate.context';
 export * from './dataResponse/dataResponse.interface';
 export * from './grid/grid.interface';
 export * from './gridColumn';

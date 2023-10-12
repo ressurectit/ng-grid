@@ -7,7 +7,7 @@ import {TableGridMetadata} from '../../../../../components/tableGridMetadataGath
 import {TableGridColumn} from '../../../../../interfaces';
 import {BODY_CONTENT_RENDERER_OPTIONS, GRID_PLUGIN_INSTANCES} from '../../../../../misc/tokens';
 import {GridPluginInstances} from '../../../../../misc/types';
-import {ReadValueSAPipe} from '../../../../../pipes';
+import {DataCellContextSAPipe, ReadValueSAPipe} from '../../../../../pipes';
 
 /**
  * Default options for 'CssDivsBodyContentRendererComponent'
@@ -35,6 +35,7 @@ const defaultOptions: CssDivsBodyContentRendererOptions =
     [
         CommonModule,
         ReadValueSAPipe,
+        DataCellContextSAPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

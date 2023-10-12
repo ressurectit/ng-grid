@@ -3,15 +3,14 @@
         [ngClass]="mergeStringClasses(options.cssClasses.thDefault, meta?.headerClass ?? '', meta?.ordering ? options.cssClasses.thOrderable : '')" 
         [style.width]="meta?.width"
         [title]="meta?.headerTooltip || meta?.title">
-        <ng-template [ngIf]="meta?.titleVisible">
-            <ng-template [ngIf]="!meta?.headerTemplate" [ngIfElse]="headerTemplate">
+        <ng-container *ngIf="meta?.titleVisible">
+            <ng-container *ngIf="!meta?.headerTemplate; else headerTemplate">
                 <span [ngClass]="options.cssClasses.spanContent">{{meta?.title}}</span>
-            </ng-template>
+            </ng-container>
 
-            <ng-template #headerTemplate [ngTemplateOutlet]="meta?.headerTemplate ?? null" [ngTemplateOutletContext]="{$implicit: $any(null), column: meta, index, startingIndex: 0, rowIndex: 0}">
-            </ng-template>
+            <ng-template #headerTemplate [ngTemplateOutlet]="meta?.headerTemplate ?? null" [ngTemplateOutletContext]="meta | cellContext: index"/>
 
             <span *ngIf="meta?.ordering" [ngClass]="mergeStringClasses(options.cssClasses.spanOrdering, meta?.orderingClass ?? '')"></span>
-        </ng-template>
+        </ng-container>
     </th>
 </tr>

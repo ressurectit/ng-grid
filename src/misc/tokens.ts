@@ -1,9 +1,23 @@
 import {InjectionToken} from '@angular/core';
 import {RecursivePartial} from '@jscrpt/common';
 
-import {ContentRenderer, ContentRendererOptions, DataLoader, DataLoaderOptions, GridInitializer, GridInitializerOptions, GridOptions, MetadataGatherer, MetadataSelector, MetadataSelectorOptions, NoDataRenderer, NoDataRendererOptions, Ordering, OrderingOptions, Paging, PagingOptions, RowSelector, RowSelectorOptions} from '../interfaces';
-import {GridPluginInstances} from './types';
-import {VisualPluginOptions} from '../interfaces';
+import {ContentRenderer, ContentRendererOptions, DataLoader, DataLoaderOptions, Grid, GridInitializer, GridInitializerOptions, GridOptions, MetadataGatherer, MetadataSelector, MetadataSelectorOptions, NoDataRenderer, NoDataRendererOptions, Ordering, OrderingOptions, Paging, PagingOptions, RowSelector, RowSelectorOptions, VisualPluginOptions} from '../interfaces';
+import {CellContextFactoryFn, DataCellContextFactoryFn, GridPluginInstances} from './types';
+
+/**
+ * Injection token for obtaining grid instance inside grid plugins and nested types
+ */
+export const GRID_INSTANCE: InjectionToken<Grid> = new InjectionToken<Grid>('GRID_INSTANCE');
+
+/**
+ * Injection token for obtaining data cell context factory function
+ */
+export const DATA_CELL_CONTEXT_FN: InjectionToken<DataCellContextFactoryFn> = new InjectionToken<DataCellContextFactoryFn>('DATA_CELL_CONTEXT_FN');
+
+/**
+ * Injection token for obtaining cell context factory function
+ */
+export const CELL_CONTEXT_FN: InjectionToken<CellContextFactoryFn> = new InjectionToken<CellContextFactoryFn>('CELL_CONTEXT_FN');
 
 /**
  * Injection token for obtaining metadata gatherer

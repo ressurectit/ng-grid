@@ -14,13 +14,12 @@
       - `Ordering` enables and handles ordering of data
       - `Paging` enables and handles paging of data
       - `RowSelector` handles selection of rows
-- new `TableGridCellTemplateBaseDirective` directive, that is base directive that is used for obtaining template for table grid cell
+- new `TableGridBodyCellTemplateSADirective` directive, that is used for obtaining template for table grid body cell
    - **properties**
       - `template` template that is this structural directive used to
-- new `TableGridBodyCellTemplateSADirective` directive, that is used for obtaining template for table grid body cell
-   - **extends** `TableGridCellTemplateBaseDirective`
 - new `TableGridHeaderCellTemplateSADirective` directive, that is used for obtaining template for table grid header cell
-   - **extends** `TableGridCellTemplateBaseDirective`
+   - **properties**
+      - `template` template that is this structural directive used to
 - new `GridPluginType` enum, that represents available plugin types
    - `ContentRenderer` content renderer used for rendering content area of grid
    - `DataLoader` data loader used for obtaining data for grid
@@ -54,6 +53,20 @@
 - new `ORDERING_OPTIONS` injection token for injecting options for ordering
 - new `ResolveForwardRefSAPipe` pipe, that resolves forwardRef type into type
 - new `ReadValueSAPipe` pipe, that reads value from object and returns it, can address nested objects using '.' notation
+- new `CellTemplateContext` interface, that is context for cell template
+   - **propertie**
+      - `column` object of column metadata itself
+- new `CellContextFactoryFn` type, that represents factory function signature for obtaining cell context
+- new `DataCellContextFactoryFn` type, that represents factory function signature for obtaining data cell context
+- new `CELL_CONTEXT_FN` injection token for obtaining cell context factory function
+- new `DATA_CELL_CONTEXT_FN` injection token for obtaining data cell context factory function
+- new `GRID_INSTANCE` injection token for obtaining grid instance inside grid plugins and nested types
+- new `cellContextFactory` function, that creates context object for cell in grid
+- new `dataCellContextFactory` function, that creates context object for data cell in grid
+- new `CellContextSAPipe` pipe, that obtains cell context for template
+- new `DataCellContextSAPipe` pipe, that obtains data cell context for template
+- new `provideCellContextFactoryFn` function, that provides factory function for cell context
+- new `provideDataCellContextFactoryFn` function, that provides factory function for data cell context
 - updated `TableGridColumnSAComponent` component
    - now supports also obtaining template using directives `TableGridBodyCellTemplateSADirective`, `TableGridHeaderCellTemplateSADirective`
 - updated `Grid` interface
@@ -65,7 +78,6 @@
    - updated `reinitializeOptions`, new signatures supporting `force` parameter
 
 ### BREAKING CHANGES
-ddd
 - minimal supported version of `@angular` is `17.0.0`
 - minimal supported version of `@jscrpt/common` is `4.1.0`
 - minimal supported version of `@anglr/common` is `18.1.0`
@@ -82,7 +94,7 @@ ddd
 - renamed `BasicTableMetadata` to `TableGridMetadata`
 - renamed `BasicTableMetadataGathererComponent` to `TableGridMetadataGathererSAComponent`
 - renamed `BasicTableColumnComponent` to `TableGridColumnSAComponent`
-- renamed `BasicTableColumnContext` to `TableGridCellTemplateContext` and changed to interface
+- renamed `BasicTableColumnContext` to `DataCellTemplateContext` and changed to interface
 - renamed `GridComponent` to `GridSAComponent`
 - renamed `SimpleNoDataRendererComponent` to `SimpleNoDataRendererSAComponent`
 - renamed `BasicRowSelectorComponent` to `BasicRowSelectorSAComponent`

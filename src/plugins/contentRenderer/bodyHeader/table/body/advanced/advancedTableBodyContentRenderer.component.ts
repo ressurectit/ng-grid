@@ -8,8 +8,7 @@ import {RowSelector, TableGridColumn} from '../../../../../../interfaces';
 import {BODY_CONTENT_RENDERER_OPTIONS, GRID_PLUGIN_INSTANCES} from '../../../../../../misc/tokens';
 import {GridPluginInstances} from '../../../../../../misc/types';
 import {GridPluginType} from '../../../../../../misc/enums';
-import {TableGridCellTemplateContext} from '../../../../../../directives/tableGridCellTemplate/tableGridCellTemplate.context';
-import {ReadValueSAPipe} from '../../../../../../pipes';
+import {DataCellContextSAPipe, ReadValueSAPipe} from '../../../../../../pipes';
 
 /**
  * Default options for 'AdvancedTableBodyContentRendererComponent'
@@ -31,6 +30,7 @@ const defaultOptions: AdvancedTableBodyContentRendererOptions =
     [
         CommonModule,
         ReadValueSAPipe,
+        DataCellContextSAPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -52,28 +52,14 @@ export class AdvancedTableBodyContentRendererSAComponent<TData = unknown> extend
         super(pluginElement, changeDetector, gridPlugins, defaultOptions, options);
     }
 
-    //######################### public methods - template bindings #########################
-
-    /**
-     * Gets basic table column context
-     */
-    public getColumnContext(data: TData, column: TableGridColumn<TData>, index: number, startingIndex: number): TableGridCellTemplateContext<TData>
-    {
-        return {
-            $implicit: data,
-            column,
-            index,
-            startingIndex,
-            rowIndex: 0 //TODO: calculate
-        };
-    }
+    //######################### protected methods - template bindings #########################
 
     /**
      * Handles click to row
      * @param data - Data of row that was clicked
      * @param index - Index of clicked row
      */
-    public rowClick(data: TData, index: number)
+    protected rowClick(data: TData, index: number)
     {
         if(this.options.rowClick)
         {

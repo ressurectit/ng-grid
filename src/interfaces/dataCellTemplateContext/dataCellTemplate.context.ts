@@ -1,9 +1,10 @@
-import {TableGridColumn} from '../../interfaces';
+import {CellTemplateContext} from '../cellTemplateContext/cellTemplate.context';
 
 /**
- * Context for table grid cell template
+ * Context for data cell template
  */
-export interface TableGridCellTemplateContext<TData = unknown>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export interface DataCellTemplateContext<TColumnMetadata = any, TData = any> extends CellTemplateContext<TColumnMetadata>
 {
     //######################### readonly properties #########################
 
@@ -11,11 +12,6 @@ export interface TableGridCellTemplateContext<TData = unknown>
      * Data of current row
      */
     readonly $implicit: TData;
-
-    /**
-     * Object of column metadata itself
-     */
-    readonly column: TableGridColumn<TData>;
 
     /**
      * Index of rendered row in current page

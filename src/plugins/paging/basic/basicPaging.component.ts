@@ -210,7 +210,6 @@ export class BasicPagingSAComponent extends PagingAbstractComponent<CssClassesBa
     /**
      * Converts number to text that is going to be rendered for ItemsPerPage
      * @param value - Text that is returned for items per page
-     * @internal
      */
     protected renderItemsPerPageText(value: number): string
     {

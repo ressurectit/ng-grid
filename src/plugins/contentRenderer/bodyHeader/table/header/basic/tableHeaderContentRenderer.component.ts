@@ -5,6 +5,9 @@ import {TableHeaderContentRendererOptions} from '../../tableContentRenderer.inte
 import {HeaderContentRendererAbstractComponent} from '../../../headerContentRendererAbstract.component';
 import {GRID_PLUGIN_INSTANCES, HEADER_CONTENT_RENDERER_OPTIONS} from '../../../../../../misc/tokens';
 import {GridPluginInstances} from '../../../../../../misc/types';
+import {CellContextSAPipe} from '../../../../../../pipes';
+import {provideCellContextFactoryFn} from '../../../../../../misc/providers';
+import {cellContextFactory} from '../../../../../../misc/utils';
 
 /**
  * Default options for 'TableHeaderContentRendererComponent'
@@ -33,6 +36,11 @@ const defaultOptions: TableHeaderContentRendererOptions =
     imports:
     [
         CommonModule,
+        CellContextSAPipe,
+    ],
+    providers:
+    [
+        provideCellContextFactoryFn(cellContextFactory),
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -52,7 +60,7 @@ export class TableHeaderContentRendererSAComponent<TData = unknown> extends Head
     //######################### constructor #########################
     constructor(pluginElement: ElementRef,
                 changeDetector: ChangeDetectorRef,
-                
+
                 @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins: GridPluginInstances|undefined|null,
                 @Inject(HEADER_CONTENT_RENDERER_OPTIONS) @Optional() options?: TableHeaderContentRendererOptions,)
     {

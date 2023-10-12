@@ -1,9 +1,10 @@
 import {Func0, Func1, PromiseOr} from '@jscrpt/common';
 import {Subject} from 'rxjs';
 
-import {Grid, GridPlugin, PluginDescription, RowSelector, SimpleOrdering} from '../interfaces';
+import {Grid, GridPlugin, Paging, PluginDescription, RowSelector, SimpleOrdering, DataCellTemplateContext, CellTemplateContext} from '../interfaces';
 import {GridPluginType} from './enums';
 import type {GridSAComponent} from '../components';
+import {CellContextFactoryFn, DataCellContextFactoryFn, GridPluginInstances} from './types';
 
 /**
  * Applies block of row selection to grid, if row was not selected checkbox change event will be blocked
@@ -94,3 +95,45 @@ export function setPluginFactory<TPlugin extends GridPlugin = GridPlugin>(plugin
         getInitOptionsSubject().next(true);
     };
 }
+
+/**
+ * Creates context object for cell in grid
+ * @param grid - Instance of grid
+ * @param plugins - Instances of all plugins
+ * @param index - Index of current row in header
+ * @param columnMetadata - Metadata for column
+ */
+export const cellContextFactory: CellContextFactoryFn = function cellContextFactory<TColumnMetadata, TContext extends CellTemplateContext = CellTemplateContext>(_grid: Grid,
+                                                                                                                                                                 _plugins: GridPluginInstances,
+                                                                                                                                                                 _index: number,
+                                                                                                                                                                 columnMetadata: TColumnMetadata): TContext
+{
+    return {
+        column: columnMetadata,
+    } as TContext;
+};
+
+/**
+ * Creates context object for data cell in grid
+ * @param grid - Instance of grid
+ * @param plugins - Instances of all plugins
+ * @param data - Data for row that is being rendered
+ * @param index - Index of current row in header
+ * @param columnMetadata - Metadata for column
+ */
+export const dataCellContextFactory: DataCellContextFactoryFn = function dataCellContextFactory<TData, TColumnMetadata, TContext extends DataCellTemplateContext = DataCellTemplateContext>(_grid: Grid,
+                                                                                                                                                                                            plugins: GridPluginInstances,
+                                                                                                                                                                                            data: TData,
+                                                                                                                                                                                            index: number,
+                                                                                                                                                                                            columnMetadata: TColumnMetadata): TContext
+{
+    const paging = plugins[GridPluginType.Paging] as Paging;
+
+    return {
+        $implicit: data,
+        column: columnMetadata,
+        index: index,
+        rowIndex: paging.firstItemIndex + index,
+        startingIndex: paging.firstItemIndex,
+    } as TContext;
+};
