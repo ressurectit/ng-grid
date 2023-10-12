@@ -53,6 +53,7 @@
 - new `ORDERING_TYPE` injection token for 'Ordering' implementation
 - new `ORDERING_OPTIONS` injection token for injecting options for ordering
 - new `ResolveForwardRefSAPipe` pipe, that resolves forwardRef type into type
+- new `ReadValueSAPipe` pipe, that reads value from object and returns it, can address nested objects using '.' notation
 - updated `TableGridColumnSAComponent` component
    - now supports also obtaining template using directives `TableGridBodyCellTemplateSADirective`, `TableGridHeaderCellTemplateSADirective`
 - updated `Grid` interface

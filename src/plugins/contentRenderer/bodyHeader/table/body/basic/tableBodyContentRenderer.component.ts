@@ -7,6 +7,7 @@ import {TableGridMetadata} from '../../../../../../components/tableGridMetadataG
 import {TableGridColumn} from '../../../../../../interfaces';
 import {BODY_CONTENT_RENDERER_OPTIONS, GRID_PLUGIN_INSTANCES} from '../../../../../../misc/tokens';
 import {GridPluginInstances} from '../../../../../../misc/types';
+import {ReadValueSAPipe} from '../../../../../../pipes';
 
 /**
  * Default options for 'TableBodyContentRendererComponent'
@@ -27,6 +28,7 @@ const defaultOptions: TableBodyContentRendererOptions =
     imports:
     [
         CommonModule,
+        ReadValueSAPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

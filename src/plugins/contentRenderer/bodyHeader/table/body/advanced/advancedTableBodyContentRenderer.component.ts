@@ -9,6 +9,7 @@ import {BODY_CONTENT_RENDERER_OPTIONS, GRID_PLUGIN_INSTANCES} from '../../../../
 import {GridPluginInstances} from '../../../../../../misc/types';
 import {GridPluginType} from '../../../../../../misc/enums';
 import {TableGridCellTemplateContext} from '../../../../../../directives/tableGridCellTemplate/tableGridCellTemplate.context';
+import {ReadValueSAPipe} from '../../../../../../pipes';
 
 /**
  * Default options for 'AdvancedTableBodyContentRendererComponent'
@@ -29,6 +30,7 @@ const defaultOptions: AdvancedTableBodyContentRendererOptions =
     imports:
     [
         CommonModule,
+        ReadValueSAPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
