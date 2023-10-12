@@ -181,7 +181,7 @@ export class BasicRowSelectorSAComponent<TSelectedData = unknown, TData = unknow
     /**
      * @inheritdoc
      */
-    public initialize(): void
+    public initialize(force: boolean): void
     {
         if(!this.gridPlugins)
         {
@@ -191,7 +191,7 @@ export class BasicRowSelectorSAComponent<TSelectedData = unknown, TData = unknow
         const dataLoader: DataLoader = this.gridPlugins[GridPluginType.DataLoader] as DataLoader;
 
         //data loader obtained and its different instance
-        if(this.dataLoader && this.dataLoader != dataLoader)
+        if(force || (this.dataLoader && this.dataLoader != dataLoader))
         {
             this.dataChangedSubscription?.unsubscribe();
             this.dataChangedSubscription = null;

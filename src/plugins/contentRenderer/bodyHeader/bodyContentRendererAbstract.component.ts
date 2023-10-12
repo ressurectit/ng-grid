@@ -66,21 +66,21 @@ export class BodyContentRendererAbstractComponent<TData = unknown, TCssClasses =
     //######################### public methods - implementation of CssDivsBodyContentRenderer<TData, BasicTableColumn> #########################
 
     /**
-     * Initialize plugin, to be ready to use, initialize communication with other plugins
+     * @inheritdoc
      */
-    public initialize(): void
+    public initialize(_force: boolean): void
     {
     }
 
     /**
-     * Initialize plugin options, all operations required to be done with plugin options are handled here
+     * @inheritdoc
      */
     public initOptions(): void
     {
     }
 
     /**
-     * Explicitly runs invalidation of content (change detection)
+     * @inheritdoc
      */
     public invalidateVisuals(): void
     {

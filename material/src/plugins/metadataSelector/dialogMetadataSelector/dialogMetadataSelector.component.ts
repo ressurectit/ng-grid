@@ -235,9 +235,9 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
     }
 
     /**
-     * Initialize plugin, to be ready to use, initialize communication with other plugins
+     * @inheritdoc
      */
-    public initialize()
+    public initialize(force: boolean): void
     {
         const element: HTMLElement = this.pluginElement.nativeElement;
 
@@ -251,7 +251,7 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
 
         this._dialogComponent = resolveForwardRef(this.options.dialogComponent);
 
-        if(!this._gathererInitialized)
+        if(force || !this._gathererInitialized)
         {
             if(this._metadataChangedSubscription)
             {
@@ -266,6 +266,8 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
 
                 this.metadataChange.emit();
             });
+
+            this._gathererInitialized = true;
         }
 
         this._textsChangedSubscription = this._stringLocalization.textsChange.subscribe(() => this._initTexts());

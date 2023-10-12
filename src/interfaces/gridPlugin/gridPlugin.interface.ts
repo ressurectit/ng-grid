@@ -26,8 +26,9 @@ export interface GridPlugin<TOptions = unknown> extends Invalidatable
 
     /**
      * Initialize plugin, to be ready to use, initialize communication with other plugins
+     * @param force - Indication that plugin should be fully reinitialized, even thou nothing has changed
      */
-    initialize(): PromiseOr<void>;
+    initialize(force: boolean): PromiseOr<void>;
 
     /**
      * Initialize plugin options, all operations required to be done with plugin options are handled here

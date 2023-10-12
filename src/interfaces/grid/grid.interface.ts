@@ -30,8 +30,9 @@ export interface Grid extends Invalidatable
 
     /**
      * Initialize component, automatically called once if not blocked by options
+     * @param force - Indication that all plugins should be fully reinitialized, even thou nothing has changed
      */
-    initialize(): PromiseOr<void>;
+    initialize(force: boolean): PromiseOr<void>;
 
     /**
      * Initialize options, automaticaly called during init phase, but can be used to reinitialize GridOptions

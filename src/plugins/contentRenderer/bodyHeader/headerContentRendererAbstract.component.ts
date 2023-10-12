@@ -61,7 +61,7 @@ export abstract class HeaderContentRendererAbstractComponent<TData = unknown, TO
     /**
      * @inheritdoc
      */
-    public initialize(): void
+    public initialize(_force: boolean): void
     {
     }
 

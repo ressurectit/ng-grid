@@ -162,9 +162,9 @@ export class PreviousNextPagingSAComponent extends PagingAbstractComponent<CssCl
     /**
      * @inheritdoc
      */
-    public override async initialize(): Promise<void>
+    public override async initialize(force: boolean): Promise<void>
     {
-        await super.initialize();
+        await super.initialize(force);
 
         this.paginator.setPage(this.ɵpage);
         this.paginator.setItemsPerPage(this.ɵitemsPerPage);

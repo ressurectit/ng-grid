@@ -114,11 +114,11 @@ export abstract class BodyHeaderContentRendererAbstractComponent<TData = unknown
     /**
      * @inheritdoc
      */
-    public initialize(): void
+    public initialize(force: boolean): void
     {
         const metadataSelector: MetadataSelector<TMetadata> = this.gridPluginsInstance[GridPluginType.MetadataSelector] as MetadataSelector<TMetadata>;
 
-        if(this.metadataSelector && this.metadataSelector != metadataSelector)
+        if(force || (this.metadataSelector && this.metadataSelector != metadataSelector))
         {
             this.metadataChangedSubscription?.unsubscribe();
             this.metadataChangedSubscription = null;
@@ -134,7 +134,7 @@ export abstract class BodyHeaderContentRendererAbstractComponent<TData = unknown
 
         const dataLoader: DataLoader<DataResponse<TData>> = this.gridPluginsInstance[GridPluginType.DataLoader] as DataLoader<DataResponse<TData>>;
 
-        if(this.dataLoader && this.dataLoader != dataLoader)
+        if(force || (this.dataLoader && this.dataLoader != dataLoader))
         {
             this.dataChangedSubscription?.unsubscribe();
             this.dataChangedSubscription = null;
@@ -148,8 +148,8 @@ export abstract class BodyHeaderContentRendererAbstractComponent<TData = unknown
             this.dataChangedSubscription = this.dataLoader.resultChange.subscribe(() => this.ɵinvalidateVisuals());
         }
 
-        this.gridPluginsInstance['HEADER_CONTENT_RENDERER' as unknown as GridPluginType].initialize();
-        this.gridPluginsInstance['BODY_CONTENT_RENDERER' as unknown as GridPluginType].initialize();
+        this.gridPluginsInstance['HEADER_CONTENT_RENDERER' as unknown as GridPluginType].initialize(force);
+        this.gridPluginsInstance['BODY_CONTENT_RENDERER' as unknown as GridPluginType].initialize(force);
 
         this.ɵinvalidateVisuals();
     }

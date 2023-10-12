@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 10.0.0 (2023-10-11)
+## Version 10.0.0 (2023-10-12)
 
 ### Features
 
@@ -60,9 +60,11 @@
       - `pluginsOptionsInitialized` occurs everytime when plugins options initialization changes, if value is false plugins options were not initialized yet, or are being reinitialized
 - updated `GridSAComponent` component
    - updated implementation to correspond with new interface
+- *subpackage* `@anglr/grid/extensions`
+   - updated `reinitializeOptions`, new signatures supporting `force` parameter
 
 ### BREAKING CHANGES
-
+ddd
 - minimal supported version of `@angular` is `17.0.0`
 - minimal supported version of `@jscrpt/common` is `4.1.0`
 - minimal supported version of `@anglr/common` is `18.1.0`
@@ -119,6 +121,11 @@
    - removed `GroupedGridModule` module
 - removed all plugin identifier contants, use `GridPluginType` enum instead
 - ordering was completely refactored and moved into new plugin, removed from content renderer
+- updated `Grid` interface
+   - `initialize` has new `force` parameter
+- updated `GridPlugin` interface
+   - `initialize` has new `force` parameter
+- updated all plugins to be in line with new `GridPlugin` interface
 - *subpackage* `@anglr/grid/material`
    - renamed `VerticalDragNDropSelectionComponent` to `VerticalDragNDropSelectionSAComponent`
    - renamed `DialogMetadataSelectorComponent` to `DialogMetadataSelectorSAComponent`

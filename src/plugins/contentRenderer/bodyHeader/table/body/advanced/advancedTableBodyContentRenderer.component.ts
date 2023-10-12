@@ -82,20 +82,20 @@ export class AdvancedTableBodyContentRendererSAComponent<TData = unknown> extend
     //######################### public methods - implementation of BodyContentRenderer #########################
 
     /**
-     * Initialize plugin, to be ready to use
+     * @inheritdoc
      */
-    public override initialize(): void
+    public override initialize(force: boolean): void
     {
         if(!this.gridPlugins)
         {
             throw new Error('AdvancedTableBodyContentRendererSAComponent: missing gridPlugins!');
         }
 
-        super.initialize();
+        super.initialize(force);
 
         const rowSelector: RowSelector<unknown, unknown, TData> = this.gridPlugins[GridPluginType.RowSelector] as RowSelector<unknown, unknown, TData>;
 
-        if(this.rowSelector && this.rowSelector != rowSelector)
+        if(force || (this.rowSelector && this.rowSelector != rowSelector))
         {
             this.rowSelector = null;
         }

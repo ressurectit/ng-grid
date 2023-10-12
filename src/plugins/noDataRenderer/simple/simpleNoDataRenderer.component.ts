@@ -110,7 +110,7 @@ export class SimpleNoDataRendererSAComponent implements SimpleNoDataRenderer, Gr
     /**
      * @inheritdoc
      */
-    public initialize(): void
+    public initialize(force: boolean): void
     {
         if(!this.gridPlugins)
         {
@@ -120,7 +120,7 @@ export class SimpleNoDataRendererSAComponent implements SimpleNoDataRenderer, Gr
         const dataLoader: DataLoader = this.gridPlugins[GridPluginType.DataLoader] as DataLoader;
 
         //data loader obtained and its different instance
-        if(this.dataLoader && this.dataLoader != dataLoader)
+        if(force || (this.dataLoader && this.dataLoader != dataLoader))
         {
             this.stateChangedSubscription?.unsubscribe();
             this.stateChangedSubscription = null;

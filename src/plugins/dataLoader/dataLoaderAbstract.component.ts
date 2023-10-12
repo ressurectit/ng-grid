@@ -162,7 +162,7 @@ export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOpt
     /**
      * @inheritdoc
      */
-    public initialize(): void
+    public initialize(force: boolean): void
     {
         if(!this.gridPlugins)
         {
@@ -174,7 +174,7 @@ export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOpt
         const paging: Paging = this.gridPlugins[GridPluginType.Paging] as Paging;
 
         //paging obtained and its different instance
-        if(this.paging && this.paging != paging)
+        if(force || (this.paging && this.paging != paging))
         {
             this.pageChangedSubscription?.unsubscribe();
             this.pageChangedSubscription = null;
@@ -196,7 +196,7 @@ export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOpt
         const ordering: Ordering<TOrdering> = this.gridPlugins[GridPluginType.Ordering] as Ordering<TOrdering>;
 
         //ordering obtained and its different instance
-        if(this.ordering && this.ordering != ordering)
+        if(force || (this.ordering && this.ordering != ordering))
         {
             this.orderingChangedSubscription?.unsubscribe();
             this.orderingChangedSubscription = null;

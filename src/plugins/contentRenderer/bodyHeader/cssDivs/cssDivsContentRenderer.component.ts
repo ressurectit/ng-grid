@@ -99,11 +99,11 @@ export class CssDivsContentRendererSAComponent<TData = unknown, TMetadata extend
     //######################### public methods #########################
 
     /**
-     * Initiliaze Content Renderer plugin
+     * @inheritdoc
      */
-    public override initialize(): void
+    public override initialize(force: boolean): void
     {
-        super.initialize();
+        super.initialize(force);
 
         this.setGridColumnsWidth();
 
@@ -128,6 +128,7 @@ export class CssDivsContentRendererSAComponent<TData = unknown, TMetadata extend
         if (isArray(metadata.columns))
         {
             const gridTemplateColumns: string[] = [];
+
             metadata.columns.forEach(column => 
             {
                 if (column.visible)
@@ -135,6 +136,7 @@ export class CssDivsContentRendererSAComponent<TData = unknown, TMetadata extend
                     gridTemplateColumns.push(column.width ? column.width : 'auto');
                 }
             });
+            
             this.ɵgridTemplateColumns = gridTemplateColumns.join(' ');
             
             setTimeout(() =>

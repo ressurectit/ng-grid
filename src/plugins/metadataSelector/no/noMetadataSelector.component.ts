@@ -94,9 +94,9 @@ export class NoMetadataSelectorSAComponent<TMetadata extends GridMetadata = Grid
     /**
      * @inheritdoc
      */
-    public initialize(): void
+    public initialize(force: boolean): void
     {
-        if(!this.gathererInitialized)
+        if(force || !this.gathererInitialized)
         {
             if(this.metadataChangedSubscription)
             {
@@ -110,6 +110,8 @@ export class NoMetadataSelectorSAComponent<TMetadata extends GridMetadata = Grid
 
                 this.metadataChangeSubject.next();
             });
+
+            this.gathererInitialized = true;
         }
 
         this.metadata = this.metadataGatherer?.getMetadata();

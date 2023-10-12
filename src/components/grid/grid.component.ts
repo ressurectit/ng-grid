@@ -2,7 +2,8 @@ import {Component, ChangeDetectionStrategy, Inject, Optional, Type, Input, OnIni
 import {CommonModule} from '@angular/common';
 import {CommonDynamicModule} from '@anglr/common';
 import {Func1, PromiseOr, RecursivePartial, extend} from '@jscrpt/common';
-import {Observable, BehaviorSubject, map, combineLatest, distinctUntilChanged, Subject} from 'rxjs';
+import {lastValueFrom} from '@jscrpt/common/rxjs';
+import {Observable, BehaviorSubject, map, combineLatest, distinctUntilChanged, Subject, take} from 'rxjs';
 
 import {GridPluginType, PagingPosition} from '../../misc/enums';
 import {ContentRenderer, DataLoader, Grid, GridInitializer, GridOptions, GridPlugin, MetadataGatherer, MetadataSelector, NoDataRenderer, Ordering, Paging, PluginDescription, RowSelector} from '../../interfaces';
@@ -156,7 +157,7 @@ export class GridSAComponent implements OnInit, Grid
      */
     public get initialized(): Observable<boolean>
     {
-        return this.initializedSubject.asObservable();
+        return this.initializedSubject.asObservable().pipe(distinctUntilChanged());
     }
 
     /**
@@ -202,11 +203,11 @@ export class GridSAComponent implements OnInit, Grid
                 @Inject(NO_DATA_RENDERER_TYPE) @Optional() noDataRendererType?: Type<NoDataRenderer>,
                 @Inject(ROW_SELECTOR_TYPE) @Optional() rowSelectorType?: Type<RowSelector>)
     {
-        this.pluginsOptionsInitialized.subscribe(initialized =>
+        this.pluginsOptionsInitialized.subscribe(async initialized =>
         {
-            if(initialized && this.ɵgridOptions.autoInitialize)
+            if(initialized && this.ɵgridOptions.autoInitialize && !(await lastValueFrom(this.initialized.pipe(take(1)))))
             {
-                this.initialize();
+                this.initialize(false);
             }
         });
 
@@ -356,18 +357,18 @@ export class GridSAComponent implements OnInit, Grid
     /**
      * @inheritdoc
      */
-    public async initialize(): Promise<void>
+    public async initialize(force: boolean): Promise<void>
     {
         this.initializedSubject.next(false);
 
-        await this.pluginInstances[GridPluginType.RowSelector].initialize();
-        await this.pluginInstances[GridPluginType.MetadataSelector].initialize();
-        await this.pluginInstances[GridPluginType.GridInitializer].initialize();
-        await this.pluginInstances[GridPluginType.Ordering].initialize();
-        await this.pluginInstances[GridPluginType.Paging].initialize();
-        await this.pluginInstances[GridPluginType.ContentRenderer].initialize();
-        await this.pluginInstances[GridPluginType.NoDataRenderer].initialize();
-        await this.pluginInstances[GridPluginType.DataLoader].initialize();
+        await this.pluginInstances[GridPluginType.RowSelector].initialize(force);
+        await this.pluginInstances[GridPluginType.MetadataSelector].initialize(force);
+        await this.pluginInstances[GridPluginType.GridInitializer].initialize(force);
+        await this.pluginInstances[GridPluginType.Ordering].initialize(force);
+        await this.pluginInstances[GridPluginType.Paging].initialize(force);
+        await this.pluginInstances[GridPluginType.ContentRenderer].initialize(force);
+        await this.pluginInstances[GridPluginType.NoDataRenderer].initialize(force);
+        await this.pluginInstances[GridPluginType.DataLoader].initialize(force);
 
         this.initializedSubject.next(true);
     }

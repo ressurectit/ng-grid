@@ -41,7 +41,7 @@ export class NoGridInitializerSAComponent implements NoGridInitializer, GridPlug
     /**
      * @inheritdoc
      */
-    public initialize(): void
+    public initialize(_force: boolean): void
     {
     }
 

@@ -93,7 +93,7 @@ export class QueryGridInitializerComponent implements QueryGridInitializer, Grid
     /**
      * @inheritdoc
      */
-    public initialize(): void
+    public initialize(_force: boolean): void
     {
     }
 

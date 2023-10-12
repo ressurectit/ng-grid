@@ -10,6 +10,6 @@ import {TableGridCellTemplateBaseDirective} from '../tableGridCellTemplate/table
     selector: '[bodyCellTemplate]',
     standalone: true,
 })
-export abstract class TableGridBodyCellTemplateSADirective<TData = unknown> extends TableGridCellTemplateBaseDirective<TData>
+export class TableGridBodyCellTemplateSADirective<TData = unknown> extends TableGridCellTemplateBaseDirective<TData>
 {
 }

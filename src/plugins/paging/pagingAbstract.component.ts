@@ -138,7 +138,7 @@ export abstract class PagingAbstractComponent<TCssClasses = unknown, TOptions ex
     /**
      * @inheritdoc
      */
-    public async initialize(): Promise<void>
+    public async initialize(force: boolean): Promise<void>
     {
         if(!this.gridPlugins)
         {
@@ -151,7 +151,7 @@ export abstract class PagingAbstractComponent<TCssClasses = unknown, TOptions ex
 
         if(gridInitializer)
         {
-            await gridInitializer.initialize();
+            await gridInitializer.initialize(force);
 
             const page = await gridInitializer.getPage();
 
@@ -174,7 +174,7 @@ export abstract class PagingAbstractComponent<TCssClasses = unknown, TOptions ex
         const dataLoader: DataLoader<DataResponse> = this.gridPlugins[GridPluginType.DataLoader] as DataLoader<DataResponse>;
 
         //data loader obtained and its different instance
-        if(this.dataLoader && this.dataLoader != dataLoader)
+        if(force || (this.dataLoader && this.dataLoader != dataLoader))
         {
             this.dataChangedSubscription?.unsubscribe();
             this.dataChangedSubscription = null;

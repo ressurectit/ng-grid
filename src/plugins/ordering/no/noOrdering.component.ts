@@ -94,7 +94,7 @@ export class NoOrderingSAComponent implements NoOrdering
     /**
      * @inheritdoc
      */
-    public initialize(): void
+    public initialize(_force: boolean): void
     {
     }
 

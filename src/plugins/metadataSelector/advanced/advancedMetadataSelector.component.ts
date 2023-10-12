@@ -464,9 +464,9 @@ export class AdvancedMetadataSelectorSAComponent implements AdvancedMetadataSele
     /**
      * @inheritdoc
      */
-    public initialize(): void
+    public initialize(force: boolean): void
     {
-        if(!this.gathererInitialized)
+        if(force || !this.gathererInitialized)
         {
             if(this.metadataChangedSubscription)
             {
@@ -481,6 +481,8 @@ export class AdvancedMetadataSelectorSAComponent implements AdvancedMetadataSele
 
                 this.metadataChangeSubject.next();
             });
+
+            this.gathererInitialized = true;
         }
 
         this.allMetadata = this.metadataGatherer?.getMetadata();

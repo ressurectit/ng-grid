@@ -78,16 +78,16 @@ export class ContentVirtualScrollPagingSAComponent extends VirtualScrollPagingAb
     //######################### public methods #########################
 
     /**
-     * Method that initialize paging component, this method can be used for initialization if paging used dynamicaly
+     * @inheritdoc
      */
-    public override async initialize(): Promise<void>
+    public override async initialize(force: boolean): Promise<void>
     {
         if(!this.gridPlugins)
         {
             throw new Error('ContentVirtualScrollPagingSAComponent: missing gridPlugins!');
         }
 
-        await super.initialize();
+        await super.initialize(force);
 
         const contentRenderer: ContentRenderer = this.gridPlugins[GridPluginType.ContentRenderer] as ContentRenderer;
         const bodyRenderer: BodyContentRenderer = this.gridPlugins['BODY_CONTENT_RENDERER' as unknown as GridPluginType] as BodyContentRenderer;
