@@ -1,12 +1,20 @@
-<tr *ngFor="let datum of data; let index=index" [ngClass]="options.rowCssClass?.(datum)" (click)="rowClick(datum, index)">
-    <ng-container *ngFor="let meta of metadata?.columns">
-        <td [ngClass]="meta?.cellClass"
-            [attr.data-header-title]="meta?.title">
-            <ng-container *ngIf="!meta?.bodyTemplate; else bodyTemplate">
-                {{datum | readValue: meta?.name}}
-            </ng-container>
-
-            <ng-template #bodyTemplate [ngTemplateOutlet]="meta?.bodyTemplate ?? null" [ngTemplateOutletContext]="datum | dataCellContext: index : meta"/>
-        </td>
-    </ng-container>
-</tr>
+@for(datum of data; track datum; let index=$index)
+{
+    <tr [ngClass]="options.rowCssClass?.(datum)" (click)="rowClick(datum, index)">
+        @for(meta of metadata?.columns; track meta)
+        {
+            <td [ngClass]="meta?.cellClass"
+                [attr.data-header-title]="meta?.title">
+                
+                @if(meta?.bodyTemplate)
+                {
+                    <ng-container *ngTemplateOutlet="meta?.bodyTemplate ?? null; context: datum | dataCellContext: index : meta"/>
+                }
+                @else 
+                {
+                    {{datum | readValue: meta?.name}}
+                }
+            </td>
+        }
+    </tr>
+}

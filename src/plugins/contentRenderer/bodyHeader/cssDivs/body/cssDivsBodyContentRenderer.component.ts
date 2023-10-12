@@ -1,5 +1,6 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Optional, Inject, HostBinding, ElementRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {MergeCssClassesSAPipe} from '@anglr/common';
 
 import {CssDivsBodyContentRendererOptions, CssClassesCssDivsBodyContentRenderer} from '../cssDivsContentRenderer.interface';
 import {BodyContentRendererAbstractComponent} from '../../bodyContentRendererAbstract.component';
@@ -36,6 +37,7 @@ const defaultOptions: CssDivsBodyContentRendererOptions =
         CommonModule,
         ReadValueSAPipe,
         DataCellContextSAPipe,
+        MergeCssClassesSAPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

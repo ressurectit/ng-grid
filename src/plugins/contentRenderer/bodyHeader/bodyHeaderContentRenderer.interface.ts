@@ -39,6 +39,7 @@ export interface BodyContentRendererOptions<TCssClasses = unknown> extends Visua
  */
 export interface BodyContentRenderer<TData = unknown, TMetadata = unknown> extends GridPlugin<BodyContentRendererOptions>
 {
+    //TODO: maybe remove
     /**
      * Data that are rendered
      */

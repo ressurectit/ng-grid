@@ -71,18 +71,4 @@ export abstract class HeaderContentRendererAbstractComponent<TData = unknown, TO
     public initOptions(): void
     {
     }
-
-    //######################### public methods - template bindings #########################
-
-    /**
-     * Merges css classes specified as strings
-     */
-    public mergeStringClasses(...classes: string[]): string[]
-    {
-        const result: string[] = [];
-
-        classes.forEach(cls => cls ? (result.push(cls)) : null);
-
-        return result;
-    }
 }

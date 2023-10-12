@@ -1,5 +1,6 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, HostBinding, ElementRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {MergeCssClassesSAPipe} from '@anglr/common';
 
 import {CssDivsHeaderContentRendererOptions} from '../cssDivsContentRenderer.interface';
 import {HeaderContentRendererAbstractComponent} from '../../headerContentRendererAbstract.component';
@@ -36,6 +37,7 @@ const defaultOptions: CssDivsHeaderContentRendererOptions =
     [
         CommonModule,
         CellContextSAPipe,
+        MergeCssClassesSAPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

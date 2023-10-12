@@ -1,14 +1,20 @@
-<div *ngFor="let datum of data; let index=index" [ngClass]="options.cssClasses.rowDiv">
-    <ng-container *ngFor="let meta of metadata?.columns">
-        <div [ngClass]="mergeStringClasses(options.cssClasses.cellDiv, meta.cellClass ?? '')"
-             [attr.data-header-title]="meta?.title"
-             [style.width]="meta?.width">
-            <ng-container *ngIf="!meta?.bodyTemplate; else bodyTemplate">
-                {{datum | readValue: meta?.name}}
-            </ng-container>
-
-            <ng-template #bodyTemplate [ngTemplateOutlet]="meta?.bodyTemplate ?? null" [ngTemplateOutletContext]="datum | dataCellContext: index : meta"/>
-        </div>
-    </ng-container>
-</div>
-
+@for(datum of data; track datum; let index=$index)
+{
+    <div [ngClass]="options.cssClasses.rowDiv">
+        @for(meta of metadata?.columns; track meta)
+        {
+            <div [ngClass]="options.cssClasses.cellDiv | mergeCssClasses: [meta.cellClass ?? '']"
+                 [attr.data-header-title]="meta?.title"
+                 [style.width]="meta?.width">
+                @if (meta?.bodyTemplate) 
+                {
+                    <ng-container *ngTemplateOutlet="meta?.bodyTemplate ?? null; context: datum | dataCellContext: index : meta"/>
+                }
+                @else 
+                {
+                    {{datum | readValue: meta?.name}}
+                }
+            </div>
+        }
+    </div>
+}

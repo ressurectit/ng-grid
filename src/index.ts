@@ -21,3 +21,4 @@ export * from './plugins';
 //TODO: remove $any when possible
 //TODO: maybe rewrite GridPluginInstances to more "specific" types
 //TODO: add specific context for template directives
+//TODO: use inject in base classes also in plugins

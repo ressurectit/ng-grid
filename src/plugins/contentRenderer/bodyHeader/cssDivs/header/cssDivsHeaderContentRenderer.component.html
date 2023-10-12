@@ -1,13 +1,22 @@
-<div *ngFor="let meta of metadata?.columns; let index=index" 
-     [style.width]="meta?.width"
-     [ngClass]="mergeStringClasses(options.cssClasses.headerCellDiv, meta?.headerClass ?? '', meta?.ordering ? options.cssClasses.headerCellOrderableDiv : '')">
-    <ng-container *ngIf="meta?.titleVisible">
-        <ng-container *ngIf="!meta?.headerTemplate; else headerTemplate">
-            <span [ngClass]="options.cssClasses.spanContent">{{meta?.title}}</span>
-        </ng-container>
-
-        <ng-template #headerTemplate [ngTemplateOutlet]="meta?.headerTemplate ?? null" [ngTemplateOutletContext]="meta | cellContext: index"/>
-
-        <span *ngIf="meta?.ordering" [ngClass]="mergeStringClasses(options.cssClasses.spanOrdering, meta?.orderingClass ?? '')"></span>
-    </ng-container>
-</div>
+@for(meta of metadata?.columns; track meta; let index=$index)
+{
+    <div [style.width]="meta?.width"
+         [ngClass]="options.cssClasses.headerCellDiv | mergeCssClasses: [meta?.headerClass ?? '', meta?.ordering ? options.cssClasses.headerCellOrderableDiv : '']">
+        @if(meta?.titleVisible)
+        {
+            @if(meta?.headerTemplate)
+            {
+                <ng-template *ngTemplateOutlet="meta?.headerTemplate ?? null; context: meta | cellContext: index"/>
+            }
+            @else 
+            {
+                <span [ngClass]="options.cssClasses.spanContent">{{meta?.title}}</span>
+            }
+    
+            @if(meta?.ordering)
+            {
+                <span [ngClass]="options.cssClasses.spanOrdering | mergeCssClasses: [meta?.orderingClass ?? '']"></span>
+            }
+        }
+    </div>
+}
