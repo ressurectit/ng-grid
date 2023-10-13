@@ -28,7 +28,7 @@ export interface GridInitializer<TOrdering = unknown> extends GridPlugin
      * Sets current page when changed
      * @param page - Page to be stored
      */
-    setPage(page: number): PromiseOr<void>;
+    setPage(page: number|undefined|null): PromiseOr<void>;
 
     /**
      * Gets stored items per page
@@ -39,7 +39,7 @@ export interface GridInitializer<TOrdering = unknown> extends GridPlugin
      * Sets current items per page when changed
      * @param itemsPerPage - Items per page to be stored
      */
-    setItemsPerPage(itemsPerPage: number): PromiseOr<void>;
+    setItemsPerPage(itemsPerPage: number|undefined|null): PromiseOr<void>;
 
     /**
      * Gets stored ordering
@@ -50,5 +50,5 @@ export interface GridInitializer<TOrdering = unknown> extends GridPlugin
      * Sets current ordering when changed
      * @param ordering - Ordering as string to be stored
      */
-    setOrdering(ordering: TOrdering): PromiseOr<void>;
+    setOrdering(ordering: TOrdering|undefined|null): PromiseOr<void>;
 }

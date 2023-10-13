@@ -7,7 +7,7 @@ import {Observable, BehaviorSubject, map, combineLatest, distinctUntilChanged, S
 
 import {ContentRenderer, DataLoader, Grid, GridInitializer, GridOptions, GridPlugin, MetadataGatherer, MetadataSelector, NoDataRenderer, Ordering, Paging, PluginDescription, RowSelector} from '../../interfaces';
 import {CONTENT_RENDERER_TYPE, DATA_LOADER_TYPE, GRID_INITIALIZER_TYPE, GRID_INSTANCE, GRID_OPTIONS, GRID_PLUGIN_INSTANCES, METADATA_GATHERER, METADATA_SELECTOR_TYPE, NO_DATA_RENDERER_TYPE, ORDERING_TYPE, PAGING_TYPE, ROW_SELECTOR_TYPE} from '../../misc/tokens';
-import {AsyncDataLoaderSAComponent, BasicPagingSAComponent, BasicRowSelectorSAComponent, NoGridInitializerSAComponent, NoMetadataSelectorSAComponent, NoOrderingSAComponent, SimpleNoDataRendererSAComponent, TableContentRendererSAComponent} from '../../plugins';
+import {AsyncDataLoaderSAComponent, BasicPagingSAComponent, BasicRowSelectorSAComponent, NoGridInitializerSAComponent, NoMetadataSelectorSAComponent, SimpleNoDataRendererSAComponent, SingleOrderingSAComponent, TableContentRendererSAComponent} from '../../plugins';
 import {GridAction, GridFunction, GridPluginInstances} from '../../misc/types';
 import {GridPluginType, PagingPosition} from '../../misc/enums';
 import {setPluginFactory} from '../../misc/utils';
@@ -59,7 +59,7 @@ const defaultOptions: GridOptions =
         },
         ordering:
         {
-            type: forwardRef(() => NoOrderingSAComponent),
+            type: forwardRef(() => SingleOrderingSAComponent),
             instance: null,
             instanceCallback: null,
             options: null,

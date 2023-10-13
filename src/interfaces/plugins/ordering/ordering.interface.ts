@@ -63,17 +63,13 @@ export interface Ordering<TOrdering = unknown, TOptions extends OrderingOptions 
     /**
      * Sets ordering to ordering plugin
      * @param ordering - Ordering to be set for ordering plugin
+     * @param emit - Indication whether emit change event, defaults to true
      */
-    setOrdering(ordering: TOrdering|undefined|null): void;
+    setOrdering(ordering: TOrdering|undefined|null, emit?: boolean): void;
 
     /**
      * Marks column for odering
      * @param columnId - Id of column that was marked by user for ordering
      */
     orderByColumn(columnId: string): void;
-
-    /**
-     * Resets ordering to default state (without ordering)
-     */
-    resetOrdering(): void;
 }

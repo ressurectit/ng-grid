@@ -1,7 +1,7 @@
 <tr>
     @for(meta of metadata?.columns; track meta; let index=$index)
     {
-        <th [ngClass]="options.cssClasses.thDefault | mergeCssClasses: [meta?.headerClass ?? '', meta?.ordering ? options.cssClasses.thOrderable : '']" 
+        <th [ngClass]="options.cssClasses.thDefault | mergeCssClasses: [meta?.headerClass ?? '']" 
             [style.width]="meta?.width"
             [title]="meta?.headerTooltip || meta?.title">
 
@@ -14,11 +14,6 @@
                 @else 
                 {
                     <span [ngClass]="options.cssClasses.spanContent">{{meta?.title}}</span>
-                }
-
-                @if(meta?.ordering)
-                {
-                    <span [ngClass]="options.cssClasses.spanOrdering | mergeCssClasses: [meta?.orderingClass ?? ''] "></span>
                 }
             }
         </th>

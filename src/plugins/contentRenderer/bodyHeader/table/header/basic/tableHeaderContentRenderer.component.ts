@@ -1,11 +1,10 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, HostBinding, ElementRef} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Inject, Optional, HostBinding} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MergeCssClassesSAPipe} from '@anglr/common';
 
 import {TableHeaderContentRendererOptions} from '../../tableContentRenderer.interface';
 import {HeaderContentRendererAbstractComponent} from '../../../headerContentRendererAbstract.component';
-import {GRID_PLUGIN_INSTANCES, HEADER_CONTENT_RENDERER_OPTIONS} from '../../../../../../misc/tokens';
-import {GridPluginInstances} from '../../../../../../misc/types';
+import {HEADER_CONTENT_RENDERER_OPTIONS} from '../../../../../../misc/tokens';
 import {CellContextSAPipe} from '../../../../../../pipes';
 import {provideCellContextFactoryFn} from '../../../../../../misc/providers';
 import {cellContextFactory} from '../../../../../../misc/utils';
@@ -19,9 +18,7 @@ const defaultOptions: TableHeaderContentRendererOptions =
     {
         thead: '',
         thDefault: 'header-default',
-        thOrderable: 'header-orderable',
         spanContent: 'header-content',
-        spanOrdering: 'header-ordering',
     }
 };
 
@@ -60,12 +57,8 @@ export class TableHeaderContentRendererSAComponent<TData = unknown> extends Head
     }
 
     //######################### constructor #########################
-    constructor(pluginElement: ElementRef,
-                changeDetector: ChangeDetectorRef,
-
-                @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins: GridPluginInstances|undefined|null,
-                @Inject(HEADER_CONTENT_RENDERER_OPTIONS) @Optional() options?: TableHeaderContentRendererOptions,)
+    constructor(@Inject(HEADER_CONTENT_RENDERER_OPTIONS) @Optional() options?: TableHeaderContentRendererOptions,)
     {
-        super(pluginElement, gridPlugins, changeDetector, defaultOptions, options);
+        super(defaultOptions, options);
     }
 }

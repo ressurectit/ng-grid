@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, ElementRef} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, inject} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 
 import {GridPluginInstances} from '../../../misc/types';
@@ -63,17 +63,17 @@ export class NoOrderingSAComponent implements NoOrdering
      */
     public options: OrderingOptions = defaultOptions;
 
-    //######################### constructor #########################
-    constructor(public pluginElement: ElementRef<HTMLElement>,)
-    {
-    }
+    /**
+     * @inheritdoc
+     */
+    public pluginElement: ElementRef<HTMLElement> = inject(ElementRef<HTMLElement>);
 
     //######################### public methods - implementation of NoOrdering #########################
 
     /**
      * @inheritdoc
      */
-    public setOrdering(_ordering: unknown|undefined|null): void
+    public setOrdering(_ordering: unknown|undefined|null, _emit?: boolean): void
     {
     }
 
@@ -81,13 +81,6 @@ export class NoOrderingSAComponent implements NoOrdering
      * @inheritdoc
      */
     public orderByColumn(_columnId: string): void
-    {
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public resetOrdering(): void
     {
     }
 

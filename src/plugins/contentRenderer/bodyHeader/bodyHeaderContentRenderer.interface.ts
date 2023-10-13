@@ -1,4 +1,4 @@
-import {CssClassesContentRenderer, GridPlugin, PluginDescription, TableGridColumn, VisualPluginOptions} from '../../../interfaces';
+import {CssClassesContentRenderer, GridPlugin, PluginDescription, VisualPluginOptions} from '../../../interfaces';
 
 /**
  * Definition of plugins for ContentRenderer
@@ -83,13 +83,3 @@ export interface HeaderContentRenderer<TMetadata = unknown> extends GridPlugin<H
      */
     metadata: TMetadata|undefined|null;
 }
-
-/**
- * Metadata for column extended with orderable information
- */
-export interface BasicOrderableColumn<TData = unknown> extends TableGridColumn<TData>
-{
-    //TODO: maybe remove
-    orderingClass: string;
-}
-

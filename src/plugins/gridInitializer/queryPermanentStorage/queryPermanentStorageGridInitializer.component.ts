@@ -91,7 +91,7 @@ export class QueryPermanentStorageGridInitializerSAComponent extends QueryGridIn
     /**
      * @inheritdoc
      */
-    public override setItemsPerPage(itemsPerPage: number): void
+    public override setItemsPerPage(itemsPerPage: number|undefined|null): void
     {
         if(this._permanentStorages && this.itemsPerPagePermanentStorageName)
         {

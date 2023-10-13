@@ -1,7 +1,7 @@
 @for(meta of metadata?.columns; track meta; let index=$index)
 {
     <div [style.width]="meta?.width"
-         [ngClass]="options.cssClasses.headerCellDiv | mergeCssClasses: [meta?.headerClass ?? '', meta?.ordering ? options.cssClasses.headerCellOrderableDiv : '']">
+         [ngClass]="options.cssClasses.headerCellDiv | mergeCssClasses: [meta?.headerClass ?? '']">
         @if(meta?.titleVisible)
         {
             @if(meta?.headerTemplate)
@@ -11,11 +11,6 @@
             @else 
             {
                 <span [ngClass]="options.cssClasses.spanContent">{{meta?.title}}</span>
-            }
-    
-            @if(meta?.ordering)
-            {
-                <span [ngClass]="options.cssClasses.spanOrdering | mergeCssClasses: [meta?.orderingClass ?? '']"></span>
             }
         }
     </div>

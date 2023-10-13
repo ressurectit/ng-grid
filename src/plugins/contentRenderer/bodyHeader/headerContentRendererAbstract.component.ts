@@ -1,16 +1,17 @@
-import {ChangeDetectorRef, ElementRef, Directive} from '@angular/core';
+import {ChangeDetectorRef, ElementRef, Directive, inject} from '@angular/core';
 import {RecursivePartial, extend} from '@jscrpt/common';
 
-import {HeaderContentRenderer, BasicOrderableColumn, HeaderContentRendererOptions, CssClassesHeaderContentRenderer} from './bodyHeaderContentRenderer.interface';
-import {GridPlugin} from '../../../interfaces';
+import {HeaderContentRenderer, HeaderContentRendererOptions, CssClassesHeaderContentRenderer} from './bodyHeaderContentRenderer.interface';
+import {GridPlugin, TableGridColumn} from '../../../interfaces';
 import {TableGridMetadata} from '../../../components';
 import {GridPluginInstances} from '../../../misc/types';
+import {GRID_PLUGIN_INSTANCES} from '../../../misc/tokens';
 
 /**
  * Abstract component for header content renderer
  */
 @Directive()
-export abstract class HeaderContentRendererAbstractComponent<TData = unknown, TOptions extends HeaderContentRendererOptions<CssClassesHeaderContentRenderer> = HeaderContentRendererOptions<CssClassesHeaderContentRenderer>> implements HeaderContentRenderer<TableGridMetadata<BasicOrderableColumn<TData>>>, GridPlugin<TOptions>
+export abstract class HeaderContentRendererAbstractComponent<TData = unknown, TOptions extends HeaderContentRendererOptions<CssClassesHeaderContentRenderer> = HeaderContentRendererOptions<CssClassesHeaderContentRenderer>> implements HeaderContentRenderer<TableGridMetadata<TableGridColumn<TData>>>, GridPlugin<TOptions>
 {
     //######################### protected fields #########################
 
@@ -19,10 +20,15 @@ export abstract class HeaderContentRendererAbstractComponent<TData = unknown, TO
      */
     protected ɵoptions: TOptions;
 
+    /**
+     * Instance of change detector
+     */
+    protected changeDetector: ChangeDetectorRef = inject(ChangeDetectorRef);
+
     //######################### public properties - implementation of TableHeaderContentRenderer #########################
 
     /**
-     * Options for header content renderer
+     * @inheritdoc
      */
     public get options(): TOptions
     {
@@ -34,15 +40,22 @@ export abstract class HeaderContentRendererAbstractComponent<TData = unknown, TO
     }
 
     /**
-     * Metadata used for rendering
+     * @inheritdoc
      */
-    public metadata: TableGridMetadata<BasicOrderableColumn<TData>>|undefined|null;
+    public metadata: TableGridMetadata<TableGridColumn<TData>>|undefined|null;
+
+    /**
+     * @inheritdoc
+     */
+    public pluginElement: ElementRef<HTMLElement> = inject(ElementRef<HTMLElement>);
+
+    /**
+     * @inheritdoc
+     */
+    public gridPlugins: GridPluginInstances|undefined|null = inject(GRID_PLUGIN_INSTANCES, {optional: true});
 
     //######################### constructor #########################
-    constructor(public pluginElement: ElementRef<HTMLElement>,
-                public gridPlugins: GridPluginInstances|undefined|null,
-                protected changeDetector: ChangeDetectorRef,
-                defaultOptions: TOptions,
+    constructor(defaultOptions: TOptions,
                 options?: TOptions,)
     {
         this.ɵoptions = extend(true, {}, defaultOptions, options);

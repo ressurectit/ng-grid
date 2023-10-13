@@ -127,7 +127,7 @@ export class QueryGridInitializerComponent implements QueryGridInitializer, Grid
     /**
      * @inheritdoc
      */
-    public setPage(page: number): void
+    public setPage(page: number|undefined|null): void
     {
         const pageParam: Params = {};
 
@@ -158,7 +158,7 @@ export class QueryGridInitializerComponent implements QueryGridInitializer, Grid
     /**
      * @inheritdoc
      */
-    public setItemsPerPage(itemsPerPage: number): void
+    public setItemsPerPage(itemsPerPage: number|undefined|null): void
     {
         const pageParam: Params = {};
 
@@ -189,7 +189,7 @@ export class QueryGridInitializerComponent implements QueryGridInitializer, Grid
     /**
      * @inheritdoc
      */
-    public setOrdering(ordering: unknown): void
+    public setOrdering(ordering: unknown|undefined|null): void
     {
         const orderingParam: Params = {};
 

@@ -34,7 +34,6 @@
       - `orderingChange` occurs when current ordering has changed
    - **method**
       - `orderByColumn` marks column for odering
-      - `resetOrdering` resets ordering to default state (without ordering)
       - `setOrdering` sets ordering to ordering plugin
 - new `OrderingOptions` interface, that represents ordering options allow configuring ordering plugin
 - new `CssClassesOrdering` interface, that represents css classes that are used for ordering
@@ -43,6 +42,11 @@
       - `none` no ordering
       - `asc` ordering is ascending
       - `desc` ordering is descending
+- new `SingleOrderingOptions` interface, that are ordering options for single ordering
+- new `SingleOrdering` interface, that is public API for single ordering
+- new `SingleOrderingSAComponent` component, that is component used for single ordering, used for ordering using single column
+   - **implements**
+      - `SingleOrdering`
 - new `NoOrderingOptions` interface, that is no ordering options for ordering
 - new `NoOrdering` interface, that is public API for no ordering
 - new `NoOrderingSAComponent` component, that is component used for no ordering
@@ -127,6 +131,7 @@
 - removed `AdvancedTableBodyContentRendererSAComponent` component, now standard `TableBodyContentRendererSAComponent` has same functionality
 - removed `AdvancedTableBodyContentRendererOptions` interface, now standard `TableBodyContentRendererOptions` has same functionality
 - removed `AdvancedTableBodyContentRenderer` interface, now standard `BodyContentRenderer` has same functionality
+- removed `BasicOrderableColumn` interface
 - old `ContentRendererOptions` renamed to `HeaderBodyContentRendererOptions`
 - new `ContentRendererOptions` without `plugins`
 - removed grouped table definition, use new syntax to achieve grouped header columns

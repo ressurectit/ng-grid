@@ -54,9 +54,7 @@ export interface CssClassesCssDivsHeaderContentRenderer extends CssClassesHeader
     headerDiv: string;
     headerRowDiv: string;
     headerCellDiv: string;
-    headerCellOrderableDiv: string;
     spanContent: string;
-    spanOrdering: string;
 }
 
 /**

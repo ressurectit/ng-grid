@@ -20,3 +20,5 @@ export * from './plugins';
 //TODO: items per page overwrite, not merge
 //TODO: maybe rewrite GridPluginInstances to more "specific" types
 //TODO: use inject in base classes also in plugins
+//TODO: maybe unify id and name and use only one (ID)??
+//TODO: maybe add ordering to permanent grid initializer

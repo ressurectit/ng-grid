@@ -44,9 +44,7 @@ export interface CssClassesTableHeaderContentRenderer extends CssClassesHeaderCo
 {
     thead: string;
     thDefault: string;
-    thOrderable: string;
     spanContent: string;
-    spanOrdering: string;
 }
 
 /**

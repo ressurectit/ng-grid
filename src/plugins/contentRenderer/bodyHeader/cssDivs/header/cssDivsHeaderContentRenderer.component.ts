@@ -1,12 +1,13 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, HostBinding, ElementRef} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Inject, Optional, HostBinding} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MergeCssClassesSAPipe} from '@anglr/common';
 
 import {CssDivsHeaderContentRendererOptions} from '../cssDivsContentRenderer.interface';
 import {HeaderContentRendererAbstractComponent} from '../../headerContentRendererAbstract.component';
-import {GRID_PLUGIN_INSTANCES, HEADER_CONTENT_RENDERER_OPTIONS} from '../../../../../misc/tokens';
-import {GridPluginInstances} from '../../../../../misc/types';
+import {HEADER_CONTENT_RENDERER_OPTIONS} from '../../../../../misc/tokens';
 import {CellContextSAPipe} from '../../../../../pipes';
+import {provideCellContextFactoryFn} from '../../../../../misc/providers';
+import {cellContextFactory} from '../../../../../misc/utils';
 
 /**
  * Default options for 'CssDivsHeaderContentRendererComponent'
@@ -17,9 +18,7 @@ const defaultOptions: CssDivsHeaderContentRendererOptions =
     {
         headerDiv: 'header-row-contents',
         headerCellDiv: 'header-cell',
-        headerCellOrderableDiv: 'header-orderable',
         spanContent: 'header-content',
-        spanOrdering: 'header-ordering',
         headerRowDiv: '',
     }
 };
@@ -39,6 +38,10 @@ const defaultOptions: CssDivsHeaderContentRendererOptions =
         CellContextSAPipe,
         MergeCssClassesSAPipe,
     ],
+    providers:
+    [
+        provideCellContextFactoryFn(cellContextFactory),
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CssDivsHeaderContentRendererSAComponent<TData = unknown> extends HeaderContentRendererAbstractComponent<TData, CssDivsHeaderContentRendererOptions>
@@ -55,11 +58,8 @@ export class CssDivsHeaderContentRendererSAComponent<TData = unknown> extends He
     }
 
     //######################### constructor #########################
-    constructor(pluginElement: ElementRef,
-                changeDetector: ChangeDetectorRef,
-                @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins: GridPluginInstances|undefined|null,
-                @Inject(HEADER_CONTENT_RENDERER_OPTIONS) @Optional() options: CssDivsHeaderContentRendererOptions,)
+    constructor(@Inject(HEADER_CONTENT_RENDERER_OPTIONS) @Optional() options: CssDivsHeaderContentRendererOptions,)
     {
-        super(pluginElement, gridPlugins, changeDetector, defaultOptions, options);
+        super(defaultOptions, options);
     }
 }
