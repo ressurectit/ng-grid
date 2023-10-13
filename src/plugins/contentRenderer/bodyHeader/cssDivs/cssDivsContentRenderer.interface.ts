@@ -35,7 +35,7 @@ export interface CssClassesCssDivsBodyContentRenderer
 /**
  * Options for 'CssDivsBodyContentRendererComponent'
  */
-export interface CssDivsBodyContentRendererOptions extends BodyContentRendererOptions<CssClassesCssDivsBodyContentRenderer>
+export interface CssDivsBodyContentRendererOptions<TData = unknown> extends BodyContentRendererOptions<TData, CssClassesCssDivsBodyContentRenderer>
 {
 }
 

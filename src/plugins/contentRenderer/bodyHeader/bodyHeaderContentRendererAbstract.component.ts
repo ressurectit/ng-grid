@@ -209,7 +209,7 @@ export abstract class BodyHeaderContentRendererAbstractComponent<TData = unknown
      * Sets body renderer component
      * @param bodyRenderer - Created body renderer that is rendered
      */
-    protected setBodyRendererComponent(bodyRenderer: BodyContentRenderer<TData, TMetadata>|undefined|null): void
+    protected setBodyRendererComponent(bodyRenderer: BodyContentRenderer|undefined|null): void
     {
         if(!bodyRenderer)
         {
@@ -235,7 +235,7 @@ export abstract class BodyHeaderContentRendererAbstractComponent<TData = unknown
      * Sets header renderer component
      * @param headerRenderer - Created header renderer that is rendered
      */
-    protected setHeaderRendererComponent(headerRenderer: HeaderContentRenderer<TMetadata>|undefined|null): void
+    protected setHeaderRendererComponent(headerRenderer: HeaderContentRenderer|undefined|null): void
     {
         if(!headerRenderer)
         {

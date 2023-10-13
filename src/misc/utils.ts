@@ -128,6 +128,7 @@ export const dataCellContextFactory: DataCellContextFactoryFn = function dataCel
                                                                                                                                                                                             columnMetadata: TColumnMetadata): TContext
 {
     const paging = plugins[GridPluginType.Paging] as Paging;
+    const rowSelector = plugins[GridPluginType.RowSelector] as RowSelector;
 
     return {
         $implicit: data,
@@ -135,5 +136,9 @@ export const dataCellContextFactory: DataCellContextFactoryFn = function dataCel
         index: index,
         rowIndex: paging.firstItemIndex + index,
         startingIndex: paging.firstItemIndex,
+        get isSelected(): boolean
+        {
+            return rowSelector.isSelected(data);
+        },        
     } as TContext;
 };

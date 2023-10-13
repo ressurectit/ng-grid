@@ -1,6 +1,6 @@
 @for(datum of data; track datum; let index=$index)
 {
-    <div [ngClass]="options.cssClasses.rowDiv">
+    <div [ngClass]="options.cssClasses.rowDiv | mergeCssClasses: [options.rowCssClass?.(datum) ?? '']" (click)="options.rowClick?.(datum, index)">
         @for(meta of metadata?.columns; track meta)
         {
             <div [ngClass]="options.cssClasses.cellDiv | mergeCssClasses: [meta.cellClass ?? '']"

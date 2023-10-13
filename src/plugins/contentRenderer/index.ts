@@ -6,8 +6,6 @@ export * from './bodyHeader/cssDivs/cssDivsContentRenderer.component';
 export * from './bodyHeader/cssDivs/cssDivsContentRenderer.interface';
 export * from './bodyHeader/cssDivs/header/cssDivsHeaderContentRenderer.component';
 export * from './bodyHeader/headerContentRendererAbstract.component';
-export * from './bodyHeader/table/body/advanced/advancedTableBodyContentRenderer.component';
-export * from './bodyHeader/table/body/advanced/advancedTableBodyContentRenderer.interface';
 export * from './bodyHeader/table/body/basic/tableBodyContentRenderer.component';
 export * from './bodyHeader/table/header/basic/tableHeaderContentRenderer.component';
 export * from './bodyHeader/table/tableContentRenderer.component';

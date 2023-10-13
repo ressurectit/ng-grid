@@ -1,6 +1,6 @@
 @for(datum of data; track datum; let index=$index)
 {
-    <tr>
+    <tr [ngClass]="options.rowCssClass?.(datum)" (click)="options.rowClick?.(datum, index)">
         @for(meta of metadata?.columns; track meta)
         {
             <td [ngClass]="meta?.cellClass"
@@ -10,7 +10,7 @@
                 {
                     <ng-container *ngTemplateOutlet="meta?.bodyTemplate ?? null; context: datum | dataCellContext: index : meta"/>
                 }
-                @else 
+                @else
                 {
                     {{datum | readValue: meta?.name}}
                 }

@@ -18,7 +18,5 @@ export * from './plugins';
 //TODO: rework all pagings, styles and use it as component itself, paging initialization rework
 //TODO: styles in datetime style
 //TODO: items per page overwrite, not merge
-//TODO: remove $any when possible
 //TODO: maybe rewrite GridPluginInstances to more "specific" types
-//TODO: add specific context for template directives
 //TODO: use inject in base classes also in plugins

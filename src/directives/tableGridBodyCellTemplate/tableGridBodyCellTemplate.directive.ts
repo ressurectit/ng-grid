@@ -1,6 +1,6 @@
 import {Directive, TemplateRef} from '@angular/core';
 
-import {DataCellTemplateContext} from '../../interfaces';
+import {DataCellTemplateContext, TableGridColumn} from '../../interfaces';
 
 /**
  * Directive that is used for obtaining template for table grid body cell
@@ -10,8 +10,7 @@ import {DataCellTemplateContext} from '../../interfaces';
     selector: '[bodyCellTemplate]',
     standalone: true,
 })
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export class TableGridBodyCellTemplateSADirective<TColumnMetadata = any, TData = any>
+export class TableGridBodyCellTemplateSADirective<TColumnMetadata = unknown, TData = unknown>
 {
     //######################### constructor #########################
     constructor(public template: TemplateRef<DataCellTemplateContext<TColumnMetadata, TData>>)
@@ -23,7 +22,8 @@ export class TableGridBodyCellTemplateSADirective<TColumnMetadata = any, TData =
     /**
      * Allows typechecking for template
      */
-    static ngTemplateContextGuard(_dir: TableGridBodyCellTemplateSADirective, _ctx: unknown): _ctx is DataCellTemplateContext
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    static ngTemplateContextGuard(_dir: TableGridBodyCellTemplateSADirective, _ctx: unknown): _ctx is DataCellTemplateContext<TableGridColumn<any>, any>
     {
         return true;
     }

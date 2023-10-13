@@ -9,12 +9,16 @@ import {TableGridColumn} from '../../../../../interfaces';
 import {BODY_CONTENT_RENDERER_OPTIONS, GRID_PLUGIN_INSTANCES} from '../../../../../misc/tokens';
 import {GridPluginInstances} from '../../../../../misc/types';
 import {DataCellContextSAPipe, ReadValueSAPipe} from '../../../../../pipes';
+import {provideDataCellContextFactoryFn} from '../../../../../misc/providers';
+import {dataCellContextFactory} from '../../../../../misc/utils';
 
 /**
  * Default options for 'CssDivsBodyContentRendererComponent'
  */
 const defaultOptions: CssDivsBodyContentRendererOptions =
 {
+    rowClick: null,
+    rowCssClass: null,
     cssClasses:
     {
         bodyDiv: 'body-div-contents',
@@ -38,6 +42,10 @@ const defaultOptions: CssDivsBodyContentRendererOptions =
         ReadValueSAPipe,
         DataCellContextSAPipe,
         MergeCssClassesSAPipe,
+    ],
+    providers:
+    [
+        provideDataCellContextFactoryFn(dataCellContextFactory),
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

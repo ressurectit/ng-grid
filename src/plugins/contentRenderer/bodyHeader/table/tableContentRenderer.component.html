@@ -1,4 +1,4 @@
 <table [ngClass]="options.cssClasses.table">
-    <ng-template [ngComponentOutletEx]="options.plugins.headerRenderer.type | resolveForwardRef" (ngComponentOutletExCreated)="setHeaderRendererComponent($any($event))"></ng-template>
-    <ng-template [ngComponentOutletEx]="options.plugins.bodyRenderer.type | resolveForwardRef" (ngComponentOutletExCreated)="setBodyRendererComponent($any($event))"></ng-template>
+    <ng-template [ngComponentOutletEx]="options.plugins.headerRenderer.type | resolveForwardRef" (ngComponentOutletExCreated)="setHeaderRendererComponent($event)"></ng-template>
+    <ng-template [ngComponentOutletEx]="options.plugins.bodyRenderer.type | resolveForwardRef" (ngComponentOutletExCreated)="setBodyRendererComponent($event)"></ng-template>
 </table>

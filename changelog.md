@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 10.0.0 (2023-10-12)
+## Version 10.0.0 (2023-10-13)
 
 ### Features
 
@@ -74,6 +74,10 @@
       - `pluginsOptionsInitialized` occurs everytime when plugins options initialization changes, if value is false plugins options were not initialized yet, or are being reinitialized
 - updated `GridSAComponent` component
    - updated implementation to correspond with new interface
+- updated `BodyContentRendererOptions` interface
+   - **new properties**
+      - `rowClick` callback allows handle click on the row
+      - `rowCssClass` callback called for each row with data for row returning css class, that will be applied to row element
 - *subpackage* `@anglr/grid/extensions`
    - updated `reinitializeOptions`, new signatures supporting `force` parameter
 
@@ -94,7 +98,7 @@
 - renamed `BasicTableMetadata` to `TableGridMetadata`
 - renamed `BasicTableMetadataGathererComponent` to `TableGridMetadataGathererSAComponent`
 - renamed `BasicTableColumnComponent` to `TableGridColumnSAComponent`
-- renamed `BasicTableColumnContext` to `DataCellTemplateContext` and changed to interface
+- renamed `BasicTableColumnContext` to `DataCellTemplateContext` and changed to interface and extended with `rowSelected` inidication
 - renamed `GridComponent` to `GridSAComponent`
 - renamed `SimpleNoDataRendererComponent` to `SimpleNoDataRendererSAComponent`
 - renamed `BasicRowSelectorComponent` to `BasicRowSelectorSAComponent`
@@ -120,6 +124,9 @@
 - renamed `TableHeaderContentRendererComponent` to `TableHeaderContentRendererSAComponent`
 - renamed `QueryPermanentStorageGridInitializerComponent` to `QueryPermanentStorageGridInitializerSAComponent`
 - removed `GridPluginGeneric`, now `GridPlugin` is generic with default value
+- removed `AdvancedTableBodyContentRendererSAComponent` component, now standard `TableBodyContentRendererSAComponent` has same functionality
+- removed `AdvancedTableBodyContentRendererOptions` interface, now standard `TableBodyContentRendererOptions` has same functionality
+- removed `AdvancedTableBodyContentRenderer` interface, now standard `BodyContentRenderer` has same functionality
 - old `ContentRendererOptions` renamed to `HeaderBodyContentRendererOptions`
 - new `ContentRendererOptions` without `plugins`
 - removed grouped table definition, use new syntax to achieve grouped header columns

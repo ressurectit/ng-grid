@@ -26,7 +26,7 @@ export interface TableContentRenderer extends ContentRenderer
 /**
  * Options for 'TableBodyContentRendererComponent'
  */
-export interface TableBodyContentRendererOptions extends BodyContentRendererOptions
+export interface TableBodyContentRendererOptions<TData = unknown, TCssClasses = unknown> extends BodyContentRendererOptions<TData, TCssClasses>
 {
 }
 

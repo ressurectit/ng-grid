@@ -3,8 +3,7 @@ import {CellTemplateContext} from '../cellTemplateContext/cellTemplate.context';
 /**
  * Context for data cell template
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export interface DataCellTemplateContext<TColumnMetadata = any, TData = any> extends CellTemplateContext<TColumnMetadata>
+export interface DataCellTemplateContext<TColumnMetadata = unknown, TData = unknown> extends CellTemplateContext<TColumnMetadata>
 {
     //######################### readonly properties #########################
 
@@ -27,4 +26,9 @@ export interface DataCellTemplateContext<TColumnMetadata = any, TData = any> ext
      * Row index of displayed item
      */
     readonly rowIndex: number;
+
+    /**
+     * Indication whether is row item selected
+     */
+    readonly isSelected: boolean;
 }

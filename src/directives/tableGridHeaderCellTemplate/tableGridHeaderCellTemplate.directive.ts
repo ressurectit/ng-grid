@@ -1,6 +1,6 @@
 import {Directive, TemplateRef} from '@angular/core';
 
-import {CellTemplateContext} from '../../interfaces';
+import {CellTemplateContext, TableGridColumn} from '../../interfaces';
 
 
 /**
@@ -24,7 +24,8 @@ export class TableGridHeaderCellTemplateSADirective<TColumnMetadata = any>
     /**
      * Allows typechecking for template
      */
-    static ngTemplateContextGuard(_dir: TableGridHeaderCellTemplateSADirective, _ctx: unknown): _ctx is CellTemplateContext
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    static ngTemplateContextGuard(_dir: TableGridHeaderCellTemplateSADirective, _ctx: unknown): _ctx is CellTemplateContext<TableGridColumn<any>>
     {
         return true;
     }

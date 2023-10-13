@@ -16,6 +16,8 @@ import {dataCellContextFactory} from '../../../../../../misc/utils';
  */
 const defaultOptions: TableBodyContentRendererOptions =
 {
+    rowClick: null,
+    rowCssClass: null,
     cssClasses: {},
 };
 
@@ -39,7 +41,7 @@ const defaultOptions: TableBodyContentRendererOptions =
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TableBodyContentRendererSAComponent<TData = unknown> extends BodyContentRendererAbstractComponent<TData, unknown, TableBodyContentRendererOptions, TableGridMetadata<TableGridColumn<TData>>>
+export class TableBodyContentRendererSAComponent<TData = unknown> extends BodyContentRendererAbstractComponent<TData, unknown, TableBodyContentRendererOptions<TData>, TableGridMetadata<TableGridColumn<TData>>>
 {
     //######################### constructor #########################
     constructor(pluginElement: ElementRef,

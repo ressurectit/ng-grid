@@ -30,16 +30,24 @@ export interface HeaderBodyContentRendererOptions<TCssClasses extends CssClasses
 /**
  * Options for 'BodyContentRenderer'
  */
-export interface BodyContentRendererOptions<TCssClasses = unknown> extends VisualPluginOptions<TCssClasses>
+export interface BodyContentRendererOptions<TData = unknown, TCssClasses = unknown> extends VisualPluginOptions<TCssClasses>
 {
+    /**
+     * Callback allows handle click on the row
+     */
+    rowClick: ((rowData: TData, index: number) => void)|undefined|null;
+
+    /**
+     * Callback called for each row with data for row returning css class, that will be applied to row element
+     */
+    rowCssClass: ((rowData: TData) => string)|undefined|null;
 }
 
 /**
  * Definition of renderer for body for ContentRenderer
  */
-export interface BodyContentRenderer<TData = unknown, TMetadata = unknown> extends GridPlugin<BodyContentRendererOptions>
+export interface BodyContentRenderer<TData = unknown, TMetadata = unknown> extends GridPlugin<BodyContentRendererOptions<TData>>
 {
-    //TODO: maybe remove
     /**
      * Data that are rendered
      */
