@@ -87,6 +87,14 @@ export class NoOrderingSAComponent implements NoOrdering
     /**
      * @inheritdoc
      */
+    public getCssClassesForColumn(_columnId: string): string[]
+    {
+        return [];
+    }
+
+    /**
+     * @inheritdoc
+     */
     public initialize(_force: boolean): void
     {
     }

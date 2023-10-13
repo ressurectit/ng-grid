@@ -9,6 +9,7 @@ import {CellTemplateContext} from '../cellTemplateContext/cellTemplate.context';
  */
 export interface TableGridColumn<TData = unknown> extends GridColumn
 {
+    //TODO: remove in future
     /**
      * Name of property which is assigned to this column, can use . notation
      */

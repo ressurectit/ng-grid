@@ -22,3 +22,5 @@ export * from './plugins';
 //TODO: use inject in base classes also in plugins
 //TODO: maybe unify id and name and use only one (ID)??
 //TODO: maybe add ordering to permanent grid initializer
+//TODO: ordering handle metadata changes
+//TODO: make renderer for orderable.directive that will be configurable

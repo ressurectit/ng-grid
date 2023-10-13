@@ -3,15 +3,6 @@ import {Observable} from 'rxjs';
 import {GridPlugin} from '../../gridPlugin/gridPlugin.interface';
 import {VisualPluginOptions} from '../../visualPluginOptions/visualPluginOptions.interface';
 
-
-//TODO: use as default
-// spanOrderingDirection:
-//         {
-//             none: 'fa fa-sort',
-//             asc: 'fa fa-sort-up',
-//             desc: 'fa fa-sort-down',
-//         },
-
 /**
  * Css classes that are used for ordering
  */
@@ -72,4 +63,10 @@ export interface Ordering<TOrdering = unknown, TOptions extends OrderingOptions 
      * @param columnId - Id of column that was marked by user for ordering
      */
     orderByColumn(columnId: string): void;
+
+    /**
+     * Obtains css classes for column
+     * @param columnId - Id of column for which will be css classes obtained
+     */
+    getCssClassesForColumn(columnId: string): string[];
 }

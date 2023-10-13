@@ -3,7 +3,9 @@
     {
         <th [ngClass]="options.cssClasses.thDefault | mergeCssClasses: [meta?.headerClass ?? '']" 
             [style.width]="meta?.width"
-            [title]="meta?.headerTooltip || meta?.title">
+            [title]="meta?.headerTooltip || meta?.title"
+            [orderable]="!!meta?.ordering"
+            [orderById]="meta?.id">
 
             @if(meta?.titleVisible)
             {

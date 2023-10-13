@@ -8,6 +8,7 @@ import {HEADER_CONTENT_RENDERER_OPTIONS} from '../../../../../../misc/tokens';
 import {CellContextSAPipe} from '../../../../../../pipes';
 import {provideCellContextFactoryFn} from '../../../../../../misc/providers';
 import {cellContextFactory} from '../../../../../../misc/utils';
+import {OrderableSADirective} from '../../../../../../directives';
 
 /**
  * Default options for 'TableHeaderContentRendererComponent'
@@ -36,6 +37,7 @@ const defaultOptions: TableHeaderContentRendererOptions =
         CommonModule,
         CellContextSAPipe,
         MergeCssClassesSAPipe,
+        OrderableSADirective,
     ],
     providers:
     [

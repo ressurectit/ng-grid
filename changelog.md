@@ -35,6 +35,7 @@
    - **method**
       - `orderByColumn` marks column for odering
       - `setOrdering` sets ordering to ordering plugin
+      - `getCssClassesForColumn` obtains css classes for column
 - new `OrderingOptions` interface, that represents ordering options allow configuring ordering plugin
 - new `CssClassesOrdering` interface, that represents css classes that are used for ordering
    - **properties**
@@ -71,6 +72,10 @@
 - new `DataCellContextSAPipe` pipe, that obtains data cell context for template
 - new `provideCellContextFactoryFn` function, that provides factory function for cell context
 - new `provideDataCellContextFactoryFn` function, that provides factory function for data cell context
+- new `OrderableSADirective` directive, that is used for handling ordering of column
+   - **inputs**
+      - `orderable` gets or sets indication whether is column orderable or not
+      - `orderById` id of column which should be used for order by
 - updated `TableGridColumnSAComponent` component
    - now supports also obtaining template using directives `TableGridBodyCellTemplateSADirective`, `TableGridHeaderCellTemplateSADirective`
 - updated `Grid` interface

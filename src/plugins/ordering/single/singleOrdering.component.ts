@@ -151,6 +151,24 @@ export class SingleOrderingSAComponent implements SingleOrdering
     /**
      * @inheritdoc
      */
+    public getCssClassesForColumn(columnId: string): string[]
+    {
+        if(this.ordering?.orderBy == columnId)
+        {
+            return [
+                this.ordering.orderByDirection == OrderByDirection.Ascending
+                    ? this.ɵoptions.cssClasses.asc
+                    : this.ɵoptions.cssClasses.desc
+
+            ];
+        }
+
+        return [this.ɵoptions.cssClasses.none];
+    }
+
+    /**
+     * @inheritdoc
+     */
     public async initialize(force: boolean): Promise<void>
     {
         if(!this.gridPlugins)
