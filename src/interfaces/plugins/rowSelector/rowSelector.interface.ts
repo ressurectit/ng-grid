@@ -1,5 +1,5 @@
+import {Signal} from '@angular/core';
 import {Func1} from '@jscrpt/common';
-import {Observable} from 'rxjs';
 
 import {PluginOptions} from '../../pluginOptions/pluginOptions.interface';
 import {GridPlugin} from '../../gridPlugin/gridPlugin.interface';
@@ -38,17 +38,12 @@ export interface RowSelector<TSelectedData = unknown, TData = unknown, TId = unk
     /**
      * Array of currently selected row ids
      */
-    readonly selectedIds: TId[];
+    readonly selectedIds: Signal<TId[]>;
 
     /**
      * Array of currently selected row data
      */
-    readonly selectedData: TSelectedData[];
-
-    /**
-     * Occurs when selection has changed
-     */
-    readonly selectedChange: Observable<void>;
+    readonly selectedData: Signal<TSelectedData[]>;
 
     /**
      * Resets current selection

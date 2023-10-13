@@ -12,7 +12,7 @@ export function selectAllOnPage<TItem>(select: boolean = true, predicate: (item:
         const dataLoader = grid.getPlugin<DataLoader<DataResponse<TItem>>>(GridPluginType.DataLoader);
         const rowSelector = grid.getPlugin<RowSelector>(GridPluginType.RowSelector);
 
-        dataLoader.result.data.forEach(datum =>
+        dataLoader.result().data.forEach(datum =>
         {
             if(predicate(datum))
             {

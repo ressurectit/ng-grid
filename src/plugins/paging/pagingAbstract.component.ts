@@ -1,4 +1,5 @@
-import {ChangeDetectorRef, Injectable, Input, Output, OnDestroy, ElementRef} from '@angular/core';
+import {ChangeDetectorRef, Injectable, Input, Output, OnDestroy, ElementRef, Injector, inject} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {RecursivePartial, extend, isPresent} from '@jscrpt/common';
 import {Observable, Subject, Subscription} from 'rxjs';
 
@@ -43,6 +44,11 @@ export abstract class PagingAbstractComponent<TCssClasses = unknown, TOptions ex
      * Subject used for emitting changes in items per page
      */
     protected itemsPerPageChangeSubject: Subject<number> = new Subject<number>();
+
+    /**
+     * Angular injector used for injecting dependencies
+     */
+    protected injector: Injector = inject(Injector);
 
     //######################### public properties - implementation of Paging #########################
 
@@ -186,11 +192,11 @@ export abstract class PagingAbstractComponent<TCssClasses = unknown, TOptions ex
         if(!this.dataLoader && dataLoader)
         {
             this.dataLoader = dataLoader;
-            this.totalCount = this.dataLoader.result.totalCount;
+            this.totalCount = this.dataLoader.result().totalCount;
 
-            this.dataChangedSubscription = this.dataLoader.resultChange.subscribe(() =>
+            this.dataChangedSubscription = toObservable(this.dataLoader.result, {injector: this.injector}).subscribe(result =>
             {
-                this.totalCount = this.dataLoader?.result.totalCount ?? 0;
+                this.totalCount = result.totalCount ?? 0;
                 this.invalidateVisuals();
             });
         }

@@ -1,4 +1,5 @@
-import {OnDestroy, Directive, ElementRef, HostBinding} from '@angular/core';
+import {OnDestroy, Directive, ElementRef, HostBinding, Injector, inject} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {RecursivePartial, extend} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
@@ -52,6 +53,11 @@ export abstract class BodyHeaderContentRendererAbstractComponent<TData = unknown
 
         return this.gridPlugins;
     }
+
+    /**
+     * Angular injector used for injecting dependencies
+     */
+    protected injector: Injector = inject(Injector);
 
     //######################### public properties - implementation of TableContentRenderer #########################
 
@@ -145,7 +151,7 @@ export abstract class BodyHeaderContentRendererAbstractComponent<TData = unknown
         {
             this.dataLoader = dataLoader;
 
-            this.dataChangedSubscription = this.dataLoader.resultChange.subscribe(() => this.ɵinvalidateVisuals());
+            this.dataChangedSubscription = toObservable(this.dataLoader.result, {injector: this.injector}).subscribe(() => this.ɵinvalidateVisuals());
         }
 
         this.gridPluginsInstance['HEADER_CONTENT_RENDERER' as unknown as GridPluginType].initialize(force);
@@ -273,9 +279,9 @@ export abstract class BodyHeaderContentRendererAbstractComponent<TData = unknown
             headerRenderer.invalidateVisuals();
         }
 
-        if(bodyRenderer.data != this.dataLoader?.result.data || bodyRenderer.metadata != this.metadataSelector?.metadata)
+        if(bodyRenderer.data != this.dataLoader?.result().data || bodyRenderer.metadata != this.metadataSelector?.metadata)
         {
-            bodyRenderer.data = this.dataLoader?.result.data ?? [];
+            bodyRenderer.data = this.dataLoader?.result().data ?? [];
             bodyRenderer.metadata = this.metadataSelector?.metadata;
             bodyRenderer.invalidateVisuals();
         }

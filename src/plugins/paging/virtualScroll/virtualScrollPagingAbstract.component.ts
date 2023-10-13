@@ -85,7 +85,7 @@ export abstract class VirtualScrollPagingAbstractComponent<TOptions extends Virt
 
         const dataLoader: DataLoader<DataResponse> = this.gridPlugins[GridPluginType.DataLoader] as DataLoader<DataResponse>;
 
-        if(dataLoader.result.data.length)
+        if(dataLoader.result().data.length)
         {
             this.loadData(element);
         }

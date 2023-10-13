@@ -1,8 +1,7 @@
-import {Inject, Component, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef, Optional, OnDestroy, signal, WritableSignal} from '@angular/core';
+import {Inject, Component, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef, Optional, signal, WritableSignal, computed, Signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {LocalizeSAPipe} from '@anglr/common';
 import {RecursivePartial, extend} from '@jscrpt/common';
-import {Subscription} from 'rxjs';
 
 import {DataLoader, GridPlugin} from '../../../interfaces';
 import {SimpleNoDataRenderer, SimpleNoDataRendererOptions} from './simpleNoDataRenderer.interface';
@@ -45,7 +44,7 @@ const defaultOptions: SimpleNoDataRendererOptions =
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SimpleNoDataRendererSAComponent implements SimpleNoDataRenderer, GridPlugin<SimpleNoDataRendererOptions>, OnDestroy
+export class SimpleNoDataRendererSAComponent implements SimpleNoDataRenderer, GridPlugin<SimpleNoDataRendererOptions>
 {
     //######################### protected fields #########################
 
@@ -54,17 +53,12 @@ export class SimpleNoDataRendererSAComponent implements SimpleNoDataRenderer, Gr
      */
     protected dataLoader: DataLoader|undefined|null;
 
-    /**
-     * Subscription for changes in state of data loader
-     */
-    protected stateChangedSubscription: Subscription|undefined|null;
-
     //######################### protected properties - template bindings #########################
 
     /**
      * Currently displayed text
      */
-    protected text: WritableSignal<string> = signal('');
+    protected text: Signal<string> = signal('');
 
     /**
      * Options for grid plugin
@@ -94,17 +88,6 @@ export class SimpleNoDataRendererSAComponent implements SimpleNoDataRenderer, Gr
         this.optionsValue = signal(extend(true, {}, defaultOptions, options));
     }
 
-    //######################### public methods - implementation of OnDestroy #########################
-    
-    /**
-     * Called when component is destroyed
-     */
-    public ngOnDestroy(): void
-    {
-        this.stateChangedSubscription?.unsubscribe();
-        this.stateChangedSubscription = null;
-    }
-
     //######################### public methods - implementation of NoDataRenderer #########################
 
     /**
@@ -122,9 +105,6 @@ export class SimpleNoDataRendererSAComponent implements SimpleNoDataRenderer, Gr
         //data loader obtained and its different instance
         if(force || (this.dataLoader && this.dataLoader != dataLoader))
         {
-            this.stateChangedSubscription?.unsubscribe();
-            this.stateChangedSubscription = null;
-
             this.dataLoader = null;
         }
 
@@ -132,11 +112,41 @@ export class SimpleNoDataRendererSAComponent implements SimpleNoDataRenderer, Gr
         if(!this.dataLoader)
         {
             this.dataLoader = dataLoader;
-
-            this.stateChangedSubscription = this.dataLoader.stateChange.subscribe(() => this.processLoaderState());
         }
+        
+        //TODO: tests whether 
+        this.text = computed<string>(() =>
+        {
+            if(!this.dataLoader)
+            {
+                return '';
+            }
 
-        this.processLoaderState();
+            const state = this.dataLoader.state();
+
+            switch(state)
+            {
+                case DataLoaderState.NoDataLoading:
+                {
+                    return this.optionsValue().texts.loading;
+                }
+                case DataLoaderState.NoData:
+                {
+                    return this.optionsValue().texts.noData;
+                }
+                case DataLoaderState.NotLoadedYet:
+                {
+                    return this.optionsValue().texts.notLoaded;
+                }
+                default:
+                //case DataLoaderState.Loaded:
+                //case DataLoaderState.DataLoading:
+                {
+                    return '';
+                }
+            }
+        });
+
         this.invalidateVisuals();
     }
 
@@ -152,51 +162,6 @@ export class SimpleNoDataRendererSAComponent implements SimpleNoDataRenderer, Gr
      */
     public invalidateVisuals(): void
     {
-        this.changeDetector.detectChanges();
-    }
-
-    //######################### protected methods #########################
-
-    /**
-     * Process current loader state
-     */
-    protected processLoaderState(): void
-    {
-        if(!this.dataLoader)
-        {
-            return;
-        }
-
-        switch(this.dataLoader.state)
-        {
-            case DataLoaderState.NoDataLoading:
-            {
-                this.text.set(this.optionsValue().texts.loading);
-
-                break;
-            }
-            case DataLoaderState.NoData:
-            {
-                this.text.set(this.optionsValue().texts.noData);
-
-                break;
-            }
-            case DataLoaderState.NotLoadedYet:
-            {
-                this.text.set(this.optionsValue().texts.notLoaded);
-
-                break;
-            }
-            default:
-            //case DataLoaderState.Loaded:
-            //case DataLoaderState.DataLoading:
-            {
-                this.text.set('');
-
-                break;
-            }
-        }
-
         this.changeDetector.detectChanges();
     }
 }

@@ -1,5 +1,5 @@
+import {Signal} from '@angular/core';
 import {PromiseOr} from '@jscrpt/common';
-import {Observable} from 'rxjs';
 
 import {GridPlugin} from '../../gridPlugin/gridPlugin.interface';
 import {PluginOptions} from '../../pluginOptions/pluginOptions.interface';
@@ -26,7 +26,6 @@ export interface DataLoaderOptions extends PluginOptions
  */
 export interface DataLoader<TResult = unknown> extends GridPlugin
 {
-    //TODO: maybe use signals
     /**
      * Loads data from 'source'
      * @param force - Indication that data should be reloaded even if nothing changed
@@ -36,20 +35,10 @@ export interface DataLoader<TResult = unknown> extends GridPlugin
     /**
      * Current result of data loader
      */
-    readonly result: TResult;
+    readonly result: Signal<TResult>;
 
     /**
      * Current state of data loader
      */
-    readonly state: DataLoaderState;
-
-    /**
-     * Indication that data has changed
-     */
-    readonly resultChange: Observable<void>;
-
-    /**
-     * Indication that data loader state has changed
-     */
-    readonly stateChange: Observable<void>;
+    readonly state: Signal<DataLoaderState>;
 }

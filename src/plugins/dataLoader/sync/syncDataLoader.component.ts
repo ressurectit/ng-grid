@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Inject, Optional, ElementRef} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Inject, Optional, WritableSignal, signal, Signal} from '@angular/core';
 import {OrderByDirection} from '@jscrpt/common';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
 import {from, Observable} from 'rxjs';
@@ -7,8 +7,7 @@ import {skip, take, toArray} from 'rxjs/operators';
 import {SyncDataLoaderOptions, SyncDataLoader} from './syncDataLoader.interface';
 import {DataLoaderAbstractComponent} from '../dataLoaderAbstract.component';
 import {DataResponse, SimpleOrdering} from '../../../interfaces';
-import {DATA_LOADER_OPTIONS, GRID_PLUGIN_INSTANCES} from '../../../misc/tokens';
-import {GridPluginInstances} from '../../../misc/types';
+import {DATA_LOADER_OPTIONS} from '../../../misc/tokens';
 import {DataLoaderState} from '../../../misc/enums';
 
 /**
@@ -61,28 +60,26 @@ export class SyncDataLoaderSAComponent<TData = unknown, TOrdering = unknown> ext
     /**
      * Current result of data loader
      */
-    protected ɵresult: DataResponse<TData> =
+    protected ɵresult: WritableSignal<DataResponse<TData>> = signal(
     {
         data: [],
         totalCount: 0
-    };
+    });
 
     //######################### public properties #########################
 
     /**
      * @inheritdoc
      */
-    public get result(): DataResponse<TData>
+    public get result(): Signal<DataResponse<TData>>
     {
-        return this.ɵresult;
+        return this.ɵresult.asReadonly();
     }
 
     //######################### constructor #########################
-    constructor(pluginElement: ElementRef,
-                @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins: GridPluginInstances|undefined|null,
-                @Inject(DATA_LOADER_OPTIONS) @Optional() options?: SyncDataLoaderOptions<TData, TOrdering>)
+    constructor(@Inject(DATA_LOADER_OPTIONS) @Optional() options?: SyncDataLoaderOptions<TData, TOrdering>)
     {
-        super(pluginElement, gridPlugins, defaultOptions as unknown as SyncDataLoaderOptions<TData, TOrdering>, options);
+        super(defaultOptions as unknown as SyncDataLoaderOptions<TData, TOrdering>, options);
     }
 
     //######################### protected methodes - implements DataLoaderAbstractComponent #########################
@@ -99,8 +96,7 @@ export class SyncDataLoaderSAComponent<TData = unknown, TOrdering = unknown> ext
 
         let data = [...this.ɵoptions.data];
 
-        this.ɵstate = (data && data.length) ? DataLoaderState.DataLoading : DataLoaderState.NoDataLoading;
-        this.stateChangeSubject.next();
+        this.ɵstate.set((data && data.length) ? DataLoaderState.DataLoading : DataLoaderState.NoDataLoading);
 
         if(this.ɵoptions.orderData)
         {
@@ -112,15 +108,12 @@ export class SyncDataLoaderSAComponent<TData = unknown, TOrdering = unknown> ext
                   isNaN(this.paging?.itemsPerPage ?? 0) ? ((source: Observable<TData>) => source) : take(this.paging?.itemsPerPage ?? 0),
                   toArray()));
 
-        this.ɵstate = (data && data.length) ? DataLoaderState.Loaded : DataLoaderState.NoData;
-        this.stateChangeSubject.next();
+        this.ɵstate.set((data && data.length) ? DataLoaderState.Loaded : DataLoaderState.NoData);
 
-        this.ɵresult =
+        this.ɵresult.set(
         {
             data: data,
             totalCount: this.ɵoptions.data.length
-        };
-
-        this.resultChangeSubject.next();
+        });
     }
 }

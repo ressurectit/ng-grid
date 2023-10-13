@@ -1,6 +1,7 @@
-import {Component, ChangeDetectionStrategy, ElementRef, Inject, Optional, OnDestroy} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ElementRef, Inject, Optional, OnDestroy, WritableSignal, signal, Signal, inject, Injector} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {RecursivePartial, extend, isBlank} from '@jscrpt/common';
-import {Subscription, Observable, Subject} from 'rxjs';
+import {Subscription} from 'rxjs';
 
 import {BasicRowSelectorOptions, BasicRowSelector} from './basicRowSelector.interface';
 import {DataLoader, GridPlugin} from '../../../interfaces';
@@ -54,11 +55,31 @@ export class BasicRowSelectorSAComponent<TSelectedData = unknown, TData = unknow
     protected dataChangedSubscription: Subscription|undefined|null;
 
     /**
-     * Subject used for emitting selected change
+     * Array of currently selected row ids
      */
-    protected selectedChangeSubject: Subject<void> = new Subject<void>();
+    protected ɵselectedIds: WritableSignal<TId[]> = signal([]);
+
+    /**
+     * Array of currently selected row data
+     */
+    protected ɵselectedData: WritableSignal<TSelectedData[]> = signal([]);
+
+    /**
+     * Angular injector used for injecting dependencies
+     */
+    protected injector: Injector = inject(Injector);
 
     //######################### public properties - implementation of RowSelector #########################
+
+    /**
+     * @inheritdoc
+     */
+    public pluginElement: ElementRef<HTMLElement> = inject(ElementRef<HTMLElement>);
+
+    /**
+     * @inheritdoc
+     */
+    public gridPlugins: GridPluginInstances|undefined|null = inject(GRID_PLUGIN_INSTANCES, {optional: true});
 
     /**
      * @inheritdoc
@@ -73,27 +94,23 @@ export class BasicRowSelectorSAComponent<TSelectedData = unknown, TData = unknow
     }
 
     /**
-     * Array of currently selected row ids
+     * @inheritdoc
      */
-    public selectedIds: TId[] = [];
-
-    /**
-     * Array of currently selected row data
-     */
-    public selectedData: TSelectedData[] = [];
-
-    /**
-     * Occurs when selection has changed
-     */
-    public get selectedChange(): Observable<void>
+    public get selectedIds(): Signal<TId[]>
     {
-        return this.selectedChangeSubject.asObservable();
+        return this.ɵselectedIds.asReadonly();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public get selectedData(): Signal<TSelectedData[]>
+    {
+        return this.ɵselectedData.asReadonly();
     }
 
     //######################### constructor #########################
-    constructor(@Inject(GRID_PLUGIN_INSTANCES) @Optional() public gridPlugins: GridPluginInstances|undefined|null,
-                public pluginElement: ElementRef,
-                @Inject(ROW_SELECTOR_OPTIONS) @Optional() options?: BasicRowSelectorOptions<TSelectedData, TData, TId>)
+    constructor(@Inject(ROW_SELECTOR_OPTIONS) @Optional() options?: BasicRowSelectorOptions<TSelectedData, TData, TId>)
     {
         this.ɵoptions = extend(true, {}, defaultOptions, options);
     }
@@ -114,15 +131,10 @@ export class BasicRowSelectorSAComponent<TSelectedData = unknown, TData = unknow
     /**
      * @inheritdoc
      */
-    public resetSelection(emit: boolean = true): void
+    public resetSelection(): void
     {
-        this.selectedIds = [];
-        this.selectedData = [];
-
-        if(emit)
-        {
-            this.selectedChangeSubject.next();
-        }
+        this.ɵselectedIds.set([]);
+        this.ɵselectedData.set([]);
     }
 
     /**
@@ -137,29 +149,34 @@ export class BasicRowSelectorSAComponent<TSelectedData = unknown, TData = unknow
 
         if(!this.options.multiSelection)
         {
-            this.resetSelection(false);
+            this.resetSelection();
         }
 
         const id = this.options.getRowId(item);
-        const index = this.selectedIds.indexOf(id);
+        const index = this.selectedIds().indexOf(id);
 
         //select if not selected
         if(select && index < 0)
         {
-            this.selectedIds.push(id);
-            this.selectedData.push(this.options.getRowData(item));
-
-            this.selectedChangeSubject.next();
+            this.ɵselectedIds.update(ids => [...ids, id]);
+            this.ɵselectedData.update(data => [...data, this.options.getRowData(item)]);
         }
         //remove from selection if selected
         else if(!select && index >= 0)
         {
-            this.selectedIds.splice(index, 1);
-            this.selectedData.splice(index, 1);
-            this.selectedIds = [...this.selectedIds];
-            this.selectedData = [...this.selectedData];
+            this.ɵselectedIds.update(ids =>
+            {
+                ids.splice(index, 1);
 
-            this.selectedChangeSubject.next();
+                return [...ids];
+            });
+
+            this.ɵselectedData.update(data =>
+            {
+                data.splice(index, 1);
+
+                return [...data];
+            });
         }
     }
 
@@ -175,7 +192,7 @@ export class BasicRowSelectorSAComponent<TSelectedData = unknown, TData = unknow
 
         const id = this.options.getRowId(item);
 
-        return this.selectedIds.indexOf(id) > -1;
+        return this.selectedIds().indexOf(id) > -1;
     }
 
     /**
@@ -204,11 +221,11 @@ export class BasicRowSelectorSAComponent<TSelectedData = unknown, TData = unknow
         {
             this.dataLoader = dataLoader;
 
-            this.dataChangedSubscription = this.dataLoader.resultChange.subscribe(() =>
+            this.dataChangedSubscription = toObservable(this.dataLoader.result, {injector: this.injector}).subscribe(() =>
             {
                 if(this.options.autoResetOnDataChange)
                 {
-                    this.resetSelection(false);
+                    this.resetSelection();
                 }
             });
         }

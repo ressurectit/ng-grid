@@ -9,6 +9,6 @@ export function isSelectedAny(): GridFunction<boolean>
     {
         const rowSelector = grid.getPlugin<RowSelector>(GridPluginType.RowSelector);
 
-        return rowSelector.selectedIds.length > 0;
+        return rowSelector.selectedIds().length > 0;
     };
 }

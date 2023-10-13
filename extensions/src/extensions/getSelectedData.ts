@@ -9,6 +9,6 @@ export function getSelectedData<TSelectedData>(): GridFunction<TSelectedData[]>
     {
         const rowSelector = grid.getPlugin<RowSelector<TSelectedData>>(GridPluginType.RowSelector);
 
-        return rowSelector.selectedData;
+        return rowSelector.selectedData();
     };
 }

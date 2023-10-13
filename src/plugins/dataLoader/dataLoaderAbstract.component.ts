@@ -1,12 +1,13 @@
-import {Injectable, OnDestroy, ElementRef, Injector, inject} from '@angular/core';
+import {Injectable, OnDestroy, ElementRef, Injector, inject, Signal, WritableSignal, signal} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {RecursivePartial, extend} from '@jscrpt/common';
-import {Subscription, Subject, Observable} from 'rxjs';
+import {Subscription, Subject} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
 
 import {Ordering, DataLoader, DataLoaderOptions, GridPlugin, Paging} from '../../interfaces';
 import {DataLoaderState, GridPluginType} from '../../misc/enums';
 import {GridPluginInstances} from '../../misc/types';
+import {GRID_PLUGIN_INSTANCES} from '../../misc/tokens';
 
 /**
  * Abstract class that represents any data loader component
@@ -49,7 +50,7 @@ export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOpt
     /**
      * Current state of data loader
      */
-    protected ɵstate: DataLoaderState = DataLoaderState.NotLoadedYet;
+    protected ɵstate: WritableSignal<DataLoaderState> = signal(DataLoaderState.NotLoadedYet);
 
     /**
      * Subscription for page change in paging
@@ -77,16 +78,6 @@ export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOpt
     protected debounceSubject: Subject<boolean> = new Subject<boolean>();
 
     /**
-     * Subject used for emitting changes in result
-     */
-    protected resultChangeSubject: Subject<void> = new Subject<void>();
-
-    /**
-     * Subject used for emitting changes in state
-     */
-    protected stateChangeSubject: Subject<void> =  new Subject<void>();
-
-    /**
      * Subscription for debounce dataCallback
      */
     protected debounceSubscription: Subscription|undefined|null;
@@ -96,10 +87,25 @@ export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOpt
     /**
      * @inheritdoc
      */
-    public get state(): DataLoaderState
+    public pluginElement: ElementRef<HTMLElement> = inject(ElementRef<HTMLElement>);
+
+    /**
+     * @inheritdoc
+     */
+    public gridPlugins: GridPluginInstances|undefined|null = inject(GRID_PLUGIN_INSTANCES, {optional: true});
+
+    /**
+     * @inheritdoc
+     */
+    public get state(): Signal<DataLoaderState>
     {
-        return this.ɵstate;
+        return this.ɵstate.asReadonly();
     }
+
+    /**
+     * @inheritdoc
+     */
+    public abstract get result(): Signal<TResult>;
 
     /**
      * @inheritdoc
@@ -113,31 +119,8 @@ export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOpt
         this.ɵoptions = extend(true, this.ɵoptions, options);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public abstract get result(): TResult;
-
-    /**
-     * @inheritdoc
-     */
-    public get resultChange(): Observable<void>
-    {
-        return this.resultChangeSubject.asObservable();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public get stateChange(): Observable<void>
-    {
-        return this.stateChangeSubject.asObservable();
-    }
-
     //######################### constructor #########################
-    constructor(public pluginElement: ElementRef<HTMLElement>,
-                public gridPlugins: GridPluginInstances|undefined|null,
-                defaultOptions: TOptions,
+    constructor(defaultOptions: TOptions,
                 options?: TOptions,)
     {
         this.ɵoptions = extend(true, {}, defaultOptions, options);

@@ -1,5 +1,7 @@
 import {GridAction, GridOptions} from '@anglr/grid';
 
+//TODO: finish
+
 /**
  * Method used to patch options without full initialization of grid, only options are initialized
  * @param options - Options to be used as patch
