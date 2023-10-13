@@ -104,7 +104,7 @@ export class SyncDataLoaderSAComponent<TData = unknown, TOrdering = unknown> ext
 
         if(this.ɵoptions.orderData)
         {
-            data = this.ɵoptions.orderData(data, this.ordering?.ordering ?? undefined);
+            data = this.ɵoptions.orderData(data, this.ordering?.ordering() ?? undefined);
         }
 
         data = await lastValueFrom(from(data)

@@ -1,5 +1,4 @@
-import {ChangeDetectionStrategy, Component, ElementRef, inject} from '@angular/core';
-import {Observable, Subject} from 'rxjs';
+import {ChangeDetectionStrategy, Component, ElementRef, inject, signal, Signal} from '@angular/core';
 
 import {GridPluginInstances} from '../../../misc/types';
 import {NoOrdering, NoOrderingOptions} from './noOrdering.interface';
@@ -31,27 +30,12 @@ const defaultOptions: NoOrderingOptions =
 })
 export class NoOrderingSAComponent implements NoOrdering
 {
-    //######################### protected fields #########################
-
-    /**
-     * Subject used for emitting changes in ordering
-     */
-    protected orderingChangeSubject: Subject<void> = new Subject<void>();
-
     //######################### public properties - implementation of NoOrdering #########################
 
     /**
      * @inheritdoc
      */
-    public ordering: unknown|undefined|null;
-
-    /**
-     * @inheritdoc
-     */
-    public get orderingChange(): Observable<void>
-    {
-        return this.orderingChangeSubject.asObservable();
-    }
+    public ordering: Signal<unknown|undefined|null> = signal<unknown|undefined|null>(undefined).asReadonly();
 
     /**
      * @inheritdoc
@@ -73,7 +57,7 @@ export class NoOrderingSAComponent implements NoOrdering
     /**
      * @inheritdoc
      */
-    public setOrdering(_ordering: unknown|undefined|null, _emit?: boolean): void
+    public setOrdering(_ordering: unknown|undefined|null): void
     {
     }
 

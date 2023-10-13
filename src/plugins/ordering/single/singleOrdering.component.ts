@@ -1,6 +1,5 @@
-import {ChangeDetectionStrategy, Component, ElementRef, Inject, Optional, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, Inject, Optional, Signal, WritableSignal, inject, signal} from '@angular/core';
 import {OrderByDirection, RecursivePartial, extend} from '@jscrpt/common';
-import {Observable, Subject} from 'rxjs';
 
 import {GridPluginInstances} from '../../../misc/types';
 import {SingleOrdering, SingleOrderingOptions} from './singleOrdering.interface';
@@ -39,7 +38,7 @@ export class SingleOrderingSAComponent implements SingleOrdering
     /**
      * Subject used for emitting changes in ordering
      */
-    protected orderingChangeSubject: Subject<void> = new Subject<void>();
+    protected ɵordering: WritableSignal<SimpleOrdering|undefined|null> = signal(undefined);
 
     /**
      * Instance of options
@@ -56,14 +55,9 @@ export class SingleOrderingSAComponent implements SingleOrdering
     /**
      * @inheritdoc
      */
-    public ordering: SimpleOrdering|undefined|null;
-
-    /**
-     * @inheritdoc
-     */
-    public get orderingChange(): Observable<void>
+    public get ordering(): Signal<SimpleOrdering|undefined|null>
     {
-        return this.orderingChangeSubject.asObservable();
+        return this.ɵordering.asReadonly();
     }
 
     /**
@@ -99,15 +93,10 @@ export class SingleOrderingSAComponent implements SingleOrdering
     /**
      * @inheritdoc
      */
-    public setOrdering(ordering: SimpleOrdering|undefined|null, emit: boolean = true): void
+    public setOrdering(ordering: SimpleOrdering|undefined|null): void
     {
-        this.ordering = ordering;
-        this.gridInitializer?.setOrdering(this.ordering);
-
-        if(emit)
-        {
-            this.orderingChangeSubject.next();
-        }
+        this.ɵordering.set(ordering);
+        this.gridInitializer?.setOrdering(this.ɵordering());
     }
 
     /**
@@ -116,35 +105,28 @@ export class SingleOrderingSAComponent implements SingleOrdering
     public orderByColumn(columnId: string): void
     {
         //no ordering, or ordering different column
-        if(!this.ordering || this.ordering.orderBy != columnId)
-        {
-            this.setOrdering(null, false);
+        const ordering = this.ɵordering();
+        this.gridInitializer?.setOrdering(ordering);
 
-            this.ordering =
+        if(!ordering || ordering.orderBy != columnId)
+        {
+            this.ɵordering.set(
             {
                 orderByDirection: OrderByDirection.Ascending,
                 orderBy: columnId,
-            };
-
-            this.gridInitializer?.setOrdering(this.ordering);
-            this.orderingChangeSubject.next();
+            });
         }
-        else if(this.ordering.orderByDirection == OrderByDirection.Ascending)
+        else if(ordering.orderByDirection == OrderByDirection.Ascending)
         {
-            this.ordering =
+            this.ɵordering.set(
             {
                 orderByDirection: OrderByDirection.Descending,
                 orderBy: columnId
-            };
-
-            this.gridInitializer?.setOrdering(this.ordering);
-            this.orderingChangeSubject.next();
+            });
         }
         else
         {
-            this.ordering = null;
-            this.gridInitializer?.setOrdering(this.ordering);
-            this.orderingChangeSubject.next();
+            this.ɵordering.set(null);
         }
     }
 
@@ -153,10 +135,12 @@ export class SingleOrderingSAComponent implements SingleOrdering
      */
     public getCssClassesForColumn(columnId: string): string[]
     {
-        if(this.ordering?.orderBy == columnId)
+        const ordering = this.ɵordering();
+
+        if(ordering?.orderBy == columnId)
         {
             return [
-                this.ordering.orderByDirection == OrderByDirection.Ascending
+                ordering.orderByDirection == OrderByDirection.Ascending
                     ? this.ɵoptions.cssClasses.asc
                     : this.ɵoptions.cssClasses.desc
 
@@ -190,7 +174,7 @@ export class SingleOrderingSAComponent implements SingleOrdering
             this.gridInitializer = gridInitializer;
         }
 
-        this.ordering = await this.gridInitializer.getOrdering();
+        this.ɵordering.set(await this.gridInitializer.getOrdering());
     }
 
     /**

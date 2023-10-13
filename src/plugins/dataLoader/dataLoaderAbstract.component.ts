@@ -1,4 +1,5 @@
-import {Injectable, OnDestroy, ElementRef} from '@angular/core';
+import {Injectable, OnDestroy, ElementRef, Injector, inject} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {RecursivePartial, extend} from '@jscrpt/common';
 import {Subscription, Subject, Observable} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
@@ -14,6 +15,11 @@ import {GridPluginInstances} from '../../misc/types';
 export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOptions = DataLoaderOptions, TOrdering = unknown, TResult = unknown> implements DataLoader<TResult>, GridPlugin<TOptions>, OnDestroy
 {
     //######################### protected fields #########################
+
+    /**
+     * Angular injector used for injecting dependencies
+     */
+    protected injector: Injector = inject(Injector);
 
     /**
      * Last page used for loading data
@@ -209,7 +215,7 @@ export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOpt
         {
             this.ordering = ordering;
 
-            this.orderingChangedSubscription = this.ordering.orderingChange.subscribe(() => this.debounceSubject.next(false));
+            this.orderingChangedSubscription = toObservable(this.ordering.ordering, {injector: this.injector}).subscribe(() => this.debounceSubject.next(false));
         }
 
         if(this.options.autoLoadData)
@@ -260,7 +266,7 @@ export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOpt
         {
             this.lastPage = this.paging?.page;
             this.lastItemsPerPage = this.paging?.itemsPerPage;
-            this.lastOrdering = this.ordering?.ordering;
+            this.lastOrdering = this.ordering?.ordering();
 
             return true;
         }

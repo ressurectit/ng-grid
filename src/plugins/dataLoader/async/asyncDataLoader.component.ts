@@ -73,7 +73,7 @@ export class AsyncDataLoaderSAComponent<TData = unknown, TOrdering = unknown> ex
         this.ɵstate = (this.ɵresult && this.ɵresult.data && this.ɵresult.data.length) ? DataLoaderState.DataLoading : DataLoaderState.NoDataLoading;
         this.stateChangeSubject.next();
 
-        const result = await this.ɵoptions.dataCallback(this.paging?.page ?? 1, this.paging?.itemsPerPage ?? 0, this.ordering?.ordering);
+        const result = await this.ɵoptions.dataCallback(this.paging?.page ?? 1, this.paging?.itemsPerPage ?? 0, this.ordering?.ordering());
 
         this.ɵstate = (result && result.data && result.data.length) ? DataLoaderState.Loaded : DataLoaderState.NoData;
         this.stateChangeSubject.next();

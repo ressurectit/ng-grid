@@ -1,4 +1,4 @@
-import {Observable} from 'rxjs';
+import {Signal} from '@angular/core';
 
 import {GridPlugin} from '../../gridPlugin/gridPlugin.interface';
 import {VisualPluginOptions} from '../../visualPluginOptions/visualPluginOptions.interface';
@@ -44,19 +44,13 @@ export interface Ordering<TOrdering = unknown, TOptions extends OrderingOptions 
     /**
      * Current ordering value
      */
-    readonly ordering: TOrdering|undefined|null;
-
-    /**
-     * Occurs when current ordering has changed
-     */
-    readonly orderingChange: Observable<void>;
+    readonly ordering: Signal<TOrdering|undefined|null>;
 
     /**
      * Sets ordering to ordering plugin
      * @param ordering - Ordering to be set for ordering plugin
-     * @param emit - Indication whether emit change event, defaults to true
      */
-    setOrdering(ordering: TOrdering|undefined|null, emit?: boolean): void;
+    setOrdering(ordering: TOrdering|undefined|null): void;
 
     /**
      * Marks column for odering

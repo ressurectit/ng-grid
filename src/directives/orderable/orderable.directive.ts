@@ -1,4 +1,5 @@
-import {Directive, ElementRef, HostListener, Input, OnDestroy, OnInit, Renderer2, booleanAttribute, inject} from '@angular/core';
+import {Directive, ElementRef, HostListener, Injector, Input, OnDestroy, OnInit, Renderer2, booleanAttribute, inject} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {Subscription} from 'rxjs';
 
 import {GridPluginInstances} from '../../misc/types';
@@ -55,6 +56,11 @@ export class OrderableSADirective implements OnInit, OnDestroy
     protected grid: Grid = inject(GRID_INSTANCE);
 
     /**
+     * Angular injector used for injecting dependencies
+     */
+    protected injector: Injector = inject(Injector);
+
+    /**
      * Current css classes that are applied element which is displaying current ordering
      */
     protected currentCssClasses: string[] = [];
@@ -107,7 +113,7 @@ export class OrderableSADirective implements OnInit, OnDestroy
 
             if(initialized)
             {
-                this.orderingChangeSubscription = this.ordering.orderingChange.subscribe(() => this.applyCssClasses());
+                this.orderingChangeSubscription = toObservable(this.ordering.ordering, {injector: this.injector}).subscribe(() => this.applyCssClasses());
                 
                 this.applyCssClasses();
 
