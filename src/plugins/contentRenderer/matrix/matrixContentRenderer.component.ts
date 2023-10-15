@@ -1,11 +1,11 @@
-import {Component, ChangeDetectionStrategy, inject, ElementRef, Inject, Optional, ValueProvider, TemplateRef, ViewChild, ViewContainerRef, OnDestroy} from '@angular/core';
+import {Component, ChangeDetectionStrategy, inject, ElementRef, Inject, Optional, ValueProvider, TemplateRef, ViewChild, ViewContainerRef, OnDestroy, FactoryProvider} from '@angular/core';
 import {RecursivePartial, extend} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
 import {MatrixContentRenderer, MatrixContentRendererOptions} from './matrixContentRenderer.interface';
-import {GridPlugin, MatrixGridMetadata, MetadataSelector} from '../../../interfaces';
+import {ContentRendererCurrentViewContainer, GridContext, GridPlugin, MatrixGridMetadata, MetadataSelector} from '../../../interfaces';
 import {GridPluginInstances} from '../../../misc/types';
-import {CONTENT_RENDERER_OPTIONS, DEFAULT_OPTIONS, GRID_PLUGIN_INSTANCES} from '../../../misc/tokens';
+import {CONTENT_RENDERER_CURRENT_VIEW_CONTAINER, CONTENT_RENDERER_OPTIONS, DEFAULT_OPTIONS, GRID_PLUGIN_INSTANCES} from '../../../misc/tokens';
 import {GridContainerSAComponent} from '../../../components/gridContainer/gridContainer.component';
 import {GridContainerTemplateSADirective} from '../../../directives/gridContainerTemplate/gridContainerTemplate.directive';
 
@@ -43,6 +43,16 @@ const defaultOptions: MatrixContentRendererOptions =
             provide: DEFAULT_OPTIONS,
             useValue: defaultOptions,
         },
+        <FactoryProvider>
+        {
+            provide: CONTENT_RENDERER_CURRENT_VIEW_CONTAINER,
+            useFactory: () => 
+            {
+                return <ContentRendererCurrentViewContainer> {
+                    viewContainer: undefined,
+                };
+            }
+        }
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -95,7 +105,7 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
      * Default grid container template
      */
     @ViewChild(GridContainerTemplateSADirective, {static: true, read: TemplateRef})
-    protected defaultGridContainerTemplate!: TemplateRef<unknown>;
+    protected defaultGridContainerTemplate!: TemplateRef<GridContext>;
 
     /**
      * Default container used for rendering content

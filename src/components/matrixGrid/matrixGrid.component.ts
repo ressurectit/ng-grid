@@ -8,7 +8,7 @@ import {AsyncDataLoaderSAComponent, BasicPagingSAComponent, BasicRowSelectorSACo
 import {PagingPosition} from '../../misc/enums';
 import {DEFAULT_OPTIONS, GRID_INSTANCE, GRID_PLUGIN_INSTANCES} from '../../misc/tokens';
 import {ResolveForwardRefSAPipe} from '../../pipes';
-import {Grid, GridOptions, MatrixGridMetadata, MetadataGatherer} from '../../interfaces';
+import {Grid, GridContext, GridOptions, MatrixGridMetadata, MetadataGatherer} from '../../interfaces';
 import {GridContainerTemplateSADirective} from '../../directives';
 
 /**
@@ -149,7 +149,7 @@ export class MatrixGridSAComponent extends GridSAComponent implements Grid, Meta
      * Grid container template
      */
     @ContentChild(GridContainerTemplateSADirective, {read: TemplateRef})
-    protected gridContainer: TemplateRef<unknown>|undefined|null;
+    protected gridContainer: TemplateRef<GridContext>|undefined|null;
 
     //######################### public methods - implementation of AfterContentInit #########################
     

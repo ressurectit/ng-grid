@@ -67,6 +67,7 @@
 - new `DATA_CELL_CONTEXT_FN` injection token for obtaining data cell context factory function
 - new `GRID_INSTANCE` injection token for obtaining grid instance inside grid plugins and nested types
 - new `DEFAULT_OPTIONS` injection token used for injecting default options
+- new `CONTENT_RENDERER_CURRENT_VIEW_CONTAINER` injection token used for sharing content renderers current view container
 - new `cellContextFactory` function, that creates context object for cell in grid
 - new `dataCellContextFactory` function, that creates context object for data cell in grid
 - new `CellContextSAPipe` pipe, that obtains cell context for template
@@ -112,6 +113,48 @@
       - `MatrixContentRenderer`
       - `GridPlugin`
       - `OnDestroy`
+- new `ContentRendererCurrentViewContainer` interface, that is object used for sharing view container to its parent content renderer
+   - **properties**
+      - `viewContainer` view container used for rendering content of specific element
+- new `GridContext` interface, that represents context that is available in content renderer top levels, outside of data scope
+   - **properties**
+      - `grid` instance of grid itself
+      - `plugins` instance of grid plugins
+      - `data` all data that are currently rendered
+      - `columns` all currently rendered columns metadata
+- new `GridRowContext` interface, that represents context that is available in content renderer at row level (any type of row)
+   - **extends**
+      - `GridContext`
+    - **properties**
+      - `index` index of rendered low in current page
+- new `GridDataRowContext` interface, that represents context that is available in content renderer at row level (content data rows only)
+   - **extends**
+      - `GridRowContext`
+    - **properties**
+      - `datum` instance of datum for current row
+      - `startingIndex` starting index of currently displayed items
+      - `rowIndex` row index of displayed item
+      - `isSelected` indication whether is row item selected
+- new `GridCellContext` interface, that represents context that is available in content renderer at cell level (any type of cell)
+   - **extends**
+      - `GridRowContext`
+   - **properties**
+      - `metadata` metadata for current cell (column)
+      - `isSelected` indication whether is row item selected
+- new `GridDataCellContext` interface, that represents context that is available in content renderer at cell level (content data cells only)
+   - **extends**
+      - `GridDataRowContext`
+   - **properties**
+      - `metadata` metadata for current cell (column)
+- new `MatrixGridColumn` interface, that represents matrix grid column definition
+   - **extends**
+      - `GridColumn`
+   - **properties**
+      - `width` width as style string including units, not used in renderer, but can be used by user later for automation
+      - `ordering` indication that this column can be used for ordering
+      - `headerTemplate` template that is used for rendering of cell in header row
+      - `bodyTemplate` template that is used for rendering of cell in content (body) row
+      - `footerTemplate` template that is used for rendering of cell in footer row
 - updated `TableGridColumnSAComponent` component
    - now supports also obtaining template using directives `TableGridBodyCellTemplateSADirective`, `TableGridHeaderCellTemplateSADirective`
 - updated `Grid` interface

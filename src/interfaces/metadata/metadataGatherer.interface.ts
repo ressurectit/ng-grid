@@ -2,6 +2,9 @@ import {TemplateRef} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {GridColumn} from '../gridColumn';
+import {GridContext} from '../gridContext/gridContext.interface';
+import {GridRowContext} from '../gridRowContext/gridRowContext.interface';
+import {GridDataRowContext} from '../gridDataRowContext/gridDataRowContext.interface';
 
 /**
  * Base grid metadata interface
@@ -46,35 +49,35 @@ export interface MatrixGridMetadata<TColumn extends GridColumn = GridColumn> ext
     /**
      * Template for grid container
      */
-    gridContainer: TemplateRef<unknown>|undefined|null;
+    gridContainer: TemplateRef<GridContext>|undefined|null;
 
     /**
      * Template for grid header
      */
-    headerContainer: TemplateRef<unknown>|undefined|null;
+    headerContainer: TemplateRef<GridContext>|undefined|null;
 
     /**
      * Template for grid content (body)
      */
-    contentContainer: TemplateRef<unknown>|undefined|null;
+    contentContainer: TemplateRef<GridContext>|undefined|null;
 
     /**
      * Template for grid footer
      */
-    footerContainer: TemplateRef<unknown>|undefined|null;
+    footerContainer: TemplateRef<GridContext>|undefined|null;
 
     /**
      * Templates for header rows
      */
-    headerRowContainer: TemplateRef<unknown>[]|undefined|null;
+    headerRowContainer: TemplateRef<GridRowContext>[]|undefined|null;
 
     /**
      * Templates for content rows (each data row can be rendered as multiple rows)
      */
-    contentRowContainer: TemplateRef<unknown>[]|undefined|null;
+    contentRowContainer: TemplateRef<GridDataRowContext>[]|undefined|null;
 
     /**
      * Templates for footer rows
      */
-    footerRowContainer: TemplateRef<unknown>[]|undefined|null;
+    footerRowContainer: TemplateRef<GridRowContext>[]|undefined|null;
 }

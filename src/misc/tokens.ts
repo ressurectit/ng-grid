@@ -1,8 +1,13 @@
 import {InjectionToken} from '@angular/core';
 import {RecursivePartial} from '@jscrpt/common';
 
-import {ContentRenderer, ContentRendererOptions, DataLoader, DataLoaderOptions, Grid, GridInitializer, GridInitializerOptions, GridOptions, MetadataGatherer, MetadataSelector, MetadataSelectorOptions, NoDataRenderer, NoDataRendererOptions, Ordering, OrderingOptions, Paging, PagingOptions, RowSelector, RowSelectorOptions, VisualPluginOptions} from '../interfaces';
+import {ContentRenderer, ContentRendererCurrentViewContainer, ContentRendererOptions, DataLoader, DataLoaderOptions, Grid, GridInitializer, GridInitializerOptions, GridOptions, MetadataGatherer, MetadataSelector, MetadataSelectorOptions, NoDataRenderer, NoDataRendererOptions, Ordering, OrderingOptions, Paging, PagingOptions, RowSelector, RowSelectorOptions, VisualPluginOptions} from '../interfaces';
 import {CellContextFactoryFn, DataCellContextFactoryFn, GridPluginInstances} from './types';
+
+/**
+ * Injection token used for sharing content renderers current view container
+ */
+export const CONTENT_RENDERER_CURRENT_VIEW_CONTAINER: InjectionToken<ContentRendererCurrentViewContainer> = new InjectionToken<ContentRendererCurrentViewContainer>('CONTENT_RENDERER_CURRENT_VIEW_CONTAINER');
 
 /**
  * Injection token used for injecting default options
