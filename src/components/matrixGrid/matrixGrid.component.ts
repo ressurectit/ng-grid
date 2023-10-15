@@ -9,7 +9,7 @@ import {PagingPosition} from '../../misc/enums';
 import {DEFAULT_OPTIONS, GRID_INSTANCE, GRID_PLUGIN_INSTANCES} from '../../misc/tokens';
 import {ResolveForwardRefSAPipe} from '../../pipes';
 import {Grid, GridContext, GridOptions, MatrixGridMetadata, MetadataGatherer} from '../../interfaces';
-import {GridContainerTemplateSADirective} from '../../directives';
+import {ContentContainerTemplateSADirective, GridContainerTemplateSADirective} from '../../directives';
 
 /**
  * Default 'GridOptions'
@@ -151,6 +151,12 @@ export class MatrixGridSAComponent extends GridSAComponent implements Grid, Meta
     @ContentChild(GridContainerTemplateSADirective, {read: TemplateRef})
     protected gridContainer: TemplateRef<GridContext>|undefined|null;
 
+    /**
+     * Content container template
+     */
+    @ContentChild(ContentContainerTemplateSADirective, {read: TemplateRef})
+    protected contentContainer: TemplateRef<GridContext>|undefined|null;
+
     //######################### public methods - implementation of AfterContentInit #########################
     
     /**
@@ -171,7 +177,7 @@ export class MatrixGridSAComponent extends GridSAComponent implements Grid, Meta
         return {
             columns: [],
             gridContainer: this.gridContainer,
-            headerContainer: null,
+            headerContainer: this.contentContainer,
             contentContainer: null,
             footerContainer: null,
             headerRowContainer: null,

@@ -85,7 +85,13 @@
       - `MetadataGatherer`
       - `AfterContentInit`
 - new `GridContainerSAComponent` component, that represents grid container
+   - TODO extends
+- new `ContentContainerSAComponent` component, that represents content container
+   - TODO extends
 - new `GridContainerTemplateSADirective` directive, that is used for obtaining template for grid content renderer container
+   - **properties**
+      - `template` obtained template by this directive
+- new `ContentContainerTemplateSADirective` directive, that is used for obtaining template for grid content renderer content (body) container
    - **properties**
       - `template` obtained template by this directive
 - new `CssClassesMatrixContentRenderer` interface, that are css classes for matrix content renderer

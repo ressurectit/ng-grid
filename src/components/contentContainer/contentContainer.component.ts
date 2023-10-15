@@ -4,16 +4,16 @@ import {ContentRendererCurrentViewContainer} from '../../interfaces';
 import {CONTENT_RENDERER_CURRENT_VIEW_CONTAINER} from '../../misc/tokens';
 
 /**
- * Component that represents grid container
+ * Component that represents content container
  */
 @Component(
 {
-    selector: '[gridContainer]',
-    templateUrl: 'gridContainer.component.html',
+    selector: '[contentContainer]',
+    templateUrl: 'contentContainer.component.html',
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GridContainerSAComponent implements OnInit
+export class ContentContainerSAComponent implements OnInit
 {
     //######################### protected fields #########################
 

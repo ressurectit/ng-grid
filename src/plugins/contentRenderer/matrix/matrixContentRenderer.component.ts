@@ -1,13 +1,15 @@
-import {Component, ChangeDetectionStrategy, inject, ElementRef, Inject, Optional, ValueProvider, TemplateRef, ViewChild, ViewContainerRef, OnDestroy, FactoryProvider} from '@angular/core';
+import {Component, ChangeDetectionStrategy, inject, ElementRef, Inject, Optional, ValueProvider, TemplateRef, ViewChild, ViewContainerRef, OnDestroy, FactoryProvider, Injector} from '@angular/core';
 import {RecursivePartial, extend} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
 import {MatrixContentRenderer, MatrixContentRendererOptions} from './matrixContentRenderer.interface';
-import {ContentRendererCurrentViewContainer, GridContext, GridPlugin, MatrixGridMetadata, MetadataSelector} from '../../../interfaces';
+import {ContentRendererCurrentViewContainer, DataLoader, DataResponse, Grid, GridContext, GridPlugin, MatrixGridMetadata, MetadataSelector} from '../../../interfaces';
 import {GridPluginInstances} from '../../../misc/types';
-import {CONTENT_RENDERER_CURRENT_VIEW_CONTAINER, CONTENT_RENDERER_OPTIONS, DEFAULT_OPTIONS, GRID_PLUGIN_INSTANCES} from '../../../misc/tokens';
+import {CONTENT_RENDERER_CURRENT_VIEW_CONTAINER, CONTENT_RENDERER_OPTIONS, DEFAULT_OPTIONS, GRID_INSTANCE, GRID_PLUGIN_INSTANCES} from '../../../misc/tokens';
 import {GridContainerSAComponent} from '../../../components/gridContainer/gridContainer.component';
 import {GridContainerTemplateSADirective} from '../../../directives/gridContainerTemplate/gridContainerTemplate.directive';
+import {ContentContainerSAComponent} from '../../../components/contentContainer/contentContainer.component';
+import {ContentContainerTemplateSADirective} from '../../../directives/contentContainerTemplate/contentContainerTemplate.directive';
 
 //TODO: first version will rerender whole content on changes of metadata, better checking should be implemented
 
@@ -33,8 +35,9 @@ const defaultOptions: MatrixContentRendererOptions =
     imports:
     [
         GridContainerSAComponent,
+        ContentContainerSAComponent,
         GridContainerTemplateSADirective,
-
+        ContentContainerTemplateSADirective,
     ],
     providers:
     [
@@ -46,7 +49,7 @@ const defaultOptions: MatrixContentRendererOptions =
         <FactoryProvider>
         {
             provide: CONTENT_RENDERER_CURRENT_VIEW_CONTAINER,
-            useFactory: () => 
+            useFactory: () =>
             {
                 return <ContentRendererCurrentViewContainer> {
                     viewContainer: undefined,
@@ -61,14 +64,42 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
     //######################### protected fields #########################
 
     /**
+     * Instance of class that is used for sharing current view container
+     */
+    protected sharedViewContainer: ContentRendererCurrentViewContainer = inject(CONTENT_RENDERER_CURRENT_VIEW_CONTAINER);
+
+    /**
      * Options for matrix content renderer
      */
     protected ɵoptions: MatrixContentRendererOptions;
 
     /**
+     * Instance of grid itself
+     */
+    protected grid: Grid = inject(GRID_INSTANCE);
+
+    /**
+     * Gets plugins instances safely
+     */
+    protected get gridPluginsSafe(): GridPluginInstances
+    {
+        if(!this.gridPlugins)
+        {
+            throw new Error('MatrixContentRendererSAComponent: missing gridPlugins!');
+        }
+
+        return this.gridPlugins;
+    }
+
+    /**
      * Metadata selector currently used
      */
     protected metadataSelector: MetadataSelector<MatrixGridMetadata>|undefined|null;
+
+    /**
+     * Data loader currently used
+     */
+    protected dataLoader: DataLoader<DataResponse>|undefined|null;
 
     /**
      * Subscription for metadata changes
@@ -108,6 +139,12 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
     protected defaultGridContainerTemplate!: TemplateRef<GridContext>;
 
     /**
+     * Default content container template
+     */
+    @ViewChild(ContentContainerTemplateSADirective, {static: true, read: TemplateRef})
+    protected defaultContentContainerTemplate!: TemplateRef<GridContext>;
+
+    /**
      * Default container used for rendering content
      */
     @ViewChild('container', {static: true, read: ViewContainerRef})
@@ -121,7 +158,7 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
     }
 
     //######################### public methods - implementation of OnDestroy #########################
-    
+
     /**
      * Called when component is destroyed
      */
@@ -138,12 +175,7 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
      */
     public initialize(force: boolean): void
     {
-        if(!this.gridPlugins)
-        {
-            throw new Error('MatrixContentRendererSAComponent: missing gridPlugins!');
-        }
-
-        const metadataSelector: MetadataSelector<MatrixGridMetadata> = this.gridPlugins.MetadataSelector as MetadataSelector<MatrixGridMetadata>;
+        const metadataSelector: MetadataSelector<MatrixGridMetadata> = this.gridPluginsSafe.MetadataSelector as MetadataSelector<MatrixGridMetadata>;
 
         //metadata selector obtained and its different instance
         if(force || (this.metadataSelector && this.metadataSelector != metadataSelector))
@@ -160,6 +192,20 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
             this.metadataSelector = metadataSelector;
 
             this.metadataChangeSubscription = this.metadataSelector.metadataChange.subscribe(() => this.renderGridContainer());
+        }
+
+        const dataLoader: DataLoader<DataResponse> = this.gridPluginsSafe.DataLoader as DataLoader<DataResponse>;
+
+        //data loader obtained and its different instance
+        if(force || (this.dataLoader && this.dataLoader != dataLoader))
+        {
+            this.dataLoader = null;
+        }
+
+        //no data loader obtained
+        if(!this.dataLoader)
+        {
+            this.dataLoader = dataLoader;
         }
 
         this.renderGridContainer();
@@ -186,7 +232,53 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
      */
     protected renderGridContainer(): void
     {
+        const getGridContext = () =>
+        {
+            return <GridContext>{
+                grid: this.grid,
+                plugins: this.gridPluginsSafe,
+                columns: this.metadataSelector?.metadata?.columns ?? [],
+                data: this.dataLoader?.result()?.data ?? [],
+            };
+        };
+
+        const createInjector = (injector: Injector) =>
+        {
+            return Injector.create(
+            {
+                providers:
+                [
+                    <FactoryProvider>
+                    {
+                        provide: CONTENT_RENDERER_CURRENT_VIEW_CONTAINER,
+                        useFactory: () => this.sharedViewContainer,
+                    }
+                ],
+                parent: injector,
+            });
+        };
+
         this.container.clear();
-        this.container.createEmbeddedView(this.metadataSelector?.metadata?.gridContainer ?? this.defaultGridContainerTemplate);
+        let view = this.container.createEmbeddedView(this.metadataSelector?.metadata?.gridContainer ?? this.defaultGridContainerTemplate, 
+                                                                                      getGridContext(),
+                                                                                      {
+                                                                                          injector: createInjector(this.container.injector),
+                                                                                      });
+
+        view.detectChanges();
+
+        //render content (body) element
+        if(this.sharedViewContainer.viewContainer)
+        {
+            this.sharedViewContainer.viewContainer.clear();
+            view = this.sharedViewContainer.viewContainer.createEmbeddedView(this.metadataSelector?.metadata?.contentContainer ?? this.defaultContentContainerTemplate,
+                                                                             getGridContext(),
+                                                                             {
+                                                                                 injector: createInjector(this.sharedViewContainer.viewContainer.injector),
+                                                                             });
+    
+            view.detectChanges();
+            this.sharedViewContainer.viewContainer = null;
+        }
     }
 }
