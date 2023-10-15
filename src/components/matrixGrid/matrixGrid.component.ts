@@ -1,14 +1,15 @@
-import {Component, ChangeDetectionStrategy, OnInit, forwardRef, FactoryProvider, ExistingProvider, ValueProvider} from '@angular/core';
+import {Component, ChangeDetectionStrategy, forwardRef, FactoryProvider, ExistingProvider, ValueProvider, TemplateRef, ContentChild, AfterContentInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CommonDynamicModule} from '@anglr/common';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
-import {Grid, GridOptions, MetadataGatherer, TableGridMetadata} from '../../interfaces';
-import {DEFAULT_OPTIONS, GRID_INSTANCE, GRID_PLUGIN_INSTANCES} from '../../misc/tokens';
-import {AsyncDataLoaderSAComponent, BasicPagingSAComponent, BasicRowSelectorSAComponent, NoGridInitializerSAComponent, NoMetadataSelectorSAComponent, SimpleNoDataRendererSAComponent, SingleOrderingSAComponent, TableContentRendererSAComponent} from '../../plugins';
-import {PagingPosition} from '../../misc/enums';
-import {ResolveForwardRefSAPipe} from '../../pipes';
 import {GridSAComponent} from '../grid/grid.component';
+import {AsyncDataLoaderSAComponent, BasicPagingSAComponent, BasicRowSelectorSAComponent, MatrixContentRendererSAComponent, NoGridInitializerSAComponent, NoMetadataSelectorSAComponent, SimpleNoDataRendererSAComponent, SingleOrderingSAComponent} from '../../plugins';
+import {PagingPosition} from '../../misc/enums';
+import {DEFAULT_OPTIONS, GRID_INSTANCE, GRID_PLUGIN_INSTANCES} from '../../misc/tokens';
+import {ResolveForwardRefSAPipe} from '../../pipes';
+import {Grid, GridOptions, MatrixGridMetadata, MetadataGatherer} from '../../interfaces';
+import {GridContainerTemplateSADirective} from '../../directives';
 
 /**
  * Default 'GridOptions'
@@ -21,7 +22,7 @@ const defaultOptions: GridOptions =
     {
         contentRenderer:
         {
-            type: forwardRef(() => TableContentRendererSAComponent),
+            type: forwardRef(() => MatrixContentRendererSAComponent),
             instance: null,
             instanceCallback: null,
             options: null,
@@ -113,12 +114,19 @@ const defaultOptions: GridOptions =
         },
     ]
 })
-export class MatrixGridSAComponent extends GridSAComponent implements OnInit, Grid, MetadataGatherer<TableGridMetadata>
+export class MatrixGridSAComponent extends GridSAComponent implements Grid, MetadataGatherer<MatrixGridMetadata>, AfterContentInit
 {
-    //######################### protected properties - children #########################
+    //######################### protected fields #########################
 
     /**
-     * Metadata gatherer instance
+     * Subject used for emitting changes in metadata
+     */
+    protected metadataChangeSubject: Subject<void> = new Subject<void>;
+
+    //######################### protected properties - overrides #########################
+
+    /**
+     * @inheritdoc
      */
     protected override get metadataGatherer(): MetadataGatherer|undefined|null
     {
@@ -130,17 +138,45 @@ export class MatrixGridSAComponent extends GridSAComponent implements OnInit, Gr
     /**
      * @inheritdoc
      */
-    public metadataChange: Observable<void> = new Observable();
+    public get metadataChange(): Observable<void>
+    {
+        return this.metadataChangeSubject.asObservable();
+    }
+
+    //######################### protected properties - children #########################
+
+    /**
+     * Grid container template
+     */
+    @ContentChild(GridContainerTemplateSADirective, {read: TemplateRef})
+    protected gridContainer: TemplateRef<unknown>|undefined|null;
+
+    //######################### public methods - implementation of AfterContentInit #########################
+    
+    /**
+     * Called when content was initialized
+     */
+    public ngAfterContentInit(): void
+    {
+        this.metadataChangeSubject.next();
+    }
 
     //######################### public methods - implementation of MetadataGatherer #########################
 
     /**
      * @inheritdoc
      */
-    public getMetadata(): TableGridMetadata
+    public getMetadata(): MatrixGridMetadata
     {
         return {
-            columns: []
+            columns: [],
+            gridContainer: this.gridContainer,
+            headerContainer: null,
+            contentContainer: null,
+            footerContainer: null,
+            headerRowContainer: null,
+            contentRowContainer: null,
+            footerRowContainer: null,
         };
     }
 }

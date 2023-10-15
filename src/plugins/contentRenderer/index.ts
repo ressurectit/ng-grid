@@ -10,3 +10,5 @@ export * from './bodyHeader/table/body/basic/tableBodyContentRenderer.component'
 export * from './bodyHeader/table/header/basic/tableHeaderContentRenderer.component';
 export * from './bodyHeader/table/tableContentRenderer.component';
 export * from './bodyHeader/table/tableContentRenderer.interface';
+export * from './matrix/matrixContentRenderer.component';
+export * from './matrix/matrixContentRenderer.interface';

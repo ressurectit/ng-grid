@@ -24,3 +24,4 @@ export * from './plugins';
 //TODO: maybe add ordering to permanent grid initializer
 //TODO: ordering handle metadata changes
 //TODO: make renderer for orderable.directive that will be configurable
+//TODO: add support for disable ordering of columns in metadata selector

@@ -38,40 +38,43 @@ export interface TableGridMetadata<TColumn extends GridColumn = GridColumn> exte
     columns: TColumn[];
 }
 
+/**
+ * Matrix grid metadata, contains templates for each rendered element
+ */
 export interface MatrixGridMetadata<TColumn extends GridColumn = GridColumn> extends TableGridMetadata<TColumn>
 {
     /**
      * Template for grid container
      */
-    gridContainer: TemplateRef<unknown>;
+    gridContainer: TemplateRef<unknown>|undefined|null;
 
     /**
      * Template for grid header
      */
-    headerContainer: TemplateRef<unknown>;
+    headerContainer: TemplateRef<unknown>|undefined|null;
 
     /**
      * Template for grid content (body)
      */
-    contentContainer: TemplateRef<unknown>;
+    contentContainer: TemplateRef<unknown>|undefined|null;
 
     /**
      * Template for grid footer
      */
-    footerContainer: TemplateRef<unknown>;
+    footerContainer: TemplateRef<unknown>|undefined|null;
 
     /**
      * Templates for header rows
      */
-    headerRowContainer: TemplateRef<unknown>[];
+    headerRowContainer: TemplateRef<unknown>[]|undefined|null;
 
     /**
      * Templates for content rows (each data row can be rendered as multiple rows)
      */
-    contentRowContainer: TemplateRef<unknown>[];
+    contentRowContainer: TemplateRef<unknown>[]|undefined|null;
 
     /**
      * Templates for footer rows
      */
-    footerRowContainer: TemplateRef<unknown>[];
+    footerRowContainer: TemplateRef<unknown>[]|undefined|null;
 }

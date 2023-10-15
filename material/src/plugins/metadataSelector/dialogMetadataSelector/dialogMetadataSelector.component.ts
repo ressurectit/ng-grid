@@ -174,19 +174,13 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
     /**
      * Called when component is destroyed
      */
-    public ngOnDestroy()
+    public ngOnDestroy(): void
     {
-        if(this._textsChangedSubscription)
-        {
-            this._textsChangedSubscription.unsubscribe();
-            this._textsChangedSubscription = null;
-        }
+        this._textsChangedSubscription?.unsubscribe();
+        this._textsChangedSubscription = null;
 
-        if(this._metadataChangedSubscription)
-        {
-            this._metadataChangedSubscription.unsubscribe();
-            this._metadataChangedSubscription = null;
-        }
+        this._metadataChangedSubscription?.unsubscribe();
+        this._metadataChangedSubscription = null;
     }
 
     //######################### public methods - implementation of DialogMetadataSelector #########################
@@ -210,7 +204,7 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
                 setMetadata: metadata =>
                 {
                     this._metadataForSelection.columns = [...metadata.columns];
-                    this._setMetadata();
+                    this.setMetadata();
                     this._saveToStorage();
 
                     this.metadataChange.next();
@@ -330,7 +324,7 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
     /**
      * Initialize metadata
      */
-    protected _initMetadata()
+    protected _initMetadata(): void
     {
         const storageState = this._loadFromStorage();
 
@@ -359,7 +353,7 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
                     .concat(this._allMetadata?.columns.filter(meta => !storageState[meta.id ?? 0])) as GridColumn[]
             };
 
-            this._setMetadata();
+            this.setMetadata();
         }
         else
         {
@@ -368,7 +362,7 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
                 columns: [...(this._allMetadata?.columns ?? [])]
             };
 
-            this._setMetadata();
+            this.setMetadata();
         }
     }
 
@@ -418,10 +412,11 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
     /**
      * Sets visible metadata from all metadata
      */
-    protected _setMetadata()
+    protected setMetadata(): void
     {
         this.metadata =
         {
+            ...this._allMetadata,
             columns: this._metadataForSelection.columns.filter(itm => itm.visible)
         };
     }

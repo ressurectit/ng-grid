@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 10.0.0 (2023-10-13)
+## Version 10.0.0 (2023-10-15)
 
 ### Features
 
@@ -80,9 +80,38 @@
 - new `MatrixGridSAComponent` component, that represents grid component used for rendering grid, configured with special content renderer and metadata gatherer
    - **extends** `GridSAComponent`
    - **implements**
-      - `OnInit`
       - `Grid`
       - `MetadataGatherer`
+      - `AfterContentInit`
+- new `GridContainerSAComponent` component, that represents grid container
+- new `GridContainerTemplateSADirective` directive, that is used for obtaining template for grid content renderer container
+   - **properties**
+      - `template` obtained template by this directive
+- new `CssClassesMatrixContentRenderer` interface, that are css classes for matrix content renderer
+   - **extends**
+      - `CssClassesContentRenderer`
+- new `MatrixContentRendererOptions` interface, that are matrix content renderer options
+   - **extends**
+      - `ContentRendererOptions`
+- new `MatrixContentRenderer` interface, that is public API for matrix content renderer
+   - **extends**
+      - `ContentRenderer`
+- new `MatrixGridMetadata` interface, that is matrix grid metadata, contains templates for each rendered element
+   - **extends**
+      - `TableGridMetadata`
+   - **properties**
+      - `gridContainer` template for grid container
+      - `headerContainer` template for grid header
+      - `contentContainer` template for grid content (body)
+      - `footerContainer` template for grid footer
+      - `headerRowContainer` templates for header rows
+      - `contentRowContainer` templates for content rows (each data row can be rendered as multiple rows)
+      - `footerRowContainer` templates for footer rows
+- new `MatrixContentRendererSAComponent` component, that is used for rendering content using new 'matrix' metadata gatherer
+   - **implements**
+      - `MatrixContentRenderer`
+      - `GridPlugin`
+      - `OnDestroy`
 - updated `TableGridColumnSAComponent` component
    - now supports also obtaining template using directives `TableGridBodyCellTemplateSADirective`, `TableGridHeaderCellTemplateSADirective`
 - updated `Grid` interface
