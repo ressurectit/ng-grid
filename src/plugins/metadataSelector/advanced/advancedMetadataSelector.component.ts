@@ -5,8 +5,7 @@ import {RecursivePartial, extend, isBlank} from '@jscrpt/common';
 import {Observable, Subject, Subscription} from 'rxjs';
 
 import {AdvancedGridColumn, AdvancedMetadataSelector, AdvancedMetadataSelectorOptions} from './advancedMetadataSelector.interface';
-import {TableGridMetadata} from '../../../components';
-import {GridPlugin, MetadataGatherer} from '../../../interfaces';
+import {GridPlugin, MetadataGatherer, TableGridMetadata} from '../../../interfaces';
 import {GRID_PLUGIN_INSTANCES, METADATA_SELECTOR_OPTIONS} from '../../../misc/tokens';
 import {GridPluginInstances} from '../../../misc/types';
 

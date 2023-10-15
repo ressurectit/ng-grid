@@ -1,9 +1,8 @@
 import {ExistingProvider, Component, ChangeDetectionStrategy, forwardRef, ContentChildren, QueryList, AfterContentInit} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 
-import {TableGridMetadata} from './tableGridMetadataGatherer.interface';
 import {TableGridColumnSAComponent} from '../tableGridColumn/tableGridColumn.component';
-import {TableGridColumn, MetadataGatherer} from '../../interfaces';
+import {TableGridColumn, MetadataGatherer, TableGridMetadata} from '../../interfaces';
 import {METADATA_GATHERER} from '../../misc/tokens';
 
 /**

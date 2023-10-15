@@ -66,6 +66,7 @@
 - new `CELL_CONTEXT_FN` injection token for obtaining cell context factory function
 - new `DATA_CELL_CONTEXT_FN` injection token for obtaining data cell context factory function
 - new `GRID_INSTANCE` injection token for obtaining grid instance inside grid plugins and nested types
+- new `DEFAULT_OPTIONS` injection token used for injecting default options
 - new `cellContextFactory` function, that creates context object for cell in grid
 - new `dataCellContextFactory` function, that creates context object for data cell in grid
 - new `CellContextSAPipe` pipe, that obtains cell context for template
@@ -76,6 +77,12 @@
    - **inputs**
       - `orderable` gets or sets indication whether is column orderable or not
       - `orderById` id of column which should be used for order by
+- new `MatrixGridSAComponent` component, that represents grid component used for rendering grid, configured with special content renderer and metadata gatherer
+   - **extends** `GridSAComponent`
+   - **implements**
+      - `OnInit`
+      - `Grid`
+      - `MetadataGatherer`
 - updated `TableGridColumnSAComponent` component
    - now supports also obtaining template using directives `TableGridBodyCellTemplateSADirective`, `TableGridHeaderCellTemplateSADirective`
 - updated `Grid` interface

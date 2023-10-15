@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Inject, Optional, Type, Input, OnInit, ContentChild, forwardRef, ChangeDetectorRef, FactoryProvider, ExistingProvider} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Inject, Optional, Type, Input, OnInit, ContentChild, forwardRef, ChangeDetectorRef, FactoryProvider, ExistingProvider, inject, ValueProvider} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CommonDynamicModule} from '@anglr/common';
 import {Func1, PromiseOr, RecursivePartial, extend} from '@jscrpt/common';
@@ -6,7 +6,7 @@ import {lastValueFrom} from '@jscrpt/common/rxjs';
 import {Observable, BehaviorSubject, map, combineLatest, distinctUntilChanged, Subject, take} from 'rxjs';
 
 import {ContentRenderer, DataLoader, Grid, GridInitializer, GridOptions, GridPlugin, MetadataGatherer, MetadataSelector, NoDataRenderer, Ordering, Paging, PluginDescription, RowSelector} from '../../interfaces';
-import {CONTENT_RENDERER_TYPE, DATA_LOADER_TYPE, GRID_INITIALIZER_TYPE, GRID_INSTANCE, GRID_OPTIONS, GRID_PLUGIN_INSTANCES, METADATA_GATHERER, METADATA_SELECTOR_TYPE, NO_DATA_RENDERER_TYPE, ORDERING_TYPE, PAGING_TYPE, ROW_SELECTOR_TYPE} from '../../misc/tokens';
+import {CONTENT_RENDERER_TYPE, DATA_LOADER_TYPE, DEFAULT_OPTIONS, GRID_INITIALIZER_TYPE, GRID_INSTANCE, GRID_OPTIONS, GRID_PLUGIN_INSTANCES, METADATA_GATHERER, METADATA_SELECTOR_TYPE, NO_DATA_RENDERER_TYPE, ORDERING_TYPE, PAGING_TYPE, ROW_SELECTOR_TYPE} from '../../misc/tokens';
 import {AsyncDataLoaderSAComponent, BasicPagingSAComponent, BasicRowSelectorSAComponent, NoGridInitializerSAComponent, NoMetadataSelectorSAComponent, SimpleNoDataRendererSAComponent, SingleOrderingSAComponent, TableContentRendererSAComponent} from '../../plugins';
 import {GridAction, GridFunction, GridPluginInstances} from '../../misc/types';
 import {GridPluginType, PagingPosition} from '../../misc/enums';
@@ -108,12 +108,35 @@ const defaultOptions: GridOptions =
         {
             provide: GRID_PLUGIN_INSTANCES,
             useFactory: () => {return {};}
-        }
+        },
+        <ValueProvider>
+        {
+            provide: DEFAULT_OPTIONS,
+            useValue: defaultOptions,
+        },
     ]
 })
 export class GridSAComponent implements OnInit, Grid
 {
     //######################### protected fields #########################
+
+    /**
+     * Instance of change detector
+     */
+    protected changeDetector: ChangeDetectorRef = inject(ChangeDetectorRef);
+
+    /**
+     * Grid plugin instances available for grid
+     */
+    protected pluginInstances: GridPluginInstances = inject(GRID_PLUGIN_INSTANCES);
+
+    /**
+     * Metadata gatherer instance
+     */
+    protected get metadataGatherer(): MetadataGatherer|undefined|null
+    {
+        return this.metadataGathererChild;
+    }
 
     /**
      * Grid options
@@ -193,12 +216,10 @@ export class GridSAComponent implements OnInit, Grid
      * Metadata gatherer instance
      */
     @ContentChild(METADATA_GATHERER)
-    protected metadataGatherer: MetadataGatherer|undefined|null;
+    protected metadataGathererChild: MetadataGatherer|undefined|null;
 
     //######################### constructors #########################
-    constructor(protected changeDetector: ChangeDetectorRef,
-                @Inject(GRID_PLUGIN_INSTANCES) protected pluginInstances: GridPluginInstances,
-                @Inject(GRID_OPTIONS) @Optional() options?: RecursivePartial<GridOptions>,
+    constructor(@Inject(GRID_OPTIONS) @Optional() options?: RecursivePartial<GridOptions>,
                 @Inject(PAGING_TYPE) @Optional() pagingType?: Type<Paging>,
                 @Inject(ORDERING_TYPE) @Optional() orderingType?: Type<Ordering>,
                 @Inject(GRID_INITIALIZER_TYPE) @Optional() gridInitializerType?: Type<GridInitializer>,
@@ -271,7 +292,7 @@ export class GridSAComponent implements OnInit, Grid
             opts.plugins.rowSelector.type = rowSelectorType;
         }
 
-        this.ɵgridOptions = extend(true, {}, defaultOptions, opts);
+        this.ɵgridOptions = extend(true, {}, inject<GridOptions>(DEFAULT_OPTIONS), opts);
     }
 
     //######################### public methods - implementation of OnInit #########################

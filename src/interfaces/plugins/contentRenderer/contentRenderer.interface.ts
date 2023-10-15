@@ -6,7 +6,6 @@ import {VisualPluginOptions} from '../../visualPluginOptions/visualPluginOptions
  */
 export interface CssClassesContentRenderer
 {
-    containerDiv: string;
 }
 
 /**
@@ -19,6 +18,6 @@ export interface ContentRendererOptions<TCssClasses extends CssClassesContentRen
 /**
  * Renderer used for rendering (data) content
  */
-export interface ContentRenderer extends GridPlugin
+export interface ContentRenderer<TOptions extends ContentRendererOptions = ContentRendererOptions> extends GridPlugin<TOptions>
 {
 }

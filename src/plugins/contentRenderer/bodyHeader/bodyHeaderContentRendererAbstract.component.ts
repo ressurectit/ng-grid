@@ -3,8 +3,8 @@ import {toObservable} from '@angular/core/rxjs-interop';
 import {RecursivePartial, extend} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
-import {ContentRenderer, CssClassesContentRenderer, DataLoader, DataResponse, GridMetadata, GridPlugin, MetadataSelector} from '../../../interfaces';
-import {BodyContentRenderer, HeaderBodyContentRendererOptions, HeaderContentRenderer} from './bodyHeaderContentRenderer.interface';
+import {ContentRenderer, DataLoader, DataResponse, GridMetadata, GridPlugin, MetadataSelector} from '../../../interfaces';
+import {BodyContentRenderer, CssClassesHeaderBodyContentRenderer, HeaderBodyContentRendererOptions, HeaderContentRenderer} from './bodyHeaderContentRenderer.interface';
 import {GridPluginInstances} from '../../../misc/types';
 import {GridPluginType} from '../../../misc/enums';
 
@@ -12,7 +12,7 @@ import {GridPluginType} from '../../../misc/enums';
  * Abstract component for content renderers
  */
 @Directive()
-export abstract class BodyHeaderContentRendererAbstractComponent<TData = unknown, TMetadata extends GridMetadata = GridMetadata, TOptions extends HeaderBodyContentRendererOptions<CssClassesContentRenderer> = HeaderBodyContentRendererOptions<CssClassesContentRenderer>> implements ContentRenderer, OnDestroy, GridPlugin<TOptions>
+export abstract class BodyHeaderContentRendererAbstractComponent<TData = unknown, TMetadata extends GridMetadata = GridMetadata, TOptions extends HeaderBodyContentRendererOptions<CssClassesHeaderBodyContentRenderer> = HeaderBodyContentRendererOptions<CssClassesHeaderBodyContentRenderer>> implements ContentRenderer, OnDestroy, GridPlugin<TOptions>
 {
     //######################### protected fields #########################
 

@@ -4,8 +4,7 @@ import {MergeCssClassesSAPipe} from '@anglr/common';
 
 import {CssDivsBodyContentRendererOptions, CssClassesCssDivsBodyContentRenderer} from '../cssDivsContentRenderer.interface';
 import {BodyContentRendererAbstractComponent} from '../../bodyContentRendererAbstract.component';
-import {TableGridMetadata} from '../../../../../components/tableGridMetadataGatherer/tableGridMetadataGatherer.interface';
-import {TableGridColumn} from '../../../../../interfaces';
+import {TableGridColumn, TableGridMetadata} from '../../../../../interfaces';
 import {BODY_CONTENT_RENDERER_OPTIONS, GRID_PLUGIN_INSTANCES} from '../../../../../misc/tokens';
 import {GridPluginInstances} from '../../../../../misc/types';
 import {DataCellContextSAPipe, ReadValueSAPipe} from '../../../../../pipes';

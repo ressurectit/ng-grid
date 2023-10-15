@@ -1,10 +1,10 @@
-import {ContentRenderer, CssClassesContentRenderer} from '../../../../interfaces';
-import {HeaderBodyContentRendererOptions, BodyContentRendererOptions, BodyContentRenderer, CssClassesHeaderContentRenderer, HeaderContentRendererOptions, HeaderContentRenderer} from '../bodyHeaderContentRenderer.interface';
+import {ContentRenderer} from '../../../../interfaces';
+import {HeaderBodyContentRendererOptions, BodyContentRendererOptions, BodyContentRenderer, CssClassesHeaderContentRenderer, HeaderContentRendererOptions, HeaderContentRenderer, CssClassesHeaderBodyContentRenderer} from '../bodyHeaderContentRenderer.interface';
 
 /**
  * Css classes for css grid content renderer
  */
-export interface CssClassesCssDivsContentRenderer extends CssClassesContentRenderer
+export interface CssClassesCssDivsContentRenderer extends CssClassesHeaderBodyContentRenderer
 {
 }
 

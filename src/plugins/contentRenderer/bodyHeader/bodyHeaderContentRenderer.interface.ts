@@ -1,4 +1,4 @@
-import {CssClassesContentRenderer, GridPlugin, PluginDescription, VisualPluginOptions} from '../../../interfaces';
+import {ContentRendererOptions, CssClassesContentRenderer, GridPlugin, PluginDescription, VisualPluginOptions} from '../../../interfaces';
 
 /**
  * Definition of plugins for ContentRenderer
@@ -17,9 +17,17 @@ export interface ContentRendererPlugins
 }
 
 /**
+ * Css classes for header body content renderer
+ */
+export interface CssClassesHeaderBodyContentRenderer extends CssClassesContentRenderer
+{
+    containerDiv: string;
+}
+
+/**
  * Options for content renderer
  */
-export interface HeaderBodyContentRendererOptions<TCssClasses extends CssClassesContentRenderer = CssClassesContentRenderer> extends VisualPluginOptions<TCssClasses>
+export interface HeaderBodyContentRendererOptions<TCssClasses extends CssClassesHeaderBodyContentRenderer = CssClassesHeaderBodyContentRenderer> extends ContentRendererOptions<TCssClasses>
 {
     /**
      * Object containing plugins for TableContentRenderer

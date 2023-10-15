@@ -5,6 +5,11 @@ import {ContentRenderer, ContentRendererOptions, DataLoader, DataLoaderOptions, 
 import {CellContextFactoryFn, DataCellContextFactoryFn, GridPluginInstances} from './types';
 
 /**
+ * Injection token used for injecting default options
+ */
+export const DEFAULT_OPTIONS: InjectionToken<unknown> = new InjectionToken<unknown>('DEFAULT_OPTIONS');
+
+/**
  * Injection token for obtaining grid instance inside grid plugins and nested types
  */
 export const GRID_INSTANCE: InjectionToken<Grid> = new InjectionToken<Grid>('GRID_INSTANCE');

@@ -1,10 +1,10 @@
-import {ContentRenderer, CssClassesContentRenderer} from '../../../../interfaces';
-import {HeaderContentRenderer, BodyContentRenderer, BodyContentRendererOptions, HeaderBodyContentRendererOptions, CssClassesHeaderContentRenderer, HeaderContentRendererOptions} from '../bodyHeaderContentRenderer.interface';
+import {ContentRenderer} from '../../../../interfaces';
+import {HeaderContentRenderer, BodyContentRenderer, BodyContentRendererOptions, HeaderBodyContentRendererOptions, CssClassesHeaderContentRenderer, HeaderContentRendererOptions, CssClassesHeaderBodyContentRenderer} from '../bodyHeaderContentRenderer.interface';
 
 /**
  * Css classes for table content renderer
  */
-export interface CssClassesTableContentRenderer extends CssClassesContentRenderer
+export interface CssClassesTableContentRenderer extends CssClassesHeaderBodyContentRenderer
 {
     table: string;
 }
