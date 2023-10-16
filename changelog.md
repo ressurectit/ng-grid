@@ -99,6 +99,15 @@
 - new `FooterContainerSAComponent` component, that represents footer container
    - **extends** `RenderableContentComponent`
    - **implements** `OnInit`
+- new `HeaderRowContainerSAComponent` component, that represents header row container
+   - **extends** `RenderableContentComponent`
+   - **implements** `OnInit`
+- new `ContentRowContainerSAComponent` component, that represents content row container
+   - **extends** `RenderableContentComponent`
+   - **implements** `OnInit`
+- new `FooterRowContainerSAComponent` component, that represents footer row container
+   - **extends** `RenderableContentComponent`
+   - **implements** `OnInit`
 - new `GridContainerTemplateSADirective` directive, that is used for obtaining template for grid content renderer container
    - **properties**
       - `template` obtained template by this directive
@@ -109,6 +118,15 @@
    - **properties**
       - `template` obtained template by this directive
 - new `FooterContainerTemplateSADirective` directive, that is used for obtaining template for grid content renderer footer container
+   - **properties**
+      - `template` obtained template by this directive
+- new `HeaderRowContainerTemplateSADirective` directive, that is used for obtaining template for grid content renderer header row container
+   - **properties**
+      - `template` obtained template by this directive
+- new `ContentRowContainerTemplateSADirective` directive, that is used for obtaining template for grid content renderer content (body) row container
+   - **properties**
+      - `template` obtained template by this directive
+- new `FooterRowContainerTemplateSADirective` directive, that is used for obtaining template for grid content renderer footer row container
    - **properties**
       - `template` obtained template by this directive
 - new `CssClassesMatrixContentRenderer` interface, that are css classes for matrix content renderer

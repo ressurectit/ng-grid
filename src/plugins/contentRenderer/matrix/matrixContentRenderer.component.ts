@@ -327,7 +327,7 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
                                                                                           injector: this.createInjector(viewContainer.injector),
                                                                                       });
     
-        this.innerStructure.contentContainer.view?.detectChanges();
+        this.innerStructure.headerContainer.view?.detectChanges();
     }
 
     /**
@@ -353,13 +353,13 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
     {
         const viewContainer = this.innerStructure.gridContainer.renderableContent?.viewContainer;
 
-        this.innerStructure.contentContainer.view = viewContainer?.createEmbeddedView(this.metadataSelector?.metadata?.contentContainer?.template ?? this.defaultsSafe.footerContainer,
+        this.innerStructure.footerContainer.view = viewContainer?.createEmbeddedView(this.metadataSelector?.metadata?.contentContainer?.template ?? this.defaultsSafe.footerContainer,
                                                                                       this.getGridContext(),
                                                                                       {
                                                                                           injector: this.createInjector(viewContainer.injector),
                                                                                       });
     
-        this.innerStructure.contentContainer.view?.detectChanges();
+        this.innerStructure.footerContainer.view?.detectChanges();
     }
 
     /**

@@ -1,13 +1,13 @@
-import {TemplateRef} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {GridColumn} from '../gridColumn';
-import {GridRowContext} from '../gridRowContext/gridRowContext.interface';
-import {GridDataRowContext} from '../gridDataRowContext/gridDataRowContext.interface';
 import type {GridContainerTemplateSADirective} from '../../directives/gridContainerTemplate/gridContainerTemplate.directive';
 import type {ContentContainerTemplateSADirective} from '../../directives/contentContainerTemplate/contentContainerTemplate.directive';
 import type {HeaderContainerTemplateSADirective} from '../../directives/headerContainerTemplate/headerContainerTemplate.directive';
 import type {FooterContainerTemplateSADirective} from '../../directives/footerContainerTemplate/footerContainerTemplate.directive';
+import type {HeaderRowContainerTemplateSADirective} from '../../directives/headerRowContainerTemplate/headerRowContainerTemplate.directive';
+import type {ContentRowContainerTemplateSADirective} from '../../directives/contentRowContainerTemplate/contentRowContainerTemplate.directive';
+import type {FooterRowContainerTemplateSADirective} from '../../directives/footerRowContainerTemplate/footerRowContainerTemplate.directive';
 
 /**
  * Base grid metadata interface
@@ -72,15 +72,15 @@ export interface MatrixGridMetadata<TColumn extends GridColumn = GridColumn> ext
     /**
      * Templates for header rows, with metadata
      */
-    headerRowContainer: TemplateRef<GridRowContext>[]|undefined|null;
+    headerRowContainer: HeaderRowContainerTemplateSADirective[]|undefined|null;
 
     /**
      * Templates for content rows (each data row can be rendered as multiple rows), with metadata
      */
-    contentRowContainer: TemplateRef<GridDataRowContext>[]|undefined|null;
+    contentRowContainer: ContentRowContainerTemplateSADirective[]|undefined|null;
 
     /**
      * Templates for footer rows, with metadata
      */
-    footerRowContainer: TemplateRef<GridRowContext>[]|undefined|null;
+    footerRowContainer: FooterRowContainerTemplateSADirective[]|undefined|null;
 }

@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, forwardRef, FactoryProvider, ExistingProvider, ValueProvider, ContentChild, AfterContentInit} from '@angular/core';
+import {Component, ChangeDetectionStrategy, forwardRef, FactoryProvider, ExistingProvider, ValueProvider, ContentChild, AfterContentInit, ContentChildren, QueryList} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CommonDynamicModule} from '@anglr/common';
 import {Observable, Subject} from 'rxjs';
@@ -9,7 +9,7 @@ import {PagingPosition} from '../../misc/enums';
 import {DEFAULT_OPTIONS, GRID_INSTANCE, GRID_PLUGIN_INSTANCES} from '../../misc/tokens';
 import {ResolveForwardRefSAPipe} from '../../pipes';
 import {Grid, GridOptions, MatrixGridMetadata, MetadataGatherer} from '../../interfaces';
-import {ContentContainerTemplateSADirective, GridContainerTemplateSADirective} from '../../directives';
+import {ContentContainerTemplateSADirective, ContentRowContainerTemplateSADirective, FooterContainerTemplateSADirective, FooterRowContainerTemplateSADirective, GridContainerTemplateSADirective, HeaderContainerTemplateSADirective, HeaderRowContainerTemplateSADirective} from '../../directives';
 
 /**
  * Default 'GridOptions'
@@ -152,10 +152,41 @@ export class MatrixGridSAComponent extends GridSAComponent implements Grid, Meta
     protected gridContainer: GridContainerTemplateSADirective|undefined|null;
 
     /**
+     * Header container template
+     */
+    @ContentChild(HeaderContainerTemplateSADirective)
+    protected headerContainer: HeaderContainerTemplateSADirective|undefined|null;
+
+    /**
      * Content container template
      */
     @ContentChild(ContentContainerTemplateSADirective)
     protected contentContainer: ContentContainerTemplateSADirective|undefined|null;
+
+    /**
+     * Footer container template
+     */
+    @ContentChild(FooterContainerTemplateSADirective)
+    protected footerContainer: FooterContainerTemplateSADirective|undefined|null;
+
+    /**
+     * Header container template
+     */
+    @ContentChildren(HeaderRowContainerTemplateSADirective, {emitDistinctChangesOnly: true})
+    protected headerRowContainer: QueryList<HeaderRowContainerTemplateSADirective>|undefined|null;
+
+    /**
+     * Content container template
+     */
+    @ContentChildren(ContentRowContainerTemplateSADirective, {emitDistinctChangesOnly: true})
+    protected contentRowContainer: QueryList<ContentRowContainerTemplateSADirective>|undefined|null;
+
+    /**
+     * Footer container template
+     */
+    @ContentChildren(FooterRowContainerTemplateSADirective, {emitDistinctChangesOnly: true})
+    protected footerRowContainer: QueryList<FooterRowContainerTemplateSADirective>|undefined|null;
+
 
     //######################### public methods - implementation of AfterContentInit #########################
     
@@ -177,12 +208,12 @@ export class MatrixGridSAComponent extends GridSAComponent implements Grid, Meta
         return {
             columns: [],
             gridContainer: this.gridContainer,
-            headerContainer: null,
+            headerContainer: this.headerContainer,
             contentContainer: this.contentContainer,
-            footerContainer: null,
-            headerRowContainer: null,
-            contentRowContainer: null,
-            footerRowContainer: null,
+            footerContainer: this.footerContainer,
+            headerRowContainer: this.headerRowContainer?.toArray() ?? [],
+            contentRowContainer: this.contentRowContainer?.toArray() ?? [],
+            footerRowContainer: this.footerRowContainer?.toArray() ?? [],
         };
     }
 }
