@@ -1,4 +1,5 @@
 import {Directive, TemplateRef, inject} from '@angular/core';
+import {Func1} from '@jscrpt/common';
 
 import {GridRowContext} from '../../interfaces';
 
@@ -18,6 +19,11 @@ export class FooterRowContainerTemplateSADirective
      * Obtained template by this directive
      */
     public template: TemplateRef<GridRowContext> = inject(TemplateRef<GridRowContext>);
+
+    /**
+     * Predicate which controls rendering of row template, if not specified row is rendered
+     */
+    public predicate: Func1<boolean, GridRowContext>|undefined|null;
 
     //######################### ng language server #########################
     

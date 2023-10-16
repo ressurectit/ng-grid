@@ -6,6 +6,9 @@ import {GridContainerTemplateSADirective} from '../../../../../../directives/gri
 import {ContentContainerTemplateSADirective} from '../../../../../../directives/contentContainerTemplate/contentContainerTemplate.directive';
 import {HeaderContainerTemplateSADirective} from '../../../../../../directives/headerContainerTemplate/headerContainerTemplate.directive';
 import {FooterContainerTemplateSADirective} from '../../../../../../directives/footerContainerTemplate/footerContainerTemplate.directive';
+import {HeaderRowContainerTemplateSADirective} from '../../../../../../directives/headerRowContainerTemplate/headerRowContainerTemplate.directive';
+import {ContentRowContainerTemplateSADirective} from '../../../../../../directives/contentRowContainerTemplate/contentRowContainerTemplate.directive';
+import {FooterRowContainerTemplateSADirective} from '../../../../../../directives/footerRowContainerTemplate/footerRowContainerTemplate.directive';
 
 /**
  * Base component that stores default templates for content renderig
@@ -42,15 +45,18 @@ export abstract class BaseDefaultTemplatesSAComponent implements MatrixContentRe
     /**
      * @inheritdoc
      */
-    public headerRowContainer!: TemplateRef<GridRowContext>[];
+    @ViewChild(HeaderRowContainerTemplateSADirective, {static: true, read: TemplateRef})
+    public headerRowContainer!: TemplateRef<GridRowContext>;
 
     /**
      * @inheritdoc
      */
-    public contentRowContainer!: TemplateRef<GridDataRowContext>[];
+    @ViewChild(ContentRowContainerTemplateSADirective, {static: true, read: TemplateRef})
+    public contentRowContainer!: TemplateRef<GridDataRowContext>;
 
     /**
      * @inheritdoc
      */
-    public footerRowContainer!: TemplateRef<GridRowContext>[];
+    @ViewChild(FooterRowContainerTemplateSADirective, {static: true, read: TemplateRef})
+    public footerRowContainer!: TemplateRef<GridRowContext>;
 }

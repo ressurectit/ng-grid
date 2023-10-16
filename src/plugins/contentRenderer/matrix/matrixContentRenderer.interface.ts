@@ -89,15 +89,15 @@ export interface MatrixContentRendererDefautTemplates
     /**
      * Default templates for header rows
      */
-    headerRowContainer: TemplateRef<GridRowContext>[];
+    headerRowContainer: TemplateRef<GridRowContext>;
 
     /**
      * Default templates for content rows (each data row can be rendered as multiple rows)
      */
-    contentRowContainer: TemplateRef<GridDataRowContext>[];
+    contentRowContainer: TemplateRef<GridDataRowContext>;
 
     /**
      * Default templates for footer rows
      */
-    footerRowContainer: TemplateRef<GridRowContext>[];
+    footerRowContainer: TemplateRef<GridRowContext>;
 }

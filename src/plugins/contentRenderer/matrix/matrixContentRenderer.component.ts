@@ -3,7 +3,7 @@ import {RecursivePartial, extend} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
 import {MatrixContentRenderer, MatrixContentRendererDefautTemplates, MatrixContentRendererOptions} from './matrixContentRenderer.interface';
-import {ContentRendererInnerStructure, DataLoader, DataResponse, Grid, GridContext, GridDataRowContext, GridPlugin, GridRowContext, MatrixGridMetadata, MetadataSelector} from '../../../interfaces';
+import {ContentRendererInnerStructure, DataLoader, DataResponse, Grid, GridContext, GridDataRowContext, GridPlugin, GridRowContext, MatrixGridMetadata, MetadataSelector, Paging, RowSelector} from '../../../interfaces';
 import {GridPluginInstances} from '../../../misc/types';
 import {CONTENT_RENDERER_INNER_STRUCTURE, CONTENT_RENDERER_OPTIONS, DEFAULT_OPTIONS, GRID_INSTANCE, GRID_PLUGIN_INSTANCES} from '../../../misc/tokens';
 import {CssGridDefaultTemplatesSAComponent} from './misc/components';
@@ -125,6 +125,16 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
      * Data loader currently used
      */
     protected dataLoader: DataLoader<DataResponse>|undefined|null;
+
+    /**
+     * Paging currently used
+     */
+    protected paging: Paging|undefined|null;
+
+    /**
+     * Row selector currently used
+     */
+    protected rowSelector: RowSelector|undefined|null;
 
     /**
      * Subscription for metadata changes
@@ -261,6 +271,34 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
             this.dataLoader = dataLoader;
         }
 
+        const paging: Paging = this.gridPluginsSafe.Paging as Paging;
+
+        //paging obtained and its different instance
+        if(force || (this.paging && this.paging != paging))
+        {
+            this.paging = null;
+        }
+
+        //no paging obtained
+        if(!this.paging)
+        {
+            this.paging = paging;
+        }
+
+        const rowSelector: RowSelector = this.gridPluginsSafe.RowSelector as RowSelector;
+
+        //row selector obtained and its different instance
+        if(force || (this.rowSelector && this.rowSelector != rowSelector))
+        {
+            this.rowSelector = null;
+        }
+
+        //no row selector obtained
+        if(!this.rowSelector)
+        {
+            this.rowSelector = rowSelector;
+        }
+
         this.renderGridContainer();
     }
 
@@ -328,6 +366,13 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
                                                                                       });
     
         this.innerStructure.headerContainer.view?.detectChanges();
+
+        //header container is renderable
+        if(this.innerStructure.headerContainer.renderableContent)
+        {
+            //render header rows
+            this.renderHeaderRowsContainers();
+        }
     }
 
     /**
@@ -367,6 +412,26 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
      */
     protected renderHeaderRowsContainers(): void
     {
+        const viewContainer = this.innerStructure.headerContainer.renderableContent?.viewContainer;
+
+        //removing renderable content
+        viewContainer?.clear();
+
+        this.innerStructure.headerRowContainer = [];
+        let index = 0;
+
+        for(const headerRow of this.metadataSelector?.metadata?.headerRowContainer ?? [{template: this.defaultsSafe.headerRowContainer}])
+        {
+            this.innerStructure.headerRowContainer[index].view = viewContainer?.createEmbeddedView(headerRow.template,
+                                                                                                     this.getGridRowContext(index),
+                                                                                                     {
+                                                                                                         injector: this.createInjector(viewContainer.injector),
+                                                                                                     });
+        
+
+            index++;
+            this.innerStructure.headerContainer.view?.detectChanges();
+        }
     }
 
     /**
@@ -437,13 +502,22 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
      */
     protected getGridDataRowContext(index: number, datum: unknown): GridDataRowContext
     {
+        const rowSelector = this.rowSelector;
+
+        if(!this.paging)
+        {
+            throw new Error('MatrixContentRendererSAComponent: missing paging plugin');
+        }
+
         return <GridDataRowContext>{
-            ...this.getGridContext(),
-            index,
+            ...this.getGridRowContext(index),
             datum,
-            isSelected: true,
-            rowIndex: 0,
-            startingIndex: 0,
+            rowIndex: this.paging.firstItemIndex + index,
+            startingIndex: this.paging.firstItemIndex,
+            get isSelected(): boolean
+            {
+                return rowSelector?.isSelected(datum) ?? false;
+            },    
 
         };
     }

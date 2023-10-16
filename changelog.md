@@ -123,10 +123,25 @@
 - new `HeaderRowContainerTemplateSADirective` directive, that is used for obtaining template for grid content renderer header row container
    - **properties**
       - `template` obtained template by this directive
+      - `predicate` predicate which controls rendering of row template, if not specified row is rendered
 - new `ContentRowContainerTemplateSADirective` directive, that is used for obtaining template for grid content renderer content (body) row container
    - **properties**
       - `template` obtained template by this directive
+      - `predicate` predicate which controls rendering of row template, if not specified row is rendered
 - new `FooterRowContainerTemplateSADirective` directive, that is used for obtaining template for grid content renderer footer row container
+   - **properties**
+      - `template` obtained template by this directive
+      - `predicate` predicate which controls rendering of row template, if not specified row is rendered
+- new `MatrixGridColumnSADirective` directive, that is used for gathering information about matrix grid column
+   - **implements**
+      `MatrixGridColumn`
+- new `HeaderCellTemplateSADirective` directive, that is used for obtaining template for header cell
+   - **properties**
+      - `template` obtained template by this directive
+- new `ContentCellTemplateSADirective` directive, that is used for obtaining template for content cell
+   - **properties**
+      - `template` obtained template by this directive
+- new `FooterCellTemplateSADirective` directive, that is used for obtaining template for footer cell
    - **properties**
       - `template` obtained template by this directive
 - new `CssClassesMatrixContentRenderer` interface, that are css classes for matrix content renderer
@@ -241,6 +256,7 @@
    - **extends** `BaseDefaultTemplatesSAComponent`
    - **implements**
       - `MatrixContentRendererDefautTemplates`
+- new `MatrixGridModule` module for matrix grid components and directives
 - updated `TableGridColumnSAComponent` component
    - now supports also obtaining template using directives `TableGridBodyCellTemplateSADirective`, `TableGridHeaderCellTemplateSADirective`
 - updated `Grid` interface
