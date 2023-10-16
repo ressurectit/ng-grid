@@ -1,4 +1,4 @@
-import {TemplateRef} from '@angular/core';
+import {TemplateRef, Type} from '@angular/core';
 
 import {ContentRenderer, ContentRendererOptions, CssClassesContentRenderer, GridContext, GridDataRowContext, GridRowContext} from '../../../interfaces';
 
@@ -48,6 +48,10 @@ export interface CssClassesMatrixContentRenderer extends CssClassesContentRender
  */
 export interface MatrixContentRendererOptions extends ContentRendererOptions<CssClassesMatrixContentRenderer>
 {
+    /**
+     * Type used for creating component containing default templates
+     */
+    defaults: Type<MatrixContentRendererDefautTemplates>;
 }
 
 /**

@@ -2,11 +2,12 @@ import {TemplateRef} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {GridColumn} from '../gridColumn';
-import {GridContext} from '../gridContext/gridContext.interface';
 import {GridRowContext} from '../gridRowContext/gridRowContext.interface';
 import {GridDataRowContext} from '../gridDataRowContext/gridDataRowContext.interface';
 import type {GridContainerTemplateSADirective} from '../../directives/gridContainerTemplate/gridContainerTemplate.directive';
 import type {ContentContainerTemplateSADirective} from '../../directives/contentContainerTemplate/contentContainerTemplate.directive';
+import type {HeaderContainerTemplateSADirective} from '../../directives/headerContainerTemplate/headerContainerTemplate.directive';
+import type {FooterContainerTemplateSADirective} from '../../directives/footerContainerTemplate/footerContainerTemplate.directive';
 
 /**
  * Base grid metadata interface
@@ -56,7 +57,7 @@ export interface MatrixGridMetadata<TColumn extends GridColumn = GridColumn> ext
     /**
      * Template for grid header, with metadata
      */
-    headerContainer: TemplateRef<GridContext>|undefined|null;
+    headerContainer: HeaderContainerTemplateSADirective|undefined|null;
 
     /**
      * Template for grid content (body), with metadata
@@ -66,7 +67,7 @@ export interface MatrixGridMetadata<TColumn extends GridColumn = GridColumn> ext
     /**
      * Template for grid footer, with metadata
      */
-    footerContainer: TemplateRef<GridContext>|undefined|null;
+    footerContainer: FooterContainerTemplateSADirective|undefined|null;
 
     /**
      * Templates for header rows, with metadata

@@ -90,13 +90,25 @@
 - new `GridContainerSAComponent` component, that represents grid container
    - **extends** `RenderableContentComponent`
    - **implements** `OnInit`
+- new `HeaderContainerSAComponent` component, that represents header container
+   - **extends** `RenderableContentComponent`
+   - **implements** `OnInit`
 - new `ContentContainerSAComponent` component, that represents content container
+   - **extends** `RenderableContentComponent`
+   - **implements** `OnInit`
+- new `FooterContainerSAComponent` component, that represents footer container
    - **extends** `RenderableContentComponent`
    - **implements** `OnInit`
 - new `GridContainerTemplateSADirective` directive, that is used for obtaining template for grid content renderer container
    - **properties**
       - `template` obtained template by this directive
+- new `HeaderContainerTemplateSADirective` directive, that is used for obtaining template for grid content renderer header container
+   - **properties**
+      - `template` obtained template by this directive
 - new `ContentContainerTemplateSADirective` directive, that is used for obtaining template for grid content renderer content (body) container
+   - **properties**
+      - `template` obtained template by this directive
+- new `FooterContainerTemplateSADirective` directive, that is used for obtaining template for grid content renderer footer container
    - **properties**
       - `template` obtained template by this directive
 - new `CssClassesMatrixContentRenderer` interface, that are css classes for matrix content renderer
@@ -113,6 +125,8 @@
 - new `MatrixContentRendererOptions` interface, that are matrix content renderer options
    - **extends**
       - `ContentRendererOptions`
+   - **properties**
+      - `defaults` type used for creating component containing default templates
 - new `MatrixContentRenderer` interface, that is public API for matrix content renderer
    - **extends**
       - `ContentRenderer`
@@ -132,6 +146,7 @@
       - `MatrixContentRenderer`
       - `GridPlugin`
       - `OnDestroy`
+      - `OnInit`
 - new `ContentRendererInnerStructure` interface, that is object used for sharing content renderers inner structure (components composing rendered content)
    - **properties**
       - `gridContainer` inner structure item representing grid container

@@ -4,6 +4,8 @@ import {MatrixContentRendererDefautTemplates} from '../../../matrixContentRender
 import {GridContext, GridDataRowContext, GridRowContext} from '../../../../../../interfaces';
 import {GridContainerTemplateSADirective} from '../../../../../../directives/gridContainerTemplate/gridContainerTemplate.directive';
 import {ContentContainerTemplateSADirective} from '../../../../../../directives/contentContainerTemplate/contentContainerTemplate.directive';
+import {HeaderContainerTemplateSADirective} from '../../../../../../directives/headerContainerTemplate/headerContainerTemplate.directive';
+import {FooterContainerTemplateSADirective} from '../../../../../../directives/footerContainerTemplate/footerContainerTemplate.directive';
 
 /**
  * Base component that stores default templates for content renderig
@@ -22,6 +24,7 @@ export abstract class BaseDefaultTemplatesSAComponent implements MatrixContentRe
     /**
      * @inheritdoc
      */
+    @ViewChild(HeaderContainerTemplateSADirective, {static: true, read: TemplateRef})
     public headerContainer!: TemplateRef<GridContext>; 
 
     /**
@@ -33,6 +36,7 @@ export abstract class BaseDefaultTemplatesSAComponent implements MatrixContentRe
     /**
      * @inheritdoc
      */
+    @ViewChild(FooterContainerTemplateSADirective, {static: true, read: TemplateRef})
     public footerContainer!: TemplateRef<GridContext>;
 
     /**

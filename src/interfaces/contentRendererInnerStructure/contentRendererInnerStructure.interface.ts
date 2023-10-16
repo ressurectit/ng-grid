@@ -64,7 +64,7 @@ export interface ContentRendererInnerStructure
     /**
      * Inner structure item representing
      */
-    contentRowContainer: InnerStructureItem<GridDataRowContext>[];
+    contentRowContainer: InnerStructureItem<GridDataRowContext>[][];
 
     /**
      * Inner structure item representing

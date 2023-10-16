@@ -1,2 +1,4 @@
-<div gridContainer *gridContainerTemplate></div>
-<div contentContainer *contentContainerTemplate></div>
+<div gridContainer *gridContainerTemplate="let cssClasses = contentCssClasses" [ngClass]="cssClasses.gridContainerClass"></div>
+<div headerContainer *headerContainerTemplate="let cssClasses = contentCssClasses" [ngClass]="cssClasses.headerContainerClass"></div>
+<div contentContainer *contentContainerTemplate="let cssClasses = contentCssClasses" [ngClass]="cssClasses.contentContainerClass"></div>
+<div footerContainer *footerContainerTemplate="let cssClasses = contentCssClasses" [ngClass]="cssClasses.footerContainerClass"></div>
