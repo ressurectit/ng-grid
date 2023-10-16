@@ -67,7 +67,7 @@
 - new `DATA_CELL_CONTEXT_FN` injection token for obtaining data cell context factory function
 - new `GRID_INSTANCE` injection token for obtaining grid instance inside grid plugins and nested types
 - new `DEFAULT_OPTIONS` injection token used for injecting default options
-- new `CONTENT_RENDERER_CURRENT_VIEW_CONTAINER` injection token used for sharing content renderers current view container
+- new `CONTENT_RENDERER_INNER_STRUCTURE` injection token used for sharing content renderers inner structure (dynamic part)
 - new `cellContextFactory` function, that creates context object for cell in grid
 - new `dataCellContextFactory` function, that creates context object for data cell in grid
 - new `CellContextSAPipe` pipe, that obtains cell context for template
@@ -84,10 +84,15 @@
       - `Grid`
       - `MetadataGatherer`
       - `AfterContentInit`
+- new `RenderableContentComponent` component, that is base class for all renderable content components
+   - **implements**
+      - `RenderableContent`
 - new `GridContainerSAComponent` component, that represents grid container
-   - TODO extends
+   - **extends** `RenderableContentComponent`
+   - **implements** `OnInit`
 - new `ContentContainerSAComponent` component, that represents content container
-   - TODO extends
+   - **extends** `RenderableContentComponent`
+   - **implements** `OnInit`
 - new `GridContainerTemplateSADirective` directive, that is used for obtaining template for grid content renderer container
    - **properties**
       - `template` obtained template by this directive
@@ -97,6 +102,14 @@
 - new `CssClassesMatrixContentRenderer` interface, that are css classes for matrix content renderer
    - **extends**
       - `CssClassesContentRenderer`
+   - **properties**
+      - `gridContainerClass` css class for grid container
+      - `headerContainerClass` css class for header container
+      - `contentContainerClass` css class for content (body) container
+      - `footerContainerClass` css class for footer container
+      - `headerRowContainerClass` css class for header row containers
+      - `contentRowContainerClass` css class for content (body) row containers
+      - `footerRowContainerClass` css class for footer row containers
 - new `MatrixContentRendererOptions` interface, that are matrix content renderer options
    - **extends**
       - `ContentRendererOptions`
@@ -107,27 +120,41 @@
    - **extends**
       - `TableGridMetadata`
    - **properties**
-      - `gridContainer` template for grid container
-      - `headerContainer` template for grid header
-      - `contentContainer` template for grid content (body)
-      - `footerContainer` template for grid footer
-      - `headerRowContainer` templates for header rows
-      - `contentRowContainer` templates for content rows (each data row can be rendered as multiple rows)
-      - `footerRowContainer` templates for footer rows
+      - `gridContainer` template for grid container, with metadata
+      - `headerContainer` template for grid header, with metadata
+      - `contentContainer` template for grid content (body), with metadata
+      - `footerContainer` template for grid footer, with metadata
+      - `headerRowContainer` templates for header rows, with metadata
+      - `contentRowContainer` templates for content rows (each data row can be rendered as multiple rows), with metadata
+      - `footerRowContainer` templates for footer rows, with metadata
 - new `MatrixContentRendererSAComponent` component, that is used for rendering content using new 'matrix' metadata gatherer
    - **implements**
       - `MatrixContentRenderer`
       - `GridPlugin`
       - `OnDestroy`
-- new `ContentRendererCurrentViewContainer` interface, that is object used for sharing view container to its parent content renderer
+- new `ContentRendererInnerStructure` interface, that is object used for sharing content renderers inner structure (components composing rendered content)
    - **properties**
-      - `viewContainer` view container used for rendering content of specific element
+      - `gridContainer` inner structure item representing grid container
+      - `headerContainer` inner structure item representing
+      - `contentContainer` inner structure item representing
+      - `footerContainer` inner structure item representing
+      - `headerRowContainer` inner structure item representing
+      - `contentRowContainer` inner structure item representing
+      - `footerRowContainer` inner structure item representing
+- new `InnerStructureItem` interface, that is type describing inner structure item
+   - **properties**
+      - `renderableContent` component that contains renderable content
+      - `view` reference to rendered view template
+- new `RenderableContent` interface, that is type that contains view container for dynamic rendering of its content
+   - **properties**
+      - `RenderableContent` view container that is used for rendering its content
 - new `GridContext` interface, that represents context that is available in content renderer top levels, outside of data scope
    - **properties**
       - `grid` instance of grid itself
       - `plugins` instance of grid plugins
       - `data` all data that are currently rendered
       - `columns` all currently rendered columns metadata
+      - `contentCssClasses` css classes used for rendering content
 - new `GridRowContext` interface, that represents context that is available in content renderer at row level (any type of row)
    - **extends**
       - `GridContext`
@@ -161,6 +188,26 @@
       - `headerTemplate` template that is used for rendering of cell in header row
       - `bodyTemplate` template that is used for rendering of cell in content (body) row
       - `footerTemplate` template that is used for rendering of cell in footer row
+- new `MatrixContentRendererDefautTemplates` interface, that are default templates for matrix content renderer
+   - **properties**
+      - `gridContainer` default template for grid container
+      - `headerContainer` default template for grid header
+      - `contentContainer` default template for grid content (body)
+      - `footerContainer` default template for grid footer
+      - `headerRowContainer` default templates for header rows
+      - `contentRowContainer` default templates for content rows (each data row can be rendered as multiple rows)
+      - `footerRowContainer` default templates for footer rows
+- new `BaseDefaultTemplatesSAComponent` component, that represents base component that stores default templates for content renderig
+   - **implements**
+      - `MatrixContentRendererDefautTemplates`
+- new `CssGridDefaultTemplatesSAComponent` component, that represents component that stores default templates for css grid content renderig
+   - **extends** `BaseDefaultTemplatesSAComponent`
+   - **implements**
+      - `MatrixContentRendererDefautTemplates`
+- new `TableDefaultTemplatesSAComponent` component, that represents component that stores default templates for table content renderig
+   - **extends** `BaseDefaultTemplatesSAComponent`
+   - **implements**
+      - `MatrixContentRendererDefautTemplates`
 - updated `TableGridColumnSAComponent` component
    - now supports also obtaining template using directives `TableGridBodyCellTemplateSADirective`, `TableGridHeaderCellTemplateSADirective`
 - updated `Grid` interface

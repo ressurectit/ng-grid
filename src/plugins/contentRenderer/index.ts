@@ -12,3 +12,4 @@ export * from './bodyHeader/table/tableContentRenderer.component';
 export * from './bodyHeader/table/tableContentRenderer.interface';
 export * from './matrix/matrixContentRenderer.component';
 export * from './matrix/matrixContentRenderer.interface';
+export * from './matrix/misc/components';

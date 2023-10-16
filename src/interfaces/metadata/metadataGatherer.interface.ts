@@ -5,6 +5,8 @@ import {GridColumn} from '../gridColumn';
 import {GridContext} from '../gridContext/gridContext.interface';
 import {GridRowContext} from '../gridRowContext/gridRowContext.interface';
 import {GridDataRowContext} from '../gridDataRowContext/gridDataRowContext.interface';
+import type {GridContainerTemplateSADirective} from '../../directives/gridContainerTemplate/gridContainerTemplate.directive';
+import type {ContentContainerTemplateSADirective} from '../../directives/contentContainerTemplate/contentContainerTemplate.directive';
 
 /**
  * Base grid metadata interface
@@ -47,37 +49,37 @@ export interface TableGridMetadata<TColumn extends GridColumn = GridColumn> exte
 export interface MatrixGridMetadata<TColumn extends GridColumn = GridColumn> extends TableGridMetadata<TColumn>
 {
     /**
-     * Template for grid container
+     * Template for grid container, with metadata
      */
-    gridContainer: TemplateRef<GridContext>|undefined|null;
+    gridContainer: GridContainerTemplateSADirective|undefined|null;
 
     /**
-     * Template for grid header
+     * Template for grid header, with metadata
      */
     headerContainer: TemplateRef<GridContext>|undefined|null;
 
     /**
-     * Template for grid content (body)
+     * Template for grid content (body), with metadata
      */
-    contentContainer: TemplateRef<GridContext>|undefined|null;
+    contentContainer: ContentContainerTemplateSADirective|undefined|null;
 
     /**
-     * Template for grid footer
+     * Template for grid footer, with metadata
      */
     footerContainer: TemplateRef<GridContext>|undefined|null;
 
     /**
-     * Templates for header rows
+     * Templates for header rows, with metadata
      */
     headerRowContainer: TemplateRef<GridRowContext>[]|undefined|null;
 
     /**
-     * Templates for content rows (each data row can be rendered as multiple rows)
+     * Templates for content rows (each data row can be rendered as multiple rows), with metadata
      */
     contentRowContainer: TemplateRef<GridDataRowContext>[]|undefined|null;
 
     /**
-     * Templates for footer rows
+     * Templates for footer rows, with metadata
      */
     footerRowContainer: TemplateRef<GridRowContext>[]|undefined|null;
 }

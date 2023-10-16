@@ -1,4 +1,5 @@
 import {GridPluginInstances} from '../../misc/types';
+import {CssClassesMatrixContentRenderer} from '../../plugins/contentRenderer/matrix/matrixContentRenderer.interface';
 import {Grid} from '../grid/grid.interface';
 import {MatrixGridColumn} from '../gridColumn';
 
@@ -26,4 +27,9 @@ export interface GridContext<TData = unknown, TColumnMetadata extends MatrixGrid
      * All currently rendered columns metadata
      */
     readonly columns: TColumnMetadata[];
+
+    /**
+     * Css classes used for rendering content
+     */
+    readonly contentCssClasses: CssClassesMatrixContentRenderer;
 }

@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, forwardRef, FactoryProvider, ExistingProvider, ValueProvider, TemplateRef, ContentChild, AfterContentInit} from '@angular/core';
+import {Component, ChangeDetectionStrategy, forwardRef, FactoryProvider, ExistingProvider, ValueProvider, ContentChild, AfterContentInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CommonDynamicModule} from '@anglr/common';
 import {Observable, Subject} from 'rxjs';
@@ -8,7 +8,7 @@ import {AsyncDataLoaderSAComponent, BasicPagingSAComponent, BasicRowSelectorSACo
 import {PagingPosition} from '../../misc/enums';
 import {DEFAULT_OPTIONS, GRID_INSTANCE, GRID_PLUGIN_INSTANCES} from '../../misc/tokens';
 import {ResolveForwardRefSAPipe} from '../../pipes';
-import {Grid, GridContext, GridOptions, MatrixGridMetadata, MetadataGatherer} from '../../interfaces';
+import {Grid, GridOptions, MatrixGridMetadata, MetadataGatherer} from '../../interfaces';
 import {ContentContainerTemplateSADirective, GridContainerTemplateSADirective} from '../../directives';
 
 /**
@@ -148,14 +148,14 @@ export class MatrixGridSAComponent extends GridSAComponent implements Grid, Meta
     /**
      * Grid container template
      */
-    @ContentChild(GridContainerTemplateSADirective, {read: TemplateRef})
-    protected gridContainer: TemplateRef<GridContext>|undefined|null;
+    @ContentChild(GridContainerTemplateSADirective)
+    protected gridContainer: GridContainerTemplateSADirective|undefined|null;
 
     /**
      * Content container template
      */
-    @ContentChild(ContentContainerTemplateSADirective, {read: TemplateRef})
-    protected contentContainer: TemplateRef<GridContext>|undefined|null;
+    @ContentChild(ContentContainerTemplateSADirective)
+    protected contentContainer: ContentContainerTemplateSADirective|undefined|null;
 
     //######################### public methods - implementation of AfterContentInit #########################
     
@@ -177,8 +177,8 @@ export class MatrixGridSAComponent extends GridSAComponent implements Grid, Meta
         return {
             columns: [],
             gridContainer: this.gridContainer,
-            headerContainer: this.contentContainer,
-            contentContainer: null,
+            headerContainer: null,
+            contentContainer: this.contentContainer,
             footerContainer: null,
             headerRowContainer: null,
             contentRowContainer: null,

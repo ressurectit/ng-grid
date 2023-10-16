@@ -1,6 +1,6 @@
 export * from './cellTemplateContext/cellTemplate.context';
 export * from './dataCellTemplateContext/dataCellTemplate.context';
-export * from './contentRendererCurrentViewContainer/currentViewContainer.interface';
+export * from './contentRendererInnerStructure/contentRendererInnerStructure.interface';
 export * from './dataResponse/dataResponse.interface';
 export * from './grid/grid.interface';
 export * from './gridCellContext/gridCellContext.interface';

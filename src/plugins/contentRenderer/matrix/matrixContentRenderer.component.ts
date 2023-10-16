@@ -3,9 +3,9 @@ import {RecursivePartial, extend} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
 import {MatrixContentRenderer, MatrixContentRendererOptions} from './matrixContentRenderer.interface';
-import {ContentRendererCurrentViewContainer, DataLoader, DataResponse, Grid, GridContext, GridPlugin, MatrixGridMetadata, MetadataSelector} from '../../../interfaces';
+import {ContentRendererInnerStructure, DataLoader, DataResponse, Grid, GridContext, GridPlugin, MatrixGridMetadata, MetadataSelector} from '../../../interfaces';
 import {GridPluginInstances} from '../../../misc/types';
-import {CONTENT_RENDERER_CURRENT_VIEW_CONTAINER, CONTENT_RENDERER_OPTIONS, DEFAULT_OPTIONS, GRID_INSTANCE, GRID_PLUGIN_INSTANCES} from '../../../misc/tokens';
+import {CONTENT_RENDERER_INNER_STRUCTURE, CONTENT_RENDERER_OPTIONS, DEFAULT_OPTIONS, GRID_INSTANCE, GRID_PLUGIN_INSTANCES} from '../../../misc/tokens';
 import {GridContainerSAComponent} from '../../../components/gridContainer/gridContainer.component';
 import {GridContainerTemplateSADirective} from '../../../directives/gridContainerTemplate/gridContainerTemplate.directive';
 import {ContentContainerSAComponent} from '../../../components/contentContainer/contentContainer.component';
@@ -20,6 +20,13 @@ const defaultOptions: MatrixContentRendererOptions =
 {
     cssClasses:
     {
+        gridContainerClass: null,
+        headerContainerClass: null,
+        contentContainerClass: null,
+        footerContainerClass: null,
+        headerRowContainerClass: null,
+        contentRowContainerClass: null,
+        footerRowContainerClass: null,
     },
 };
 
@@ -48,11 +55,33 @@ const defaultOptions: MatrixContentRendererOptions =
         },
         <FactoryProvider>
         {
-            provide: CONTENT_RENDERER_CURRENT_VIEW_CONTAINER,
+            provide: CONTENT_RENDERER_INNER_STRUCTURE,
             useFactory: () =>
             {
-                return <ContentRendererCurrentViewContainer> {
-                    viewContainer: undefined,
+                return <ContentRendererInnerStructure> {
+                    gridContainer:
+                    {
+                        renderableContent: null,
+                        view: null,
+                    },
+                    headerContainer:
+                    {
+                        renderableContent: null,
+                        view: null,
+                    },
+                    contentContainer:
+                    {
+                        renderableContent: null,
+                        view: null,
+                    },
+                    footerContainer:
+                    {
+                        renderableContent: null,
+                        view: null,
+                    },
+                    headerRowContainer: [],
+                    contentRowContainer: [],
+                    footerRowContainer: [],
                 };
             }
         }
@@ -64,9 +93,9 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
     //######################### protected fields #########################
 
     /**
-     * Instance of class that is used for sharing current view container
+     * Instance of inner structure components
      */
-    protected sharedViewContainer: ContentRendererCurrentViewContainer = inject(CONTENT_RENDERER_CURRENT_VIEW_CONTAINER);
+    protected innerStructure: ContentRendererInnerStructure = inject(CONTENT_RENDERER_INNER_STRUCTURE);
 
     /**
      * Options for matrix content renderer
@@ -239,6 +268,7 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
                 plugins: this.gridPluginsSafe,
                 columns: this.metadataSelector?.metadata?.columns ?? [],
                 data: this.dataLoader?.result()?.data ?? [],
+                contentCssClasses: this.ɵoptions.cssClasses,
             };
         };
 
@@ -250,8 +280,8 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
                 [
                     <FactoryProvider>
                     {
-                        provide: CONTENT_RENDERER_CURRENT_VIEW_CONTAINER,
-                        useFactory: () => this.sharedViewContainer,
+                        provide: CONTENT_RENDERER_INNER_STRUCTURE,
+                        useFactory: () => this.innerStructure,
                     }
                 ],
                 parent: injector,
@@ -259,7 +289,7 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
         };
 
         this.container.clear();
-        let view = this.container.createEmbeddedView(this.metadataSelector?.metadata?.gridContainer ?? this.defaultGridContainerTemplate, 
+        let view = this.container.createEmbeddedView(this.metadataSelector?.metadata?.gridContainer?.template ?? this.defaultGridContainerTemplate, 
                                                                                       getGridContext(),
                                                                                       {
                                                                                           injector: createInjector(this.container.injector),
@@ -268,17 +298,16 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
         view.detectChanges();
 
         //render content (body) element
-        if(this.sharedViewContainer.viewContainer)
+        if(this.innerStructure.gridContainer.renderableContent)
         {
-            this.sharedViewContainer.viewContainer.clear();
-            view = this.sharedViewContainer.viewContainer.createEmbeddedView(this.metadataSelector?.metadata?.contentContainer ?? this.defaultContentContainerTemplate,
-                                                                             getGridContext(),
-                                                                             {
-                                                                                 injector: createInjector(this.sharedViewContainer.viewContainer.injector),
-                                                                             });
+            this.innerStructure.gridContainer.renderableContent.viewContainer.clear();
+            view = this.innerStructure.gridContainer.renderableContent.viewContainer.createEmbeddedView(this.metadataSelector?.metadata?.contentContainer?.template ?? this.defaultContentContainerTemplate,
+                                                                                                        getGridContext(),
+                                                                                                        {
+                                                                                                            injector: createInjector(this.innerStructure.gridContainer.renderableContent.viewContainer.injector),
+                                                                                                        });
     
             view.detectChanges();
-            this.sharedViewContainer.viewContainer = null;
         }
     }
 }
