@@ -1,6 +1,9 @@
-import {Input, TemplateRef, Directive} from '@angular/core';
+import {Input, TemplateRef, Directive, ContentChild} from '@angular/core';
 
-import {CellTemplateContext, MatrixGridColumn, GridCellContext, GridDataCellContext} from '../../interfaces';
+import {MatrixGridColumn, GridCellContext, GridDataCellContext} from '../../interfaces';
+import {HeaderCellTemplateSADirective} from '../headerCellTemplate/headerCellTemplate.directive';
+import {FooterCellTemplateSADirective} from '../footerCellTemplate/footerCellTemplate.directive';
+import {ContentCellTemplateSADirective} from '../contentCellTemplate/contentCellTemplate.directive';
 
 /**
  * Directive for gathering information about matrix grid column
@@ -47,15 +50,18 @@ export class MatrixGridColumnSADirective<TData = unknown> implements MatrixGridC
     /**
      * @inheritdoc
      */
-    public headerTemplate: TemplateRef<CellTemplateContext<GridCellContext<TData, MatrixGridColumn<TData>>>>|undefined|null;
+    @ContentChild(HeaderCellTemplateSADirective, {static: true, read: TemplateRef})
+    public headerTemplate: TemplateRef<GridCellContext<TData, MatrixGridColumn<TData>>>|undefined|null;
 
     /**
      * @inheritdoc
      */
-    public bodyTemplate: TemplateRef<CellTemplateContext<GridDataCellContext<TData, MatrixGridColumn<TData>>>>|undefined|null;
+    @ContentChild(ContentCellTemplateSADirective, {static: true, read: TemplateRef})
+    public bodyTemplate: TemplateRef<GridDataCellContext<TData, MatrixGridColumn<TData>>>|undefined|null;
 
     /**
      * @inheritdoc
      */
-    public footerTemplate: TemplateRef<CellTemplateContext<GridCellContext<TData, MatrixGridColumn<TData>>>>|undefined|null;
+    @ContentChild(FooterCellTemplateSADirective, {static: true, read: TemplateRef})
+    public footerTemplate: TemplateRef<GridCellContext<TData, MatrixGridColumn<TData>>>|undefined|null;
 }

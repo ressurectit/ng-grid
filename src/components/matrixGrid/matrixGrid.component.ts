@@ -4,12 +4,12 @@ import {CommonDynamicModule} from '@anglr/common';
 import {Observable, Subject} from 'rxjs';
 
 import {GridSAComponent} from '../grid/grid.component';
-import {AsyncDataLoaderSAComponent, BasicPagingSAComponent, BasicRowSelectorSAComponent, MatrixContentRendererSAComponent, NoGridInitializerSAComponent, NoMetadataSelectorSAComponent, SimpleNoDataRendererSAComponent, SingleOrderingSAComponent} from '../../plugins';
+import {AsyncDataLoaderSAComponent, BasicPagingSAComponent, MatrixContentRendererSAComponent, NoGridInitializerSAComponent, NoMetadataSelectorSAComponent, NoRowSelectorSAComponent, SimpleNoDataRendererSAComponent, SingleOrderingSAComponent} from '../../plugins';
 import {PagingPosition} from '../../misc/enums';
 import {DEFAULT_OPTIONS, GRID_INSTANCE, GRID_PLUGIN_INSTANCES} from '../../misc/tokens';
 import {ResolveForwardRefSAPipe} from '../../pipes';
 import {Grid, GridOptions, MatrixGridMetadata, MetadataGatherer} from '../../interfaces';
-import {ContentContainerTemplateSADirective, ContentRowContainerTemplateSADirective, FooterContainerTemplateSADirective, FooterRowContainerTemplateSADirective, GridContainerTemplateSADirective, HeaderContainerTemplateSADirective, HeaderRowContainerTemplateSADirective} from '../../directives';
+import {ContentContainerTemplateSADirective, ContentRowContainerTemplateSADirective, FooterContainerTemplateSADirective, FooterRowContainerTemplateSADirective, GridContainerTemplateSADirective, HeaderContainerTemplateSADirective, HeaderRowContainerTemplateSADirective, MatrixGridColumnSADirective} from '../../directives';
 
 /**
  * Default 'GridOptions'
@@ -71,7 +71,7 @@ const defaultOptions: GridOptions =
         },
         rowSelector:
         {
-            type: forwardRef(() => BasicRowSelectorSAComponent),
+            type: forwardRef(() => NoRowSelectorSAComponent),
             instance: null,
             instanceCallback: null,
             options: null,
@@ -187,6 +187,12 @@ export class MatrixGridSAComponent extends GridSAComponent implements Grid, Meta
     @ContentChildren(FooterRowContainerTemplateSADirective, {emitDistinctChangesOnly: true})
     protected footerRowContainer: QueryList<FooterRowContainerTemplateSADirective>|undefined|null;
 
+    /**
+     * Obtains definition of columns
+     */
+    @ContentChildren(MatrixGridColumnSADirective, {emitDistinctChangesOnly: true})
+    protected columns: QueryList<MatrixGridColumnSADirective>|undefined|null;
+
 
     //######################### public methods - implementation of AfterContentInit #########################
     
@@ -196,6 +202,11 @@ export class MatrixGridSAComponent extends GridSAComponent implements Grid, Meta
     public ngAfterContentInit(): void
     {
         this.metadataChangeSubject.next();
+
+        this.headerRowContainer?.changes.subscribe(() => this.metadataChangeSubject.next());
+        this.contentRowContainer?.changes.subscribe(() => this.metadataChangeSubject.next());
+        this.footerRowContainer?.changes.subscribe(() => this.metadataChangeSubject.next());
+        this.columns?.changes.subscribe(() => this.metadataChangeSubject.next());
     }
 
     //######################### public methods - implementation of MetadataGatherer #########################
@@ -206,7 +217,7 @@ export class MatrixGridSAComponent extends GridSAComponent implements Grid, Meta
     public getMetadata(): MatrixGridMetadata
     {
         return {
-            columns: [],
+            columns: this.columns?.toArray() ?? [],
             gridContainer: this.gridContainer,
             headerContainer: this.headerContainer,
             contentContainer: this.contentContainer,

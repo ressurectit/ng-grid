@@ -21,10 +21,6 @@ export class FooterRowContainerSAComponent extends RenderableContentComponent im
      */
     public ngOnInit(): void
     {
-        this.contentRendererInnerStructure.footerRowContainer.push(
-        {
-            renderableContent: this,
-            view: null,
-        });
+        this.contentRendererInnerStructure.footerRowContainer[this.contentRendererInnerStructure.footerRowContainer.length - 1].renderableContent = this;
     }
 }

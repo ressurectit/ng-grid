@@ -21,10 +21,6 @@ export class HeaderRowContainerSAComponent extends RenderableContentComponent im
      */
     public ngOnInit(): void
     {
-        this.contentRendererInnerStructure.headerRowContainer.push(
-        {
-            renderableContent: this,
-            view: null,
-        });
+        this.contentRendererInnerStructure.headerRowContainer[this.contentRendererInnerStructure.headerRowContainer.length - 1].renderableContent = this;
     }
 }

@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 10.0.0 (2023-10-15)
+## Version 10.0.0 (2023-10-17)
 
 ### Features
 
@@ -256,6 +256,16 @@
    - **extends** `BaseDefaultTemplatesSAComponent`
    - **implements**
       - `MatrixContentRendererDefautTemplates`
+- new `NoRowSelectorOptions` interface, that is no row selector options
+   - **extends**
+      - `RowSelectorOptions`
+- new `NoRowSelector` interface, that is public API for no row selector
+   - **extends**
+      - `RowSelector`
+- new `NoRowSelectorSAComponent` component, that is component used for handling no row selection
+   - **implements**
+      - `NoRowSelector`
+      - `GridPlugin`
 - new `MatrixGridModule` module for matrix grid components and directives
 - updated `TableGridColumnSAComponent` component
    - now supports also obtaining template using directives `TableGridBodyCellTemplateSADirective`, `TableGridHeaderCellTemplateSADirective`

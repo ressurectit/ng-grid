@@ -1,7 +1,6 @@
 import {TemplateRef} from '@angular/core';
 
 import {GridColumn} from './gridColumn.interface';
-import {CellTemplateContext} from '../cellTemplateContext/cellTemplate.context';
 import {GridCellContext} from '../gridCellContext/gridCellContext.interface';
 import {GridDataCellContext} from '../gridDataCellContext/gridDataCellContext.interface';
 
@@ -23,15 +22,15 @@ export interface MatrixGridColumn<TData = unknown> extends GridColumn
     /**
      * Template that is used for rendering of cell in header row
      */
-    readonly headerTemplate: TemplateRef<CellTemplateContext<GridCellContext<TData, MatrixGridColumn<TData>>>>|undefined|null;
+    readonly headerTemplate: TemplateRef<GridCellContext<TData, MatrixGridColumn<TData>>>|undefined|null;
 
     /**
      * Template that is used for rendering of cell in content (body) row
      */
-    readonly bodyTemplate: TemplateRef<CellTemplateContext<GridDataCellContext<TData, MatrixGridColumn<TData>>>>|undefined|null;
+    readonly bodyTemplate: TemplateRef<GridDataCellContext<TData, MatrixGridColumn<TData>>>|undefined|null;
 
     /**
      * Template that is used for rendering of cell in footer row
      */
-    readonly footerTemplate: TemplateRef<CellTemplateContext<GridCellContext<TData, MatrixGridColumn<TData>>>>|undefined|null;
+    readonly footerTemplate: TemplateRef<GridCellContext<TData, MatrixGridColumn<TData>>>|undefined|null;
 }

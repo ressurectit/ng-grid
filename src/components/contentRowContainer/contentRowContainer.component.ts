@@ -21,10 +21,7 @@ export class ContentRowContainerSAComponent extends RenderableContentComponent i
      */
     public ngOnInit(): void
     {
-        this.contentRendererInnerStructure.contentRowContainer[this.contentRendererInnerStructure.contentRowContainer.length - 1].push(
-        {
-            renderableContent: this,
-            view: null,
-        });
+        const lastRow = this.contentRendererInnerStructure.contentRowContainer.length - 1;
+        this.contentRendererInnerStructure.contentRowContainer[lastRow][this.contentRendererInnerStructure.contentRowContainer[lastRow].length - 1].renderableContent = this;
     }
 }
