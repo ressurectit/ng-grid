@@ -19,13 +19,13 @@ const defaultOptions: MatrixContentRendererOptions =
     defaults: CssGridDefaultTemplatesSAComponent,
     cssClasses:
     {
-        gridContainerClass: 'grid-container',
-        headerContainerClass: 'grid-header',
-        contentContainerClass: 'grid-body',
-        footerContainerClass: 'grid-footer',
-        headerRowContainerClass: null,
-        contentRowContainerClass: null,
-        footerRowContainerClass: null,
+        gridContainerClass: 'grid-container-css-grid',
+        headerContainerClass: 'grid-header-css-grid',
+        contentContainerClass: 'grid-body-css-grid',
+        footerContainerClass: 'grid-footer-css-grid',
+        headerRowContainerClass: 'grid-header-row-css-grid',
+        contentRowContainerClass: 'grid-content-row-css-grid',
+        footerRowContainerClass: 'grid-footer-row-css-grid',
     },
 };
 
@@ -480,6 +480,28 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
                                                                                                    });
 
             this.innerStructure.headerRowContainer[index].view?.detectChanges();
+
+            const columnViewContainer = this.innerStructure.headerRowContainer[index].renderableContent?.viewContainer;
+            const columns = this.metadataSelector?.metadata?.columns ?? [];
+
+            columnViewContainer?.clear();
+
+            for(const column of columns)
+            {
+                if(!column.headerTemplate)
+                {
+                    continue;
+                }
+
+                columnViewContainer?.createEmbeddedView(column.headerTemplate,
+                                                        {
+                                                            ...context,
+                                                            metadata: column,
+                                                        },
+                                                        {
+                                                            injector: this.createInjector(columnViewContainer.injector),
+                                                        });
+            }
         }
     }
 
@@ -533,7 +555,7 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
                 {
                     if(!column.bodyTemplate)
                     {
-                        throw new Error('MatrixContentRendererSAComponent: missing content (body) template!');
+                        continue;
                     }
 
                     columnViewContainer?.createEmbeddedView(column.bodyTemplate,
@@ -582,6 +604,28 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
                                                                                                    });
 
             this.innerStructure.footerRowContainer[index].view?.detectChanges();
+
+            const columnViewContainer = this.innerStructure.footerRowContainer[index].renderableContent?.viewContainer;
+            const columns = this.metadataSelector?.metadata?.columns ?? [];
+
+            columnViewContainer?.clear();
+
+            for(const column of columns)
+            {
+                if(!column.footerTemplate)
+                {
+                    continue;
+                }
+
+                columnViewContainer?.createEmbeddedView(column.footerTemplate,
+                                                        {
+                                                            ...context,
+                                                            metadata: column,
+                                                        },
+                                                        {
+                                                            injector: this.createInjector(columnViewContainer.injector),
+                                                        });
+            }
         }
     }
 
@@ -608,6 +652,7 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
         return <GridRowContext>{
             ...this.getGridContext(),
             index,
+            rowColumns: [],
         };
     }
 

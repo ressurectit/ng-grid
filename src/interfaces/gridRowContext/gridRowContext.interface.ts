@@ -10,4 +10,9 @@ export interface GridRowContext<TData = unknown, TColumnMetadata extends MatrixG
      * Index of rendered low in current page
      */
     readonly index: number;
+
+    /**
+     * All currently rendered columns metadata
+     */
+    readonly rowColumns: TColumnMetadata[];
 }

@@ -1,4 +1,4 @@
-import {Func0, Func1, PromiseOr} from '@jscrpt/common';
+import {Func0, Func1, PromiseOr, isBlank, isString} from '@jscrpt/common';
 import {Subject} from 'rxjs';
 
 import {Grid, GridPlugin, Paging, PluginDescription, RowSelector, SimpleOrdering, DataCellTemplateContext, CellTemplateContext} from '../interfaces';
@@ -142,3 +142,27 @@ export const dataCellContextFactory: DataCellContextFactoryFn = function dataCel
         },        
     } as TContext;
 };
+
+/**
+ * Transforms row columns attribute value into row columns value
+ * @param value - Value to be transformed as row columns attribute
+ */
+export function rowColumnsAttribute(value: string|undefined|null|string[]): string[]|undefined|null
+{
+    if(isBlank(value))
+    {
+        return value;
+    }
+
+    if(value === '')
+    {
+        return [];
+    }
+
+    if(isString(value))
+    {
+        throw new Error(`rowColumnsAttribute: invalid value ${value}, must be array or empty string or null or undefined!`);
+    }
+
+    return value;
+}

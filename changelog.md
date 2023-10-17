@@ -123,15 +123,21 @@
 - new `HeaderRowContainerTemplateSADirective` directive, that is used for obtaining template for grid content renderer header row container
    - **properties**
       - `template` obtained template by this directive
+   - **inputs**
       - `predicate` predicate which controls rendering of row template, if not specified row is rendered
+      - `headerRowContainerTemplate` array of column ids to be rendered in this row, if not specified or null all available columns will be rendered
 - new `ContentRowContainerTemplateSADirective` directive, that is used for obtaining template for grid content renderer content (body) row container
    - **properties**
       - `template` obtained template by this directive
+   - **inputs**
       - `predicate` predicate which controls rendering of row template, if not specified row is rendered
+      - `contentRowContainerTemplate` array of column ids to be rendered in this row, if not specified or null all available columns will be rendered
 - new `FooterRowContainerTemplateSADirective` directive, that is used for obtaining template for grid content renderer footer row container
    - **properties**
       - `template` obtained template by this directive
+   - **inputs**
       - `predicate` predicate which controls rendering of row template, if not specified row is rendered
+      - `footerRowContainerTemplate` array of column ids to be rendered in this row, if not specified or null all available columns will be rendered
 - new `MatrixGridColumnSADirective` directive, that is used for gathering information about matrix grid column
    - **implements**
       `MatrixGridColumn`
@@ -208,6 +214,7 @@
       - `GridContext`
     - **properties**
       - `index` index of rendered low in current page
+      - `rowColumns` all currently rendered columns metadata
 - new `GridDataRowContext` interface, that represents context that is available in content renderer at row level (content data rows only)
    - **extends**
       - `GridRowContext`
@@ -266,6 +273,7 @@
    - **implements**
       - `NoRowSelector`
       - `GridPlugin`
+- new `rowColumnsAttribute` function, that transforms row columns attribute value into row columns value
 - new `MatrixGridModule` module for matrix grid components and directives
 - updated `TableGridColumnSAComponent` component
    - now supports also obtaining template using directives `TableGridBodyCellTemplateSADirective`, `TableGridHeaderCellTemplateSADirective`
