@@ -9,6 +9,7 @@ export * from './gridContext/gridContext.interface';
 export * from './gridDataCellContext/gridDataCellContext.interface';
 export * from './gridDataRowContext/gridDataRowContext.interface';
 export * from './gridOptions/gridOptions.interface';
+export * from './gridOrderableCell/gridOrderableCell.interface';
 export * from './gridPlugin/gridPlugin.interface';
 export * from './gridPluginTypes/gridPluginTypes.interface';
 export * from './gridRowContext/gridRowContext.interface';

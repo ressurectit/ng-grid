@@ -15,11 +15,6 @@ export interface MatrixGridColumn<TData = unknown> extends GridColumn
     readonly width: string|undefined|null;
 
     /**
-     * Indication that this column can be used for ordering
-     */
-    readonly ordering: boolean|undefined|null;
-
-    /**
      * Template that is used for rendering of cell in header row
      */
     readonly headerTemplate: TemplateRef<GridCellContext<TData, MatrixGridColumn<TData>>>|undefined|null;

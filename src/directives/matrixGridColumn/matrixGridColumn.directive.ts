@@ -33,12 +33,6 @@ export class MatrixGridColumnSADirective<TData = unknown> implements MatrixGridC
      * @inheritdoc
      */
     @Input()
-    public ordering: boolean|undefined|null;
-
-    /**
-     * @inheritdoc
-     */
-    @Input()
     public visible: boolean = true;
 
     /**

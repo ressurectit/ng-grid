@@ -1,12 +1,12 @@
-import {Component, ChangeDetectionStrategy, inject, ElementRef, Inject, Optional, ValueProvider, ViewChild, ViewContainerRef, OnDestroy, FactoryProvider, Injector, OnInit, ComponentRef} from '@angular/core';
+import {Component, ChangeDetectionStrategy, inject, ElementRef, Inject, Optional, ValueProvider, ViewChild, ViewContainerRef, OnDestroy, FactoryProvider, Injector, OnInit, ComponentRef, Provider} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {RecursivePartial, extend} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
 import {MatrixContentRenderer, MatrixContentRendererDefautTemplates, MatrixContentRendererOptions} from './matrixContentRenderer.interface';
-import {ContentRendererInnerStructure, DataLoader, DataResponse, Grid, GridContext, GridDataRowContext, GridPlugin, GridRowContext, MatrixGridColumn, MatrixGridMetadata, MetadataSelector, Paging, RowSelector} from '../../../interfaces';
+import {ContentRendererInnerStructure, DataLoader, DataResponse, Grid, GridContext, GridDataRowContext, GridOrderableCell, GridPlugin, GridRowContext, MatrixGridColumn, MatrixGridMetadata, MetadataSelector, Paging, RowSelector} from '../../../interfaces';
 import {GridPluginInstances} from '../../../misc/types';
-import {CONTENT_RENDERER_INNER_STRUCTURE, CONTENT_RENDERER_OPTIONS, DEFAULT_OPTIONS, GRID_INSTANCE, GRID_PLUGIN_INSTANCES} from '../../../misc/tokens';
+import {CONTENT_RENDERER_INNER_STRUCTURE, CONTENT_RENDERER_OPTIONS, DEFAULT_OPTIONS, GRID_INSTANCE, GRID_PLUGIN_INSTANCES, ORDERABLE_CELL} from '../../../misc/tokens';
 import {CssGridDefaultTemplatesSAComponent} from './misc/components';
 
 //TODO: first version will rerender whole content on changes of metadata, better checking should be implemented
@@ -499,14 +499,31 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
                     continue;
                 }
 
-                columnViewContainer?.createEmbeddedView(column.headerTemplate,
-                                                        {
-                                                            ...context,
-                                                            metadata: column,
-                                                        },
-                                                        {
-                                                            injector: this.createInjector(columnViewContainer.injector),
-                                                        });
+                const orderable: GridOrderableCell|undefined|null = {};
+
+                const view = columnViewContainer?.createEmbeddedView(column.headerTemplate,
+                                                                     {
+                                                                         ...context,
+                                                                         metadata: column,
+                                                                     },
+                                                                     {
+                                                                         injector: this.createInjector(columnViewContainer.injector, 
+                                                                         [
+                                                                             <FactoryProvider>
+                                                                             {
+                                                                                 provide: ORDERABLE_CELL,
+                                                                                 useFactory: () => orderable
+                                                                             },
+                                                                         ]),
+                                                                     });
+
+                if(orderable.orderable)
+                {
+                    orderable.orderable.orderable = true;
+                    orderable.orderable.orderById = column.id;
+                }
+
+                view?.detectChanges();
             }
         }
     }
@@ -705,8 +722,9 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
     /**
      * Creates new injector with content renderer inner structure
      * @param injector - Injector used as parent injector
+     * @param additionalProviders - Array of additional providers
      */
-    protected createInjector(injector: Injector): Injector
+    protected createInjector(injector: Injector, additionalProviders: Provider[] = []): Injector
     {
         return Injector.create(
         {
@@ -716,7 +734,8 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
                 {
                     provide: CONTENT_RENDERER_INNER_STRUCTURE,
                     useFactory: () => this.innerStructure,
-                }
+                },
+                ...additionalProviders,
             ],
             parent: injector,
         });

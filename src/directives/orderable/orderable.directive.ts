@@ -1,10 +1,10 @@
-import {Directive, ElementRef, HostListener, Injector, Input, OnDestroy, OnInit, Renderer2, booleanAttribute, inject} from '@angular/core';
+import {Directive, ElementRef, HostListener, Inject, Injector, Input, OnDestroy, OnInit, Optional, Renderer2, booleanAttribute, inject} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {Subscription} from 'rxjs';
 
 import {GridPluginInstances} from '../../misc/types';
-import {GRID_INSTANCE, GRID_PLUGIN_INSTANCES} from '../../misc/tokens';
-import {Grid, Ordering} from '../../interfaces';
+import {GRID_INSTANCE, GRID_PLUGIN_INSTANCES, ORDERABLE_CELL} from '../../misc/tokens';
+import {Grid, GridOrderableCell, Ordering} from '../../interfaces';
 
 //TODO: handle changes in ordering, removing existing ordering - destroy, create, apply
 
@@ -98,6 +98,15 @@ export class OrderableSADirective implements OnInit, OnDestroy
      */
     @Input()
     public orderById: string|undefined|null;
+
+    //######################### constructor #########################
+    constructor(@Inject(ORDERABLE_CELL) @Optional() orderable?: GridOrderableCell,)
+    {
+        if(orderable)
+        {
+            orderable.orderable = this;
+        }
+    }
 
     //######################### public methods - implementation of OnInit #########################
     

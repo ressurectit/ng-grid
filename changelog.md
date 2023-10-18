@@ -68,6 +68,7 @@
 - new `GRID_INSTANCE` injection token for obtaining grid instance inside grid plugins and nested types
 - new `DEFAULT_OPTIONS` injection token used for injecting default options
 - new `CONTENT_RENDERER_INNER_STRUCTURE` injection token used for sharing content renderers inner structure (dynamic part)
+- new `ORDERABLE_CELL` injection token used for obtaining orderable directive from cell
 - new `cellContextFactory` function, that creates context object for cell in grid
 - new `dataCellContextFactory` function, that creates context object for data cell in grid
 - new `CellContextSAPipe` pipe, that obtains cell context for template
@@ -239,7 +240,6 @@
       - `GridColumn`
    - **properties**
       - `width` width as style string including units, not used in renderer, but can be used by user later for automation
-      - `ordering` indication that this column can be used for ordering
       - `headerTemplate` template that is used for rendering of cell in header row
       - `bodyTemplate` template that is used for rendering of cell in content (body) row
       - `footerTemplate` template that is used for rendering of cell in footer row
@@ -273,6 +273,9 @@
    - **implements**
       - `NoRowSelector`
       - `GridPlugin`
+- new `GridOrderableCell` interface, that represents class used for storing orderable directive instance
+   - **properties**
+      - `orderable` instance of orderable directive
 - new `rowColumnsAttribute` function, that transforms row columns attribute value into row columns value
 - new `CssGridTemplateColumnsSAPipe` pipe, that creates css value for 'grid-template-columns' property
 - new `MatrixGridModule` module for matrix grid components and directives

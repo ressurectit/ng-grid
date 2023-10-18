@@ -25,4 +25,3 @@ export * from './plugins';
 //TODO: ordering handle metadata changes
 //TODO: make renderer for orderable.directive that will be configurable
 //TODO: add support for disable ordering of columns in metadata selector
-//TODO: create way how to change default templates for matrix content renderer
