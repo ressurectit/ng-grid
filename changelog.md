@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 10.0.0 (2023-10-17)
+## Version 10.0.0 (2023-10-18)
 
 ### Features
 
@@ -274,6 +274,7 @@
       - `NoRowSelector`
       - `GridPlugin`
 - new `rowColumnsAttribute` function, that transforms row columns attribute value into row columns value
+- new `CssGridTemplateColumnsSAPipe` pipe, that creates css value for 'grid-template-columns' property
 - new `MatrixGridModule` module for matrix grid components and directives
 - updated `TableGridColumnSAComponent` component
    - now supports also obtaining template using directives `TableGridBodyCellTemplateSADirective`, `TableGridHeaderCellTemplateSADirective`

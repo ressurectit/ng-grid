@@ -45,7 +45,7 @@ export class MatrixGridColumnSADirective<TData = unknown> implements MatrixGridC
      * @inheritdoc
      */
     @Input()
-    public width: string|undefined|null;
+    public width: string|undefined|null = '1fr';
 
     /**
      * @inheritdoc

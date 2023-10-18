@@ -17,6 +17,7 @@ import {FooterRowContainerSAComponent} from '../../../../../../components/footer
 import {HeaderRowContainerTemplateSADirective} from '../../../../../../directives/headerRowContainerTemplate/headerRowContainerTemplate.directive';
 import {ContentRowContainerTemplateSADirective} from '../../../../../../directives/contentRowContainerTemplate/contentRowContainerTemplate.directive';
 import {FooterRowContainerTemplateSADirective} from '../../../../../../directives/footerRowContainerTemplate/footerRowContainerTemplate.directive';
+import {CssGridTemplateColumnsSAPipe} from '../../../../../../pipes/cssGridTemplateColumns/cssGridTemplateColumns.pipe';
 
 /**
  * Component that stores default templates for css grid content renderig
@@ -43,6 +44,7 @@ import {FooterRowContainerTemplateSADirective} from '../../../../../../directive
         HeaderRowContainerTemplateSADirective,
         ContentRowContainerTemplateSADirective,
         FooterRowContainerTemplateSADirective,
+        CssGridTemplateColumnsSAPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

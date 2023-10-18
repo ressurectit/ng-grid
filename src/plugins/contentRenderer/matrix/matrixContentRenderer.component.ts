@@ -458,12 +458,19 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
         viewContainer?.clear();
 
         this.innerStructure.headerRowContainer = [];
-        const headerRowsTemplates = this.metadataSelector?.metadata?.headerRowContainer?.length ? this.metadataSelector?.metadata?.headerRowContainer : [{template: this.defaultsSafe.headerRowContainer, predicate: null}];
+        const headerRowsTemplates = this.metadataSelector?.metadata?.headerRowContainer?.length ? this.metadataSelector?.metadata?.headerRowContainer : [{template: this.defaultsSafe.headerRowContainer, predicate: null, columns: null}];
 
         for(let index = 0; index < headerRowsTemplates.length; index++)
         {
-            const context = this.getGridRowContext(index);
             const headerRow = headerRowsTemplates[index];
+            const rowColumns = headerRow
+                .columns
+                ?.map(id => this.metadataSelector
+                                                    ?.metadata
+                                                    ?.columns
+                                                    ?.find(itm => itm.id == id) as MatrixGridColumn)
+                                                    ?.filter(itm => itm) ?? this.metadataSelector?.metadata?.columns ?? [];
+            const context = this.getGridRowContext(index, rowColumns);
 
             //skip rendering of this row
             if(headerRow.predicate && !headerRow.predicate(context))
@@ -482,11 +489,10 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
             this.innerStructure.headerRowContainer[index].view?.detectChanges();
 
             const columnViewContainer = this.innerStructure.headerRowContainer[index].renderableContent?.viewContainer;
-            const columns = this.metadataSelector?.metadata?.columns ?? [];
 
             columnViewContainer?.clear();
 
-            for(const column of columns)
+            for(const column of rowColumns)
             {
                 if(!column.headerTemplate)
                 {
@@ -516,18 +522,25 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
         viewContainer?.clear();
 
         this.innerStructure.contentRowContainer = [];
-        const contentRowsTemplates = this.metadataSelector?.metadata?.contentRowContainer?.length ? this.metadataSelector?.metadata?.contentRowContainer : [{template: this.defaultsSafe.contentRowContainer, predicate: null}];
+        const contentRowsTemplates = this.metadataSelector?.metadata?.contentRowContainer?.length ? this.metadataSelector?.metadata?.contentRowContainer : [{template: this.defaultsSafe.contentRowContainer, predicate: null, columns: null}];
 
         for(let datumIndex = 0; datumIndex < (this.dataLoader?.result().data?.length ?? 0); datumIndex++)
         {
             const datum = this.dataLoader?.result().data[datumIndex];
-            const context = this.getGridDataRowContext(datumIndex, datum);
-
+            
             this.innerStructure.contentRowContainer.push([]);
-
+            
             for(let index = 0; index < contentRowsTemplates.length; index++)
             {
                 const contentRow = contentRowsTemplates[index];
+                const rowColumns = contentRow
+                    .columns
+                    ?.map(id => this.metadataSelector
+                                                        ?.metadata
+                                                        ?.columns
+                                                        ?.find(itm => itm.id == id) as MatrixGridColumn)
+                                                        ?.filter(itm => itm) ?? this.metadataSelector?.metadata?.columns ?? [];
+                const context = this.getGridDataRowContext(datumIndex, datum, rowColumns);
 
                 //skip rendering of this row
                 if(contentRow.predicate && !contentRow.predicate(context))
@@ -547,11 +560,10 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
 
                 //TODO move into function
                 const columnViewContainer = this.innerStructure.contentRowContainer[datumIndex][index].renderableContent?.viewContainer;
-                const columns = this.metadataSelector?.metadata?.columns ?? [];
 
                 columnViewContainer?.clear();
 
-                for(const column of columns)
+                for(const column of rowColumns)
                 {
                     if(!column.bodyTemplate)
                     {
@@ -582,12 +594,19 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
         viewContainer?.clear();
 
         this.innerStructure.footerRowContainer = [];
-        const footerRowsTemplates = this.metadataSelector?.metadata?.footerRowContainer?.length ? this.metadataSelector?.metadata?.footerRowContainer : [{template: this.defaultsSafe.footerRowContainer, predicate: null}];
+        const footerRowsTemplates = this.metadataSelector?.metadata?.footerRowContainer?.length ? this.metadataSelector?.metadata?.footerRowContainer : [{template: this.defaultsSafe.footerRowContainer, predicate: null, columns: null}];
 
         for(let index = 0; index < footerRowsTemplates.length; index++)
         {
-            const context = this.getGridRowContext(index);
             const footerRow = footerRowsTemplates[index];
+            const rowColumns = footerRow
+                .columns
+                ?.map(id => this.metadataSelector
+                                                    ?.metadata
+                                                    ?.columns
+                                                    ?.find(itm => itm.id == id) as MatrixGridColumn)
+                                                    ?.filter(itm => itm) ?? this.metadataSelector?.metadata?.columns ?? [];
+            const context = this.getGridRowContext(index, rowColumns);
 
             //skip rendering of this row
             if(footerRow.predicate && !footerRow.predicate(context))
@@ -606,11 +625,10 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
             this.innerStructure.footerRowContainer[index].view?.detectChanges();
 
             const columnViewContainer = this.innerStructure.footerRowContainer[index].renderableContent?.viewContainer;
-            const columns = this.metadataSelector?.metadata?.columns ?? [];
 
             columnViewContainer?.clear();
 
-            for(const column of columns)
+            for(const column of rowColumns)
             {
                 if(!column.footerTemplate)
                 {
@@ -646,21 +664,24 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
     /**
      * Gets grid row context
      * @param index - Current index to be used for creation of grid row context
+     * @param rowColumns - Array of row columns rendered in current row
      */
-    protected getGridRowContext(index: number): GridRowContext
+    protected getGridRowContext(index: number, rowColumns: MatrixGridColumn[]): GridRowContext
     {
         return <GridRowContext>{
             ...this.getGridContext(),
             index,
-            rowColumns: [],
+            rowColumns: rowColumns,
         };
     }
 
     /**
      * Gets grid data row context
      * @param index - Current index to be used for creation of grid row context
+     * @param datum - Datum for current row
+     * @param rowColumns - Array of row columns rendered in current row
      */
-    protected getGridDataRowContext(index: number, datum: unknown): GridDataRowContext
+    protected getGridDataRowContext(index: number, datum: unknown, rowColumns: MatrixGridColumn[]): GridDataRowContext
     {
         const rowSelector = this.rowSelector;
 
@@ -670,7 +691,7 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
         }
 
         return <GridDataRowContext>{
-            ...this.getGridRowContext(index),
+            ...this.getGridRowContext(index, rowColumns),
             datum,
             rowIndex: this.paging.firstItemIndex + index,
             startingIndex: this.paging.firstItemIndex,
