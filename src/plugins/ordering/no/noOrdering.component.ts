@@ -3,12 +3,14 @@ import {ChangeDetectionStrategy, Component, ElementRef, inject, signal, Signal} 
 import {GridPluginInstances} from '../../../misc/types';
 import {NoOrdering, NoOrderingOptions} from './noOrdering.interface';
 import {OrderingOptions} from '../../../interfaces';
+import {DefaultOrderableIndicatorRenderer} from '../misc/services';
 
 /**
  * Default options for ordering
  */
 const defaultOptions: NoOrderingOptions =
 {
+    indicatorRenderer: DefaultOrderableIndicatorRenderer,
     cssClasses:
     {
         asc: '',

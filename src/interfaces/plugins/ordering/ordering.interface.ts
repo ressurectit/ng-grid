@@ -1,7 +1,8 @@
-import {Signal} from '@angular/core';
+import {Signal, Type} from '@angular/core';
 
 import {GridPlugin} from '../../gridPlugin/gridPlugin.interface';
 import {VisualPluginOptions} from '../../visualPluginOptions/visualPluginOptions.interface';
+import {OrderableIndicatorRenderer} from '../../orderableIndicatorRenderer/orderableIndicatorRenderer.interface';
 
 /**
  * Css classes that are used for ordering
@@ -34,6 +35,10 @@ export interface CssClassesOrdering
  */
 export interface OrderingOptions<TCssClasses extends CssClassesOrdering = CssClassesOrdering> extends VisualPluginOptions<TCssClasses>
 {
+    /**
+     * Type of orderable indicator renderer
+     */
+    indicatorRenderer: Type<OrderableIndicatorRenderer>;
 }
 
 /**

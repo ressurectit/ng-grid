@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 10.0.0 (2023-10-18)
+## Version 10.0.0 (2023-10-27)
 
 ### Features
 
@@ -37,6 +37,8 @@
       - `setOrdering` sets ordering to ordering plugin
       - `getCssClassesForColumn` obtains css classes for column
 - new `OrderingOptions` interface, that represents ordering options allow configuring ordering plugin
+   - **properties**
+      - `indicatorRenderer` type of orderable indicator renderer
 - new `CssClassesOrdering` interface, that represents css classes that are used for ordering
    - **properties**
       - `orderable` indication that column is orderable
@@ -278,6 +280,14 @@
       - `orderable` instance of orderable directive
 - new `rowColumnsAttribute` function, that transforms row columns attribute value into row columns value
 - new `CssGridTemplateColumnsSAPipe` pipe, that creates css value for 'grid-template-columns' property
+- new `OrderableIndicatorRenderer` interface, that represents definition of renderer that should render orderable indicator
+   - **methods**
+      - `create` creates indicator html
+      - `destroy` destroys indicator html
+      - `apply` applies css classes to orderable indicator
+- new `DefaultOrderableIndicatorRenderer` class, that is default implementation of orderable indicator renderer
+   - **implements**
+      - `OrderableIndicatorRenderer`
 - new `MatrixGridModule` module for matrix grid components and directives
 - updated `TableGridColumnSAComponent` component
    - now supports also obtaining template using directives `TableGridBodyCellTemplateSADirective`, `TableGridHeaderCellTemplateSADirective`

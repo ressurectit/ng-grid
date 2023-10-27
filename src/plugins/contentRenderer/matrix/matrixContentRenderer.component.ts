@@ -9,8 +9,6 @@ import {GridPluginInstances} from '../../../misc/types';
 import {CONTENT_RENDERER_INNER_STRUCTURE, CONTENT_RENDERER_OPTIONS, DEFAULT_OPTIONS, GRID_INSTANCE, GRID_PLUGIN_INSTANCES, ORDERABLE_CELL} from '../../../misc/tokens';
 import {CssGridDefaultTemplatesSAComponent} from './misc/components';
 
-//TODO: first version will rerender whole content on changes of metadata, better checking should be implemented
-
 /**
  * Default 'GridOptions'
  */

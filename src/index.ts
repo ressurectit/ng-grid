@@ -11,7 +11,6 @@ export * from './pipes';
 export * from './plugins';
 
 //TODO: use signals
-//TODO: add ordering plugin
 //TODO: use new syntax
 //TODO: new matrix grid
 //TODO: directive for attaching external plugins, new type that allows obtaining or using export as ref
@@ -23,5 +22,5 @@ export * from './plugins';
 //TODO: maybe unify id and name and use only one (ID)??
 //TODO: maybe add ordering to permanent grid initializer
 //TODO: ordering handle metadata changes
-//TODO: make renderer for orderable.directive that will be configurable
 //TODO: add support for disable ordering of columns in metadata selector
+//TODO: all base plugin interface implements base TOptions extends pluginOptions => GridPlugin<TOptions>

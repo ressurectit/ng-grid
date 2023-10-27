@@ -58,7 +58,7 @@ export class SimpleNoDataRendererSAComponent implements SimpleNoDataRenderer, Gr
     /**
      * Currently displayed text
      */
-    protected text: Signal<string> = signal('');
+    protected text: Signal<string> = signal('').asReadonly();
 
     /**
      * Options for grid plugin

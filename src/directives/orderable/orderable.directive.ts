@@ -1,12 +1,11 @@
-import {Directive, ElementRef, HostListener, Inject, Injector, Input, OnDestroy, OnInit, Optional, Renderer2, booleanAttribute, inject} from '@angular/core';
+import {Directive, ElementRef, HostListener, Inject, Injector, Input, OnChanges, OnDestroy, OnInit, Optional, Renderer2, SimpleChanges, booleanAttribute, inject} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
+import {nameof} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
 import {GridPluginInstances} from '../../misc/types';
 import {GRID_INSTANCE, GRID_PLUGIN_INSTANCES, ORDERABLE_CELL} from '../../misc/tokens';
-import {Grid, GridOrderableCell, Ordering} from '../../interfaces';
-
-//TODO: handle changes in ordering, removing existing ordering - destroy, create, apply
+import {Grid, GridOrderableCell, OrderableIndicatorRenderer, Ordering} from '../../interfaces';
 
 /**
  * Directive that is used for handling ordering of column
@@ -16,7 +15,7 @@ import {Grid, GridOrderableCell, Ordering} from '../../interfaces';
     selector: '[orderable]',
     standalone: true,
 })
-export class OrderableSADirective implements OnInit, OnDestroy
+export class OrderableSADirective implements OnInit, OnDestroy, OnChanges
 {
     //######################### protected fields #########################
 
@@ -31,9 +30,9 @@ export class OrderableSADirective implements OnInit, OnDestroy
     protected orderingChangeSubscription: Subscription|undefined|null;
 
     /**
-     * Indication whether is column orderable or not
+     * Indication whether is grid initialized
      */
-    protected eorderable: boolean = false;
+    protected gridInitialized: boolean = false;
 
     /**
      * Current html element that is this directive attached to
@@ -61,9 +60,9 @@ export class OrderableSADirective implements OnInit, OnDestroy
     protected injector: Injector = inject(Injector);
 
     /**
-     * Current css classes that are applied element which is displaying current ordering
+     * Instance of renderer used for rendering ordering 'visual state'
      */
-    protected currentCssClasses: string[] = [];
+    protected indicatorRenderer: OrderableIndicatorRenderer|undefined|null;
 
     /**
      * Current css class that is applied to cell
@@ -84,14 +83,7 @@ export class OrderableSADirective implements OnInit, OnDestroy
      * Gets or sets indication whether is column orderable or not
      */
     @Input({transform: booleanAttribute})
-    public get orderable(): boolean
-    {
-        return this.eorderable;
-    }
-    public set orderable(value: boolean)
-    {
-        this.eorderable = value;
-    }
+    public orderable: boolean = false;
 
     /**
      * Id of column which should be used for order by
@@ -109,7 +101,7 @@ export class OrderableSADirective implements OnInit, OnDestroy
     }
 
     //######################### public methods - implementation of OnInit #########################
-    
+
     /**
      * Initialize component
      */
@@ -117,48 +109,35 @@ export class OrderableSADirective implements OnInit, OnDestroy
     {
         this.initSubscriptions.add(this.grid.initialized.subscribe(initialized =>
         {
+            this.gridInitialized = initialized;
             this.orderingChangeSubscription?.unsubscribe();
             this.orderingChangeSubscription = null;
-
-            if(initialized)
-            {
-                this.orderingChangeSubscription = toObservable(this.ordering.ordering, {injector: this.injector}).subscribe(() => this.applyCssClasses());
-                
-                this.applyCssClasses();
-
-                //remove previous value
-                if(this.currentCssClass)
-                {
-                    for(const cls of this.currentCssClass.split(' '))
-                    {
-                        this.renderer.removeClass(this.element.nativeElement, cls);
-                    }
-
-                    this.currentCssClass = null;
-                }
-
-                //add new class
-                if(this.orderable && this.ordering.options.cssClasses.orderable)
-                {
-                    for(const cls of this.ordering.options.cssClasses.orderable.split(' '))
-                    {
-                        this.renderer.addClass(this.element.nativeElement, cls);
-                    }
-
-                    this.currentCssClass = this.ordering.options.cssClasses.orderable;
-                }
-            }
+            this.initOrdering();            
         }));
     }
 
-    //######################### public methods - implementation of OnDestroy #########################
+    //######################### public methods - implementation of OnChanges #########################
     
+    /**
+     * Called when input value changes
+     */
+    public ngOnChanges(changes: SimpleChanges): void
+    {
+        if(nameof<OrderableSADirective>('orderable') in changes)
+        {
+            this.initOrdering();
+        }
+    }
+
+    //######################### public methods - implementation of OnDestroy #########################
+
     /**
      * Called when component is destroyed
      */
     public ngOnDestroy(): void
     {
         this.initSubscriptions.unsubscribe();
+        this.indicatorRenderer?.destroy(this.element.nativeElement, this.renderer);
     }
 
     //######################### protected methods - host #########################
@@ -191,11 +170,48 @@ export class OrderableSADirective implements OnInit, OnDestroy
     //######################### protected methods #########################
 
     /**
-     * Method that initialize ordering 
+     * Initialized ordering according current ordering flag
      */
     protected initOrdering(): void
     {
-        this.renderer.addClass(this.element.nativeElement, this.ordering.options.cssClasses.orderable);
+        if(this.gridInitialized)
+        {
+            //remove previous indicator and create new one
+            this.indicatorRenderer?.destroy(this.element.nativeElement, this.renderer);
+            this.indicatorRenderer = new this.ordering.options.indicatorRenderer();
+
+            //remove previous value
+            if(this.currentCssClass)
+            {
+                for(const cls of this.currentCssClass.split(' '))
+                {
+                    this.renderer.removeClass(this.element.nativeElement, cls);
+                }
+
+                this.currentCssClass = null;
+            }
+
+            //is orderable
+            if(this.orderable)
+            {
+                //create indicator and apply current ordering
+                this.indicatorRenderer?.create(this.element.nativeElement, this.renderer);
+                this.applyCssClasses();
+
+                //add new class
+                if(this.ordering.options.cssClasses.orderable)
+                {
+                    for(const cls of this.ordering.options.cssClasses.orderable.split(' '))
+                    {
+                        this.renderer.addClass(this.element.nativeElement, cls);
+                    }
+
+                    this.currentCssClass = this.ordering.options.cssClasses.orderable;
+                }
+            }
+
+            this.orderingChangeSubscription = toObservable(this.ordering.ordering, {injector: this.injector}).subscribe(() => this.applyCssClasses());
+        }
     }
 
     /**
@@ -203,34 +219,16 @@ export class OrderableSADirective implements OnInit, OnDestroy
      */
     protected applyCssClasses(): void
     {
-        if(!this.orderById)
-        {
-            throw new Error('OrderableSADirective: missing "orderById"');
-        }
-
-        const cssClasses = this.ordering.getCssClassesForColumn(this.orderById);
-
-        for(const cssClass of this.currentCssClasses)
-        {
-            for(const cls of cssClass.split(' '))
-            {
-                this.renderer.removeClass(this.element.nativeElement, cls);
-            }
-        }
-
         if(!this.orderable)
         {
             return;
         }
 
-        this.currentCssClasses = cssClasses;
-
-        for(const cssClass of this.currentCssClasses)
+        if(!this.orderById)
         {
-            for(const cls of cssClass.split(' '))
-            {
-                this.renderer.addClass(this.element.nativeElement, cls);
-            }
+            throw new Error('OrderableSADirective: missing "orderById"');
         }
+
+        this.indicatorRenderer?.apply(this.ordering.getCssClassesForColumn(this.orderById), this.renderer);
     }
 }

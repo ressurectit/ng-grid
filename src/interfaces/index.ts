@@ -14,6 +14,7 @@ export * from './gridPlugin/gridPlugin.interface';
 export * from './gridPluginTypes/gridPluginTypes.interface';
 export * from './gridRowContext/gridRowContext.interface';
 export * from './metadata/metadataGatherer.interface';
+export * from './orderableIndicatorRenderer/orderableIndicatorRenderer.interface';
 export * from './pluginDescription/pluginDescription.interface';
 export * from './pluginOptions/pluginOptions.interface';
 export * from './plugins';

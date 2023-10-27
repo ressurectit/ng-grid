@@ -6,12 +6,14 @@ import {SingleOrdering, SingleOrderingOptions} from './singleOrdering.interface'
 import {GridInitializer, OrderingOptions, SimpleOrdering} from '../../../interfaces';
 import {GRID_PLUGIN_INSTANCES, ORDERING_OPTIONS} from '../../../misc/tokens';
 import {GridPluginType} from '../../../misc/enums';
+import {DefaultOrderableIndicatorRenderer} from '../misc/services';
 
 /**
  * Default options for ordering
  */
 const defaultOptions: SingleOrderingOptions =
 {
+    indicatorRenderer: DefaultOrderableIndicatorRenderer,
     cssClasses:
     {
         asc: 'fa fa-sort-up',
@@ -106,28 +108,35 @@ export class SingleOrderingSAComponent implements SingleOrdering
     {
         //no ordering, or ordering different column
         const ordering = this.ɵordering();
-        this.gridInitializer?.setOrdering(ordering);
+        let newOrdering: SimpleOrdering|undefined|null;
 
         if(!ordering || ordering.orderBy != columnId)
         {
-            this.ɵordering.set(
+            newOrdering = 
             {
                 orderByDirection: OrderByDirection.Ascending,
                 orderBy: columnId,
-            });
+            };
+
+            this.ɵordering.set(newOrdering);
         }
         else if(ordering.orderByDirection == OrderByDirection.Ascending)
         {
-            this.ɵordering.set(
+            newOrdering = 
             {
                 orderByDirection: OrderByDirection.Descending,
                 orderBy: columnId
-            });
+            };
+
+            this.ɵordering.set(newOrdering);
         }
         else
         {
-            this.ɵordering.set(null);
+            newOrdering = null;
+            this.ɵordering.set(newOrdering);
         }
+
+        this.gridInitializer?.setOrdering(newOrdering);
     }
 
     /**

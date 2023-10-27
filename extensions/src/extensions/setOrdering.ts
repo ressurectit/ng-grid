@@ -8,10 +8,10 @@ export function setOrdering<TOrdering>(ordering: TOrdering): GridAction
 {
     return grid =>
     {
-        const contentRenderer = grid.getPlugin<Ordering<TOrdering>>(GridPluginType.Ordering);
+        const orderingPlugin = grid.getPlugin<Ordering<TOrdering>>(GridPluginType.Ordering);
         const dataLoader = grid.getPlugin<DataLoader>(GridPluginType.DataLoader);
 
-        contentRenderer.setOrdering(ordering);
+        orderingPlugin.setOrdering(ordering);
         dataLoader.loadData();
     };
 }
