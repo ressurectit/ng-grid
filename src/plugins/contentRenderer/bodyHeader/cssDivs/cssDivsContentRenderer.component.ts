@@ -42,6 +42,7 @@ const defaultOptions: CssDivsContentRendererOptions =
 
 /**
  * Component used for 'CssDivsContentRendererComponent'
+ * @deprecated use new MatrixGrid with MatrixContentRenderer instead
  */
 @Component(
 {

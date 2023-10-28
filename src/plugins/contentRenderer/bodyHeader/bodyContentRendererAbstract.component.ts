@@ -7,6 +7,7 @@ import {GridPluginInstances} from '../../../misc/types';
 
 /**
  * Abstract component for body content renderer
+ * @deprecated use new MatrixGrid with MatrixContentRenderer instead
  */
 @Directive()
 export class BodyContentRendererAbstractComponent<TData = unknown, TCssClasses = unknown, TOptions extends BodyContentRendererOptions<TData, TCssClasses> = BodyContentRendererOptions<TData, TCssClasses>, TMetadata = unknown> implements BodyContentRenderer<TData, TMetadata>, GridPlugin<TOptions>

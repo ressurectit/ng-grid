@@ -28,6 +28,7 @@ const defaultOptions: CssDivsBodyContentRendererOptions =
 
 /**
  * Component used for rendering body for 'CssDivsContentRenderer'
+ * @deprecated use new MatrixGrid with MatrixContentRenderer instead
  */
 @Component(
 {

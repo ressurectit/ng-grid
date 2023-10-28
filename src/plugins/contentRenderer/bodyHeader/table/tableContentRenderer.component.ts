@@ -42,6 +42,7 @@ const defaultOptions: TableContentRendererOptions =
 
 /**
  * Component used for 'TableContentRendererComponent'
+ * @deprecated use new MatrixGrid with MatrixContentRenderer instead
  */
 @Component(
 {

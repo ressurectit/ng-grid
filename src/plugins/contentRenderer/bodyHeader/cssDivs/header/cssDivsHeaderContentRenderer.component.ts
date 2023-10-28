@@ -26,6 +26,7 @@ const defaultOptions: CssDivsHeaderContentRendererOptions =
 
 /**
  * Component used for rendering css grid header in css grid content renderer
+ * @deprecated use new MatrixGrid with MatrixContentRenderer instead
  */
 @Component(
 {

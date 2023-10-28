@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, inject, ElementRef, Inject, Optional, ValueProvider, ViewChild, ViewContainerRef, OnDestroy, FactoryProvider, Injector, OnInit, ComponentRef, Provider} from '@angular/core';
+import {Component, ChangeDetectionStrategy, inject, ElementRef, Inject, Optional, ValueProvider, ViewChild, ViewContainerRef, OnDestroy, FactoryProvider, Injector, ComponentRef, Provider} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {RecursivePartial, extend} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
@@ -8,6 +8,8 @@ import {ContentRendererInnerStructure, DataLoader, DataResponse, Grid, GridConte
 import {GridPluginInstances} from '../../../misc/types';
 import {CONTENT_RENDERER_INNER_STRUCTURE, CONTENT_RENDERER_OPTIONS, DEFAULT_OPTIONS, GRID_INSTANCE, GRID_PLUGIN_INSTANCES, ORDERABLE_CELL} from '../../../misc/tokens';
 import {CssGridDefaultTemplatesSAComponent} from './misc/components';
+
+//TODO: allow changin of defaults, QueryList instead of static value
 
 /**
  * Default 'GridOptions'
@@ -78,7 +80,7 @@ const defaultOptions: MatrixContentRendererOptions =
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MatrixContentRendererSAComponent implements MatrixContentRenderer, GridPlugin<MatrixContentRendererOptions>, OnDestroy, OnInit
+export class MatrixContentRendererSAComponent implements MatrixContentRenderer, GridPlugin<MatrixContentRendererOptions>, OnDestroy
 {
     //######################### protected fields #########################
 
@@ -208,22 +210,6 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
         this.ɵoptions = extend(true, {}, defaultOptions, options);
     }
 
-    //######################### public methods - implementation of OnInit #########################
-
-    /**
-     * Initialize component
-     */
-    public ngOnInit(): void
-    {
-        const defaultsComponent: ComponentRef<MatrixContentRendererDefautTemplates> = this.defaultsContainer.createComponent(this.ɵoptions.defaults,
-                                                                                                                             {
-                                                                                                                                 injector: this.injector,
-                                                                                                                             });
-
-        this.defaults = defaultsComponent.instance;
-        defaultsComponent.changeDetectorRef.detectChanges();
-    }
-
     //######################### public methods - implementation of OnDestroy #########################
 
     /**
@@ -319,6 +305,15 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
      */
     public initOptions(): void
     {
+        this.defaultsContainer.clear();
+
+        const defaultsComponent: ComponentRef<MatrixContentRendererDefautTemplates> = this.defaultsContainer.createComponent(this.ɵoptions.defaults,
+                                                                                                                             {
+                                                                                                                                 injector: this.injector,
+                                                                                                                             });
+
+        this.defaults = defaultsComponent.instance;
+        defaultsComponent.changeDetectorRef.detectChanges();
     }
 
     /**
@@ -428,10 +423,10 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
         const viewContainer = this.innerStructure.gridContainer.renderableContent?.viewContainer;
 
         this.innerStructure.footerContainer.view = viewContainer?.createEmbeddedView(this.metadataSelector?.metadata?.contentContainer?.template ?? this.defaultsSafe.footerContainer,
-                                                                                      this.getGridContext(),
-                                                                                      {
-                                                                                          injector: this.createInjector(viewContainer.injector),
-                                                                                      });
+                                                                                     this.getGridContext(),
+                                                                                     {
+                                                                                         injector: this.createInjector(viewContainer.injector),
+                                                                                     });
 
         this.innerStructure.footerContainer.renderableContent = null;
         this.innerStructure.footerRowContainer = [];
@@ -464,10 +459,10 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
             const rowColumns = headerRow
                 .columns
                 ?.map(id => this.metadataSelector
-                                                    ?.metadata
-                                                    ?.columns
-                                                    ?.find(itm => itm.id == id) as MatrixGridColumn)
-                                                    ?.filter(itm => itm) ?? this.metadataSelector?.metadata?.columns ?? [];
+                    ?.metadata
+                    ?.columns
+                    ?.find(itm => itm.id == id) as MatrixGridColumn)
+                ?.filter(itm => itm) ?? this.metadataSelector?.metadata?.columns ?? [];
             const context = this.getGridRowContext(index, rowColumns);
 
             //skip rendering of this row
@@ -551,10 +546,10 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
                 const rowColumns = contentRow
                     .columns
                     ?.map(id => this.metadataSelector
-                                                        ?.metadata
-                                                        ?.columns
-                                                        ?.find(itm => itm.id == id) as MatrixGridColumn)
-                                                        ?.filter(itm => itm) ?? this.metadataSelector?.metadata?.columns ?? [];
+                        ?.metadata
+                        ?.columns
+                        ?.find(itm => itm.id == id) as MatrixGridColumn)
+                    ?.filter(itm => itm) ?? this.metadataSelector?.metadata?.columns ?? [];
                 const context = this.getGridDataRowContext(datumIndex, datum, rowColumns);
 
                 //skip rendering of this row
@@ -617,10 +612,10 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
             const rowColumns = footerRow
                 .columns
                 ?.map(id => this.metadataSelector
-                                                    ?.metadata
-                                                    ?.columns
-                                                    ?.find(itm => itm.id == id) as MatrixGridColumn)
-                                                    ?.filter(itm => itm) ?? this.metadataSelector?.metadata?.columns ?? [];
+                    ?.metadata
+                    ?.columns
+                    ?.find(itm => itm.id == id) as MatrixGridColumn)
+                ?.filter(itm => itm) ?? this.metadataSelector?.metadata?.columns ?? [];
             const context = this.getGridRowContext(index, rowColumns);
 
             //skip rendering of this row

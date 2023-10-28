@@ -188,7 +188,6 @@
       - `MatrixContentRenderer`
       - `GridPlugin`
       - `OnDestroy`
-      - `OnInit`
 - new `ContentRendererInnerStructure` interface, that is object used for sharing content renderers inner structure (components composing rendered content)
    - **properties**
       - `gridContainer` inner structure item representing grid container
@@ -288,6 +287,7 @@
 - new `DefaultOrderableIndicatorRenderer` class, that is default implementation of orderable indicator renderer
    - **implements**
       - `OrderableIndicatorRenderer`
+- new `UseTableSADirective` directive, that configures MatrixContentRenderer to use TableDefaultTemplates
 - new `MatrixGridModule` module for matrix grid components and directives
 - updated `TableGridColumnSAComponent` component
    - now supports also obtaining template using directives `TableGridBodyCellTemplateSADirective`, `TableGridHeaderCellTemplateSADirective`

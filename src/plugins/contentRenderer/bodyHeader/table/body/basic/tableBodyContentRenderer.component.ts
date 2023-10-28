@@ -22,6 +22,7 @@ const defaultOptions: TableBodyContentRendererOptions =
 
 /**
  * Component used for rendering tbody for 'TableContentRenderer'
+ * @deprecated use new MatrixGrid with MatrixContentRenderer instead
  */
 @Component(
 {

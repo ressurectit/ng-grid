@@ -5,7 +5,7 @@ import {Func1, PromiseOr, RecursivePartial, extend} from '@jscrpt/common';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
 import {Observable, BehaviorSubject, map, combineLatest, distinctUntilChanged, Subject, take} from 'rxjs';
 
-import {ContentRenderer, DataLoader, Grid, GridInitializer, GridOptions, GridPlugin, MetadataGatherer, MetadataSelector, NoDataRenderer, Ordering, Paging, PluginDescription, RowSelector} from '../../interfaces';
+import {ContentRenderer, ContentRendererOptions, CssClassesContentRenderer, CssClassesOrdering, DataLoader, Grid, GridInitializer, GridMetadata, GridOptions, GridPlugin, MetadataGatherer, MetadataSelector, NoDataRenderer, Ordering, OrderingOptions, Paging, PluginDescription, RowSelector} from '../../interfaces';
 import {CONTENT_RENDERER_TYPE, DATA_LOADER_TYPE, DEFAULT_OPTIONS, GRID_INITIALIZER_TYPE, GRID_INSTANCE, GRID_OPTIONS, GRID_PLUGIN_INSTANCES, METADATA_GATHERER, METADATA_SELECTOR_TYPE, NO_DATA_RENDERER_TYPE, ORDERING_TYPE, PAGING_TYPE, ROW_SELECTOR_TYPE} from '../../misc/tokens';
 import {AsyncDataLoaderSAComponent, BasicPagingSAComponent, NoRowSelectorSAComponent, NoGridInitializerSAComponent, NoMetadataSelectorSAComponent, SimpleNoDataRendererSAComponent, SingleOrderingSAComponent, TableContentRendererSAComponent} from '../../plugins';
 import {GridAction, GridFunction, GridPluginInstances} from '../../misc/types';
@@ -311,72 +311,72 @@ export class GridSAComponent implements OnInit, Grid
      * Sets paging component
      * @param paging - Created paging that is rendered
      */
-    protected setPagingComponent = setPluginFactory(GridPluginType.Paging,
-                                                                                     () => this.ɵgridOptions.plugins.paging,
-                                                                                     () => this.pluginsOptionsInitialization.paging,).bind(this);
+    protected setPagingComponent: Func1<Promise<void>, Paging | null> = setPluginFactory(GridPluginType.Paging,
+                                                                                         () => this.ɵgridOptions.plugins.paging,
+                                                                                         () => this.pluginsOptionsInitialization.paging,).bind(this);
 
     /**
      * Sets grid initializer component
      * @param gridInitializer - Created grid initializer that is used
      */
-    protected setGridInitializerComponent = setPluginFactory(GridPluginType.GridInitializer,
-                                                                                              () => this.ɵgridOptions.plugins.gridInitializer,
-                                                                                              () => this.pluginsOptionsInitialization.gridInitializer,).bind(this);
+    protected setGridInitializerComponent: Func1<Promise<void>, GridInitializer<unknown> | null> = setPluginFactory(GridPluginType.GridInitializer,
+                                                                                                                    () => this.ɵgridOptions.plugins.gridInitializer,
+                                                                                                                    () => this.pluginsOptionsInitialization.gridInitializer,).bind(this);
 
     /**
      * Sets metadata selector component
      * @param metadataSelector - Created metadata selector that is used
      */
-    protected setMetadataSelectorComponent = setPluginFactory(GridPluginType.MetadataSelector, 
-                                                                                               () => this.ɵgridOptions.plugins.metadataSelector,
-                                                                                               () => this.pluginsOptionsInitialization.metadataSelector,
-                                                                                               metadataSelector =>
-                                                                                               {
-                                                                                                   if(this.metadataGatherer)
-                                                                                                   {
-                                                                                                       metadataSelector.setMetadataGatherer(this.metadataGatherer);
-                                                                                                   }
-                                                                                               }).bind(this);
+    protected setMetadataSelectorComponent: Func1<Promise<void>, MetadataSelector<GridMetadata> | null> = setPluginFactory(GridPluginType.MetadataSelector, 
+                                                                                                                           () => this.ɵgridOptions.plugins.metadataSelector,
+                                                                                                                           () => this.pluginsOptionsInitialization.metadataSelector,
+                                                                                                                           metadataSelector =>
+                                                                                                                           {
+                                                                                                                               if(this.metadataGatherer)
+                                                                                                                               {
+                                                                                                                                   metadataSelector.setMetadataGatherer(this.metadataGatherer);
+                                                                                                                               }
+                                                                                                                           }).bind(this);
 
     /**
      * Sets data loader component
      * @param dataLoader - Created data loader that is used
      */
-    protected setDataLoaderComponent = setPluginFactory(GridPluginType.DataLoader,
-                                                                                         () => this.ɵgridOptions.plugins.dataLoader,
-                                                                                         () => this.pluginsOptionsInitialization.dataLoader,).bind(this);
+    protected setDataLoaderComponent: Func1<Promise<void>, DataLoader<unknown> | null> = setPluginFactory(GridPluginType.DataLoader,
+                                                                                                          () => this.ɵgridOptions.plugins.dataLoader,
+                                                                                                          () => this.pluginsOptionsInitialization.dataLoader,).bind(this);
 
     /**
      * Sets content renderer component
      * @param contentRenderer - Created content renderer that is rendered
      */
-    protected setContentRendererComponent = setPluginFactory(GridPluginType.ContentRenderer,
-                                                                                              () => this.ɵgridOptions.plugins.contentRenderer,
-                                                                                              () => this.pluginsOptionsInitialization.contentRenderer,).bind(this);
+    protected setContentRendererComponent: Func1<Promise<void>, ContentRenderer<ContentRendererOptions<CssClassesContentRenderer>> | null> = setPluginFactory(GridPluginType.ContentRenderer,
+                                                                                                                                                              () => this.ɵgridOptions.plugins.contentRenderer,
+                                                                                                                                                              () => this.pluginsOptionsInitialization.contentRenderer,).bind(this);
 
     /**
      * Sets no data renderer component
      * @param noDataRenderer - Created no data renderer that is rendered
      */
-    protected setNoDataRendererComponent = setPluginFactory(GridPluginType.NoDataRenderer,
-                                                                                             () => this.ɵgridOptions.plugins.noDataRenderer,
-                                                                                             () => this.pluginsOptionsInitialization.noDataRenderer,).bind(this);
+    protected setNoDataRendererComponent: Func1<Promise<void>, NoDataRenderer | null> = setPluginFactory(GridPluginType.NoDataRenderer,
+                                                                                                         () => this.ɵgridOptions.plugins.noDataRenderer,
+                                                                                                         () => this.pluginsOptionsInitialization.noDataRenderer,).bind(this);
 
     /**
      * Sets row selector component
      * @param rowSelector - Created row selector that is rendered
      */
-    protected setRowSelectorComponent = setPluginFactory(GridPluginType.RowSelector,
-                                                                                          () => this.ɵgridOptions.plugins.rowSelector,
-                                                                                          () => this.pluginsOptionsInitialization.rowSelector,).bind(this);
+    protected setRowSelectorComponent: Func1<Promise<void>, RowSelector<unknown, unknown, unknown> | null> = setPluginFactory(GridPluginType.RowSelector,
+                                                                                                                              () => this.ɵgridOptions.plugins.rowSelector,
+                                                                                                                              () => this.pluginsOptionsInitialization.rowSelector,).bind(this);
 
     /**
      * Sets ordering component
      * @param ordering - Created ordering that is rendered
      */
-    protected setOrderingComponent = setPluginFactory(GridPluginType.Ordering,
-                                                                                       () => this.ɵgridOptions.plugins.ordering,
-                                                                                       () => this.pluginsOptionsInitialization.ordering,).bind(this);
+    protected setOrderingComponent: Func1<Promise<void>, Ordering<unknown, OrderingOptions<CssClassesOrdering>> | null> = setPluginFactory(GridPluginType.Ordering,
+                                                                                                                                           () => this.ɵgridOptions.plugins.ordering,
+                                                                                                                                           () => this.pluginsOptionsInitialization.ordering,).bind(this);
 
     //######################### public methods - implementation of Grid #########################
 

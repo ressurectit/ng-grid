@@ -12,3 +12,4 @@ export * from './matrixGridColumn/matrixGridColumn.directive';
 export * from './orderable/orderable.directive';
 export * from './tableGridBodyCellTemplate/tableGridBodyCellTemplate.directive';
 export * from './tableGridHeaderCellTemplate/tableGridHeaderCellTemplate.directive';
+export * from './useTable/useTable.directive';

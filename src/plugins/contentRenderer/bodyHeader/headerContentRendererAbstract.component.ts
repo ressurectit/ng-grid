@@ -8,6 +8,7 @@ import {GRID_PLUGIN_INSTANCES} from '../../../misc/tokens';
 
 /**
  * Abstract component for header content renderer
+ * @deprecated use new MatrixGrid with MatrixContentRenderer instead
  */
 @Directive()
 export abstract class HeaderContentRendererAbstractComponent<TData = unknown, TOptions extends HeaderContentRendererOptions<CssClassesHeaderContentRenderer> = HeaderContentRendererOptions<CssClassesHeaderContentRenderer>> implements HeaderContentRenderer<TableGridMetadata<TableGridColumn<TData>>>, GridPlugin<TOptions>

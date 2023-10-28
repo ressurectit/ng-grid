@@ -196,7 +196,6 @@ export class OrderableSADirective implements OnInit, OnDestroy, OnChanges
             {
                 //create indicator and apply current ordering
                 this.indicatorRenderer?.create(this.element.nativeElement, this.renderer);
-                this.applyCssClasses();
 
                 //add new class
                 if(this.ordering.options.cssClasses.orderable)

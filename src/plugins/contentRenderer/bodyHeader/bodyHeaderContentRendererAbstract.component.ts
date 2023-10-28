@@ -10,6 +10,7 @@ import {GridPluginType} from '../../../misc/enums';
 
 /**
  * Abstract component for content renderers
+ * @deprecated use new MatrixGrid with MatrixContentRenderer instead
  */
 @Directive()
 export abstract class BodyHeaderContentRendererAbstractComponent<TData = unknown, TMetadata extends GridMetadata = GridMetadata, TOptions extends HeaderBodyContentRendererOptions<CssClassesHeaderBodyContentRenderer> = HeaderBodyContentRendererOptions<CssClassesHeaderBodyContentRenderer>> implements ContentRenderer, OnDestroy, GridPlugin<TOptions>

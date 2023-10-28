@@ -25,6 +25,7 @@ const defaultOptions: TableHeaderContentRendererOptions =
 
 /**
  * Component used for rendering table header in table content renderer
+ * @deprecated use new MatrixGrid with MatrixContentRenderer instead
  */
 @Component(
 {
