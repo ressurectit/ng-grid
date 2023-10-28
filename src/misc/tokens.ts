@@ -1,7 +1,7 @@
 import {InjectionToken} from '@angular/core';
 import {RecursivePartial} from '@jscrpt/common';
 
-import {ContentRenderer, ContentRendererInnerStructure, ContentRendererOptions, DataLoader, DataLoaderOptions, Grid, GridInitializer, GridInitializerOptions, GridOptions, GridOrderableCell, MetadataGatherer, MetadataSelector, MetadataSelectorOptions, NoDataRenderer, NoDataRendererOptions, Ordering, OrderingOptions, Paging, PagingOptions, RowSelector, RowSelectorOptions, VisualPluginOptions} from '../interfaces';
+import {ContentRenderer, CurrentViewContainer, ContentRendererOptions, DataLoader, DataLoaderOptions, Grid, GridInitializer, GridInitializerOptions, GridOptions, GridOrderableCell, MetadataGatherer, MetadataSelector, MetadataSelectorOptions, NoDataRenderer, NoDataRendererOptions, Ordering, OrderingOptions, Paging, PagingOptions, RowSelector, RowSelectorOptions, VisualPluginOptions} from '../interfaces';
 import {CellContextFactoryFn, DataCellContextFactoryFn, GridPluginInstances} from './types';
 
 /**
@@ -10,9 +10,9 @@ import {CellContextFactoryFn, DataCellContextFactoryFn, GridPluginInstances} fro
 export const ORDERABLE_CELL: InjectionToken<GridOrderableCell> = new InjectionToken<GridOrderableCell>('ORDERABLE_CELL');
 
 /**
- * Injection token used for sharing content renderers inner structure (dynamic part)
+ * Injection token used for sharing content renderers current view container for rendering into 'container' elements
  */
-export const CONTENT_RENDERER_INNER_STRUCTURE: InjectionToken<ContentRendererInnerStructure> = new InjectionToken<ContentRendererInnerStructure>('CONTENT_RENDERER_INNER_STRUCTURE');
+export const CONTENT_RENDERER_CURRENT_VIEW_CONTAINER: InjectionToken<CurrentViewContainer> = new InjectionToken<CurrentViewContainer>('CONTENT_RENDERER_CURRENT_VIEW_CONTAINER');
 
 /**
  * Injection token used for injecting default options

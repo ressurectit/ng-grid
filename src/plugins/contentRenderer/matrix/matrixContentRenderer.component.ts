@@ -1,15 +1,13 @@
-import {Component, ChangeDetectionStrategy, inject, ElementRef, Inject, Optional, ValueProvider, ViewChild, ViewContainerRef, OnDestroy, FactoryProvider, Injector, ComponentRef, Provider} from '@angular/core';
+import {Component, ChangeDetectionStrategy, inject, ElementRef, Inject, Optional, ValueProvider, ViewChild, ViewContainerRef, OnDestroy, FactoryProvider, Injector, ComponentRef, Provider, EmbeddedViewRef} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {RecursivePartial, extend} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
 import {MatrixContentRenderer, MatrixContentRendererDefautTemplates, MatrixContentRendererOptions} from './matrixContentRenderer.interface';
-import {ContentRendererInnerStructure, DataLoader, DataResponse, Grid, GridContext, GridDataRowContext, GridOrderableCell, GridPlugin, GridRowContext, MatrixGridColumn, MatrixGridMetadata, MetadataSelector, Paging, RowSelector} from '../../../interfaces';
+import {CurrentViewContainer, DataLoader, DataResponse, Grid, GridContext, GridDataRowContext, GridOrderableCell, GridPlugin, GridRowContext, MatrixGridColumn, MatrixGridMetadata, MetadataSelector, Paging, RowSelector} from '../../../interfaces';
 import {GridPluginInstances} from '../../../misc/types';
-import {CONTENT_RENDERER_INNER_STRUCTURE, CONTENT_RENDERER_OPTIONS, DEFAULT_OPTIONS, GRID_INSTANCE, GRID_PLUGIN_INSTANCES, ORDERABLE_CELL} from '../../../misc/tokens';
+import {CONTENT_RENDERER_CURRENT_VIEW_CONTAINER, CONTENT_RENDERER_OPTIONS, DEFAULT_OPTIONS, GRID_INSTANCE, GRID_PLUGIN_INSTANCES, ORDERABLE_CELL} from '../../../misc/tokens';
 import {CssGridDefaultTemplatesSAComponent} from './misc/components';
-
-//TODO: allow changin of defaults, QueryList instead of static value
 
 /**
  * Default 'GridOptions'
@@ -47,33 +45,11 @@ const defaultOptions: MatrixContentRendererOptions =
         },
         <FactoryProvider>
         {
-            provide: CONTENT_RENDERER_INNER_STRUCTURE,
+            provide: CONTENT_RENDERER_CURRENT_VIEW_CONTAINER,
             useFactory: () =>
             {
-                return <ContentRendererInnerStructure> {
-                    gridContainer:
-                    {
-                        renderableContent: null,
-                        view: null,
-                    },
-                    headerContainer:
-                    {
-                        renderableContent: null,
-                        view: null,
-                    },
-                    contentContainer:
-                    {
-                        renderableContent: null,
-                        view: null,
-                    },
-                    footerContainer:
-                    {
-                        renderableContent: null,
-                        view: null,
-                    },
-                    headerRowContainer: [],
-                    contentRowContainer: [],
-                    footerRowContainer: [],
+                return <CurrentViewContainer> {
+                    viewContainer: null,
                 };
             }
         }
@@ -85,9 +61,9 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
     //######################### protected fields #########################
 
     /**
-     * Instance of inner structure components
+     * Instance of current view container
      */
-    protected innerStructure: ContentRendererInnerStructure = inject(CONTENT_RENDERER_INNER_STRUCTURE);
+    protected currentViewContainer: CurrentViewContainer = inject(CONTENT_RENDERER_CURRENT_VIEW_CONTAINER);
 
     /**
      * Options for matrix content renderer
@@ -332,27 +308,20 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
     {
         //remove existing
         this.container.clear();
-        this.innerStructure.gridContainer = {renderableContent: null, view: null};
-        this.innerStructure.headerContainer = {renderableContent: null, view: null};
-        this.innerStructure.contentContainer = {renderableContent: null, view: null};
-        this.innerStructure.footerContainer = {renderableContent: null, view: null};
-        this.innerStructure.headerRowContainer = [];
-        this.innerStructure.contentRowContainer = [];
-        this.innerStructure.footerRowContainer = [];
 
-        this.innerStructure.gridContainer.view = this.container.createEmbeddedView(this.metadataSelector?.metadata?.gridContainer?.template ?? this.defaultsSafe.gridContainer,
-                                                                                   this.getGridContext(),
-                                                                                   {
-                                                                                       injector: this.createInjector(this.container.injector),
-                                                                                   });
+        const view: EmbeddedViewRef<GridContext<unknown, MatrixGridColumn<unknown>>> = this.container.createEmbeddedView(this.metadataSelector?.metadata?.gridContainer?.template ?? this.defaultsSafe.gridContainer,
+                                                                                                                         this.getGridContext(),
+                                                                                                                         {
+                                                                                                                             injector: this.createInjector(this.container.injector),
+                                                                                                                         });
 
-        this.innerStructure.gridContainer.view.detectChanges();
+        view.detectChanges();
 
         //removing renderable content
-        this.innerStructure.gridContainer.renderableContent?.viewContainer.clear();
+        this.currentViewContainer.viewContainer?.clear();
 
         //grid container is renderable
-        if(this.innerStructure.gridContainer.renderableContent)
+        if(this.currentViewContainer.viewContainer)
         {
             //render header
             this.renderHeaderContainer();
@@ -363,6 +332,8 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
             //render footer
             this.renderFooterContainer();
         }
+
+        this.clearCurrentViewContainer();
     }
 
     /**
@@ -370,24 +341,26 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
      */
     protected renderHeaderContainer(): void
     {
-        const viewContainer = this.innerStructure.gridContainer.renderableContent?.viewContainer;
+        const viewContainer = this.currentViewContainer.viewContainer;
 
-        this.innerStructure.headerContainer.view = viewContainer?.createEmbeddedView(this.metadataSelector?.metadata?.headerContainer?.template ?? this.defaultsSafe.headerContainer,
-                                                                                      this.getGridContext(),
-                                                                                      {
-                                                                                          injector: this.createInjector(viewContainer.injector),
-                                                                                      });
+        const view: EmbeddedViewRef<GridContext<unknown, MatrixGridColumn<unknown>>> | undefined = viewContainer?.createEmbeddedView(this.metadataSelector?.metadata?.headerContainer?.template ?? this.defaultsSafe.headerContainer,
+                                                                                                                                     this.getGridContext(),
+                                                                                                                                     {
+                                                                                                                                         injector: this.createInjector(viewContainer.injector),
+                                                                                                                                     });
 
-        this.innerStructure.headerContainer.renderableContent = null;
-        this.innerStructure.headerRowContainer = [];
-        this.innerStructure.headerContainer.view?.detectChanges();
+        this.clearCurrentViewContainer();
+        view?.detectChanges();
 
         //header container is renderable
-        if(this.innerStructure.headerContainer.renderableContent)
+        if(this.currentViewContainer.viewContainer)
         {
             //render header rows
             this.renderHeaderRowsContainers();
         }
+
+        //restore parents view container
+        this.currentViewContainer.viewContainer = viewContainer;
     }
 
     /**
@@ -395,24 +368,26 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
      */
     protected renderContentContainer(): void
     {
-        const viewContainer = this.innerStructure.gridContainer.renderableContent?.viewContainer;
+        const viewContainer = this.currentViewContainer.viewContainer;
 
-        this.innerStructure.contentContainer.view = viewContainer?.createEmbeddedView(this.metadataSelector?.metadata?.contentContainer?.template ?? this.defaultsSafe.contentContainer,
-                                                                                      this.getGridContext(),
-                                                                                      {
-                                                                                          injector: this.createInjector(viewContainer.injector),
-                                                                                      });
+        const view: EmbeddedViewRef<GridContext<unknown, MatrixGridColumn<unknown>>> | undefined = viewContainer?.createEmbeddedView(this.metadataSelector?.metadata?.contentContainer?.template ?? this.defaultsSafe.contentContainer,
+                                                                                                                                     this.getGridContext(),
+                                                                                                                                     {
+                                                                                                                                         injector: this.createInjector(viewContainer.injector),
+                                                                                                                                     });
 
-        this.innerStructure.contentContainer.renderableContent = null;
-        this.innerStructure.contentRowContainer = [];
-        this.innerStructure.contentContainer.view?.detectChanges();
+        this.clearCurrentViewContainer();
+        view?.detectChanges();
 
         //content container is renderable
-        if(this.innerStructure.contentContainer.renderableContent)
+        if(this.currentViewContainer.viewContainer)
         {
             //render content rows
             this.renderContentRowsContainers();
         }
+
+        //restore parents view container
+        this.currentViewContainer.viewContainer = viewContainer;
     }
 
     /**
@@ -420,24 +395,26 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
      */
     protected renderFooterContainer(): void
     {
-        const viewContainer = this.innerStructure.gridContainer.renderableContent?.viewContainer;
+        const viewContainer = this.currentViewContainer.viewContainer;
 
-        this.innerStructure.footerContainer.view = viewContainer?.createEmbeddedView(this.metadataSelector?.metadata?.contentContainer?.template ?? this.defaultsSafe.footerContainer,
-                                                                                     this.getGridContext(),
-                                                                                     {
-                                                                                         injector: this.createInjector(viewContainer.injector),
-                                                                                     });
+        const view: EmbeddedViewRef<GridContext<unknown, MatrixGridColumn<unknown>>> | undefined = viewContainer?.createEmbeddedView(this.metadataSelector?.metadata?.contentContainer?.template ?? this.defaultsSafe.footerContainer,
+                                                                                                                                     this.getGridContext(),
+                                                                                                                                     {
+                                                                                                                                         injector: this.createInjector(viewContainer.injector),
+                                                                                                                                     });
 
-        this.innerStructure.footerContainer.renderableContent = null;
-        this.innerStructure.footerRowContainer = [];
-        this.innerStructure.footerContainer.view?.detectChanges();
+        this.clearCurrentViewContainer();
+        view?.detectChanges();
 
         //footer container is renderable
-        if(this.innerStructure.footerContainer.renderableContent)
+        if(this.currentViewContainer.viewContainer)
         {
             //render footer rows
             this.renderFooterRowsContainers();
         }
+
+        //restore parents view container
+        this.currentViewContainer.viewContainer = viewContainer;
     }
 
     /**
@@ -445,12 +422,8 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
      */
     protected renderHeaderRowsContainers(): void
     {
-        const viewContainer = this.innerStructure.headerContainer.renderableContent?.viewContainer;
+        const viewContainer = this.currentViewContainer.viewContainer;
 
-        //removing renderable content
-        viewContainer?.clear();
-
-        this.innerStructure.headerRowContainer = [];
         const headerRowsTemplates = this.metadataSelector?.metadata?.headerRowContainer?.length ? this.metadataSelector?.metadata?.headerRowContainer : [{template: this.defaultsSafe.headerRowContainer, predicate: null, columns: null}];
 
         for(let index = 0; index < headerRowsTemplates.length; index++)
@@ -471,19 +444,18 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
                 continue;
             }
 
-            this.innerStructure.headerRowContainer.push({renderableContent: null, view: null});
+            const view: EmbeddedViewRef<GridRowContext<unknown, MatrixGridColumn<unknown>>> | undefined = viewContainer?.createEmbeddedView(headerRow.template,
+                                                                                                                                            context,
+                                                                                                                                            {
+                                                                                                                                                injector: this.createInjector(viewContainer.injector),
+                                                                                                                                            });
 
-            this.innerStructure.headerRowContainer[index].view = viewContainer?.createEmbeddedView(headerRow.template,
-                                                                                                   context,
-                                                                                                   {
-                                                                                                       injector: this.createInjector(viewContainer.injector),
-                                                                                                   });
+            this.clearCurrentViewContainer();
+            view?.detectChanges();
 
-            this.innerStructure.headerRowContainer[index].view?.detectChanges();
+            const columnViewContainer = this.currentViewContainer.viewContainer;
 
-            const columnViewContainer = this.innerStructure.headerRowContainer[index].renderableContent?.viewContainer;
-
-            columnViewContainer?.clear();
+            //TODO: if renderable content for row!
 
             for(const column of rowColumns)
             {
@@ -526,19 +498,15 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
      */
     protected renderContentRowsContainers(): void
     {
-        const viewContainer = this.innerStructure.contentContainer.renderableContent?.viewContainer;
+        const viewContainer = this.currentViewContainer.viewContainer;
 
-        //removing renderable content
-        viewContainer?.clear();
-
-        this.innerStructure.contentRowContainer = [];
         const contentRowsTemplates = this.metadataSelector?.metadata?.contentRowContainer?.length ? this.metadataSelector?.metadata?.contentRowContainer : [{template: this.defaultsSafe.contentRowContainer, predicate: null, columns: null}];
+        const data = this.dataLoader?.result();
+        const dataLength = data?.data?.length ?? 0;
 
-        for(let datumIndex = 0; datumIndex < (this.dataLoader?.result().data?.length ?? 0); datumIndex++)
+        for(let datumIndex = 0; datumIndex < dataLength; datumIndex++)
         {
-            const datum = this.dataLoader?.result().data[datumIndex];
-            
-            this.innerStructure.contentRowContainer.push([]);
+            const datum = data?.data[datumIndex];
             
             for(let index = 0; index < contentRowsTemplates.length; index++)
             {
@@ -558,20 +526,17 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
                     continue;
                 }
 
-                this.innerStructure.contentRowContainer[datumIndex].push({renderableContent: null, view: null});
 
-                this.innerStructure.contentRowContainer[datumIndex][index].view = viewContainer?.createEmbeddedView(contentRow.template,
-                                                                                                                    context,
-                                                                                                                    {
-                                                                                                                        injector: this.createInjector(viewContainer.injector),
-                                                                                                                    });
+                const view: EmbeddedViewRef<GridDataRowContext<unknown, MatrixGridColumn<unknown>>> | undefined = viewContainer?.createEmbeddedView(contentRow.template,
+                                                                                                                                                    context,
+                                                                                                                                                    {
+                                                                                                                                                        injector: this.createInjector(viewContainer.injector),
+                                                                                                                                                    });
 
-                this.innerStructure.contentRowContainer[datumIndex][index].view?.detectChanges();
+                this.clearCurrentViewContainer();
+                view?.detectChanges();
 
-                //TODO move into function
-                const columnViewContainer = this.innerStructure.contentRowContainer[datumIndex][index].renderableContent?.viewContainer;
-
-                columnViewContainer?.clear();
+                const columnViewContainer = this.currentViewContainer.viewContainer;
 
                 for(const column of rowColumns)
                 {
@@ -598,12 +563,8 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
      */
     protected renderFooterRowsContainers(): void
     {
-        const viewContainer = this.innerStructure.footerContainer.renderableContent?.viewContainer;
+        const viewContainer = this.currentViewContainer.viewContainer;
 
-        //removing renderable content
-        viewContainer?.clear();
-
-        this.innerStructure.footerRowContainer = [];
         const footerRowsTemplates = this.metadataSelector?.metadata?.footerRowContainer?.length ? this.metadataSelector?.metadata?.footerRowContainer : [{template: this.defaultsSafe.footerRowContainer, predicate: null, columns: null}];
 
         for(let index = 0; index < footerRowsTemplates.length; index++)
@@ -624,19 +585,16 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
                 continue;
             }
 
-            this.innerStructure.footerRowContainer.push({renderableContent: null, view: null});
+            const view: EmbeddedViewRef<GridRowContext<unknown, MatrixGridColumn<unknown>>> | undefined = viewContainer?.createEmbeddedView(footerRow.template,
+                                                                                                                                            context,
+                                                                                                                                            {
+                                                                                                                                                injector: this.createInjector(viewContainer.injector),
+                                                                                                                                            });
 
-            this.innerStructure.footerRowContainer[index].view = viewContainer?.createEmbeddedView(footerRow.template,
-                                                                                                   context,
-                                                                                                   {
-                                                                                                       injector: this.createInjector(viewContainer.injector),
-                                                                                                   });
+            this.clearCurrentViewContainer();
+            view?.detectChanges();
 
-            this.innerStructure.footerRowContainer[index].view?.detectChanges();
-
-            const columnViewContainer = this.innerStructure.footerRowContainer[index].renderableContent?.viewContainer;
-
-            columnViewContainer?.clear();
+            const columnViewContainer = this.currentViewContainer.viewContainer;
 
             for(const column of rowColumns)
             {
@@ -725,12 +683,20 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
             [
                 <FactoryProvider>
                 {
-                    provide: CONTENT_RENDERER_INNER_STRUCTURE,
-                    useFactory: () => this.innerStructure,
+                    provide: CONTENT_RENDERER_CURRENT_VIEW_CONTAINER,
+                    useFactory: () => this.currentViewContainer,
                 },
                 ...additionalProviders,
             ],
             parent: injector,
         });
+    }
+
+    /**
+     * Clears current view container
+     */
+    protected clearCurrentViewContainer(): void
+    {
+        this.currentViewContainer.viewContainer = null;
     }
 }

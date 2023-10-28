@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, OnInit} from '@angular/core';
+import {Component, ChangeDetectionStrategy} from '@angular/core';
 
 import {RenderableContentComponent} from '../renderableContent/renderableContent.component';
 
@@ -12,15 +12,6 @@ import {RenderableContentComponent} from '../renderableContent/renderableContent
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ContentContainerSAComponent extends RenderableContentComponent implements OnInit
+export class ContentContainerSAComponent extends RenderableContentComponent
 {
-    //######################### public methods - implementation of OnInit #########################
-    
-    /**
-     * Initialize component
-     */
-    public ngOnInit(): void
-    {
-        this.contentRendererInnerStructure.contentContainer.renderableContent = this;
-    }
 }

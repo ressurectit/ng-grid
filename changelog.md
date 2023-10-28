@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 10.0.0 (2023-10-27)
+## Version 10.0.0 (2023-10-28)
 
 ### Features
 
@@ -69,7 +69,7 @@
 - new `DATA_CELL_CONTEXT_FN` injection token for obtaining data cell context factory function
 - new `GRID_INSTANCE` injection token for obtaining grid instance inside grid plugins and nested types
 - new `DEFAULT_OPTIONS` injection token used for injecting default options
-- new `CONTENT_RENDERER_INNER_STRUCTURE` injection token used for sharing content renderers inner structure (dynamic part)
+- new `CONTENT_RENDERER_CURRENT_VIEW_CONTAINER` injection token used for sharing content renderers current view container for rendering into 'container' elements
 - new `ORDERABLE_CELL` injection token used for obtaining orderable directive from cell
 - new `cellContextFactory` function, that creates context object for cell in grid
 - new `dataCellContextFactory` function, that creates context object for data cell in grid
@@ -89,28 +89,21 @@
       - `AfterContentInit`
 - new `RenderableContentComponent` component, that is base class for all renderable content components
    - **implements**
-      - `RenderableContent`
+      - `OnInit`
 - new `GridContainerSAComponent` component, that represents grid container
    - **extends** `RenderableContentComponent`
-   - **implements** `OnInit`
 - new `HeaderContainerSAComponent` component, that represents header container
    - **extends** `RenderableContentComponent`
-   - **implements** `OnInit`
 - new `ContentContainerSAComponent` component, that represents content container
    - **extends** `RenderableContentComponent`
-   - **implements** `OnInit`
 - new `FooterContainerSAComponent` component, that represents footer container
    - **extends** `RenderableContentComponent`
-   - **implements** `OnInit`
 - new `HeaderRowContainerSAComponent` component, that represents header row container
    - **extends** `RenderableContentComponent`
-   - **implements** `OnInit`
 - new `ContentRowContainerSAComponent` component, that represents content row container
    - **extends** `RenderableContentComponent`
-   - **implements** `OnInit`
 - new `FooterRowContainerSAComponent` component, that represents footer row container
    - **extends** `RenderableContentComponent`
-   - **implements** `OnInit`
 - new `GridContainerTemplateSADirective` directive, that is used for obtaining template for grid content renderer container
    - **properties**
       - `template` obtained template by this directive
@@ -188,22 +181,9 @@
       - `MatrixContentRenderer`
       - `GridPlugin`
       - `OnDestroy`
-- new `ContentRendererInnerStructure` interface, that is object used for sharing content renderers inner structure (components composing rendered content)
+- new `CurrentViewContainer` interface, that is type that allows storing and sharing view container of 'container' element
    - **properties**
-      - `gridContainer` inner structure item representing grid container
-      - `headerContainer` inner structure item representing
-      - `contentContainer` inner structure item representing
-      - `footerContainer` inner structure item representing
-      - `headerRowContainer` inner structure item representing
-      - `contentRowContainer` inner structure item representing
-      - `footerRowContainer` inner structure item representing
-- new `InnerStructureItem` interface, that is type describing inner structure item
-   - **properties**
-      - `renderableContent` component that contains renderable content
-      - `view` reference to rendered view template
-- new `RenderableContent` interface, that is type that contains view container for dynamic rendering of its content
-   - **properties**
-      - `RenderableContent` view container that is used for rendering its content
+      - `viewContainer` view container that is used for rendering content of 'container' element
 - new `GridContext` interface, that represents context that is available in content renderer top levels, outside of data scope
    - **properties**
       - `grid` instance of grid itself
