@@ -4,7 +4,7 @@ import {Action4, Func1, Func2, NoopAction, RecursivePartial, extend} from '@jscr
 import {Subscription, skip} from 'rxjs';
 
 import {MatrixContentRenderer, MatrixContentRendererDefautTemplates, MatrixContentRendererOptions} from './matrixContentRenderer.interface';
-import {CurrentViewContainer, DataLoader, DataResponse, Grid, GridCellContext, GridContext, GridDataCellContext, GridDataRowContext, GridOrderableCell, GridPlugin, GridRowContext, MatrixGridColumn, MatrixGridMetadata, MetadataSelector, Paging, RowSelector} from '../../../interfaces';
+import {CurrentViewContainer, DataLoader, DataResponse, Grid, GridCellContext, GridContext, GridDataRowContext, GridOrderableCell, GridPlugin, GridRowContext, MatrixGridColumn, MatrixGridMetadata, MetadataSelector, Paging, RowSelector} from '../../../interfaces';
 import {GridPluginInstances} from '../../../misc/types';
 import {CONTENT_RENDERER_CURRENT_VIEW_CONTAINER, CONTENT_RENDERER_OPTIONS, DEFAULT_OPTIONS, GRID_INSTANCE, GRID_PLUGIN_INSTANCES, ORDERABLE_CELL} from '../../../misc/tokens';
 import {CssGridDefaultTemplatesSAComponent} from './misc/components';
@@ -369,7 +369,7 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
 
             this.renderRowContainer(this.metadataSelector?.metadata?.contentRowContainer?.length ? this.metadataSelector?.metadata?.contentRowContainer : [{template: this.defaultsSafe.contentRowContainer, predicate: null, columns: null}],
                                     column => column.bodyTemplate,
-                                    this.renderContentCell,
+                                    this.renderContentOrFooterCell,
                                     (index, columns) => this.getGridDataRowContext(index, datum, columns));
         }
     }
@@ -381,7 +381,7 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
     {
         this.renderRowContainer(this.metadataSelector?.metadata?.footerRowContainer?.length ? this.metadataSelector?.metadata?.footerRowContainer : [{template: this.defaultsSafe.footerRowContainer, predicate: null, columns: null}],
                                 column => column.footerTemplate,
-                                this.renderFooterCell,
+                                this.renderContentOrFooterCell,
                                 (index, columns) => this.getGridRowContext(index, columns));
     }
 
@@ -508,7 +508,7 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
      */
     protected renderRowContainer(rowTemplates: Array<FooterRowContainerTemplateSADirective|HeaderRowContainerTemplateSADirective|ContentRowContainerTemplateSADirective>,
                                  cellTemplateGetter: Func1<TemplateRef<GridCellContext<unknown, MatrixGridColumn>>|null|undefined, MatrixGridColumn>,
-                                 cellRenderer: Action4<ViewContainerRef, TemplateRef<GridCellContext<unknown, MatrixGridColumn>|GridDataCellContext<unknown, MatrixGridColumn>>, GridRowContext<unknown, MatrixGridColumn>|GridDataRowContext<unknown, MatrixGridColumn>, MatrixGridColumn>,
+                                 cellRenderer: Action4<ViewContainerRef, TemplateRef<GridCellContext<unknown, MatrixGridColumn>>, GridRowContext<unknown, MatrixGridColumn>, MatrixGridColumn>,
                                  contextGetter: Func2<GridRowContext|GridDataRowContext, number, MatrixGridColumn[]>): void
     {
         const viewContainer = this.currentViewContainer.viewContainer;
@@ -601,38 +601,16 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
     }
 
     /**
-     * Renders content cell
+     * Renders content or footer cell
      * @param viewContainer - View container used for rendering cell
      * @param template - Template used for rendering cell
      * @param context - Context passed to rendered cell
      * @param column - Instance of column metadata
      */
-    protected renderContentCell(viewContainer: ViewContainerRef,
-                                template: TemplateRef<GridCellContext<unknown, MatrixGridColumn>>,
-                                context: GridRowContext<unknown, MatrixGridColumn>,
-                                column: MatrixGridColumn,): void
-    {
-        viewContainer.createEmbeddedView(template,
-                                         {
-                                             ...context,
-                                             metadata: column,
-                                         },
-                                         {
-                                             injector: this.createInjector(viewContainer.injector),
-                                         });
-    }
-
-    /**
-     * Renders footer cell
-     * @param viewContainer - View container used for rendering cell
-     * @param template - Template used for rendering cell
-     * @param context - Context passed to rendered cell
-     * @param column - Instance of column metadata
-     */
-    protected renderFooterCell(viewContainer: ViewContainerRef,
-                               template: TemplateRef<GridCellContext<unknown, MatrixGridColumn>>,
-                               context: GridRowContext<unknown, MatrixGridColumn>,
-                               column: MatrixGridColumn,): void
+    protected renderContentOrFooterCell(viewContainer: ViewContainerRef,
+                                        template: TemplateRef<GridCellContext<unknown, MatrixGridColumn>>,
+                                        context: GridRowContext<unknown, MatrixGridColumn>,
+                                        column: MatrixGridColumn,): void
     {
         viewContainer.createEmbeddedView(template,
                                          {
