@@ -1,15 +1,16 @@
 import {Component, ChangeDetectionStrategy, inject, ElementRef, Inject, Optional, ValueProvider, ViewChild, ViewContainerRef, OnDestroy, FactoryProvider, Injector, ComponentRef, Provider, EmbeddedViewRef, TemplateRef} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
-import {Action4, Func1, NoopAction, RecursivePartial, extend} from '@jscrpt/common';
+import {Action4, Func1, Func2, NoopAction, RecursivePartial, extend} from '@jscrpt/common';
 import {Subscription, skip} from 'rxjs';
 
 import {MatrixContentRenderer, MatrixContentRendererDefautTemplates, MatrixContentRendererOptions} from './matrixContentRenderer.interface';
-import {CurrentViewContainer, DataLoader, DataResponse, Grid, GridCellContext, GridContext, GridDataRowContext, GridOrderableCell, GridPlugin, GridRowContext, MatrixGridColumn, MatrixGridMetadata, MetadataSelector, Paging, RowSelector} from '../../../interfaces';
+import {CurrentViewContainer, DataLoader, DataResponse, Grid, GridCellContext, GridContext, GridDataCellContext, GridDataRowContext, GridOrderableCell, GridPlugin, GridRowContext, MatrixGridColumn, MatrixGridMetadata, MetadataSelector, Paging, RowSelector} from '../../../interfaces';
 import {GridPluginInstances} from '../../../misc/types';
 import {CONTENT_RENDERER_CURRENT_VIEW_CONTAINER, CONTENT_RENDERER_OPTIONS, DEFAULT_OPTIONS, GRID_INSTANCE, GRID_PLUGIN_INSTANCES, ORDERABLE_CELL} from '../../../misc/tokens';
 import {CssGridDefaultTemplatesSAComponent} from './misc/components';
 import type {FooterRowContainerTemplateSADirective} from '../../../directives/footerRowContainerTemplate/footerRowContainerTemplate.directive';
 import type {HeaderRowContainerTemplateSADirective} from '../../../directives/headerRowContainerTemplate/headerRowContainerTemplate.directive';
+import type {ContentRowContainerTemplateSADirective} from '../../../directives/contentRowContainerTemplate/contentRowContainerTemplate.directive';
 
 /**
  * Default 'GridOptions'
@@ -348,9 +349,10 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
      */
     protected renderHeaderRowsContainers(): void
     {
-        this.renderHeaderFooterRowContainer(this.metadataSelector?.metadata?.headerRowContainer?.length ? this.metadataSelector?.metadata?.headerRowContainer : [{template: this.defaultsSafe.headerRowContainer, predicate: null, columns: null}],
-                                            column => column.headerTemplate,
-                                            this.renderHeaderCell);
+        this.renderRowContainer(this.metadataSelector?.metadata?.headerRowContainer?.length ? this.metadataSelector?.metadata?.headerRowContainer : [{template: this.defaultsSafe.headerRowContainer, predicate: null, columns: null}],
+                                column => column.headerTemplate,
+                                this.renderHeaderCell,
+                                (index, columns) => this.getGridRowContext(index, columns));
     }
 
     /**
@@ -358,68 +360,17 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
      */
     protected renderContentRowsContainers(): void
     {
-        const viewContainer = this.currentViewContainer.viewContainer;
-
-        const contentRowsTemplates = this.metadataSelector?.metadata?.contentRowContainer?.length ? this.metadataSelector?.metadata?.contentRowContainer : [{template: this.defaultsSafe.contentRowContainer, predicate: null, columns: null}];
         const data = this.dataLoader?.result();
         const dataLength = data?.data?.length ?? 0;
 
         for(let datumIndex = 0; datumIndex < dataLength; datumIndex++)
         {
             const datum = data?.data[datumIndex];
-            
-            for(let index = 0; index < contentRowsTemplates.length; index++)
-            {
-                const contentRow = contentRowsTemplates[index];
-                const rowColumns = contentRow
-                    .columns
-                    ?.map(id => this.metadataSelector
-                        ?.metadata
-                        ?.columns
-                        ?.find(itm => itm.id == id) as MatrixGridColumn)
-                    ?.filter(itm => itm) ?? this.metadataSelector?.metadata?.columns ?? [];
-                const context = this.getGridDataRowContext(datumIndex, datum, rowColumns);
 
-                //skip rendering of this row
-                if(contentRow.predicate && !contentRow.predicate(context))
-                {
-                    continue;
-                }
-
-
-                const view: EmbeddedViewRef<GridDataRowContext<unknown, MatrixGridColumn<unknown>>> | undefined = viewContainer?.createEmbeddedView(contentRow.template,
-                                                                                                                                                    context,
-                                                                                                                                                    {
-                                                                                                                                                        injector: this.createInjector(viewContainer.injector),
-                                                                                                                                                    });
-
-                this.clearCurrentViewContainer();
-                view?.detectChanges();
-
-                const columnViewContainer = this.currentViewContainer.viewContainer;
-
-                if(!columnViewContainer)
-                {
-                    continue;
-                }
-
-                for(const column of rowColumns)
-                {
-                    if(!column.bodyTemplate)
-                    {
-                        continue;
-                    }
-
-                    columnViewContainer.createEmbeddedView(column.bodyTemplate,
-                                                           {
-                                                               ...context,
-                                                               metadata: column,
-                                                           },
-                                                           {
-                                                               injector: this.createInjector(columnViewContainer.injector),
-                                                           });
-                }
-            }
+            this.renderRowContainer(this.metadataSelector?.metadata?.contentRowContainer?.length ? this.metadataSelector?.metadata?.contentRowContainer : [{template: this.defaultsSafe.contentRowContainer, predicate: null, columns: null}],
+                                    column => column.bodyTemplate,
+                                    this.renderContentCell,
+                                    (index, columns) => this.getGridDataRowContext(index, datum, columns));
         }
     }
 
@@ -428,9 +379,10 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
      */
     protected renderFooterRowsContainers(): void
     {
-        this.renderHeaderFooterRowContainer(this.metadataSelector?.metadata?.footerRowContainer?.length ? this.metadataSelector?.metadata?.footerRowContainer : [{template: this.defaultsSafe.footerRowContainer, predicate: null, columns: null}],
-                                            column => column.footerTemplate,
-                                            this.renderFooterCell);
+        this.renderRowContainer(this.metadataSelector?.metadata?.footerRowContainer?.length ? this.metadataSelector?.metadata?.footerRowContainer : [{template: this.defaultsSafe.footerRowContainer, predicate: null, columns: null}],
+                                column => column.footerTemplate,
+                                this.renderFooterCell,
+                                (index, columns) => this.getGridRowContext(index, columns));
     }
 
     /**
@@ -548,14 +500,16 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
     }
 
     /**
-     * Renders header or footer row container
+     * Renders row container
      * @param rowTemplates - Array of row templates directives
      * @param cellTemplateGetter - Function for obtaining template for cell for column definition
-     * @param cellRenderer - Function that renders 
+     * @param cellRenderer - Function that renders
+     * @param contextGetter - Function used for obtaining grid context
      */
-    protected renderHeaderFooterRowContainer(rowTemplates: Array<FooterRowContainerTemplateSADirective|HeaderRowContainerTemplateSADirective>,
-                                             cellTemplateGetter: Func1<TemplateRef<GridCellContext<unknown, MatrixGridColumn>>|null|undefined, MatrixGridColumn>,
-                                             cellRenderer: Action4<ViewContainerRef, TemplateRef<GridCellContext<unknown, MatrixGridColumn>>, GridRowContext<unknown, MatrixGridColumn>, MatrixGridColumn>): void
+    protected renderRowContainer(rowTemplates: Array<FooterRowContainerTemplateSADirective|HeaderRowContainerTemplateSADirective|ContentRowContainerTemplateSADirective>,
+                                 cellTemplateGetter: Func1<TemplateRef<GridCellContext<unknown, MatrixGridColumn>>|null|undefined, MatrixGridColumn>,
+                                 cellRenderer: Action4<ViewContainerRef, TemplateRef<GridCellContext<unknown, MatrixGridColumn>|GridDataCellContext<unknown, MatrixGridColumn>>, GridRowContext<unknown, MatrixGridColumn>|GridDataRowContext<unknown, MatrixGridColumn>, MatrixGridColumn>,
+                                 contextGetter: Func2<GridRowContext|GridDataRowContext, number, MatrixGridColumn[]>): void
     {
         const viewContainer = this.currentViewContainer.viewContainer;
 
@@ -569,10 +523,10 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
                     ?.columns
                     ?.find(itm => itm.id == id) as MatrixGridColumn)
                 ?.filter(itm => itm) ?? this.metadataSelector?.metadata?.columns ?? [];
-            const context = this.getGridRowContext(index, rowColumns);
+            const context = contextGetter(index, rowColumns);
 
             //skip rendering of this row
-            if(row.predicate && !row.predicate(context))
+            if(row.predicate && !row.predicate(context as GridDataRowContext<unknown, MatrixGridColumn>))
             {
                 continue;
             }
@@ -644,6 +598,28 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
         }
 
         view.detectChanges();
+    }
+
+    /**
+     * Renders content cell
+     * @param viewContainer - View container used for rendering cell
+     * @param template - Template used for rendering cell
+     * @param context - Context passed to rendered cell
+     * @param column - Instance of column metadata
+     */
+    protected renderContentCell(viewContainer: ViewContainerRef,
+                                template: TemplateRef<GridCellContext<unknown, MatrixGridColumn>>,
+                                context: GridRowContext<unknown, MatrixGridColumn>,
+                                column: MatrixGridColumn,): void
+    {
+        viewContainer.createEmbeddedView(template,
+                                         {
+                                             ...context,
+                                             metadata: column,
+                                         },
+                                         {
+                                             injector: this.createInjector(viewContainer.injector),
+                                         });
     }
 
     /**
