@@ -544,6 +544,8 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
 
             if(!columnViewContainer)
             {
+                this.currentViewContainer.viewContainer = viewContainer;
+
                 continue;
             }
 
@@ -558,6 +560,8 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
 
                 cellRenderer.bind(this)(columnViewContainer, cellTemplate, context, column);
             }
+
+            this.currentViewContainer.viewContainer = viewContainer;
         }
     }
 
