@@ -103,9 +103,12 @@ export class SyncDataLoaderSAComponent<TData = unknown, TOrdering = unknown> ext
             data = this.ɵoptions.orderData(data, this.ordering?.ordering() ?? undefined);
         }
 
+        const page = this.paging?.page() ?? 1;
+        const itemsPerPage = this.paging?.itemsPerPage() ?? 0;
+
         data = await lastValueFrom(from(data)
-            .pipe(skip(((this.paging?.page() ?? 1) - 1) * (isNaN(this.paging?.itemsPerPage() ?? 0) ? 0 : (this.paging?.itemsPerPage() ?? 0))),
-                  isNaN(this.paging?.itemsPerPage() ?? 0) ? ((source: Observable<TData>) => source) : take(this.paging?.itemsPerPage() ?? 0),
+            .pipe(skip((page - 1) * (isNaN(itemsPerPage) ? 0 : itemsPerPage)),
+                  isNaN(itemsPerPage) ? ((source: Observable<TData>) => source) : take(itemsPerPage),
                   toArray()));
 
         this.ɵstate.set((data && data.length) ? DataLoaderState.Loaded : DataLoaderState.NoData);

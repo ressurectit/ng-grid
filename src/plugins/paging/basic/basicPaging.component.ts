@@ -118,6 +118,7 @@ export class BasicPagingSAComponent extends PagingAbstractComponent<CssClassesBa
         {
             const itemsPerPageValues = this.optionsValue().itemsPerPageValues;
             const itemsPerPage = this.itemsPerPageValue() ?? NaN;
+
             const result: ItemsPerPageItem[] = [];
 
             for(const val of itemsPerPageValues)
@@ -175,24 +176,33 @@ export class BasicPagingSAComponent extends PagingAbstractComponent<CssClassesBa
             //Applied when displaying all items
             if(isNaN(pageCount))
             {
-                if(this.pageValue() != 1)
+                setTimeout(() =>
                 {
-                    this.pageValue.set(1);
-                    this.paginator.setPage(1);
-                }
+                    if(this.pageValue() != 1)
+                    {
+                        this.pageValue.set(1);
+                        this.paginator.setPage(1);
+                    }
+                }, 0);
 
                 return [];
             }
 
-            if(!isNaN(pageCount) && pageCount < (this.pageValue() ?? 1))
+            //move to last page 
+            if(!isNaN(pageCount) && pageCount < (this.pageValue() ?? 1) && this.totalCount() > 0)
             {
-                this.setPageItem(
+                setTimeout(() =>
                 {
-                    page: pageCount,
-                    isActive: false,
-                    isDisabled: false,
-                    title: '',
-                });
+                    this.setPageItem(
+                    {
+                        page: pageCount,
+                        isActive: false,
+                        isDisabled: false,
+                        title: '',
+                    });
+                }, 0);
+
+                return [];
             }
 
             const result: PagesItem[] = [];

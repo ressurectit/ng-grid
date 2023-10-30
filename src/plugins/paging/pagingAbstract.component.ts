@@ -1,5 +1,5 @@
 import {Injectable, ElementRef, Injector, inject, WritableSignal, signal, Signal, computed} from '@angular/core';
-import {RecursivePartial, extend} from '@jscrpt/common';
+import {RecursivePartial, extend, isPresent} from '@jscrpt/common';
 
 import {DataLoader, DataResponse, GridInitializer, GridPlugin, GridPluginInstances, Paging, PagingOptions} from '../../interfaces';
 import {DEFAULT_OPTIONS, GRID_PLUGIN_INSTANCES, PAGING_OPTIONS} from '../../misc/tokens';
@@ -144,8 +144,18 @@ export abstract class PagingAbstractComponent<TCssClasses = unknown, TOptions ex
         {
             this.gridInitializer = gridInitializer;
 
-            this.pageValue.set(await gridInitializer.getPage());
-            this.itemsPerPageValue.set(await gridInitializer.getItemsPerPage());
+            const initPage = await gridInitializer.getPage();
+            const initItemsPerPage = await gridInitializer.getItemsPerPage();
+
+            if(isPresent(initPage))
+            {
+                this.pageValue.set(initPage);
+            }
+
+            if(isPresent(initItemsPerPage))
+            {
+                this.itemsPerPageValue.set(initItemsPerPage);
+            }
         }
     }
 
