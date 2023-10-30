@@ -33,7 +33,7 @@ export interface RowSelectorOptions<TSelectedData = unknown, TData = unknown, TI
 /**
  * Public API for row selector
  */
-export interface RowSelector<TSelectedData = unknown, TData = unknown, TId = unknown> extends GridPlugin
+export interface RowSelector<TSelectedData = unknown, TData = unknown, TId = unknown, TOptions extends RowSelectorOptions<TSelectedData, TData, TId> = RowSelectorOptions<TSelectedData, TData, TId>> extends GridPlugin<TOptions>
 {
     /**
      * Array of currently selected row ids

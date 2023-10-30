@@ -1,4 +1,4 @@
-import {Observable} from 'rxjs';
+import {Signal} from '@angular/core';
 
 import {VisualPluginOptions} from '../../visualPluginOptions/visualPluginOptions.interface';
 import {GridPlugin} from '../../gridPlugin/gridPlugin.interface';
@@ -22,35 +22,36 @@ export interface PagingOptions<TCssClasses = unknown> extends VisualPluginOption
 /**
  * Public API for paging
  */
-export interface Paging extends GridPlugin
+export interface Paging<TOptions extends PagingOptions = PagingOptions> extends GridPlugin<TOptions>
 {
+    //######################### properties #########################
+ 
     /**
      * Zero based index of first displayed item on page
      */
     readonly firstItemIndex: number;
 
     /**
-     * Gets or sets index of currently selected page
+     * Gets index of currently selected page, 1 based index
      */
-    page: number;
+    readonly page: Signal<number|undefined|null>;
 
     /**
-     * Gets or sets number of items currently used for paging
+     * Gets number of items currently used for paging
      */
-    itemsPerPage: number;
+    readonly itemsPerPage: Signal<number|undefined|null>;
+
+    //######################### methods #########################
 
     /**
-     * Gets or sets number of all items that are paged with current filter criteria
+     * Sets page for paging to specific number
+     * @param page - Page to be set and displayed
      */
-    totalCount: number;
+    setPage(page: number): void;
 
     /**
-     * Occurs when index of currently selected page has been changed
+     * Sets items per page for paging to specific number
+     * @param itemsPerPage - Items per page to be set and displayed
      */
-    pageChange: Observable<number>;
-
-    /**
-     * Occurs when number of items per page currently selected has been changed
-     */
-    itemsPerPageChange: Observable<number>;
+    setItemsPerPage(itemsPerPage: number): void;
 }

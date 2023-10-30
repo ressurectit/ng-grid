@@ -274,6 +274,7 @@
 - new `UseTableSADirective` directive, that configures MatrixContentRenderer to use TableDefaultTemplates
 - new `MatrixGridModule` module for matrix grid components and directives
 - new `GridPluginInstancesDef` class, that is implementation of GridPluginInstances
+- new `InfinityNaNSAPipe` pipe, that transforms NaN value into inifinity symbol
 - updated `TableGridColumnSAComponent` component
    - now supports also obtaining template using directives `TableGridBodyCellTemplateSADirective`, `TableGridHeaderCellTemplateSADirective`
 - updated `Grid` interface
@@ -364,6 +365,11 @@
    - `initialize` has new `force` parameter
 - updated `GridPlugin` interface
    - `initialize` has new `force` parameter
+- updated `Paging` interface
+   - now using signals for `page` and `itemsPerPage`
+   - now setting `page` and `itemsPerPage` using functions
+   - removed totalCount, paging obtains totalCount from `DataLoader`
+- updated all paging plugins to correspond with new `Paging` interface
 - updated all plugins to be in line with new `GridPlugin` interface
 - *subpackage* `@anglr/grid/extensions`
    - updated `setOrdering` function, is now async function

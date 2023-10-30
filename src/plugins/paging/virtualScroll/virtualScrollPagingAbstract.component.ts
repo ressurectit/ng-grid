@@ -132,7 +132,7 @@ export abstract class VirtualScrollPagingAbstractComponent<TOptions extends Virt
 
         const offset = element.scrollTop / (element.scrollHeight - element.clientHeight);
 
-        if(isNaN(offset) || offset >= this.ɵoptions.loadOffsetTreshold)
+        if(isNaN(offset) || offset >= this.optionsValue().loadOffsetTreshold)
         {
             this.load();
         }

@@ -100,9 +100,9 @@ export class ContentVirtualScrollPagingSAComponent extends VirtualScrollPagingAb
 
         element.style.overflowY = 'auto';
         
-        if(isPresent(this.ɵoptions.maxHeight))
+        if(isPresent(this.optionsValue().maxHeight))
         {
-            element.style.maxHeight = this.ɵoptions.maxHeight;
+            element.style.maxHeight = this.optionsValue().maxHeight;
         }
 
         this.initEvents(element, bodyRenderer.pluginElement.nativeElement);

@@ -14,7 +14,7 @@ export interface MetadataSelectorOptions extends PluginOptions
 /**
  * Metadata selector plugin interface
  */
-export interface MetadataSelector<TMetadata extends GridMetadata = GridMetadata> extends GridPlugin
+export interface MetadataSelector<TMetadata extends GridMetadata = GridMetadata, TOptions extends MetadataSelectorOptions = MetadataSelectorOptions> extends GridPlugin<TOptions>
 {
     /**
      * Current metadata that are used for rendering

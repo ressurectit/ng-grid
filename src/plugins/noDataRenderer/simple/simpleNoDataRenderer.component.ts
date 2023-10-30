@@ -113,7 +113,6 @@ export class SimpleNoDataRendererSAComponent implements SimpleNoDataRenderer, Gr
             this.dataLoader = dataLoader;
         }
         
-        //TODO: tests whether creating new computet destroyes existing one
         //TODO: probably only need when force, or data loader changes
         this.text = computed<string>(() =>
         {

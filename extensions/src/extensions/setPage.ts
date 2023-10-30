@@ -12,6 +12,6 @@ export function setPage(page: number): GridAction
         const paging = grid.getPlugin(GridPluginType.Paging);
 
         await gridInitializer.setPage(page);
-        paging.page = page;
+        paging.setPage(page);
     };
 }

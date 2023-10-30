@@ -1,4 +1,4 @@
-import {GridAction, DataLoader, Paging, PagingOptions, GridPluginType} from '@anglr/grid';
+import {GridAction, GridPluginType} from '@anglr/grid';
 
 /**
  * Refresh data to default page
@@ -8,12 +8,10 @@ export function refreshDataToDefaultPage(force?: boolean): GridAction
 {
     return grid =>
     {
-        const paging = grid.getPlugin<Paging>(GridPluginType.Paging);
-        const dataLoader = grid.getPlugin<DataLoader>(GridPluginType.DataLoader);
-        const pagingOptions: PagingOptions = paging.options as PagingOptions;
+        const paging = grid.getPlugin(GridPluginType.Paging);
+        const dataLoader = grid.getPlugin(GridPluginType.DataLoader);
         
-        paging.page = pagingOptions.initialPage;
-
+        paging.setPage(paging.options.initialPage);
         dataLoader.loadData(force);
     };
 }

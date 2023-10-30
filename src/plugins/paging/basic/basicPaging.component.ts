@@ -1,28 +1,11 @@
-import {Component, Input, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, ElementRef} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ValueProvider, signal, Signal, computed} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {Paginator, isPresent} from '@jscrpt/common';
+import {Paginator, RecursivePartial, isPresent} from '@jscrpt/common';
 
 import {PagingAbstractComponent} from '../pagingAbstract.component';
-import {BasicPagingOptions, BasicPaging, CssClassesBasicPaging} from './basicPaging.interface';
-import {GridPluginType} from '../../../misc/enums';
-import {GridInitializer, GridPluginInstances} from '../../../interfaces';
-import {GRID_PLUGIN_INSTANCES, PAGING_OPTIONS} from '../../../misc/tokens';
-
-/**
- * Items per page single item
- */
-export interface ItemsPerPageItem
-{
-    /**
-     * Indication that item is active
-     */
-    isActive: boolean;
-
-    /**
-     * Value of item
-     */
-    value: number;
-}
+import {BasicPagingOptions, BasicPaging, CssClassesBasicPaging, PagesItem, ItemsPerPageItem} from './basicPaging.interface';
+import {DEFAULT_OPTIONS} from '../../../misc/tokens';
+import {InfinityNaNSAPipe} from '../../../pipes';
 
 /**
  * Default options for paging
@@ -54,10 +37,19 @@ const defaultOptions: BasicPagingOptions =
     imports:
     [
         CommonModule,
+        InfinityNaNSAPipe,
+    ],
+    providers:
+    [
+        <ValueProvider>
+        {
+            provide: DEFAULT_OPTIONS,
+            useValue: defaultOptions,
+        },
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BasicPagingSAComponent extends PagingAbstractComponent<CssClassesBasicPaging, BasicPagingOptions> implements BasicPaging
+export class BasicPagingSAComponent extends PagingAbstractComponent<CssClassesBasicPaging, BasicPagingOptions> implements BasicPaging<BasicPagingOptions>
 {
     //######################### protected fields #########################
 
@@ -66,37 +58,22 @@ export class BasicPagingSAComponent extends PagingAbstractComponent<CssClassesBa
      */
     protected paginator: Paginator = new Paginator();
 
-    /**
-     * Index of currently selected page
-     */
-    protected ɵpage: number = 0;
-
-    /**
-     * Number of items currently used for paging
-     */
-    protected ɵitemsPerPage: number = NaN;
-
-    /**
-     * Number of all items that are paged with current filter criteria
-     */
-    protected ɵtotalCount: number = 0;
-
     //######################### protected properties - template bindings #########################
 
     /**
      * Text displaying items count
      */
-    protected displayedItemsCount: string = '';
+    protected displayedItemsCount: Signal<string> = signal('').asReadonly();
 
     /**
      * Array of pages that are rendered
      */
-    protected pages: {isActive: boolean; isDisabled: boolean; title: string; page: number}[] = [];
+    protected pages: Signal<PagesItem[]> = signal([]).asReadonly();
 
     /**
      * Array of items per page that are rendered
      */
-    protected itemsPerPageItems: ItemsPerPageItem[] = [];
+    protected itemsPerPageItems: Signal<ItemsPerPageItem[]>;
 
     //######################### public properties #########################
 
@@ -110,112 +87,53 @@ export class BasicPagingSAComponent extends PagingAbstractComponent<CssClassesBa
         return isNaN(offset) ? 0 : offset;
     }
 
-    //######################### public properties - inputs #########################
+    //######################### public properties - overrides #########################
 
     /**
      * @inheritdoc
      */
-    @Input()
-    public get page(): number
+    public override get options(): BasicPagingOptions
     {
-        return this.ɵpage;
+        return super.options;
     }
-    public set page(page: number)
+    public override set options(options: RecursivePartial<BasicPagingOptions>)
     {
-        this.ɵpage = page;
-        this.paginator.setPage(page);
-        this.generatePages();
-        this.setDisplayedItemsCount();
-        (this.gridPlugins?.[GridPluginType.GridInitializer] as GridInitializer).setPage(this.ɵpage);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    @Input()
-    public get itemsPerPage(): number
-    {
-        return this.ɵitemsPerPage;
-    }
-    public set itemsPerPage(itemsPerPage: number)
-    {
-        this.ɵitemsPerPage = itemsPerPage;
-        this.paginator.setItemsPerPage(itemsPerPage);
-        this.generatePages();
-        this.generateItemsPerPage();
-        this.setDisplayedItemsCount();
-        (this.gridPlugins?.[GridPluginType.GridInitializer] as GridInitializer).setItemsPerPage(this.ɵitemsPerPage);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    @Input()
-    public get totalCount(): number
-    {
-        return this.ɵtotalCount;
-    }
-    public set totalCount(totalCount: number)
-    {
-        this.ɵtotalCount = totalCount;
-        this.paginator.setItemCount(totalCount);
-        this.generatePages();
-        this.setDisplayedItemsCount();
+        super.options = options;
+        
+        this.optionsValue.update(opts =>
+        {
+            return {
+                ...opts,
+                itemsPerPageValues: options.itemsPerPageValues ?? opts.itemsPerPageValues,
+            };
+        });
     }
 
     //######################### constructor #########################
-    constructor(pluginElement: ElementRef,
-                changeDetector: ChangeDetectorRef,
-                @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins: GridPluginInstances|undefined|null,
-                @Inject(PAGING_OPTIONS) @Optional() options?: BasicPagingOptions)
+    constructor()
     {
-        super(pluginElement, changeDetector, gridPlugins, defaultOptions, options);
+        super();
 
-        this.optionsSet();
-    }
-
-    //######################### protected methods - template bindings #########################
-
-    /**
-     * Sets page for current paging
-     * @param page - Page index to be set
-     */
-    protected setPage(page: {isActive: boolean; isDisabled: boolean; page: number}): void
-    {
-        if(page.isActive || page.isDisabled)
+        this.itemsPerPageItems = computed(() =>
         {
-            return;
-        }
+            const itemsPerPageValues = this.optionsValue().itemsPerPageValues;
+            const itemsPerPage = this.itemsPerPageValue() ?? NaN;
+            const result: ItemsPerPageItem[] = [];
 
-        this.page = page.page;
-        this.pageChangeSubject.next(this.page);
+            for(const val of itemsPerPageValues)
+            {
+                result.push(
+                {
+                    value: val,
+                    isActive: val == itemsPerPage || (isNaN(val) && isNaN(itemsPerPage))
+                });
+            }
+
+            return result;
+        });
     }
 
-    /**
-     * Sets items per page for current paging
-     * @param itemsPerPage - Number of items per page
-     */
-    protected setItemsPerPage(itemsPerPage: ItemsPerPageItem): void
-    {
-        if(itemsPerPage.isActive)
-        {
-            return;
-        }
-
-        this.itemsPerPage = itemsPerPage.value;
-        this.itemsPerPageChangeSubject.next(this.itemsPerPage);
-    }
-
-    /**
-     * Converts number to text that is going to be rendered for ItemsPerPage
-     * @param value - Text that is returned for items per page
-     */
-    protected renderItemsPerPageText(value: number): string
-    {
-        return isNaN(value) ? '&infin;' : value.toString();
-    }
-
-    //######################### public methods #########################
+    //######################### public methods - overrides #########################
 
     /**
      * @inheritdoc
@@ -224,126 +142,133 @@ export class BasicPagingSAComponent extends PagingAbstractComponent<CssClassesBa
     {
         await super.initialize(force);
 
-        this.paginator.setPage(this.ɵpage);
-        this.paginator.setItemsPerPage(this.ɵitemsPerPage);
-    }
-
-    //######################### protected methods #########################
-
-    /**
-     * Generates rendered pages
-     */
-    protected generatePages(): void
-    {
-        if(!this.initialized)
+        this.displayedItemsCount = computed(() =>
         {
-            return;
-        }
+            this.paginator.setPage(this.pageValue() ?? 1);
+            this.paginator.setItemsPerPage(this.itemsPerPageValue() ?? NaN);
+            this.paginator.setItemCount(this.totalCount());
 
-        const pageCount = this.paginator.getPageCount() || 1;
-
-        //Applied when displaying all items
-        if(isNaN(pageCount))
-        {
-            if(this.ɵpage != 1)
+            const displayedItems = this.paginator.getOffset() + this.paginator.getLength();
+            const totalCount = this.totalCount();
+            let result = '';
+    
+            if(isNaN(displayedItems) && isPresent(totalCount))
             {
-                this.ɵpage = 1;
-                this.paginator.setPage(1);
-                this.pageChangeSubject.next(1);
+                result = totalCount.toString();
+            }
+            else if(!isNaN(displayedItems) && isPresent(totalCount))
+            {
+                result = `${displayedItems}/${totalCount}`;
             }
 
-            this.pages = [];
+            return result;
+        });
 
-            return;
-        }
-
-        if(!isNaN(pageCount) && pageCount < this.ɵpage)
+        this.pages = computed(() =>
         {
-            this.setPage(
+            this.paginator.setPage(this.pageValue() ?? 1);
+            this.paginator.setItemsPerPage(this.itemsPerPageValue() ?? NaN);
+            this.paginator.setItemCount(this.totalCount());
+
+            const pageCount = this.paginator.getPageCount() || 1;
+
+            //Applied when displaying all items
+            if(isNaN(pageCount))
             {
-                page: pageCount,
+                if(this.pageValue() != 1)
+                {
+                    this.pageValue.set(1);
+                    this.paginator.setPage(1);
+                }
+
+                return [];
+            }
+
+            if(!isNaN(pageCount) && pageCount < (this.pageValue() ?? 1))
+            {
+                this.setPageItem(
+                {
+                    page: pageCount,
+                    isActive: false,
+                    isDisabled: false,
+                    title: '',
+                });
+            }
+
+            const result: PagesItem[] = [];
+
+            result.push(
+            {
                 isActive: false,
-                isDisabled: false
+                isDisabled: this.paginator.isFirst(),
+                title: '&laquo;',
+                page: this.paginator.GetFirstPage()
             });
-        }
 
-        this.pages = [];
-
-        this.pages.push(
-        {
-            isActive: false,
-            isDisabled: this.paginator.isFirst(),
-            title: '&laquo;',
-            page: this.paginator.GetFirstPage()
-        });
-
-        this.paginator.getPagesWithTrimDispersion(this.options.pagesDispersion).forEach(page =>
-        {
-            this.pages.push(
+            this.paginator.getPagesWithTrimDispersion(this.optionsValue().pagesDispersion).forEach(page =>
             {
-                isActive: this.paginator.getPage() == page,
-                isDisabled: false,
-                title: page.toString(),
-                page: page
+                result.push(
+                {
+                    isActive: this.paginator.getPage() == page,
+                    isDisabled: false,
+                    title: page.toString(),
+                    page: page
+                });
             });
-        });
 
-        this.pages.push(
-        {
-            isActive: false,
-            isDisabled: this.paginator.isLast(),
-            title: '&raquo;',
-            page: this.paginator.getLastPage()
+            result.push(
+            {
+                isActive: false,
+                isDisabled: this.paginator.isLast(),
+                title: '&raquo;',
+                page: this.paginator.getLastPage()
+            });
+
+            return result;
         });
     }
 
-    /**
-     * Generates rendered items per page
-     */
-    protected generateItemsPerPage(): void
-    {
-        this.itemsPerPageItems.forEach(itm => itm.isActive = itm.value == this.itemsPerPage || (isNaN(itm.value) && isNaN(this.itemsPerPage)));
-    }
+    //######################### protected methods - template bindings #########################
 
     /**
-     * Sets displayed items count
+     * Sets page item to current paging
+     * @param page - Page item to be set
      */
-    protected setDisplayedItemsCount(): void
+    protected setPageItem(page: PagesItem): void
     {
-        if(!this.initialized)
+        if(page.isActive || page.isDisabled)
         {
             return;
         }
 
-        const displayedItems = this.paginator.getOffset() + this.paginator.getLength();
-
-        this.displayedItemsCount = '';
-
-        if(isNaN(displayedItems) && isPresent(this.ɵtotalCount))
+        for(const page of this.pages())
         {
-            this.displayedItemsCount = this.ɵtotalCount.toString();
+            page.isActive = false;
         }
-        else if(!isNaN(displayedItems) && isPresent(this.ɵtotalCount))
-        {
-            this.displayedItemsCount = `${displayedItems}/${this.ɵtotalCount}`;
-        }
+
+        page.isActive = true;
+
+        this.setPage(page.page);
     }
 
-    //######################### protected methods - overrides #########################
-
     /**
-     * @inheritdoc
+     * Sets items per page to current paging
+     * @param itemsPerPage - Items per page item to be set
      */
-    protected override optionsSet(): void
+    protected setItemsPerPageItem(itemsPerPage: ItemsPerPageItem): void
     {
-        this.itemsPerPageItems = this.options.itemsPerPageValues.map(itm =>
+        if(itemsPerPage.isActive)
         {
-            return {
-                value: itm,
-                isActive: false
-            };
-        });
+            return;
+        }
 
-        this.generateItemsPerPage();
+        for(const page of this.itemsPerPageItems())
+        {
+            page.isActive = false;
+        }
+
+        itemsPerPage.isActive = true;
+
+        this.setItemsPerPage(itemsPerPage.value);
     }
 }

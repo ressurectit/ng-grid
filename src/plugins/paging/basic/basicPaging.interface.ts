@@ -30,6 +30,48 @@ export interface BasicPagingOptions extends PagingOptions<CssClassesBasicPaging>
 /**
  * Public API for 'BasicPagingComponent'
  */
-export interface BasicPaging extends Paging
+export interface BasicPaging<TOptions extends BasicPagingOptions = BasicPagingOptions> extends Paging<TOptions>
 {
+}
+
+/**
+ * Items per page single item
+ */
+export interface ItemsPerPageItem
+{
+    /**
+     * Indication that item is active
+     */
+    isActive: boolean;
+
+    /**
+     * Value of item
+     */
+    value: number;
+}
+
+/**
+ * Pages single item
+ */
+export interface PagesItem
+{
+    /**
+     * Indication whether is page active
+     */
+    isActive: boolean;
+
+    /**
+     * Indication whether is page disabled
+     */
+    isDisabled: boolean;
+
+    /**
+     * Title displayed for page
+     */
+    title: string;
+
+    /**
+     * Page number of page
+     */
+    page: number
 }

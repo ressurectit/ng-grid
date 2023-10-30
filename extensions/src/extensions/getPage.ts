@@ -1,4 +1,4 @@
-import {GridFunction, GridPluginType, Paging} from '@anglr/grid';
+import {GridFunction, GridPluginType} from '@anglr/grid';
 
 /**
  * Gets current page of grid
@@ -7,8 +7,8 @@ export function getPage(): GridFunction<number>
 {
     return grid =>
     {
-        const paging = grid.getPlugin<Paging>(GridPluginType.Paging);
+        const paging = grid.getPlugin(GridPluginType.Paging);
 
-        return paging.page;
+        return paging.page() ?? 1;
     };
 }

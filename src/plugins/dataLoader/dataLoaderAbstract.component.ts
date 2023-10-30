@@ -2,7 +2,7 @@ import {Injectable, OnDestroy, ElementRef, Injector, inject, Signal, WritableSig
 import {toObservable} from '@angular/core/rxjs-interop';
 import {RecursivePartial, extend} from '@jscrpt/common';
 import {Subscription, Subject} from 'rxjs';
-import {debounceTime} from 'rxjs/operators';
+import {debounceTime, skip} from 'rxjs/operators';
 
 import {Ordering, DataLoader, DataLoaderOptions, GridPlugin, Paging, GridPluginInstances} from '../../interfaces';
 import {DataLoaderState, GridPluginType} from '../../misc/enums';
@@ -177,8 +177,12 @@ export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOpt
         {
             this.paging = paging;
 
-            this.pageChangedSubscription = this.paging.pageChange.subscribe(() => this.debounceSubject.next(false));
-            this.itemsPerPageChangedSubscription = this.paging.itemsPerPageChange.subscribe(() => this.debounceSubject.next(false));
+            this.pageChangedSubscription = toObservable(this.paging.page, {injector: this.injector})
+                .pipe(skip(1))
+                .subscribe(() => this.debounceSubject.next(false));
+            this.itemsPerPageChangedSubscription = toObservable(this.paging.itemsPerPage, {injector: this.injector})
+                .pipe(skip(1))
+                .subscribe(() => this.debounceSubject.next(false));
         }
 
         const ordering: Ordering<TOrdering> = this.gridPlugins[GridPluginType.Ordering] as Ordering<TOrdering>;
@@ -246,8 +250,8 @@ export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOpt
            this.paging?.itemsPerPage != this.lastItemsPerPage ||
            this.ordering?.ordering != this.lastOrdering)
         {
-            this.lastPage = this.paging?.page;
-            this.lastItemsPerPage = this.paging?.itemsPerPage;
+            this.lastPage = this.paging?.page();
+            this.lastItemsPerPage = this.paging?.itemsPerPage();
             this.lastOrdering = this.ordering?.ordering();
 
             return true;

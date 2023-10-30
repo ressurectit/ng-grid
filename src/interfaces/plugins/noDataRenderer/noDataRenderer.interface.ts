@@ -44,6 +44,6 @@ export interface NoDataRendererOptions<TCssClasses = unknown> extends VisualPlug
 /**
  * Public API for no data renderer
  */
-export interface NoDataRenderer extends GridPlugin
+export interface NoDataRenderer<TOptions extends NoDataRendererOptions = NoDataRendererOptions> extends GridPlugin<TOptions>
 {
 }

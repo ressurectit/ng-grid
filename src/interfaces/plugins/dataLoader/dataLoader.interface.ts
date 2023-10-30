@@ -24,7 +24,7 @@ export interface DataLoaderOptions extends PluginOptions
 /**
  * Data loader plugin interface
  */
-export interface DataLoader<TResult = unknown> extends GridPlugin
+export interface DataLoader<TResult = unknown, TOptions extends DataLoaderOptions = DataLoaderOptions> extends GridPlugin<TOptions>
 {
     /**
      * Loads data from 'source'

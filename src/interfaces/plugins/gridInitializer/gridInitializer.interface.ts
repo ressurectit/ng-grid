@@ -17,7 +17,7 @@ export interface GridInitializerOptions extends PluginOptions
 /**
  * Initializer that is used for initialization (restoring) of grid data and grid plugins data
  */
-export interface GridInitializer<TOrdering = unknown> extends GridPlugin
+export interface GridInitializer<TOrdering = unknown, TOptions extends GridInitializerOptions = GridInitializerOptions> extends GridPlugin<TOptions>
 {
     /**
      * Gets stored page
