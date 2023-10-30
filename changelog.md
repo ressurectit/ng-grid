@@ -365,6 +365,9 @@
 - updated `GridPlugin` interface
    - `initialize` has new `force` parameter
 - updated all plugins to be in line with new `GridPlugin` interface
+- *subpackage* `@anglr/grid/extensions`
+   - updated `setOrdering` function, is now async function
+   - updated `setPage` function, is now async function
 - *subpackage* `@anglr/grid/material`
    - renamed `VerticalDragNDropSelectionComponent` to `VerticalDragNDropSelectionSAComponent`
    - renamed `DialogMetadataSelectorComponent` to `DialogMetadataSelectorSAComponent`

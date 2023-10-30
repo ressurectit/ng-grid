@@ -1,4 +1,4 @@
-import {GridAction, Paging, DataLoader, GridPluginType} from '@anglr/grid';
+import {GridAction, GridPluginType} from '@anglr/grid';
 
 /**
  * Sets page for grid
@@ -6,13 +6,12 @@ import {GridAction, Paging, DataLoader, GridPluginType} from '@anglr/grid';
  */
 export function setPage(page: number): GridAction
 {
-    return grid =>
+    return async grid =>
     {
-        const paging = grid.getPlugin<Paging>(GridPluginType.Paging);
-        const dataLoader = grid.getPlugin<DataLoader>(GridPluginType.DataLoader);
+        const gridInitializer = grid.getPlugin(GridPluginType.GridInitializer);
+        const paging = grid.getPlugin(GridPluginType.Paging);
 
+        await gridInitializer.setPage(page);
         paging.page = page;
-        paging.invalidateVisuals();
-        dataLoader.loadData();
     };
 }

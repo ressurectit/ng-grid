@@ -4,7 +4,6 @@ import {OrderByDirection, RecursivePartial, extend} from '@jscrpt/common';
 import {SingleOrdering, SingleOrderingOptions} from './singleOrdering.interface';
 import {GridInitializer, GridPluginInstances, OrderingOptions, SimpleOrdering} from '../../../interfaces';
 import {GRID_PLUGIN_INSTANCES, ORDERING_OPTIONS} from '../../../misc/tokens';
-import {GridPluginType} from '../../../misc/enums';
 import {DefaultOrderableIndicatorRenderer} from '../misc/services';
 
 /**
@@ -168,7 +167,7 @@ export class SingleOrderingSAComponent implements SingleOrdering
             throw new Error('SingleOrderingSAComponent: missing gridPlugins!');
         }
 
-        const gridInitializer: GridInitializer<SimpleOrdering> = this.gridPlugins[GridPluginType.GridInitializer] as GridInitializer<SimpleOrdering>;
+        const gridInitializer: GridInitializer<SimpleOrdering> = this.gridPlugins.gridInitializer as GridInitializer<SimpleOrdering>;
 
         //grid initializer obtained and its different instance
         if(force || (this.gridInitializer && this.gridInitializer != gridInitializer))
@@ -176,7 +175,7 @@ export class SingleOrderingSAComponent implements SingleOrdering
             this.gridInitializer = null;
         }
 
-        //no data loader obtained
+        //no grid initializer obtained
         if(!this.gridInitializer)
         {
             this.gridInitializer = gridInitializer;

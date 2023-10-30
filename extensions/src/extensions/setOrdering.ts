@@ -1,4 +1,4 @@
-import {DataLoader, GridAction, GridPluginType, Ordering} from '@anglr/grid';
+import {GridAction, GridInitializer, GridPluginType, Ordering} from '@anglr/grid';
 
 /**
  * Sets ordering for grid
@@ -6,12 +6,12 @@ import {DataLoader, GridAction, GridPluginType, Ordering} from '@anglr/grid';
  */
 export function setOrdering<TOrdering>(ordering: TOrdering): GridAction
 {
-    return grid =>
+    return async grid =>
     {
+        const gridInitializer = grid.getPlugin<GridInitializer<TOrdering>>(GridPluginType.GridInitializer);
         const orderingPlugin = grid.getPlugin<Ordering<TOrdering>>(GridPluginType.Ordering);
-        const dataLoader = grid.getPlugin<DataLoader>(GridPluginType.DataLoader);
 
+        await gridInitializer.setOrdering(ordering);
         orderingPlugin.setOrdering(ordering);
-        dataLoader.loadData();
     };
 }
