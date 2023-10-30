@@ -4,8 +4,7 @@ import {Action4, Func1, Func2, NoopAction, RecursivePartial, extend} from '@jscr
 import {Subscription, skip} from 'rxjs';
 
 import {MatrixContentRenderer, MatrixContentRendererDefautTemplates, MatrixContentRendererOptions} from './matrixContentRenderer.interface';
-import {CurrentViewContainer, DataLoader, DataResponse, Grid, GridCellContext, GridContext, GridDataRowContext, GridOrderableCell, GridPlugin, GridRowContext, MatrixGridColumn, MatrixGridMetadata, MetadataSelector, Paging, RowSelector} from '../../../interfaces';
-import {GridPluginInstances} from '../../../misc/types';
+import {CurrentViewContainer, DataLoader, DataResponse, Grid, GridCellContext, GridContext, GridDataRowContext, GridOrderableCell, GridPlugin, GridPluginInstances, GridRowContext, MatrixGridColumn, MatrixGridMetadata, MetadataSelector, Paging, RowSelector} from '../../../interfaces';
 import {CONTENT_RENDERER_CURRENT_VIEW_CONTAINER, CONTENT_RENDERER_OPTIONS, DEFAULT_OPTIONS, GRID_INSTANCE, GRID_PLUGIN_INSTANCES, ORDERABLE_CELL} from '../../../misc/tokens';
 import {CssGridDefaultTemplatesSAComponent} from './misc/components';
 import type {FooterRowContainerTemplateSADirective} from '../../../directives/footerRowContainerTemplate/footerRowContainerTemplate.directive';
@@ -451,11 +450,6 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
         {
             providers:
             [
-                <FactoryProvider>
-                {
-                    provide: CONTENT_RENDERER_CURRENT_VIEW_CONTAINER,
-                    useFactory: () => this.currentViewContainer,
-                },
                 ...additionalProviders,
             ],
             parent: injector,

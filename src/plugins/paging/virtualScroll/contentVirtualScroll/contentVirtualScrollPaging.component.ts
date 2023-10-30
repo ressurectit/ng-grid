@@ -4,9 +4,8 @@ import {isPresent} from '@jscrpt/common';
 import {VirtualScrollPagingAbstractComponent} from '../virtualScrollPagingAbstract.component';
 import {ContentVirtualScrollPagingOptions, ContentVirtualScrollPaging} from './contentVirtualScrollPaging.interface';
 import {GRID_PLUGIN_INSTANCES, PAGING_OPTIONS} from '../../../../misc/tokens';
-import {GridPluginInstances} from '../../../../misc/types';
 import {GridPluginType} from '../../../../misc/enums';
-import {ContentRenderer} from '../../../../interfaces';
+import {ContentRenderer, GridPluginInstances} from '../../../../interfaces';
 import {BodyContentRenderer} from '../../../contentRenderer/bodyHeader/bodyHeaderContentRenderer.interface';
 
 /**

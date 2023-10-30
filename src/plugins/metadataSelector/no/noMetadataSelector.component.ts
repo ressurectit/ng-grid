@@ -2,8 +2,7 @@ import {Component, ChangeDetectionStrategy, OnDestroy, ElementRef} from '@angula
 import {Observable, Subscription, Subject} from 'rxjs';
 
 import {NoMetadataSelector, NoMetadataSelectorOptions} from './noMetadataSelector.interface';
-import {GridMetadata, GridPlugin, MetadataGatherer} from '../../../interfaces';
-import {GridPluginInstances} from '../../../misc/types';
+import {GridMetadata, GridPlugin, GridPluginInstances, MetadataGatherer} from '../../../interfaces';
 
 /**
  * Plugin component for metadata selector, which does not allows selection of metadata

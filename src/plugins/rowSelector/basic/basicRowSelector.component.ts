@@ -4,9 +4,8 @@ import {RecursivePartial, extend, isBlank} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
 import {BasicRowSelectorOptions, BasicRowSelector} from './basicRowSelector.interface';
-import {DataLoader, GridPlugin} from '../../../interfaces';
+import {DataLoader, GridPlugin, GridPluginInstances} from '../../../interfaces';
 import {GRID_PLUGIN_INSTANCES, ROW_SELECTOR_OPTIONS} from '../../../misc/tokens';
-import {GridPluginInstances} from '../../../misc/types';
 import {GridPluginType} from '../../../misc/enums';
 
 /**

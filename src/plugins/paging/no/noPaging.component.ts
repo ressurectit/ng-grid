@@ -3,7 +3,7 @@ import {ChangeDetectionStrategy, Component, ElementRef, ChangeDetectorRef, Optio
 import {PagingAbstractComponent} from '../pagingAbstract.component';
 import {NoPagingOptions, NoPaging} from './noPaging.interface';
 import {GRID_PLUGIN_INSTANCES, PAGING_OPTIONS} from '../../../misc/tokens';
-import {GridPluginInstances} from '../../../misc/types';
+import {GridPluginInstances} from '../../../interfaces';
 
 /**
  * Default options for paging

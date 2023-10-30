@@ -2,8 +2,7 @@ import {ChangeDetectorRef, ElementRef, Directive} from '@angular/core';
 import {RecursivePartial, extend} from '@jscrpt/common';
 
 import {BodyContentRenderer, BodyContentRendererOptions} from './bodyHeaderContentRenderer.interface';
-import {GridPlugin} from '../../../interfaces';
-import {GridPluginInstances} from '../../../misc/types';
+import {GridPlugin, GridPluginInstances} from '../../../interfaces';
 
 /**
  * Abstract component for body content renderer

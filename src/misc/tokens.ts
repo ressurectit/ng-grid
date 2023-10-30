@@ -1,8 +1,8 @@
 import {InjectionToken} from '@angular/core';
 import {RecursivePartial} from '@jscrpt/common';
 
-import {ContentRenderer, CurrentViewContainer, ContentRendererOptions, DataLoader, DataLoaderOptions, Grid, GridInitializer, GridInitializerOptions, GridOptions, GridOrderableCell, MetadataGatherer, MetadataSelector, MetadataSelectorOptions, NoDataRenderer, NoDataRendererOptions, Ordering, OrderingOptions, Paging, PagingOptions, RowSelector, RowSelectorOptions, VisualPluginOptions} from '../interfaces';
-import {CellContextFactoryFn, DataCellContextFactoryFn, GridPluginInstances} from './types';
+import {ContentRenderer, CurrentViewContainer, ContentRendererOptions, DataLoader, DataLoaderOptions, Grid, GridInitializer, GridInitializerOptions, GridOptions, GridOrderableCell, MetadataGatherer, MetadataSelector, MetadataSelectorOptions, NoDataRenderer, NoDataRendererOptions, Ordering, OrderingOptions, Paging, PagingOptions, RowSelector, RowSelectorOptions, VisualPluginOptions, GridPluginInstances} from '../interfaces';
+import {CellContextFactoryFn, DataCellContextFactoryFn} from './types';
 
 /**
  * Injection token used for obtaining orderable directive from cell

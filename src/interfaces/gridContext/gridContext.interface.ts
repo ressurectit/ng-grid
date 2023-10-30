@@ -1,7 +1,7 @@
-import {GridPluginInstances} from '../../misc/types';
 import {CssClassesMatrixContentRenderer} from '../../plugins/contentRenderer/matrix/matrixContentRenderer.interface';
 import {Grid} from '../grid/grid.interface';
 import {MatrixGridColumn} from '../gridColumn';
+import {GridPluginInstances} from '../gridPluginInstances/gridPluginInstances.interface';
 
 /**
  * Context that is available in content renderer top levels, outside of data scope

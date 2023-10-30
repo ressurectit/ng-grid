@@ -6,7 +6,7 @@ import {PagingAbstractComponent} from '../pagingAbstract.component';
 import {ItemsPerPageItem} from '../basic/basicPaging.component';
 import {PreviousNextPaging, PreviousNextPagingOptions, CssClassesPreviousNextPaging} from './previousNextPaging.interface';
 import {GRID_PLUGIN_INSTANCES, PAGING_OPTIONS} from '../../../misc/tokens';
-import {GridPluginInstances} from '../../../misc/types';
+import {GridPluginInstances} from '../../../interfaces';
 
 /**
  * Default options for paging

@@ -1,6 +1,10 @@
 # Changelog
 
-## Version 10.0.0 (2023-10-28)
+## Version 10.0.0 (2023-10-29)
+
+### Bug Fixes
+
+- all buttons now have `type="button"`
 
 ### Features
 
@@ -280,6 +284,16 @@
    - **new properties**
       - `rowClick` callback allows handle click on the row
       - `rowCssClass` callback called for each row with data for row returning css class, that will be applied to row element
+- updated `GridPluginInstances` interface
+   - **new properties**
+      - `contentRenderer` instance of content renderer that renders obtained data
+      - `dataLoader` instance of data loader that is used for obtaining data that will be displayed
+      - `gridInitializer` instance of grid initializer that is used for obtaining stored grid data
+      - `metadataSelector` instance of metadata selector used for gathering and manipulation with metadata
+      - `noDataRenderer` instance of no data renderer used for rendering information that there are no data currently
+      - `ordering` instance of ordering used for applying ordering to data
+      - `paging` instance of paging used for applying paging to data
+      - `rowSelector` instance of row selector used for handling row selection
 - *subpackage* `@anglr/grid/extensions`
    - updated `reinitializeOptions`, new signatures supporting `force` parameter
 

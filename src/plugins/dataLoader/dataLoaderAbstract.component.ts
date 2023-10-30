@@ -4,9 +4,8 @@ import {RecursivePartial, extend} from '@jscrpt/common';
 import {Subscription, Subject} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
 
-import {Ordering, DataLoader, DataLoaderOptions, GridPlugin, Paging} from '../../interfaces';
+import {Ordering, DataLoader, DataLoaderOptions, GridPlugin, Paging, GridPluginInstances} from '../../interfaces';
 import {DataLoaderState, GridPluginType} from '../../misc/enums';
-import {GridPluginInstances} from '../../misc/types';
 import {GRID_PLUGIN_INSTANCES} from '../../misc/tokens';
 
 /**

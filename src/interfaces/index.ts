@@ -11,6 +11,7 @@ export * from './gridDataRowContext/gridDataRowContext.interface';
 export * from './gridOptions/gridOptions.interface';
 export * from './gridOrderableCell/gridOrderableCell.interface';
 export * from './gridPlugin/gridPlugin.interface';
+export * from './gridPluginInstances/gridPluginInstances.interface';
 export * from './gridPluginTypes/gridPluginTypes.interface';
 export * from './gridRowContext/gridRowContext.interface';
 export * from './metadata/metadataGatherer.interface';

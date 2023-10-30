@@ -3,9 +3,8 @@ import {toObservable} from '@angular/core/rxjs-interop';
 import {RecursivePartial, extend} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
-import {ContentRenderer, DataLoader, DataResponse, GridMetadata, GridPlugin, MetadataSelector} from '../../../interfaces';
+import {ContentRenderer, DataLoader, DataResponse, GridMetadata, GridPlugin, GridPluginInstances, MetadataSelector} from '../../../interfaces';
 import {BodyContentRenderer, CssClassesHeaderBodyContentRenderer, HeaderBodyContentRendererOptions, HeaderContentRenderer} from './bodyHeaderContentRenderer.interface';
-import {GridPluginInstances} from '../../../misc/types';
 import {GridPluginType} from '../../../misc/enums';
 
 /**

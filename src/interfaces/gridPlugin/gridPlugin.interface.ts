@@ -1,7 +1,7 @@
 import {ElementRef} from '@angular/core';
 import {Invalidatable, PromiseOr, RecursivePartial} from '@jscrpt/common';
 
-import {GridPluginInstances} from '../../misc/types';
+import {GridPluginInstances} from '../gridPluginInstances/gridPluginInstances.interface';
 
 /**
  * Grid plugin interface

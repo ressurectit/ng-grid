@@ -1,6 +1,6 @@
 import {PromiseOr} from '@jscrpt/common';
 
-import type {CellTemplateContext, DataCellTemplateContext, Grid, GridPlugin} from '../interfaces';
+import type {CellTemplateContext, DataCellTemplateContext, Grid, GridPluginInstances} from '../interfaces';
 import type {GridPluginType} from './enums';
 
 /**
@@ -17,11 +17,6 @@ export type GridFunction<TResult = unknown> = (grid: Grid) => TResult;
  * Available plugin type names
  */
 export type GridPluginTypeName = keyof typeof GridPluginType;
-
-/**
- * Object that stores all grid plugin instances
- */
-export type GridPluginInstances = Record<GridPluginType, GridPlugin>;
 
 /**
  * Factory function signature for obtaining data cell context

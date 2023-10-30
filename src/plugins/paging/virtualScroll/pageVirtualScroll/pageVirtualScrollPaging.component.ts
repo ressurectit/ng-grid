@@ -3,10 +3,10 @@ import {DOCUMENT} from '@angular/common';
 
 import {VirtualScrollPagingAbstractComponent} from '../virtualScrollPagingAbstract.component';
 import {PageVirtualScrollPagingOptions, PageVirtualScrollPaging} from './pageVirtualScrollPaging.interface';
-import {GridPluginInstances} from '../../../../misc/types';
 import {GRID_PLUGIN_INSTANCES, PAGING_OPTIONS} from '../../../../misc/tokens';
 import {GridPluginType} from '../../../../misc/enums';
 import {BodyContentRenderer} from '../../../contentRenderer/bodyHeader/bodyHeaderContentRenderer.interface';
+import {GridPluginInstances} from '../../../../interfaces';
 
 /**
  * Default options for paging

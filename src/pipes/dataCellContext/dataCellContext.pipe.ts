@@ -1,8 +1,8 @@
 import {Inject, Pipe, PipeTransform} from '@angular/core';
 
-import {DataCellTemplateContext, Grid} from '../../interfaces';
+import {DataCellTemplateContext, Grid, GridPluginInstances} from '../../interfaces';
 import {DATA_CELL_CONTEXT_FN, GRID_INSTANCE, GRID_PLUGIN_INSTANCES} from '../../misc/tokens';
-import {DataCellContextFactoryFn, GridPluginInstances} from '../../misc/types';
+import {DataCellContextFactoryFn} from '../../misc/types';
 
 /**
  * Obtains data cell context for template

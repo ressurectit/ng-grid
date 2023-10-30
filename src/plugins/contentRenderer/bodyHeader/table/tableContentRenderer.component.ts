@@ -4,9 +4,8 @@ import {CommonDynamicModule} from '@anglr/common';
 
 import {TableContentRendererOptions} from './tableContentRenderer.interface';
 import {BodyHeaderContentRendererAbstractComponent} from '../bodyHeaderContentRendererAbstract.component';
-import {GridMetadata} from '../../../../interfaces';
+import {GridMetadata, GridPluginInstances} from '../../../../interfaces';
 import {CONTENT_RENDERER_OPTIONS, GRID_PLUGIN_INSTANCES} from '../../../../misc/tokens';
-import {GridPluginInstances} from '../../../../misc/types';
 import {TableBodyContentRendererSAComponent} from './body/basic/tableBodyContentRenderer.component';
 import {TableHeaderContentRendererSAComponent} from './header/basic/tableHeaderContentRenderer.component';
 import {ResolveForwardRefSAPipe} from '../../../../pipes';

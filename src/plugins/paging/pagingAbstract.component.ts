@@ -3,8 +3,7 @@ import {toObservable} from '@angular/core/rxjs-interop';
 import {RecursivePartial, extend, isPresent} from '@jscrpt/common';
 import {Observable, Subject, Subscription} from 'rxjs';
 
-import {DataLoader, DataResponse, GridInitializer, GridPlugin, Paging, PagingOptions} from '../../interfaces';
-import {GridPluginInstances} from '../../misc/types';
+import {DataLoader, DataResponse, GridInitializer, GridPlugin, GridPluginInstances, Paging, PagingOptions} from '../../interfaces';
 import {GridPluginType} from '../../misc/enums';
 
 /**

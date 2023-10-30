@@ -5,9 +5,8 @@ import {Paginator, isPresent} from '@jscrpt/common';
 import {PagingAbstractComponent} from '../pagingAbstract.component';
 import {BasicPagingOptions, BasicPaging, CssClassesBasicPaging} from './basicPaging.interface';
 import {GridPluginType} from '../../../misc/enums';
-import {GridInitializer} from '../../../interfaces';
+import {GridInitializer, GridPluginInstances} from '../../../interfaces';
 import {GRID_PLUGIN_INSTANCES, PAGING_OPTIONS} from '../../../misc/tokens';
-import {GridPluginInstances} from '../../../misc/types';
 
 /**
  * Items per page single item

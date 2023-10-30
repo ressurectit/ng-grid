@@ -1,8 +1,7 @@
 import {ChangeDetectionStrategy, Component, ElementRef, inject, signal, Signal} from '@angular/core';
 
-import {GridPluginInstances} from '../../../misc/types';
 import {NoOrdering, NoOrderingOptions} from './noOrdering.interface';
-import {OrderingOptions} from '../../../interfaces';
+import {GridPluginInstances, OrderingOptions} from '../../../interfaces';
 import {DefaultOrderableIndicatorRenderer} from '../misc/services';
 
 /**

@@ -1,10 +1,10 @@
 import {Func0, Func1, PromiseOr, isBlank, isString} from '@jscrpt/common';
 import {Subject} from 'rxjs';
 
-import {Grid, GridPlugin, Paging, PluginDescription, RowSelector, SimpleOrdering, DataCellTemplateContext, CellTemplateContext} from '../interfaces';
+import {Grid, GridPlugin, Paging, PluginDescription, RowSelector, SimpleOrdering, DataCellTemplateContext, CellTemplateContext, GridPluginInstances} from '../interfaces';
 import {GridPluginType} from './enums';
 import type {GridSAComponent} from '../components';
-import {CellContextFactoryFn, DataCellContextFactoryFn, GridPluginInstances} from './types';
+import {CellContextFactoryFn, DataCellContextFactoryFn} from './types';
 
 /**
  * Applies block of row selection to grid, if row was not selected checkbox change event will be blocked

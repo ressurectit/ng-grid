@@ -3,8 +3,7 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {RecursivePartial, deserializeFromUrlQuery, extend, serializeToUrlQuery} from '@jscrpt/common';
 
 import {QueryGridInitializer, QueryGridInitializerOptions} from './queryGridInitializer.interface';
-import {GridPlugin} from '../../../interfaces';
-import {GridPluginInstances} from '../../../misc/types';
+import {GridPlugin, GridPluginInstances} from '../../../interfaces';
 import {GRID_INITIALIZER_OPTIONS} from '../../../misc/tokens';
 
 /**

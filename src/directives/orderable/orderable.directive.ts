@@ -3,9 +3,8 @@ import {toObservable} from '@angular/core/rxjs-interop';
 import {nameof} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
-import {GridPluginInstances} from '../../misc/types';
 import {GRID_INSTANCE, GRID_PLUGIN_INSTANCES, ORDERABLE_CELL} from '../../misc/tokens';
-import {Grid, GridOrderableCell, OrderableIndicatorRenderer, Ordering} from '../../interfaces';
+import {Grid, GridOrderableCell, OrderableIndicatorRenderer, Ordering, GridPluginInstances} from '../../interfaces';
 
 /**
  * Directive that is used for handling ordering of column

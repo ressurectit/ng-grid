@@ -1,8 +1,8 @@
 import {Inject, Pipe, PipeTransform} from '@angular/core';
 
-import {CellTemplateContext, Grid} from '../../interfaces';
+import {CellTemplateContext, Grid, GridPluginInstances} from '../../interfaces';
 import {CELL_CONTEXT_FN, GRID_INSTANCE, GRID_PLUGIN_INSTANCES} from '../../misc/tokens';
-import {CellContextFactoryFn, GridPluginInstances} from '../../misc/types';
+import {CellContextFactoryFn} from '../../misc/types';
 
 /**
  * Obtains cell context for template

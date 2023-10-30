@@ -1,6 +1,6 @@
 <div [ngClass]="options.cssClasses.button.topContainerDiv">
     <div [ngClass]="options.cssClasses.button.containerDiv">
-        <button [ngClass]="options.cssClasses.button.selectionButton" (click)="showColSelection()">
+        <button type="button" [ngClass]="options.cssClasses.button.selectionButton" (click)="showColSelection()">
             <span [ngClass]="options.cssClasses.button.selectionIconSpan"></span>
             <span>{{options.texts.btnOpenSelection | localize}}</span>
         </button>
@@ -39,7 +39,7 @@
                  <div [ngClass]="options.cssClasses.selectionDiv.droppedColumnTitleDiv" [title]="meta?.title">{{meta?.title}}</div>
 
                  <div [ngClass]="options.cssClasses.selectionDiv.droppedColumnRemoveDiv">
-                    <button [ngClass]="options.cssClasses.selectionDiv.droppedColumnRemoveButton" (click)="hideColumn(meta)">
+                    <button type="button" [ngClass]="options.cssClasses.selectionDiv.droppedColumnRemoveButton" (click)="hideColumn(meta)">
                         <span [ngClass]="options.cssClasses.selectionDiv.droppedColumnRemoveIconSpan"></span>
                     </button>
                  </div>

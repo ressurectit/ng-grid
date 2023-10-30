@@ -5,9 +5,9 @@ import {RecursivePartial, extend, isBlank} from '@jscrpt/common';
 import {Observable, Subject, Subscription} from 'rxjs';
 
 import {AdvancedGridColumn, AdvancedMetadataSelector, AdvancedMetadataSelectorOptions} from './advancedMetadataSelector.interface';
-import {GridPlugin, MetadataGatherer, TableGridMetadata} from '../../../interfaces';
+import {GridPlugin, GridPluginInstances, MetadataGatherer, TableGridMetadata} from '../../../interfaces';
 import {GRID_PLUGIN_INSTANCES, METADATA_SELECTOR_OPTIONS} from '../../../misc/tokens';
-import {GridPluginInstances} from '../../../misc/types';
+import {GridPluginType} from '../../../misc/enums';
 
 const UNUSED_DRAG = 'UNUSED_DRAG';
 
@@ -165,7 +165,7 @@ export class AdvancedMetadataSelectorSAComponent implements AdvancedMetadataSele
      */
     protected get headerContentRenderer(): GridPlugin|undefined|null
     {
-        return (this.gridPlugins as Record<string, GridPlugin>)?.['HEADER_CONTENT_RENDERER'];
+        return this.gridPlugins?.['HEADER_CONTENT_RENDERER' as unknown as GridPluginType];
     }
 
     //######################### public properties - implementation of AdvancedMetadataSelector #########################

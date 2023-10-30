@@ -2,8 +2,7 @@ import {ChangeDetectorRef, ElementRef, Directive, inject} from '@angular/core';
 import {RecursivePartial, extend} from '@jscrpt/common';
 
 import {HeaderContentRenderer, HeaderContentRendererOptions, CssClassesHeaderContentRenderer} from './bodyHeaderContentRenderer.interface';
-import {GridPlugin, TableGridColumn, TableGridMetadata} from '../../../interfaces';
-import {GridPluginInstances} from '../../../misc/types';
+import {GridPlugin, GridPluginInstances, TableGridColumn, TableGridMetadata} from '../../../interfaces';
 import {GRID_PLUGIN_INSTANCES} from '../../../misc/tokens';
 
 /**

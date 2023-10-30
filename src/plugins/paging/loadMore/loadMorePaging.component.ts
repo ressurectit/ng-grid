@@ -5,7 +5,7 @@ import {LocalizeSAPipe} from '@anglr/common';
 import {PagingAbstractComponent} from '../pagingAbstract.component';
 import {LoadMorePaging, CssClassesLoadMorePaging, LoadMorePagingOptions} from './loadMorePaging.interface';
 import {GRID_PLUGIN_INSTANCES, PAGING_OPTIONS} from '../../../misc/tokens';
-import {GridPluginInstances} from '../../../misc/types';
+import {GridPluginInstances} from '../../../interfaces';
 
 /**
  * Default options for paging

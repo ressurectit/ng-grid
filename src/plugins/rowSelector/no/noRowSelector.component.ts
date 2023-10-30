@@ -2,9 +2,8 @@ import {Component, ChangeDetectionStrategy, ElementRef, Inject, Optional, Writab
 import {RecursivePartial, extend} from '@jscrpt/common';
 
 import {NoRowSelectorOptions, NoRowSelector} from './noRowSelector.interface';
-import {GridPlugin} from '../../../interfaces';
+import {GridPlugin, GridPluginInstances} from '../../../interfaces';
 import {GRID_PLUGIN_INSTANCES, ROW_SELECTOR_OPTIONS} from '../../../misc/tokens';
-import {GridPluginInstances} from '../../../misc/types';
 
 /**
  * Default options for row selector

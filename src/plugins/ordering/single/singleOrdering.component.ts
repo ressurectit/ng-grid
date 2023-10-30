@@ -1,9 +1,8 @@
 import {ChangeDetectionStrategy, Component, ElementRef, Inject, Optional, Signal, WritableSignal, inject, signal} from '@angular/core';
 import {OrderByDirection, RecursivePartial, extend} from '@jscrpt/common';
 
-import {GridPluginInstances} from '../../../misc/types';
 import {SingleOrdering, SingleOrderingOptions} from './singleOrdering.interface';
-import {GridInitializer, OrderingOptions, SimpleOrdering} from '../../../interfaces';
+import {GridInitializer, GridPluginInstances, OrderingOptions, SimpleOrdering} from '../../../interfaces';
 import {GRID_PLUGIN_INSTANCES, ORDERING_OPTIONS} from '../../../misc/tokens';
 import {GridPluginType} from '../../../misc/enums';
 import {DefaultOrderableIndicatorRenderer} from '../misc/services';

@@ -1,8 +1,7 @@
 import {ChangeDetectionStrategy, Component, ElementRef} from '@angular/core';
 
 import {NoGridInitializer, NoGridInitializerOptions} from './noGridInitializer.interface';
-import {GridPlugin} from '../../../interfaces';
-import {GridPluginInstances} from '../../../misc/types';
+import {GridPlugin, GridPluginInstances} from '../../../interfaces';
 
 /**
  * Component used for rendering no grid initializer

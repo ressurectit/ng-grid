@@ -5,9 +5,8 @@ import {isArray} from '@jscrpt/common';
 
 import {BodyHeaderContentRendererAbstractComponent} from '../bodyHeaderContentRendererAbstract.component';
 import {CssDivsContentRendererOptions} from './cssDivsContentRenderer.interface';
-import {GridMetadata, TableGridColumn, TableGridMetadata} from '../../../../interfaces';
+import {GridMetadata, GridPluginInstances, TableGridColumn, TableGridMetadata} from '../../../../interfaces';
 import {CONTENT_RENDERER_OPTIONS, GRID_PLUGIN_INSTANCES} from '../../../../misc/tokens';
-import {GridPluginInstances} from '../../../../misc/types';
 import {CssDivsBodyContentRendererSAComponent} from './body/cssDivsBodyContentRenderer.component';
 import {CssDivsHeaderContentRendererSAComponent} from './header/cssDivsHeaderContentRenderer.component';
 import {ResolveForwardRefSAPipe} from '../../../../pipes';

@@ -3,11 +3,10 @@ import {CommonModule} from '@angular/common';
 import {LocalizeSAPipe} from '@anglr/common';
 import {RecursivePartial, extend} from '@jscrpt/common';
 
-import {DataLoader, GridPlugin} from '../../../interfaces';
+import {DataLoader, GridPlugin, GridPluginInstances} from '../../../interfaces';
 import {SimpleNoDataRenderer, SimpleNoDataRendererOptions} from './simpleNoDataRenderer.interface';
 import {DataLoaderState, GridPluginType} from '../../../misc/enums';
 import {GRID_PLUGIN_INSTANCES, NO_DATA_RENDERER_OPTIONS} from '../../../misc/tokens';
-import {GridPluginInstances} from '../../../misc/types';
 
 /**
  * Default options for no data renderer
