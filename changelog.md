@@ -273,6 +273,7 @@
       - `OrderableIndicatorRenderer`
 - new `UseTableSADirective` directive, that configures MatrixContentRenderer to use TableDefaultTemplates
 - new `MatrixGridModule` module for matrix grid components and directives
+- new `GridPluginInstancesDef` class, that is implementation of GridPluginInstances
 - updated `TableGridColumnSAComponent` component
    - now supports also obtaining template using directives `TableGridBodyCellTemplateSADirective`, `TableGridHeaderCellTemplateSADirective`
 - updated `Grid` interface
@@ -295,6 +296,7 @@
       - `paging` instance of paging used for applying paging to data
       - `rowSelector` instance of row selector used for handling row selection
 - *subpackage* `@anglr/grid/extensions`
+   - new `invalidateContent` function, that invalidates content renderer view, redraws content
    - updated `reinitializeOptions`, new signatures supporting `force` parameter
 
 ### BREAKING CHANGES

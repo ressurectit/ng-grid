@@ -5,6 +5,7 @@ import {GridOptions} from '../gridOptions/gridOptions.interface';
 import {GridPlugin} from '../gridPlugin/gridPlugin.interface';
 import {GridAction, GridFunction} from '../../misc/types';
 import {GridPluginType} from '../../misc/enums';
+import {ContentRenderer, DataLoader, GridInitializer, MetadataSelector, NoDataRenderer, Ordering, Paging, RowSelector} from '../plugins';
 
 /**
  * Public API for grid
@@ -43,6 +44,14 @@ export interface Grid extends Invalidatable
      * Gets instance of plugin by its id
      * @param pluginId - Id of plugin, use constants
      */
+    getPlugin(pluginId: GridPluginType.ContentRenderer): ContentRenderer;
+    getPlugin(pluginId: GridPluginType.DataLoader): DataLoader;
+    getPlugin(pluginId: GridPluginType.GridInitializer): GridInitializer;
+    getPlugin(pluginId: GridPluginType.MetadataSelector): MetadataSelector;
+    getPlugin(pluginId: GridPluginType.NoDataRenderer): NoDataRenderer;
+    getPlugin(pluginId: GridPluginType.Ordering): Ordering;
+    getPlugin(pluginId: GridPluginType.Paging): Paging;
+    getPlugin(pluginId: GridPluginType.RowSelector): RowSelector;
     getPlugin<PluginInstance extends GridPlugin>(pluginId: GridPluginType): PluginInstance;
 
     /**

@@ -2,6 +2,7 @@ export * from './components';
 export * from './directives';
 export * from './interfaces';
 export * from './misc/enums';
+export * from './misc/gridPluginInstancesDef';
 export * from './misc/providers';
 export * from './misc/tokens';
 export * from './misc/types';
@@ -17,7 +18,6 @@ export * from './plugins';
 //TODO: rework all pagings, styles and use it as component itself, paging initialization rework
 //TODO: styles in datetime style
 //TODO: items per page overwrite, not merge
-//TODO: maybe rewrite GridPluginInstances to more "specific" types
 //TODO: use inject in base classes also in plugins
 //TODO: maybe unify id and name and use only one (ID)??
 //TODO: maybe add ordering to permanent grid initializer

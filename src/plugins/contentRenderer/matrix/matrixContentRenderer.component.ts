@@ -209,7 +209,7 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
      */
     public initialize(force: boolean): void
     {
-        const metadataSelector: MetadataSelector<MatrixGridMetadata<MatrixGridColumn>> = this.gridPluginsSafe.MetadataSelector as MetadataSelector<MatrixGridMetadata<MatrixGridColumn>>;
+        const metadataSelector: MetadataSelector<MatrixGridMetadata<MatrixGridColumn>> = this.gridPluginsSafe.metadataSelector as MetadataSelector<MatrixGridMetadata<MatrixGridColumn>>;
 
         //metadata selector obtained and its different instance
         if(force || (this.metadataSelector && this.metadataSelector != metadataSelector))
@@ -230,7 +230,7 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
                 .subscribe(() => this.renderGridContainer());
         }
 
-        const dataLoader: DataLoader<DataResponse> = this.gridPluginsSafe.DataLoader as DataLoader<DataResponse>;
+        const dataLoader: DataLoader<DataResponse> = this.gridPluginsSafe.dataLoader as DataLoader<DataResponse>;
 
         //data loader obtained and its different instance
         if(force || (this.dataLoader && this.dataLoader != dataLoader))
@@ -251,7 +251,7 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
                 .subscribe(() => this.renderGridContainer());
         }
 
-        const paging: Paging = this.gridPluginsSafe.Paging as Paging;
+        const paging: Paging = this.gridPluginsSafe.paging;
 
         //paging obtained and its different instance
         if(force || (this.paging && this.paging != paging))
@@ -265,7 +265,7 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
             this.paging = paging;
         }
 
-        const rowSelector: RowSelector = this.gridPluginsSafe.RowSelector as RowSelector;
+        const rowSelector: RowSelector = this.gridPluginsSafe.rowSelector;
 
         //row selector obtained and its different instance
         if(force || (this.rowSelector && this.rowSelector != rowSelector))

@@ -10,6 +10,7 @@ import {DEFAULT_OPTIONS, GRID_INSTANCE, GRID_PLUGIN_INSTANCES} from '../../misc/
 import {ResolveForwardRefSAPipe} from '../../pipes';
 import {Grid, GridOptions, MatrixGridMetadata, MetadataGatherer} from '../../interfaces';
 import {ContentContainerTemplateSADirective, ContentRowContainerTemplateSADirective, FooterContainerTemplateSADirective, FooterRowContainerTemplateSADirective, GridContainerTemplateSADirective, HeaderContainerTemplateSADirective, HeaderRowContainerTemplateSADirective, MatrixGridColumnSADirective} from '../../directives';
+import {GridPluginInstancesDef} from '../../misc/gridPluginInstancesDef';
 
 /**
  * Default 'GridOptions'
@@ -105,7 +106,7 @@ const defaultOptions: GridOptions =
         <FactoryProvider>
         {
             provide: GRID_PLUGIN_INSTANCES,
-            useFactory: () => {return {};}
+            useFactory: () => {return new GridPluginInstancesDef();}
         },
         <ValueProvider>
         {

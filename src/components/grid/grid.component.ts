@@ -12,6 +12,7 @@ import {GridAction, GridFunction} from '../../misc/types';
 import {GridPluginType, PagingPosition} from '../../misc/enums';
 import {setPluginFactory} from '../../misc/utils';
 import {ResolveForwardRefSAPipe} from '../../pipes';
+import {GridPluginInstancesDef} from '../../misc/gridPluginInstancesDef';
 
 /**
  * Default 'GridOptions'
@@ -107,7 +108,7 @@ const defaultOptions: GridOptions =
         <FactoryProvider>
         {
             provide: GRID_PLUGIN_INSTANCES,
-            useFactory: () => {return {};}
+            useFactory: () => {return new GridPluginInstancesDef();}
         },
         <ValueProvider>
         {
@@ -405,9 +406,9 @@ export class GridSAComponent implements OnInit, Grid
     public async initOptions(): Promise<void>
     {
         const initOptionsFn = async <TPlugin extends GridPlugin>(pluginType: GridPluginType,
-                                                                                                  pluginDescription: PluginDescription<TPlugin>,
-                                                                                                  initOptionsSubject: Subject<boolean>,
-                                                                                                  beforeOptionsSet?: Func1<PromiseOr<void>, TPlugin>): Promise<void> =>
+                                                                 pluginDescription: PluginDescription<TPlugin>,
+                                                                 initOptionsSubject: Subject<boolean>,
+                                                                 beforeOptionsSet?: Func1<PromiseOr<void>, TPlugin>): Promise<void> =>
         {
             initOptionsSubject.next(false);
 
