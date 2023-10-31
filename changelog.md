@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 10.0.0 (2023-10-29)
+## Version 10.0.0 (2023-10-31)
 
 ### Bug Fixes
 
@@ -298,6 +298,7 @@
       - `rowSelector` instance of row selector used for handling row selection
 - *subpackage* `@anglr/grid/extensions`
    - new `invalidateContent` function, that invalidates content renderer view, redraws content
+   - new `isSelectedAnyOnPage` function, that gets indication whether is selected any row on current page
    - updated `reinitializeOptions`, new signatures supporting `force` parameter
 
 ### BREAKING CHANGES

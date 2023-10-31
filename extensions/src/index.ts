@@ -4,6 +4,7 @@ export * from './extensions/getSelectedData';
 export * from './extensions/invalidateBodyContent';
 export * from './extensions/invalidateContent';
 export * from './extensions/isSelectedAny';
+export * from './extensions/isSelectedAnyOnPage';
 export * from './extensions/patchOptions';
 export * from './extensions/refreshData';
 export * from './extensions/refreshDataToDefaultPage';
