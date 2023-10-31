@@ -14,9 +14,9 @@
     {
         <div [ngClass]="optionsValue().cssClasses.itemsPerPageDiv">
             <span [ngClass]="optionsValue().cssClasses.displayedItemsCountSpan">{{displayedItemsCount()}}</span>
-    
+
             <ul [ngClass]="optionsValue().cssClasses.itemsPerPageUl">
-                @for (itemsPerPage of itemsPerPageItems(); track itemsPerPage) 
+                @for (itemsPerPage of itemsPerPageItems(); track itemsPerPage)
                 {
                     <li [ngClass]="{active: itemsPerPage.isActive, 'pointer-cursor': !itemsPerPage.isActive}">
                         <a (click)="setItemsPerPageItem(itemsPerPage)">

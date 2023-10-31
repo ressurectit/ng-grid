@@ -251,13 +251,6 @@ export class BasicPagingSAComponent extends PagingAbstractComponent<CssClassesBa
             return;
         }
 
-        for(const page of this.pages())
-        {
-            page.isActive = false;
-        }
-
-        page.isActive = true;
-
         this.setPage(page.page);
     }
 
@@ -271,13 +264,6 @@ export class BasicPagingSAComponent extends PagingAbstractComponent<CssClassesBa
         {
             return;
         }
-
-        for(const page of this.itemsPerPageItems())
-        {
-            page.isActive = false;
-        }
-
-        itemsPerPage.isActive = true;
 
         this.setItemsPerPage(itemsPerPage.value);
     }

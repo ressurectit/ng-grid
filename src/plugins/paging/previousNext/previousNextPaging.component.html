@@ -1,31 +1,35 @@
-<div *ngIf="initialized">
-    <ul [ngClass]="options.cssClasses.previousNextContainerUl">
-        <li [ngClass]="{disabled: isFirst, 'pointer-cursor': !isFirst}">
-            <a (click)="setPage(1)">
-                <span [ngClass]="options.cssClasses.firstItemSpan"></span>
-            </a>
-        </li>
+<ul [ngClass]="optionsValue().cssClasses.previousNextContainerUl">
+    <li [ngClass]="{disabled: isFirst(), 'pointer-cursor': !isFirst()}">
+        <a (click)="setPage(1)">
+            <span [ngClass]="optionsValue().cssClasses.firstItemSpan"></span>
+        </a>
+    </li>
 
-        <li [ngClass]="{disabled: isFirst, 'pointer-cursor': !isFirst}">
-            <a (click)="setPage(page - 1)">
-                <span [ngClass]="options.cssClasses.previousItemSpan"></span>
-            </a>
-        </li>
+    <li [ngClass]="{disabled: isFirst, 'pointer-cursor': !isFirst}">
+        <a (click)="setPage((pageValue() ?? 1) - 1)">
+            <span [ngClass]="optionsValue().cssClasses.previousItemSpan"></span>
+        </a>
+    </li>
 
-        <li [ngClass]="{disabled: isLast, 'pointer-cursor': !isLast}">
-            <a (click)="setPage(page + 1)">
-                <span [ngClass]="options.cssClasses.nextItemSpan"></span>
-            </a>
-        </li>
-    </ul>
+    <li [ngClass]="{disabled: isLast, 'pointer-cursor': !isLast}">
+        <a (click)="setPage((pageValue() ?? 1) + 1)">
+            <span [ngClass]="optionsValue().cssClasses.nextItemSpan"></span>
+        </a>
+    </li>
+</ul>
 
-    <div [ngClass]="options.cssClasses.displayedItemsCountDiv" *ngIf="!!itemsPerPageItems && itemsPerPageItems.length > 0">
-        <ul [ngClass]="options.cssClasses.itemsPerPageUl">
-            <li *ngFor="let itemsPerPage of itemsPerPageItems" [ngClass]="{active: itemsPerPage.isActive, 'pointer-cursor': !itemsPerPage.isActive}">
-                <a (click)="setItemsPerPage(itemsPerPage)">
-                    <span [innerHtml]="renderItemsPerPageText(itemsPerPage.value)"></span>
-                </a>
-            </li>
+@if(itemsPerPageItems().length)
+{
+    <div [ngClass]="optionsValue().cssClasses.displayedItemsCountDiv">
+        <ul [ngClass]="optionsValue().cssClasses.itemsPerPageUl">
+            @for (itemsPerPage of itemsPerPageItems(); track itemsPerPage)
+            {
+                <li [ngClass]="{active: itemsPerPage.isActive, 'pointer-cursor': !itemsPerPage.isActive}">
+                    <a (click)="setItemsPerPage(itemsPerPage.value)">
+                        <span [innerHtml]="itemsPerPage.value | infinityNaN"></span>
+                    </a>
+                </li>
+            }
         </ul>
     </div>
-</div>
+}

@@ -27,6 +27,6 @@ export interface PreviousNextPagingOptions extends PagingOptions<CssClassesPrevi
 /**
  * Public API for 'PreviousNextPagingComponent'
  */
-export interface PreviousNextPaging extends Paging
+export interface PreviousNextPaging<TOptions extends PreviousNextPagingOptions = PreviousNextPagingOptions> extends Paging<TOptions>
 {
 }
