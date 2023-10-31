@@ -31,6 +31,6 @@ export interface LoadMorePagingOptions extends PagingOptions<CssClassesLoadMoreP
 /**
  * Public API for 'LoadMorePagingComponent'
  */
-export interface LoadMorePaging extends Paging
+export interface LoadMorePaging<TOptions extends LoadMorePagingOptions = LoadMorePagingOptions> extends Paging<TOptions>
 {
 }

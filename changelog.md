@@ -347,6 +347,16 @@
 - removed `AdvancedTableBodyContentRendererOptions` interface, now standard `TableBodyContentRendererOptions` has same functionality
 - removed `AdvancedTableBodyContentRenderer` interface, now standard `BodyContentRenderer` has same functionality
 - removed `BasicOrderableColumn` interface
+- removed `VirtualScrollPagingAbstractComponent` component, not used, old implementation
+- removed `PageVirtualScrollPagingSAComponent` component, not used, old implementation
+- removed `ContentVirtualScrollPagingSAComponent` component, not used, old implementation
+- removed `VirtualScrollPaging` interface, not used, old implementation
+- removed `VirtualScrollPagingOptions` interface, not used, old implementation
+- removed `CssClassesVirtualScrollPaging` interface, not used, old implementation
+- removed `PageVirtualScrollPaging` interface, not used, old implementation
+- removed `PageVirtualScrollPagingOptions` interface, not used, old implementation
+- removed `ContentVirtualScrollPaging` interface, not used, old implementation
+- removed `ContentVirtualScrollPagingOptions` interface, not used, old implementation
 - old `ContentRendererOptions` renamed to `HeaderBodyContentRendererOptions`
 - new `ContentRendererOptions` without `plugins`
 - removed grouped table definition, use new syntax to achieve grouped header columns

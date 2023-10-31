@@ -1,3 +1,6 @@
-<div [ngClass]="options.cssClasses.containerDiv" *ngIf="moreAvailable">
-    <button type="button" [ngClass]="options.cssClasses.loadMoreBtn" (click)="loadMore()">{{options.texts.loadMoreBtn | localize}}</button>
-</div>
+@if(moreAvailable())
+{
+    <div [ngClass]="optionsValue().cssClasses.containerDiv">
+        <button type="button" [ngClass]="optionsValue().cssClasses.loadMoreBtn" (click)="loadMore()">{{optionsValue().texts.loadMoreBtn | localize}}</button>
+    </div>
+}

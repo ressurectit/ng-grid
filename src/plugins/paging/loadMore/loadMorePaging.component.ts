@@ -1,11 +1,10 @@
-import {Component, Input, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef, Inject, Optional} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ValueProvider, signal, Signal, computed} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {LocalizeSAPipe} from '@anglr/common';
 
 import {PagingAbstractComponent} from '../pagingAbstract.component';
 import {LoadMorePaging, CssClassesLoadMorePaging, LoadMorePagingOptions} from './loadMorePaging.interface';
-import {GRID_PLUGIN_INSTANCES, PAGING_OPTIONS} from '../../../misc/tokens';
-import {GridPluginInstances} from '../../../interfaces';
+import {DEFAULT_OPTIONS} from '../../../misc/tokens';
 
 /**
  * Default options for paging
@@ -38,9 +37,17 @@ const defaultOptions: LoadMorePagingOptions =
         CommonModule,
         LocalizeSAPipe,
     ],
+    providers:
+    [
+        <ValueProvider>
+        {
+            provide: DEFAULT_OPTIONS,
+            useValue: defaultOptions,
+        },
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoadMorePagingSAComponent  extends PagingAbstractComponent<CssClassesLoadMorePaging, LoadMorePagingOptions> implements LoadMorePaging
+export class LoadMorePagingSAComponent  extends PagingAbstractComponent<CssClassesLoadMorePaging, LoadMorePagingOptions> implements LoadMorePaging<LoadMorePagingOptions>
 {
     //######################### protected fields #########################
 
@@ -49,17 +56,12 @@ export class LoadMorePagingSAComponent  extends PagingAbstractComponent<CssClass
      */
     protected displayedPages: number = 1;
 
-    /**
-     * Number of all items that are paged with current filter criteria
-     */
-    protected ɵtotalCount: number = 0;
-
     //######################### protected properties - template bindings #########################
 
     /**
      * Indication that more items are available
      */
-    protected moreAvailable: boolean = true;
+    protected moreAvailable: Signal<boolean> = signal(true).asReadonly();
 
     //######################### public properties #########################
 
@@ -71,40 +73,18 @@ export class LoadMorePagingSAComponent  extends PagingAbstractComponent<CssClass
         return 0;
     }
 
-    //######################### public properties - inputs #########################
+    // this.moreAvailable = (this.displayedPages * this.itemsPerPage) < this.ɵtotalCount;
+
+//######################### public methods - overrides #########################
 
     /**
      * @inheritdoc
      */
-    public page: number = 0;
-
-    /**
-     * @inheritdoc
-     */
-    @Input()
-    public itemsPerPage: number = 0;
-
-    /**
-     * @inheritdoc
-     */
-    @Input()
-    public get totalCount(): number
+    public override async initialize(force: boolean): Promise<void>
     {
-        return this.ɵtotalCount;
-    }
-    public set totalCount(value: number)
-    {
-        this.ɵtotalCount = value;
-        this.moreAvailable = (this.displayedPages * this.itemsPerPage) < this.ɵtotalCount;
-    }
+        await super.initialize(force);
 
-    //######################### constructor #########################
-    constructor(pluginElement: ElementRef,
-                changeDetector: ChangeDetectorRef,
-                @Inject(GRID_PLUGIN_INSTANCES) @Optional() gridPlugins: GridPluginInstances|undefined|null,
-                @Inject(PAGING_OPTIONS) @Optional() options?: LoadMorePagingOptions)
-    {
-        super(pluginElement, changeDetector, gridPlugins, defaultOptions, options);
+        this.moreAvailable = computed(() => (this.displayedPages * (this.itemsPerPageValue() ?? 0)) < this.totalCount());
     }
 
     //######################### protected methods - template bindings #########################
@@ -116,7 +96,6 @@ export class LoadMorePagingSAComponent  extends PagingAbstractComponent<CssClass
     {
         this.displayedPages++;
 
-        this.page = this.displayedPages;
-        this.pageChangeSubject.next(this.displayedPages);
+        this.setPage(this.displayedPages);
     }
 }
