@@ -350,6 +350,10 @@
 - removed `VirtualScrollPagingAbstractComponent` component, not used, old implementation
 - removed `PageVirtualScrollPagingSAComponent` component, not used, old implementation
 - removed `ContentVirtualScrollPagingSAComponent` component, not used, old implementation
+- removed `CdkVirtualScrollPagingComponent` component, not used, old implementation
+- removed `VirtualScrollTableContentRendererComponent` component, not used, based on old renderer
+- removed `VirtualScrollTableHeaderContentRendererComponent` component, not used, based on old renderer
+- removed `VirtualScrollTableBodyContentRendererComponent` component, not used, based on old renderer
 - removed `VirtualScrollPaging` interface, not used, old implementation
 - removed `VirtualScrollPagingOptions` interface, not used, old implementation
 - removed `CssClassesVirtualScrollPaging` interface, not used, old implementation
@@ -357,6 +361,17 @@
 - removed `PageVirtualScrollPagingOptions` interface, not used, old implementation
 - removed `ContentVirtualScrollPaging` interface, not used, old implementation
 - removed `ContentVirtualScrollPagingOptions` interface, not used, old implementation
+- removed `CdkVirtualScrollPaging` interface, not used, old implementation
+- removed `CdkVirtualScrollPagingOptions` interface, not used, old implementation
+- removed `CssClassesCdkVirtualScrollPaging` interface, not used, old implementation
+- removed `VirtualScrollTableHeaderContentRenderer` interface, not used, based on old renderer
+- removed `VirtualScrollTableHeaderContentRendererOptions` interface, not used, based on old renderer
+- removed `CssClassesVirtualScrollTableHeaderContentRenderer` interface, not used, based on old renderer
+- removed `VirtualScrollTableBodyContentRenderer` interface, not used, based on old renderer
+- removed `VirtualScrollTableBodyContentRendererOptions` interface, not used, based on old renderer
+- removed `VirtualScrollTableContentRenderer` interface, not used, based on old renderer
+- removed `VirtualScrollTableContentRendererOptions` interface, not used, based on old renderer
+- removed `CssClassesVirtualScrollTableContentRenderer` interface, not used, based on old renderer
 - old `ContentRendererOptions` renamed to `HeaderBodyContentRendererOptions`
 - new `ContentRendererOptions` without `plugins`
 - removed grouped table definition, use new syntax to achieve grouped header columns
