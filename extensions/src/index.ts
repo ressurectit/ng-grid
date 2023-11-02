@@ -2,6 +2,7 @@ export * from './extensions/areSelectedAllOnPage';
 export * from './extensions/areSelectedAllOnPageLimited';
 export * from './extensions/getPage';
 export * from './extensions/getSelectedData';
+export * from './extensions/getSelectedIds';
 export * from './extensions/invalidateBodyContent';
 export * from './extensions/invalidateContent';
 export * from './extensions/isSelectedAny';

@@ -297,6 +297,7 @@
       - `paging` instance of paging used for applying paging to data
       - `rowSelector` instance of row selector used for handling row selection
 - *subpackage* `@anglr/grid/extensions`
+   - new `getSelectedIds` function, that gets currently selected ids
    - new `invalidateContent` function, that invalidates content renderer view, redraws content
    - new `isSelectedAnyOnPage` function, that gets indication whether is selected any row on current page
    - new `areSelectedAllOnPageLimited` function, that gets indication whether are all currently displayed items on page selected or not, works with DataResponse DataLoader
@@ -401,8 +402,8 @@
 - updated all paging plugins to correspond with new `Paging` interface
 - updated all plugins to be in line with new `GridPlugin` interface
 - *subpackage* `@anglr/grid/extensions`
-   - updated `setOrdering` function, is now async function
-   - updated `setPage` function, is now async function
+   - updated `setOrdering` function, is now async function and no longer refresh data
+   - updated `setPage` function, is now async function and no longer refresh data
 - *subpackage* `@anglr/grid/material`
    - renamed `VerticalDragNDropSelectionComponent` to `VerticalDragNDropSelectionSAComponent`
    - renamed `DialogMetadataSelectorComponent` to `DialogMetadataSelectorSAComponent`
