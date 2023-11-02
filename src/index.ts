@@ -25,3 +25,4 @@ export * from './plugins';
 //TODO: add support for disable ordering of columns in metadata selector
 //TODO: all base plugin interface implements base TOptions extends pluginOptions => GridPlugin<TOptions>
 //TODO: make providers functions for tokens
+//TODO: rework initOptions and creation of plugins, use containers with viewContainerRef, make it synchronous

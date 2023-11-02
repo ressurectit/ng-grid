@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 10.0.0 (2023-10-31)
+## Version 10.0.0 (2023-11-02)
 
 ### Bug Fixes
 
@@ -299,6 +299,9 @@
 - *subpackage* `@anglr/grid/extensions`
    - new `invalidateContent` function, that invalidates content renderer view, redraws content
    - new `isSelectedAnyOnPage` function, that gets indication whether is selected any row on current page
+   - new `areSelectedAllOnPageLimited` function, that gets indication whether are all currently displayed items on page selected or not, works with DataResponse DataLoader
+   - new `patchPluginsOptions` function, that is used to patch plugins options only
+   - new `reinitialize` function, that reinitializes grid
    - updated `reinitializeOptions`, new signatures supporting `force` parameter
 
 ### BREAKING CHANGES

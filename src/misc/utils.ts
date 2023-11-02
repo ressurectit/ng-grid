@@ -74,6 +74,7 @@ export function setPluginFactory<TPlugin extends GridPlugin = GridPlugin>(plugin
             return;
         }
 
+        getInitOptionsSubject().next(false);
         this.pluginInstances[pluginType] = plugin;
         await beforeOptionsSet?.bind(this)(plugin);
         const options = getPluginDescription().options;

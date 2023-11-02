@@ -4,13 +4,15 @@
 <ng-template [ngComponentOutletEx]="gridOptions.plugins.gridInitializer.type | resolveForwardRef" (ngComponentOutletExCreated)="setGridInitializerComponent($event)"></ng-template>
 <ng-template [ngComponentOutletEx]="gridOptions.plugins.ordering.type | resolveForwardRef" (ngComponentOutletExCreated)="setOrderingComponent($event)"></ng-template>
 
-<ng-template [ngIf]="gridOptions.pagingPosition == 0">
+@if(gridOptions.pagingPosition == 0)
+{
     <ng-template [ngComponentOutletEx]="gridOptions.plugins.paging.type | resolveForwardRef" (ngComponentOutletExCreated)="setPagingComponent($event)"></ng-template>
-</ng-template>
+}
 
 <ng-template [ngComponentOutletEx]="gridOptions.plugins.contentRenderer.type | resolveForwardRef" (ngComponentOutletExCreated)="setContentRendererComponent($event)"></ng-template>
 <ng-template [ngComponentOutletEx]="gridOptions.plugins.noDataRenderer.type | resolveForwardRef" (ngComponentOutletExCreated)="setNoDataRendererComponent($event)"></ng-template>
 
-<ng-template [ngIf]="gridOptions.pagingPosition == 1">
+@if(gridOptions.pagingPosition == 1)
+{
     <ng-template [ngComponentOutletEx]="gridOptions.plugins.paging.type | resolveForwardRef" (ngComponentOutletExCreated)="setPagingComponent($event)"></ng-template>
-</ng-template>
+}

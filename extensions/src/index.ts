@@ -1,4 +1,5 @@
 export * from './extensions/areSelectedAllOnPage';
+export * from './extensions/areSelectedAllOnPageLimited';
 export * from './extensions/getPage';
 export * from './extensions/getSelectedData';
 export * from './extensions/invalidateBodyContent';
@@ -6,9 +7,11 @@ export * from './extensions/invalidateContent';
 export * from './extensions/isSelectedAny';
 export * from './extensions/isSelectedAnyOnPage';
 export * from './extensions/patchOptions';
+export * from './extensions/patchPluginsOptions';
 export * from './extensions/refreshData';
 export * from './extensions/refreshDataToDefaultPage';
 export * from './extensions/refreshDataToDefaults';
+export * from './extensions/reinitialize';
 export * from './extensions/reinitializeOptions';
 export * from './extensions/resetSelection';
 export * from './extensions/selectAllOnPage';

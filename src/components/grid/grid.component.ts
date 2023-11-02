@@ -303,7 +303,10 @@ export class GridSAComponent implements OnInit, Grid
      */
     public ngOnInit(): void
     {
-        this.initOptions();
+        if(this.gridOptions.autoInitialize)
+        {
+            this.initOptions();
+        }
     }
 
     //######################### protected methods - template bindings #########################
@@ -410,8 +413,6 @@ export class GridSAComponent implements OnInit, Grid
                                                                  initOptionsSubject: Subject<boolean>,
                                                                  beforeOptionsSet?: Func1<PromiseOr<void>, TPlugin>): Promise<void> =>
         {
-            initOptionsSubject.next(false);
-
             if(pluginDescription.instance && pluginDescription.type)
             {
                 throw new Error(`GridSAComponent: provide only instance or type for plugin ${pluginType}, cant provide both of these properties at the same time!`);
@@ -420,6 +421,8 @@ export class GridSAComponent implements OnInit, Grid
             //only for existing instances of plugins
             if(pluginDescription.instance)
             {
+                initOptionsSubject.next(false);
+                
                 //plugin is different from current plugin
                 if (pluginDescription.instance != this.pluginInstances[pluginType])
                 {
