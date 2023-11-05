@@ -15,7 +15,8 @@ export function patchPluginsOptions(options: RecursivePartial<GridOptions>): Gri
             
             plugin.options = options.plugins?.contentRenderer?.options;
             await plugin.initOptions();
-            
+
+            grid.gridOptions.plugins.contentRenderer.options = plugin.options;
         }
 
         if(options.plugins?.dataLoader?.options)
@@ -24,6 +25,8 @@ export function patchPluginsOptions(options: RecursivePartial<GridOptions>): Gri
             
             plugin.options = options.plugins?.dataLoader?.options;
             await plugin.initOptions();
+
+            grid.gridOptions.plugins.dataLoader.options = plugin.options;
         }
 
         if(options.plugins?.gridInitializer?.options)
@@ -32,6 +35,8 @@ export function patchPluginsOptions(options: RecursivePartial<GridOptions>): Gri
             
             plugin.options = options.plugins?.gridInitializer?.options;
             await plugin.initOptions();
+
+            grid.gridOptions.plugins.gridInitializer.options = plugin.options;
         }
 
         if(options.plugins?.metadataSelector?.options)
@@ -40,6 +45,8 @@ export function patchPluginsOptions(options: RecursivePartial<GridOptions>): Gri
             
             plugin.options = options.plugins?.metadataSelector?.options;
             await plugin.initOptions();
+
+            grid.gridOptions.plugins.metadataSelector.options = plugin.options;
         }
 
         if(options.plugins?.noDataRenderer?.options)
@@ -48,6 +55,8 @@ export function patchPluginsOptions(options: RecursivePartial<GridOptions>): Gri
             
             plugin.options = options.plugins?.noDataRenderer?.options;
             await plugin.initOptions();
+
+            grid.gridOptions.plugins.noDataRenderer.options = plugin.options;
         }
 
         if(options.plugins?.ordering?.options)
@@ -56,6 +65,8 @@ export function patchPluginsOptions(options: RecursivePartial<GridOptions>): Gri
             
             plugin.options = options.plugins?.ordering?.options;
             await plugin.initOptions();
+
+            grid.gridOptions.plugins.ordering.options = plugin.options;
         }
 
         if(options.plugins?.paging?.options)
@@ -64,6 +75,8 @@ export function patchPluginsOptions(options: RecursivePartial<GridOptions>): Gri
             
             plugin.options = options.plugins?.paging?.options;
             await plugin.initOptions();
+
+            grid.gridOptions.plugins.paging.options = plugin.options;
         }
 
         if(options.plugins?.rowSelector?.options)
@@ -72,6 +85,8 @@ export function patchPluginsOptions(options: RecursivePartial<GridOptions>): Gri
             
             plugin.options = options.plugins?.rowSelector?.options;
             await plugin.initOptions();
+
+            grid.gridOptions.plugins.rowSelector.options = plugin.options;
         }
     };
 }

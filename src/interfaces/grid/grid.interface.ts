@@ -1,4 +1,4 @@
-import {Invalidatable, PromiseOr, RecursivePartial} from '@jscrpt/common';
+import {PromiseOr, RecursivePartial} from '@jscrpt/common';
 import {Observable} from 'rxjs';
 
 import {GridOptions} from '../gridOptions/gridOptions.interface';
@@ -10,7 +10,7 @@ import {ContentRenderer, DataLoader, GridInitializer, MetadataSelector, NoDataRe
 /**
  * Public API for grid
  */
-export interface Grid extends Invalidatable
+export interface Grid
 {
     //TODO: maybe use signals
     /**

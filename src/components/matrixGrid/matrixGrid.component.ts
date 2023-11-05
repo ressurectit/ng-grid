@@ -5,7 +5,6 @@ import {Observable, Subject} from 'rxjs';
 
 import {GridSAComponent} from '../grid/grid.component';
 import {AsyncDataLoaderSAComponent, BasicPagingSAComponent, MatrixContentRendererSAComponent, NoGridInitializerSAComponent, NoMetadataSelectorSAComponent, NoRowSelectorSAComponent, SimpleNoDataRendererSAComponent, SingleOrderingSAComponent} from '../../plugins';
-import {PagingPosition} from '../../misc/enums';
 import {DEFAULT_OPTIONS, GRID_INSTANCE, GRID_PLUGIN_INSTANCES} from '../../misc/tokens';
 import {ResolveForwardRefSAPipe} from '../../pipes';
 import {Grid, GridOptions, MatrixGridMetadata, MetadataGatherer} from '../../interfaces';
@@ -18,7 +17,6 @@ import {GridPluginInstancesDef} from '../../misc/gridPluginInstancesDef';
 const defaultOptions: GridOptions =
 {
     autoInitialize: true,
-    pagingPosition: PagingPosition.Bottom,
     plugins:
     {
         contentRenderer:

@@ -1,9 +1,7 @@
-import {Func0, Func1, PromiseOr, isBlank, isString} from '@jscrpt/common';
-import {Subject} from 'rxjs';
+import {isBlank, isString} from '@jscrpt/common';
 
-import {Grid, GridPlugin, Paging, PluginDescription, RowSelector, SimpleOrdering, DataCellTemplateContext, CellTemplateContext, GridPluginInstances} from '../interfaces';
+import {Grid, Paging, RowSelector, SimpleOrdering, DataCellTemplateContext, CellTemplateContext, GridPluginInstances} from '../interfaces';
 import {GridPluginType} from './enums';
-import type {GridSAComponent} from '../components';
 import {CellContextFactoryFn, DataCellContextFactoryFn} from './types';
 
 /**
@@ -52,48 +50,6 @@ export function deserializeSimpleOrdering(ordering: string): SimpleOrdering|null
     return {
         orderBy: orderBy,
         orderByDirection: +orderByDirection
-    };
-}
-
-/**
- * Factory function that creates set plugin function
- * @param pluginType - Type of plugin that is being set
- * @param getPluginDescription - Function that obtains plugin description object
- * @param getInitOptionsSubject - Subject for emitting init options initialization state
- * @param beforeOptionsSet - Optional code that is code before options are set
- */
-export function setPluginFactory<TPlugin extends GridPlugin = GridPlugin>(pluginType: GridPluginType,
-                                                                          getPluginDescription: Func0<PluginDescription<TPlugin>>,
-                                                                          getInitOptionsSubject: Func0<Subject<boolean>>,
-                                                                          beforeOptionsSet?: Func1<PromiseOr<void>, TPlugin>): Func1<Promise<void>, TPlugin|null>
-{
-    return async function(this: GridSAComponent, plugin: TPlugin|null): Promise<void>
-    {
-        if(!plugin)
-        {
-            return;
-        }
-
-        getInitOptionsSubject().next(false);
-        this.pluginInstances[pluginType] = plugin;
-        await beforeOptionsSet?.bind(this)(plugin);
-        const options = getPluginDescription().options;
-
-        //sets options if they are present
-        if(options)
-        {
-            plugin.options = options;
-        }
-
-        await plugin.initOptions();
-        const instanceCallback = getPluginDescription().instanceCallback;
-        
-        if(instanceCallback)
-        {
-            instanceCallback(plugin);
-        }
-
-        getInitOptionsSubject().next(true);
     };
 }
 

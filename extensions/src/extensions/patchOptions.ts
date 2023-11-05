@@ -14,7 +14,6 @@ export function patchOptions(options: RecursivePartial<GridOptions>): GridAction
         grid.gridOptions = options;
 
         await grid.initOptions();
-        grid.invalidateVisuals();
         await lastValueFrom(grid.pluginsOptionsInitialized.pipe(first(init => init)));
     };
 }

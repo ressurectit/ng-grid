@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 10.0.0 (2023-11-02)
+## Version 10.0.0 (2023-11-06)
 
 ### Bug Fixes
 
@@ -59,7 +59,6 @@
 - new `NoOrderingSAComponent` component, that is component used for no ordering
    - **implements**
       - `NoOrdering`
-- new `setPluginFactory` function, that is factory function that creates set plugin function
 - new `ORDERING_TYPE` injection token for 'Ordering' implementation
 - new `ORDERING_OPTIONS` injection token for injecting options for ordering
 - new `ResolveForwardRefSAPipe` pipe, that resolves forwardRef type into type
@@ -377,6 +376,7 @@
 - removed `VirtualScrollTableContentRenderer` interface, not used, based on old renderer
 - removed `VirtualScrollTableContentRendererOptions` interface, not used, based on old renderer
 - removed `CssClassesVirtualScrollTableContentRenderer` interface, not used, based on old renderer
+- removed `PagingPosition` enum, not used, if you need to place paging above grid, just place it outside and use instance
 - old `ContentRendererOptions` renamed to `HeaderBodyContentRendererOptions`
 - new `ContentRendererOptions` without `plugins`
 - removed grouped table definition, use new syntax to achieve grouped header columns
@@ -392,9 +392,12 @@
 - removed all plugin identifier contants, use `GridPluginType` enum instead
 - ordering was completely refactored and moved into new plugin, removed from content renderer
 - updated `Grid` interface
+   - no longer implements `Invalidatable`, no use for this method does nothing
    - `initialize` has new `force` parameter
 - updated `GridPlugin` interface
    - `initialize` has new `force` parameter
+- updated `GridOptions` interface
+   - removed `pagingPosition` property
 - updated `Paging` interface
    - now using signals for `page` and `itemsPerPage`
    - now setting `page` and `itemsPerPage` using functions

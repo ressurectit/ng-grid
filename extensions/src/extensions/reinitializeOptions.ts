@@ -1,5 +1,5 @@
 import {GridAction, GridOptions} from '@anglr/grid';
-import {isBoolean} from '@jscrpt/common';
+import {RecursivePartial, isBoolean} from '@jscrpt/common';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
 import {first} from 'rxjs';
 
@@ -12,14 +12,14 @@ export function reinitializeOptions(force?: boolean): GridAction
  * Method reinitialize options for grid
  * @param options - Options to be used for reinitialization
  */
-export function reinitializeOptions(options?: GridOptions): GridAction
+export function reinitializeOptions(options?: RecursivePartial<GridOptions>): GridAction
 /**
  * Method reinitialize options for grid
  * @param force - Indication that options should be fully reinitialized, even thou nothing has changed
  * @param options - Options to be used for reinitialization
  */
-export function reinitializeOptions(force?: boolean, options?: GridOptions): GridAction
-export function reinitializeOptions(optionsOrForce?: GridOptions|boolean, opts?: GridOptions): GridAction
+export function reinitializeOptions(force?: boolean, options?: RecursivePartial<GridOptions>): GridAction
+export function reinitializeOptions(optionsOrForce?: RecursivePartial<GridOptions>|boolean, opts?: RecursivePartial<GridOptions>): GridAction
 {
     return async grid =>
     {
@@ -32,7 +32,6 @@ export function reinitializeOptions(optionsOrForce?: GridOptions|boolean, opts?:
         }
 
         await grid.initOptions();
-        grid.invalidateVisuals();
         await lastValueFrom(grid.pluginsOptionsInitialized.pipe(first(init => init)));
         await grid.initialize(force);
     };
