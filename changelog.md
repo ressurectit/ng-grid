@@ -274,6 +274,23 @@
 - new `MatrixGridModule` module for matrix grid components and directives
 - new `GridPluginInstancesDef` class, that is implementation of GridPluginInstances
 - new `InfinityNaNSAPipe` pipe, that transforms NaN value into inifinity symbol
+- new `AttachPlugins` interface, that is definition of plugin instances that can be attached to grid
+   - **properties**
+      - `contentRenderer` instance of content renderer plugin
+      - `dataLoader` instance of data loader plugin
+      - `gridInitializer` instance of grid initializer plugin
+      - `metadataSelector` instance of metadata selector plugin
+      - `noDataRenderer` instance of no data renderer plugin
+      - `ordering` instance of ordering plugin
+      - `paging` instance of paging plugin
+      - `rowSelector` instance of row selector plugin
+- new `AttachPluginsSADirective` directive, that is used for attaching external plugins to grid
+   - **implements**
+      - `OnChanges`
+   - **inputs**
+      - `attachPlugins` object storing external plugins
+      - `autoInitialize` automatically initialize grid after new instances are set
+      - `forceReinitialization` indication whether perform force reinitialization
 - updated `TableGridColumnSAComponent` component
    - now supports also obtaining template using directives `TableGridBodyCellTemplateSADirective`, `TableGridHeaderCellTemplateSADirective`
 - updated `Grid` interface

@@ -25,3 +25,6 @@ export * from './plugins';
 //TODO: add support for disable ordering of columns in metadata selector
 //TODO: all base plugin interface implements base TOptions extends pluginOptions => GridPlugin<TOptions>
 //TODO: make providers functions for tokens
+//TODO: metadata selector bug, selection change removes data
+//TODO: move here button for metadata selection, or create directive, even better
+//TODO: not working drag n drop

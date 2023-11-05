@@ -224,49 +224,49 @@ export class GridSAComponent implements OnInit, Grid
     /**
      * Container used for rendering metadata selector plugin
      */
-    @ViewChild('metadataSelectorContainer', {read: ViewContainerRef})
+    @ViewChild('metadataSelectorContainer', {read: ViewContainerRef, static: true})
     protected metadataSelectorContainer!: ViewContainerRef;
 
     /**
      * Container used for rendering data loader plugin
      */
-    @ViewChild('dataLoaderContainer', {read: ViewContainerRef})
+    @ViewChild('dataLoaderContainer', {read: ViewContainerRef, static: true})
     protected dataLoaderContainer!: ViewContainerRef;
 
     /**
      * Container used for rendering row selector plugin
      */
-    @ViewChild('rowSelectorContainer', {read: ViewContainerRef})
+    @ViewChild('rowSelectorContainer', {read: ViewContainerRef, static: true})
     protected rowSelectorContainer!: ViewContainerRef;
 
     /**
      * Container used for rendering grid initializer plugin
      */
-    @ViewChild('gridInitializerContainer', {read: ViewContainerRef})
+    @ViewChild('gridInitializerContainer', {read: ViewContainerRef, static: true})
     protected gridInitializerContainer!: ViewContainerRef;
 
     /**
      * Container used for rendering ordering plugin
      */
-    @ViewChild('orderingContainer', {read: ViewContainerRef})
+    @ViewChild('orderingContainer', {read: ViewContainerRef, static: true})
     protected orderingContainer!: ViewContainerRef;
 
     /**
      * Container used for rendering content renderer plugin
      */
-    @ViewChild('contentRendererContainer', {read: ViewContainerRef})
+    @ViewChild('contentRendererContainer', {read: ViewContainerRef, static: true})
     protected contentRendererContainer!: ViewContainerRef;
 
     /**
      * Container used for rendering no data renderer plugin
      */
-    @ViewChild('noDataRendererContainer', {read: ViewContainerRef})
+    @ViewChild('noDataRendererContainer', {read: ViewContainerRef, static: true})
     protected noDataRendererContainer!: ViewContainerRef;
 
     /**
      * Container used for rendering paging plugin
      */
-    @ViewChild('pagingContainer', {read: ViewContainerRef})
+    @ViewChild('pagingContainer', {read: ViewContainerRef, static: true})
     protected pagingContainer!: ViewContainerRef;
 
     /**

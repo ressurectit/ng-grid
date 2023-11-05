@@ -1,3 +1,5 @@
+export * from './attachPlugins/attachPlugins.directive';
+export * from './attachPlugins/attachPlugins.interface';
 export * from './contentCellTemplate/contentCellTemplate.directive';
 export * from './contentContainerTemplate/contentContainerTemplate.directive';
 export * from './contentRowContainerTemplate/contentRowContainerTemplate.directive';
