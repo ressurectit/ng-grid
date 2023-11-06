@@ -291,6 +291,9 @@
       - `attachPlugins` object storing external plugins
       - `autoInitialize` automatically initialize grid after new instances are set
       - `forceReinitialization` indication whether perform force reinitialization
+- new `ShowMetadataSelectorForSADirective` directive, that shows metadata selector on click for provided grid
+   - **inputs**
+      - `showMetadataSelectorFor` grid which metadata selector will be displayed
 - updated `TableGridColumnSAComponent` component
    - now supports also obtaining template using directives `TableGridBodyCellTemplateSADirective`, `TableGridHeaderCellTemplateSADirective`
 - updated `Grid` interface

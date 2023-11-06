@@ -617,6 +617,6 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
                                          },
                                          {
                                              injector: this.createInjector(viewContainer.injector),
-                                         });
+                                         })?.detectChanges();
     }
 }
