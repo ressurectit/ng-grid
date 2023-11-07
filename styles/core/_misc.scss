@@ -1,0 +1,136 @@
+%hidden
+{
+    display: none;
+}
+
+%bold
+{
+    font-weight: bold;
+}
+
+%semi-bold
+{
+    font-weight: 500;
+}
+
+%flex-row
+{
+    display: flex;
+    flex-direction: row;
+}
+
+%flex-column
+{
+    display: flex;
+    flex-direction: column;
+}
+
+%flex-end
+{
+    justify-content: flex-end;
+}
+
+%flex-1
+{
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+}
+
+%align-self-center
+{
+    align-self: center;
+}
+
+%align-items-center
+{
+    align-items: center;
+}
+
+%text-uppercase
+{
+    text-transform: uppercase;
+}
+
+%text-spread
+{
+    letter-spacing: 1px;
+}
+
+%text-small-caps
+{
+    font-variant-caps: small-caps;
+}
+
+%small-text
+{
+    font-size: 0.9em;
+}
+
+@mixin misc
+{
+    .grid-hidden
+    {
+        @extend %hidden;
+    }
+
+    .grid-bold
+    {
+        @extend %bold;
+    }
+
+    .grid-semi-bold
+    {
+        @extend %semi-bold;
+    }
+
+    .grid-flex-row
+    {
+        @extend %flex-row;
+    }
+
+    .grid-flex-column
+    {
+        @extend %flex-column;
+    }
+
+    .grid-flex-end
+    {
+        @extend %flex-end;
+    }
+
+    .grid-flex-1
+    {
+        @extend %flex-1;
+    }
+
+    .grid-align-self-center
+    {
+        @extend %align-self-center;
+    }
+
+    .grid-align-items-center
+    {
+        @extend %align-items-center;
+    }
+
+    .grid-text-uppercase
+    {
+        @extend %text-uppercase;
+    }
+
+    .grid-text-spread
+    {
+        @extend %text-spread;
+    }
+
+    .grid-text-small-caps
+    {
+        @extend %text-small-caps;
+    }
+
+    .grid-small-text
+    {
+        @extend %small-text;
+    }
+}

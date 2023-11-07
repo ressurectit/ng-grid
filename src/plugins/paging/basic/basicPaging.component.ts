@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ValueProvider, signal, Signal, computed} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ValueProvider, signal, Signal, computed, effect, EffectRef, OnDestroy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {Paginator, RecursivePartial, isPresent} from '@jscrpt/common';
 
@@ -18,10 +18,12 @@ const defaultOptions: BasicPagingOptions =
     pagesDispersion: 4,
     cssClasses:
     {
-        pagingUl: 'pagination pagination-sm margin-sm-vertical',
-        itemsPerPageDiv: 'pull-right',
-        displayedItemsCountSpan: 'items-count',
-        itemsPerPageUl: 'pagination pagination-sm margin-sm-vertical'
+        pagingContainer: 'grid-flex-row',
+        pagingElement: 'grid-flex-row pages',
+        pagingSeparatorElement: 'grid-flex-1',
+        itemsPerPageContainer: 'grid-flex-row',
+        itemsCountElement: 'paging-items-count',
+        itemsPerPageElement: 'grid-flex-row items-per-page',
     },
 };
 
@@ -49,7 +51,7 @@ const defaultOptions: BasicPagingOptions =
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BasicPagingSAComponent extends PagingAbstractComponent<CssClassesBasicPaging, BasicPagingOptions> implements BasicPaging<BasicPagingOptions>
+export class BasicPagingSAComponent extends PagingAbstractComponent<CssClassesBasicPaging, BasicPagingOptions> implements BasicPaging<BasicPagingOptions>, OnDestroy
 {
     //######################### protected fields #########################
 
@@ -57,6 +59,11 @@ export class BasicPagingSAComponent extends PagingAbstractComponent<CssClassesBa
      * Paginator used for getting page numbers
      */
     protected paginator: Paginator = new Paginator();
+
+    /**
+     * Effect that watches for changes in page and does not allow incorrect value
+     */
+    protected pageGuardEffect: EffectRef|undefined|null;
 
     //######################### protected properties - template bindings #########################
 
@@ -134,6 +141,17 @@ export class BasicPagingSAComponent extends PagingAbstractComponent<CssClassesBa
         });
     }
 
+    //######################### public methods - implementation of OnDestroy #########################
+    
+    /**
+     * Called when component is destroyed
+     */
+    public ngOnDestroy(): void
+    {
+        this.pageGuardEffect?.destroy();
+        this.pageGuardEffect = null;
+    }
+
     //######################### public methods - overrides #########################
 
     /**
@@ -142,6 +160,42 @@ export class BasicPagingSAComponent extends PagingAbstractComponent<CssClassesBa
     public override async initialize(force: boolean): Promise<void>
     {
         await super.initialize(force);
+
+        this.pageGuardEffect?.destroy();
+        this.pageGuardEffect = null;
+
+        this.pageGuardEffect = effect(() =>
+        {
+            this.paginator.setPage(this.pageValue() ?? 1);
+            this.paginator.setItemsPerPage(this.itemsPerPageValue() ?? NaN);
+            this.paginator.setItemCount(this.totalCount());
+
+            const pageCount = this.paginator.getPageCount() || 1;
+
+            //Applied when displaying all items
+            if(isNaN(pageCount))
+            {
+                if(this.pageValue() != 1)
+                {
+                    this.paginator.setPage(1);
+                    this.pageValue.set(1);
+                }
+
+                return;
+            }
+
+            //move to last page 
+            if(!isNaN(pageCount) && pageCount < (this.pageValue() ?? 1) && this.totalCount() > 0)
+            {
+                this.setPageItem(
+                {
+                    page: pageCount,
+                    isActive: false,
+                    isDisabled: false,
+                    title: '',
+                });
+            }
+        }, {manualCleanup: true, injector: this.injector, allowSignalWrites: true});
 
         this.displayedItemsCount = computed(() =>
         {
@@ -173,35 +227,15 @@ export class BasicPagingSAComponent extends PagingAbstractComponent<CssClassesBa
 
             const pageCount = this.paginator.getPageCount() || 1;
 
-            //Applied when displaying all items
+            //ignore, handled by pageguard
             if(isNaN(pageCount))
             {
-                setTimeout(() =>
-                {
-                    if(this.pageValue() != 1)
-                    {
-                        this.pageValue.set(1);
-                        this.paginator.setPage(1);
-                    }
-                }, 0);
-
                 return [];
             }
 
-            //move to last page 
+            //ignore, handled by pageguard
             if(!isNaN(pageCount) && pageCount < (this.pageValue() ?? 1) && this.totalCount() > 0)
             {
-                setTimeout(() =>
-                {
-                    this.setPageItem(
-                    {
-                        page: pageCount,
-                        isActive: false,
-                        isDisabled: false,
-                        title: '',
-                    });
-                }, 0);
-
                 return [];
             }
 

@@ -1,0 +1,30 @@
+@use 'sass:meta';
+@use 'sass:map';
+
+@use 'misc';
+@use '../components/basic-paging' as basicPaging;
+@use '../components/paging-common' as pagingCommon;
+
+@mixin buildThemeColors($theme)
+{
+    @if $theme 
+    {
+        --grid-pagingCommon-anchor-background: #{map.get(map.get(map.get($theme, 'pagingCommon'), 'anchor'), 'background')};
+        --grid-pagingCommon-anchor-foreground: #{map.get(map.get(map.get($theme, 'pagingCommon'), 'anchor'), 'foreground')};
+        --grid-pagingCommon-anchor-active-background: #{map.get(map.get(map.get(map.get($theme, 'pagingCommon'), 'anchor'), 'active'), 'background')};
+        --grid-pagingCommon-anchor-active-foreground: #{map.get(map.get(map.get(map.get($theme, 'pagingCommon'), 'anchor'), 'active'), 'foreground')};
+    }
+}
+
+@mixin buildThemeCss
+{
+    @include misc.misc;
+    @include pagingCommon.css;
+    @include basicPaging.css;
+}
+
+@mixin buildTheme($theme)
+{
+    @include buildThemeColors($theme);
+    @include buildThemeCss;
+}

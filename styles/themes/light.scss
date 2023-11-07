@@ -1,0 +1,19 @@
+@use 'sass:map';
+@use '../core/functions';
+@use '../core/mixins';
+
+$_lightDefaultTheme:
+(
+);
+
+@function defineTheme($colors: ())
+{
+    $colors: map.deep-merge($_lightDefaultTheme, $colors);
+
+    @return functions.defineTheme($colors);
+}
+
+@mixin buildTheme()
+{
+    @include mixins.buildTheme(defineTheme());
+}

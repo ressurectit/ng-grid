@@ -5,10 +5,35 @@ import {Paging, PagingOptions} from '../../../interfaces';
  */
 export interface CssClassesBasicPaging
 {
-    pagingUl: string;
-    itemsPerPageDiv: string;
-    displayedItemsCountSpan: string;
-    itemsPerPageUl: string;
+    /**
+     * Class for element holding whole paging component
+     */
+    pagingContainer: string;
+
+    /**
+     * Class for element storing pages elements
+     */
+    pagingElement: string;
+
+    /**
+     * Class for element used as separator of pages and items per pages
+     */
+    pagingSeparatorElement: string;
+
+    /**
+     * Class for element holding items per pages and items count
+     */
+    itemsPerPageContainer: string;
+
+    /**
+     * Class for element displaying items count
+     */
+    itemsCountElement: string;
+
+    /**
+     * Class for element storing items per page elements
+     */
+    itemsPerPageElement: string;
 }
 
 /**

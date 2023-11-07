@@ -1,30 +1,28 @@
-<div>
-    <ul [ngClass]="optionsValue().cssClasses.pagingUl">
+<div [ngClass]="optionsValue().cssClasses.pagingContainer">
+    <div [ngClass]="optionsValue().cssClasses.pagingElement">
         @for(page of pages(); track page)
         {
-            <li [ngClass]="{disabled: page.isDisabled, active: page.isActive, 'pointer-cursor': !page.isDisabled && !page.isActive}">
-                <a (click)="setPageItem(page)">
-                    <span [innerHtml]="page.title"></span>
-                </a>
-            </li>
+            <a (click)="setPageItem(page)" [ngClass]="{disabled: page.isDisabled, active: page.isActive}">
+                <span [innerHtml]="page.title"></span>
+            </a>
         }
-    </ul>
+    </div>
+
+    <div [ngClass]="optionsValue().cssClasses.pagingSeparatorElement"></div>
 
     @if(itemsPerPageItems().length)
     {
-        <div [ngClass]="optionsValue().cssClasses.itemsPerPageDiv">
-            <span [ngClass]="optionsValue().cssClasses.displayedItemsCountSpan">{{displayedItemsCount()}}</span>
+        <div [ngClass]="optionsValue().cssClasses.itemsPerPageContainer">
+            <div [ngClass]="optionsValue().cssClasses.itemsCountElement">{{displayedItemsCount()}}</div>
 
-            <ul [ngClass]="optionsValue().cssClasses.itemsPerPageUl">
+            <div [ngClass]="optionsValue().cssClasses.itemsPerPageElement">
                 @for (itemsPerPage of itemsPerPageItems(); track itemsPerPage)
                 {
-                    <li [ngClass]="{active: itemsPerPage.isActive, 'pointer-cursor': !itemsPerPage.isActive}">
-                        <a (click)="setItemsPerPageItem(itemsPerPage)">
-                            <span [innerHtml]="itemsPerPage.value | infinityNaN"></span>
-                        </a>
-                    </li>
+                    <a (click)="setItemsPerPageItem(itemsPerPage)" [ngClass]="{active: itemsPerPage.isActive}">
+                        <span [innerHtml]="itemsPerPage.value | infinityNaN"></span>
+                    </a>
                 }
-            </ul>
+            </div>
         </div>
     }
 </div>

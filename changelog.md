@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 10.0.0 (2023-11-06)
+## Version 10.0.0 (2023-11-07)
 
 ### Bug Fixes
 
@@ -330,6 +330,7 @@
 - minimal supported version of `@anglr/common` is `18.1.0`
 - minimal supported version of `@rxjs` is `7.5.7`
 - minimal supported version of `tslib` is `2.6.1`
+- completely refatored styles
 - no longer depends on `scrollmagic`
 - removed `@anglr/grid/scrollmagic` subpackage, it was not used, can be implemented using pure css
 - dropped support of `NodeJs` lower than `18.13`
@@ -422,6 +423,7 @@
    - now using signals for `page` and `itemsPerPage`
    - now setting `page` and `itemsPerPage` using functions
    - removed totalCount, paging obtains totalCount from `DataLoader`
+- updated `CssClassesBasicPaging` interface, completely refactored, incompatible with previous one
 - updated all paging plugins to correspond with new `Paging` interface
 - updated all plugins to be in line with new `GridPlugin` interface
 - *subpackage* `@anglr/grid/extensions`

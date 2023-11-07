@@ -1,0 +1,10 @@
+@use 'sass:map';
+
+@use 'theme';
+
+@function defineTheme($colors)
+{
+    $theme: map.deep-merge(theme.$defaultTheme, $colors);
+
+    @return $theme;
+}

@@ -1,0 +1,33 @@
+%anchor-item
+{
+    padding: 5px 10px;
+    font-size: .9em;
+    cursor: pointer;
+    background-color: var(--grid-pagingCommon-anchor-background);
+    color: var(--grid-pagingCommon-anchor-foreground);
+
+    &.active
+    {
+        background-color: var(--grid-pagingCommon-anchor-active-background);
+        color: var(--grid-pagingCommon-anchor-active-foreground);
+    }
+
+    &.disabled
+    {
+        cursor: no-drop;
+    }
+}
+
+@mixin css
+{
+    ng-basic-paging
+    {
+        .items-per-page
+        {
+            a
+            {
+                @extend %anchor-item;
+            }
+        }
+    }
+}

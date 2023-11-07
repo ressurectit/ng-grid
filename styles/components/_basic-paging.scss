@@ -1,0 +1,19 @@
+@mixin css
+{
+    ng-basic-paging
+    {
+        .pages
+        {
+            a
+            {
+                @extend %anchor-item;
+            }
+        }
+
+        .paging-items-count
+        {
+            margin-right: 12px;
+            align-self: center;
+        }
+    }
+}
