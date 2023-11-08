@@ -36,7 +36,6 @@ const defaultOptions: MatrixContentRendererOptions =
 {
     selector: 'div.matrix-content-renderer',
     templateUrl: 'matrixContentRenderer.component.html',
-    // styleUrls: ['matrixContentRenderer.component.css'],
     standalone: true,
     providers:
     [

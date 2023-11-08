@@ -1,0 +1,29 @@
+@use './paging-common';
+
+@mixin css
+{
+    div.matrix-content-renderer
+    {
+        .grid-container-css-grid
+        {
+            display: grid;
+        }
+
+        .grid-header-css-grid
+        {
+            font-weight: bold;
+        }
+
+        .grid-header-css-grid,
+        .grid-body-css-grid,
+        .grid-footer-css-grid,
+        .grid-header-row-css-grid,
+        .grid-content-row-css-grid,
+        .grid-footer-row-css-grid
+        {
+            display: grid;
+            grid-column: 1/-1;
+            grid-template-columns: subgrid;
+        }
+    }
+}

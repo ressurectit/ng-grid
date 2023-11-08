@@ -3,6 +3,7 @@
 
 @use 'misc';
 @use '../components/basic-paging' as basicPaging;
+@use '../components/matrix-content-renderer' as matrixContentRenderer;
 @use '../components/next-previous-paging' as nextPreviousPaging;
 @use '../components/simple-no-data-renderer' as simpleNoDataRenderer;
 
@@ -21,6 +22,7 @@
 {
     @include misc.misc;
     @include basicPaging.css;
+    @include matrixContentRenderer.css;
     @include nextPreviousPaging.css;
     @include simpleNoDataRenderer.css;
 }
