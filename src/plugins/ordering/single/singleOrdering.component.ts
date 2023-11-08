@@ -261,7 +261,7 @@ export class SingleOrderingSAComponent implements SingleOrdering, OnDestroy
         //ordering column is not visible
         if(!this.metadataSelector.metadata?.columns.find(itm => itm.id == ordering.orderBy))
         {
-            this.orderingValue.set(null);
+            this.setOrdering(null);
         }
     }
 }

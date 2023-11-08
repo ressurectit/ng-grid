@@ -1,14 +1,23 @@
 import {Inject, Component, ChangeDetectionStrategy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import {CdkDragDrop, moveItemInArray, DragDropModule} from '@angular/cdk/drag-drop';
 import {LocalizeSAPipe} from '@anglr/common';
 import {TableGridMetadata, GridColumn} from '@anglr/grid';
 
 import {DialogMetadataSelectorContentComponent, DialogMetadataSelectorComponentData} from '../../plugins/metadataSelector';
 import {VerticalDragNDropSelectionTexts, CssClassesVerticalDragNDropSelection} from './verticalDragNDropSelection.interface';
 
-//TODO: cleanup casts to unkown and then to class
+//TODO: move into @jscrpt/common
+
+/**
+ * Tests whether is element input type checkbox
+ * @param element - Element to be tested
+ */
+function isCheckbox(element: EventTarget): element is HTMLInputElement 
+{
+    return (element as HTMLInputElement).type === 'checkbox';
+}
 
 /**
  * Component that is used for handling metadata seletion using vertical drag n drop
@@ -17,41 +26,21 @@ import {VerticalDragNDropSelectionTexts, CssClassesVerticalDragNDropSelection} f
 {
     selector: 'ng-dialog-vertical-metadata-selector',
     templateUrl: 'verticalDragNDropSelection.component.html',
-    styleUrls: ['verticalDragNDropSelection.component.css'],
     standalone: true,
     imports:
     [
         CommonModule,
         LocalizeSAPipe,
+        DragDropModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VerticalDragNDropSelectionSAComponent implements DialogMetadataSelectorContentComponent<TableGridMetadata<GridColumn>>
+export class VerticalDragNDropSelectionSAComponent implements DialogMetadataSelectorContentComponent<TableGridMetadata<GridColumn>, CssClassesVerticalDragNDropSelection, VerticalDragNDropSelectionTexts>
 {
-    //######################### protected properties - template bindings #########################
-
-    /**
-     * Metadata that are rendered
-     */
-    protected metadata: TableGridMetadata<GridColumn>;
-
-    /**
-     * Texts that are used withing vertical drag n drop
-     */
-    protected texts: VerticalDragNDropSelectionTexts;
-
-    /**
-     * Css classes that are used withing  vertical drag n drop
-     */
-    protected cssClasses: CssClassesVerticalDragNDropSelection;
-
     //######################### constructor #########################
-    constructor(public dialog: MatDialogRef<VerticalDragNDropSelectionSAComponent, DialogMetadataSelectorComponentData<TableGridMetadata<GridColumn>>>,
-                @Inject(MAT_DIALOG_DATA) public data: DialogMetadataSelectorComponentData<TableGridMetadata<GridColumn>>)
+    constructor(public dialog: MatDialogRef<VerticalDragNDropSelectionSAComponent, DialogMetadataSelectorComponentData<TableGridMetadata<GridColumn>, CssClassesVerticalDragNDropSelection, VerticalDragNDropSelectionTexts>>,
+                @Inject(MAT_DIALOG_DATA) public data: DialogMetadataSelectorComponentData<TableGridMetadata<GridColumn>, CssClassesVerticalDragNDropSelection, VerticalDragNDropSelectionTexts>)
     {
-        this.metadata = this.data.metadata;
-        this.texts = this.data.texts as unknown as VerticalDragNDropSelectionTexts;
-        this.cssClasses = this.data.cssClasses as unknown as CssClassesVerticalDragNDropSelection;
     }
 
     //######################### protected methods - template bindings #########################
@@ -62,9 +51,9 @@ export class VerticalDragNDropSelectionSAComponent implements DialogMetadataSele
      */
     protected drop(event: CdkDragDrop<string[]>): void
     {
-        moveItemInArray(this.metadata.columns, event.previousIndex, event.currentIndex);
+        moveItemInArray(this.data.metadata.columns, event.previousIndex, event.currentIndex);
 
-        this.data.setMetadata(this.metadata);
+        this.data.setMetadata(this.data.metadata);
     }
 
     /**
@@ -72,10 +61,15 @@ export class VerticalDragNDropSelectionSAComponent implements DialogMetadataSele
      * @param column - Column that is being toggled
      * @param event - Event that occured
      */
-    protected toggleVisibility(column: GridColumn, target: {checked: boolean}): void
+    protected toggleVisibility(column: GridColumn, event: Event): void
     {
-        column.visible = target.checked;
+        if(!event.target || !isCheckbox(event.target))
+        {
+            throw new Error('VerticalDragNDropSelectionSAComponent: Toggled element is not checkbox!');
+        }
+
+        column.visible = event.target.checked;
         
-        this.data.setMetadata(this.metadata);
+        this.data.setMetadata(this.data.metadata);
     }
 }

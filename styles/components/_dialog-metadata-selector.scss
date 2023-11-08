@@ -1,0 +1,14 @@
+@mixin css
+{
+    ng-dialog-metadata-selector
+    {
+        display: flex;
+        flex-direction: row;
+        justify-content: end;
+
+        .margin-right-extra-small
+        {
+            margin-right: 5px;
+        }
+    }
+}

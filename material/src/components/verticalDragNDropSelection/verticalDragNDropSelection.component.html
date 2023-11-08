@@ -1,11 +1,14 @@
-<div [ngClass]="cssClasses.titleClass">{{texts.selectionTitle | localize}}</div>
+<div [ngClass]="data.cssClasses.titleElement">{{data.texts.selectionTitle | localize}}</div>
 
-<div [ngClass]="cssClasses.containerClass" cdkDropList (cdkDropListDropped)="drop($any($event))">
-    <div *ngFor="let column of metadata?.columns" cdkDrag [ngClass]="cssClasses.itemClass">
-        <label>
-            <span [ngClass]="cssClasses.dragIconClass"></span>
-            <input type="checkbox" [checked]="column?.visible" (change)="toggleVisibility(column, $any($event.target))">
-            <span>{{column?.title}}</span>
-        </label>
-    </div>
+<div [ngClass]="data.cssClasses.columnsContainer" cdkDropList (cdkDropListDropped)="drop($event)">
+    @for(column of data.metadata.columns; track column)
+    {
+        <div cdkDrag [ngClass]="data.cssClasses.columnElement">
+            <label>
+                <span [ngClass]="data.cssClasses.dragIndicationElement"></span>
+                <input type="checkbox" [checked]="column.visible" (change)="toggleVisibility(column, $event)">
+                <span>{{column.title}}</span>
+            </label>
+        </div>
+    }
 </div>

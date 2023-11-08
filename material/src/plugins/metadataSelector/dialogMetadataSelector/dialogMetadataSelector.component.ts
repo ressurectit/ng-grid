@@ -1,49 +1,46 @@
-import {Component, ChangeDetectionStrategy, ElementRef, EventEmitter, Inject, ChangeDetectorRef, Optional, OnDestroy, forwardRef, Type, resolveForwardRef} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ElementRef, EventEmitter, Inject, Optional, OnDestroy, forwardRef, Type, resolveForwardRef, WritableSignal, signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatDialog} from '@angular/material/dialog';
-import {STRING_LOCALIZATION, StringLocalization, PermanentStorage, PERMANENT_STORAGE} from '@anglr/common';
-import {GridColumn, GridPlugin, MetadataGatherer, TableGridMetadata, GridPluginInstances, GRID_PLUGIN_INSTANCES, METADATA_SELECTOR_OPTIONS} from '@anglr/grid';
-import {extend, isPresent, Dictionary, isJsObject} from '@jscrpt/common';
+import {PermanentStorage, PERMANENT_STORAGE, LocalizeSAPipe} from '@anglr/common';
+import {GridColumn, GridPlugin, MetadataGatherer, TableGridMetadata, GridPluginInstances, GRID_PLUGIN_INSTANCES, METADATA_SELECTOR_OPTIONS, GridMetadata} from '@anglr/grid';
+import {extend} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
-import {DialogMetadataSelectorOptions, DialogMetadataSelector, DialogMetadataSelectorTexts, DialogMetadataSelectorContentComponent, DialogMetadataSelectorComponentData} from './dialogMetadataSelector.interface';
+import {DialogMetadataSelectorOptions, DialogMetadataSelector, DialogMetadataSelectorContentComponent, DialogMetadataSelectorComponentData} from './dialogMetadataSelector.interface';
 import {VerticalDragNDropSelectionSAComponent, type CssClassesVerticalDragNDropSelection, type VerticalDragNDropSelectionTexts} from '../../../components';
-
-//TODO: finish renaming and refactoring
 
 /**
  * Storage state
  */
 export interface StorageState
 {
-    [key: string]: GridColumn;
+    [id: string]: GridColumn;
 }
 
 /**
  * Default options for dialog metadata selector
  */
-const defaultOptions: DialogMetadataSelectorOptions =
+const defaultOptions: DialogMetadataSelectorOptions<GridMetadata, CssClassesVerticalDragNDropSelection, VerticalDragNDropSelectionTexts> =
 {
-    storageName: 'defaultStorage',
+    storageName: null,
     cssClasses:
     {
-        componentClass: 'dialog-metadata-selector',
-        btnClass: 'btn btn-primary',
-        btnIconClass: 'fa fa-list margin-right-extra-small',
-        dialogComponentClasses: <CssClassesVerticalDragNDropSelection>
+        btnElement: 'btn btn-primary',
+        btnIconElement: 'fas fa-list grid-margin-right-extra-small',
+        dialogComponentClasses:
         {
-            containerClass: 'metadata-columns',
-            itemClass: 'metadata-column',
-            titleClass: 'metadata-columns-title',
-            dragIconClass: 'fa fa-bars'
+            titleElement: 'metadata-columns-title',
+            columnsContainer: 'metadata-columns',
+            columnElement: 'metadata-column',
+            dragIndicationElement: 'fas fa-bars'
         }
     },
     texts:
     {
-        btnShowSelection: 'Column selection',
-        dialogComponentTexts: <VerticalDragNDropSelectionTexts>
+        btnShowSelection: 'column selection',
+        dialogComponentTexts:
         {
-            selectionTitle: 'Columns'
+            selectionTitle: 'columns'
         }
     },
     showButtonVisible: true,
@@ -57,11 +54,11 @@ const defaultOptions: DialogMetadataSelectorOptions =
 {
     selector: 'ng-dialog-metadata-selector',
     templateUrl: 'dialogMetadataSelector.component.html',
-    styleUrls: ['dialogMetadataSelector.component.css'],
     standalone: true,
     imports:
     [
         CommonModule,
+        LocalizeSAPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -72,27 +69,17 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
     /**
      * Options for grid plugin
      */
-    protected _options: DialogMetadataSelectorOptions<TableGridMetadata<GridColumn>>;
-
-    /**
-     * Last applied css class
-     */
-    protected _cssClass: string|undefined|null;
-
-    /**
-     * Subscription for changes in texts
-     */
-    protected _textsChangedSubscription: Subscription|undefined|null;
+    protected optionsValue: WritableSignal<DialogMetadataSelectorOptions<TableGridMetadata<GridColumn>>>;
 
     /**
      * Subscription for metadata changes
      */
-    protected _metadataChangedSubscription: Subscription|undefined|null;
+    protected metadataChangedSubscription: Subscription|undefined|null;
 
     /**
      * Indication whether gahterer has been initialized
      */
-    protected _gathererInitialized: boolean = false;
+    protected gathererInitialized: boolean = false;
 
     /**
      * Instance of metadata gatherer, which is used for getting initial metadata
@@ -102,17 +89,17 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
     /**
      * All metadata that are available
      */
-    protected _allMetadata: TableGridMetadata<GridColumn>|undefined|null;
+    protected allMetadata: TableGridMetadata<GridColumn>|undefined|null;
     
     /**
      * Component that is used for handling metadata selection itself
      */
-    protected _dialogComponent: Type<DialogMetadataSelectorContentComponent<TableGridMetadata<GridColumn>>>|undefined|null;
+    protected dialogComponent: Type<DialogMetadataSelectorContentComponent<TableGridMetadata<GridColumn>>>|undefined|null;
 
     /**
      * Metadata for selection, contains all metadata in correct order
      */
-    protected _metadataForSelection: TableGridMetadata<GridColumn> =
+    protected metadataForSelection: TableGridMetadata<GridColumn> =
     {
         columns: []
     };
@@ -124,11 +111,11 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
      */
     public get options(): DialogMetadataSelectorOptions<TableGridMetadata<GridColumn>>
     {
-        return this._options;
+        return this.optionsValue();
     }
     public set options(options: DialogMetadataSelectorOptions<TableGridMetadata<GridColumn>>)
     {
-        this._options = extend(true, this._options, options);
+        this.optionsValue.update(opts => extend(true, opts, options));
     }
 
     /**
@@ -144,29 +131,15 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
      */
     public metadataChange: EventEmitter<void> = new EventEmitter<void>();
 
-    //######################### public properties - template bindings #########################
-
-    /**
-     * Object containing available texts
-     * @internal
-     */
-    public texts: DialogMetadataSelectorTexts = 
-    {
-        btnShowSelection: '',
-        dialogComponentTexts: '',
-    };
-
     //######################### constructor #########################
-    constructor(@Inject(GRID_PLUGIN_INSTANCES) @Optional() public gridPlugins: GridPluginInstances,
+    constructor(@Inject(GRID_PLUGIN_INSTANCES) @Optional() public gridPlugins: GridPluginInstances|undefined|null,
 
                 public pluginElement: ElementRef,
-                protected _changeDetector: ChangeDetectorRef,
-                @Inject(PERMANENT_STORAGE) protected _storage: PermanentStorage,
-                protected _dialog: MatDialog,
-                @Inject(STRING_LOCALIZATION) protected _stringLocalization: StringLocalization,
+                @Inject(PERMANENT_STORAGE) protected storage: PermanentStorage,
+                protected dialog: MatDialog,
                 @Inject(METADATA_SELECTOR_OPTIONS) @Optional() options?: DialogMetadataSelectorOptions<TableGridMetadata<GridColumn>>)
     {
-        this._options = extend(true, {}, defaultOptions, options);
+        this.optionsValue = signal(extend(true, {}, defaultOptions, options));
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -176,11 +149,8 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
      */
     public ngOnDestroy(): void
     {
-        this._textsChangedSubscription?.unsubscribe();
-        this._textsChangedSubscription = null;
-
-        this._metadataChangedSubscription?.unsubscribe();
-        this._metadataChangedSubscription = null;
+        this.metadataChangedSubscription?.unsubscribe();
+        this.metadataChangedSubscription = null;
     }
 
     //######################### public methods - implementation of DialogMetadataSelector #########################
@@ -190,27 +160,27 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
      */
     public show(): void
     {
-        if(!this._dialogComponent)
+        if(!this.dialogComponent)
         {
             return;
         }
 
-        this._dialog.open(this._dialogComponent,
+        this.dialog.open(this.dialogComponent,
         {
             data:
             <DialogMetadataSelectorComponentData<TableGridMetadata<GridColumn>>>
             {
-                metadata: this._metadataForSelection,
+                metadata: this.metadataForSelection,
                 setMetadata: metadata =>
                 {
-                    this._metadataForSelection.columns = [...metadata.columns];
+                    this.metadataForSelection.columns = [...metadata.columns];
                     this.setMetadata();
-                    this._saveToStorage();
+                    this.saveToStorage();
 
                     this.metadataChange.next();
                 },
                 cssClasses: this.options.cssClasses.dialogComponentClasses,
-                texts: this.texts.dialogComponentTexts
+                texts: this.options.texts,
             }
         });
     }
@@ -222,7 +192,7 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
     {
         if(this.metadataGatherer != gatherer)
         {
-            this._gathererInitialized = false;
+            this.gathererInitialized = false;
         }
 
         this.metadataGatherer = gatherer;
@@ -233,42 +203,26 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
      */
     public initialize(force: boolean): void
     {
-        const element: HTMLElement = this.pluginElement.nativeElement;
+        this.dialogComponent = resolveForwardRef(this.options.dialogComponent);
 
-        if(isPresent(this._cssClass))
+        if(force || !this.gathererInitialized)
         {
-            element.classList.remove(this._cssClass);
-        }
+            this.metadataChangedSubscription?.unsubscribe();
+            this.metadataChangedSubscription = null;
 
-        element.classList.add(this.options.cssClasses.componentClass);
-        this._cssClass = this.options.cssClasses.componentClass;
-
-        this._dialogComponent = resolveForwardRef(this.options.dialogComponent);
-
-        if(force || !this._gathererInitialized)
-        {
-            if(this._metadataChangedSubscription)
+            this.metadataChangedSubscription = this.metadataGatherer?.metadataChange.subscribe(() =>
             {
-                this._metadataChangedSubscription.unsubscribe();
-                this._metadataChangedSubscription = null;
-            }
-
-            this._metadataChangedSubscription = this.metadataGatherer?.metadataChange.subscribe(() =>
-            {
-                this._allMetadata = this.metadataGatherer?.getMetadata();
-                this._initMetadata();
+                this.allMetadata = this.metadataGatherer?.getMetadata();
+                this.initMetadata();
 
                 this.metadataChange.emit();
             });
 
-            this._gathererInitialized = true;
+            this.gathererInitialized = true;
         }
 
-        this._textsChangedSubscription = this._stringLocalization.textsChange.subscribe(() => this._initTexts());
-
-        this._allMetadata = this.metadataGatherer?.getMetadata();
-        this._initMetadata();
-        this._initTexts();
+        this.allMetadata = this.metadataGatherer?.getMetadata();
+        this.initMetadata();
     }
 
     /**
@@ -283,50 +237,16 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
      */
     public invalidateVisuals(): void
     {
-        this._changeDetector.detectChanges();
     }
 
     //######################### protected methods #########################
 
     /**
-     * Initialize texts
-     */
-    protected _initTexts()
-    {
-        this.texts = this._initTextsObject(this.options.texts as unknown as Dictionary<string>) as unknown as DialogMetadataSelectorTexts;
-
-        this._changeDetector.detectChanges();
-    }
-
-    /**
-     * Initialize texts object
-     * @param texts - Texts to be initialized
-     */
-    protected _initTextsObject(texts: Dictionary<string>)
-    {
-        const resultTexts: Record<string, unknown> = {};
-
-        Object.keys(texts).forEach(key =>
-        {
-            if(isJsObject(texts[key]))
-            {
-                resultTexts[key] = this._initTextsObject(texts[key] as unknown as Dictionary<string>);
-            }
-            else
-            {
-                resultTexts[key] = this._stringLocalization.get(texts[key]);
-            }
-        });
-
-        return resultTexts;
-    }
-
-    /**
      * Initialize metadata
      */
-    protected _initMetadata(): void
+    protected initMetadata(): void
     {
-        const storageState = this._loadFromStorage();
+        const storageState = this.loadFromStorage();
 
         if(storageState)
         {
@@ -335,31 +255,31 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
                 columns: []
             };
 
-            this._allMetadata?.columns.forEach(meta =>
+            this.allMetadata?.columns.forEach(meta =>
             {
                 if(!meta.id)
                 {
                     throw new Error('Missing id for column to be stored in storage!');
                 }
 
-                meta.visible = storageState[meta.id] && storageState[meta.id].visible;
+                meta.visible = !!storageState[meta.id]?.visible;
             });
 
-            this._metadataForSelection = 
+            this.metadataForSelection = 
             {
                 columns: Object.keys(storageState)
-                    .map(id => this._allMetadata?.columns.find(itm => itm.id == id))
+                    .map(id => this.allMetadata?.columns.find(itm => itm.id == id))
                     .filter(itm => !!itm)
-                    .concat(this._allMetadata?.columns.filter(meta => !storageState[meta.id ?? 0])) as GridColumn[]
+                    .concat(this.allMetadata?.columns.filter(meta => !storageState[meta.id ?? 0])) as GridColumn[]
             };
 
             this.setMetadata();
         }
         else
         {
-            this._metadataForSelection =
+            this.metadataForSelection =
             {
-                columns: [...(this._allMetadata?.columns ?? [])]
+                columns: [...(this.allMetadata?.columns ?? [])]
             };
 
             this.setMetadata();
@@ -369,7 +289,7 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
     /**
      * Saves current state to storage
      */
-    protected _saveToStorage()
+    protected saveToStorage()
     {
         if(!this.options.storageName)
         {
@@ -378,7 +298,7 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
 
         const state: StorageState = {};
 
-        this._metadataForSelection.columns.forEach(meta =>
+        this.metadataForSelection.columns.forEach(meta =>
         {
             if(!meta.id)
             {
@@ -388,25 +308,25 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
             state[meta.id] =
             {
                 visible: meta.visible,
-                id: '',
-                title: '',
+                id: meta.id,
+                title: meta.title,
             };
         });
 
-        this._storage.set(this.options.storageName, state);
+        this.storage.set(this.options.storageName, state);
     }
 
     /**
      * Gets stored storage state
      */
-    protected _loadFromStorage(): StorageState|undefined|null
+    protected loadFromStorage(): StorageState|undefined|null
     {
         if(!this.options.storageName)
         {
             return null;
         }
 
-        return this._storage.get(this.options.storageName);
+        return this.storage.get(this.options.storageName);
     }
 
     /**
@@ -416,8 +336,8 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
     {
         this.metadata =
         {
-            ...this._allMetadata,
-            columns: this._metadataForSelection.columns.filter(itm => itm.visible)
+            ...this.allMetadata,
+            columns: this.metadataForSelection.columns.filter(itm => itm.visible)
         };
     }
 }

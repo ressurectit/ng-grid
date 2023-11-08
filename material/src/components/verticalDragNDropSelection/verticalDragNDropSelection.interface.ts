@@ -3,10 +3,25 @@
  */
 export interface CssClassesVerticalDragNDropSelection
 {
-    titleClass: string;
-    containerClass: string;
-    itemClass: string;
-    dragIconClass: string;
+    /**
+     * Class for element displaying title of dialog
+     */
+    titleElement: string;
+
+    /**
+     * Class for container holding all columns for selection
+     */
+    columnsContainer: string;
+
+    /**
+     * Class for element displaying column
+     */
+    columnElement: string;
+
+    /**
+     * Class for element displaying drag indicator
+     */
+    dragIndicationElement: string;
 }
 
 /**
@@ -14,5 +29,8 @@ export interface CssClassesVerticalDragNDropSelection
  */
 export interface VerticalDragNDropSelectionTexts
 {
+    /**
+     * Text that is displayed for selection dialog title
+     */
     selectionTitle: string;
 }
