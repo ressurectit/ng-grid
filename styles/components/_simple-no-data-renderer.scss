@@ -1,0 +1,19 @@
+@use './paging-common';
+
+@mixin css
+{
+    ng-simple-no-data
+    {
+        .no-data-container
+        {
+            padding: 2px 8px;
+            text-align: center;
+        }
+
+        .no-data-text
+        {
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+    }
+}

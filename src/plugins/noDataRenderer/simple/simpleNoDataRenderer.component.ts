@@ -22,8 +22,8 @@ const defaultOptions: SimpleNoDataRendererOptions =
     },
     cssClasses:
     {
-        wrapperDiv: 'simple-no-data',
-        textSpan: 'simple-no-data-text'
+        wrapperContainer: 'no-data-container',
+        textElement: 'no-data-text',
     }
 };
 
@@ -34,7 +34,6 @@ const defaultOptions: SimpleNoDataRendererOptions =
 {
     selector: 'ng-simple-no-data',
     templateUrl: 'simpleNoDataRenderer.component.html',
-    styleUrls: ['simpleNoDataRenderer.component.css'],
     standalone: true,
     imports:
     [
@@ -111,40 +110,39 @@ export class SimpleNoDataRendererSAComponent implements SimpleNoDataRenderer, Gr
         if(!this.dataLoader)
         {
             this.dataLoader = dataLoader;
-        }
-        
-        //TODO: probably only need when force, or data loader changes
-        this.text = computed<string>(() =>
-        {
-            if(!this.dataLoader)
-            {
-                return '';
-            }
 
-            const state = this.dataLoader.state();
-
-            switch(state)
+            this.text = computed<string>(() =>
             {
-                case DataLoaderState.NoDataLoading:
-                {
-                    return this.optionsValue().texts.loading;
-                }
-                case DataLoaderState.NoData:
-                {
-                    return this.optionsValue().texts.noData;
-                }
-                case DataLoaderState.NotLoadedYet:
-                {
-                    return this.optionsValue().texts.notLoaded;
-                }
-                default:
-                //case DataLoaderState.Loaded:
-                //case DataLoaderState.DataLoading:
+                if(!this.dataLoader)
                 {
                     return '';
                 }
-            }
-        });
+
+                const state = this.dataLoader.state();
+
+                switch(state)
+                {
+                    case DataLoaderState.NoDataLoading:
+                    {
+                        return this.optionsValue().texts.loading;
+                    }
+                    case DataLoaderState.NoData:
+                    {
+                        return this.optionsValue().texts.noData;
+                    }
+                    case DataLoaderState.NotLoadedYet:
+                    {
+                        return this.optionsValue().texts.notLoaded;
+                    }
+                    default:
+                    //case DataLoaderState.Loaded:
+                    //case DataLoaderState.DataLoading:
+                    {
+                        return '';
+                    }
+                }
+            });
+        }
 
         this.invalidateVisuals();
     }

@@ -5,8 +5,15 @@ import {NoDataRenderer, NoDataRendererOptions} from '../../../interfaces';
  */
 export interface CssClassesSimpleNoDataRenderer
 {
-    wrapperDiv: string;
-    textSpan: string;
+    /**
+     * Class for element that wrapps displayed text
+     */
+    wrapperContainer: string;
+
+    /**
+     * Class for element that represents text
+     */
+    textElement: string;
 }
 
 /**

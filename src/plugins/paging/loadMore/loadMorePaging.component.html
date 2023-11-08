@@ -1,6 +1,8 @@
 @if(moreAvailable())
 {
     <div [ngClass]="optionsValue().cssClasses.containerElement">
-        <button type="button" [ngClass]="optionsValue().cssClasses.loadMoreBtn" (click)="loadMore()">{{optionsValue().texts.loadMoreBtn | localize}}</button>
+        <button type="button" [ngClass]="optionsValue().cssClasses.loadMoreBtn" (click)="loadMore()">
+            <span>{{optionsValue().texts.loadMoreBtn | localize}}</span>
+        </button>
     </div>
 }

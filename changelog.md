@@ -426,6 +426,7 @@
 - updated `CssClassesBasicPaging` interface, completely refactored, incompatible with previous one
 - updated `CssClassesPreviousNextPaging` interface, completely refactored, incompatible with previous one
 - updated `CssClassesLoadMorePaging` interface, completely refactored, incompatible with previous one
+- updated `CssClassesSimpleNoDataRenderer` interface, completely refactored, incompatible with previous one
 - updated all paging plugins to correspond with new `Paging` interface
 - updated all plugins to be in line with new `GridPlugin` interface
 - *subpackage* `@anglr/grid/extensions`

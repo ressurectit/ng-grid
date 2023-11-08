@@ -1,5 +1,4 @@
 import {TemplateRef} from '@angular/core';
-import {NgIfContext} from '@angular/common';
 
 import {VisualPluginOptions} from '../../visualPluginOptions/visualPluginOptions.interface';
 import {GridPlugin} from '../../gridPlugin/gridPlugin.interface';
@@ -38,7 +37,7 @@ export interface NoDataRendererOptions<TCssClasses = unknown> extends VisualPlug
     /**
      * Custom template for no data
      */
-    template: TemplateRef<NgIfContext<boolean>>|null;
+    template: TemplateRef<unknown>|null;
 }
 
 /**

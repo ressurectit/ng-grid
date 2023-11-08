@@ -1,3 +1,13 @@
-<div [ngClass]="optionsValue().cssClasses.wrapperDiv" *ngIf="!!text()">
-    <span [ngClass]="optionsValue().cssClasses.textSpan" *ngIf="!optionsValue().template; else optionsValue().template">{{text() | localize}}</span>
-</div>
+@if(text())
+{
+    <div [ngClass]="optionsValue().cssClasses.wrapperContainer">
+        @if(!optionsValue().template)
+        {
+            <span [ngClass]="optionsValue().cssClasses.textElement">{{text() | localize}}</span>
+        }
+        @else
+        {
+            <ng-container *ngTemplateOutlet="optionsValue().template"></ng-container>
+        }
+    </div>
+}

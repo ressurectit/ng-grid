@@ -3,7 +3,8 @@
 
 @use 'misc';
 @use '../components/basic-paging' as basicPaging;
-@use '../components/nextPrevious-paging' as nextPreviousPaging;
+@use '../components/next-previous-paging' as nextPreviousPaging;
+@use '../components/simple-no-data-renderer' as simpleNoDataRenderer;
 
 @mixin buildThemeColors($theme)
 {
@@ -21,6 +22,7 @@
     @include misc.misc;
     @include basicPaging.css;
     @include nextPreviousPaging.css;
+    @include simpleNoDataRenderer.css;
 }
 
 @mixin buildTheme($theme)

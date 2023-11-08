@@ -1,8 +1,9 @@
-import {ChangeDetectionStrategy, Component, ElementRef, Inject, Optional, Signal, WritableSignal, inject, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, Inject, OnDestroy, Optional, Signal, WritableSignal, inject, signal} from '@angular/core';
 import {OrderByDirection, RecursivePartial, extend} from '@jscrpt/common';
+import {Subscription} from 'rxjs';
 
 import {SingleOrdering, SingleOrderingOptions} from './singleOrdering.interface';
-import {GridInitializer, GridPluginInstances, OrderingOptions, SimpleOrdering} from '../../../interfaces';
+import {GridInitializer, GridPluginInstances, MetadataSelector, OrderingOptions, SimpleOrdering, TableGridMetadata} from '../../../interfaces';
 import {GRID_PLUGIN_INSTANCES, ORDERING_OPTIONS} from '../../../misc/tokens';
 import {DefaultOrderableIndicatorRenderer} from '../misc/services';
 
@@ -31,24 +32,34 @@ const defaultOptions: SingleOrderingOptions =
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SingleOrderingSAComponent implements SingleOrdering
+export class SingleOrderingSAComponent implements SingleOrdering, OnDestroy
 {
     //######################### protected fields #########################
 
     /**
      * Subject used for emitting changes in ordering
      */
-    protected ɵordering: WritableSignal<SimpleOrdering|undefined|null> = signal(undefined);
+    protected orderingValue: WritableSignal<SimpleOrdering|undefined|null> = signal(undefined);
 
     /**
      * Instance of options
      */
-    public ɵoptions: OrderingOptions;
+    protected ɵoptions: OrderingOptions;
+
+    /**
+     * Metadata change subscription
+     */
+    protected metadataChangeSubscription: Subscription|undefined|null;
 
     /**
      * Grid initializer currently used
      */
     protected gridInitializer: GridInitializer<SimpleOrdering>|undefined|null;
+
+    /**
+     * Grid metadata selector currently used
+     */
+    protected metadataSelector: MetadataSelector<TableGridMetadata>|undefined|null;
 
     //######################### public properties - implementation of SimpleOrdering #########################
 
@@ -57,7 +68,7 @@ export class SingleOrderingSAComponent implements SingleOrdering
      */
     public get ordering(): Signal<SimpleOrdering|undefined|null>
     {
-        return this.ɵordering.asReadonly();
+        return this.orderingValue.asReadonly();
     }
 
     /**
@@ -88,6 +99,17 @@ export class SingleOrderingSAComponent implements SingleOrdering
         this.ɵoptions = extend(true, {}, defaultOptions, options);
     }
 
+    //######################### public methods - implementation of OnDestroy #########################
+    
+    /**
+     * Called when component is destroyed
+     */
+    public ngOnDestroy(): void
+    {
+        this.metadataChangeSubscription?.unsubscribe();
+        this.metadataChangeSubscription = null;
+    }
+
     //######################### public methods - implementation of SimpleOrdering #########################
 
     /**
@@ -95,8 +117,8 @@ export class SingleOrderingSAComponent implements SingleOrdering
      */
     public setOrdering(ordering: SimpleOrdering|undefined|null): void
     {
-        this.ɵordering.set(ordering);
-        this.gridInitializer?.setOrdering(this.ɵordering());
+        this.orderingValue.set(ordering);
+        this.gridInitializer?.setOrdering(this.orderingValue());
     }
 
     /**
@@ -105,7 +127,7 @@ export class SingleOrderingSAComponent implements SingleOrdering
     public orderByColumn(columnId: string): void
     {
         //no ordering, or ordering different column
-        const ordering = this.ɵordering();
+        const ordering = this.orderingValue();
         let newOrdering: SimpleOrdering|undefined|null;
 
         if(!ordering || ordering.orderBy != columnId)
@@ -116,7 +138,7 @@ export class SingleOrderingSAComponent implements SingleOrdering
                 orderBy: columnId,
             };
 
-            this.ɵordering.set(newOrdering);
+            this.orderingValue.set(newOrdering);
         }
         else if(ordering.orderByDirection == OrderByDirection.Ascending)
         {
@@ -126,12 +148,12 @@ export class SingleOrderingSAComponent implements SingleOrdering
                 orderBy: columnId
             };
 
-            this.ɵordering.set(newOrdering);
+            this.orderingValue.set(newOrdering);
         }
         else
         {
             newOrdering = null;
-            this.ɵordering.set(newOrdering);
+            this.orderingValue.set(newOrdering);
         }
 
         this.gridInitializer?.setOrdering(newOrdering);
@@ -142,7 +164,7 @@ export class SingleOrderingSAComponent implements SingleOrdering
      */
     public getCssClassesForColumn(columnId: string): string[]
     {
-        const ordering = this.ɵordering();
+        const ordering = this.orderingValue();
 
         if(ordering?.orderBy == columnId)
         {
@@ -181,7 +203,26 @@ export class SingleOrderingSAComponent implements SingleOrdering
             this.gridInitializer = gridInitializer;
         }
 
-        this.ɵordering.set(await this.gridInitializer.getOrdering());
+        const metadataSelector: MetadataSelector<TableGridMetadata> = this.gridPlugins.metadataSelector as MetadataSelector<TableGridMetadata>;
+
+        //metadata selector obtained and its different instance
+        if(force || (this.metadataSelector && this.metadataSelector != metadataSelector))
+        {
+            this.metadataChangeSubscription?.unsubscribe();
+            this.metadataChangeSubscription = null;
+
+            this.metadataSelector = null;
+        }
+
+        //no metadata selector obtained
+        if(!this.metadataSelector)
+        {
+            this.metadataSelector = metadataSelector;
+
+            this.metadataChangeSubscription = this.metadataSelector.metadataChange.subscribe(() => this.checkColumns());
+        }
+
+        this.orderingValue.set(await this.gridInitializer.getOrdering());
     }
 
     /**
@@ -196,5 +237,31 @@ export class SingleOrderingSAComponent implements SingleOrdering
      */
     public invalidateVisuals(): void
     {
+    }
+
+    //######################### protected methods #########################
+
+    /**
+     * Checks columns 
+     */
+    protected checkColumns(): void
+    {
+        if(!this.metadataSelector)
+        {
+            throw new Error('SingleOrderingSAComponent: metadata selector is missing!');
+        }
+
+        const ordering = this.ordering();
+
+        if(!ordering)
+        {
+            return;
+        }
+
+        //ordering column is not visible
+        if(!this.metadataSelector.metadata?.columns.find(itm => itm.id == ordering.orderBy))
+        {
+            this.orderingValue.set(null);
+        }
     }
 }
