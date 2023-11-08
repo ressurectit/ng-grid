@@ -5,12 +5,40 @@ import {Paging, PagingOptions} from '../../../interfaces';
  */
 export interface CssClassesPreviousNextPaging
 {
-    previousNextContainerUl: string;
-    firstItemSpan: string;
-    previousItemSpan: string;
-    nextItemSpan: string;
-    displayedItemsCountDiv: string;
-    itemsPerPageUl: string;
+    /**
+     * Class for element holding whole paging component
+     */
+    pagingContainer: string;
+
+    /**
+     * Class for element storing pages elements
+     */
+    pagingElement: string;
+
+    /**
+     * Class for element navigating to first item
+     */
+    firstItemElement: string;
+    
+    /**
+     * Class for element navigating to previous item
+     */
+    previousItemElement: string;
+    
+    /**
+     * Class for element navigating to next item
+     */
+    nextItemElement: string;
+
+    /**
+     * Class for element used as separator of pages and items per pages
+     */
+    pagingSeparatorElement: string;
+
+    /**
+     * Class for element storing items per page elements
+     */
+    itemsPerPageElement: string;
 }
 
 /**

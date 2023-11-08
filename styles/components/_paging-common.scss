@@ -17,17 +17,3 @@
         cursor: no-drop;
     }
 }
-
-@mixin css
-{
-    ng-basic-paging
-    {
-        .items-per-page
-        {
-            a
-            {
-                @extend %anchor-item;
-            }
-        }
-    }
-}

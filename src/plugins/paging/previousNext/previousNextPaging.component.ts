@@ -18,12 +18,13 @@ const defaultOptions: PreviousNextPagingOptions =
     itemsPerPageValues: [],
     cssClasses:
     {
-        previousNextContainerUl: 'pagination pagination-sm margin-sm-vertical',
-        firstItemSpan: 'fa fa-angle-double-left',
-        previousItemSpan: 'fa fa-angle-left',
-        nextItemSpan: 'fa fa-angle-right',
-        displayedItemsCountDiv: 'pull-right',
-        itemsPerPageUl: 'pagination pagination-sm margin-sm-vertical'
+        pagingContainer: 'grid-flex-row',
+        pagingElement: 'grid-flex-row pages',
+        firstItemElement: 'fas fa-angle-double-left',
+        previousItemElement: 'fas fa-angle-left',
+        nextItemElement: 'fas fa-angle-right',
+        pagingSeparatorElement: 'grid-flex-1',
+        itemsPerPageElement: 'grid-flex-row items-per-page',
     }
 };
 
@@ -34,7 +35,6 @@ const defaultOptions: PreviousNextPagingOptions =
 {
     selector: 'next-previous-paging',
     templateUrl: 'previousNextPaging.component.html',
-    styleUrl: 'previousNextPaging.component.css',
     standalone: true,
     imports:
     [

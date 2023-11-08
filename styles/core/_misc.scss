@@ -67,6 +67,11 @@
     font-size: 0.9em;
 }
 
+%text-center
+{
+    text-align: center;
+}
+
 @mixin misc
 {
     .grid-hidden
@@ -132,5 +137,10 @@
     .grid-small-text
     {
         @extend %small-text;
+    }
+
+    .grid-text-center
+    {
+        @extend %text-center;
     }
 }

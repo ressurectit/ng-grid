@@ -2,7 +2,7 @@
 
 @mixin css
 {
-    ng-basic-paging
+    next-previous-paging
     {
         .pages
         {
@@ -10,12 +10,6 @@
             {
                 @extend %anchor-item;
             }
-        }
-
-        .paging-items-count
-        {
-            margin-right: 12px;
-            align-self: center;
         }
 
         .items-per-page

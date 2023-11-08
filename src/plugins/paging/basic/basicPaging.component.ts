@@ -34,7 +34,6 @@ const defaultOptions: BasicPagingOptions =
 {
     selector: 'ng-basic-paging',
     templateUrl: 'basicPaging.component.html',
-    styleUrls: ['basicPaging.component.css'],
     standalone: true,
     imports:
     [

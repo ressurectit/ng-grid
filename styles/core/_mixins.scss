@@ -3,7 +3,7 @@
 
 @use 'misc';
 @use '../components/basic-paging' as basicPaging;
-@use '../components/paging-common' as pagingCommon;
+@use '../components/nextPrevious-paging' as nextPreviousPaging;
 
 @mixin buildThemeColors($theme)
 {
@@ -19,8 +19,8 @@
 @mixin buildThemeCss
 {
     @include misc.misc;
-    @include pagingCommon.css;
     @include basicPaging.css;
+    @include nextPreviousPaging.css;
 }
 
 @mixin buildTheme($theme)

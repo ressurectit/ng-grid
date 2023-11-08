@@ -15,12 +15,12 @@ const defaultOptions: LoadMorePagingOptions =
     initialPage: 1,
     cssClasses:
     {
-        containerDiv: 'text-center',
+        containerElement: 'grid-text-center',
         loadMoreBtn: 'btn btn-primary btn-sm'
     },
     texts:
     {
-        loadMoreBtn: 'Load More'
+        loadMoreBtn: 'load more'
     }
 };
 
