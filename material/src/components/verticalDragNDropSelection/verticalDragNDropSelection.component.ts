@@ -7,7 +7,7 @@ import {TableGridMetadata, GridColumn} from '@anglr/grid';
 import {isCheckbox} from '@jscrpt/common';
 
 import {DialogMetadataSelectorContentComponent, DialogMetadataSelectorComponentData} from '../../plugins/metadataSelector';
-import {VerticalDragNDropSelectionTexts, CssClassesVerticalDragNDropSelection} from './verticalDragNDropSelection.interface';
+import {VerticalDragNDropSelectionTexts, CssClassesVerticalDragNDropSelection, VerticalDragNDropSelectionOptions} from './verticalDragNDropSelection.interface';
 
 /**
  * Component that is used for handling metadata seletion using vertical drag n drop
@@ -25,11 +25,11 @@ import {VerticalDragNDropSelectionTexts, CssClassesVerticalDragNDropSelection} f
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VerticalDragNDropSelectionSAComponent implements DialogMetadataSelectorContentComponent<TableGridMetadata<GridColumn>, CssClassesVerticalDragNDropSelection, VerticalDragNDropSelectionTexts>
+export class VerticalDragNDropSelectionSAComponent implements DialogMetadataSelectorContentComponent<TableGridMetadata<GridColumn>, CssClassesVerticalDragNDropSelection, VerticalDragNDropSelectionTexts, VerticalDragNDropSelectionOptions>
 {
     //######################### constructor #########################
-    constructor(public dialog: MatDialogRef<VerticalDragNDropSelectionSAComponent, DialogMetadataSelectorComponentData<TableGridMetadata<GridColumn>, CssClassesVerticalDragNDropSelection, VerticalDragNDropSelectionTexts>>,
-                @Inject(MAT_DIALOG_DATA) public data: DialogMetadataSelectorComponentData<TableGridMetadata<GridColumn>, CssClassesVerticalDragNDropSelection, VerticalDragNDropSelectionTexts>)
+    constructor(public dialog: MatDialogRef<VerticalDragNDropSelectionSAComponent, DialogMetadataSelectorComponentData<TableGridMetadata<GridColumn>, CssClassesVerticalDragNDropSelection, VerticalDragNDropSelectionTexts, VerticalDragNDropSelectionOptions>>,
+                @Inject(MAT_DIALOG_DATA) public data: DialogMetadataSelectorComponentData<TableGridMetadata<GridColumn>, CssClassesVerticalDragNDropSelection, VerticalDragNDropSelectionTexts, VerticalDragNDropSelectionOptions>)
     {
     }
 

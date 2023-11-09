@@ -368,7 +368,7 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
             this.renderRowContainer(this.metadataSelector?.metadata?.contentRowContainer?.length ? this.metadataSelector?.metadata?.contentRowContainer : [{template: this.defaultsSafe.contentRowContainer, predicate: null, columns: null}],
                                     column => column.bodyTemplate,
                                     this.renderContentOrFooterCell,
-                                    (index, columns) => this.getGridDataRowContext(index, datum, columns));
+                                    (_, columns) => this.getGridDataRowContext(datumIndex, datum, columns));
         }
     }
 

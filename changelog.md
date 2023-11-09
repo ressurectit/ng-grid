@@ -123,19 +123,19 @@
    - **properties**
       - `template` obtained template by this directive
    - **inputs**
-      - `predicate` predicate which controls rendering of row template, if not specified row is rendered
+      - `headerRowContainerTemplatePredicate` predicate which controls rendering of row template, if not specified row is rendered
       - `headerRowContainerTemplate` array of column ids to be rendered in this row, if not specified or null all available columns will be rendered
 - new `ContentRowContainerTemplateSADirective` directive, that is used for obtaining template for grid content renderer content (body) row container
    - **properties**
       - `template` obtained template by this directive
    - **inputs**
-      - `predicate` predicate which controls rendering of row template, if not specified row is rendered
+      - `contentRowContainerTemplatePredicate` predicate which controls rendering of row template, if not specified row is rendered
       - `contentRowContainerTemplate` array of column ids to be rendered in this row, if not specified or null all available columns will be rendered
 - new `FooterRowContainerTemplateSADirective` directive, that is used for obtaining template for grid content renderer footer row container
    - **properties**
       - `template` obtained template by this directive
    - **inputs**
-      - `predicate` predicate which controls rendering of row template, if not specified row is rendered
+      - `footerRowContainerTemplatePredicate` predicate which controls rendering of row template, if not specified row is rendered
       - `footerRowContainerTemplate` array of column ids to be rendered in this row, if not specified or null all available columns will be rendered
 - new `MatrixGridColumnSADirective` directive, that is used for gathering information about matrix grid column
    - **implements**
@@ -294,6 +294,9 @@
 - new `ShowMetadataSelectorForSADirective` directive, that shows metadata selector on click for provided grid
    - **inputs**
       - `showMetadataSelectorFor` grid which metadata selector will be displayed
+- new `VerticalDragNDropSelectionOptions` interface, that represents options for vertical drag n drop selection
+   - **properties**
+      - `dragDisabled` indication whether is drag disabled
 - updated `TableGridColumnSAComponent` component
    - now supports also obtaining template using directives `TableGridBodyCellTemplateSADirective`, `TableGridHeaderCellTemplateSADirective`
 - updated `Grid` interface
@@ -315,6 +318,12 @@
       - `ordering` instance of ordering used for applying ordering to data
       - `paging` instance of paging used for applying paging to data
       - `rowSelector` instance of row selector used for handling row selection
+- updated `DialogMetadataSelectorOptions` interface
+   - **new properties**
+      - `dialogCompnentOptions` options for dialog component
+- updated `DialogMetadataSelectorComponentData` interface
+   - **new properties**
+      - `options` options for dialog component
 - *subpackage* `@anglr/grid/extensions`
    - new `getSelectedIds` function, that gets currently selected ids
    - new `invalidateContent` function, that invalidates content renderer view, redraws content

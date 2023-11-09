@@ -16,6 +16,6 @@ export * from './plugins';
 //TODO: use inject in base classes also in plugins
 //TODO: maybe unify id and name and use only one (ID)??
 //TODO: maybe add ordering to permanent grid initializer
-//TODO: add support for disable ordering of columns in metadata selector
 //TODO: all base plugin interface implements base TOptions extends pluginOptions => GridPlugin<TOptions>
 //TODO: make providers functions for tokens
+//TODO: data loader for incremental data, maybe just options

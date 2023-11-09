@@ -7,7 +7,7 @@ import {extend} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
 import {DialogMetadataSelectorOptions, DialogMetadataSelector, DialogMetadataSelectorContentComponent, DialogMetadataSelectorComponentData} from './dialogMetadataSelector.interface';
-import {VerticalDragNDropSelectionSAComponent, type CssClassesVerticalDragNDropSelection, type VerticalDragNDropSelectionTexts} from '../../../components';
+import {VerticalDragNDropSelectionSAComponent, type CssClassesVerticalDragNDropSelection, type VerticalDragNDropSelectionTexts, VerticalDragNDropSelectionOptions} from '../../../components';
 
 /**
  * Storage state
@@ -20,9 +20,13 @@ export interface StorageState
 /**
  * Default options for dialog metadata selector
  */
-const defaultOptions: DialogMetadataSelectorOptions<GridMetadata, CssClassesVerticalDragNDropSelection, VerticalDragNDropSelectionTexts> =
+const defaultOptions: DialogMetadataSelectorOptions<GridMetadata, CssClassesVerticalDragNDropSelection, VerticalDragNDropSelectionTexts, VerticalDragNDropSelectionOptions> =
 {
     storageName: null,
+    dialogCompnentOptions:
+    {
+        dragDisabled: false,
+    },
     cssClasses:
     {
         btnElement: 'btn btn-primary',
@@ -167,8 +171,7 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
 
         this.dialog.open(this.dialogComponent,
         {
-            data:
-            <DialogMetadataSelectorComponentData<TableGridMetadata<GridColumn>>>
+            data: <DialogMetadataSelectorComponentData<TableGridMetadata<GridColumn>, CssClassesVerticalDragNDropSelection, VerticalDragNDropSelectionTexts, VerticalDragNDropSelectionOptions>>
             {
                 metadata: this.metadataForSelection,
                 setMetadata: metadata =>
@@ -180,7 +183,8 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
                     this.metadataChange.next();
                 },
                 cssClasses: this.options.cssClasses.dialogComponentClasses,
-                texts: this.options.texts,
+                texts: this.options.texts.dialogComponentTexts,
+                options: this.options.dialogCompnentOptions,
             }
         });
     }

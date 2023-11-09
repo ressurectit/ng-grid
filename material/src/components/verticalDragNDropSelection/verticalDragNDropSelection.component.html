@@ -3,7 +3,7 @@
 <div [ngClass]="data.cssClasses.columnsContainer" cdkDropList (cdkDropListDropped)="drop($event)">
     @for(column of data.metadata.columns; track column)
     {
-        <div cdkDrag [ngClass]="data.cssClasses.columnElement">
+        <div cdkDrag [cdkDragDisabled]="data.options?.dragDisabled" [ngClass]="data.cssClasses.columnElement">
             <label>
                 <span [ngClass]="data.cssClasses.dragIndicationElement"></span>
                 <input type="checkbox" [checked]="column.visible" (change)="toggleVisibility(column, $event)">

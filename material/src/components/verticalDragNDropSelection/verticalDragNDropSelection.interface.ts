@@ -34,3 +34,14 @@ export interface VerticalDragNDropSelectionTexts
      */
     selectionTitle: string;
 }
+
+/**
+ * Options for vertical drag n drop selection
+ */
+export interface VerticalDragNDropSelectionOptions
+{
+    /**
+     * Indication whether is drag disabled
+     */
+    dragDisabled: boolean;
+}

@@ -43,12 +43,18 @@ export interface DialogMetadataSelectorTexts<TTexts = unknown>
  */
 export interface DialogMetadataSelectorOptions<TMetadata extends GridMetadata = GridMetadata,
                                                TCssClasses = unknown,
-                                               TTexts = unknown> extends MetadataSelectorOptions, VisualPluginOptions<CssClassesDialogMetadataSelector<TCssClasses>>
+                                               TTexts = unknown,
+                                               TOptions = unknown> extends MetadataSelectorOptions, VisualPluginOptions<CssClassesDialogMetadataSelector<TCssClasses>>
 {
     /**
      * Texts that are used within DialogMetadataSelector
      */
     texts: DialogMetadataSelectorTexts<TTexts>;
+
+    /**
+     * Options for dialog component
+     */
+    dialogCompnentOptions: TOptions|undefined|null;
 
     /**
      * Indication whether is button for showing metadata selection visible
@@ -63,7 +69,7 @@ export interface DialogMetadataSelectorOptions<TMetadata extends GridMetadata = 
     /**
      * Component that is used for handling metadata selection itself
      */
-    dialogComponent: Type<DialogMetadataSelectorContentComponent<TMetadata, TCssClasses, TTexts>>;
+    dialogComponent: Type<DialogMetadataSelectorContentComponent<TMetadata, TCssClasses, TTexts, TOptions>>;
 }
 
 /**
@@ -78,7 +84,8 @@ export interface DialogMetadataSelector<TMetadata extends GridMetadata = GridMet
  */
 export interface DialogMetadataSelectorComponentData<TMetadata extends GridMetadata = GridMetadata,
                                                      TCssClasses = unknown,
-                                                     TTexts = unknown>
+                                                     TTexts = unknown,
+                                                     TOptions = unknown>
 {
     /**
      * Method that is used for setting metadata into component
@@ -96,6 +103,11 @@ export interface DialogMetadataSelectorComponentData<TMetadata extends GridMetad
     texts: TTexts;
 
     /**
+     * Options for dialog component
+     */
+    options: TOptions|undefined|null;
+
+    /**
      * Method that is used for sending metadata out of component to metadata selector
      * @param metadata - Metadata that were changed in component passed back to selector
      */
@@ -107,10 +119,11 @@ export interface DialogMetadataSelectorComponentData<TMetadata extends GridMetad
  */
 export interface DialogMetadataSelectorContentComponent<TMetadata extends GridMetadata = GridMetadata,
                                                         TCssClasses = unknown,
-                                                        TTexts = unknown>
+                                                        TTexts = unknown,
+                                                        TOptions = unknown>
 {
     /**
      * Data that are used for communication with MetadataSelector
      */
-    data: DialogMetadataSelectorComponentData<TMetadata, TCssClasses, TTexts>;
+    data: DialogMetadataSelectorComponentData<TMetadata, TCssClasses, TTexts, TOptions>;
 }

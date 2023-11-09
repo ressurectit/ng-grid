@@ -26,7 +26,7 @@ export class HeaderRowContainerTemplateSADirective
     /**
      * Predicate which controls rendering of row template, if not specified row is rendered
      */
-    @Input()
+    @Input('headerRowContainerTemplatePredicate')
     public predicate: Func1<boolean, GridRowContext>|undefined|null;
 
     /**
@@ -45,4 +45,10 @@ export class HeaderRowContainerTemplateSADirective
     {
         return true;
     }
+
+    /**
+     * Custom input type for `predicate` input
+     */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    public static ngAcceptInputType_predicate: Func1<boolean, GridRowContext<any>>|undefined|null;
 }
