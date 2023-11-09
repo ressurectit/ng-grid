@@ -245,7 +245,7 @@ export class BasicPagingSAComponent extends PagingAbstractComponent<CssClassesBa
                 isActive: false,
                 isDisabled: this.paginator.isFirst(),
                 title: '&laquo;',
-                page: this.paginator.GetFirstPage()
+                page: this.paginator.getFirstPage()
             });
 
             this.paginator.getPagesWithTrimDispersion(this.optionsValue().pagesDispersion).forEach(page =>

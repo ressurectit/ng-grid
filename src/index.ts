@@ -12,8 +12,6 @@ export * from './pipes';
 export * from './plugins';
 
 //TODO: use signals
-//TODO: use new syntax
-//TODO: new matrix grid
 //TODO: styles in datetime style
 //TODO: use inject in base classes also in plugins
 //TODO: maybe unify id and name and use only one (ID)??
@@ -21,4 +19,3 @@ export * from './plugins';
 //TODO: add support for disable ordering of columns in metadata selector
 //TODO: all base plugin interface implements base TOptions extends pluginOptions => GridPlugin<TOptions>
 //TODO: make providers functions for tokens
-//TODO: not working drag n drop

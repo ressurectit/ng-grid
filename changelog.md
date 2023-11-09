@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 10.0.0 (2023-11-07)
+## Version 10.0.0 (2023-11-09)
 
 ### Bug Fixes
 
@@ -325,11 +325,13 @@
    - updated `reinitializeOptions`, new signatures supporting `force` parameter
 
 ### BREAKING CHANGES
-- minimal supported version of `@angular` is `17.0.0`
-- minimal supported version of `@jscrpt/common` is `4.1.0`
-- minimal supported version of `@anglr/common` is `18.1.0`
+- minimal supported version of `node.js` is `18`
+- minimal supported version of `@angular` is `17.0.1`
+- minimal supported version of `@angular` material is `17.0.0`
+- minimal supported version of `@jscrpt/common` is `5.0.0`
+- minimal supported version of `@anglr/common` is `19.0.0`
 - minimal supported version of `@rxjs` is `7.5.7`
-- minimal supported version of `tslib` is `2.6.1`
+- minimal supported version of `tslib` is `2.6.2`
 - completely refatored styles
 - no longer depends on `scrollmagic`
 - removed `@anglr/grid/scrollmagic` subpackage, it was not used, can be implemented using pure css

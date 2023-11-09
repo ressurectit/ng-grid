@@ -4,20 +4,10 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {CdkDragDrop, moveItemInArray, DragDropModule} from '@angular/cdk/drag-drop';
 import {LocalizeSAPipe} from '@anglr/common';
 import {TableGridMetadata, GridColumn} from '@anglr/grid';
+import {isCheckbox} from '@jscrpt/common';
 
 import {DialogMetadataSelectorContentComponent, DialogMetadataSelectorComponentData} from '../../plugins/metadataSelector';
 import {VerticalDragNDropSelectionTexts, CssClassesVerticalDragNDropSelection} from './verticalDragNDropSelection.interface';
-
-//TODO: move into @jscrpt/common
-
-/**
- * Tests whether is element input type checkbox
- * @param element - Element to be tested
- */
-function isCheckbox(element: EventTarget): element is HTMLInputElement 
-{
-    return (element as HTMLInputElement).type === 'checkbox';
-}
 
 /**
  * Component that is used for handling metadata seletion using vertical drag n drop

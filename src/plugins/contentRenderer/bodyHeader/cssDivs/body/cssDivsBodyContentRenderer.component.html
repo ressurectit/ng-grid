@@ -1,9 +1,9 @@
 @for(datum of data; track datum; let index=$index)
 {
-    <div [ngClass]="options.cssClasses.rowDiv | mergeCssClasses: [options.rowCssClass?.(datum) ?? '']" (click)="options.rowClick?.(datum, index)">
+    <div [ngClass]="options.cssClasses.rowDiv | mergeCssClasses: [options.rowCssClass?.(datum)]" (click)="options.rowClick?.(datum, index)">
         @for(meta of metadata?.columns; track meta)
         {
-            <div [ngClass]="options.cssClasses.cellDiv | mergeCssClasses: [meta.cellClass ?? '']"
+            <div [ngClass]="options.cssClasses.cellDiv | mergeCssClasses: [meta.cellClass]"
                  [attr.data-header-title]="meta?.title"
                  [style.width]="meta?.width">
                 @if (meta?.bodyTemplate) 

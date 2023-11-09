@@ -1,7 +1,7 @@
 @for(meta of metadata?.columns; track meta; let index=$index)
 {
     <div [style.width]="meta?.width"
-         [ngClass]="options.cssClasses.headerCellDiv | mergeCssClasses: [meta?.headerClass ?? '']"
+         [ngClass]="options.cssClasses.headerCellDiv | mergeCssClasses: [meta?.headerClass]"
          [orderable]="!!meta?.ordering"
          [orderById]="meta?.id">
         @if(meta?.titleVisible)
