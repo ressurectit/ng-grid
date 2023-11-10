@@ -9,6 +9,11 @@ export interface CssClassesVerticalDragNDropSelection
     titleElement: string;
 
     /**
+     * Class for icon element displaying reset metadata
+     */
+    resetMetadataIconElement: string;
+
+    /**
      * Class for container holding all columns for selection
      */
     columnsContainer: string;

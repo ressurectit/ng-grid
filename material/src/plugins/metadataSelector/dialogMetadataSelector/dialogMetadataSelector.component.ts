@@ -1,12 +1,13 @@
-import {Component, ChangeDetectionStrategy, ElementRef, EventEmitter, Inject, Optional, OnDestroy, forwardRef, Type, resolveForwardRef, WritableSignal, signal} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ElementRef, Inject, Optional, forwardRef, Type, resolveForwardRef, WritableSignal, signal, Signal, inject, computed, OnDestroy, Injector} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {CommonModule} from '@angular/common';
 import {MatDialog} from '@angular/material/dialog';
 import {PermanentStorage, PERMANENT_STORAGE, LocalizeSAPipe} from '@anglr/common';
-import {GridColumn, GridPlugin, MetadataGatherer, TableGridMetadata, GridPluginInstances, GRID_PLUGIN_INSTANCES, METADATA_SELECTOR_OPTIONS, GridMetadata} from '@anglr/grid';
+import {GridColumn, GridPlugin, MetadataGatherer, TableGridMetadata, GridPluginInstances, GRID_PLUGIN_INSTANCES, METADATA_SELECTOR_OPTIONS} from '@anglr/grid';
 import {extend} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
-import {DialogMetadataSelectorOptions, DialogMetadataSelector, DialogMetadataSelectorContentComponent, DialogMetadataSelectorComponentData} from './dialogMetadataSelector.interface';
+import {DialogMetadataSelectorOptions, DialogMetadataSelector, DialogMetadataSelectorComponentData} from './dialogMetadataSelector.interface';
 import {VerticalDragNDropSelectionSAComponent, type CssClassesVerticalDragNDropSelection, type VerticalDragNDropSelectionTexts, VerticalDragNDropSelectionOptions} from '../../../components';
 
 /**
@@ -20,7 +21,7 @@ export interface StorageState
 /**
  * Default options for dialog metadata selector
  */
-const defaultOptions: DialogMetadataSelectorOptions<GridMetadata, CssClassesVerticalDragNDropSelection, VerticalDragNDropSelectionTexts, VerticalDragNDropSelectionOptions> =
+const defaultOptions: DialogMetadataSelectorOptions<CssClassesVerticalDragNDropSelection, VerticalDragNDropSelectionTexts, VerticalDragNDropSelectionOptions> =
 {
     storageName: null,
     dialogCompnentOptions:
@@ -34,6 +35,7 @@ const defaultOptions: DialogMetadataSelectorOptions<GridMetadata, CssClassesVert
         dialogComponentClasses:
         {
             titleElement: 'metadata-columns-title',
+            resetMetadataIconElement: 'fas fa-rotate-right',
             columnsContainer: 'metadata-columns',
             columnElement: 'metadata-column',
             dragIndicationElement: 'fas fa-bars'
@@ -66,14 +68,29 @@ const defaultOptions: DialogMetadataSelectorOptions<GridMetadata, CssClassesVert
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector<TableGridMetadata<GridColumn>>, GridPlugin<DialogMetadataSelectorOptions<TableGridMetadata<GridColumn>>>, OnDestroy
+export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector<TableGridMetadata<GridColumn>>, GridPlugin<DialogMetadataSelectorOptions>, OnDestroy
 {
     //######################### protected fields #########################
 
     /**
+     * Signal used for setting updated columns
+     */
+    protected updatedColumns: WritableSignal<GridColumn[]|undefined|null> = signal(null);
+
+    /**
+     * Instance of signal for obtaining metadata
+     */
+    protected metadataValue: Signal<TableGridMetadata<GridColumn>|undefined|null>;
+
+    /**
      * Options for grid plugin
      */
-    protected optionsValue: WritableSignal<DialogMetadataSelectorOptions<TableGridMetadata<GridColumn>>>;
+    protected optionsValue: WritableSignal<DialogMetadataSelectorOptions>;
+
+    /**
+     * Instance of injector used for DI
+     */
+    protected injector: Injector = inject(Injector);
 
     /**
      * Subscription for metadata changes
@@ -93,57 +110,109 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
     /**
      * All metadata that are available
      */
-    protected allMetadata: TableGridMetadata<GridColumn>|undefined|null;
-    
+    protected allMetadata: WritableSignal<TableGridMetadata<GridColumn>|undefined|null> = signal(null);
+
+    /**
+     * Array of visiblity flags for columns originaly obtained from metadata selector
+     */
+    protected originalColumnsVisibility: boolean[] = [];
+
     /**
      * Component that is used for handling metadata selection itself
      */
-    protected dialogComponent: Type<DialogMetadataSelectorContentComponent<TableGridMetadata<GridColumn>>>|undefined|null;
+    protected dialogComponent: Type<unknown>|undefined|null;
 
     /**
      * Metadata for selection, contains all metadata in correct order
      */
-    protected metadataForSelection: TableGridMetadata<GridColumn> =
-    {
-        columns: []
-    };
+    protected metadataForSelection: Signal<TableGridMetadata<GridColumn>>;
 
     //######################### public properties - implementation of DialogMetadataSelector #########################
 
     /**
-     * Options for grid plugin
+     * @inheritdoc
      */
-    public get options(): DialogMetadataSelectorOptions<TableGridMetadata<GridColumn>>
+    public gridPlugins: GridPluginInstances|undefined|null = inject(GRID_PLUGIN_INSTANCES, {optional: true});
+
+    /**
+     * @inheritdoc
+     */
+    public pluginElement: ElementRef<HTMLElement> = inject(ElementRef<HTMLElement>);
+
+    /**
+     * @inheritdoc
+     */
+    public get options(): DialogMetadataSelectorOptions
     {
         return this.optionsValue();
     }
-    public set options(options: DialogMetadataSelectorOptions<TableGridMetadata<GridColumn>>)
+    public set options(options: DialogMetadataSelectorOptions)
     {
         this.optionsValue.update(opts => extend(true, opts, options));
     }
 
     /**
-     * Current metadata that are used for rendering
+     * @inheritdoc
      */
-    public metadata: TableGridMetadata<GridColumn> =
+    public get metadata(): Signal<TableGridMetadata<GridColumn>|undefined|null>
     {
-        columns: []
-    };
-
-    /**
-     * Occurs when metadata changed
-     */
-    public metadataChange: EventEmitter<void> = new EventEmitter<void>();
+        return this.metadataValue;
+    }
 
     //######################### constructor #########################
-    constructor(@Inject(GRID_PLUGIN_INSTANCES) @Optional() public gridPlugins: GridPluginInstances|undefined|null,
-
-                public pluginElement: ElementRef,
-                @Inject(PERMANENT_STORAGE) protected storage: PermanentStorage,
+    constructor(@Inject(PERMANENT_STORAGE) protected storage: PermanentStorage,
                 protected dialog: MatDialog,
-                @Inject(METADATA_SELECTOR_OPTIONS) @Optional() options?: DialogMetadataSelectorOptions<TableGridMetadata<GridColumn>>)
+                @Inject(METADATA_SELECTOR_OPTIONS) @Optional() options?: DialogMetadataSelectorOptions)
     {
         this.optionsValue = signal(extend(true, {}, defaultOptions, options));
+
+        this.metadataForSelection = computed(() =>
+        {
+            const storageState = this.loadFromStorage();
+            const allMetadata = this.allMetadata();
+            const columns = this.updatedColumns();
+
+            if(columns)
+            {
+                return {
+                    columns
+                };
+            }
+
+            if(storageState)
+            {
+                allMetadata?.columns.forEach(meta =>
+                {
+                    if(!meta.id)
+                    {
+                        throw new Error('Missing id for column to be stored in storage!');
+                    }
+
+                    meta.visible = !!storageState[meta.id]?.visible;
+                });
+
+                return {
+                    columns: Object.keys(storageState)
+                        .map(id => allMetadata?.columns.find(itm => itm.id == id))
+                        .filter(itm => !!itm)
+                        .concat(allMetadata?.columns.filter(meta => !storageState[meta.id ?? 0])) as GridColumn[]
+                };
+            }
+            else
+            {
+                return {
+                    columns: [...(allMetadata?.columns ?? [])]
+                };
+            }
+        });
+
+        this.metadataValue = computed(() =>
+        {
+            return {
+                ...this.allMetadata(),
+                columns: this.metadataForSelection().columns.filter(itm => itm.visible),
+            };
+        });
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -160,7 +229,7 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
     //######################### public methods - implementation of DialogMetadataSelector #########################
 
     /**
-     * Shows metadata selector
+     * @inheritdoc
      */
     public show(): void
     {
@@ -169,6 +238,8 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
             return;
         }
 
+        this.updatedColumns.set(null);
+
         this.dialog.open(this.dialogComponent,
         {
             data: <DialogMetadataSelectorComponentData<TableGridMetadata<GridColumn>, CssClassesVerticalDragNDropSelection, VerticalDragNDropSelectionTexts, VerticalDragNDropSelectionOptions>>
@@ -176,17 +247,50 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
                 metadata: this.metadataForSelection,
                 setMetadata: metadata =>
                 {
-                    this.metadataForSelection.columns = [...metadata.columns];
-                    this.setMetadata();
                     this.saveToStorage();
-
-                    this.metadataChange.next();
+                    this.updatedColumns.set([...metadata.columns]);
+                },
+                resetMetadata: () =>
+                {
+                    this.updatedColumns.set(null);
+                    this.resetMetadata();
                 },
                 cssClasses: this.options.cssClasses.dialogComponentClasses,
                 texts: this.options.texts.dialogComponentTexts,
                 options: this.options.dialogCompnentOptions,
             }
         });
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public resetMetadata(): void
+    {
+        if(this.options.storageName)
+        {
+            this.storage.remove(this.options.storageName);
+        }
+
+        //reset visiblity of all columns
+        const allMetadata = this.metadataGatherer?.metadata();
+
+        if(!allMetadata)
+        {
+            this.allMetadata.set(null);
+
+            return;
+        }
+
+
+        for(let x = 0; x < allMetadata.columns.length; x++)
+        {
+            const col = allMetadata.columns[x];
+
+            col.visible = this.originalColumnsVisibility[x] ?? false;
+        }
+
+        this.allMetadata.set({...allMetadata});
     }
 
     /**
@@ -211,33 +315,32 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
 
         if(force || !this.gathererInitialized)
         {
-            this.metadataChangedSubscription?.unsubscribe();
-            this.metadataChangedSubscription = null;
-
-            this.metadataChangedSubscription = this.metadataGatherer?.metadataChange.subscribe(() =>
+            if(!this.metadataGatherer)
             {
-                this.allMetadata = this.metadataGatherer?.getMetadata();
-                this.initMetadata();
+                throw new Error('DialogMetadataSelectorSAComponent: missing metadata gatherer!');
+            }
 
-                this.metadataChange.emit();
-            });
+            this.metadataChangedSubscription?.unsubscribe();
+            this.metadataChangedSubscription = toObservable(this.metadataGatherer.metadata, {injector: this.injector})
+                .subscribe(allMetadata =>
+                {
+                    this.originalColumnsVisibility = allMetadata?.columns.map(itm => itm.visible) ?? [];
+                    this.allMetadata.set(allMetadata);
+                });
 
             this.gathererInitialized = true;
         }
-
-        this.allMetadata = this.metadataGatherer?.getMetadata();
-        this.initMetadata();
     }
 
     /**
-     * Initialize plugin options, all operations required to be done with plugin options are handled here
+     * @inheritdoc
      */
     public initOptions()
     {
     }
 
     /**
-     * Explicitly runs invalidation of content (change detection)
+     * @inheritdoc
      */
     public invalidateVisuals(): void
     {
@@ -250,44 +353,7 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
      */
     protected initMetadata(): void
     {
-        const storageState = this.loadFromStorage();
-
-        if(storageState)
-        {
-            this.metadata =
-            {
-                columns: []
-            };
-
-            this.allMetadata?.columns.forEach(meta =>
-            {
-                if(!meta.id)
-                {
-                    throw new Error('Missing id for column to be stored in storage!');
-                }
-
-                meta.visible = !!storageState[meta.id]?.visible;
-            });
-
-            this.metadataForSelection = 
-            {
-                columns: Object.keys(storageState)
-                    .map(id => this.allMetadata?.columns.find(itm => itm.id == id))
-                    .filter(itm => !!itm)
-                    .concat(this.allMetadata?.columns.filter(meta => !storageState[meta.id ?? 0])) as GridColumn[]
-            };
-
-            this.setMetadata();
-        }
-        else
-        {
-            this.metadataForSelection =
-            {
-                columns: [...(this.allMetadata?.columns ?? [])]
-            };
-
-            this.setMetadata();
-        }
+        
     }
 
     /**
@@ -302,7 +368,7 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
 
         const state: StorageState = {};
 
-        this.metadataForSelection.columns.forEach(meta =>
+        this.metadataForSelection().columns.forEach(meta =>
         {
             if(!meta.id)
             {
@@ -331,17 +397,5 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
         }
 
         return this.storage.get(this.options.storageName);
-    }
-
-    /**
-     * Sets visible metadata from all metadata
-     */
-    protected setMetadata(): void
-    {
-        this.metadata =
-        {
-            ...this.allMetadata,
-            columns: this.metadataForSelection.columns.filter(itm => itm.visible)
-        };
     }
 }

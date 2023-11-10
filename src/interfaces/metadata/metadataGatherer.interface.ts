@@ -1,4 +1,4 @@
-import {Observable} from 'rxjs';
+import {Signal} from '@angular/core';
 
 import {GridColumn} from '../gridColumn';
 import type {GridContainerTemplateSADirective} from '../../directives/gridContainerTemplate/gridContainerTemplate.directive';
@@ -21,16 +21,10 @@ export interface GridMetadata
  */
 export interface MetadataGatherer<TMetadata extends GridMetadata = GridMetadata>
 {
-    //TODO: maybe use signals
     /**
      * Information that metadata for grid has changed
      */
-    readonly metadataChange: Observable<void>;
-
-    /**
-     * Gets current metadata for grid
-     */
-    getMetadata(): TMetadata;
+    readonly metadata: Signal<TMetadata>;
 }
 
 /**

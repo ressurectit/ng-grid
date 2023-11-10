@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 10.0.0 (2023-11-09)
+## Version 10.0.0 (2023-11-10)
 
 ### Bug Fixes
 
@@ -297,6 +297,12 @@
 - new `VerticalDragNDropSelectionOptions` interface, that represents options for vertical drag n drop selection
    - **properties**
       - `dragDisabled` indication whether is drag disabled
+- updated `DialogMetadataSelectorComponentData` interface
+   - **new methods**
+      - `resetMetadata` resets metadata to default
+- updated `MetadataSelector` interface
+   - **new methods**
+      - `resetMetadata` resets metadata to default
 - updated `TableGridColumnSAComponent` component
    - now supports also obtaining template using directives `TableGridBodyCellTemplateSADirective`, `TableGridHeaderCellTemplateSADirective`
 - updated `Grid` interface
@@ -359,7 +365,6 @@
 - renamed `BasicRowSelectorComponent` to `BasicRowSelectorSAComponent`
 - renamed `LimitedRowSelectorComponent` to `LimitedRowSelectorSAComponent`
 - renamed `NoMetadataSelectorComponent` to `NoMetadataSelectorSAComponent`
-- renamed `AdvancedMetadataSelectorComponent` to `AdvancedMetadataSelectorSAComponent`
 - renamed `NoGridInitializerComponent` to `NoGridInitializerSAComponent`
 - renamed `QueryGridInitializerComponent` to `QueryGridInitializerSAComponent`
 - renamed `SyncDataLoaderComponent` to `SyncDataLoaderSAComponent`
@@ -408,6 +413,13 @@
 - removed `VirtualScrollTableContentRenderer` interface, not used, based on old renderer
 - removed `VirtualScrollTableContentRendererOptions` interface, not used, based on old renderer
 - removed `CssClassesVirtualScrollTableContentRenderer` interface, not used, based on old renderer
+- removed `AdvancedMetadataSelectorComponent` component, not used, no replacement
+- removed `CssClassesAdvancedMetadataSelector` interface, not used, no replacement
+- removed `AdvancedMetadataSelectorTexts` interface, not used, no replacement
+- removed `AdvancedMetadataSelectorOptions` interface, not used, no replacement
+- removed `AdvancedMetadataSelector` interface, not used, no replacement
+- removed `AdvancedGridColumn` interface, not used, no replacement
+- removed `DialogMetadataSelectorContentComponent` interface, not needed
 - removed `PagingPosition` enum, not used, if you need to place paging above grid, just place it outside and use instance
 - old `ContentRendererOptions` renamed to `HeaderBodyContentRendererOptions`
 - new `ContentRendererOptions` without `plugins`
@@ -434,6 +446,8 @@
    - now using signals for `page` and `itemsPerPage`
    - now setting `page` and `itemsPerPage` using functions
    - removed totalCount, paging obtains totalCount from `DataLoader`
+- updated `MetadataGatherer` interface, now using signals
+- updated `MetadataSelector` interface, now using signals
 - updated `CssClassesBasicPaging` interface, completely refactored, incompatible with previous one
 - updated `CssClassesPreviousNextPaging` interface, completely refactored, incompatible with previous one
 - updated `CssClassesLoadMorePaging` interface, completely refactored, incompatible with previous one

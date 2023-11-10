@@ -1,5 +1,6 @@
-import {Type} from '@angular/core';
+import {Signal, Type} from '@angular/core';
 import {GridMetadata, MetadataSelector, MetadataSelectorOptions, VisualPluginOptions} from '@anglr/grid';
+import {PromiseOr} from '@jscrpt/common';
 
 /**
  * Css classes for dialog metadata selector
@@ -41,8 +42,7 @@ export interface DialogMetadataSelectorTexts<TTexts = unknown>
 /**
  * Dialog metadata selector options
  */
-export interface DialogMetadataSelectorOptions<TMetadata extends GridMetadata = GridMetadata,
-                                               TCssClasses = unknown,
+export interface DialogMetadataSelectorOptions<TCssClasses = unknown,
                                                TTexts = unknown,
                                                TOptions = unknown> extends MetadataSelectorOptions, VisualPluginOptions<CssClassesDialogMetadataSelector<TCssClasses>>
 {
@@ -69,13 +69,13 @@ export interface DialogMetadataSelectorOptions<TMetadata extends GridMetadata = 
     /**
      * Component that is used for handling metadata selection itself
      */
-    dialogComponent: Type<DialogMetadataSelectorContentComponent<TMetadata, TCssClasses, TTexts, TOptions>>;
+    dialogComponent: Type<unknown>;
 }
 
 /**
  * Public API for 'DialogMetadataSelector'
  */
-export interface DialogMetadataSelector<TMetadata extends GridMetadata = GridMetadata> extends MetadataSelector<TMetadata, DialogMetadataSelectorOptions<TMetadata>>
+export interface DialogMetadataSelector<TMetadata extends GridMetadata = GridMetadata> extends MetadataSelector<TMetadata, DialogMetadataSelectorOptions>
 {
 }
 
@@ -90,7 +90,7 @@ export interface DialogMetadataSelectorComponentData<TMetadata extends GridMetad
     /**
      * Method that is used for setting metadata into component
      */
-    metadata: TMetadata;
+    metadata: Signal<TMetadata>;
 
     /**
      * Css classes passed to dialog component
@@ -112,18 +112,9 @@ export interface DialogMetadataSelectorComponentData<TMetadata extends GridMetad
      * @param metadata - Metadata that were changed in component passed back to selector
      */
     setMetadata(metadata: TMetadata): void;
-}
 
-/**
- * Component that is rendered within dialog
- */
-export interface DialogMetadataSelectorContentComponent<TMetadata extends GridMetadata = GridMetadata,
-                                                        TCssClasses = unknown,
-                                                        TTexts = unknown,
-                                                        TOptions = unknown>
-{
     /**
-     * Data that are used for communication with MetadataSelector
+     * Resets metadata to default
      */
-    data: DialogMetadataSelectorComponentData<TMetadata, TCssClasses, TTexts, TOptions>;
+    resetMetadata(): PromiseOr<void>;
 }

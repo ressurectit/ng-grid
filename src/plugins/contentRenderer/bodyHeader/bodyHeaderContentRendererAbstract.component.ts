@@ -1,7 +1,7 @@
 import {OnDestroy, Directive, ElementRef, HostBinding, Injector, inject} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {RecursivePartial, extend} from '@jscrpt/common';
-import {Subscription} from 'rxjs';
+import {Subscription, skip} from 'rxjs';
 
 import {ContentRenderer, DataLoader, DataResponse, GridMetadata, GridPlugin, GridPluginInstances, MetadataSelector} from '../../../interfaces';
 import {BodyContentRenderer, CssClassesHeaderBodyContentRenderer, HeaderBodyContentRendererOptions, HeaderContentRenderer} from './bodyHeaderContentRenderer.interface';
@@ -135,7 +135,9 @@ export abstract class BodyHeaderContentRendererAbstractComponent<TData = unknown
         {
             this.metadataSelector = metadataSelector;
 
-            this.metadataChangedSubscription = this.metadataSelector.metadataChange.subscribe(() => this.ɵinvalidateVisuals());
+            this.metadataChangedSubscription = toObservable(this.metadataSelector.metadata, {injector: this.injector})
+                .pipe(skip(1))
+                .subscribe(() => this.ɵinvalidateVisuals());
         }
 
         const dataLoader: DataLoader<DataResponse<TData>> = this.gridPluginsInstance[GridPluginType.DataLoader] as DataLoader<DataResponse<TData>>;
@@ -275,14 +277,14 @@ export abstract class BodyHeaderContentRendererAbstractComponent<TData = unknown
 
         if(headerRenderer.metadata != this.metadataSelector?.metadata)
         {
-            headerRenderer.metadata = this.metadataSelector?.metadata;
+            headerRenderer.metadata = this.metadataSelector?.metadata();
             headerRenderer.invalidateVisuals();
         }
 
         if(bodyRenderer.data != this.dataLoader?.result().data || bodyRenderer.metadata != this.metadataSelector?.metadata)
         {
             bodyRenderer.data = this.dataLoader?.result().data ?? [];
-            bodyRenderer.metadata = this.metadataSelector?.metadata;
+            bodyRenderer.metadata = this.metadataSelector?.metadata();
             bodyRenderer.invalidateVisuals();
         }
     }

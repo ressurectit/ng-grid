@@ -1,5 +1,4 @@
-import {Component, ChangeDetectionStrategy, OnDestroy, ElementRef} from '@angular/core';
-import {Observable, Subscription, Subject} from 'rxjs';
+import {Component, ChangeDetectionStrategy, ElementRef, Signal, signal, inject, computed} from '@angular/core';
 
 import {NoMetadataSelector, NoMetadataSelectorOptions} from './noMetadataSelector.interface';
 import {GridMetadata, GridPlugin, GridPluginInstances, MetadataGatherer} from '../../../interfaces';
@@ -14,14 +13,9 @@ import {GridMetadata, GridPlugin, GridPluginInstances, MetadataGatherer} from '.
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NoMetadataSelectorSAComponent<TMetadata extends GridMetadata = GridMetadata> implements NoMetadataSelector<TMetadata>, GridPlugin<NoMetadataSelectorOptions>, OnDestroy
+export class NoMetadataSelectorSAComponent<TMetadata extends GridMetadata = GridMetadata> implements NoMetadataSelector<TMetadata>, GridPlugin<NoMetadataSelectorOptions>
 {
     //######################### protected fields #########################
-
-    /**
-     * Subscription for metadata changes
-     */
-    protected metadataChangedSubscription: Subscription|undefined|null;
 
     /**
      * Indication whether gahterer has been initialized
@@ -34,9 +28,9 @@ export class NoMetadataSelectorSAComponent<TMetadata extends GridMetadata = Grid
     protected metadataGatherer: MetadataGatherer<TMetadata>|undefined|null;
 
     /**
-     * Subject used for emitting changes in metadata
+     * Instance of signal for obtaining metadata
      */
-    protected metadataChangeSubject: Subject<void> = new Subject<void>();
+    protected metadataValue: Signal<TMetadata|undefined|null> = signal(null).asReadonly();
 
     //######################### public properties - implementation of NoMetadataSelector #########################
 
@@ -48,14 +42,9 @@ export class NoMetadataSelectorSAComponent<TMetadata extends GridMetadata = Grid
     /**
      * @inheritdoc
      */
-    public metadata: TMetadata|undefined|null;
-
-    /**
-     * @inheritdoc
-     */
-    public get metadataChange(): Observable<void>
+    public get metadata(): Signal<TMetadata|undefined|null>
     {
-        return this.metadataChangeSubject.asObservable();
+        return this.metadataValue;
     }
 
     /**
@@ -63,10 +52,10 @@ export class NoMetadataSelectorSAComponent<TMetadata extends GridMetadata = Grid
      */
     public gridPlugins: GridPluginInstances|undefined|null;
 
-    //######################### constructor #########################
-    constructor(public pluginElement: ElementRef)
-    {
-    }
+    /**
+     * @inheritdoc
+     */
+    public pluginElement: ElementRef<HTMLElement> = inject(ElementRef<HTMLElement>);
 
     //######################### public methods - implementation of NoMetadataSelector #########################
 
@@ -74,6 +63,13 @@ export class NoMetadataSelectorSAComponent<TMetadata extends GridMetadata = Grid
      * @inheritdoc
      */
     public show(): void
+    {
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public resetMetadata(): void
     {
     }
 
@@ -97,23 +93,10 @@ export class NoMetadataSelectorSAComponent<TMetadata extends GridMetadata = Grid
     {
         if(force || !this.gathererInitialized)
         {
-            if(this.metadataChangedSubscription)
-            {
-                this.metadataChangedSubscription.unsubscribe();
-                this.metadataChangedSubscription = null;
-            }
-
-            this.metadataChangedSubscription = this.metadataGatherer?.metadataChange.subscribe(() =>
-            {
-                this.metadata = this.metadataGatherer?.getMetadata();
-
-                this.metadataChangeSubject.next();
-            });
+            this.metadataValue = computed(() => this.metadataGatherer?.metadata());
 
             this.gathererInitialized = true;
         }
-
-        this.metadata = this.metadataGatherer?.getMetadata();
     }
 
     /**
@@ -128,16 +111,5 @@ export class NoMetadataSelectorSAComponent<TMetadata extends GridMetadata = Grid
      */
     public invalidateVisuals(): void
     {
-    }
-
-    //######################### public methods - implementation of OnDestroy #########################
-
-    /**
-     * Called when component is destroyed
-     */
-    public ngOnDestroy(): void
-    {
-        this.metadataChangedSubscription?.unsubscribe();
-        this.metadataChangedSubscription = null;
     }
 }

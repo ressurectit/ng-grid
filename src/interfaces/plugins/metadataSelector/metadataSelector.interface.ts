@@ -1,4 +1,5 @@
-import {Observable} from 'rxjs';
+import {Signal} from '@angular/core';
+import {PromiseOr} from '@jscrpt/common';
 
 import {GridPlugin} from '../../gridPlugin/gridPlugin.interface';
 import {GridMetadata, MetadataGatherer} from '../../metadata/metadataGatherer.interface';
@@ -19,17 +20,17 @@ export interface MetadataSelector<TMetadata extends GridMetadata = GridMetadata,
     /**
      * Current metadata that are used for rendering
      */
-    readonly metadata: TMetadata|undefined|null;
-
-    /**
-     * Occurs when metadata changed
-     */
-    readonly metadataChange: Observable<void>;
+    readonly metadata: Signal<TMetadata|undefined|null>;
 
     /**
      * Shows metadata selector
      */
     show(): void;
+
+    /**
+     * Resets metadata to default
+     */
+    resetMetadata(): PromiseOr<void>;
 
     /**
      * Sets instance of metadata gatherer, which is used for getting metadata

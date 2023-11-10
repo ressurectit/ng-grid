@@ -1,5 +1,4 @@
-import {ExistingProvider, Component, ChangeDetectionStrategy, forwardRef, ContentChildren, QueryList, AfterContentInit} from '@angular/core';
-import {Observable, Subject} from 'rxjs';
+import {ExistingProvider, Component, ChangeDetectionStrategy, forwardRef, ContentChildren, QueryList, AfterContentInit, Signal, WritableSignal, signal} from '@angular/core';
 
 import {TableGridColumnSAComponent} from '../tableGridColumn/tableGridColumn.component';
 import {TableGridColumn, MetadataGatherer, TableGridMetadata} from '../../interfaces';
@@ -28,18 +27,21 @@ export class TableGridMetadataGathererSAComponent<TData = unknown> implements Af
     //######################### protected fields #########################
 
     /**
-     * Subject used for emitting metadata changes
+     * Signal for metadata value
      */
-    protected metadataChangeSubject: Subject<void> = new Subject<void>();
+    protected metadataValue: WritableSignal<TableGridMetadata<TableGridColumn<TData>>> = signal(
+    {
+        columns: []
+    });
 
     //######################### public properties - implementation of MetadataGatherer<TableGridMetadata> #########################
 
     /**
      * @inheritdoc
      */
-    public get metadataChange(): Observable<void>
+    public get metadata(): Signal<TableGridMetadata<TableGridColumn<TData>>>
     {
-        return this.metadataChangeSubject.asObservable();
+        return this.metadataValue.asReadonly();
     }
 
     //######################### protected properties - children #########################
@@ -50,18 +52,6 @@ export class TableGridMetadataGathererSAComponent<TData = unknown> implements Af
     @ContentChildren(TableGridColumnSAComponent)
     protected columns: QueryList<TableGridColumnSAComponent<TData>>|undefined|null;
 
-    //######################### public methods - implementation of MetadataGatherer<TableGridMetadata> #########################
-
-    /**
-     * @inheritdoc
-     */
-    public getMetadata(): TableGridMetadata<TableGridColumn<TData>>
-    {
-        return {
-            columns: this.columns?.toArray() ?? []
-        };
-    }
-
     //######################### public methods - implementation of AfterContentInit #########################
 
     /**
@@ -71,7 +61,15 @@ export class TableGridMetadataGathererSAComponent<TData = unknown> implements Af
     {
         this.columns?.changes.subscribe(() =>
         {
-            this.metadataChangeSubject.next();
+            this.metadataValue.set(
+            {
+                columns: this.columns?.toArray() ?? []
+            });
+        });
+
+        this.metadataValue.set(
+        {
+            columns: this.columns?.toArray() ?? []
         });
     }
 }

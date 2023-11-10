@@ -1,7 +1,9 @@
 import {Component, ChangeDetectionStrategy, Inject, Optional, OnDestroy, ElementRef, ChangeDetectorRef, forwardRef, HostBinding} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {DomSanitizer, SafeStyle} from '@angular/platform-browser';
 import {CommonDynamicModule} from '@anglr/common';
 import {isArray} from '@jscrpt/common';
+import {skip} from 'rxjs';
 
 import {BodyHeaderContentRendererAbstractComponent} from '../bodyHeaderContentRendererAbstract.component';
 import {CssDivsContentRendererOptions} from './cssDivsContentRenderer.interface';
@@ -106,13 +108,12 @@ export class CssDivsContentRendererSAComponent<TData = unknown, TMetadata extend
 
         this.setGridColumnsWidth();
 
-        this.metadataSelector
-            ?.metadataChange
-            .subscribe(() =>
-                {
-                    this.setGridColumnsWidth();
-                }
-            );
+        if(this.metadataSelector)
+        {
+            toObservable(this.metadataSelector.metadata)
+                .pipe(skip(1))
+                .subscribe(() => this.setGridColumnsWidth());
+        }
     }
 
     //######################### protected methods #########################

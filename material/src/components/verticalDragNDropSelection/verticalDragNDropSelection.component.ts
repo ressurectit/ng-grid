@@ -6,7 +6,7 @@ import {LocalizeSAPipe} from '@anglr/common';
 import {TableGridMetadata, GridColumn} from '@anglr/grid';
 import {isCheckbox} from '@jscrpt/common';
 
-import {DialogMetadataSelectorContentComponent, DialogMetadataSelectorComponentData} from '../../plugins/metadataSelector';
+import {DialogMetadataSelectorComponentData} from '../../plugins/metadataSelector';
 import {VerticalDragNDropSelectionTexts, CssClassesVerticalDragNDropSelection, VerticalDragNDropSelectionOptions} from './verticalDragNDropSelection.interface';
 
 /**
@@ -25,7 +25,7 @@ import {VerticalDragNDropSelectionTexts, CssClassesVerticalDragNDropSelection, V
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VerticalDragNDropSelectionSAComponent implements DialogMetadataSelectorContentComponent<TableGridMetadata<GridColumn>, CssClassesVerticalDragNDropSelection, VerticalDragNDropSelectionTexts, VerticalDragNDropSelectionOptions>
+export class VerticalDragNDropSelectionSAComponent
 {
     //######################### constructor #########################
     constructor(public dialog: MatDialogRef<VerticalDragNDropSelectionSAComponent, DialogMetadataSelectorComponentData<TableGridMetadata<GridColumn>, CssClassesVerticalDragNDropSelection, VerticalDragNDropSelectionTexts, VerticalDragNDropSelectionOptions>>,
@@ -41,9 +41,11 @@ export class VerticalDragNDropSelectionSAComponent implements DialogMetadataSele
      */
     protected drop(event: CdkDragDrop<string[]>): void
     {
-        moveItemInArray(this.data.metadata.columns, event.previousIndex, event.currentIndex);
+        const columns = this.data.metadata().columns;
 
-        this.data.setMetadata(this.data.metadata);
+        moveItemInArray(columns, event.previousIndex, event.currentIndex);
+
+        this.data.setMetadata(this.data.metadata());
     }
 
     /**
@@ -60,6 +62,6 @@ export class VerticalDragNDropSelectionSAComponent implements DialogMetadataSele
 
         column.visible = event.target.checked;
         
-        this.data.setMetadata(this.data.metadata);
+        this.data.setMetadata(this.data.metadata());
     }
 }

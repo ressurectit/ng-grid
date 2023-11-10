@@ -224,8 +224,8 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
         {
             this.metadataSelector = metadataSelector;
 
-            this.metadataChangeSubscription = this.metadataSelector
-                .metadataChange
+            this.metadataChangeSubscription = toObservable(this.metadataSelector.metadata, {injector: this.injector})
+                .pipe(skip(1))
                 .subscribe(() => this.renderGridContainer());
         }
 
@@ -315,7 +315,7 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
         //remove existing
         this.container.clear();
 
-        const view: EmbeddedViewRef<GridContext<unknown, MatrixGridColumn<unknown>>> = this.container.createEmbeddedView(this.metadataSelector?.metadata?.gridContainer?.template ?? this.defaultsSafe.gridContainer,
+        const view: EmbeddedViewRef<GridContext<unknown, MatrixGridColumn<unknown>>> = this.container.createEmbeddedView(this.metadataSelector?.metadata()?.gridContainer?.template ?? this.defaultsSafe.gridContainer,
                                                                                                                          this.getGridContext(),
                                                                                                                          {
                                                                                                                              injector: this.createInjector(this.container.injector),
@@ -330,13 +330,13 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
         if(this.currentViewContainer.viewContainer)
         {
             //render header
-            this.renderContainer(this.metadataSelector?.metadata?.headerContainer?.template ?? this.defaultsSafe.headerContainer, this.renderHeaderRowsContainers);
+            this.renderContainer(this.metadataSelector?.metadata()?.headerContainer?.template ?? this.defaultsSafe.headerContainer, this.renderHeaderRowsContainers);
 
             //render content
-            this.renderContainer(this.metadataSelector?.metadata?.contentContainer?.template ?? this.defaultsSafe.contentContainer, this.renderContentRowsContainers);
+            this.renderContainer(this.metadataSelector?.metadata()?.contentContainer?.template ?? this.defaultsSafe.contentContainer, this.renderContentRowsContainers);
 
             //render footer
-            this.renderContainer(this.metadataSelector?.metadata?.contentContainer?.template ?? this.defaultsSafe.footerContainer, this.renderFooterRowsContainers);
+            this.renderContainer(this.metadataSelector?.metadata()?.contentContainer?.template ?? this.defaultsSafe.footerContainer, this.renderFooterRowsContainers);
         }
 
         this.clearCurrentViewContainer();
@@ -347,7 +347,9 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
      */
     protected renderHeaderRowsContainers(): void
     {
-        this.renderRowContainer(this.metadataSelector?.metadata?.headerRowContainer?.length ? this.metadataSelector?.metadata?.headerRowContainer : [{template: this.defaultsSafe.headerRowContainer, predicate: null, columns: null}],
+        const metadata = this.metadataSelector?.metadata();
+
+        this.renderRowContainer(metadata?.headerRowContainer?.length ? metadata?.headerRowContainer : [{template: this.defaultsSafe.headerRowContainer, predicate: null, columns: null}],
                                 column => column.headerTemplate,
                                 this.renderHeaderCell,
                                 (index, columns) => this.getGridRowContext(index, columns));
@@ -360,12 +362,13 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
     {
         const data = this.dataLoader?.result();
         const dataLength = data?.data?.length ?? 0;
+        const metadata = this.metadataSelector?.metadata();
 
         for(let datumIndex = 0; datumIndex < dataLength; datumIndex++)
         {
             const datum = data?.data[datumIndex];
 
-            this.renderRowContainer(this.metadataSelector?.metadata?.contentRowContainer?.length ? this.metadataSelector?.metadata?.contentRowContainer : [{template: this.defaultsSafe.contentRowContainer, predicate: null, columns: null}],
+            this.renderRowContainer(metadata?.contentRowContainer?.length ? metadata?.contentRowContainer : [{template: this.defaultsSafe.contentRowContainer, predicate: null, columns: null}],
                                     column => column.bodyTemplate,
                                     this.renderContentOrFooterCell,
                                     (_, columns) => this.getGridDataRowContext(datumIndex, datum, columns));
@@ -377,7 +380,9 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
      */
     protected renderFooterRowsContainers(): void
     {
-        this.renderRowContainer(this.metadataSelector?.metadata?.footerRowContainer?.length ? this.metadataSelector?.metadata?.footerRowContainer : [{template: this.defaultsSafe.footerRowContainer, predicate: null, columns: null}],
+        const metadata = this.metadataSelector?.metadata();
+
+        this.renderRowContainer(metadata?.footerRowContainer?.length ? metadata?.footerRowContainer : [{template: this.defaultsSafe.footerRowContainer, predicate: null, columns: null}],
                                 column => column.footerTemplate,
                                 this.renderContentOrFooterCell,
                                 (index, columns) => this.getGridRowContext(index, columns));
@@ -391,7 +396,7 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
         return <GridContext>{
             grid: this.grid,
             plugins: this.gridPluginsSafe,
-            columns: this.metadataSelector?.metadata?.columns ?? [],
+            columns: this.metadataSelector?.metadata()?.columns ?? [],
             data: this.dataLoader?.result()?.data ?? [],
             contentCssClasses: this.ɵoptions.cssClasses,
         };
@@ -512,10 +517,10 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
             const rowColumns = row
                 .columns
                 ?.map(id => this.metadataSelector
-                    ?.metadata
+                    ?.metadata()
                     ?.columns
                     ?.find(itm => itm.id == id) as MatrixGridColumn)
-                ?.filter(itm => itm) ?? this.metadataSelector?.metadata?.columns ?? [];
+                ?.filter(itm => itm) ?? this.metadataSelector?.metadata()?.columns ?? [];
             const context = contextGetter(index, rowColumns);
 
             //skip rendering of this row

@@ -1,7 +1,6 @@
-import {Component, ChangeDetectionStrategy, forwardRef, FactoryProvider, ExistingProvider, ValueProvider, ContentChild, AfterContentInit, ContentChildren, QueryList} from '@angular/core';
+import {Component, ChangeDetectionStrategy, forwardRef, FactoryProvider, ExistingProvider, ValueProvider, AfterContentInit, ContentChildren, QueryList, WritableSignal, signal, Signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CommonDynamicModule} from '@anglr/common';
-import {Observable, Subject} from 'rxjs';
 
 import {GridSAComponent} from '../grid/grid.component';
 import {AsyncDataLoaderSAComponent, BasicPagingSAComponent, MatrixContentRendererSAComponent, NoGridInitializerSAComponent, NoMetadataSelectorSAComponent, NoRowSelectorSAComponent, SimpleNoDataRendererSAComponent, SingleOrderingSAComponent} from '../../plugins';
@@ -118,9 +117,19 @@ export class MatrixGridSAComponent extends GridSAComponent implements Grid, Meta
     //######################### protected fields #########################
 
     /**
-     * Subject used for emitting changes in metadata
+     * Signal for metadata value
      */
-    protected metadataChangeSubject: Subject<void> = new Subject<void>;
+    protected metadataValue: WritableSignal<MatrixGridMetadata> = signal(
+    {
+        columns: [],
+        gridContainer: null,
+        headerContainer: null,
+        contentContainer: null,
+        footerContainer: null,
+        headerRowContainer: [],
+        contentRowContainer: [],
+        footerRowContainer: [],
+    });
 
     //######################### protected properties - overrides #########################
 
@@ -137,9 +146,9 @@ export class MatrixGridSAComponent extends GridSAComponent implements Grid, Meta
     /**
      * @inheritdoc
      */
-    public get metadataChange(): Observable<void>
+    public get metadata(): Signal<MatrixGridMetadata>
     {
-        return this.metadataChangeSubject.asObservable();
+        return this.metadataValue.asReadonly();
     }
 
     //######################### protected properties - children #########################
@@ -147,26 +156,26 @@ export class MatrixGridSAComponent extends GridSAComponent implements Grid, Meta
     /**
      * Grid container template
      */
-    @ContentChild(GridContainerTemplateSADirective)
-    protected gridContainer: GridContainerTemplateSADirective|undefined|null;
+    @ContentChildren(GridContainerTemplateSADirective, {emitDistinctChangesOnly: true})
+    protected gridContainer: QueryList<GridContainerTemplateSADirective>|undefined|null;
 
     /**
      * Header container template
      */
-    @ContentChild(HeaderContainerTemplateSADirective)
-    protected headerContainer: HeaderContainerTemplateSADirective|undefined|null;
+    @ContentChildren(HeaderContainerTemplateSADirective, {emitDistinctChangesOnly: true})
+    protected headerContainer: QueryList<HeaderContainerTemplateSADirective>|undefined|null;
 
     /**
      * Content container template
      */
-    @ContentChild(ContentContainerTemplateSADirective)
-    protected contentContainer: ContentContainerTemplateSADirective|undefined|null;
+    @ContentChildren(ContentContainerTemplateSADirective, {emitDistinctChangesOnly: true})
+    protected contentContainer: QueryList<ContentContainerTemplateSADirective>|undefined|null;
 
     /**
      * Footer container template
      */
-    @ContentChild(FooterContainerTemplateSADirective)
-    protected footerContainer: FooterContainerTemplateSADirective|undefined|null;
+    @ContentChildren(FooterContainerTemplateSADirective, {emitDistinctChangesOnly: true})
+    protected footerContainer: QueryList<FooterContainerTemplateSADirective>|undefined|null;
 
     /**
      * Header container template
@@ -192,38 +201,42 @@ export class MatrixGridSAComponent extends GridSAComponent implements Grid, Meta
     @ContentChildren(MatrixGridColumnSADirective, {emitDistinctChangesOnly: true})
     protected columns: QueryList<MatrixGridColumnSADirective>|undefined|null;
 
-
     //######################### public methods - implementation of AfterContentInit #########################
-    
+
     /**
      * Called when content was initialized
      */
     public ngAfterContentInit(): void
     {
-        this.metadataChangeSubject.next();
+        this.gridContainer?.changes.subscribe(() => this.setMetadata());
+        this.headerContainer?.changes.subscribe(() => this.setMetadata());
+        this.contentContainer?.changes.subscribe(() => this.setMetadata());
+        this.footerContainer?.changes.subscribe(() => this.setMetadata());
+        this.headerRowContainer?.changes.subscribe(() => this.setMetadata());
+        this.contentRowContainer?.changes.subscribe(() => this.setMetadata());
+        this.footerRowContainer?.changes.subscribe(() => this.setMetadata());
+        this.columns?.changes.subscribe(() => this.setMetadata());
 
-        this.headerRowContainer?.changes.subscribe(() => this.metadataChangeSubject.next());
-        this.contentRowContainer?.changes.subscribe(() => this.metadataChangeSubject.next());
-        this.footerRowContainer?.changes.subscribe(() => this.metadataChangeSubject.next());
-        this.columns?.changes.subscribe(() => this.metadataChangeSubject.next());
+        this.setMetadata();
     }
 
-    //######################### public methods - implementation of MetadataGatherer #########################
+    //######################### protected methods #########################
 
     /**
-     * @inheritdoc
+     * Sets metadata
      */
-    public getMetadata(): MatrixGridMetadata
+    public setMetadata(): void
     {
-        return {
+        this.metadataValue.set(
+        {
             columns: this.columns?.toArray() ?? [],
-            gridContainer: this.gridContainer,
-            headerContainer: this.headerContainer,
-            contentContainer: this.contentContainer,
-            footerContainer: this.footerContainer,
+            gridContainer: this.gridContainer?.first,
+            headerContainer: this.headerContainer?.first,
+            contentContainer: this.contentContainer?.first,
+            footerContainer: this.footerContainer?.first,
             headerRowContainer: this.headerRowContainer?.toArray() ?? [],
             contentRowContainer: this.contentRowContainer?.toArray() ?? [],
             footerRowContainer: this.footerRowContainer?.toArray() ?? [],
-        };
+        });
     }
 }

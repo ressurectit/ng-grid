@@ -1,4 +1,5 @@
-import {ChangeDetectionStrategy, Component, ElementRef, Inject, OnDestroy, Optional, Signal, WritableSignal, inject, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, Inject, Injector, OnDestroy, Optional, Signal, WritableSignal, inject, signal} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {OrderByDirection, RecursivePartial, extend} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
@@ -37,9 +38,14 @@ export class SingleOrderingSAComponent implements SingleOrdering, OnDestroy
     //######################### protected fields #########################
 
     /**
-     * Subject used for emitting changes in ordering
+     * Current ordering value
      */
     protected orderingValue: WritableSignal<SimpleOrdering|undefined|null> = signal(undefined);
+
+    /**
+     * Instance of injector used for DI
+     */
+    protected injector: Injector = inject(Injector);
 
     /**
      * Instance of options
@@ -219,7 +225,7 @@ export class SingleOrderingSAComponent implements SingleOrdering, OnDestroy
         {
             this.metadataSelector = metadataSelector;
 
-            this.metadataChangeSubscription = this.metadataSelector.metadataChange.subscribe(() => this.checkColumns());
+            this.metadataChangeSubscription = toObservable(this.metadataSelector.metadata, {injector: this.injector}).subscribe(() => this.checkColumns());
         }
 
         this.orderingValue.set(await this.gridInitializer.getOrdering());
@@ -259,7 +265,7 @@ export class SingleOrderingSAComponent implements SingleOrdering, OnDestroy
         }
 
         //ordering column is not visible
-        if(!this.metadataSelector.metadata?.columns.find(itm => itm.id == ordering.orderBy))
+        if(!this.metadataSelector.metadata()?.columns.find(itm => itm.id == ordering.orderBy))
         {
             this.setOrdering(null);
         }
