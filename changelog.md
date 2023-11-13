@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 10.0.0 (2023-11-10)
+## Version 10.0.0 (2023-11-13)
 
 ### Bug Fixes
 
@@ -297,6 +297,23 @@
 - new `VerticalDragNDropSelectionOptions` interface, that represents options for vertical drag n drop selection
    - **properties**
       - `dragDisabled` indication whether is drag disabled
+- new `provideGridOptions` function, that provides grid options
+- new `providePagingType` function, that provides paging type
+- new `provideOrderingType` function, that provides ordering type
+- new `provideGridInitializerType` function, that provides grid initializer type
+- new `provideDataLoaderType` function, that provides data loader type
+- new `provideContentRendererType` function, that provides content renderer type
+- new `provideMetadataSelectorType` function, that provides metadata selector type
+- new `provideNoDataRendererType` function, that provides no data renderer type
+- new `provideRowSelectorType` function, that provides row selector type
+- new `provideContentRendererOptions` function, that provides content renderer options
+- new `provideDataLoaderOptions` function, that provides data loader options
+- new `provideGridInitializerOptions` function, that provides grid initializer options
+- new `provideMetadataSelectorOptions` function, that provides metadata selector options
+- new `provideNoDataRendererOptions` function, that provides no data renderer options
+- new `providePagingOptions` function, that provides paging options
+- new `provideOrderingOptions` function, that provides ordering options
+- new `provideRowSelectorOptions` function, that provides row selector options
 - updated `DialogMetadataSelectorComponentData` interface
    - **new methods**
       - `resetMetadata` resets metadata to default

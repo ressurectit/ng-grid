@@ -1,4 +1,4 @@
-import {InjectionToken} from '@angular/core';
+import {InjectionToken, Type} from '@angular/core';
 import {RecursivePartial} from '@jscrpt/common';
 
 import {ContentRenderer, CurrentViewContainer, ContentRendererOptions, DataLoader, DataLoaderOptions, Grid, GridInitializer, GridInitializerOptions, GridOptions, GridOrderableCell, MetadataGatherer, MetadataSelector, MetadataSelectorOptions, NoDataRenderer, NoDataRendererOptions, Ordering, OrderingOptions, Paging, PagingOptions, RowSelector, RowSelectorOptions, VisualPluginOptions, GridPluginInstances} from '../interfaces';
@@ -52,42 +52,42 @@ export const GRID_OPTIONS: InjectionToken<RecursivePartial<GridOptions>> = new I
 /**
  * Injection token for 'Paging' implementation
  */
-export const PAGING_TYPE: InjectionToken<Paging> = new InjectionToken<Paging>('PAGING_TYPE');
+export const PAGING_TYPE: InjectionToken<Type<Paging>> = new InjectionToken<Type<Paging>>('PAGING_TYPE');
 
 /**
  * Injection token for 'Ordering' implementation
  */
-export const ORDERING_TYPE: InjectionToken<Ordering> = new InjectionToken<Ordering>('ORDERING');
+export const ORDERING_TYPE: InjectionToken<Type<Ordering>> = new InjectionToken<Type<Ordering>>('ORDERING');
 
 /**
  * Injection token for 'GridInitializer' implementation
  */
-export const GRID_INITIALIZER_TYPE: InjectionToken<GridInitializer> = new InjectionToken<GridInitializer>('GRID_INITIALIZER_TYPE');
+export const GRID_INITIALIZER_TYPE: InjectionToken<Type<GridInitializer>> = new InjectionToken<Type<GridInitializer>>('GRID_INITIALIZER_TYPE');
 
 /**
  * Injection token for 'DataLoader' implementation
  */
-export const DATA_LOADER_TYPE: InjectionToken<DataLoader> = new InjectionToken<DataLoader>('DATA_LOADER_TYPE');
+export const DATA_LOADER_TYPE: InjectionToken<Type<DataLoader>> = new InjectionToken<Type<DataLoader>>('DATA_LOADER_TYPE');
 
 /**
  * Injection token for 'ContentRenderer' implementation
  */
-export const CONTENT_RENDERER_TYPE: InjectionToken<ContentRenderer> = new InjectionToken<ContentRenderer>('CONTENT_RENDERER_TYPE');
+export const CONTENT_RENDERER_TYPE: InjectionToken<Type<ContentRenderer>> = new InjectionToken<Type<ContentRenderer>>('CONTENT_RENDERER_TYPE');
 
 /**
  * Injection token for 'MetadataSelector' implementation
  */
-export const METADATA_SELECTOR_TYPE: InjectionToken<MetadataSelector> = new InjectionToken<MetadataSelector>('METADATA_SELECTOR_TYPE');
+export const METADATA_SELECTOR_TYPE: InjectionToken<Type<MetadataSelector>> = new InjectionToken<Type<MetadataSelector>>('METADATA_SELECTOR_TYPE');
 
 /**
  * Injection token for 'NoDataRenderer' implementation
  */
-export const NO_DATA_RENDERER_TYPE: InjectionToken<NoDataRenderer> = new InjectionToken<NoDataRenderer>('NO_DATA_RENDERER_TYPE');
+export const NO_DATA_RENDERER_TYPE: InjectionToken<Type<NoDataRenderer>> = new InjectionToken<Type<NoDataRenderer>>('NO_DATA_RENDERER_TYPE');
 
 /**
  * Injection token for 'RowSelector' implementation
  */
-export const ROW_SELECTOR_TYPE: InjectionToken<RowSelector> = new InjectionToken<RowSelector>('ROW_SELECTOR_TYPE');
+export const ROW_SELECTOR_TYPE: InjectionToken<Type<RowSelector>> = new InjectionToken<Type<RowSelector>>('ROW_SELECTOR_TYPE');
 
 /**
  * Token for injecting options for content renderer
