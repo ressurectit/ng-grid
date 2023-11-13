@@ -33,7 +33,6 @@ const defaultOptions: CssDivsBodyContentRendererOptions =
 {
     selector: 'div.content-renderer-body',
     templateUrl: 'cssDivsBodyContentRenderer.component.html',
-    styleUrl: 'cssDivsBodyContentRenderer.component.css',
     standalone: true,
     imports:
     [

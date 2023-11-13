@@ -31,7 +31,6 @@ const defaultOptions: TableHeaderContentRendererOptions =
 {
     selector: 'thead.content-renderer',
     templateUrl: 'tableHeaderContentRenderer.component.html',
-    styleUrls: ['tableHeaderContentRenderer.component.css'],
     standalone: true,
     imports:
     [

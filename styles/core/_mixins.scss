@@ -3,10 +3,13 @@
 
 @use 'misc';
 @use '../components/basic-paging' as basicPaging;
+@use '../components/css-divs-content-renderer' as cssDivsContentRenderer;
 @use '../components/dialog-metadata-selector' as dialogMetadataSelector;
+@use '../components/grid' as grid;
 @use '../components/matrix-content-renderer' as matrixContentRenderer;
 @use '../components/next-previous-paging' as nextPreviousPaging;
 @use '../components/simple-no-data-renderer' as simpleNoDataRenderer;
+@use '../components/table-content-renderer' as tableContentRenderer;
 @use '../components/vertical-drag-drop-selection' as verticalDragDropSelection;
 
 @mixin buildThemeColors($theme)
@@ -23,11 +26,14 @@
 @mixin buildThemeCss
 {
     @include misc.misc;
-    @include dialogMetadataSelector.css;
     @include basicPaging.css;
+    @include cssDivsContentRenderer.css;
+    @include dialogMetadataSelector.css;
+    @include grid.css;
     @include matrixContentRenderer.css;
     @include nextPreviousPaging.css;
     @include simpleNoDataRenderer.css;
+    @include tableContentRenderer.css;
     @include verticalDragDropSelection.css;
 }
 

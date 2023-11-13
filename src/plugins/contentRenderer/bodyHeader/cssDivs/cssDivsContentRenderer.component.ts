@@ -49,7 +49,6 @@ const defaultOptions: CssDivsContentRendererOptions =
 {
     selector: 'div.css-grid-content-renderer',
     templateUrl: 'cssDivsContentRenderer.component.html',
-    styleUrl: 'cssDivsContentRenderer.component.css',
     standalone: true,
     imports:
     [

@@ -1,0 +1,9 @@
+@mixin css
+{
+    ng-grid,
+    [ngGrid]
+    {
+        display: flex;
+        flex-direction: column;
+    }
+}

@@ -11,7 +11,7 @@ export * from './modules';
 export * from './pipes';
 export * from './plugins';
 
-//TODO: styles in datetime style
+//TODO: colors as css variables
 //TODO: use inject in base classes also in plugins
 //TODO: maybe unify id and name and use only one (ID)??
 //TODO: maybe add ordering to permanent grid initializer

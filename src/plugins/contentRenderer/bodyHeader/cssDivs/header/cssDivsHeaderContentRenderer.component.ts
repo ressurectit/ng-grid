@@ -32,7 +32,6 @@ const defaultOptions: CssDivsHeaderContentRendererOptions =
 {
     selector: 'div.content-renderer-header',
     templateUrl: 'cssDivsHeaderContentRenderer.component.html',
-    styleUrls: ['cssDivsHeaderContentRenderer.component.css'],
     standalone: true,
     imports:
     [

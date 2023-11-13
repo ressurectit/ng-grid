@@ -87,7 +87,6 @@ const defaultOptions: GridOptions =
 {
     selector: 'ng-grid',
     templateUrl: 'grid.component.html',
-    styleUrls: ['grid.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     imports:
