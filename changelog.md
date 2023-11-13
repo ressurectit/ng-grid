@@ -331,6 +331,9 @@
    - **new properties**
       - `rowClick` callback allows handle click on the row
       - `rowCssClass` callback called for each row with data for row returning css class, that will be applied to row element
+- updated `DataLoaderOptions` interface
+   - **new properties**
+      - `accumulateData` indication whether accumulate data with next paging result
 - updated `GridPluginInstances` interface
    - **new properties**
       - `contentRenderer` instance of content renderer that renders obtained data

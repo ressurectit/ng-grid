@@ -16,6 +16,11 @@ export interface DataLoaderOptions extends PluginOptions
     autoLoadData: boolean;
 
     /**
+     * Indication whether accumulate data with next paging result
+     */
+    accumulateData: boolean;
+
+    /**
      * Number of miliseconds that are used for debounce call of dataCallback
      */
     debounceDataCallback: number;

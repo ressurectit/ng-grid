@@ -16,6 +16,7 @@ import {DataLoaderState} from '../../../misc/enums';
 const defaultOptions: SyncDataLoaderOptions<Record<string, number>, SimpleOrdering> =
 {
     autoLoadData: true,
+    accumulateData: false,
     debounceDataCallback: 30,
     data: [],
     orderData: (data: Record<string, number>[], ordering?: SimpleOrdering) =>
@@ -115,7 +116,7 @@ export class SyncDataLoaderSAComponent<TData = unknown, TOrdering = unknown> ext
 
         this.ɵresult.set(
         {
-            data: data,
+            data: this.ɵoptions.accumulateData ? [...this.ɵresult().data, ...data] : data,
             totalCount: this.ɵoptions.data.length
         });
     }

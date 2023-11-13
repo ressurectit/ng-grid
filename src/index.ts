@@ -15,4 +15,3 @@ export * from './plugins';
 //TODO: use inject in base classes also in plugins
 //TODO: maybe unify id and name and use only one (ID)??
 //TODO: maybe add ordering to permanent grid initializer
-//TODO: data loader for incremental data, maybe just options

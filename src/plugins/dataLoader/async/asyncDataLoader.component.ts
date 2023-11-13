@@ -12,6 +12,7 @@ import {DataLoaderState} from '../../../misc/enums';
 const defaultOptions: AsyncDataLoaderOptions =
 {
     autoLoadData: true,
+    accumulateData: false,
     debounceDataCallback: 30,
     dataCallback: () => new Promise<DataResponse<unknown>>(() => {return {data: [], totalCount: 0};}),
 };
@@ -72,6 +73,10 @@ export class AsyncDataLoaderSAComponent<TData = unknown, TOrdering = unknown> ex
         const result = await this.ɵoptions.dataCallback(this.paging?.page() ?? 1, this.paging?.itemsPerPage() ?? 0, this.ordering?.ordering());
 
         this.ɵstate.set((result && result.data && result.data.length) ? DataLoaderState.Loaded : DataLoaderState.NoData);
-        this.ɵresult.set(result);
+        this.ɵresult.set(
+        {
+            data: this.ɵoptions.accumulateData ? [...this.ɵresult().data, ...result.data] : result.data,
+            totalCount: result.totalCount,
+        });
     }
 }
