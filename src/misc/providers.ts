@@ -171,7 +171,7 @@ export function provideRowSelectorType(type: Type<RowSelector>): Provider
  * Provides content renderer options
  * @param options - Options for content renderer
  */
-export function provideContentRendererOptions(options: RecursivePartial<ContentRendererOptions>): Provider
+export function provideContentRendererOptions<TOptions extends ContentRendererOptions = ContentRendererOptions>(options: RecursivePartial<TOptions>): Provider
 {
     return <ValueProvider>{
         provide: CONTENT_RENDERER_OPTIONS,
@@ -183,7 +183,7 @@ export function provideContentRendererOptions(options: RecursivePartial<ContentR
  * Provides data loader options
  * @param options - Options for data loader
  */
-export function provideDataLoaderOptions(options: RecursivePartial<DataLoaderOptions>): Provider
+export function provideDataLoaderOptions<TOptions extends DataLoaderOptions = DataLoaderOptions>(options: RecursivePartial<TOptions>): Provider
 {
     return <ValueProvider>{
         provide: DATA_LOADER_OPTIONS,
@@ -195,7 +195,7 @@ export function provideDataLoaderOptions(options: RecursivePartial<DataLoaderOpt
  * Provides grid initializer options
  * @param options - Options for grid initializer
  */
-export function provideGridInitializerOptions(options: RecursivePartial<GridInitializerOptions>): Provider
+export function provideGridInitializerOptions<TOptions extends GridInitializerOptions = GridInitializerOptions>(options: RecursivePartial<TOptions>): Provider
 {
     return <ValueProvider>{
         provide: GRID_INITIALIZER_OPTIONS,
@@ -207,7 +207,7 @@ export function provideGridInitializerOptions(options: RecursivePartial<GridInit
  * Provides metadata selector options
  * @param options - Options for metadata selector
  */
-export function provideMetadataSelectorOptions(options: RecursivePartial<MetadataSelectorOptions>): Provider
+export function provideMetadataSelectorOptions<TOptions extends MetadataSelectorOptions = MetadataSelectorOptions>(options: RecursivePartial<TOptions>): Provider
 {
     return <ValueProvider>{
         provide: METADATA_SELECTOR_OPTIONS,
@@ -219,7 +219,7 @@ export function provideMetadataSelectorOptions(options: RecursivePartial<Metadat
  * Provides no data renderer options
  * @param options - Options for no data renderer
  */
-export function provideNoDataRendererOptions(options: RecursivePartial<NoDataRendererOptions>): Provider
+export function provideNoDataRendererOptions<TOptions extends NoDataRendererOptions = NoDataRendererOptions>(options: RecursivePartial<TOptions>): Provider
 {
     return <ValueProvider>{
         provide: NO_DATA_RENDERER_OPTIONS,
@@ -231,7 +231,7 @@ export function provideNoDataRendererOptions(options: RecursivePartial<NoDataRen
  * Provides paging options
  * @param options - Options for paging
  */
-export function providePagingOptions(options: RecursivePartial<PagingOptions>): Provider
+export function providePagingOptions<TOptions extends PagingOptions = PagingOptions>(options: RecursivePartial<TOptions>): Provider
 {
     return <ValueProvider>{
         provide: PAGING_OPTIONS,
@@ -243,7 +243,7 @@ export function providePagingOptions(options: RecursivePartial<PagingOptions>): 
  * Provides ordering options
  * @param options - Options for ordering
  */
-export function provideOrderingOptions(options: RecursivePartial<OrderingOptions>): Provider
+export function provideOrderingOptions<TOptions extends OrderingOptions = OrderingOptions>(options: RecursivePartial<TOptions>): Provider
 {
     return <ValueProvider>{
         provide: ORDERING_OPTIONS,
@@ -255,7 +255,7 @@ export function provideOrderingOptions(options: RecursivePartial<OrderingOptions
  * Provides row selector options
  * @param options - Options for row selector
  */
-export function provideRowSelectorOptions(options: RecursivePartial<RowSelectorOptions>): Provider
+export function provideRowSelectorOptions<TOptions extends RowSelectorOptions = RowSelectorOptions>(options: RecursivePartial<TOptions>): Provider
 {
     return <ValueProvider>{
         provide: ROW_SELECTOR_OPTIONS,
