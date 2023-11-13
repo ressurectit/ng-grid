@@ -73,14 +73,20 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
     //######################### protected fields #########################
 
     /**
-     * Signal used for setting updated columns
-     */
-    protected updatedColumns: WritableSignal<GridColumn[]|undefined|null> = signal(null);
-
-    /**
      * Instance of signal for obtaining metadata
      */
     protected metadataValue: Signal<TableGridMetadata<GridColumn>|undefined|null>;
+
+    /**
+     * Metadata for dialog component
+     */
+    protected metadataForDialogComponent: Signal<TableGridMetadata<GridColumn>> = computed(() =>
+    {
+        return {
+            ...this.allMetadata(),
+            columns: this.columnsForSelection(),
+        };
+    });
 
     /**
      * Options for grid plugin
@@ -123,9 +129,9 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
     protected dialogComponent: Type<unknown>|undefined|null;
 
     /**
-     * Metadata for selection, contains all metadata in correct order
+     * Columns for selection that are currently
      */
-    protected metadataForSelection: Signal<TableGridMetadata<GridColumn>>;
+    protected columnsForSelection: WritableSignal<GridColumn[]> = signal([]);
 
     //######################### public properties - implementation of DialogMetadataSelector #########################
 
@@ -166,51 +172,11 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
     {
         this.optionsValue = signal(extend(true, {}, defaultOptions, options));
 
-        this.metadataForSelection = computed(() =>
-        {
-            const storageState = this.loadFromStorage();
-            const allMetadata = this.allMetadata();
-            const columns = this.updatedColumns();
-
-            if(columns)
-            {
-                return {
-                    columns
-                };
-            }
-
-            if(storageState)
-            {
-                allMetadata?.columns.forEach(meta =>
-                {
-                    if(!meta.id)
-                    {
-                        throw new Error('Missing id for column to be stored in storage!');
-                    }
-
-                    meta.visible = !!storageState[meta.id]?.visible;
-                });
-
-                return {
-                    columns: Object.keys(storageState)
-                        .map(id => allMetadata?.columns.find(itm => itm.id == id))
-                        .filter(itm => !!itm)
-                        .concat(allMetadata?.columns.filter(meta => !storageState[meta.id ?? 0])) as GridColumn[]
-                };
-            }
-            else
-            {
-                return {
-                    columns: [...(allMetadata?.columns ?? [])]
-                };
-            }
-        });
-
         this.metadataValue = computed(() =>
         {
             return {
                 ...this.allMetadata(),
-                columns: this.metadataForSelection().columns.filter(itm => itm.visible),
+                columns: this.columnsForSelection().filter(itm => itm.visible),
             };
         });
     }
@@ -238,21 +204,18 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
             return;
         }
 
-        this.updatedColumns.set(null);
-
         this.dialog.open(this.dialogComponent,
         {
             data: <DialogMetadataSelectorComponentData<TableGridMetadata<GridColumn>, CssClassesVerticalDragNDropSelection, VerticalDragNDropSelectionTexts, VerticalDragNDropSelectionOptions>>
             {
-                metadata: this.metadataForSelection,
+                metadata: this.metadataForDialogComponent,
                 setMetadata: metadata =>
                 {
                     this.saveToStorage();
-                    this.updatedColumns.set([...metadata.columns]);
+                    this.columnsForSelection.set([...metadata.columns]);
                 },
                 resetMetadata: () =>
                 {
-                    this.updatedColumns.set(null);
                     this.resetMetadata();
                 },
                 cssClasses: this.options.cssClasses.dialogComponentClasses,
@@ -278,10 +241,10 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
         if(!allMetadata)
         {
             this.allMetadata.set(null);
+            this.initMetadata();
 
             return;
         }
-
 
         for(let x = 0; x < allMetadata.columns.length; x++)
         {
@@ -291,6 +254,7 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
         }
 
         this.allMetadata.set({...allMetadata});
+        this.initMetadata();
     }
 
     /**
@@ -326,6 +290,7 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
                 {
                     this.originalColumnsVisibility = allMetadata?.columns.map(itm => itm.visible) ?? [];
                     this.allMetadata.set(allMetadata);
+                    this.initMetadata();
                 });
 
             this.gathererInitialized = true;
@@ -353,7 +318,31 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
      */
     protected initMetadata(): void
     {
-        
+        const storageState = this.loadFromStorage();
+        const allMetadata = this.allMetadata();
+
+        if(storageState)
+        {
+            allMetadata?.columns.forEach(meta =>
+            {
+                if(!meta.id)
+                {
+                    throw new Error('Missing id for column to be stored in storage!');
+                }
+
+                meta.visible = !!storageState[meta.id]?.visible;
+            });
+
+            this.columnsForSelection.set(Object.keys(storageState)
+                .map(id => allMetadata?.columns.find(itm => itm.id == id))
+                .filter(itm => !!itm)
+                .concat(allMetadata?.columns.filter(meta => !storageState[meta.id ?? 0])) as GridColumn[]
+            );
+        }
+        else
+        {
+            this.columnsForSelection.set([...(allMetadata?.columns ?? [])]);
+        }
     }
 
     /**
@@ -368,7 +357,7 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
 
         const state: StorageState = {};
 
-        this.metadataForSelection().columns.forEach(meta =>
+        this.columnsForSelection().forEach(meta =>
         {
             if(!meta.id)
             {
