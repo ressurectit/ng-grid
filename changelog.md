@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 10.0.0 (2023-12-08)
+
+### Bug Fixes
+
+- fixed `DataLoaderAbstractComponent` not working `autoLoadData` option, which caused data loaders to automaticaly load data even when set to `false`
+
 ## Version 10.0.0 (2023-11-13)
 
 ### Bug Fixes

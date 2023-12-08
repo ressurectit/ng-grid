@@ -179,10 +179,10 @@ export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOpt
 
             this.pageChangedSubscription = toObservable(this.paging.page, {injector: this.injector})
                 .pipe(skip(1))
-                .subscribe(() => this.debounceSubject.next(false));
+                .subscribe(() => this.loadData());
             this.itemsPerPageChangedSubscription = toObservable(this.paging.itemsPerPage, {injector: this.injector})
                 .pipe(skip(1))
-                .subscribe(() => this.debounceSubject.next(false));
+                .subscribe(() => this.loadData());
         }
 
         const ordering: Ordering<TOrdering> = this.gridPlugins[GridPluginType.Ordering] as Ordering<TOrdering>;
@@ -201,7 +201,9 @@ export abstract class DataLoaderAbstractComponent<TOptions extends DataLoaderOpt
         {
             this.ordering = ordering;
 
-            this.orderingChangedSubscription = toObservable(this.ordering.ordering, {injector: this.injector}).subscribe(() => this.debounceSubject.next(false));
+            this.orderingChangedSubscription = toObservable(this.ordering.ordering, {injector: this.injector})
+                .pipe(skip(1))
+                .subscribe(() => this.loadData());
         }
 
         if(this.options.autoLoadData)
