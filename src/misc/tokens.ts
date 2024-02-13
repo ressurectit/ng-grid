@@ -138,3 +138,8 @@ export const ORDERING_OPTIONS: InjectionToken<RecursivePartial<OrderingOptions>>
  * Token for injecting options for row selector
  */
 export const ROW_SELECTOR_OPTIONS: InjectionToken<RecursivePartial<RowSelectorOptions>> = new InjectionToken<RecursivePartial<RowSelectorOptions>>('ROW_SELECTOR_OPTIONS');
+
+/**
+ * Token for injecting default matrix column width
+ */
+export const DEFAULT_MATRIX_COLUMN_WIDTH: InjectionToken<string> = new InjectionToken<string>('DEFAULT_MATRIX_COLUMN_WIDTH', {providedIn: 'root', factory: () => '1fr'});

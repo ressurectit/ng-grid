@@ -35,6 +35,12 @@ export class FooterRowContainerTemplateSADirective
     @Input({alias: 'footerRowContainerTemplate', transform: rowColumnsAttribute})
     public columns: string[]|undefined|null;
 
+    /**
+     * Indication whether list of columns will be excluded, not included in this row
+     */
+    @Input('footerRowContainerTemplateExclude')
+    public exclude: boolean = false;
+
     //######################### ng language server #########################
     
     /**

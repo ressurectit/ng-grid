@@ -46,7 +46,7 @@ export interface MatrixGridMetadata<TColumn extends GridColumn = GridColumn> ext
     /**
      * Template for grid container, with metadata
      */
-    gridContainer: GridContainerTemplateSADirective|undefined|null;
+    gridContainer: GridContainerTemplateSADirective|GridContainerTemplateSADirective[]|undefined|null;
 
     /**
      * Template for grid header, with metadata

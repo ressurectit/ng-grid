@@ -2,7 +2,7 @@ import {FactoryProvider, Provider, Type, ValueProvider, inject} from '@angular/c
 import {RecursivePartial} from '@jscrpt/common';
 
 import {CellContextFactoryFn, DataCellContextFactoryFn} from './types';
-import {CELL_CONTEXT_FN, CONTENT_RENDERER_OPTIONS, CONTENT_RENDERER_TYPE, DATA_CELL_CONTEXT_FN, DATA_LOADER_OPTIONS, DATA_LOADER_TYPE, GRID_INITIALIZER_OPTIONS, GRID_INITIALIZER_TYPE, GRID_OPTIONS, METADATA_SELECTOR_OPTIONS, METADATA_SELECTOR_TYPE, NO_DATA_RENDERER_OPTIONS, NO_DATA_RENDERER_TYPE, ORDERING_OPTIONS, ORDERING_TYPE, PAGING_OPTIONS, PAGING_TYPE, ROW_SELECTOR_OPTIONS, ROW_SELECTOR_TYPE} from './tokens';
+import {CELL_CONTEXT_FN, CONTENT_RENDERER_OPTIONS, CONTENT_RENDERER_TYPE, DATA_CELL_CONTEXT_FN, DATA_LOADER_OPTIONS, DATA_LOADER_TYPE, DEFAULT_MATRIX_COLUMN_WIDTH, GRID_INITIALIZER_OPTIONS, GRID_INITIALIZER_TYPE, GRID_OPTIONS, METADATA_SELECTOR_OPTIONS, METADATA_SELECTOR_TYPE, NO_DATA_RENDERER_OPTIONS, NO_DATA_RENDERER_TYPE, ORDERING_OPTIONS, ORDERING_TYPE, PAGING_OPTIONS, PAGING_TYPE, ROW_SELECTOR_OPTIONS, ROW_SELECTOR_TYPE} from './tokens';
 import {ContentRenderer, ContentRendererOptions, DataLoader, DataLoaderOptions, GridInitializer, GridInitializerOptions, GridOptions, MetadataSelector, MetadataSelectorOptions, NoDataRenderer, NoDataRendererOptions, Ordering, OrderingOptions, Paging, PagingOptions, RowSelector, RowSelectorOptions} from '../interfaces';
 
 /**
@@ -260,5 +260,17 @@ export function provideRowSelectorOptions<TOptions extends RowSelectorOptions = 
     return <ValueProvider>{
         provide: ROW_SELECTOR_OPTIONS,
         useValue: options,
+    };
+}
+
+/**
+ * Provides default matrix column width
+ * @param width - Default width of matrix column
+ */
+export function provideDefaultMatrixColumnWidth(width: string): Provider
+{
+    return <ValueProvider>{
+        provide: DEFAULT_MATRIX_COLUMN_WIDTH,
+        useValue: width,
     };
 }

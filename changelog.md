@@ -1,6 +1,41 @@
 # Changelog
 
-## Version 10.0.0 (2023-12-08)
+## Version 10.1.0 (2024-02-13)
+
+### Features
+
+- new `DEFAULT_MATRIX_COLUMN_WIDTH` injection token, that is used for injecting default matrix column width
+- new `provideDefaultMatrixColumnWidth` function, that provides default matrix column width
+- updated `MatrixContentRendererSAComponent` component
+   - now supports excluding of columns for row definition
+   - now supports rendering multiple grid containers with specifying columns and exclude
+- updated `MatrixGridSAComponent` component
+   - now supports multipe `GridContainerTemplateSADirective`
+- updated `HeaderRowContainerTemplateSADirective` directive
+   - **new inputs**
+      - `headerRowContainerTemplateExclude` indication whether list of columns will be excluded, not included in this row
+- new `provideDefaultMatrixColumnWidth` function, that provides default matrix column width
+- updated `ContentRowContainerTemplateSADirective` directive
+   - **new inputs**
+      - `contentRowContainerTemplateExclude` indication whether list of columns will be excluded, not included in this row
+- new `provideDefaultMatrixColumnWidth` function, that provides default matrix column width
+- updated `FooterRowContainerTemplateSADirective` directive
+   - **new inputs**
+      - `footerRowContainerTemplateExclude` indication whether list of columns will be excluded, not included in this row
+- updated `GridContainerTemplateSADirective` directive
+   - **new inputs**
+      - `gridContainerTemplate` array of column ids to be rendered in this grid container, if not specified or null all available columns will be rendered
+      - `gridContainerTemplateExclude` indication whether list of columns will be excluded, not included in this grid container
+- updated `GridContext` interface
+   - **new properties**
+      - `gridColumns` all currently available columns metadata for current grid container
+- updated `MatrixGridModule` module,
+   - now exports also `CssGridTemplateColumnsSAPipe`
+- updated `MatrixGridMetadata` interface
+   - **properties**
+      - `gridContainer` can now also be an array
+
+## Version 10.0.1 (2023-12-08)
 
 ### Bug Fixes
 

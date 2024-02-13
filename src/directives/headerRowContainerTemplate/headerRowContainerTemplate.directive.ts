@@ -35,6 +35,12 @@ export class HeaderRowContainerTemplateSADirective
     @Input({alias: 'headerRowContainerTemplate', transform: rowColumnsAttribute})
     public columns: string[]|undefined|null;
 
+    /**
+     * Indication whether list of columns will be excluded, not included in this row
+     */
+    @Input('headerRowContainerTemplateExclude')
+    public exclude: boolean = false;
+
     //######################### ng language server #########################
     
     /**

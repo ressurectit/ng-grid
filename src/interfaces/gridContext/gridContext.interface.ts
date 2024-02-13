@@ -29,6 +29,11 @@ export interface GridContext<TData = unknown, TColumnMetadata extends MatrixGrid
     readonly columns: TColumnMetadata[];
 
     /**
+     * All currently available columns metadata for current grid container
+     */
+    readonly gridColumns: TColumnMetadata[];
+
+    /**
      * Css classes used for rendering content
      */
     readonly contentCssClasses: CssClassesMatrixContentRenderer;

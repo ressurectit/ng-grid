@@ -229,7 +229,7 @@ export class MatrixGridSAComponent extends GridSAComponent implements Grid, Meta
         this.metadataValue.set(
         {
             columns: this.columns?.toArray() ?? [],
-            gridContainer: this.gridContainer?.first,
+            gridContainer: this.gridContainer?.toArray() ?? [],
             headerContainer: this.headerContainer?.first,
             contentContainer: this.contentContainer?.first,
             footerContainer: this.footerContainer?.first,

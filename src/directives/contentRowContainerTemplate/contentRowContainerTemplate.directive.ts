@@ -35,6 +35,12 @@ export class ContentRowContainerTemplateSADirective
     @Input({alias: 'contentRowContainerTemplate', transform: rowColumnsAttribute})
     public columns: string[]|undefined|null;
 
+    /**
+     * Indication whether list of columns will be excluded, not included in this row
+     */
+    @Input('contentRowContainerTemplateExclude')
+    public exclude: boolean = false;
+
     //######################### ng language server #########################
     
     /**

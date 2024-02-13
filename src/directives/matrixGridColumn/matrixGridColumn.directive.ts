@@ -1,9 +1,10 @@
-import {Input, TemplateRef, Directive, ContentChild} from '@angular/core';
+import {Input, TemplateRef, Directive, ContentChild, inject} from '@angular/core';
 
 import {MatrixGridColumn, GridCellContext, GridDataCellContext} from '../../interfaces';
 import {HeaderCellTemplateSADirective} from '../headerCellTemplate/headerCellTemplate.directive';
 import {FooterCellTemplateSADirective} from '../footerCellTemplate/footerCellTemplate.directive';
 import {ContentCellTemplateSADirective} from '../contentCellTemplate/contentCellTemplate.directive';
+import {DEFAULT_MATRIX_COLUMN_WIDTH} from '../../misc/tokens';
 
 /**
  * Directive for gathering information about matrix grid column
@@ -39,7 +40,7 @@ export class MatrixGridColumnSADirective<TData = unknown> implements MatrixGridC
      * @inheritdoc
      */
     @Input()
-    public width: string|undefined|null = '1fr';
+    public width: string|undefined|null = inject(DEFAULT_MATRIX_COLUMN_WIDTH);
 
     /**
      * @inheritdoc
