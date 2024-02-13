@@ -7,6 +7,7 @@ export * from './footerCellTemplate/footerCellTemplate.directive';
 export * from './footerContainerTemplate/footerContainerTemplate.directive';
 export * from './footerRowContainerTemplate/footerRowContainerTemplate.directive';
 export * from './gridContainerTemplate/gridContainerTemplate.directive';
+export * from './gridData/gridData.directive';
 export * from './headerCellTemplate/headerCellTemplate.directive';
 export * from './headerContainerTemplate/headerContainerTemplate.directive';
 export * from './headerRowContainerTemplate/headerRowContainerTemplate.directive';

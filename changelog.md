@@ -6,6 +6,11 @@
 
 - new `DEFAULT_MATRIX_COLUMN_WIDTH` injection token, that is used for injecting default matrix column width
 - new `provideDefaultMatrixColumnWidth` function, that provides default matrix column width
+- new `GridDataSADirective` directive, that sets up static data for grid
+   - **implements**
+      - `onChanges`
+   - **inputs**
+      - `data` array of data that are displayed
 - updated `MatrixContentRendererSAComponent` component
    - now supports excluding of columns for row definition
    - now supports rendering multiple grid containers with specifying columns and exclude
