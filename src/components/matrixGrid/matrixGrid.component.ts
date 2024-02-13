@@ -1,6 +1,7 @@
 import {Component, ChangeDetectionStrategy, forwardRef, FactoryProvider, ExistingProvider, ValueProvider, AfterContentInit, ContentChildren, QueryList, WritableSignal, signal, Signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CommonDynamicModule} from '@anglr/common';
+import {BindThis} from '@jscrpt/common';
 
 import {GridSAComponent} from '../grid/grid.component';
 import {AsyncDataLoaderSAComponent, BasicPagingSAComponent, MatrixContentRendererSAComponent, NoGridInitializerSAComponent, NoMetadataSelectorSAComponent, NoRowSelectorSAComponent, SimpleNoDataRendererSAComponent, SingleOrderingSAComponent} from '../../plugins';
@@ -207,14 +208,14 @@ export class MatrixGridSAComponent extends GridSAComponent implements Grid, Meta
      */
     public ngAfterContentInit(): void
     {
-        this.gridContainer?.changes.subscribe(() => this.setMetadata());
-        this.headerContainer?.changes.subscribe(() => this.setMetadata());
-        this.contentContainer?.changes.subscribe(() => this.setMetadata());
-        this.footerContainer?.changes.subscribe(() => this.setMetadata());
-        this.headerRowContainer?.changes.subscribe(() => this.setMetadata());
-        this.contentRowContainer?.changes.subscribe(() => this.setMetadata());
-        this.footerRowContainer?.changes.subscribe(() => this.setMetadata());
-        this.columns?.changes.subscribe(() => this.setMetadata());
+        this.gridContainer?.changes.subscribe(this.setMetadata);
+        this.headerContainer?.changes.subscribe(this.setMetadata);
+        this.contentContainer?.changes.subscribe(this.setMetadata);
+        this.footerContainer?.changes.subscribe(this.setMetadata);
+        this.headerRowContainer?.changes.subscribe(this.setMetadata);
+        this.contentRowContainer?.changes.subscribe(this.setMetadata);
+        this.footerRowContainer?.changes.subscribe(this.setMetadata);
+        this.columns?.changes.subscribe(this.setMetadata);
 
         this.setMetadata();
     }
@@ -224,12 +225,13 @@ export class MatrixGridSAComponent extends GridSAComponent implements Grid, Meta
     /**
      * Sets metadata
      */
+    @BindThis
     public setMetadata(): void
     {
         this.metadataValue.set(
         {
             columns: this.columns?.toArray() ?? [],
-            gridContainer: this.gridContainer?.toArray() ?? [],
+            gridContainer: this.gridContainer?.length ? this.gridContainer?.toArray() : null,
             headerContainer: this.headerContainer?.first,
             contentContainer: this.contentContainer?.first,
             footerContainer: this.footerContainer?.first,
