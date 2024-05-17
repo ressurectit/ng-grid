@@ -39,6 +39,11 @@
 - updated `MatrixGridMetadata` interface
    - **properties**
       - `gridContainer` can now also be an array
+- *subpackage* `@anglr/grid/material`
+   - new `SelectionStoreDirective` directive, that sets metadata selector storage name
+      - is `standalone`
+      - **attributes**
+         - `selectionStore` name of store to be set up
 
 ## Version 10.0.1 (2023-12-08)
 
