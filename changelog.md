@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 10.1.0 (2024-02-13)
+## Version 10.1.0 (2024-05-17)
 
 ### Features
 
