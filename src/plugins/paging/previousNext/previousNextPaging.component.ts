@@ -162,6 +162,8 @@ export class PreviousNextPagingSAComponent extends PagingAbstractComponent<CssCl
 
             return this.paginator.isLast();
         });
+
+        this.changeDetector.detectChanges();
     }
 
     //######################### protected methods - template methods #########################

@@ -1,4 +1,4 @@
-import {Injectable, ElementRef, Injector, inject, WritableSignal, signal, Signal, computed} from '@angular/core';
+import {Injectable, ElementRef, Injector, inject, WritableSignal, signal, Signal, computed, ChangeDetectorRef} from '@angular/core';
 import {RecursivePartial, extend, isPresent} from '@jscrpt/common';
 
 import {DataLoader, DataResponse, GridInitializer, GridPlugin, GridPluginInstances, Paging, PagingOptions} from '../../interfaces';
@@ -32,6 +32,11 @@ export abstract class PagingAbstractComponent<TCssClasses = unknown, TOptions ex
      * Angular injector used for injecting dependencies
      */
     protected injector: Injector = inject(Injector);
+
+    /**
+     * Instance of change detector
+     */
+    protected changeDetector: ChangeDetectorRef = inject(ChangeDetectorRef);
 
     //######################### protected properties - template bindings #########################
 

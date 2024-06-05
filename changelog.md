@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 10.1.1 (2024-06-05)
+
+### Bug Fixes
+
+- fixed `BasicPagingSAComponent` component when in some cases does not render pages
+- fixed `LoadMorePagingSAComponent` component when in some cases does not render button for loading more pages
+- fixed `PreviousNextPagingSAComponent` component when in some cases does not render buttons for next previous correctly
+
 ## Version 10.1.0 (2024-05-17)
 
 ### Features

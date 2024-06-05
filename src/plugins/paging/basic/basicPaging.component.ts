@@ -269,6 +269,8 @@ export class BasicPagingSAComponent extends PagingAbstractComponent<CssClassesBa
 
             return result;
         });
+
+        this.changeDetector.detectChanges();
     }
 
     //######################### protected methods - template bindings #########################

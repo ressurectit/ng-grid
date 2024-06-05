@@ -85,6 +85,8 @@ export class LoadMorePagingSAComponent  extends PagingAbstractComponent<CssClass
         await super.initialize(force);
 
         this.moreAvailable = computed(() => (this.displayedPages * (this.itemsPerPageValue() ?? 0)) < this.totalCount());
+        
+        this.changeDetector.detectChanges();
     }
 
     //######################### protected methods - template bindings #########################
