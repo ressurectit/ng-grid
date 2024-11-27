@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 10.1.2 (2024-11-27)
+
+### Bug Fixes
+
+- fixed problem caused after upgrade to `Angular 19`, when grid without data does not display its columns (initialization order problem)
+
 ## Version 10.1.1 (2024-06-05)
 
 ### Bug Fixes

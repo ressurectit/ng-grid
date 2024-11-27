@@ -284,14 +284,20 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
                 throw new Error('DialogMetadataSelectorSAComponent: missing metadata gatherer!');
             }
 
+            const initMetadataFn = (allMetadata: TableGridMetadata<GridColumn>) =>
+            {
+                this.originalColumnsVisibility = allMetadata?.columns.map(itm => itm.visible) ?? [];
+                this.allMetadata.set(allMetadata);
+                this.initMetadata();
+            };
+
+            //TODO: do this differently, now there will be probably dual initialization
+
             this.metadataChangedSubscription?.unsubscribe();
             this.metadataChangedSubscription = toObservable(this.metadataGatherer.metadata, {injector: this.injector})
-                .subscribe(allMetadata =>
-                {
-                    this.originalColumnsVisibility = allMetadata?.columns.map(itm => itm.visible) ?? [];
-                    this.allMetadata.set(allMetadata);
-                    this.initMetadata();
-                });
+                .subscribe(initMetadataFn);
+
+            initMetadataFn(this.metadataGatherer.metadata());
 
             this.gathererInitialized = true;
         }
