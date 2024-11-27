@@ -5,7 +5,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {PermanentStorage, PERMANENT_STORAGE, LocalizeSAPipe} from '@anglr/common';
 import {GridColumn, GridPlugin, MetadataGatherer, TableGridMetadata, GridPluginInstances, GRID_PLUGIN_INSTANCES, METADATA_SELECTOR_OPTIONS} from '@anglr/grid';
 import {extend} from '@jscrpt/common';
-import {Subscription} from 'rxjs';
+import {skip, Subscription} from 'rxjs';
 
 import {DialogMetadataSelectorOptions, DialogMetadataSelector, DialogMetadataSelectorComponentData} from './dialogMetadataSelector.interface';
 import {VerticalDragNDropSelectionSAComponent, type CssClassesVerticalDragNDropSelection, type VerticalDragNDropSelectionTexts, VerticalDragNDropSelectionOptions} from '../../../components';
@@ -291,10 +291,9 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
                 this.initMetadata();
             };
 
-            //TODO: do this differently, now there will be probably dual initialization
-
             this.metadataChangedSubscription?.unsubscribe();
             this.metadataChangedSubscription = toObservable(this.metadataGatherer.metadata, {injector: this.injector})
+                .pipe(skip(1))
                 .subscribe(initMetadataFn);
 
             initMetadataFn(this.metadataGatherer.metadata());
