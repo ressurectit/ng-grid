@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, ElementRef, Inject, Injector, OnDestroy, Optional, Signal, WritableSignal, inject, signal} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
-import {OrderByDirection, RecursivePartial, extend} from '@jscrpt/common';
+import {OrderByDirection, RecursivePartial} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 import {Subscription} from 'rxjs';
 
 import {SingleOrdering, SingleOrderingOptions} from './singleOrdering.interface';
@@ -30,10 +31,9 @@ const defaultOptions: SingleOrderingOptions =
 {
     selector: 'ng-single-ordering',
     template: '',
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SingleOrderingSAComponent implements SingleOrdering, OnDestroy
+export class SingleOrderingComponent implements SingleOrdering, OnDestroy
 {
     //######################### protected fields #########################
 
@@ -106,7 +106,7 @@ export class SingleOrderingSAComponent implements SingleOrdering, OnDestroy
     }
 
     //######################### public methods - implementation of OnDestroy #########################
-    
+
     /**
      * Called when component is destroyed
      */
@@ -138,7 +138,7 @@ export class SingleOrderingSAComponent implements SingleOrdering, OnDestroy
 
         if(!ordering || ordering.orderBy != columnId)
         {
-            newOrdering = 
+            newOrdering =
             {
                 orderByDirection: OrderByDirection.Ascending,
                 orderBy: columnId,
@@ -148,7 +148,7 @@ export class SingleOrderingSAComponent implements SingleOrdering, OnDestroy
         }
         else if(ordering.orderByDirection == OrderByDirection.Ascending)
         {
-            newOrdering = 
+            newOrdering =
             {
                 orderByDirection: OrderByDirection.Descending,
                 orderBy: columnId
@@ -192,7 +192,7 @@ export class SingleOrderingSAComponent implements SingleOrdering, OnDestroy
     {
         if(!this.gridPlugins)
         {
-            throw new Error('SingleOrderingSAComponent: missing gridPlugins!');
+            throw new Error('SingleOrderingComponent: missing gridPlugins!');
         }
 
         const gridInitializer: GridInitializer<SimpleOrdering> = this.gridPlugins.gridInitializer as GridInitializer<SimpleOrdering>;
@@ -248,13 +248,13 @@ export class SingleOrderingSAComponent implements SingleOrdering, OnDestroy
     //######################### protected methods #########################
 
     /**
-     * Checks columns 
+     * Checks columns
      */
     protected checkColumns(): void
     {
         if(!this.metadataSelector)
         {
-            throw new Error('SingleOrderingSAComponent: metadata selector is missing!');
+            throw new Error('SingleOrderingComponent: metadata selector is missing!');
         }
 
         const ordering = this.ordering();

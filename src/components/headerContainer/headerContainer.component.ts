@@ -9,9 +9,8 @@ import {RenderableContentComponent} from '../renderableContent/renderableContent
 {
     selector: '[headerContainer]',
     templateUrl: '../renderableContent/renderableContent.component.html',
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HeaderContainerSAComponent extends RenderableContentComponent
+export class HeaderContainerComponent extends RenderableContentComponent
 {
 }

@@ -1,6 +1,7 @@
 import {Component, ChangeDetectionStrategy, ElementRef, Inject, Optional, OnDestroy, WritableSignal, signal, Signal, inject, Injector} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
-import {RecursivePartial, extend, isBlank} from '@jscrpt/common';
+import {RecursivePartial, isBlank} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 import {Subscription} from 'rxjs';
 
 import {BasicRowSelectorOptions, BasicRowSelector} from './basicRowSelector.interface';
@@ -31,10 +32,9 @@ const defaultOptions: BasicRowSelectorOptions =
 {
     selector: 'ng-basic-row-selector',
     template: '',
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BasicRowSelectorSAComponent<TSelectedData = unknown, TData = unknown, TId = unknown> implements BasicRowSelector<TSelectedData, TData, TId>, GridPlugin<BasicRowSelectorOptions<TSelectedData, TData, TId>>, OnDestroy
+export class BasicRowSelectorComponent<TSelectedData = unknown, TData = unknown, TId = unknown> implements BasicRowSelector<TSelectedData, TData, TId>, GridPlugin<BasicRowSelectorOptions<TSelectedData, TData, TId>>, OnDestroy
 {
     //######################### protected fields #########################
 
@@ -143,7 +143,7 @@ export class BasicRowSelectorSAComponent<TSelectedData = unknown, TData = unknow
     {
         if(isBlank(this.options.getRowId))
         {
-            throw new Error('BasicRowSelectorSAComponent: Missing "getRowId" method in options before first use!');
+            throw new Error('BasicRowSelectorComponent: Missing "getRowId" method in options before first use!');
         }
 
         if(!this.options.multiSelection)
@@ -186,7 +186,7 @@ export class BasicRowSelectorSAComponent<TSelectedData = unknown, TData = unknow
     {
         if(isBlank(this.options.getRowId))
         {
-            throw new Error('BasicRowSelectorSAComponent: Missing "getRowId" method in options before first use!');
+            throw new Error('BasicRowSelectorComponent: Missing "getRowId" method in options before first use!');
         }
 
         const id = this.options.getRowId(item);
@@ -201,7 +201,7 @@ export class BasicRowSelectorSAComponent<TSelectedData = unknown, TData = unknow
     {
         if(!this.gridPlugins)
         {
-            throw new Error('BasicRowSelectorSAComponent: missing gridPlugins!');
+            throw new Error('BasicRowSelectorComponent: missing gridPlugins!');
         }
 
         const dataLoader: DataLoader = this.gridPlugins[GridPluginType.DataLoader] as DataLoader;

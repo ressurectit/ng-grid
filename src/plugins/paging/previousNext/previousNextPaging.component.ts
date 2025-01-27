@@ -35,7 +35,6 @@ const defaultOptions: PreviousNextPagingOptions =
 {
     selector: 'next-previous-paging',
     templateUrl: 'previousNextPaging.component.html',
-    standalone: true,
     imports:
     [
         CommonModule,
@@ -51,7 +50,7 @@ const defaultOptions: PreviousNextPagingOptions =
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PreviousNextPagingSAComponent extends PagingAbstractComponent<CssClassesPreviousNextPaging, PreviousNextPagingOptions> implements PreviousNextPaging<PreviousNextPagingOptions>
+export class PreviousNextPagingComponent extends PagingAbstractComponent<CssClassesPreviousNextPaging, PreviousNextPagingOptions> implements PreviousNextPaging<PreviousNextPagingOptions>
 {
     //######################### protected fields #########################
 

@@ -21,7 +21,6 @@ const defaultOptions: NoPagingOptions =
 {
     selector: 'ng-no-paging',
     template: '',
-    standalone: true,
     providers:
     [
         <ValueProvider>
@@ -32,7 +31,7 @@ const defaultOptions: NoPagingOptions =
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NoPagingSAComponent extends PagingAbstractComponent<unknown, NoPagingOptions> implements NoPaging<NoPagingOptions>
+export class NoPagingComponent extends PagingAbstractComponent<unknown, NoPagingOptions> implements NoPaging<NoPagingOptions>
 {
     //######################### public properties - implementation of NoPaging #########################
 

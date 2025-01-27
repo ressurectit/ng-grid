@@ -1,5 +1,6 @@
 import {Injectable, ElementRef, Injector, inject, WritableSignal, signal, Signal, computed, ChangeDetectorRef} from '@angular/core';
-import {RecursivePartial, extend, isPresent} from '@jscrpt/common';
+import {RecursivePartial, isPresent} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 
 import {DataLoader, DataResponse, GridInitializer, GridPlugin, GridPluginInstances, Paging, PagingOptions} from '../../interfaces';
 import {DEFAULT_OPTIONS, GRID_PLUGIN_INSTANCES, PAGING_OPTIONS} from '../../misc/tokens';

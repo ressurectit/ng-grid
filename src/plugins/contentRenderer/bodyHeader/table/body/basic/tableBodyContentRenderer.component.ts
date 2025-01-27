@@ -27,7 +27,6 @@ const defaultOptions: TableBodyContentRendererOptions =
 {
     selector: 'tbody.content-renderer',
     templateUrl: 'tableBodyContentRenderer.component.html',
-    standalone: true,
     imports:
     [
         CommonModule,
@@ -40,7 +39,7 @@ const defaultOptions: TableBodyContentRendererOptions =
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TableBodyContentRendererSAComponent<TData = unknown> extends BodyContentRendererAbstractComponent<TData, unknown, TableBodyContentRendererOptions<TData>, TableGridMetadata<TableGridColumn<TData>>>
+export class TableBodyContentRendererComponent<TData = unknown> extends BodyContentRendererAbstractComponent<TData, unknown, TableBodyContentRendererOptions<TData>, TableGridMetadata<TableGridColumn<TData>>>
 {
     //######################### constructor #########################
     constructor(pluginElement: ElementRef,

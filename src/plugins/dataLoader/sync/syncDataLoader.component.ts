@@ -51,10 +51,9 @@ const defaultOptions: SyncDataLoaderOptions<Record<string, number>, SimpleOrderi
 {
     selector: 'ng-sync-data-loader',
     template: '',
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SyncDataLoaderSAComponent<TData = unknown, TOrdering = unknown> extends DataLoaderAbstractComponent<SyncDataLoaderOptions<TData, TOrdering>, TOrdering, DataResponse<TData>> implements SyncDataLoader<TData>
+export class SyncDataLoaderComponent<TData = unknown, TOrdering = unknown> extends DataLoaderAbstractComponent<SyncDataLoaderOptions<TData, TOrdering>, TOrdering, DataResponse<TData>> implements SyncDataLoader<TData>
 {
     //######################### protected fields #########################
 

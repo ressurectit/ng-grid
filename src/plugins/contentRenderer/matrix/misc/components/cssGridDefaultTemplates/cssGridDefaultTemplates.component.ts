@@ -2,18 +2,18 @@ import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 import {MatrixContentRendererDefautTemplates} from '../../../matrixContentRenderer.interface';
-import {GridContainerSAComponent} from '../../../../../../components/gridContainer/gridContainer.component';
-import {ContentContainerSAComponent} from '../../../../../../components/contentContainer/contentContainer.component';
+import {GridContainerComponent} from '../../../../../../components/gridContainer/gridContainer.component';
+import {ContentContainerComponent} from '../../../../../../components/contentContainer/contentContainer.component';
 import {GridContainerTemplateDirective} from '../../../../../../directives/gridContainerTemplate/gridContainerTemplate.directive';
 import {ContentContainerTemplateDirective} from '../../../../../../directives/contentContainerTemplate/contentContainerTemplate.directive';
-import {BaseDefaultTemplatesSAComponent} from '../baseDefaultTemplates/baseDefaultTemplates.component';
-import {HeaderContainerSAComponent} from '../../../../../../components/headerContainer/headerContainer.component';
-import {FooterContainerSAComponent} from '../../../../../../components/footerContainer/footerContainer.component';
+import {BaseDefaultTemplatesComponent} from '../baseDefaultTemplates/baseDefaultTemplates.component';
+import {HeaderContainerComponent} from '../../../../../../components/headerContainer/headerContainer.component';
+import {FooterContainerComponent} from '../../../../../../components/footerContainer/footerContainer.component';
 import {FooterContainerTemplateDirective} from '../../../../../../directives/footerContainerTemplate/footerContainerTemplate.directive';
 import {HeaderContainerTemplateDirective} from '../../../../../../directives/headerContainerTemplate/headerContainerTemplate.directive';
-import {HeaderRowContainerSAComponent} from '../../../../../../components/headerRowContainer/headerRowContainer.component';
-import {ContentRowContainerSAComponent} from '../../../../../../components/contentRowContainer/contentRowContainer.component';
-import {FooterRowContainerSAComponent} from '../../../../../../components/footerRowContainer/footerRowContainer.component';
+import {HeaderRowContainerComponent} from '../../../../../../components/headerRowContainer/headerRowContainer.component';
+import {ContentRowContainerComponent} from '../../../../../../components/contentRowContainer/contentRowContainer.component';
+import {FooterRowContainerComponent} from '../../../../../../components/footerRowContainer/footerRowContainer.component';
 import {HeaderRowContainerTemplateDirective} from '../../../../../../directives/headerRowContainerTemplate/headerRowContainerTemplate.directive';
 import {ContentRowContainerTemplateDirective} from '../../../../../../directives/contentRowContainerTemplate/contentRowContainerTemplate.directive';
 import {FooterRowContainerTemplateDirective} from '../../../../../../directives/footerRowContainerTemplate/footerRowContainerTemplate.directive';
@@ -26,17 +26,16 @@ import {CssGridTemplateColumnsPipe} from '../../../../../../pipes/cssGridTemplat
 {
     selector: 'css-grid-defaults',
     templateUrl: 'cssGridDefaultTemplates.component.html',
-    standalone: true,
     imports:
     [
         CommonModule,
-        GridContainerSAComponent,
-        HeaderContainerSAComponent,
-        ContentContainerSAComponent,
-        FooterContainerSAComponent,
-        HeaderRowContainerSAComponent,
-        ContentRowContainerSAComponent,
-        FooterRowContainerSAComponent,
+        GridContainerComponent,
+        HeaderContainerComponent,
+        ContentContainerComponent,
+        FooterContainerComponent,
+        HeaderRowContainerComponent,
+        ContentRowContainerComponent,
+        FooterRowContainerComponent,
         GridContainerTemplateDirective,
         HeaderContainerTemplateDirective,
         ContentContainerTemplateDirective,
@@ -48,6 +47,6 @@ import {CssGridTemplateColumnsPipe} from '../../../../../../pipes/cssGridTemplat
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CssGridDefaultTemplatesSAComponent extends BaseDefaultTemplatesSAComponent implements MatrixContentRendererDefautTemplates
+export class CssGridDefaultTemplatesComponent extends BaseDefaultTemplatesComponent implements MatrixContentRendererDefautTemplates
 {
 }

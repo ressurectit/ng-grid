@@ -1,5 +1,6 @@
 import {Component, ChangeDetectionStrategy, ElementRef, Inject, Optional, WritableSignal, signal, Signal, inject} from '@angular/core';
-import {RecursivePartial, extend} from '@jscrpt/common';
+import {RecursivePartial} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 
 import {NoRowSelectorOptions, NoRowSelector} from './noRowSelector.interface';
 import {GridPlugin, GridPluginInstances} from '../../../interfaces';
@@ -23,10 +24,9 @@ const defaultOptions: NoRowSelectorOptions =
 {
     selector: 'ng-no-row-selector',
     template: '',
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NoRowSelectorSAComponent<TSelectedData = unknown, TData = unknown, TId = unknown> implements NoRowSelector<TSelectedData, TData, TId>, GridPlugin<NoRowSelectorOptions<TSelectedData, TData, TId>>
+export class NoRowSelectorComponent<TSelectedData = unknown, TData = unknown, TId = unknown> implements NoRowSelector<TSelectedData, TData, TId>, GridPlugin<NoRowSelectorOptions<TSelectedData, TData, TId>>
 {
     //######################### protected fields #########################
 

@@ -1,12 +1,13 @@
 import {Component, ChangeDetectionStrategy, inject, ElementRef, Inject, Optional, ValueProvider, ViewChild, ViewContainerRef, OnDestroy, FactoryProvider, Injector, ComponentRef, Provider, EmbeddedViewRef, TemplateRef} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
-import {Action4, Func1, Func2, NoopAction, RecursivePartial, extend} from '@jscrpt/common';
+import {Action4, Func1, Func2, NoopAction, RecursivePartial} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 import {Subscription, skip} from 'rxjs';
 
 import {MatrixContentRenderer, MatrixContentRendererDefautTemplates, MatrixContentRendererOptions} from './matrixContentRenderer.interface';
 import {CurrentViewContainer, DataLoader, DataResponse, Grid, GridCellContext, GridContext, GridDataRowContext, GridOrderableCell, GridPlugin, GridPluginInstances, GridRowContext, MatrixGridColumn, MatrixGridMetadata, MetadataSelector, Paging, RowSelector} from '../../../interfaces';
 import {CONTENT_RENDERER_CURRENT_VIEW_CONTAINER, CONTENT_RENDERER_OPTIONS, DEFAULT_OPTIONS, GRID_INSTANCE, GRID_PLUGIN_INSTANCES, ORDERABLE_CELL} from '../../../misc/tokens';
-import {CssGridDefaultTemplatesSAComponent} from './misc/components';
+import {CssGridDefaultTemplatesComponent} from './misc/components';
 import type {FooterRowContainerTemplateDirective} from '../../../directives/footerRowContainerTemplate/footerRowContainerTemplate.directive';
 import type {HeaderRowContainerTemplateDirective} from '../../../directives/headerRowContainerTemplate/headerRowContainerTemplate.directive';
 import type {ContentRowContainerTemplateDirective} from '../../../directives/contentRowContainerTemplate/contentRowContainerTemplate.directive';
@@ -17,7 +18,7 @@ import type {GridContainerTemplateDirective} from '../../../directives/gridConta
  */
 const defaultOptions: MatrixContentRendererOptions =
 {
-    defaults: CssGridDefaultTemplatesSAComponent,
+    defaults: CssGridDefaultTemplatesComponent,
     cssClasses:
     {
         gridContainerClass: 'grid-container-css-grid',
@@ -37,7 +38,6 @@ const defaultOptions: MatrixContentRendererOptions =
 {
     selector: 'div.matrix-content-renderer',
     templateUrl: 'matrixContentRenderer.component.html',
-    standalone: true,
     providers:
     [
         <ValueProvider>
@@ -58,7 +58,7 @@ const defaultOptions: MatrixContentRendererOptions =
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MatrixContentRendererSAComponent implements MatrixContentRenderer, GridPlugin<MatrixContentRendererOptions>, OnDestroy
+export class MatrixContentRendererComponent implements MatrixContentRenderer, GridPlugin<MatrixContentRendererOptions>, OnDestroy
 {
     //######################### protected fields #########################
 
@@ -89,7 +89,7 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
     {
         if(!this.gridPlugins)
         {
-            throw new Error('MatrixContentRendererSAComponent: missing gridPlugins!');
+            throw new Error('MatrixContentRendererComponent: missing gridPlugins!');
         }
 
         return this.gridPlugins;
@@ -142,7 +142,7 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
     {
         if(!this.defaults)
         {
-            throw new Error('MatrixContentRendererSAComponent: missing default templates!');
+            throw new Error('MatrixContentRendererComponent: missing default templates!');
         }
 
         return this.defaults;
@@ -458,7 +458,7 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
 
         if(!this.paging)
         {
-            throw new Error('MatrixContentRendererSAComponent: missing paging plugin');
+            throw new Error('MatrixContentRendererComponent: missing paging plugin');
         }
 
         return <GridDataRowContext>{

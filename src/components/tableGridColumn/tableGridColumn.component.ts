@@ -10,10 +10,9 @@ import {TableGridBodyCellTemplateDirective, TableGridHeaderCellTemplateDirective
 {
     selector: 'basic-table-column, table-column',
     template: '',
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TableGridColumnSAComponent<TData = unknown> implements TableGridColumn<TData>
+export class TableGridColumnComponent<TData = unknown> implements TableGridColumn<TData>
 {
     //######################### public properties - implementation of TableGridColumn #########################
 

@@ -1,12 +1,9 @@
 import {Component, ChangeDetectionStrategy, forwardRef, FactoryProvider, ExistingProvider, ValueProvider, AfterContentInit, ContentChildren, QueryList, WritableSignal, signal, Signal} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {CommonDynamicModule} from '@anglr/common';
 import {BindThis} from '@jscrpt/common';
 
-import {GridSAComponent} from '../grid/grid.component';
-import {AsyncDataLoaderSAComponent, BasicPagingSAComponent, MatrixContentRendererSAComponent, NoGridInitializerSAComponent, NoMetadataSelectorSAComponent, NoRowSelectorSAComponent, SimpleNoDataRendererSAComponent, SingleOrderingSAComponent} from '../../plugins';
+import {GridComponent} from '../grid/grid.component';
+import {AsyncDataLoaderComponent, BasicPagingComponent, MatrixContentRendererComponent, NoGridInitializerComponent, NoMetadataSelectorComponent, NoRowSelectorComponent, SimpleNoDataRendererComponent, SingleOrderingComponent} from '../../plugins';
 import {DEFAULT_OPTIONS, GRID_INSTANCE, GRID_PLUGIN_INSTANCES} from '../../misc/tokens';
-import {ResolveForwardRefPipe} from '../../pipes';
 import {Grid, GridOptions, MatrixGridMetadata, MetadataGatherer} from '../../interfaces';
 import {ContentContainerTemplateDirective, ContentRowContainerTemplateDirective, FooterContainerTemplateDirective, FooterRowContainerTemplateDirective, GridContainerTemplateDirective, HeaderContainerTemplateDirective, HeaderRowContainerTemplateDirective, MatrixGridColumnDirective} from '../../directives';
 import {GridPluginInstancesDef} from '../../misc/gridPluginInstancesDef';
@@ -21,56 +18,56 @@ const defaultOptions: GridOptions =
     {
         contentRenderer:
         {
-            type: forwardRef(() => MatrixContentRendererSAComponent),
+            type: forwardRef(() => MatrixContentRendererComponent),
             instance: null,
             instanceCallback: null,
             options: null,
         },
         dataLoader:
         {
-            type: forwardRef(() => AsyncDataLoaderSAComponent),
+            type: forwardRef(() => AsyncDataLoaderComponent),
             instance: null,
             instanceCallback: null,
             options: null,
         },
         gridInitializer:
         {
-            type: forwardRef(() => NoGridInitializerSAComponent),
+            type: forwardRef(() => NoGridInitializerComponent),
             instance: null,
             instanceCallback: null,
             options: null,
         },
         metadataSelector:
         {
-            type: forwardRef(() => NoMetadataSelectorSAComponent),
+            type: forwardRef(() => NoMetadataSelectorComponent),
             instance: null,
             instanceCallback: null,
             options: null,
         },
         noDataRenderer:
         {
-            type: forwardRef(() => SimpleNoDataRendererSAComponent),
+            type: forwardRef(() => SimpleNoDataRendererComponent),
             instance: null,
             instanceCallback: null,
             options: null,
         },
         ordering:
         {
-            type: forwardRef(() => SingleOrderingSAComponent),
+            type: forwardRef(() => SingleOrderingComponent),
             instance: null,
             instanceCallback: null,
             options: null,
         },
         paging:
         {
-            type: forwardRef(() => BasicPagingSAComponent),
+            type: forwardRef(() => BasicPagingComponent),
             instance: null,
             instanceCallback: null,
             options: null,
         },
         rowSelector:
         {
-            type: forwardRef(() => NoRowSelectorSAComponent),
+            type: forwardRef(() => NoRowSelectorComponent),
             instance: null,
             instanceCallback: null,
             options: null,
@@ -86,19 +83,12 @@ const defaultOptions: GridOptions =
     selector: '[ngGrid]',
     templateUrl: '../grid/grid.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports:
-    [
-        CommonModule,
-        CommonDynamicModule,
-        ResolveForwardRefPipe,
-    ],
     providers:
     [
         <ExistingProvider>
         {
             provide: GRID_INSTANCE,
-            useExisting: forwardRef(() => MatrixGridSAComponent),
+            useExisting: forwardRef(() => MatrixGridComponent),
         },
         <FactoryProvider>
         {
@@ -112,7 +102,7 @@ const defaultOptions: GridOptions =
         },
     ]
 })
-export class MatrixGridSAComponent extends GridSAComponent implements Grid, MetadataGatherer<MatrixGridMetadata>, AfterContentInit
+export class MatrixGridComponent extends GridComponent implements Grid, MetadataGatherer<MatrixGridMetadata>, AfterContentInit
 {
     //######################### protected fields #########################
 

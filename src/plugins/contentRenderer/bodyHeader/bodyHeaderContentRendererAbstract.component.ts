@@ -1,6 +1,7 @@
 import {OnDestroy, Directive, ElementRef, HostBinding, Injector, inject} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
-import {RecursivePartial, extend} from '@jscrpt/common';
+import {RecursivePartial} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 import {Subscription, skip} from 'rxjs';
 
 import {ContentRenderer, DataLoader, DataResponse, GridMetadata, GridPlugin, GridPluginInstances, MetadataSelector} from '../../../interfaces';

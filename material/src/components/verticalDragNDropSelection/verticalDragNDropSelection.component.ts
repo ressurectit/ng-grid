@@ -16,7 +16,6 @@ import {VerticalDragNDropSelectionTexts, CssClassesVerticalDragNDropSelection, V
 {
     selector: 'ng-dialog-vertical-metadata-selector',
     templateUrl: 'verticalDragNDropSelection.component.html',
-    standalone: true,
     imports:
     [
         CommonModule,
@@ -25,10 +24,10 @@ import {VerticalDragNDropSelectionTexts, CssClassesVerticalDragNDropSelection, V
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VerticalDragNDropSelectionSAComponent
+export class VerticalDragNDropSelectionComponent
 {
     //######################### constructor #########################
-    constructor(public dialog: MatDialogRef<VerticalDragNDropSelectionSAComponent, DialogMetadataSelectorComponentData<TableGridMetadata<GridColumn>, CssClassesVerticalDragNDropSelection, VerticalDragNDropSelectionTexts, VerticalDragNDropSelectionOptions>>,
+    constructor(public dialog: MatDialogRef<VerticalDragNDropSelectionComponent, DialogMetadataSelectorComponentData<TableGridMetadata<GridColumn>, CssClassesVerticalDragNDropSelection, VerticalDragNDropSelectionTexts, VerticalDragNDropSelectionOptions>>,
                 @Inject(MAT_DIALOG_DATA) public data: DialogMetadataSelectorComponentData<TableGridMetadata<GridColumn>, CssClassesVerticalDragNDropSelection, VerticalDragNDropSelectionTexts, VerticalDragNDropSelectionOptions>)
     {
     }
@@ -57,11 +56,11 @@ export class VerticalDragNDropSelectionSAComponent
     {
         if(!event.target || !isCheckbox(event.target))
         {
-            throw new Error('VerticalDragNDropSelectionSAComponent: Toggled element is not checkbox!');
+            throw new Error('VerticalDragNDropSelectionComponent: Toggled element is not checkbox!');
         }
 
         column.visible = event.target.checked;
-        
+
         this.data.setMetadata(this.data.metadata());
     }
 }

@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Inject, Optional, ElementRef, Component} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {RecursivePartial, deserializeFromUrlQuery, extend, serializeToUrlQuery} from '@jscrpt/common';
+import {RecursivePartial, deserializeFromUrlQuery, serializeToUrlQuery} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 
 import {QueryGridInitializer, QueryGridInitializerOptions} from './queryGridInitializer.interface';
 import {GridPlugin, GridPluginInstances} from '../../../interfaces';
@@ -21,7 +22,6 @@ const defaultOptions: QueryGridInitializerOptions =
 {
     selector: 'ng-query-grid-initializer',
     template: '',
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QueryGridInitializerComponent implements QueryGridInitializer, GridPlugin<QueryGridInitializerOptions>

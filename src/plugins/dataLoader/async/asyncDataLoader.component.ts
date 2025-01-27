@@ -24,10 +24,9 @@ const defaultOptions: AsyncDataLoaderOptions =
 {
     selector: 'ng-async-data-loader',
     template: '',
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AsyncDataLoaderSAComponent<TData = unknown, TOrdering = unknown> extends DataLoaderAbstractComponent<AsyncDataLoaderOptions<TData, TOrdering>, TOrdering, DataResponse<TData>> implements AsyncDataLoader<TData>
+export class AsyncDataLoaderComponent<TData = unknown, TOrdering = unknown> extends DataLoaderAbstractComponent<AsyncDataLoaderOptions<TData, TOrdering>, TOrdering, DataResponse<TData>> implements AsyncDataLoader<TData>
 {
     //######################### private fields #########################
 
@@ -57,7 +56,7 @@ export class AsyncDataLoaderSAComponent<TData = unknown, TOrdering = unknown> ex
     }
 
     //######################### protected methodes - implements DataLoaderAbstractComponent #########################
-    
+
     /**
      * @inheritdoc
      */

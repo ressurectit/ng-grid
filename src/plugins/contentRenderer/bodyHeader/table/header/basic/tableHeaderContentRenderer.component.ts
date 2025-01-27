@@ -20,7 +20,7 @@ const defaultOptions: TableHeaderContentRendererOptions =
         thead: '',
         thDefault: 'header-default',
         spanContent: 'header-content',
-    }
+    },
 };
 
 /**
@@ -31,7 +31,6 @@ const defaultOptions: TableHeaderContentRendererOptions =
 {
     selector: 'thead.content-renderer',
     templateUrl: 'tableHeaderContentRenderer.component.html',
-    standalone: true,
     imports:
     [
         CommonModule,
@@ -45,7 +44,7 @@ const defaultOptions: TableHeaderContentRendererOptions =
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TableHeaderContentRendererSAComponent<TData = unknown> extends HeaderContentRendererAbstractComponent<TData, TableHeaderContentRendererOptions>
+export class TableHeaderContentRendererComponent<TData = unknown> extends HeaderContentRendererAbstractComponent<TData, TableHeaderContentRendererOptions>
 {
     //######################### public properties - host #########################
 

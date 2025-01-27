@@ -8,7 +8,7 @@ import {extend} from '@jscrpt/common/extend';
 import {skip, Subscription} from 'rxjs';
 
 import {DialogMetadataSelectorOptions, DialogMetadataSelector, DialogMetadataSelectorComponentData} from './dialogMetadataSelector.interface';
-import {VerticalDragNDropSelectionSAComponent, type CssClassesVerticalDragNDropSelection, type VerticalDragNDropSelectionTexts, VerticalDragNDropSelectionOptions} from '../../../components';
+import {VerticalDragNDropSelectionComponent, type CssClassesVerticalDragNDropSelection, type VerticalDragNDropSelectionTexts, VerticalDragNDropSelectionOptions} from '../../../components';
 
 /**
  * Storage state
@@ -50,7 +50,7 @@ const defaultOptions: DialogMetadataSelectorOptions<CssClassesVerticalDragNDropS
         }
     },
     showButtonVisible: true,
-    dialogComponent: forwardRef(() => VerticalDragNDropSelectionSAComponent),
+    dialogComponent: forwardRef(() => VerticalDragNDropSelectionComponent),
 };
 
 /**
@@ -60,7 +60,6 @@ const defaultOptions: DialogMetadataSelectorOptions<CssClassesVerticalDragNDropS
 {
     selector: 'ng-dialog-metadata-selector',
     templateUrl: 'dialogMetadataSelector.component.html',
-    standalone: true,
     imports:
     [
         CommonModule,
@@ -68,7 +67,7 @@ const defaultOptions: DialogMetadataSelectorOptions<CssClassesVerticalDragNDropS
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector<TableGridMetadata<GridColumn>>, GridPlugin<DialogMetadataSelectorOptions>, OnDestroy
+export class DialogMetadataSelectorComponent implements DialogMetadataSelector<TableGridMetadata<GridColumn>>, GridPlugin<DialogMetadataSelectorOptions>, OnDestroy
 {
     //######################### protected fields #########################
 
@@ -281,7 +280,7 @@ export class DialogMetadataSelectorSAComponent implements DialogMetadataSelector
         {
             if(!this.metadataGatherer)
             {
-                throw new Error('DialogMetadataSelectorSAComponent: missing metadata gatherer!');
+                throw new Error('DialogMetadataSelectorComponent: missing metadata gatherer!');
             }
 
             const initMetadataFn = (allMetadata: TableGridMetadata<GridColumn>) =>

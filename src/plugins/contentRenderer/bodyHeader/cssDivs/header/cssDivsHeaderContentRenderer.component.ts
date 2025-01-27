@@ -32,7 +32,6 @@ const defaultOptions: CssDivsHeaderContentRendererOptions =
 {
     selector: 'div.content-renderer-header',
     templateUrl: 'cssDivsHeaderContentRenderer.component.html',
-    standalone: true,
     imports:
     [
         CommonModule,
@@ -46,7 +45,7 @@ const defaultOptions: CssDivsHeaderContentRendererOptions =
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CssDivsHeaderContentRendererSAComponent<TData = unknown> extends HeaderContentRendererAbstractComponent<TData, CssDivsHeaderContentRendererOptions>
+export class CssDivsHeaderContentRendererComponent<TData = unknown> extends HeaderContentRendererAbstractComponent<TData, CssDivsHeaderContentRendererOptions>
 {
     //######################### public properties - hosts #########################
 

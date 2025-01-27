@@ -1,7 +1,8 @@
 import {Inject, Component, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef, Optional, signal, WritableSignal, computed, Signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {LocalizePipe} from '@anglr/common';
-import {RecursivePartial, extend} from '@jscrpt/common';
+import {RecursivePartial} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 
 import {DataLoader, GridPlugin, GridPluginInstances} from '../../../interfaces';
 import {SimpleNoDataRenderer, SimpleNoDataRendererOptions} from './simpleNoDataRenderer.interface';
@@ -34,7 +35,6 @@ const defaultOptions: SimpleNoDataRendererOptions =
 {
     selector: 'ng-simple-no-data',
     templateUrl: 'simpleNoDataRenderer.component.html',
-    standalone: true,
     imports:
     [
         CommonModule,
@@ -42,7 +42,7 @@ const defaultOptions: SimpleNoDataRendererOptions =
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SimpleNoDataRendererSAComponent implements SimpleNoDataRenderer, GridPlugin<SimpleNoDataRendererOptions>
+export class SimpleNoDataRendererComponent implements SimpleNoDataRenderer, GridPlugin<SimpleNoDataRendererOptions>
 {
     //######################### protected fields #########################
 
@@ -95,7 +95,7 @@ export class SimpleNoDataRendererSAComponent implements SimpleNoDataRenderer, Gr
     {
         if(!this.gridPlugins)
         {
-            throw new Error('SimpleNoDataRendererSAComponent: missing gridPlugins!');
+            throw new Error('SimpleNoDataRendererComponent: missing gridPlugins!');
         }
 
         const dataLoader: DataLoader = this.gridPlugins[GridPluginType.DataLoader] as DataLoader;

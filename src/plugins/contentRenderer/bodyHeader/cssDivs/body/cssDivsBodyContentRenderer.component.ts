@@ -33,7 +33,6 @@ const defaultOptions: CssDivsBodyContentRendererOptions =
 {
     selector: 'div.content-renderer-body',
     templateUrl: 'cssDivsBodyContentRenderer.component.html',
-    standalone: true,
     imports:
     [
         CommonModule,
@@ -47,7 +46,7 @@ const defaultOptions: CssDivsBodyContentRendererOptions =
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CssDivsBodyContentRendererSAComponent<TData = unknown> extends BodyContentRendererAbstractComponent<TData, CssClassesCssDivsBodyContentRenderer, CssDivsBodyContentRendererOptions, TableGridMetadata<TableGridColumn<TData>>>
+export class CssDivsBodyContentRendererComponent<TData = unknown> extends BodyContentRendererAbstractComponent<TData, CssClassesCssDivsBodyContentRenderer, CssDivsBodyContentRendererOptions, TableGridMetadata<TableGridColumn<TData>>>
 {
     //######################### public properties - host bindings #########################
 

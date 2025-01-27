@@ -32,6 +32,45 @@
 - renamed `TableGridBodyCellTemplateSADirective` directive to `TableGridBodyCellTemplateDirective`
 - renamed `TableGridHeaderCellTemplateSADirective` directive to `TableGridHeaderCellTemplateDirective`
 - renamed `UseTableSADirective` directive to `UseTableDirective`
+- renamed `ContentContainerSAComponent` component to `ContentContainerComponent`
+- renamed `ContentRowContainerSAComponent` component to `ContentRowContainerComponent`
+- renamed `FooterContainerSAComponent` component to `FooterContainerComponent`
+- renamed `FooterRowContainerSAComponent` component to `FooterRowContainerComponent`
+- renamed `GridSAComponent` component to `GridComponent`
+- renamed `GridContainerSAComponent` component to `GridContainerComponent`
+- renamed `HeaderContainerSAComponent` component to `HeaderContainerComponent`
+- renamed `HeaderRowContainerSAComponent` component to `HeaderRowContainerComponent`
+- renamed `MatrixGridSAComponent` component to `MatrixGridComponent`
+- renamed `TableGridColumnSAComponent` component to `TableGridColumnComponent`
+- renamed `TableGridMetadataGathererSAComponent` component to `TableGridMetadataGathererComponent`
+- renamed `VerticalDragNDropSelectionSAComponent` component to `VerticalDragNDropSelectionComponent`
+- renamed `DialogMetadataSelectorSAComponent` component to `DialogMetadataSelectorComponent`
+- renamed `CssDivsContentRendererSAComponent` component to `CssDivsContentRendererComponent`
+- renamed `CssDivsBodyContentRendererSAComponent` component to `CssDivsBodyContentRendererComponent`
+- renamed `CssDivsHeaderContentRendererSAComponent` component to `CssDivsHeaderContentRendererComponent`
+- renamed `TableContentRendererSAComponent` component to `TableContentRendererComponent`
+- renamed `TableContentRendererSAComponent` component to `TableContentRendererComponent`
+- renamed `TableBodyContentRendererSAComponent` component to `TableBodyContentRendererComponent`
+- renamed `TableHeaderContentRendererSAComponent` component to `TableHeaderContentRendererComponent`
+- renamed `BaseDefaultTemplatesSAComponent` component to `BaseDefaultTemplatesComponent`
+- renamed `CssGridDefaultTemplatesSAComponent` component to `CssGridDefaultTemplatesComponent`
+- renamed `TableDefaultTemplatesSAComponent` component to `TableDefaultTemplatesComponent`
+- renamed `AsyncDataLoaderSAComponent` component to `AsyncDataLoaderComponent`
+- renamed `SyncDataLoaderSAComponent` component to `SyncDataLoaderComponent`
+- renamed `NoGridInitializerSAComponent` component to `NoGridInitializerComponent`
+- renamed `NoMetadataSelectorSAComponent` component to `NoMetadataSelectorComponent`
+- renamed `NoOrderingSAComponent` component to `NoOrderingComponent`
+- renamed `BasicPagingSAComponent` component to `BasicPagingComponent`
+- renamed `LoadMorePagingSAComponent` component to `LoadMorePagingComponent`
+- renamed `NoPagingSAComponent` component to `NoPagingComponent`
+- renamed `PreviousNextPagingSAComponent` component to `PreviousNextPagingComponent`
+- renamed `LimitedRowSelectorSAComponent` component to `LimitedRowSelectorComponent`
+- renamed `NoRowSelectorSAComponent` component to `NoRowSelectorComponent`
+- renamed `BasicRowSelectorSAComponent` component to `BasicRowSelectorComponent`
+- renamed `SingleOrderingSAComponent` component to `SingleOrderingComponent`
+- renamed `SimpleNoDataRendererSAComponent` component to `SimpleNoDataRendererComponent`
+- renamed `QueryPermanentStorageGridInitializerSAComponent` component to `QueryPermanentStorageGridInitializerComponent`
+- renamed `MatrixContentRendererSAComponent` component to `MatrixContentRendererComponent`
 
 ## Version 10.1.2 (2024-11-27)
 

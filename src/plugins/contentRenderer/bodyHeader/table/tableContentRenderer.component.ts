@@ -6,8 +6,8 @@ import {TableContentRendererOptions} from './tableContentRenderer.interface';
 import {BodyHeaderContentRendererAbstractComponent} from '../bodyHeaderContentRendererAbstract.component';
 import {GridMetadata, GridPluginInstances} from '../../../../interfaces';
 import {CONTENT_RENDERER_OPTIONS, GRID_PLUGIN_INSTANCES} from '../../../../misc/tokens';
-import {TableBodyContentRendererSAComponent} from './body/basic/tableBodyContentRenderer.component';
-import {TableHeaderContentRendererSAComponent} from './header/basic/tableHeaderContentRenderer.component';
+import {TableBodyContentRendererComponent} from './body/basic/tableBodyContentRenderer.component';
+import {TableHeaderContentRendererComponent} from './header/basic/tableHeaderContentRenderer.component';
 import {ResolveForwardRefPipe} from '../../../../pipes';
 
 /**
@@ -24,14 +24,14 @@ const defaultOptions: TableContentRendererOptions =
     {
         bodyRenderer:
         {
-            type: forwardRef(() => TableBodyContentRendererSAComponent),
+            type: forwardRef(() => TableBodyContentRendererComponent),
             instance: null,
             instanceCallback: null,
             options: null,
         },
         headerRenderer:
         {
-            type: forwardRef(() => TableHeaderContentRendererSAComponent),
+            type: forwardRef(() => TableHeaderContentRendererComponent),
             instance: null,
             instanceCallback: null,
             options: null,
@@ -47,7 +47,6 @@ const defaultOptions: TableContentRendererOptions =
 {
     selector: 'div.table-content-renderer',
     templateUrl: 'tableContentRenderer.component.html',
-    standalone: true,
     imports:
     [
         CommonModule,
@@ -56,7 +55,7 @@ const defaultOptions: TableContentRendererOptions =
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TableContentRendererSAComponent<TData = unknown, TMetadata extends GridMetadata = GridMetadata> extends BodyHeaderContentRendererAbstractComponent<TData, TMetadata, TableContentRendererOptions> implements OnDestroy
+export class TableContentRendererComponent<TData = unknown, TMetadata extends GridMetadata = GridMetadata> extends BodyHeaderContentRendererAbstractComponent<TData, TMetadata, TableContentRendererOptions> implements OnDestroy
 {
     //######################### public properties - hosts #########################
 

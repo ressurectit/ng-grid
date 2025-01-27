@@ -31,7 +31,6 @@ const defaultOptions: LoadMorePagingOptions =
 {
     selector: 'load-more-paging',
     templateUrl: 'loadMorePaging.component.html',
-    standalone: true,
     imports:
     [
         CommonModule,
@@ -47,7 +46,7 @@ const defaultOptions: LoadMorePagingOptions =
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoadMorePagingSAComponent  extends PagingAbstractComponent<CssClassesLoadMorePaging, LoadMorePagingOptions> implements LoadMorePaging<LoadMorePagingOptions>
+export class LoadMorePagingComponent extends PagingAbstractComponent<CssClassesLoadMorePaging, LoadMorePagingOptions> implements LoadMorePaging<LoadMorePagingOptions>
 {
     //######################### protected fields #########################
 
@@ -75,7 +74,7 @@ export class LoadMorePagingSAComponent  extends PagingAbstractComponent<CssClass
 
     // this.moreAvailable = (this.displayedPages * this.itemsPerPage) < this.ɵtotalCount;
 
-//######################### public methods - overrides #########################
+    //######################### public methods - overrides #########################
 
     /**
      * @inheritdoc
@@ -85,7 +84,7 @@ export class LoadMorePagingSAComponent  extends PagingAbstractComponent<CssClass
         await super.initialize(force);
 
         this.moreAvailable = computed(() => (this.displayedPages * (this.itemsPerPageValue() ?? 0)) < this.totalCount());
-        
+
         this.changeDetector.detectChanges();
     }
 

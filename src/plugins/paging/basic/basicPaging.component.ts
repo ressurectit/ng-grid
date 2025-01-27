@@ -34,7 +34,6 @@ const defaultOptions: BasicPagingOptions =
 {
     selector: 'ng-basic-paging',
     templateUrl: 'basicPaging.component.html',
-    standalone: true,
     imports:
     [
         CommonModule,
@@ -50,7 +49,7 @@ const defaultOptions: BasicPagingOptions =
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BasicPagingSAComponent extends PagingAbstractComponent<CssClassesBasicPaging, BasicPagingOptions> implements BasicPaging<BasicPagingOptions>, OnDestroy
+export class BasicPagingComponent extends PagingAbstractComponent<CssClassesBasicPaging, BasicPagingOptions> implements BasicPaging<BasicPagingOptions>, OnDestroy
 {
     //######################### protected fields #########################
 

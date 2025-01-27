@@ -10,10 +10,9 @@ import {GridPlugin, GridPluginInstances} from '../../../interfaces';
 {
     selector: 'ng-no-grid-initializer',
     template: '',
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NoGridInitializerSAComponent implements NoGridInitializer, GridPlugin<NoGridInitializerOptions>
+export class NoGridInitializerComponent implements NoGridInitializer, GridPlugin<NoGridInitializerOptions>
 {
     //######################### public properties - implementation of NoGridInitializer #########################
 

@@ -14,7 +14,7 @@ import {FooterRowContainerTemplateDirective} from '../../../../../../directives/
  * Base component that stores default templates for content renderig
  */
 @Directive()
-export abstract class BaseDefaultTemplatesSAComponent implements MatrixContentRendererDefautTemplates
+export abstract class BaseDefaultTemplatesComponent implements MatrixContentRendererDefautTemplates
 {
     //######################### public properties - implementation of MatrixContentRendererDefautTemplates #########################
 
@@ -28,7 +28,7 @@ export abstract class BaseDefaultTemplatesSAComponent implements MatrixContentRe
      * @inheritdoc
      */
     @ViewChild(HeaderContainerTemplateDirective, {static: true, read: TemplateRef})
-    public headerContainer!: TemplateRef<GridContext>; 
+    public headerContainer!: TemplateRef<GridContext>;
 
     /**
      * @inheritdoc

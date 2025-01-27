@@ -26,10 +26,9 @@ const defaultOptions: NoOrderingOptions =
 {
     selector: 'ng-no-ordering',
     template: '',
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NoOrderingSAComponent implements NoOrdering
+export class NoOrderingComponent implements NoOrdering
 {
     //######################### public properties - implementation of NoOrdering #########################
 

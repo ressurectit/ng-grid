@@ -25,7 +25,7 @@ export abstract class RenderableContentComponent implements OnInit
     protected viewContainer!: ViewContainerRef;
 
     //######################### public methods - implementation of OnInit #########################
-    
+
     /**
      * Initialize component
      */

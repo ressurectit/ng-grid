@@ -9,8 +9,8 @@ import {BodyHeaderContentRendererAbstractComponent} from '../bodyHeaderContentRe
 import {CssDivsContentRendererOptions} from './cssDivsContentRenderer.interface';
 import {GridMetadata, GridPluginInstances, TableGridColumn, TableGridMetadata} from '../../../../interfaces';
 import {CONTENT_RENDERER_OPTIONS, GRID_PLUGIN_INSTANCES} from '../../../../misc/tokens';
-import {CssDivsBodyContentRendererSAComponent} from './body/cssDivsBodyContentRenderer.component';
-import {CssDivsHeaderContentRendererSAComponent} from './header/cssDivsHeaderContentRenderer.component';
+import {CssDivsBodyContentRendererComponent} from './body/cssDivsBodyContentRenderer.component';
+import {CssDivsHeaderContentRendererComponent} from './header/cssDivsHeaderContentRenderer.component';
 import {ResolveForwardRefPipe} from '../../../../pipes';
 
 /**
@@ -26,14 +26,14 @@ const defaultOptions: CssDivsContentRendererOptions =
     {
         bodyRenderer:
         {
-            type: forwardRef(() => CssDivsBodyContentRendererSAComponent),
+            type: forwardRef(() => CssDivsBodyContentRendererComponent),
             instance: null,
             instanceCallback: null,
             options: null,
         },
         headerRenderer:
         {
-            type: forwardRef(() => CssDivsHeaderContentRendererSAComponent),
+            type: forwardRef(() => CssDivsHeaderContentRendererComponent),
             instance: null,
             instanceCallback: null,
             options: null,
@@ -49,7 +49,6 @@ const defaultOptions: CssDivsContentRendererOptions =
 {
     selector: 'div.css-grid-content-renderer',
     templateUrl: 'cssDivsContentRenderer.component.html',
-    standalone: true,
     imports:
     [
         CommonDynamicModule,
@@ -57,7 +56,7 @@ const defaultOptions: CssDivsContentRendererOptions =
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CssDivsContentRendererSAComponent<TData = unknown, TMetadata extends GridMetadata = GridMetadata> extends BodyHeaderContentRendererAbstractComponent<TData, TMetadata, CssDivsContentRendererOptions> implements OnDestroy
+export class CssDivsContentRendererComponent<TData = unknown, TMetadata extends GridMetadata = GridMetadata> extends BodyHeaderContentRendererAbstractComponent<TData, TMetadata, CssDivsContentRendererOptions> implements OnDestroy
 {
     //######################### protected properties #########################
 
@@ -65,7 +64,7 @@ export class CssDivsContentRendererSAComponent<TData = unknown, TMetadata extend
      * Concatenated string with width of all visible columns
      */
     protected ɵgridTemplateColumns: string = '';
-    
+
     //######################### public properties - host bindings #########################
 
     /**
@@ -128,16 +127,16 @@ export class CssDivsContentRendererSAComponent<TData = unknown, TMetadata extend
         {
             const gridTemplateColumns: string[] = [];
 
-            metadata.columns.forEach(column => 
+            metadata.columns.forEach(column =>
             {
                 if (column.visible)
                 {
                     gridTemplateColumns.push(column.width ? column.width : 'auto');
                 }
             });
-            
+
             this.ɵgridTemplateColumns = gridTemplateColumns.join(' ');
-            
+
             setTimeout(() =>
             {
                 this.changeDetector?.markForCheck();

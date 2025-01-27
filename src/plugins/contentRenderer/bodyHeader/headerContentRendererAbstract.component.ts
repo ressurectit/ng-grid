@@ -1,5 +1,6 @@
 import {ChangeDetectorRef, ElementRef, Directive, inject} from '@angular/core';
-import {RecursivePartial, extend} from '@jscrpt/common';
+import {RecursivePartial} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 
 import {HeaderContentRenderer, HeaderContentRendererOptions, CssClassesHeaderContentRenderer} from './bodyHeaderContentRenderer.interface';
 import {GridPlugin, GridPluginInstances, TableGridColumn, TableGridMetadata} from '../../../interfaces';

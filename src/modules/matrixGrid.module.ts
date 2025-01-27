@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {ContentContainerSAComponent, ContentRowContainerSAComponent, FooterContainerSAComponent, FooterRowContainerSAComponent, GridContainerSAComponent, HeaderContainerSAComponent, HeaderRowContainerSAComponent, MatrixGridSAComponent} from '../components';
+import {ContentContainerComponent, ContentRowContainerComponent, FooterContainerComponent, FooterRowContainerComponent, GridContainerComponent, HeaderContainerComponent, HeaderRowContainerComponent, MatrixGridComponent} from '../components';
 import {ContentCellTemplateDirective, ContentContainerTemplateDirective, ContentRowContainerTemplateDirective, FooterCellTemplateDirective, FooterContainerTemplateDirective, FooterRowContainerTemplateDirective, GridContainerTemplateDirective, HeaderCellTemplateDirective, HeaderContainerTemplateDirective, HeaderRowContainerTemplateDirective, MatrixGridColumnDirective, OrderableDirective} from '../directives';
 import {CssGridTemplateColumnsPipe} from '../pipes';
 
@@ -11,14 +11,14 @@ import {CssGridTemplateColumnsPipe} from '../pipes';
 {
     imports:
     [
-        MatrixGridSAComponent,
-        ContentContainerSAComponent,
-        ContentRowContainerSAComponent,
-        FooterContainerSAComponent,
-        FooterRowContainerSAComponent,
-        GridContainerSAComponent,
-        HeaderContainerSAComponent,
-        HeaderRowContainerSAComponent,
+        MatrixGridComponent,
+        ContentContainerComponent,
+        ContentRowContainerComponent,
+        FooterContainerComponent,
+        FooterRowContainerComponent,
+        GridContainerComponent,
+        HeaderContainerComponent,
+        HeaderRowContainerComponent,
         ContentCellTemplateDirective,
         ContentContainerTemplateDirective,
         ContentRowContainerTemplateDirective,
@@ -35,14 +35,14 @@ import {CssGridTemplateColumnsPipe} from '../pipes';
     ],
     exports:
     [
-        MatrixGridSAComponent,
-        ContentContainerSAComponent,
-        ContentRowContainerSAComponent,
-        FooterContainerSAComponent,
-        FooterRowContainerSAComponent,
-        GridContainerSAComponent,
-        HeaderContainerSAComponent,
-        HeaderRowContainerSAComponent,
+        MatrixGridComponent,
+        ContentContainerComponent,
+        ContentRowContainerComponent,
+        FooterContainerComponent,
+        FooterRowContainerComponent,
+        GridContainerComponent,
+        HeaderContainerComponent,
+        HeaderRowContainerComponent,
         ContentCellTemplateDirective,
         ContentContainerTemplateDirective,
         ContentRowContainerTemplateDirective,

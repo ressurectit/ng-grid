@@ -1,8 +1,9 @@
 import {Component, ChangeDetectionStrategy, OnDestroy} from '@angular/core';
-import {RecursivePartial, extend} from '@jscrpt/common';
+import {RecursivePartial} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 
 import {LimitedRowSelectorOptions, LimitedRowSelector} from './limitedRowSelector.interface';
-import {BasicRowSelectorSAComponent} from '../basic/basicRowSelector.component';
+import {BasicRowSelectorComponent} from '../basic/basicRowSelector.component';
 import {GridPlugin} from '../../../interfaces';
 
 /**
@@ -12,10 +13,9 @@ import {GridPlugin} from '../../../interfaces';
 {
     selector: 'ng-limited-row-selector',
     template: '',
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LimitedRowSelectorSAComponent<TSelectedData = unknown, TData = unknown, TId = unknown> extends BasicRowSelectorSAComponent<TSelectedData, TData, TId> implements LimitedRowSelector<TSelectedData, TData, TId>, GridPlugin<LimitedRowSelectorOptions<TSelectedData, TData, TId>>, OnDestroy
+export class LimitedRowSelectorComponent<TSelectedData = unknown, TData = unknown, TId = unknown> extends BasicRowSelectorComponent<TSelectedData, TData, TId> implements LimitedRowSelector<TSelectedData, TData, TId>, GridPlugin<LimitedRowSelectorOptions<TSelectedData, TData, TId>>, OnDestroy
 {
     //######################### protected fields - overrides #########################
 

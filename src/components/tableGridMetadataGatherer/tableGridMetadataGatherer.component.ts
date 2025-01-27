@@ -1,6 +1,6 @@
 import {ExistingProvider, Component, ChangeDetectionStrategy, forwardRef, ContentChildren, QueryList, AfterContentInit, Signal, WritableSignal, signal} from '@angular/core';
 
-import {TableGridColumnSAComponent} from '../tableGridColumn/tableGridColumn.component';
+import {TableGridColumnComponent} from '../tableGridColumn/tableGridColumn.component';
 import {TableGridColumn, MetadataGatherer, TableGridMetadata} from '../../interfaces';
 import {METADATA_GATHERER} from '../../misc/tokens';
 
@@ -12,17 +12,16 @@ import {METADATA_GATHERER} from '../../misc/tokens';
     selector: 'basic-table-metadata, table-metadata',
     template: '',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     providers:
     [
         <ExistingProvider>
         {
             provide: METADATA_GATHERER,
-            useExisting: forwardRef(() => TableGridMetadataGathererSAComponent)
-        }
-    ]
+            useExisting: forwardRef(() => TableGridMetadataGathererComponent)
+        },
+    ],
 })
-export class TableGridMetadataGathererSAComponent<TData = unknown> implements AfterContentInit, MetadataGatherer<TableGridMetadata<TableGridColumn<TData>>>
+export class TableGridMetadataGathererComponent<TData = unknown> implements AfterContentInit, MetadataGatherer<TableGridMetadata<TableGridColumn<TData>>>
 {
     //######################### protected fields #########################
 
@@ -31,7 +30,7 @@ export class TableGridMetadataGathererSAComponent<TData = unknown> implements Af
      */
     protected metadataValue: WritableSignal<TableGridMetadata<TableGridColumn<TData>>> = signal(
     {
-        columns: []
+        columns: [],
     });
 
     //######################### public properties - implementation of MetadataGatherer<TableGridMetadata> #########################
@@ -49,8 +48,8 @@ export class TableGridMetadataGathererSAComponent<TData = unknown> implements Af
     /**
      * Gets all columns defined in gatherer
      */
-    @ContentChildren(TableGridColumnSAComponent)
-    protected columns: QueryList<TableGridColumnSAComponent<TData>>|undefined|null;
+    @ContentChildren(TableGridColumnComponent)
+    protected columns: QueryList<TableGridColumnComponent<TData>>|undefined|null;
 
     //######################### public methods - implementation of AfterContentInit #########################
 
@@ -63,13 +62,13 @@ export class TableGridMetadataGathererSAComponent<TData = unknown> implements Af
         {
             this.metadataValue.set(
             {
-                columns: this.columns?.toArray() ?? []
+                columns: this.columns?.toArray() ?? [],
             });
         });
 
         this.metadataValue.set(
         {
-            columns: this.columns?.toArray() ?? []
+            columns: this.columns?.toArray() ?? [],
         });
     }
 }

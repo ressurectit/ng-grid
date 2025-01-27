@@ -10,10 +10,9 @@ import {GridMetadata, GridPlugin, GridPluginInstances, MetadataGatherer} from '.
 {
     selector: 'ng-no-metadata-selector',
     template: '',
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NoMetadataSelectorSAComponent<TMetadata extends GridMetadata = GridMetadata> implements NoMetadataSelector<TMetadata>, GridPlugin<NoMetadataSelectorOptions>
+export class NoMetadataSelectorComponent<TMetadata extends GridMetadata = GridMetadata> implements NoMetadataSelector<TMetadata>, GridPlugin<NoMetadataSelectorOptions>
 {
     //######################### protected fields #########################
 

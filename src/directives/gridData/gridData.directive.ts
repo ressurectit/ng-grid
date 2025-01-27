@@ -1,5 +1,5 @@
 import {Directive, Inject, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {DataLoader, GRID_INSTANCE, Grid, GridPluginType, NoMetadataSelectorSAComponent, NoPagingOptions, NoPagingSAComponent, SyncDataLoaderOptions, SyncDataLoaderSAComponent} from '@anglr/grid';
+import {DataLoader, GRID_INSTANCE, Grid, GridPluginType, NoMetadataSelectorComponent, NoPagingOptions, NoPagingComponent, SyncDataLoaderOptions, SyncDataLoaderComponent} from '@anglr/grid';
 import {RecursivePartial, nameof} from '@jscrpt/common';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
 import {first} from 'rxjs';
@@ -30,7 +30,7 @@ export class GridDataDirective<TData = unknown> implements OnChanges
             {
                 dataLoader:
                 {
-                    type: SyncDataLoaderSAComponent,
+                    type: SyncDataLoaderComponent,
                     options: <RecursivePartial<SyncDataLoaderOptions<TData>>>
                     {
                         data: [],
@@ -38,7 +38,7 @@ export class GridDataDirective<TData = unknown> implements OnChanges
                 },
                 paging:
                 {
-                    type: NoPagingSAComponent,
+                    type: NoPagingComponent,
                     options: <NoPagingOptions>
                     {
                         initialItemsPerPage: 250,
@@ -46,7 +46,7 @@ export class GridDataDirective<TData = unknown> implements OnChanges
                 },
                 metadataSelector:
                 {
-                    type: NoMetadataSelectorSAComponent,
+                    type: NoMetadataSelectorComponent,
                 },
             },
         };

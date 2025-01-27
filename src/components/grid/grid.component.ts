@@ -1,16 +1,14 @@
 import {Component, ChangeDetectionStrategy, Inject, Optional, Type, Input, OnInit, ContentChild, forwardRef, FactoryProvider, ExistingProvider, inject, ValueProvider, ViewChild, ViewContainerRef, resolveForwardRef} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {CommonDynamicModule} from '@anglr/common';
-import {Func1, PromiseOr, RecursivePartial, extend} from '@jscrpt/common';
+import {Func1, PromiseOr, RecursivePartial} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
 import {Observable, BehaviorSubject, map, combineLatest, distinctUntilChanged, Subject, take} from 'rxjs';
 
 import {ContentRenderer, DataLoader, Grid, GridInitializer, GridOptions, GridPlugin, MetadataGatherer, MetadataSelector, NoDataRenderer, Ordering, Paging, PluginDescription, RowSelector, GridPluginInstances} from '../../interfaces';
 import {CONTENT_RENDERER_TYPE, DATA_LOADER_TYPE, DEFAULT_OPTIONS, GRID_INITIALIZER_TYPE, GRID_INSTANCE, GRID_OPTIONS, GRID_PLUGIN_INSTANCES, METADATA_GATHERER, METADATA_SELECTOR_TYPE, NO_DATA_RENDERER_TYPE, ORDERING_TYPE, PAGING_TYPE, ROW_SELECTOR_TYPE} from '../../misc/tokens';
-import {AsyncDataLoaderSAComponent, BasicPagingSAComponent, NoRowSelectorSAComponent, NoGridInitializerSAComponent, NoMetadataSelectorSAComponent, SimpleNoDataRendererSAComponent, SingleOrderingSAComponent, TableContentRendererSAComponent} from '../../plugins';
+import {AsyncDataLoaderComponent, BasicPagingComponent, NoRowSelectorComponent, NoGridInitializerComponent, NoMetadataSelectorComponent, SimpleNoDataRendererComponent, SingleOrderingComponent, TableContentRendererComponent} from '../../plugins';
 import {GridAction, GridFunction} from '../../misc/types';
 import {GridPluginType} from '../../misc/enums';
-import {ResolveForwardRefPipe} from '../../pipes';
 import {GridPluginInstancesDef} from '../../misc/gridPluginInstancesDef';
 
 /**
@@ -23,56 +21,56 @@ const defaultOptions: GridOptions =
     {
         contentRenderer:
         {
-            type: forwardRef(() => TableContentRendererSAComponent),
+            type: forwardRef(() => TableContentRendererComponent),
             instance: null,
             instanceCallback: null,
             options: null,
         },
         dataLoader:
         {
-            type: forwardRef(() => AsyncDataLoaderSAComponent),
+            type: forwardRef(() => AsyncDataLoaderComponent),
             instance: null,
             instanceCallback: null,
             options: null,
         },
         gridInitializer:
         {
-            type: forwardRef(() => NoGridInitializerSAComponent),
+            type: forwardRef(() => NoGridInitializerComponent),
             instance: null,
             instanceCallback: null,
             options: null,
         },
         metadataSelector:
         {
-            type: forwardRef(() => NoMetadataSelectorSAComponent),
+            type: forwardRef(() => NoMetadataSelectorComponent),
             instance: null,
             instanceCallback: null,
             options: null,
         },
         noDataRenderer:
         {
-            type: forwardRef(() => SimpleNoDataRendererSAComponent),
+            type: forwardRef(() => SimpleNoDataRendererComponent),
             instance: null,
             instanceCallback: null,
             options: null,
         },
         ordering:
         {
-            type: forwardRef(() => SingleOrderingSAComponent),
+            type: forwardRef(() => SingleOrderingComponent),
             instance: null,
             instanceCallback: null,
             options: null,
         },
         paging:
         {
-            type: forwardRef(() => BasicPagingSAComponent),
+            type: forwardRef(() => BasicPagingComponent),
             instance: null,
             instanceCallback: null,
             options: null,
         },
         rowSelector:
         {
-            type: forwardRef(() => NoRowSelectorSAComponent),
+            type: forwardRef(() => NoRowSelectorComponent),
             instance: null,
             instanceCallback: null,
             options: null,
@@ -88,33 +86,26 @@ const defaultOptions: GridOptions =
     selector: 'ng-grid',
     templateUrl: 'grid.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports:
-    [
-        CommonModule,
-        CommonDynamicModule,
-        ResolveForwardRefPipe,
-    ],
     providers:
     [
         <ExistingProvider>
         {
             provide: GRID_INSTANCE,
-            useExisting: forwardRef(() => GridSAComponent),
+            useExisting: forwardRef(() => GridComponent),
         },
         <FactoryProvider>
         {
             provide: GRID_PLUGIN_INSTANCES,
-            useFactory: () => {return new GridPluginInstancesDef();}
+            useFactory: () => {return new GridPluginInstancesDef();},
         },
         <ValueProvider>
         {
             provide: DEFAULT_OPTIONS,
             useValue: defaultOptions,
         },
-    ]
+    ],
 })
-export class GridSAComponent implements OnInit, Grid
+export class GridComponent implements OnInit, Grid
 {
     //######################### protected fields #########################
 
@@ -398,7 +389,7 @@ export class GridSAComponent implements OnInit, Grid
         {
             if((pluginDescription.instance && pluginDescription.type) || (!pluginDescription.instance && !pluginDescription.type))
             {
-                throw new Error(`GridSAComponent: provide only instance or type for plugin ${pluginType}, cant provide both of these properties at the same time!`);
+                throw new Error(`GridComponent: provide only instance or type for plugin ${pluginType}, cant provide both of these properties at the same time!`);
             }
 
             let newInstance = false;

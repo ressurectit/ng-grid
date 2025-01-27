@@ -1,7 +1,8 @@
 import {ChangeDetectionStrategy, Inject, Optional, Component, ElementRef} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PermanentStorage, PERMANENT_STORAGE} from '@anglr/common';
-import {extend, isPresent} from '@jscrpt/common';
+import {isPresent} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 
 import {QueryPermanentStorageGridInitializerOptions, QueryPermanentStorageGridInitializer} from './queryPermanentStorageGridInitializer.interface';
 import {QueryGridInitializerComponent} from '../query/queryGridInitializer.component';
@@ -15,10 +16,9 @@ import {GRID_INITIALIZER_OPTIONS} from '../../../misc/tokens';
 {
     selector: 'ng-query-permanent-storage-grid-initializer',
     template: '',
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class QueryPermanentStorageGridInitializerSAComponent extends QueryGridInitializerComponent implements QueryPermanentStorageGridInitializer, GridPlugin<QueryPermanentStorageGridInitializerOptions>
+export class QueryPermanentStorageGridInitializerComponent extends QueryGridInitializerComponent implements QueryPermanentStorageGridInitializer, GridPlugin<QueryPermanentStorageGridInitializerOptions>
 {
     //######################### protected fields - overrides #########################
 

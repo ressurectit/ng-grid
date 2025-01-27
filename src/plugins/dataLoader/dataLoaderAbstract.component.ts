@@ -1,6 +1,7 @@
 import {Injectable, OnDestroy, ElementRef, Injector, inject, Signal, WritableSignal, signal} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
-import {RecursivePartial, extend} from '@jscrpt/common';
+import {RecursivePartial} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 import {Subscription, Subject} from 'rxjs';
 import {debounceTime, skip} from 'rxjs/operators';
 

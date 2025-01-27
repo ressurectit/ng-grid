@@ -10,7 +10,6 @@ import {DialogMetadataSelectorOptions} from '../../plugins/metadataSelector/dial
 @Directive(
 {
     selector: '[ngGrid][selectionStore], ng-grid[selectionStore]',
-    standalone: true,
 })
 export class SelectionStoreDirective
 {
@@ -32,9 +31,9 @@ export class SelectionStoreDirective
                     options: <RecursivePartial<DialogMetadataSelectorOptions>>
                     {
                         storageName: selectionStore,
-                    }
-                }
-            }
+                    },
+                },
+            },
         };
     }
 }
