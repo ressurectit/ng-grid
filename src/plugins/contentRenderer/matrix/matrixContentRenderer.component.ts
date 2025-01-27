@@ -7,10 +7,10 @@ import {MatrixContentRenderer, MatrixContentRendererDefautTemplates, MatrixConte
 import {CurrentViewContainer, DataLoader, DataResponse, Grid, GridCellContext, GridContext, GridDataRowContext, GridOrderableCell, GridPlugin, GridPluginInstances, GridRowContext, MatrixGridColumn, MatrixGridMetadata, MetadataSelector, Paging, RowSelector} from '../../../interfaces';
 import {CONTENT_RENDERER_CURRENT_VIEW_CONTAINER, CONTENT_RENDERER_OPTIONS, DEFAULT_OPTIONS, GRID_INSTANCE, GRID_PLUGIN_INSTANCES, ORDERABLE_CELL} from '../../../misc/tokens';
 import {CssGridDefaultTemplatesSAComponent} from './misc/components';
-import type {FooterRowContainerTemplateSADirective} from '../../../directives/footerRowContainerTemplate/footerRowContainerTemplate.directive';
-import type {HeaderRowContainerTemplateSADirective} from '../../../directives/headerRowContainerTemplate/headerRowContainerTemplate.directive';
-import type {ContentRowContainerTemplateSADirective} from '../../../directives/contentRowContainerTemplate/contentRowContainerTemplate.directive';
-import type {GridContainerTemplateSADirective} from '../../../directives/gridContainerTemplate/gridContainerTemplate.directive';
+import type {FooterRowContainerTemplateDirective} from '../../../directives/footerRowContainerTemplate/footerRowContainerTemplate.directive';
+import type {HeaderRowContainerTemplateDirective} from '../../../directives/headerRowContainerTemplate/headerRowContainerTemplate.directive';
+import type {ContentRowContainerTemplateDirective} from '../../../directives/contentRowContainerTemplate/contentRowContainerTemplate.directive';
+import type {GridContainerTemplateDirective} from '../../../directives/gridContainerTemplate/gridContainerTemplate.directive';
 
 /**
  * Default 'GridOptions'
@@ -322,7 +322,7 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
         this.container.clear();
 
         const metadataGridContainer = this.metadataSelector?.metadata()?.gridContainer;
-        const gridContainers: GridContainerTemplateSADirective[] = metadataGridContainer ? (Array.isArray(metadataGridContainer) ? metadataGridContainer : [metadataGridContainer]) : [{template: this.defaultsSafe.gridContainer, columns: null, exclude: false}];
+        const gridContainers: GridContainerTemplateDirective[] = metadataGridContainer ? (Array.isArray(metadataGridContainer) ? metadataGridContainer : [metadataGridContainer]) : [{template: this.defaultsSafe.gridContainer, columns: null, exclude: false}];
 
         for(const gridContainer of gridContainers)
         {
@@ -534,7 +534,7 @@ export class MatrixContentRendererSAComponent implements MatrixContentRenderer, 
      * @param cellRenderer - Function that renders
      * @param contextGetter - Function used for obtaining grid context
      */
-    protected renderRowContainer(rowTemplates: Array<FooterRowContainerTemplateSADirective|HeaderRowContainerTemplateSADirective|ContentRowContainerTemplateSADirective>,
+    protected renderRowContainer(rowTemplates: Array<FooterRowContainerTemplateDirective|HeaderRowContainerTemplateDirective|ContentRowContainerTemplateDirective>,
                                  cellTemplateGetter: Func1<TemplateRef<GridCellContext<unknown, MatrixGridColumn>>|null|undefined, MatrixGridColumn>,
                                  cellRenderer: Action4<ViewContainerRef, TemplateRef<GridCellContext<unknown, MatrixGridColumn>>, GridRowContext<unknown, MatrixGridColumn>, MatrixGridColumn>,
                                  contextGetter: Func2<GridRowContext|GridDataRowContext, number, MatrixGridColumn[]>): void

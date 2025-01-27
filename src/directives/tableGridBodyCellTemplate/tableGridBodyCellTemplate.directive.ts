@@ -8,9 +8,8 @@ import {DataCellTemplateContext, TableGridColumn} from '../../interfaces';
 @Directive(
 {
     selector: '[bodyCellTemplate]',
-    standalone: true,
 })
-export class TableGridBodyCellTemplateSADirective<TColumnMetadata = unknown, TData = unknown>
+export class TableGridBodyCellTemplateDirective<TColumnMetadata = unknown, TData = unknown>
 {
     //######################### constructor #########################
     constructor(public template: TemplateRef<DataCellTemplateContext<TColumnMetadata, TData>>)
@@ -18,12 +17,12 @@ export class TableGridBodyCellTemplateSADirective<TColumnMetadata = unknown, TDa
     }
 
     //######################### ng language server #########################
-    
+
     /**
      * Allows typechecking for template
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    static ngTemplateContextGuard(_dir: TableGridBodyCellTemplateSADirective, _ctx: unknown): _ctx is DataCellTemplateContext<TableGridColumn<any>, any>
+    static ngTemplateContextGuard(_dir: TableGridBodyCellTemplateDirective, _ctx: unknown): _ctx is DataCellTemplateContext<TableGridColumn<any>, any>
     {
         return true;
     }

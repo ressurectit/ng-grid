@@ -8,9 +8,8 @@ import {GridDataCellContext} from '../../interfaces';
 @Directive(
 {
     selector: '[contentCellTemplate]',
-    standalone: true,
 })
-export class ContentCellTemplateSADirective
+export class ContentCellTemplateDirective
 {
     //######################### public properties #########################
 
@@ -20,12 +19,12 @@ export class ContentCellTemplateSADirective
     public template: TemplateRef<GridDataCellContext> = inject(TemplateRef<GridDataCellContext>);
 
     //######################### ng language server #########################
-    
+
     /**
      * Allows typechecking for template
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    static ngTemplateContextGuard(_dir: ContentCellTemplateSADirective, _ctx: unknown): _ctx is GridDataCellContext<any>
+    static ngTemplateContextGuard(_dir: ContentCellTemplateDirective, _ctx: unknown): _ctx is GridDataCellContext<any>
     {
         return true;
     }

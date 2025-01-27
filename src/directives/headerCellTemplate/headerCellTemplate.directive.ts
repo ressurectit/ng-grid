@@ -8,9 +8,8 @@ import {GridCellContext} from '../../interfaces';
 @Directive(
 {
     selector: '[headerCellTemplate]',
-    standalone: true,
 })
-export class HeaderCellTemplateSADirective
+export class HeaderCellTemplateDirective
 {
     //######################### public properties #########################
 
@@ -25,7 +24,7 @@ export class HeaderCellTemplateSADirective
      * Allows typechecking for template
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    static ngTemplateContextGuard(_dir: HeaderCellTemplateSADirective, _ctx: unknown): _ctx is GridCellContext<any>
+    static ngTemplateContextGuard(_dir: HeaderCellTemplateDirective, _ctx: unknown): _ctx is GridCellContext<any>
     {
         return true;
     }

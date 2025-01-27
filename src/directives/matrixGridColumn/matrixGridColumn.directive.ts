@@ -1,9 +1,9 @@
 import {Input, TemplateRef, Directive, ContentChild, inject} from '@angular/core';
 
 import {MatrixGridColumn, GridCellContext, GridDataCellContext} from '../../interfaces';
-import {HeaderCellTemplateSADirective} from '../headerCellTemplate/headerCellTemplate.directive';
-import {FooterCellTemplateSADirective} from '../footerCellTemplate/footerCellTemplate.directive';
-import {ContentCellTemplateSADirective} from '../contentCellTemplate/contentCellTemplate.directive';
+import {HeaderCellTemplateDirective} from '../headerCellTemplate/headerCellTemplate.directive';
+import {FooterCellTemplateDirective} from '../footerCellTemplate/footerCellTemplate.directive';
+import {ContentCellTemplateDirective} from '../contentCellTemplate/contentCellTemplate.directive';
 import {DEFAULT_MATRIX_COLUMN_WIDTH} from '../../misc/tokens';
 
 /**
@@ -12,9 +12,8 @@ import {DEFAULT_MATRIX_COLUMN_WIDTH} from '../../misc/tokens';
 @Directive(
 {
     selector: '[matrixGridColumn]',
-    standalone: true,
 })
-export class MatrixGridColumnSADirective<TData = unknown> implements MatrixGridColumn<TData>
+export class MatrixGridColumnDirective<TData = unknown> implements MatrixGridColumn<TData>
 {
     //######################### public properties - implementation of TableGridColumn #########################
 
@@ -45,18 +44,18 @@ export class MatrixGridColumnSADirective<TData = unknown> implements MatrixGridC
     /**
      * @inheritdoc
      */
-    @ContentChild(HeaderCellTemplateSADirective, {static: true, read: TemplateRef})
+    @ContentChild(HeaderCellTemplateDirective, {static: true, read: TemplateRef})
     public headerTemplate: TemplateRef<GridCellContext<TData, MatrixGridColumn<TData>>>|undefined|null;
 
     /**
      * @inheritdoc
      */
-    @ContentChild(ContentCellTemplateSADirective, {static: true, read: TemplateRef})
+    @ContentChild(ContentCellTemplateDirective, {static: true, read: TemplateRef})
     public bodyTemplate: TemplateRef<GridDataCellContext<TData, MatrixGridColumn<TData>>>|undefined|null;
 
     /**
      * @inheritdoc
      */
-    @ContentChild(FooterCellTemplateSADirective, {static: true, read: TemplateRef})
+    @ContentChild(FooterCellTemplateDirective, {static: true, read: TemplateRef})
     public footerTemplate: TemplateRef<GridCellContext<TData, MatrixGridColumn<TData>>>|undefined|null;
 }

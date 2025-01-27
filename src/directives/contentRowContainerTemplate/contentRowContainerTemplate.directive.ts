@@ -10,9 +10,8 @@ import {rowColumnsAttribute} from '../../misc/utils';
 @Directive(
 {
     selector: '[contentRowContainerTemplate]',
-    standalone: true,
 })
-export class ContentRowContainerTemplateSADirective
+export class ContentRowContainerTemplateDirective
 {
     //######################### public properties #########################
 
@@ -42,18 +41,18 @@ export class ContentRowContainerTemplateSADirective
     public exclude: boolean = false;
 
     //######################### ng language server #########################
-    
+
     /**
      * Allows typechecking for template
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    static ngTemplateContextGuard(_dir: ContentRowContainerTemplateSADirective, _ctx: unknown): _ctx is GridDataRowContext<any>
+    static ngTemplateContextGuard(_dir: ContentRowContainerTemplateDirective, _ctx: unknown): _ctx is GridDataRowContext<any>
     {
         return true;
     }
 
     //######################### ng language server #########################
-    
+
     /**
      * Custom input type for `predicate` input
      */

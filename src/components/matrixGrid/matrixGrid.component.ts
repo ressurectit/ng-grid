@@ -8,7 +8,7 @@ import {AsyncDataLoaderSAComponent, BasicPagingSAComponent, MatrixContentRendere
 import {DEFAULT_OPTIONS, GRID_INSTANCE, GRID_PLUGIN_INSTANCES} from '../../misc/tokens';
 import {ResolveForwardRefPipe} from '../../pipes';
 import {Grid, GridOptions, MatrixGridMetadata, MetadataGatherer} from '../../interfaces';
-import {ContentContainerTemplateSADirective, ContentRowContainerTemplateSADirective, FooterContainerTemplateSADirective, FooterRowContainerTemplateSADirective, GridContainerTemplateSADirective, HeaderContainerTemplateSADirective, HeaderRowContainerTemplateSADirective, MatrixGridColumnSADirective} from '../../directives';
+import {ContentContainerTemplateDirective, ContentRowContainerTemplateDirective, FooterContainerTemplateDirective, FooterRowContainerTemplateDirective, GridContainerTemplateDirective, HeaderContainerTemplateDirective, HeaderRowContainerTemplateDirective, MatrixGridColumnDirective} from '../../directives';
 import {GridPluginInstancesDef} from '../../misc/gridPluginInstancesDef';
 
 /**
@@ -156,50 +156,50 @@ export class MatrixGridSAComponent extends GridSAComponent implements Grid, Meta
     /**
      * Grid container template
      */
-    @ContentChildren(GridContainerTemplateSADirective, {emitDistinctChangesOnly: true})
-    protected gridContainer: QueryList<GridContainerTemplateSADirective>|undefined|null;
+    @ContentChildren(GridContainerTemplateDirective, {emitDistinctChangesOnly: true})
+    protected gridContainer: QueryList<GridContainerTemplateDirective>|undefined|null;
 
     /**
      * Header container template
      */
-    @ContentChildren(HeaderContainerTemplateSADirective, {emitDistinctChangesOnly: true})
-    protected headerContainer: QueryList<HeaderContainerTemplateSADirective>|undefined|null;
+    @ContentChildren(HeaderContainerTemplateDirective, {emitDistinctChangesOnly: true})
+    protected headerContainer: QueryList<HeaderContainerTemplateDirective>|undefined|null;
 
     /**
      * Content container template
      */
-    @ContentChildren(ContentContainerTemplateSADirective, {emitDistinctChangesOnly: true})
-    protected contentContainer: QueryList<ContentContainerTemplateSADirective>|undefined|null;
+    @ContentChildren(ContentContainerTemplateDirective, {emitDistinctChangesOnly: true})
+    protected contentContainer: QueryList<ContentContainerTemplateDirective>|undefined|null;
 
     /**
      * Footer container template
      */
-    @ContentChildren(FooterContainerTemplateSADirective, {emitDistinctChangesOnly: true})
-    protected footerContainer: QueryList<FooterContainerTemplateSADirective>|undefined|null;
+    @ContentChildren(FooterContainerTemplateDirective, {emitDistinctChangesOnly: true})
+    protected footerContainer: QueryList<FooterContainerTemplateDirective>|undefined|null;
 
     /**
      * Header container template
      */
-    @ContentChildren(HeaderRowContainerTemplateSADirective, {emitDistinctChangesOnly: true})
-    protected headerRowContainer: QueryList<HeaderRowContainerTemplateSADirective>|undefined|null;
+    @ContentChildren(HeaderRowContainerTemplateDirective, {emitDistinctChangesOnly: true})
+    protected headerRowContainer: QueryList<HeaderRowContainerTemplateDirective>|undefined|null;
 
     /**
      * Content container template
      */
-    @ContentChildren(ContentRowContainerTemplateSADirective, {emitDistinctChangesOnly: true})
-    protected contentRowContainer: QueryList<ContentRowContainerTemplateSADirective>|undefined|null;
+    @ContentChildren(ContentRowContainerTemplateDirective, {emitDistinctChangesOnly: true})
+    protected contentRowContainer: QueryList<ContentRowContainerTemplateDirective>|undefined|null;
 
     /**
      * Footer container template
      */
-    @ContentChildren(FooterRowContainerTemplateSADirective, {emitDistinctChangesOnly: true})
-    protected footerRowContainer: QueryList<FooterRowContainerTemplateSADirective>|undefined|null;
+    @ContentChildren(FooterRowContainerTemplateDirective, {emitDistinctChangesOnly: true})
+    protected footerRowContainer: QueryList<FooterRowContainerTemplateDirective>|undefined|null;
 
     /**
      * Obtains definition of columns
      */
-    @ContentChildren(MatrixGridColumnSADirective, {emitDistinctChangesOnly: true})
-    protected columns: QueryList<MatrixGridColumnSADirective>|undefined|null;
+    @ContentChildren(MatrixGridColumnDirective, {emitDistinctChangesOnly: true})
+    protected columns: QueryList<MatrixGridColumnDirective>|undefined|null;
 
     //######################### public methods - implementation of AfterContentInit #########################
 

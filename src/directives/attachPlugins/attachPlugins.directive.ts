@@ -13,9 +13,8 @@ import {AttachPlugins} from './attachPlugins.interface';
 @Directive(
 {
     selector: 'ng-grid[attachPlugins], [ngGrid][attachPlugins]',
-    standalone: true,
 })
-export class AttachPluginsSADirective implements OnChanges
+export class AttachPluginsDirective implements OnChanges
 {
     //######################### public properties - inputs #########################
 
@@ -43,13 +42,13 @@ export class AttachPluginsSADirective implements OnChanges
     }
 
     //######################### public methods - implementation of OnChanges #########################
-    
+
     /**
      * Called when input value changes
      */
     public async ngOnChanges(changes: SimpleChanges): Promise<void>
     {
-        if(nameof<AttachPluginsSADirective>('plugins') in changes && this.plugins)
+        if(nameof<AttachPluginsDirective>('plugins') in changes && this.plugins)
         {
             const plugins: RecursivePartial<GridPluginTypes> = {};
 
@@ -61,7 +60,7 @@ export class AttachPluginsSADirective implements OnChanges
                     type: null,
                 };
             }
-            
+
             if(this.plugins.dataLoader)
             {
                 plugins.dataLoader =
@@ -125,7 +124,7 @@ export class AttachPluginsSADirective implements OnChanges
                 };
             }
 
-            this.grid.gridOptions = 
+            this.grid.gridOptions =
             {
                 plugins
             };

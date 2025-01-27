@@ -8,9 +8,8 @@ import {GridContext} from '../../interfaces';
 @Directive(
 {
     selector: '[footerContainerTemplate]',
-    standalone: true,
 })
-export class FooterContainerTemplateSADirective
+export class FooterContainerTemplateDirective
 {
     //######################### public properties #########################
 
@@ -20,12 +19,12 @@ export class FooterContainerTemplateSADirective
     public template: TemplateRef<GridContext> = inject(TemplateRef<GridContext>);
 
     //######################### ng language server #########################
-    
+
     /**
      * Allows typechecking for template
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    static ngTemplateContextGuard(_dir: FooterContainerTemplateSADirective, _ctx: unknown): _ctx is GridContext<any>
+    static ngTemplateContextGuard(_dir: FooterContainerTemplateDirective, _ctx: unknown): _ctx is GridContext<any>
     {
         return true;
     }

@@ -10,9 +10,8 @@ import {rowColumnsAttribute} from '../../misc/utils';
 @Directive(
 {
     selector: '[footerRowContainerTemplate]',
-    standalone: true,
 })
-export class FooterRowContainerTemplateSADirective
+export class FooterRowContainerTemplateDirective
 {
     //######################### public properties #########################
 
@@ -42,12 +41,12 @@ export class FooterRowContainerTemplateSADirective
     public exclude: boolean = false;
 
     //######################### ng language server #########################
-    
+
     /**
      * Allows typechecking for template
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    static ngTemplateContextGuard(_dir: FooterRowContainerTemplateSADirective, _ctx: unknown): _ctx is GridRowContext<any>
+    static ngTemplateContextGuard(_dir: FooterRowContainerTemplateDirective, _ctx: unknown): _ctx is GridRowContext<any>
     {
         return true;
     }

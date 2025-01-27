@@ -1,13 +1,13 @@
 import {Signal} from '@angular/core';
 
 import {GridColumn} from '../gridColumn';
-import type {GridContainerTemplateSADirective} from '../../directives/gridContainerTemplate/gridContainerTemplate.directive';
-import type {ContentContainerTemplateSADirective} from '../../directives/contentContainerTemplate/contentContainerTemplate.directive';
-import type {HeaderContainerTemplateSADirective} from '../../directives/headerContainerTemplate/headerContainerTemplate.directive';
-import type {FooterContainerTemplateSADirective} from '../../directives/footerContainerTemplate/footerContainerTemplate.directive';
-import type {HeaderRowContainerTemplateSADirective} from '../../directives/headerRowContainerTemplate/headerRowContainerTemplate.directive';
-import type {ContentRowContainerTemplateSADirective} from '../../directives/contentRowContainerTemplate/contentRowContainerTemplate.directive';
-import type {FooterRowContainerTemplateSADirective} from '../../directives/footerRowContainerTemplate/footerRowContainerTemplate.directive';
+import type {GridContainerTemplateDirective} from '../../directives/gridContainerTemplate/gridContainerTemplate.directive';
+import type {ContentContainerTemplateDirective} from '../../directives/contentContainerTemplate/contentContainerTemplate.directive';
+import type {HeaderContainerTemplateDirective} from '../../directives/headerContainerTemplate/headerContainerTemplate.directive';
+import type {FooterContainerTemplateDirective} from '../../directives/footerContainerTemplate/footerContainerTemplate.directive';
+import type {HeaderRowContainerTemplateDirective} from '../../directives/headerRowContainerTemplate/headerRowContainerTemplate.directive';
+import type {ContentRowContainerTemplateDirective} from '../../directives/contentRowContainerTemplate/contentRowContainerTemplate.directive';
+import type {FooterRowContainerTemplateDirective} from '../../directives/footerRowContainerTemplate/footerRowContainerTemplate.directive';
 
 /**
  * Base grid metadata interface
@@ -46,35 +46,35 @@ export interface MatrixGridMetadata<TColumn extends GridColumn = GridColumn> ext
     /**
      * Template for grid container, with metadata
      */
-    gridContainer: GridContainerTemplateSADirective|GridContainerTemplateSADirective[]|undefined|null;
+    gridContainer: GridContainerTemplateDirective|GridContainerTemplateDirective[]|undefined|null;
 
     /**
      * Template for grid header, with metadata
      */
-    headerContainer: HeaderContainerTemplateSADirective|undefined|null;
+    headerContainer: HeaderContainerTemplateDirective|undefined|null;
 
     /**
      * Template for grid content (body), with metadata
      */
-    contentContainer: ContentContainerTemplateSADirective|undefined|null;
+    contentContainer: ContentContainerTemplateDirective|undefined|null;
 
     /**
      * Template for grid footer, with metadata
      */
-    footerContainer: FooterContainerTemplateSADirective|undefined|null;
+    footerContainer: FooterContainerTemplateDirective|undefined|null;
 
     /**
      * Templates for header rows, with metadata
      */
-    headerRowContainer: HeaderRowContainerTemplateSADirective[]|undefined|null;
+    headerRowContainer: HeaderRowContainerTemplateDirective[]|undefined|null;
 
     /**
      * Templates for content rows (each data row can be rendered as multiple rows), with metadata
      */
-    contentRowContainer: ContentRowContainerTemplateSADirective[]|undefined|null;
+    contentRowContainer: ContentRowContainerTemplateDirective[]|undefined|null;
 
     /**
      * Templates for footer rows, with metadata
      */
-    footerRowContainer: FooterRowContainerTemplateSADirective[]|undefined|null;
+    footerRowContainer: FooterRowContainerTemplateDirective[]|undefined|null;
 }

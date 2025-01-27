@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, Input, TemplateRef, ContentChild} from '@angular/core';
 
 import {DataCellTemplateContext, TableGridColumn, CellTemplateContext} from '../../interfaces';
-import {TableGridBodyCellTemplateSADirective, TableGridHeaderCellTemplateSADirective} from '../../directives';
+import {TableGridBodyCellTemplateDirective, TableGridHeaderCellTemplateDirective} from '../../directives';
 
 /**
  * Component for gathering information about table grid column
@@ -110,12 +110,12 @@ export class TableGridColumnSAComponent<TData = unknown> implements TableGridCol
     /**
      * Template that is used for rendering of cell header, new syntax
      */
-    @ContentChild(TableGridHeaderCellTemplateSADirective, {read: TemplateRef<CellTemplateContext<TableGridColumn<TData>>>})
+    @ContentChild(TableGridHeaderCellTemplateDirective, {read: TemplateRef<CellTemplateContext<TableGridColumn<TData>>>})
     protected headerTemplateNew: TemplateRef<CellTemplateContext<TableGridColumn<TData>>>|undefined|null;
 
     /**
      * Template that is used for rendering of cell body, new syntax
      */
-    @ContentChild(TableGridBodyCellTemplateSADirective, {read: TemplateRef<DataCellTemplateContext<TableGridColumn<TData>>>})
+    @ContentChild(TableGridBodyCellTemplateDirective, {read: TemplateRef<DataCellTemplateContext<TableGridColumn<TData>>>})
     protected bodyTemplateNew: TemplateRef<DataCellTemplateContext<TableGridColumn<TData>>>|undefined|null;
 }

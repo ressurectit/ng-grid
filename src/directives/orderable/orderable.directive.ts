@@ -12,9 +12,8 @@ import {Grid, GridOrderableCell, OrderableIndicatorRenderer, Ordering, GridPlugi
 @Directive(
 {
     selector: '[orderable]',
-    standalone: true,
 })
-export class OrderableSADirective implements OnInit, OnDestroy, OnChanges
+export class OrderableDirective implements OnInit, OnDestroy, OnChanges
 {
     //######################### protected fields #########################
 
@@ -111,18 +110,18 @@ export class OrderableSADirective implements OnInit, OnDestroy, OnChanges
             this.gridInitialized = initialized;
             this.orderingChangeSubscription?.unsubscribe();
             this.orderingChangeSubscription = null;
-            this.initOrdering();            
+            this.initOrdering();
         }));
     }
 
     //######################### public methods - implementation of OnChanges #########################
-    
+
     /**
      * Called when input value changes
      */
     public ngOnChanges(changes: SimpleChanges): void
     {
-        if(nameof<OrderableSADirective>('orderable') in changes)
+        if(nameof<OrderableDirective>('orderable') in changes)
         {
             this.initOrdering();
         }
@@ -158,7 +157,7 @@ export class OrderableSADirective implements OnInit, OnDestroy, OnChanges
 
         if(!this.orderById)
         {
-            throw new Error('OrderableSADirective: missing "orderById"');
+            throw new Error('OrderableDirective: missing "orderById"');
         }
 
         const ordering = this.plugins.Ordering as Ordering;
@@ -224,7 +223,7 @@ export class OrderableSADirective implements OnInit, OnDestroy, OnChanges
 
         if(!this.orderById)
         {
-            throw new Error('OrderableSADirective: missing "orderById"');
+            throw new Error('OrderableDirective: missing "orderById"');
         }
 
         this.indicatorRenderer?.apply(this.ordering.getCssClassesForColumn(this.orderById), this.renderer);

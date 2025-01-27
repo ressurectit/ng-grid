@@ -2,13 +2,13 @@ import {TemplateRef, ViewChild, Directive} from '@angular/core';
 
 import {MatrixContentRendererDefautTemplates} from '../../../matrixContentRenderer.interface';
 import {GridContext, GridDataRowContext, GridRowContext} from '../../../../../../interfaces';
-import {GridContainerTemplateSADirective} from '../../../../../../directives/gridContainerTemplate/gridContainerTemplate.directive';
-import {ContentContainerTemplateSADirective} from '../../../../../../directives/contentContainerTemplate/contentContainerTemplate.directive';
-import {HeaderContainerTemplateSADirective} from '../../../../../../directives/headerContainerTemplate/headerContainerTemplate.directive';
-import {FooterContainerTemplateSADirective} from '../../../../../../directives/footerContainerTemplate/footerContainerTemplate.directive';
-import {HeaderRowContainerTemplateSADirective} from '../../../../../../directives/headerRowContainerTemplate/headerRowContainerTemplate.directive';
-import {ContentRowContainerTemplateSADirective} from '../../../../../../directives/contentRowContainerTemplate/contentRowContainerTemplate.directive';
-import {FooterRowContainerTemplateSADirective} from '../../../../../../directives/footerRowContainerTemplate/footerRowContainerTemplate.directive';
+import {GridContainerTemplateDirective} from '../../../../../../directives/gridContainerTemplate/gridContainerTemplate.directive';
+import {ContentContainerTemplateDirective} from '../../../../../../directives/contentContainerTemplate/contentContainerTemplate.directive';
+import {HeaderContainerTemplateDirective} from '../../../../../../directives/headerContainerTemplate/headerContainerTemplate.directive';
+import {FooterContainerTemplateDirective} from '../../../../../../directives/footerContainerTemplate/footerContainerTemplate.directive';
+import {HeaderRowContainerTemplateDirective} from '../../../../../../directives/headerRowContainerTemplate/headerRowContainerTemplate.directive';
+import {ContentRowContainerTemplateDirective} from '../../../../../../directives/contentRowContainerTemplate/contentRowContainerTemplate.directive';
+import {FooterRowContainerTemplateDirective} from '../../../../../../directives/footerRowContainerTemplate/footerRowContainerTemplate.directive';
 
 /**
  * Base component that stores default templates for content renderig
@@ -21,42 +21,42 @@ export abstract class BaseDefaultTemplatesSAComponent implements MatrixContentRe
     /**
      * @inheritdoc
      */
-    @ViewChild(GridContainerTemplateSADirective, {static: true, read: TemplateRef})
+    @ViewChild(GridContainerTemplateDirective, {static: true, read: TemplateRef})
     public gridContainer!: TemplateRef<GridContext>;
 
     /**
      * @inheritdoc
      */
-    @ViewChild(HeaderContainerTemplateSADirective, {static: true, read: TemplateRef})
+    @ViewChild(HeaderContainerTemplateDirective, {static: true, read: TemplateRef})
     public headerContainer!: TemplateRef<GridContext>; 
 
     /**
      * @inheritdoc
      */
-    @ViewChild(ContentContainerTemplateSADirective, {static: true, read: TemplateRef})
+    @ViewChild(ContentContainerTemplateDirective, {static: true, read: TemplateRef})
     public contentContainer!: TemplateRef<GridContext>;
 
     /**
      * @inheritdoc
      */
-    @ViewChild(FooterContainerTemplateSADirective, {static: true, read: TemplateRef})
+    @ViewChild(FooterContainerTemplateDirective, {static: true, read: TemplateRef})
     public footerContainer!: TemplateRef<GridContext>;
 
     /**
      * @inheritdoc
      */
-    @ViewChild(HeaderRowContainerTemplateSADirective, {static: true, read: TemplateRef})
+    @ViewChild(HeaderRowContainerTemplateDirective, {static: true, read: TemplateRef})
     public headerRowContainer!: TemplateRef<GridRowContext>;
 
     /**
      * @inheritdoc
      */
-    @ViewChild(ContentRowContainerTemplateSADirective, {static: true, read: TemplateRef})
+    @ViewChild(ContentRowContainerTemplateDirective, {static: true, read: TemplateRef})
     public contentRowContainer!: TemplateRef<GridDataRowContext>;
 
     /**
      * @inheritdoc
      */
-    @ViewChild(FooterRowContainerTemplateSADirective, {static: true, read: TemplateRef})
+    @ViewChild(FooterRowContainerTemplateDirective, {static: true, read: TemplateRef})
     public footerRowContainer!: TemplateRef<GridRowContext>;
 }

@@ -9,9 +9,8 @@ import {rowColumnsAttribute} from '../../misc/utils';
 @Directive(
 {
     selector: '[gridContainerTemplate]',
-    standalone: true,
 })
-export class GridContainerTemplateSADirective
+export class GridContainerTemplateDirective
 {
     //######################### public properties #########################
 
@@ -35,12 +34,12 @@ export class GridContainerTemplateSADirective
     public exclude: boolean = false;
 
     //######################### ng language server #########################
-    
+
     /**
      * Allows typechecking for template
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    static ngTemplateContextGuard(_dir: GridContainerTemplateSADirective, _ctx: unknown): _ctx is GridContext<any>
+    static ngTemplateContextGuard(_dir: GridContainerTemplateDirective, _ctx: unknown): _ctx is GridContext<any>
     {
         return true;
     }

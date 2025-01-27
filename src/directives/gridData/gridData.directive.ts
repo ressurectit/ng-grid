@@ -10,9 +10,8 @@ import {first} from 'rxjs';
 @Directive(
 {
     selector: '[ngGrid][data]',
-    standalone: true,
 })
-export class GridDataSADirective<TData = unknown> implements OnChanges
+export class GridDataDirective<TData = unknown> implements OnChanges
 {
     //######################### public properties - inputs #########################
 
@@ -48,19 +47,19 @@ export class GridDataSADirective<TData = unknown> implements OnChanges
                 metadataSelector:
                 {
                     type: NoMetadataSelectorSAComponent,
-                }
-            }
+                },
+            },
         };
     }
 
     //######################### public methods - implementation of OnChanges #########################
-    
+
     /**
      * Called when input value changes
      */
     public async ngOnChanges(changes: SimpleChanges): Promise<void>
     {
-        if(nameof<GridDataSADirective>('data') in changes)
+        if(nameof<GridDataDirective>('data') in changes)
         {
             await lastValueFrom(this._grid.initialized.pipe(first(itm => itm)));
 
@@ -69,7 +68,7 @@ export class GridDataSADirective<TData = unknown> implements OnChanges
             this._grid.execute(grid =>
             {
                 const dataLoader = grid.getPlugin<DataLoader>(GridPluginType.DataLoader);
-        
+
                 (dataLoader.options as SyncDataLoaderOptions).data = Array.isArray(data) ? data : [];
                 dataLoader.loadData();
             });

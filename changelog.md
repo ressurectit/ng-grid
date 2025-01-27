@@ -14,6 +14,24 @@
 - renamed `InfinityNaNSAPipe` pipe to `InfinityNaNPipe`
 - renamed `ReadValueSAPipe` pipe to `ReadValuePipe`
 - renamed `ResolveForwardRefSAPipe` pipe to `ResolveForwardRefPipe`
+- renamed `AttachPluginsSADirective` directive to `AttachPluginsDirective`
+- renamed `ContentCellTemplateSADirective` directive to `ContentCellTemplateDirective`
+- renamed `ContentContainerTemplateSADirective` directive to `ContentContainerTemplateDirective`
+- renamed `ContentRowContainerTemplateSADirective` directive to `ContentRowContainerTemplateDirective`
+- renamed `FooterCellTemplateSADirective` directive to `FooterCellTemplateDirective`
+- renamed `FooterContainerTemplateSADirective` directive to `FooterContainerTemplateDirective`
+- renamed `FooterRowContainerTemplateSADirective` directive to `FooterRowContainerTemplateDirective`
+- renamed `GridContainerTemplateSADirective` directive to `GridContainerTemplateDirective`
+- renamed `GridDataSADirective` directive to `GridDataDirective`
+- renamed `HeaderCellTemplateSADirective` directive to `HeaderCellTemplateDirective`
+- renamed `HeaderContainerTemplateSADirective` directive to `HeaderContainerTemplateDirective`
+- renamed `HeaderRowContainerTemplateSADirective` directive to `HeaderRowContainerTemplateDirective`
+- renamed `MatrixGridColumnSADirective` directive to `MatrixGridColumnDirective`
+- renamed `OrderableSADirective` directive to `OrderableDirective`
+- renamed `ShowMetadataSelectorForSADirective` directive to `ShowMetadataSelectorForDirective`
+- renamed `TableGridBodyCellTemplateSADirective` directive to `TableGridBodyCellTemplateDirective`
+- renamed `TableGridHeaderCellTemplateSADirective` directive to `TableGridHeaderCellTemplateDirective`
+- renamed `UseTableSADirective` directive to `UseTableDirective`
 
 ## Version 10.1.2 (2024-11-27)
 

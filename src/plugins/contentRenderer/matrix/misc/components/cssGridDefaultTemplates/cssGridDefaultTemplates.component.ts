@@ -4,19 +4,19 @@ import {CommonModule} from '@angular/common';
 import {MatrixContentRendererDefautTemplates} from '../../../matrixContentRenderer.interface';
 import {GridContainerSAComponent} from '../../../../../../components/gridContainer/gridContainer.component';
 import {ContentContainerSAComponent} from '../../../../../../components/contentContainer/contentContainer.component';
-import {GridContainerTemplateSADirective} from '../../../../../../directives/gridContainerTemplate/gridContainerTemplate.directive';
-import {ContentContainerTemplateSADirective} from '../../../../../../directives/contentContainerTemplate/contentContainerTemplate.directive';
+import {GridContainerTemplateDirective} from '../../../../../../directives/gridContainerTemplate/gridContainerTemplate.directive';
+import {ContentContainerTemplateDirective} from '../../../../../../directives/contentContainerTemplate/contentContainerTemplate.directive';
 import {BaseDefaultTemplatesSAComponent} from '../baseDefaultTemplates/baseDefaultTemplates.component';
 import {HeaderContainerSAComponent} from '../../../../../../components/headerContainer/headerContainer.component';
 import {FooterContainerSAComponent} from '../../../../../../components/footerContainer/footerContainer.component';
-import {FooterContainerTemplateSADirective} from '../../../../../../directives/footerContainerTemplate/footerContainerTemplate.directive';
-import {HeaderContainerTemplateSADirective} from '../../../../../../directives/headerContainerTemplate/headerContainerTemplate.directive';
+import {FooterContainerTemplateDirective} from '../../../../../../directives/footerContainerTemplate/footerContainerTemplate.directive';
+import {HeaderContainerTemplateDirective} from '../../../../../../directives/headerContainerTemplate/headerContainerTemplate.directive';
 import {HeaderRowContainerSAComponent} from '../../../../../../components/headerRowContainer/headerRowContainer.component';
 import {ContentRowContainerSAComponent} from '../../../../../../components/contentRowContainer/contentRowContainer.component';
 import {FooterRowContainerSAComponent} from '../../../../../../components/footerRowContainer/footerRowContainer.component';
-import {HeaderRowContainerTemplateSADirective} from '../../../../../../directives/headerRowContainerTemplate/headerRowContainerTemplate.directive';
-import {ContentRowContainerTemplateSADirective} from '../../../../../../directives/contentRowContainerTemplate/contentRowContainerTemplate.directive';
-import {FooterRowContainerTemplateSADirective} from '../../../../../../directives/footerRowContainerTemplate/footerRowContainerTemplate.directive';
+import {HeaderRowContainerTemplateDirective} from '../../../../../../directives/headerRowContainerTemplate/headerRowContainerTemplate.directive';
+import {ContentRowContainerTemplateDirective} from '../../../../../../directives/contentRowContainerTemplate/contentRowContainerTemplate.directive';
+import {FooterRowContainerTemplateDirective} from '../../../../../../directives/footerRowContainerTemplate/footerRowContainerTemplate.directive';
 import {CssGridTemplateColumnsPipe} from '../../../../../../pipes/cssGridTemplateColumns/cssGridTemplateColumns.pipe';
 
 /**
@@ -37,13 +37,13 @@ import {CssGridTemplateColumnsPipe} from '../../../../../../pipes/cssGridTemplat
         HeaderRowContainerSAComponent,
         ContentRowContainerSAComponent,
         FooterRowContainerSAComponent,
-        GridContainerTemplateSADirective,
-        HeaderContainerTemplateSADirective,
-        ContentContainerTemplateSADirective,
-        FooterContainerTemplateSADirective,
-        HeaderRowContainerTemplateSADirective,
-        ContentRowContainerTemplateSADirective,
-        FooterRowContainerTemplateSADirective,
+        GridContainerTemplateDirective,
+        HeaderContainerTemplateDirective,
+        ContentContainerTemplateDirective,
+        FooterContainerTemplateDirective,
+        HeaderRowContainerTemplateDirective,
+        ContentRowContainerTemplateDirective,
+        FooterRowContainerTemplateDirective,
         CssGridTemplateColumnsPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush

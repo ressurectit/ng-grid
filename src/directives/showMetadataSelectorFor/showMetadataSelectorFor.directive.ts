@@ -9,9 +9,8 @@ import {GridPluginType} from '../../misc/enums';
 @Directive(
 {
     selector: '[showMetadataSelectorFor]',
-    standalone: true,
 })
-export class ShowMetadataSelectorForSADirective
+export class ShowMetadataSelectorForDirective
 {
     //######################### public properties - inputs #########################
 

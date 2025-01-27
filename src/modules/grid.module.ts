@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 
 import {GridSAComponent, TableGridColumnSAComponent, TableGridMetadataGathererSAComponent} from '../components';
-import {TableGridBodyCellTemplateSADirective, TableGridHeaderCellTemplateSADirective} from '../directives';
+import {TableGridBodyCellTemplateDirective, TableGridHeaderCellTemplateDirective} from '../directives';
 
 /**
  * Module for grid components
@@ -13,16 +13,16 @@ import {TableGridBodyCellTemplateSADirective, TableGridHeaderCellTemplateSADirec
         GridSAComponent,
         TableGridMetadataGathererSAComponent,
         TableGridColumnSAComponent,
-        TableGridHeaderCellTemplateSADirective,
-        TableGridBodyCellTemplateSADirective,
+        TableGridHeaderCellTemplateDirective,
+        TableGridBodyCellTemplateDirective,
     ],
     exports:
     [
         GridSAComponent,
         TableGridMetadataGathererSAComponent,
         TableGridColumnSAComponent,
-        TableGridHeaderCellTemplateSADirective,
-        TableGridBodyCellTemplateSADirective,
+        TableGridHeaderCellTemplateDirective,
+        TableGridBodyCellTemplateDirective,
     ],
 })
 export class GridModule

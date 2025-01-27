@@ -11,9 +11,8 @@ import {TableDefaultTemplatesSAComponent} from '../../plugins/contentRenderer/ma
 @Directive(
 {
     selector: '[ngGrid][useTable]',
-    standalone: true,
 })
-export class UseTableSADirective
+export class UseTableDirective
 {
     //######################### constructor #########################
     constructor(@Inject(GRID_INSTANCE) grid: Grid,)
@@ -27,8 +26,8 @@ export class UseTableSADirective
                     options: <MatrixContentRendererOptions>
                     {
                         defaults: TableDefaultTemplatesSAComponent,
-                    }
-                }
+                    },
+                },
             },
         };
     }
