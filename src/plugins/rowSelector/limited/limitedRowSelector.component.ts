@@ -17,13 +17,6 @@ import {GridPlugin} from '../../../interfaces';
 })
 export class LimitedRowSelectorComponent<TSelectedData = unknown, TData = unknown, TId = unknown> extends BasicRowSelectorComponent<TSelectedData, TData, TId> implements LimitedRowSelector<TSelectedData, TData, TId>, GridPlugin<LimitedRowSelectorOptions<TSelectedData, TData, TId>>, OnDestroy
 {
-    //######################### protected fields - overrides #########################
-
-    /**
-     * @inheritdoc
-     */
-    protected override ɵoptions: LimitedRowSelectorOptions<TSelectedData, TData, TId> = super.ɵoptions as LimitedRowSelectorOptions<TSelectedData, TData, TId>;
-
     //######################### public properties - overrides #########################
 
     /**
@@ -31,7 +24,7 @@ export class LimitedRowSelectorComponent<TSelectedData = unknown, TData = unknow
      */
     public override get options(): LimitedRowSelectorOptions<TSelectedData, TData, TId>
     {
-        return this.ɵoptions;
+        return this.ɵoptions as LimitedRowSelectorOptions<TSelectedData, TData, TId>;
     }
     public override set options(options: RecursivePartial<LimitedRowSelectorOptions<TSelectedData, TData, TId>>)
     {
@@ -47,7 +40,7 @@ export class LimitedRowSelectorComponent<TSelectedData = unknown, TData = unknow
      */
     public override selectItem(item: TData, select: boolean = true): void
     {
-        if(!isNaN(this.ɵoptions.limit) && !isNaN(this.selectedIds.length) && this.selectedIds.length >= this.ɵoptions.limit && select)
+        if(!isNaN(this.options.limit) && !isNaN(this.selectedIds.length) && this.selectedIds.length >= this.options.limit && select)
         {
             return;
         }

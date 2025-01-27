@@ -20,13 +20,6 @@ import {GRID_INITIALIZER_OPTIONS} from '../../../misc/tokens';
 })
 export class QueryPermanentStorageGridInitializerComponent extends QueryGridInitializerComponent implements QueryPermanentStorageGridInitializer, GridPlugin<QueryPermanentStorageGridInitializerOptions>
 {
-    //######################### protected fields - overrides #########################
-
-    /**
-     * @inheritdoc
-     */
-    protected override ɵoptions: QueryPermanentStorageGridInitializerOptions = super.ɵoptions as QueryPermanentStorageGridInitializerOptions;
-
     //######################### public properties - implementation of NoGridInitializer #########################
 
     /**
@@ -34,7 +27,7 @@ export class QueryPermanentStorageGridInitializerComponent extends QueryGridInit
      */
     public override get options(): QueryPermanentStorageGridInitializerOptions
     {
-        return this.ɵoptions;
+        return this.ɵoptions as QueryPermanentStorageGridInitializerOptions;
     }
     public override set options(options: QueryPermanentStorageGridInitializerOptions)
     {

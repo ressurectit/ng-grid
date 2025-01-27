@@ -340,7 +340,7 @@ export class DialogMetadataSelectorComponent implements DialogMetadataSelector<T
             this.columnsForSelection.set(Object.keys(storageState)
                 .map(id => allMetadata?.columns.find(itm => itm.id == id))
                 .filter(itm => !!itm)
-                .concat(allMetadata?.columns.filter(meta => !storageState[meta.id ?? 0])) as GridColumn[]
+                .concat(allMetadata?.columns.filter(meta => !storageState[meta.id ?? 0]) ?? []) as GridColumn[]
             );
         }
         else
