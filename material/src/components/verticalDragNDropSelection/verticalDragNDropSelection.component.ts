@@ -2,7 +2,7 @@ import {Inject, Component, ChangeDetectionStrategy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {CdkDragDrop, moveItemInArray, DragDropModule} from '@angular/cdk/drag-drop';
-import {LocalizeSAPipe} from '@anglr/common';
+import {LocalizePipe} from '@anglr/common';
 import {TableGridMetadata, GridColumn} from '@anglr/grid';
 import {isCheckbox} from '@jscrpt/common';
 
@@ -20,7 +20,7 @@ import {VerticalDragNDropSelectionTexts, CssClassesVerticalDragNDropSelection, V
     imports:
     [
         CommonModule,
-        LocalizeSAPipe,
+        LocalizePipe,
         DragDropModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,

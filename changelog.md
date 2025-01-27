@@ -1,5 +1,20 @@
 # Changelog
 
+## Version 11.0.0 (2025-01-27)
+
+### BREAKING CHANGES
+
+- minimal supported version of `@angular` is `19.1.0`
+- minimal supported version of `@jscrpt/common` is `7.0.0`
+- minimal supported version of `@anglr/common` is `22.0.0`
+- minimal supported version of `tslib` is `2.8.1`
+- renamed `CellContextSAPipe` pipe to `CellContextPipe`
+- renamed `CssGridTemplateColumnsSAPipe` pipe to `CssGridTemplateColumnsPipe`
+- renamed `DataCellContextSAPipe` pipe to `DataCellContextPipe`
+- renamed `InfinityNaNSAPipe` pipe to `InfinityNaNPipe`
+- renamed `ReadValueSAPipe` pipe to `ReadValuePipe`
+- renamed `ResolveForwardRefSAPipe` pipe to `ResolveForwardRefPipe`
+
 ## Version 10.1.2 (2024-11-27)
 
 ### Bug Fixes
@@ -425,6 +440,7 @@
    - updated `reinitializeOptions`, new signatures supporting `force` parameter
 
 ### BREAKING CHANGES
+
 - minimal supported version of `node.js` is `18`
 - minimal supported version of `@angular` is `17.0.1`
 - minimal supported version of `@angular` material is `17.0.0`

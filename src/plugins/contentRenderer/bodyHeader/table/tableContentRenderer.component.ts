@@ -8,7 +8,7 @@ import {GridMetadata, GridPluginInstances} from '../../../../interfaces';
 import {CONTENT_RENDERER_OPTIONS, GRID_PLUGIN_INSTANCES} from '../../../../misc/tokens';
 import {TableBodyContentRendererSAComponent} from './body/basic/tableBodyContentRenderer.component';
 import {TableHeaderContentRendererSAComponent} from './header/basic/tableHeaderContentRenderer.component';
-import {ResolveForwardRefSAPipe} from '../../../../pipes';
+import {ResolveForwardRefPipe} from '../../../../pipes';
 
 /**
  * Default options for 'TableContentRendererComponent'
@@ -52,7 +52,7 @@ const defaultOptions: TableContentRendererOptions =
     [
         CommonModule,
         CommonDynamicModule,
-        ResolveForwardRefSAPipe,
+        ResolveForwardRefPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

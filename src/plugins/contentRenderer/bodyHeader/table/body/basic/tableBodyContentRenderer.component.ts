@@ -5,7 +5,7 @@ import {TableBodyContentRendererOptions} from '../../tableContentRenderer.interf
 import {BodyContentRendererAbstractComponent} from '../../../bodyContentRendererAbstract.component';
 import {GridPluginInstances, TableGridColumn, TableGridMetadata} from '../../../../../../interfaces';
 import {BODY_CONTENT_RENDERER_OPTIONS, GRID_PLUGIN_INSTANCES} from '../../../../../../misc/tokens';
-import {DataCellContextSAPipe, ReadValueSAPipe} from '../../../../../../pipes';
+import {DataCellContextPipe, ReadValuePipe} from '../../../../../../pipes';
 import {provideDataCellContextFactoryFn} from '../../../../../../misc/providers';
 import {dataCellContextFactory} from '../../../../../../misc/utils';
 
@@ -31,8 +31,8 @@ const defaultOptions: TableBodyContentRendererOptions =
     imports:
     [
         CommonModule,
-        ReadValueSAPipe,
-        DataCellContextSAPipe,
+        ReadValuePipe,
+        DataCellContextPipe,
     ],
     providers:
     [

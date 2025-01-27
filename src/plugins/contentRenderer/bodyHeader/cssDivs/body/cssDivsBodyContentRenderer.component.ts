@@ -1,12 +1,12 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Optional, Inject, HostBinding, ElementRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {MergeCssClassesSAPipe} from '@anglr/common';
+import {MergeCssClassesPipe} from '@anglr/common';
 
 import {CssDivsBodyContentRendererOptions, CssClassesCssDivsBodyContentRenderer} from '../cssDivsContentRenderer.interface';
 import {BodyContentRendererAbstractComponent} from '../../bodyContentRendererAbstract.component';
 import {GridPluginInstances, TableGridColumn, TableGridMetadata} from '../../../../../interfaces';
 import {BODY_CONTENT_RENDERER_OPTIONS, GRID_PLUGIN_INSTANCES} from '../../../../../misc/tokens';
-import {DataCellContextSAPipe, ReadValueSAPipe} from '../../../../../pipes';
+import {DataCellContextPipe, ReadValuePipe} from '../../../../../pipes';
 import {provideDataCellContextFactoryFn} from '../../../../../misc/providers';
 import {dataCellContextFactory} from '../../../../../misc/utils';
 
@@ -37,9 +37,9 @@ const defaultOptions: CssDivsBodyContentRendererOptions =
     imports:
     [
         CommonModule,
-        ReadValueSAPipe,
-        DataCellContextSAPipe,
-        MergeCssClassesSAPipe,
+        ReadValuePipe,
+        DataCellContextPipe,
+        MergeCssClassesPipe,
     ],
     providers:
     [

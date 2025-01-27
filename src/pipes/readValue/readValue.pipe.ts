@@ -4,8 +4,8 @@ import {getValue} from '@jscrpt/common';
 /**
  * Reads value from object and returns it, can address nested objects using '.' notation
  */
-@Pipe({name: 'readValue', standalone: true})
-export class ReadValueSAPipe implements PipeTransform
+@Pipe({name: 'readValue'})
+export class ReadValuePipe implements PipeTransform
 {
     //######################### public methods - implementation of PipeTransform #########################
 

@@ -5,7 +5,7 @@ import {Paginator, RecursivePartial, isPresent} from '@jscrpt/common';
 import {PagingAbstractComponent} from '../pagingAbstract.component';
 import {BasicPagingOptions, BasicPaging, CssClassesBasicPaging, PagesItem, ItemsPerPageItem} from './basicPaging.interface';
 import {DEFAULT_OPTIONS} from '../../../misc/tokens';
-import {InfinityNaNSAPipe} from '../../../pipes';
+import {InfinityNaNPipe} from '../../../pipes';
 
 /**
  * Default options for paging
@@ -38,7 +38,7 @@ const defaultOptions: BasicPagingOptions =
     imports:
     [
         CommonModule,
-        InfinityNaNSAPipe,
+        InfinityNaNPipe,
     ],
     providers:
     [

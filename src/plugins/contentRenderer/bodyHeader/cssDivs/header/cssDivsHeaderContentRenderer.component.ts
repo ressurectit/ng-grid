@@ -1,11 +1,11 @@
 import {Component, ChangeDetectionStrategy, Inject, Optional, HostBinding} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {MergeCssClassesSAPipe} from '@anglr/common';
+import {MergeCssClassesPipe} from '@anglr/common';
 
 import {CssDivsHeaderContentRendererOptions} from '../cssDivsContentRenderer.interface';
 import {HeaderContentRendererAbstractComponent} from '../../headerContentRendererAbstract.component';
 import {HEADER_CONTENT_RENDERER_OPTIONS} from '../../../../../misc/tokens';
-import {CellContextSAPipe} from '../../../../../pipes';
+import {CellContextPipe} from '../../../../../pipes';
 import {provideCellContextFactoryFn} from '../../../../../misc/providers';
 import {cellContextFactory} from '../../../../../misc/utils';
 import {OrderableSADirective} from '../../../../../directives';
@@ -36,8 +36,8 @@ const defaultOptions: CssDivsHeaderContentRendererOptions =
     imports:
     [
         CommonModule,
-        CellContextSAPipe,
-        MergeCssClassesSAPipe,
+        CellContextPipe,
+        MergeCssClassesPipe,
         OrderableSADirective,
     ],
     providers:

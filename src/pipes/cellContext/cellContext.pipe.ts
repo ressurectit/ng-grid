@@ -7,8 +7,8 @@ import {CellContextFactoryFn} from '../../misc/types';
 /**
  * Obtains cell context for template
  */
-@Pipe({name: 'cellContext', standalone: true})
-export class CellContextSAPipe implements PipeTransform
+@Pipe({name: 'cellContext'})
+export class CellContextPipe implements PipeTransform
 {
     //######################### constructor #########################
     constructor(@Inject(CELL_CONTEXT_FN) protected factoryFn: CellContextFactoryFn,

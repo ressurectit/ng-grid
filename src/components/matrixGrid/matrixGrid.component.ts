@@ -6,7 +6,7 @@ import {BindThis} from '@jscrpt/common';
 import {GridSAComponent} from '../grid/grid.component';
 import {AsyncDataLoaderSAComponent, BasicPagingSAComponent, MatrixContentRendererSAComponent, NoGridInitializerSAComponent, NoMetadataSelectorSAComponent, NoRowSelectorSAComponent, SimpleNoDataRendererSAComponent, SingleOrderingSAComponent} from '../../plugins';
 import {DEFAULT_OPTIONS, GRID_INSTANCE, GRID_PLUGIN_INSTANCES} from '../../misc/tokens';
-import {ResolveForwardRefSAPipe} from '../../pipes';
+import {ResolveForwardRefPipe} from '../../pipes';
 import {Grid, GridOptions, MatrixGridMetadata, MetadataGatherer} from '../../interfaces';
 import {ContentContainerTemplateSADirective, ContentRowContainerTemplateSADirective, FooterContainerTemplateSADirective, FooterRowContainerTemplateSADirective, GridContainerTemplateSADirective, HeaderContainerTemplateSADirective, HeaderRowContainerTemplateSADirective, MatrixGridColumnSADirective} from '../../directives';
 import {GridPluginInstancesDef} from '../../misc/gridPluginInstancesDef';
@@ -91,7 +91,7 @@ const defaultOptions: GridOptions =
     [
         CommonModule,
         CommonDynamicModule,
-        ResolveForwardRefSAPipe,
+        ResolveForwardRefPipe,
     ],
     providers:
     [

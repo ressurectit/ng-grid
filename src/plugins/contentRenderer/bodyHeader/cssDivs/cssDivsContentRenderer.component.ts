@@ -11,7 +11,7 @@ import {GridMetadata, GridPluginInstances, TableGridColumn, TableGridMetadata} f
 import {CONTENT_RENDERER_OPTIONS, GRID_PLUGIN_INSTANCES} from '../../../../misc/tokens';
 import {CssDivsBodyContentRendererSAComponent} from './body/cssDivsBodyContentRenderer.component';
 import {CssDivsHeaderContentRendererSAComponent} from './header/cssDivsHeaderContentRenderer.component';
-import {ResolveForwardRefSAPipe} from '../../../../pipes';
+import {ResolveForwardRefPipe} from '../../../../pipes';
 
 /**
  * Default options for 'CssDivsContentRendererComponent'
@@ -53,7 +53,7 @@ const defaultOptions: CssDivsContentRendererOptions =
     imports:
     [
         CommonDynamicModule,
-        ResolveForwardRefSAPipe,
+        ResolveForwardRefPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

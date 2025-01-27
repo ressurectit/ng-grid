@@ -3,8 +3,8 @@ import {Pipe, PipeTransform} from '@angular/core';
 /**
  * Transforms NaN value into inifinity symbol
  */
-@Pipe({name: 'infinityNaN', standalone: true})
-export class InfinityNaNSAPipe implements PipeTransform
+@Pipe({name: 'infinityNaN'})
+export class InfinityNaNPipe implements PipeTransform
 {
     /**
      * Transforms NaN value into inifinity symbol

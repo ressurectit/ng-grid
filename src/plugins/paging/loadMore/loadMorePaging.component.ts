@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, ValueProvider, signal, Signal, computed} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {LocalizeSAPipe} from '@anglr/common';
+import {LocalizePipe} from '@anglr/common';
 
 import {PagingAbstractComponent} from '../pagingAbstract.component';
 import {LoadMorePaging, CssClassesLoadMorePaging, LoadMorePagingOptions} from './loadMorePaging.interface';
@@ -35,7 +35,7 @@ const defaultOptions: LoadMorePagingOptions =
     imports:
     [
         CommonModule,
-        LocalizeSAPipe,
+        LocalizePipe,
     ],
     providers:
     [

@@ -1,6 +1,6 @@
 import {Inject, Component, ChangeDetectionStrategy, ElementRef, ChangeDetectorRef, Optional, signal, WritableSignal, computed, Signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {LocalizeSAPipe} from '@anglr/common';
+import {LocalizePipe} from '@anglr/common';
 import {RecursivePartial, extend} from '@jscrpt/common';
 
 import {DataLoader, GridPlugin, GridPluginInstances} from '../../../interfaces';
@@ -38,7 +38,7 @@ const defaultOptions: SimpleNoDataRendererOptions =
     imports:
     [
         CommonModule,
-        LocalizeSAPipe,
+        LocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

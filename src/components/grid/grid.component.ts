@@ -10,7 +10,7 @@ import {CONTENT_RENDERER_TYPE, DATA_LOADER_TYPE, DEFAULT_OPTIONS, GRID_INITIALIZ
 import {AsyncDataLoaderSAComponent, BasicPagingSAComponent, NoRowSelectorSAComponent, NoGridInitializerSAComponent, NoMetadataSelectorSAComponent, SimpleNoDataRendererSAComponent, SingleOrderingSAComponent, TableContentRendererSAComponent} from '../../plugins';
 import {GridAction, GridFunction} from '../../misc/types';
 import {GridPluginType} from '../../misc/enums';
-import {ResolveForwardRefSAPipe} from '../../pipes';
+import {ResolveForwardRefPipe} from '../../pipes';
 import {GridPluginInstancesDef} from '../../misc/gridPluginInstancesDef';
 
 /**
@@ -93,7 +93,7 @@ const defaultOptions: GridOptions =
     [
         CommonModule,
         CommonDynamicModule,
-        ResolveForwardRefSAPipe,
+        ResolveForwardRefPipe,
     ],
     providers:
     [

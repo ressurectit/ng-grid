@@ -2,9 +2,9 @@ import {Component, ChangeDetectionStrategy, ElementRef, Inject, Optional, forwar
 import {toObservable} from '@angular/core/rxjs-interop';
 import {CommonModule} from '@angular/common';
 import {MatDialog} from '@angular/material/dialog';
-import {PermanentStorage, PERMANENT_STORAGE, LocalizeSAPipe} from '@anglr/common';
+import {PermanentStorage, PERMANENT_STORAGE, LocalizePipe} from '@anglr/common';
 import {GridColumn, GridPlugin, MetadataGatherer, TableGridMetadata, GridPluginInstances, GRID_PLUGIN_INSTANCES, METADATA_SELECTOR_OPTIONS} from '@anglr/grid';
-import {extend} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 import {skip, Subscription} from 'rxjs';
 
 import {DialogMetadataSelectorOptions, DialogMetadataSelector, DialogMetadataSelectorComponentData} from './dialogMetadataSelector.interface';
@@ -64,7 +64,7 @@ const defaultOptions: DialogMetadataSelectorOptions<CssClassesVerticalDragNDropS
     imports:
     [
         CommonModule,
-        LocalizeSAPipe,
+        LocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

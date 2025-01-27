@@ -6,7 +6,7 @@ import {PagingAbstractComponent} from '../pagingAbstract.component';
 import {PreviousNextPaging, PreviousNextPagingOptions, CssClassesPreviousNextPaging} from './previousNextPaging.interface';
 import {DEFAULT_OPTIONS} from '../../../misc/tokens';
 import {ItemsPerPageItem} from '../basic/basicPaging.interface';
-import {InfinityNaNSAPipe} from '../../../pipes';
+import {InfinityNaNPipe} from '../../../pipes';
 
 /**
  * Default options for paging
@@ -39,7 +39,7 @@ const defaultOptions: PreviousNextPagingOptions =
     imports:
     [
         CommonModule,
-        InfinityNaNSAPipe,
+        InfinityNaNPipe,
     ],
     providers:
     [

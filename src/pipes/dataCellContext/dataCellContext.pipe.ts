@@ -7,8 +7,8 @@ import {DataCellContextFactoryFn} from '../../misc/types';
 /**
  * Obtains data cell context for template
  */
-@Pipe({name: 'dataCellContext', standalone: true})
-export class DataCellContextSAPipe implements PipeTransform
+@Pipe({name: 'dataCellContext'})
+export class DataCellContextPipe implements PipeTransform
 {
     //######################### constructor #########################
     constructor(@Inject(DATA_CELL_CONTEXT_FN) protected factoryFn: DataCellContextFactoryFn,

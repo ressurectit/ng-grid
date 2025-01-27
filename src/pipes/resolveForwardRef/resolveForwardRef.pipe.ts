@@ -3,8 +3,8 @@ import {Pipe, PipeTransform, Type, resolveForwardRef} from '@angular/core';
 /**
  * Resolves forwardRef type into type
  */
-@Pipe({name: 'resolveForwardRef', standalone: true})
-export class ResolveForwardRefSAPipe implements PipeTransform
+@Pipe({name: 'resolveForwardRef'})
+export class ResolveForwardRefPipe implements PipeTransform
 {
     //######################### public methods - implementation of PipeTransform #########################
     /**
