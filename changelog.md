@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 11.0.1 (2026-05-20)
+
+### Bug Fixes
+
+- fixed `QueryGridInitializerComponent` plugin component
+   - now taking current navigation path for computing new navigation when storing initial data for grid into query
+
 ## Version 11.0.0 (2025-01-27)
 
 ### BREAKING CHANGES

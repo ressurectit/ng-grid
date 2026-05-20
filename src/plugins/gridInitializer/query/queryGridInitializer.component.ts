@@ -12,7 +12,7 @@ import {GRID_INITIALIZER_OPTIONS} from '../../../misc/tokens';
  */
 const defaultOptions: QueryGridInitializerOptions =
 {
-    prefix: ''
+    prefix: '',
 };
 
 /**
@@ -78,6 +78,19 @@ export class QueryGridInitializerComponent implements QueryGridInitializer, Grid
         return this.ɵoptions.prefix + 'o';
     }
 
+    /**
+     * Gets currently navigated path without query parameters and fragment
+     */
+    protected get currentNavigatedPath(): string
+    {
+        const urlTree = this.router.parseUrl(this.router.url);
+
+        urlTree.fragment = null;
+        urlTree.queryParams = {};
+
+        return this.router.serializeUrl(urlTree);
+    }
+
     //######################### constructor #########################
     constructor(protected router: Router,
                 public pluginElement: ElementRef<HTMLElement>,
@@ -132,12 +145,11 @@ export class QueryGridInitializerComponent implements QueryGridInitializer, Grid
 
         pageParam[this.pageName] = page;
 
-        this.router.navigate(['.'],
+        this.router.navigate([this.currentNavigatedPath],
         {
-            relativeTo: this.route,
             queryParams: pageParam,
             queryParamsHandling: 'merge',
-            replaceUrl: true
+            replaceUrl: true,
         });
     }
 
@@ -163,12 +175,11 @@ export class QueryGridInitializerComponent implements QueryGridInitializer, Grid
 
         pageParam[this.itemsPerPageName] = itemsPerPage;
 
-        this.router.navigate(['.'],
+        this.router.navigate([this.currentNavigatedPath],
         {
-            relativeTo: this.route,
             queryParams: pageParam,
             queryParamsHandling: 'merge',
-            replaceUrl: true
+            replaceUrl: true,
         });
     }
 
@@ -194,12 +205,11 @@ export class QueryGridInitializerComponent implements QueryGridInitializer, Grid
 
         orderingParam[this.orderingName] = serializeToUrlQuery(ordering);
 
-        this.router.navigate(['.'],
+        this.router.navigate([this.currentNavigatedPath],
         {
-            relativeTo: this.route,
             queryParams: orderingParam,
             queryParamsHandling: 'merge',
-            replaceUrl: true
+            replaceUrl: true,
         });
     }
 }
