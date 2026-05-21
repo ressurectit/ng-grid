@@ -363,7 +363,7 @@ export class MatrixContentRendererComponent implements MatrixContentRenderer, Gr
                 this.renderContainer(this.metadataSelector?.metadata()?.contentContainer?.template ?? this.defaultsSafe.contentContainer, this.renderContentRowsContainers);
 
                 //render footer
-                this.renderContainer(this.metadataSelector?.metadata()?.contentContainer?.template ?? this.defaultsSafe.footerContainer, this.renderFooterRowsContainers);
+                this.renderContainer(this.metadataSelector?.metadata()?.footerContainer?.template ?? this.defaultsSafe.footerContainer, this.renderFooterRowsContainers);
             }
 
             this.gridColumns = null;

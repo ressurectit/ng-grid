@@ -26,6 +26,16 @@ export class UseTableDirective
                     options: <MatrixContentRendererOptions>
                     {
                         defaults: TableDefaultTemplatesComponent,
+                        cssClasses:
+                        {
+                            gridContainerClass: 'grid-container-table',
+                            headerContainerClass: 'grid-header-table',
+                            contentContainerClass: 'grid-body-table',
+                            footerContainerClass: 'grid-footer-table',
+                            headerRowContainerClass: 'grid-header-row-table',
+                            contentRowContainerClass: 'grid-content-row-table',
+                            footerRowContainerClass: 'grid-footer-row-table',
+                        },
                     },
                 },
             },

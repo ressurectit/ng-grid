@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 11.0.2 (2026-05-21)
+
+### Bug Fixes
+
+- fixed `UseTableDirective` directive
+   - now correctly also sets css classes that does not apply css grid to elements, these css classes do nothing can be used for styling html table grid
+- fixed `MatrixContentRendererComponent` plugin component
+   - now correctly sets custom `footerContainer` when rendering *footer container*
+
 ## Version 11.0.1 (2026-05-20)
 
 ### Bug Fixes
