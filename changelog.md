@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 11.0.4 (2026-06-02)
+
+### Bug Fixes
+
+- fixed missing readme strongly typed and detail view samples
+
 ## Version 11.0.3 (2026-05-22)
 
 ### Bug Fixes

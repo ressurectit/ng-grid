@@ -35,12 +35,14 @@ The package is shipped in three entry points:
 - [How to write a custom plugin](#how-to-write-a-custom-plugin)
 - [Samples](#samples)
   - [Basic asynchronous data (matrix grid)](#basic-asynchronous-data-matrix-grid)
+  - [Strongly typed grid (compile-time type safety + IntelliSense) ⭐](#strongly-typed-grid-compile-time-type-safety--intellisense-)
   - [Synchronous (static) data using `GridDataDirective`](#synchronous-static-data-using-griddatadirective)
   - [Global configuration via DI providers](#global-configuration-via-di-providers)
   - [Ordering](#ordering-sample)
   - [Row selection](#row-selection-sample)
   - [Metadata selection (dialog)](#metadata-selection-sample-dialog)
   - [Customized view (list / gallery)](#customized-view-list--gallery)
+  - [Detail (master / detail) view](#detail-master--detail-view)
   - [Rendering as an HTML `<table>`](#rendering-as-an-html-table)
   - [Legacy (table) grid](#legacy-table-grid)
   - [Custom data loader plugin (reactive signals)](#custom-data-loader-plugin-reactive-signals)
@@ -566,6 +568,148 @@ export class BasicSampleComponent
 </div>
 ```
 
+### Strongly typed grid (compile-time type safety + IntelliSense) ⭐
+
+> **Strongly recommended for every real-world application.**
+>
+> By default `*contentCellTemplate="let row = datum"` types `row` as `any`, which silently disables type checking inside the template. A tiny one-time investment – a custom directive that extends `ContentCellTemplateDirective` and declares an `ngTemplateContextGuard` – turns the cell template into a **strongly typed binding**. From that moment on:
+>
+> - Angular's template type checker validates every property access (`row.country`, `row.citizen.name`, …) at **compile time**.
+> - Your IDE provides full **IntelliSense / autocomplete** for the row datum.
+> - Typos and refactor-broken references are caught by `ng build` / `tsc` instead of blowing up at runtime.
+> - Refactoring the data model (renaming a field, changing a type) is **safe** – the compiler will pinpoint every template that needs updating.
+
+Define a typed directive once per entity (or per use-case):
+
+```typescript
+import {Directive, ExistingProvider, forwardRef} from '@angular/core';
+import {ContentCellTemplateDirective, GridDataCellContext} from '@anglr/grid';
+
+import {Address} from '../../services/api/data';
+
+/**
+ * Directive used for obtaining template for content cell for 'Address'
+ */
+@Directive(
+{
+    selector: '[addressContentCellTemplate]',
+    providers:
+    [
+        <ExistingProvider>
+        {
+            provide: ContentCellTemplateDirective,
+            useExisting: forwardRef(() => AddressContentCellTemplateDirective),
+        },
+    ],
+})
+export class AddressContentCellTemplateDirective extends ContentCellTemplateDirective
+{
+    //######################### ng language server #########################
+
+    /**
+     * Allows typechecking for template
+     */
+    static override ngTemplateContextGuard(_dir: ContentCellTemplateDirective, _ctx: unknown): _ctx is GridDataCellContext<Address>
+    {
+        return true;
+    }
+}
+```
+
+Use it in the component – the only change versus the basic sample is importing the directive and swapping `*contentCellTemplate` for the typed `*addressContentCellTemplate`:
+
+```typescript
+import {Component, ChangeDetectionStrategy, inject} from '@angular/core';
+import {AsyncDataLoaderOptions, DataResponse, GridOptions, MatrixGridModule, SimpleOrdering} from '@anglr/grid';
+import {RecursivePartial} from '@jscrpt/common';
+import {lastValueFrom} from '@jscrpt/common/rxjs';
+
+import {Address, DataService} from '../../../services/api/data';
+import {AddressContentCellTemplateDirective} from '../../../directives';
+
+@Component(
+{
+    selector: 'strongly-typed-sample',
+    templateUrl: 'stronglyTypedSample.component.html',
+    imports:
+    [
+        MatrixGridModule,
+        AddressContentCellTemplateDirective,
+    ],
+    providers:
+    [
+        DataService,
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class StronglyTypedSampleComponent
+{
+    //######################### protected fields #########################
+
+    private readonly _dataSvc: DataService = inject(DataService);
+
+    //######################### protected properties - template bindings #########################
+
+    protected readonly gridOptions: RecursivePartial<GridOptions> =
+    {
+        plugins:
+        {
+            dataLoader:
+            {
+                options: <AsyncDataLoaderOptions<Address, SimpleOrdering>>
+                {
+                    dataCallback: (page, itemsPerPage, ordering) => this._getData(page, itemsPerPage, ordering),
+                },
+            },
+        },
+    };
+
+    //######################### private methods #########################
+
+    private async _getData(page: number, itemsPerPage: number, ordering: SimpleOrdering): Promise<DataResponse<Address>>
+    {
+        const result = await lastValueFrom(this._dataSvc.getData({page, size: itemsPerPage}, ordering));
+
+        return {
+            data: result?.content ?? [],
+            totalCount: result?.totalElements ?? 0,
+        };
+    }
+}
+```
+
+```html
+<div ngGrid [gridOptions]="gridOptions">
+    <ng-container matrixGridColumn="country">
+        <div *headerCellTemplate>Country</div>
+        <!-- `row` is now of type `Address` – IDE autocompletes and `ng build` fails on typos -->
+        <div *addressContentCellTemplate="let row = datum">{{row.country}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="city">
+        <div *headerCellTemplate>City</div>
+        <div *addressContentCellTemplate="let row = datum">{{row.city}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="zip">
+        <div *headerCellTemplate>ZIP</div>
+        <div *addressContentCellTemplate="let row = datum">{{row.zip}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="street">
+        <div *headerCellTemplate>Street</div>
+        <div *addressContentCellTemplate="let row = datum">{{row.street}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="houseNumber">
+        <div *headerCellTemplate>House Number</div>
+        <div *addressContentCellTemplate="let row = datum">{{row.houseNumber}}</div>
+    </ng-container>
+</div>
+```
+
+> 💡 The same pattern works for any template directive that exposes a `$implicit`/`datum` context (e.g. `*contentRowContainerTemplate`) – declare a typed wrapper directive once and benefit from full type checking everywhere it is used.
+
 ### Synchronous (static) data using `GridDataDirective`
 
 `GridDataDirective` ([`[ngGrid][data]`](src/directives/gridData/gridData.directive.ts)) is a one-liner shortcut that swaps the grid to a sync data loader. There is also `SyncDataLoaderComponent` for full control.
@@ -930,6 +1074,149 @@ Because the matrix renderer is template based, you can replace `*headerContainer
     </div>
 </div>
 ```
+
+### Detail (master / detail) view
+
+The matrix renderer lets you mix regular column templates with a *full-width* row that spans across all columns. By combining `matrixGridColumn` cells with an extra `*contentRowContainerTemplate` you get a classic master/detail grid where each row can expand to reveal additional information – without writing a custom content renderer.
+
+The data model adds a single boolean flag that controls whether the detail is visible:
+
+```typescript
+export interface AddressDetail extends Address
+{
+    detailVisible?: boolean;
+}
+```
+
+```typescript
+import {Component, ChangeDetectionStrategy, inject} from '@angular/core';
+import {AsyncDataLoaderOptions, DataResponse, GridOptions, MatrixGridModule, SimpleOrdering} from '@anglr/grid';
+import {UpDownCaretIconComponent} from '@anglr/animations';
+import {RecursivePartial} from '@jscrpt/common';
+import {lastValueFrom} from '@jscrpt/common/rxjs';
+
+import {AddressDetail, DataService} from '../../../services/api/data';
+
+@Component(
+{
+    selector: 'detail-view-sample',
+    templateUrl: 'detailViewSample.component.html',
+    imports:
+    [
+        MatrixGridModule,
+        UpDownCaretIconComponent,
+    ],
+    providers:
+    [
+        DataService,
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class DetailViewSampleComponent
+{
+    //######################### protected fields #########################
+
+    private readonly _dataSvc: DataService = inject(DataService);
+
+    //######################### protected properties - template bindings #########################
+
+    protected readonly gridOptions: RecursivePartial<GridOptions> =
+    {
+        plugins:
+        {
+            dataLoader:
+            {
+                options: <AsyncDataLoaderOptions<AddressDetail, SimpleOrdering>>
+                {
+                    dataCallback: (page, itemsPerPage, ordering) => this._getData(page, itemsPerPage, ordering),
+                },
+            },
+        },
+    };
+
+    //######################### private methods #########################
+
+    private async _getData(page: number, itemsPerPage: number, ordering: SimpleOrdering): Promise<DataResponse<AddressDetail>>
+    {
+        const result = await lastValueFrom(this._dataSvc.getData({page, size: itemsPerPage}, ordering));
+
+        return {
+            data: result?.content ?? [],
+            totalCount: result?.totalElements ?? 0,
+        };
+    }
+}
+```
+
+```html
+<div ngGrid [gridOptions]="gridOptions">
+    <ng-container matrixGridColumn="detailtoggle">
+        <div *headerCellTemplate></div>
+
+        <div *contentCellTemplate="let row = datum">
+            <div class="up-down-caret-icon" [(closed)]="row.detailVisible"></div>
+        </div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="country">
+        <div *headerCellTemplate>Country</div>
+        <div *contentCellTemplate="let row = datum">{{row.country}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="city">
+        <div *headerCellTemplate>City</div>
+        <div *contentCellTemplate="let row = datum">{{row.city}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="zip">
+        <div *headerCellTemplate>ZIP</div>
+        <div *contentCellTemplate="let row = datum">{{row.zip}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="street">
+        <div *headerCellTemplate>Street</div>
+        <div *contentCellTemplate="let row = datum">{{row.street}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="houseNumber">
+        <div *headerCellTemplate>House Number</div>
+        <div *contentCellTemplate="let row = datum">{{row.houseNumber}}</div>
+    </ng-container>
+
+    <!-- Keep the default per-row container so the regular cells are still rendered as a row -->
+    <div contentRowContainer *contentRowContainerTemplate="let cssClasses = contentCssClasses" [class]="cssClasses.contentRowContainerClass"></div>
+
+    <!-- Additional full-width row, rendered only when the toggle is open -->
+    <div *contentRowContainerTemplate="let datum = datum" class="grid-whole-row">
+        @if(datum.detailVisible)
+        {
+            <div class="flex-column gap-small" animate.enter="slide-in" animate.leave="slide-out">
+                <div class="flex-row gap-small">
+                    <div class="italic">Name</div>
+                    <div class="semi-bold">{{datum.citizen.name}}</div>
+                </div>
+
+                <div class="flex-row gap-small">
+                    <div class="italic">Surname</div>
+                    <div class="semi-bold">{{datum.citizen.surname}}</div>
+                </div>
+
+                <div class="flex-row gap-small">
+                    <div class="italic">Birth date</div>
+                    <div class="semi-bold">{{datum.citizen.birthDate}}</div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+```
+
+Key points:
+
+- Two `*contentRowContainerTemplate` declarations are used – the first one preserves the default row container (so the regular column cells continue to render as a normal grid row), the second emits an extra full-width row beneath it.
+- The detail row is just plain Angular markup, so any control flow (`@if`, `@for`), animations (`animate.enter` / `animate.leave`) or nested components can be used inside.
+- Toggling `detailVisible` on the row datum (here from a caret-icon two-way binding) is enough to expand/collapse the detail – no extra plugin is needed.
+- Combine this with the **strongly typed grid** pattern above (`*addressDetailContentCellTemplate`) to also get full IntelliSense for `datum.citizen.name` & friends in the detail row.
 
 ### Rendering as an HTML `<table>`
 
