@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Inject, Optional, ElementRef, Component} from '@angular/core';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import {ActivatedRoute, Router, UrlTree} from '@angular/router';
 import {RecursivePartial, deserializeFromUrlQuery, serializeToUrlQuery} from '@jscrpt/common';
 import {extend} from '@jscrpt/common/extend';
 
@@ -81,14 +81,9 @@ export class QueryGridInitializerComponent implements QueryGridInitializer, Grid
     /**
      * Gets currently navigated path without query parameters and fragment
      */
-    protected get currentNavigatedPath(): string
+    protected get currentNavigatedPath(): UrlTree
     {
-        const urlTree = this.router.parseUrl(this.router.url);
-
-        urlTree.fragment = null;
-        urlTree.queryParams = {};
-
-        return this.router.serializeUrl(urlTree);
+        return this.router.parseUrl(this.router.url);
     }
 
     //######################### constructor #########################
@@ -141,14 +136,11 @@ export class QueryGridInitializerComponent implements QueryGridInitializer, Grid
      */
     public setPage(page: number|undefined|null): void
     {
-        const pageParam: Params = {};
+        const currentNav = this.currentNavigatedPath;
+        currentNav.queryParams[this.pageName] = page;
 
-        pageParam[this.pageName] = page;
-
-        this.router.navigate([this.currentNavigatedPath],
+        this.router.navigateByUrl(currentNav,
         {
-            queryParams: pageParam,
-            queryParamsHandling: 'merge',
             replaceUrl: true,
         });
     }
@@ -171,14 +163,11 @@ export class QueryGridInitializerComponent implements QueryGridInitializer, Grid
      */
     public setItemsPerPage(itemsPerPage: number|undefined|null): void
     {
-        const pageParam: Params = {};
+        const currentNav = this.currentNavigatedPath;
+        currentNav.queryParams[this.itemsPerPageName] = itemsPerPage;
 
-        pageParam[this.itemsPerPageName] = itemsPerPage;
-
-        this.router.navigate([this.currentNavigatedPath],
+        this.router.navigateByUrl(currentNav,
         {
-            queryParams: pageParam,
-            queryParamsHandling: 'merge',
             replaceUrl: true,
         });
     }
@@ -201,14 +190,11 @@ export class QueryGridInitializerComponent implements QueryGridInitializer, Grid
      */
     public setOrdering(ordering: unknown|undefined|null): void
     {
-        const orderingParam: Params = {};
+        const currentNav = this.currentNavigatedPath;
+        currentNav.queryParams[this.orderingName] = serializeToUrlQuery(ordering);
 
-        orderingParam[this.orderingName] = serializeToUrlQuery(ordering);
-
-        this.router.navigate([this.currentNavigatedPath],
+        this.router.navigateByUrl(currentNav,
         {
-            queryParams: orderingParam,
-            queryParamsHandling: 'merge',
             replaceUrl: true,
         });
     }

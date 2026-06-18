@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 11.0.5 (2026-06-18)
+
+### Bug Fixes
+
+- fixed `QueryGridInitializerComponent` plugin component
+   - now taking current navigation path for computing new navigation when storing initial data for grid into query, using `UrlTree` instead of serailized string
+
 ## Version 11.0.4 (2026-06-02)
 
 ### Bug Fixes
