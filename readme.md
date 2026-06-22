@@ -162,7 +162,7 @@ There are two grid host components:
 - **`MatrixGridComponent`** (`<div ngGrid>` / `<table ngGrid>` etc.) – the modern, "matrix" grid host. It is **template based** – the columns and the row/cell layout are described directly in the host template using directives (`matrixGridColumn`, `*headerCellTemplate`, `*contentCellTemplate`, `*contentRowContainerTemplate`, `*contentContainerTemplate`, …). This is the recommended option for new code. Import `MatrixGridModule` (or the individual standalone directives/components) to use it.
 - **`GridComponent`** (`<ng-grid>`) – the older, "legacy" grid. Columns are described via dedicated metadata components (`<basic-table-metadata>`, `<basic-table-column>`). Use `GridModule` to import everything in one go. Both grids share **the same plugin infrastructure** so all examples in this document apply to both, only the column markup is different.
 
-Both grid components expose the same public API defined by the `Grid` interface – `gridOptions`, `initialize()`, `getPlugin()`, `execute()`, `executeAndReturn()`, and the `initialized` observable.
+Both grid components expose the same public API defined by the `Grid` interface – `gridOptions`, `initialize()`, `getPlugin()`, `execute()`, `executeAndReturn()`, and the `initializedSignal` signal (the legacy `initialized` observable is still exposed but deprecated in favor of `initializedSignal`).
 
 ### `GridOptions` and `PluginDescription`
 
@@ -205,7 +205,7 @@ When the grid initializes (during `ngOnInit`, unless `autoInitialize` is `false`
 2. Sets the plugin's `.options`.
 3. Calls `initOptions()` on every plugin.
 4. Once all plugins are option-initialized it calls `initialize(force)` on every plugin in a defined order (`RowSelector` → `MetadataSelector` → `GridInitializer` → `Ordering` → `Paging` → `ContentRenderer` → `NoDataRenderer` → `DataLoader`).
-5. Sets `initialized` to `true`.
+5. Sets `initializedSignal` (and the deprecated `initialized` observable) to `true`.
 
 All plugins share the `GridPluginInstances` injectable, so they can subscribe to each other (e.g. the data loader reacts to changes in paging and ordering). Plugins access each other either through their injected `gridPlugins` field or via `inject(GRID_PLUGIN_INSTANCES)`.
 
@@ -255,6 +255,8 @@ Example:
 this.grid.execute(setPage(1), refreshData(true));
 const selected = this.grid.executeAndReturn(getSelectedData());
 ```
+
+All actions shipped from `@anglr/grid/extensions` are safe to call before the grid has finished initializing – they short-circuit and return the action's default value (e.g. `false`, `[]`, `undefined`) instead of throwing when `grid.initializedSignal()` is `false`.
 
 ## Plugin types
 
@@ -897,22 +899,19 @@ export class RowSelectionSampleComponent
     {
         effect(() =>
         {
-            this.grid().initialized.subscribe(initialized =>
+            if(!this.grid().initializedSignal())
             {
-                if(!initialized)
-                {
-                    return;
-                }
+                return;
+            }
 
-                effect(() =>
-                {
-                    const selector = this.grid().getPlugin<RowSelector<Citizen, Address, string>>(GridPluginType.RowSelector);
-                    selector.selectedIds();
+            effect(() =>
+            {
+                const selector = this.grid().getPlugin<RowSelector<Citizen, Address, string>>(GridPluginType.RowSelector);
+                selector.selectedIds();
 
-                    this.selectedAny.set(this.grid().executeAndReturn(isSelectedAny()));
-                    this.selectedAll.set(this.grid().executeAndReturn(areSelectedAllOnPage()));
-                }, {injector: this._injector});
-            });
+                this.selectedAny.set(this.grid().executeAndReturn(isSelectedAny()));
+                this.selectedAll.set(this.grid().executeAndReturn(areSelectedAllOnPage()));
+            }, {injector: this._injector});
         });
     }
 
@@ -1511,7 +1510,8 @@ export abstract class BasePrehladComponent<TFilter extends Record<string, unknow
 Project can implement a custom `[ngGrid][pagedData]` directive that wires a `SyncDataLoaderComponent` + `BasicPagingComponent` + `NoMetadataSelectorComponent` setup. It demonstrates how applications can build domain-specific shortcuts on top of `@anglr/grid` while still using the official `Grid` API.
 
 ```typescript
-import {Directive, Input, OnChanges, SimpleChanges, inject} from '@angular/core';
+import {Directive, Injector, Input, OnChanges, SimpleChanges, inject} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {BasicPagingComponent, BasicPagingOptions, DataLoader, GRID_INSTANCE, Grid, GridPluginType, NoMetadataSelectorComponent, SyncDataLoaderComponent, SyncDataLoaderOptions} from '@anglr/grid';
 import {RecursivePartial, nameof} from '@jscrpt/common';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
@@ -1526,6 +1526,8 @@ export class BasicPagingGridDataDirective<TData = unknown> implements OnChanges
     //######################### protected fields #########################
 
     private readonly _grid: Grid = inject(GRID_INSTANCE);
+
+    private readonly _injector: Injector = inject(Injector);
 
     //######################### public properties - inputs #########################
 
@@ -1569,7 +1571,7 @@ export class BasicPagingGridDataDirective<TData = unknown> implements OnChanges
     {
         if(nameof<BasicPagingGridDataDirective>('data') in changes)
         {
-            await lastValueFrom(this._grid.initialized.pipe(first(itm => itm)));
+            await lastValueFrom(toObservable(this._grid.initializedSignal, {injector: this._injector}).pipe(first(itm => itm)));
 
             const data = this.data ?? [];
 
