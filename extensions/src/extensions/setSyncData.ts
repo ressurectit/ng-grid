@@ -10,6 +10,11 @@ export function setSyncData(data: unknown[], force?: boolean): GridAction
 {
     return grid =>
     {
+        if(!grid.initializedSignal())
+        {
+            return;
+        }
+
         const dataLoader = grid.getPlugin<DataLoader>(GridPluginType.DataLoader);
 
         (dataLoader.options as SyncDataLoaderOptions).data = isArray(data) ? data : [];

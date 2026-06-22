@@ -7,6 +7,11 @@ export function invalidateBodyContent(): GridAction
 {
     return grid =>
     {
+        if(!grid.initializedSignal())
+        {
+            return;
+        }
+
         const bodyContentRenderer = grid.getPlugin('BODY_CONTENT_RENDERER' as unknown as GridPluginType);
 
         bodyContentRenderer.invalidateVisuals();

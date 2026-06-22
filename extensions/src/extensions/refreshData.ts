@@ -8,6 +8,11 @@ export function refreshData(force?: boolean): GridAction
 {
     return grid =>
     {
+        if(!grid.initializedSignal())
+        {
+            return;
+        }
+
         const dataLoader = grid.getPlugin<DataLoader>(GridPluginType.DataLoader);
 
         dataLoader.loadData(force);

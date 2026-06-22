@@ -8,6 +8,11 @@ export function areSelectedAllOnPage<TItem>(predicate: (item: TItem) => boolean 
 {
     return grid =>
     {
+        if(!grid.initializedSignal())
+        {
+            return false;
+        }
+
         const dataLoader = grid.getPlugin<DataLoader<DataResponse<TItem>>>(GridPluginType.DataLoader);
         const rowSelector = grid.getPlugin<RowSelector>(GridPluginType.RowSelector);
 

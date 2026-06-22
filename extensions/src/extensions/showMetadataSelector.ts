@@ -7,6 +7,11 @@ export function showMetadataSelector(): GridAction
 {
     return grid =>
     {
+        if(!grid.initializedSignal())
+        {
+            return;
+        }
+
         const metadataSelector = grid.getPlugin<MetadataSelector>(GridPluginType.MetadataSelector);
 
         metadataSelector.show();

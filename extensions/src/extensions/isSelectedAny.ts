@@ -7,6 +7,11 @@ export function isSelectedAny(): GridFunction<boolean>
 {
     return grid =>
     {
+        if(!grid.initializedSignal())
+        {
+            return false;
+        }
+
         const rowSelector = grid.getPlugin<RowSelector>(GridPluginType.RowSelector);
 
         return rowSelector.selectedIds().length > 0;

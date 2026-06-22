@@ -7,6 +7,11 @@ export function getPage(): GridFunction<number>
 {
     return grid =>
     {
+        if(!grid.initializedSignal())
+        {
+            return 1;
+        }
+
         const paging = grid.getPlugin(GridPluginType.Paging);
 
         return paging.page() ?? 1;

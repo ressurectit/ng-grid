@@ -9,6 +9,11 @@ export function areSelectedAllOnPageLimited<TItem>(predicate: (item: TItem) => b
 {
     return grid =>
     {
+        if(!grid.initializedSignal())
+        {
+            return false;
+        }
+
         const dataLoader = grid.getPlugin<DataLoader<DataResponse<TItem>>>(GridPluginType.DataLoader);
         const rowSelector = grid.getPlugin(GridPluginType.RowSelector);
         const rowSelectorOptions: LimitedRowSelectorOptions = rowSelector.options as LimitedRowSelectorOptions;

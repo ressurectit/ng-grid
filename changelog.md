@@ -1,5 +1,42 @@
 # Changelog
 
+## Version 11.1.0 (2026-06-22)
+
+### Features
+
+- updated `Grid` interface
+   - `initialized` is now deprecated in favor of `initializedSignal`
+   - **new property**
+      - `initializedSignal` holds initialized state of grid, if value is false grid was not initialized yet or is being reinitialized
+- updated `GridComponent` component
+   - implemented new property from `Grid`
+
+### Bug Fixes
+
+- *subpackage* `@anglr/grid/extensions`
+   - fixed `areSelectedAllOnPage` extension method, now method does not failed when grid is uninitialized, returns default value
+   - fixed `areSelectedAllOnPageLimited` extension method, now method does not failed when grid is uninitialized, returns default value
+   - fixed `getPage` extension method, now method does not failed when grid is uninitialized, returns default value
+   - fixed `getSelectedData` extension method, now method does not failed when grid is uninitialized, returns default value
+   - fixed `getSelectedIds` extension method, now method does not failed when grid is uninitialized, returns default value
+   - fixed `invalidateBodyContent` extension method, now method does not failed when grid is uninitialized, returns default value
+   - fixed `invalidateContent` extension method, now method does not failed when grid is uninitialized, returns default value
+   - fixed `isSelectedAny` extension method, now method does not failed when grid is uninitialized, returns default value
+   - fixed `isSelectedAnyOnPage` extension method, now method does not failed when grid is uninitialized, returns default value
+   - fixed `patchOptions` extension method, now method does not failed when grid is uninitialized, returns default value
+   - fixed `patchPluginsOptions` extension method, now method does not failed when grid is uninitialized, returns default value
+   - fixed `refreshData` extension method, now method does not failed when grid is uninitialized, returns default value
+   - fixed `refreshDataToDefaultPage` extension method, now method does not failed when grid is uninitialized, returns default value
+   - fixed `refreshDataToDefaults` extension method, now method does not failed when grid is uninitialized, returns default value
+   - fixed `reinitialize` extension method, now method does not failed when grid is uninitialized, returns default value
+   - fixed `reinitializeOptions` extension method, now method does not failed when grid is uninitialized, returns default value
+   - fixed `resetSelection` extension method, now method does not failed when grid is uninitialized, returns default value
+   - fixed `selectAllOnPage` extension method, now method does not failed when grid is uninitialized, returns default value
+   - fixed `setOrdering` extension method, now method does not failed when grid is uninitialized, returns default value
+   - fixed `setPage` extension method, now method does not failed when grid is uninitialized, returns default value
+   - fixed `setSyncData` extension method, now method does not failed when grid is uninitialized, returns default value
+   - fixed `showMetadataSelector` extension method, now method does not failed when grid is uninitialized, returns default value
+
 ## Version 11.0.5 (2026-06-18)
 
 ### Bug Fixes

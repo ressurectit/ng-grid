@@ -9,10 +9,15 @@ export function patchPluginsOptions(options: RecursivePartial<GridOptions>): Gri
 {
     return async grid =>
     {
+        if(!grid.initializedSignal())
+        {
+            return;
+        }
+
         if(options.plugins?.contentRenderer?.options)
         {
             const plugin = grid.getPlugin(GridPluginType.ContentRenderer);
-            
+
             plugin.options = options.plugins?.contentRenderer?.options;
             await plugin.initOptions();
 
@@ -22,7 +27,7 @@ export function patchPluginsOptions(options: RecursivePartial<GridOptions>): Gri
         if(options.plugins?.dataLoader?.options)
         {
             const plugin = grid.getPlugin(GridPluginType.DataLoader);
-            
+
             plugin.options = options.plugins?.dataLoader?.options;
             await plugin.initOptions();
 
@@ -32,7 +37,7 @@ export function patchPluginsOptions(options: RecursivePartial<GridOptions>): Gri
         if(options.plugins?.gridInitializer?.options)
         {
             const plugin = grid.getPlugin(GridPluginType.GridInitializer);
-            
+
             plugin.options = options.plugins?.gridInitializer?.options;
             await plugin.initOptions();
 
@@ -42,7 +47,7 @@ export function patchPluginsOptions(options: RecursivePartial<GridOptions>): Gri
         if(options.plugins?.metadataSelector?.options)
         {
             const plugin = grid.getPlugin(GridPluginType.MetadataSelector);
-            
+
             plugin.options = options.plugins?.metadataSelector?.options;
             await plugin.initOptions();
 
@@ -52,7 +57,7 @@ export function patchPluginsOptions(options: RecursivePartial<GridOptions>): Gri
         if(options.plugins?.noDataRenderer?.options)
         {
             const plugin = grid.getPlugin(GridPluginType.NoDataRenderer);
-            
+
             plugin.options = options.plugins?.noDataRenderer?.options;
             await plugin.initOptions();
 
@@ -62,7 +67,7 @@ export function patchPluginsOptions(options: RecursivePartial<GridOptions>): Gri
         if(options.plugins?.ordering?.options)
         {
             const plugin = grid.getPlugin(GridPluginType.Ordering);
-            
+
             plugin.options = options.plugins?.ordering?.options;
             await plugin.initOptions();
 
@@ -72,7 +77,7 @@ export function patchPluginsOptions(options: RecursivePartial<GridOptions>): Gri
         if(options.plugins?.paging?.options)
         {
             const plugin = grid.getPlugin(GridPluginType.Paging);
-            
+
             plugin.options = options.plugins?.paging?.options;
             await plugin.initOptions();
 
@@ -82,7 +87,7 @@ export function patchPluginsOptions(options: RecursivePartial<GridOptions>): Gri
         if(options.plugins?.rowSelector?.options)
         {
             const plugin = grid.getPlugin(GridPluginType.RowSelector);
-            
+
             plugin.options = options.plugins?.rowSelector?.options;
             await plugin.initOptions();
 

@@ -1,4 +1,5 @@
-import {Component, ChangeDetectionStrategy, Inject, Optional, Type, Input, OnInit, ContentChild, forwardRef, FactoryProvider, ExistingProvider, inject, ValueProvider, ViewChild, ViewContainerRef, resolveForwardRef} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Inject, Optional, Type, Input, OnInit, ContentChild, forwardRef, FactoryProvider, ExistingProvider, inject, ValueProvider, ViewChild, ViewContainerRef, resolveForwardRef, Signal} from '@angular/core';
+import {toSignal} from '@angular/core/rxjs-interop';
 import {Func1, PromiseOr, RecursivePartial} from '@jscrpt/common';
 import {extend} from '@jscrpt/common/extend';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
@@ -186,6 +187,11 @@ export class GridComponent implements OnInit, Grid
     {
         return this.initializedSubject.asObservable().pipe(distinctUntilChanged());
     }
+
+    /**
+     * @inheritdoc
+     */
+    public readonly initializedSignal: Signal<boolean> = toSignal(this.initializedSubject, {initialValue: false});
 
     /**
      * @inheritdoc
@@ -419,7 +425,7 @@ export class GridComponent implements OnInit, Grid
                 {
                     this.pluginTypes[pluginType] = type;
                     pluginViewContainer.clear();
-                    
+
                     const component = pluginViewContainer.createComponent(type);
                     component.changeDetectorRef.detectChanges();
                     this.pluginInstances[pluginType] = component.instance;

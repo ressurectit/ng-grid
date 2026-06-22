@@ -8,6 +8,11 @@ export function setOrdering<TOrdering>(ordering: TOrdering): GridAction
 {
     return async grid =>
     {
+        if(!grid.initializedSignal())
+        {
+            return;
+        }
+
         const gridInitializer = grid.getPlugin<GridInitializer<TOrdering>>(GridPluginType.GridInitializer);
         const orderingPlugin = grid.getPlugin<Ordering<TOrdering>>(GridPluginType.Ordering);
 

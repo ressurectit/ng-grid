@@ -1,3 +1,4 @@
+import {Signal} from '@angular/core';
 import {PromiseOr, RecursivePartial} from '@jscrpt/common';
 import {Observable} from 'rxjs';
 
@@ -15,8 +16,15 @@ export interface Grid
     //TODO: maybe use signals
     /**
      * Occurs every time when grid is initialized or reinitialized, if value is false grid was not initialized yet or is being reinitialized
+     *
+     * @deprecated Use initializedSignal instead
      */
     readonly initialized: Observable<boolean>;
+
+    /**
+     * Holds initialized state of grid, if value is false grid was not initialized yet or is being reinitialized
+     */
+    readonly initializedSignal: Signal<boolean>;
 
     /**
      * Occurs everytime when plugins options initialization changes, if value is false plugins options were not initialized yet, or are being reinitialized

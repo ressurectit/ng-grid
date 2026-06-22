@@ -7,6 +7,11 @@ export function getSelectedIds<TId>(): GridFunction<TId[]>
 {
     return grid =>
     {
+        if(!grid.initializedSignal())
+        {
+            return [];
+        }
+
         const rowSelector = grid.getPlugin<RowSelector<unknown, unknown, TId>>(GridPluginType.RowSelector);
 
         return rowSelector.selectedIds();

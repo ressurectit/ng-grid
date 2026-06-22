@@ -8,9 +8,14 @@ export function refreshDataToDefaultPage(force?: boolean): GridAction
 {
     return grid =>
     {
+        if(!grid.initializedSignal())
+        {
+            return;
+        }
+
         const paging = grid.getPlugin(GridPluginType.Paging);
         const dataLoader = grid.getPlugin(GridPluginType.DataLoader);
-        
+
         paging.setPage(paging.options.initialPage);
         dataLoader.loadData(force);
     };

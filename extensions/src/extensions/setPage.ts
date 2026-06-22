@@ -8,6 +8,11 @@ export function setPage(page: number): GridAction
 {
     return async grid =>
     {
+        if(!grid.initializedSignal())
+        {
+            return;
+        }
+
         const gridInitializer = grid.getPlugin(GridPluginType.GridInitializer);
         const paging = grid.getPlugin(GridPluginType.Paging);
 

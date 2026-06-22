@@ -11,6 +11,11 @@ export function patchOptions(options: RecursivePartial<GridOptions>): GridAction
 {
     return async grid =>
     {
+        if(!grid.initializedSignal())
+        {
+            return;
+        }
+
         grid.gridOptions = options;
 
         await grid.initOptions();

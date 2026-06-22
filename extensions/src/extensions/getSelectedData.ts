@@ -7,6 +7,11 @@ export function getSelectedData<TSelectedData>(): GridFunction<TSelectedData[]>
 {
     return grid =>
     {
+        if(!grid.initializedSignal())
+        {
+            return [];
+        }
+
         const rowSelector = grid.getPlugin<RowSelector<TSelectedData>>(GridPluginType.RowSelector);
 
         return rowSelector.selectedData();
