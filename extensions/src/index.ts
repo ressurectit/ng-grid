@@ -1,5 +1,7 @@
 export * from './extensions/areSelectedAllOnPage';
 export * from './extensions/areSelectedAllOnPageLimited';
+export * from './extensions/getItemsPerPage';
+export * from './extensions/getOrdering';
 export * from './extensions/getPage';
 export * from './extensions/getSelectedData';
 export * from './extensions/getSelectedIds';

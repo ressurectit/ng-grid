@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 12.0.1 (2026-06-29)
+
+### Bug Fixes
+
+- fixed missing exports for new *types*
+
 ## Version 12.0.0 (2026-06-29)
 
 ### Features
