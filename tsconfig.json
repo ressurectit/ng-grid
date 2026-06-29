@@ -3,7 +3,7 @@
     {
         "target": "ES2022",
         "module": "ES2022",
-        "moduleResolution": "node",
+        "moduleResolution": "bundler",
         "sourceMap": true,
         "inlineSources": true,
         "declaration": false,
@@ -25,10 +25,9 @@
         "newLine": "lf",
         "rootDir": ".",
         "outDir": "es2022",
-        "baseUrl": "src",
         "paths": 
         {
-            "@anglr/grid": ["index.ts"]
+            "@anglr/grid": ["./src/index.ts"]
         },
         "lib":
         [

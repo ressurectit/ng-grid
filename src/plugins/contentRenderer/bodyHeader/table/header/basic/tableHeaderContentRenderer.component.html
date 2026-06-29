@@ -11,7 +11,7 @@
             {
                 @if(meta?.headerTemplate)
                 {
-                    <ng-container *ngTemplateOutlet="meta?.headerTemplate ?? null; context: meta | cellContext: index" />
+                    <ng-container *ngTemplateOutlet="meta?.headerTemplate; context: meta | cellContext: index" />
                 }
                 @else 
                 {

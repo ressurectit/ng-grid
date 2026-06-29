@@ -8,7 +8,7 @@
         {
             @if(meta?.headerTemplate)
             {
-                <ng-template *ngTemplateOutlet="meta?.headerTemplate ?? null; context: meta | cellContext: index"/>
+                <ng-template *ngTemplateOutlet="meta?.headerTemplate; context: meta | cellContext: index"/>
             }
             @else 
             {

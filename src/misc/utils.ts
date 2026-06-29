@@ -1,8 +1,9 @@
-import {isBlank, isString} from '@jscrpt/common';
+import {isBlank, isString, RecursivePartial} from '@jscrpt/common';
 
 import {Grid, Paging, RowSelector, SimpleOrdering, DataCellTemplateContext, CellTemplateContext, GridPluginInstances} from '../interfaces';
 import {GridPluginType} from './enums';
 import {CellContextFactoryFn, DataCellContextFactoryFn} from './types';
+import {ReactiveDataLoaderConfigOptions, ReactiveDataLoaderDataOptions, ReactiveDataLoaderOptions, ReactiveDataLoaderOrderingOptions} from '../plugins/dataLoader/reactive/reactiveDataLoader.interface';
 
 /**
  * Applies block of row selection to grid, if row was not selected checkbox change event will be blocked
@@ -96,7 +97,7 @@ export const dataCellContextFactory: DataCellContextFactoryFn = function dataCel
         get isSelected(): boolean
         {
             return rowSelector.isSelected(data);
-        },        
+        },
     } as TContext;
 };
 
@@ -122,4 +123,13 @@ export function rowColumnsAttribute(value: string|undefined|null|string[]): stri
     }
 
     return value;
+}
+
+/**
+ * Creates reactive data loader options from provided options (helps with type inference)
+ * @param options - Options to create for reactive data loader
+ */
+export function createReactiveDataLoaderOptions<TData, TParams, TOrdering>(options: Partial<ReactiveDataLoaderConfigOptions> & Partial<ReactiveDataLoaderOrderingOptions<TData, TOrdering>> & ReactiveDataLoaderDataOptions<TData, TParams>): RecursivePartial<ReactiveDataLoaderOptions<TData, TParams, TOrdering>>
+{
+    return options;
 }

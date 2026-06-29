@@ -8,7 +8,7 @@
 
                 @if(meta?.bodyTemplate)
                 {
-                    <ng-container *ngTemplateOutlet="meta?.bodyTemplate ?? null; context: datum | dataCellContext: index : meta"/>
+                    <ng-container *ngTemplateOutlet="meta?.bodyTemplate; context: datum | dataCellContext: index : meta"/>
                 }
                 @else
                 {

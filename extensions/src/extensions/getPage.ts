@@ -1,7 +1,7 @@
 import {GridFunction, GridPluginType} from '@anglr/grid';
 
 /**
- * Gets current page of grid
+ * Gets current page of grid, when ran in reactive context, it will update when page changes
  */
 export function getPage(): GridFunction<number>
 {

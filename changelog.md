@@ -1,5 +1,43 @@
 # Changelog
 
+## Version 12.0.0 (2026-06-29)
+
+### Features
+
+- new `ReactiveDataLoaderConfigOptions` interface, which represents configuration options for reactive data loader
+   - **extends**
+      - `DataLoaderOptions`
+   - **properties**
+      - `localPagingAndOrdering` indication whether paging and ordering are applied locally on obtained data, or they are applied on source side.
+- new `ReactiveDataLoaderOrderingOptions` interface, which represents options for reactive data loader that are used for ordering
+   - **properties**
+      - `orderData` method used for ordering data, used only when localPagingAndOrdering is true.
+- new `ReactiveDataLoaderDataOptions` interface, which represents options for reactive data loader that are used for obtaining data
+   - **properties**
+      - `getParams` function used for obtaining parameters for data loading. Runs in reactive context, so you can use signals in it.
+      - `data` function that is used for obtaining data for grid. Runs in reactive context, so you can use signals in it. Use it together with ordering and paging plugins to get the current ordering and paging state.
+- new `ReactiveDataLoaderOptions` interface, which represents reactive data loader options
+   - **extends**
+      - `ReactiveDataLoaderConfigOptions`
+      - `ReactiveDataLoaderOrderingOptions`
+      - `ReactiveDataLoaderDataOptions`
+- new `ReactiveDataLoader` plugin component, which represents data loader that allows data loading in reactive way, using signals
+   - **implements**
+      - `DataLoader`
+- new `createReactiveDataLoaderOptions` function, which creates reactive data loader options from provided options (helps with type inference)
+- *subpackage* `@anglr/grid/extensions`
+   - new `getItemsPerPage` extension method, which gets current items per page of grid, when ran in reactive context, it will update when items per page changes
+   - new `getOrdering` extension method, which gets current ordering of grid, when ran in reactive context, it will update when ordering changes
+
+### BREAKING CHANGES
+
+- minimal supported version of `Node` is `22` (recommended version is `26`)
+- minimal supported version of `@angular` is `22.0.4`
+- minimal supported version of `@angular` *material* is `22.0.2`
+- minimal supported version of `@anglr/common` is `24.2.0`
+- minimal supported version of `@jscrpt/common` is `7.1.0`
+- minimal supported version of `rxjs` is `7.8.2`
+
 ## Version 11.1.0 (2026-06-22)
 
 ### Features
